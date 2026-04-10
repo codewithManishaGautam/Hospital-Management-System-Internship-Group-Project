@@ -65,6 +65,16 @@ app.get("/patients", async (req, res, next) => {
   }
 });
 
+// Delete Patient
+app.delete("/patients/:id", async (req, res, next) => {
+  try {
+    await Patient.findByIdAndDelete(req.params.id);
+    res.json({ success: true });
+  } catch (err) {
+    next(err);
+  }
+});
+
 // Global error handler
 app.use((err, req, res, next) => {
   console.error("Unhandled server error:", err);
