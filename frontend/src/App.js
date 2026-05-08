@@ -1,59 +1,31 @@
-import "./App.css";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import LoginDashboard from "./pages/Login";
+import ReceptionistDashboard from "./pages/Receptionist";
+import DoctorDashboard from "./pages/Doctor";
+import LabDashboard from "./pages/Lab";
+import PharmacyDashboard from "./pages/Pharmacy";
+import NurseDashboard from "./pages/Nurse";
+import BillingDashboard from "./pages/Billing";
+import InsuranceDashboard from "./pages/Insurance";
+import AdminDashboard from "./pages/Admin";
 
 function App() {
-  const [name, setName] = useState("");
-  const [patients, setPatients] = useState([]);
-
-  // Add Patient
-  const addPatient = async () => {
-    await axios.post("http://localhost:5000/addPatient", {
-      name: name,
-    });
-    loadPatients();
-  };
-
-  // Load Patients
-  const loadPatients = async () => {
-    const res = await axios.get("http://localhost:5000/patients");
-    setPatients(res.data);
-  };
-
-  // Remove Patient
-  const removePatient = async (id) => {
-    await axios.delete(`http://localhost:5000/patients/${id}`);
-    loadPatients();
-  };
-
-  useEffect(() => {
-    loadPatients();
-  }, []);
-
   return (
-    <div className="container">
-      <h1>Hospital Management System</h1>
-
-      <div>
-        <input
-          placeholder="Enter Patient Name"
-          onChange={(e) => setName(e.target.value)}
-        />
-        <button onClick={addPatient}>Add Patient</button>
-      </div>
-
-      <div className="patient-list">
-        <h2>Patient List</h2>
-        {patients.map((p) => (
-          <div className="patient-item" key={p._id}>
-            <span>{p.name}</span>
-            <button className="remove-button" onClick={() => removePatient(p._id)}>
-              Remove
-            </button>
-          </div>
-        ))}
-      </div>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LoginDashboard />} />
+        <Route path="/receptionist" element={<ReceptionistDashboard />} />
+        <Route path="/doctor" element={<DoctorDashboard />} />
+        <Route path="/lab" element={<LabDashboard />} />
+        <Route path="/pharmacy" element={<PharmacyDashboard />} />
+        <Route path="/nurse" element={<NurseDashboard />} />
+        <Route path="/billing" element={<BillingDashboard />} />
+        <Route path="/insurance" element={<InsuranceDashboard />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
