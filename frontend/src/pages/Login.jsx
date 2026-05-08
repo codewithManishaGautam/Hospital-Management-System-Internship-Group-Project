@@ -68,14 +68,14 @@ return (
         onChange={(e) => setSelectedRole(e.target.value)}
       >
         <option value="">Select Role</option>
-        <option value="Receptionist">ReceptionistDashboard</option>
+        <option value="Receptionist">Receptionist</option>
         <option value="Doctor">DoctorDashboard</option>
-        <option value="Lab">LabDashboard</option>
-        <option value="Pharmacy">PharmacyDashboard</option>
-        <option value="Nurse">NurseDashboard</option>
-        <option value="Billing">BillingDashboard</option>
-        <option value="Insurance">InsuranceDashboard</option>
-        <option value="Admin">AdminDashboard</option>
+        <option value="Lab">Lab</option>
+        <option value="Pharmacy">Pharmacy</option>
+        <option value="Nurse">Nurse</option>
+        <option value="Billing">Billing</option>
+        <option value="Insurance">Insurance</option>
+        <option value="Admin">Admin</option>
       </select>
 
       <input
