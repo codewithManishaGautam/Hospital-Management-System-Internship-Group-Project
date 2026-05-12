@@ -6,6 +6,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+// Import Routes
+const insuranceRoutes = require("./routes/insuranceRoutes");
+
 // MongoDB Connect and server startup
 const startServer = async () => {
   try {
@@ -74,6 +77,9 @@ app.delete("/patients/:id", async (req, res, next) => {
     next(err);
   }
 });
+
+// Mount modular routes
+app.use("/api/insurance", insuranceRoutes);
 
 // Global error handler
 app.use((err, req, res, next) => {
