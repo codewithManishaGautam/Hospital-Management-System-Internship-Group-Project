@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(cors());
 
 // Import Routes
-const insuranceRoutes = require("./routes/insuranceRoutes");
+const insuranceRoutes = require("./routes/insurance/index");
 
 // MongoDB Connect and server startup
 const startServer = async () => {
