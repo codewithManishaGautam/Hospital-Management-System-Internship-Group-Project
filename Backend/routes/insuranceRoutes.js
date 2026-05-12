@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const InsuranceClaim = require('../models/InsuranceClaim');
+const upload = require('../middleware/upload');
+
 
 // @route   POST /api/insurance/verify-patient
 // @desc    Verify patient insurance details (Mock Implementation)
@@ -77,4 +79,47 @@ router.get('/claims', async (req, res) => {
   }
 });
 
+// @route   POST /api/insurance/claims/:id/upload
+// @desc    Upload documents for a specific claim (Pre-Auth / Discharge)
+router.post('/claims/:id/upload', upload.array('documents', 5), async (req, res) => {
+  try {
+    const claimId = req.params.id;
+    
+    // In a real application, we would update the claim record in the DB
+    // to include the file paths of the uploaded documents.
+    // For now, we will just return success with the file details.
+    
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ success: false, error: 'No files uploaded' });
+    }
+
+    const uploadedFiles = req.files.map(file => ({
+      filename: file.filename,
+      path: file.path,
+      mimetype: file.mimetype
+    }));
+
+    // Update the claim record with the uploaded documents
+    const updatedClaim = await InsuranceClaim.findByIdAndUpdate(
+      claimId, 
+      { $push: { documents: { $each: uploadedFiles } } },
+      { new: true }
+    );
+
+    if (!updatedClaim) {
+       return res.status(404).json({ success: false, error: 'Claim not found' });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Documents uploaded successfully',
+      data: updatedClaim
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: 'Server Error during upload' });
+  }
+});
+
 module.exports = router;
+

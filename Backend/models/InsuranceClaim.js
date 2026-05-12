@@ -45,6 +45,12 @@ const insuranceClaimSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  documents: [{
+    filename: String,
+    path: String,
+    mimetype: String,
+    uploadedAt: { type: Date, default: Date.now }
+  }],
   createdAt: {
     type: Date,
     default: Date.now
