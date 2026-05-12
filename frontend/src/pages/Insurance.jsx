@@ -1,17 +1,77 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Layout from "./Layout";
 import "./Insurance.css";
 
 function Insurance() {
   const [step, setStep] = useState("dashboard");
+  const [claims, setClaims] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
 
-  // Mock Data for the UI
-  const claims = [
-    { id: "CLM-1001", patientName: "Rahul Sharma", provider: "Ayushman Bharat", amount: "₹45,000", status: "Pending" },
-    { id: "CLM-1002", patientName: "Priya Mehta", provider: "Star Health", amount: "₹1,20,000", status: "Approved" },
-    { id: "CLM-1003", patientName: "Amit Kumar", provider: "HDFC Ergo", amount: "₹30,000", status: "Rejected" },
-    { id: "CLM-1004", patientName: "Sneha Patil", provider: "CGHS", amount: "₹85,000", status: "Approved" }
-  ];
+  // Form States
+  const [verifyData, setVerifyData] = useState({ provider: "", policyNumber: "", patientName: "" });
+  const [preAuthData, setPreAuthData] = useState({ patientId: "", diagnosis: "", estimatedCost: "" });
+  const [files, setFiles] = useState(null);
+
+  // Fetch claims on load
+  useEffect(() => {
+    fetchClaims();
+  }, []);
+
+  const fetchClaims = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/insurance/claims");
+      if (res.data.success) {
+        setClaims(res.data.data);
+      }
+    } catch (err) {
+      console.error("Error fetching claims", err);
+    }
+  };
+
+  const handleVerify = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage("");
+    try {
+      const res = await axios.post("http://localhost:5000/api/insurance/verify-patient", verifyData);
+      setMessage(res.data.message || "Verification Successful!");
+    } catch (err) {
+      setMessage("Verification failed: " + (err.response?.data?.error || err.message));
+    }
+    setLoading(false);
+  };
+
+  const handlePreAuth = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage("");
+    try {
+      // 1. Submit Pre-Auth
+      const res = await axios.post("http://localhost:5000/api/insurance/pre-auth", preAuthData);
+      const claimId = res.data.data._id;
+
+      // 2. Upload Documents if any
+      if (files && files.length > 0) {
+        const formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+          formData.append("documents", files[i]);
+        }
+        await axios.post(`http://localhost:5000/api/insurance/claims/${claimId}/upload`, formData, {
+          headers: { "Content-Type": "multipart/form-data" }
+        });
+      }
+
+      setMessage("Pre-Authorization submitted successfully!");
+      setPreAuthData({ patientId: "", diagnosis: "", estimatedCost: "" });
+      setFiles(null);
+      fetchClaims(); // Refresh list
+    } catch (err) {
+      setMessage("Submission failed: " + (err.response?.data?.error || err.message));
+    }
+    setLoading(false);
+  };
 
   const getStatusClass = (status) => {
     switch(status) {
@@ -51,27 +111,46 @@ function Insurance() {
           <div className="section-header">
             <h2>Verify Patient Insurance</h2>
           </div>
-          <div className="form-container">
+          <form className="form-container" onSubmit={handleVerify}>
+            {message && <p style={{ color: message.includes('failed') ? 'red' : 'green' }}>{message}</p>}
             <div className="form-group">
               <label>Insurance Provider / TPA</label>
-              <select>
+              <select 
+                value={verifyData.provider} 
+                onChange={e => setVerifyData({...verifyData, provider: e.target.value})}
+                required
+              >
                 <option value="">Select Provider...</option>
-                <option value="ayushman">Ayushman Bharat (PM-JAY)</option>
-                <option value="cghs">CGHS</option>
-                <option value="star">Star Health</option>
-                <option value="hdfc">HDFC Ergo</option>
+                <option value="Ayushman Bharat">Ayushman Bharat (PM-JAY)</option>
+                <option value="CGHS">CGHS</option>
+                <option value="Star Health">Star Health</option>
+                <option value="HDFC Ergo">HDFC Ergo</option>
               </select>
             </div>
             <div className="form-group">
               <label>Policy Number / ABHA ID</label>
-              <input type="text" placeholder="Enter ID number..." />
+              <input 
+                type="text" 
+                placeholder="Enter ID number..." 
+                value={verifyData.policyNumber}
+                onChange={e => setVerifyData({...verifyData, policyNumber: e.target.value})}
+                required
+              />
             </div>
             <div className="form-group">
               <label>Patient Name (As per policy)</label>
-              <input type="text" placeholder="Enter patient name..." />
+              <input 
+                type="text" 
+                placeholder="Enter patient name..." 
+                value={verifyData.patientName}
+                onChange={e => setVerifyData({...verifyData, patientName: e.target.value})}
+                required
+              />
             </div>
-            <button className="primary-btn" style={{ width: '100%' }}>Verify Eligibility</button>
-          </div>
+            <button type="submit" className="primary-btn" style={{ width: '100%' }} disabled={loading}>
+              {loading ? "Verifying..." : "Verify Eligibility"}
+            </button>
+          </form>
         </div>
       )}
 
@@ -81,25 +160,50 @@ function Insurance() {
           <div className="section-header">
             <h2>Submit Pre-Authorization</h2>
           </div>
-          <div className="form-container">
+          <form className="form-container" onSubmit={handlePreAuth}>
+            {message && <p style={{ color: message.includes('failed') ? 'red' : 'green' }}>{message}</p>}
             <div className="form-group">
               <label>Patient ID / Claim Reference</label>
-              <input type="text" placeholder="Enter Patient ID..." />
+              <input 
+                type="text" 
+                placeholder="Enter Patient ID..." 
+                value={preAuthData.patientId}
+                onChange={e => setPreAuthData({...preAuthData, patientId: e.target.value})}
+                required
+              />
             </div>
             <div className="form-group">
               <label>Estimated Amount (₹)</label>
-              <input type="number" placeholder="Enter estimated cost..." />
+              <input 
+                type="number" 
+                placeholder="Enter estimated cost..." 
+                value={preAuthData.estimatedCost}
+                onChange={e => setPreAuthData({...preAuthData, estimatedCost: e.target.value})}
+                required
+              />
             </div>
             <div className="form-group">
               <label>Diagnosis / Procedure</label>
-              <textarea rows="3" placeholder="Enter clinical diagnosis details..."></textarea>
+              <textarea 
+                rows="3" 
+                placeholder="Enter clinical diagnosis details..."
+                value={preAuthData.diagnosis}
+                onChange={e => setPreAuthData({...preAuthData, diagnosis: e.target.value})}
+                required
+              ></textarea>
             </div>
             <div className="form-group">
               <label>Upload Documents (PDF/Images)</label>
-              <input type="file" multiple />
+              <input 
+                type="file" 
+                multiple 
+                onChange={e => setFiles(e.target.files)}
+              />
             </div>
-            <button className="primary-btn" style={{ width: '100%' }}>Submit Request</button>
-          </div>
+            <button type="submit" className="primary-btn" style={{ width: '100%' }} disabled={loading}>
+              {loading ? "Submitting..." : "Submit Request"}
+            </button>
+          </form>
         </div>
       )}
 
@@ -114,30 +218,32 @@ function Insurance() {
             <thead>
               <tr>
                 <th>Claim ID</th>
-                <th>Patient Name</th>
+                <th>Patient ID</th>
                 <th>Provider</th>
+                <th>Diagnosis</th>
                 <th>Amount</th>
                 <th>Status</th>
-                <th>Actions</th>
+                <th>Date</th>
               </tr>
             </thead>
             <tbody>
-              {claims.map((c, index) => (
-                <tr key={index}>
-                  <td>{c.id}</td>
-                  <td>{c.patientName}</td>
+              {claims.length > 0 ? claims.map((c) => (
+                <tr key={c._id}>
+                  <td>{c._id.substring(c._id.length - 6).toUpperCase()}</td>
+                  <td>{c.patientId}</td>
                   <td>{c.provider}</td>
-                  <td>{c.amount}</td>
+                  <td>{c.diagnosis}</td>
+                  <td>₹{c.estimatedCost}</td>
                   <td>
                     <span className={`status-badge ${getStatusClass(c.status)}`}>
                       {c.status}
                     </span>
                   </td>
-                  <td>
-                    <button className="edit-btn">View</button>
-                  </td>
+                  <td>{new Date(c.createdAt).toLocaleDateString()}</td>
                 </tr>
-              ))}
+              )) : (
+                <tr><td colSpan="7">No claims found.</td></tr>
+              )}
             </tbody>
           </table>
         </div>
