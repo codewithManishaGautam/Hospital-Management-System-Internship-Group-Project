@@ -42,7 +42,12 @@ function Layout({ role, children, setStep }) {
 
         {/* Insurance */}
         {role === "Insurance" && (
-          <button onClick={() => setStep("search")}>Search Patient</button>
+          <>
+            <button onClick={() => setStep("dashboard")}>Dashboard</button>
+            <button onClick={() => setStep("verify-patient")}>Verify Eligibility</button>
+            <button onClick={() => setStep("pre-auth")}>Pre-Auth Requests</button>
+            <button onClick={() => setStep("claims")}>All Claims</button>
+          </>
         )}
 
         {/* Admin */}
