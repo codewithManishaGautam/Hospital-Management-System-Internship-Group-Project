@@ -3,82 +3,79 @@ import axios from "axios";
 import Layout from "./Layout";
 import "./Insurance.css";
 
+const API_BASE_URL = "http://localhost:5000/api/insurance";
+
 function Insurance() {
   const [step, setStep] = useState("dashboard");
-  const [claims, setClaims] = useState([]);
+  const [stats, setStats] = useState({ totalClaims: 0, approvedClaims: 0, pendingClaims: 0, totalSettledAmount: 0 });
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState({ text: "", type: "" });
 
   // Form States
-  const [verifyData, setVerifyData] = useState({ provider: "", policyNumber: "", patientName: "" });
-  const [preAuthData, setPreAuthData] = useState({ patientId: "", diagnosis: "", estimatedCost: "" });
-  const [files, setFiles] = useState(null);
+  const [policyData, setPolicyData] = useState({
+    patientId: "", insuranceType: "Private", providerName: "", policyNumber: "", 
+    planType: "Individual", sumInsured: "", policyStartDate: "", policyEndDate: ""
+  });
+  
+  const [schemeData, setSchemeData] = useState({
+    patientId: "", schemeName: "PM-JAY", abhaNumber: "", ayushmanCardNumber: ""
+  });
 
-  // Fetch claims on load
+  // Fetch Dashboard Stats on load
   useEffect(() => {
-    fetchClaims();
-  }, []);
+    if (step === "dashboard") {
+      fetchDashboardStats();
+    }
+  }, [step]);
 
-  const fetchClaims = async () => {
+  const fetchDashboardStats = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/insurance/claims");
+      const res = await axios.get(`${API_BASE_URL}/claims/dashboard-stats`);
       if (res.data.success) {
-        setClaims(res.data.data);
+        setStats(res.data.data);
       }
     } catch (err) {
-      console.error("Error fetching claims", err);
+      console.error("Error fetching stats", err);
     }
   };
 
-  const handleVerify = async (e) => {
+  const showMessage = (text, type = "success") => {
+    setMessage({ text, type });
+    setTimeout(() => setMessage({ text: "", type: "" }), 5000);
+  };
+
+  const handleRegisterPolicy = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setMessage("");
     try {
-      const res = await axios.post("http://localhost:5000/api/insurance/verify-patient", verifyData);
-      setMessage(res.data.message || "Verification Successful!");
+      const res = await axios.post(`${API_BASE_URL}/policies`, policyData);
+      showMessage(res.data.message || "Policy registered successfully!");
+      setPolicyData({ patientId: "", insuranceType: "Private", providerName: "", policyNumber: "", planType: "Individual", sumInsured: "", policyStartDate: "", policyEndDate: "" });
     } catch (err) {
-      setMessage("Verification failed: " + (err.response?.data?.error || err.message));
+      showMessage("Registration failed: " + (err.response?.data?.error || err.response?.data?.errors?.[0]?.msg || err.message), "error");
     }
     setLoading(false);
   };
 
-  const handlePreAuth = async (e) => {
+  const handleEnrollScheme = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setMessage("");
     try {
-      // 1. Submit Pre-Auth
-      const res = await axios.post("http://localhost:5000/api/insurance/pre-auth", preAuthData);
-      const claimId = res.data.data._id;
-
-      // 2. Upload Documents if any
-      if (files && files.length > 0) {
-        const formData = new FormData();
-        for (let i = 0; i < files.length; i++) {
-          formData.append("documents", files[i]);
+      const payload = {
+        patientId: schemeData.patientId,
+        schemeName: schemeData.schemeName,
+        schemeSpecificData: {
+          abhaNumber: schemeData.abhaNumber,
+          ayushmanCardNumber: schemeData.ayushmanCardNumber
         }
-        await axios.post(`http://localhost:5000/api/insurance/claims/${claimId}/upload`, formData, {
-          headers: { "Content-Type": "multipart/form-data" }
-        });
-      }
-
-      setMessage("Pre-Authorization submitted successfully!");
-      setPreAuthData({ patientId: "", diagnosis: "", estimatedCost: "" });
-      setFiles(null);
-      fetchClaims(); // Refresh list
+      };
+      const res = await axios.post(`${API_BASE_URL}/schemes`, payload);
+      showMessage(res.data.message || "Scheme enrolled successfully!");
+      setSchemeData({ patientId: "", schemeName: "PM-JAY", abhaNumber: "", ayushmanCardNumber: "" });
     } catch (err) {
-      setMessage("Submission failed: " + (err.response?.data?.error || err.message));
+      showMessage("Enrollment failed: " + (err.response?.data?.error || err.response?.data?.errors?.[0]?.msg || err.message), "error");
     }
     setLoading(false);
-  };
-
-  const getStatusClass = (status) => {
-    switch(status) {
-      case 'Approved': return 'status-approved';
-      case 'Rejected': return 'status-rejected';
-      default: return 'status-pending';
-    }
   };
 
   return (
@@ -90,162 +87,135 @@ function Insurance() {
           <h2 className="dashboard-title">Insurance Desk Overview</h2>
           <div className="stats-grid">
             <div className="stats-card">
-              <h3>Active Claims</h3>
-              <p>14</p>
-            </div>
-            <div className="stats-card warning">
-              <h3>Pending Pre-Auths</h3>
-              <p>5</p>
+              <h3>Total Claims</h3>
+              <p>{stats.totalClaims}</p>
             </div>
             <div className="stats-card success">
-              <h3>Settled This Month</h3>
-              <p>₹4.2L</p>
+              <h3>Approved Claims</h3>
+              <p>{stats.approvedClaims}</p>
+            </div>
+            <div className="stats-card warning">
+              <h3>Pending Claims</h3>
+              <p>{stats.pendingClaims}</p>
+            </div>
+            <div className="stats-card success">
+              <h3>Settled Amount</h3>
+              <p>₹{stats.totalSettledAmount.toLocaleString()}</p>
             </div>
           </div>
         </div>
       )}
 
-      {/* 2. VERIFY PATIENT ELIGIBILITY */}
-      {step === "verify-patient" && (
+      {/* 2. REGISTER POLICY */}
+      {step === "register-policy" && (
         <div className="dashboard-container">
           <div className="section-header">
-            <h2>Verify Patient Insurance</h2>
+            <h2>Register Private Insurance Policy</h2>
           </div>
-          <form className="form-container" onSubmit={handleVerify}>
-            {message && <p style={{ color: message.includes('failed') ? 'red' : 'green' }}>{message}</p>}
+          <form className="form-container" onSubmit={handleRegisterPolicy}>
+            {message.text && <p className={`alert alert-${message.type}`}>{message.text}</p>}
+            
             <div className="form-group">
-              <label>Insurance Provider / TPA</label>
-              <select 
-                value={verifyData.provider} 
-                onChange={e => setVerifyData({...verifyData, provider: e.target.value})}
-                required
-              >
-                <option value="">Select Provider...</option>
-                <option value="Ayushman Bharat">Ayushman Bharat (PM-JAY)</option>
-                <option value="CGHS">CGHS</option>
-                <option value="Star Health">Star Health</option>
-                <option value="HDFC Ergo">HDFC Ergo</option>
+              <label>Patient ID</label>
+              <input type="text" placeholder="Enter Patient ID" value={policyData.patientId} onChange={e => setPolicyData({...policyData, patientId: e.target.value})} required />
+            </div>
+            
+            <div className="form-group">
+              <label>Provider Name</label>
+              <input type="text" placeholder="e.g. Star Health, HDFC ERGO" value={policyData.providerName} onChange={e => setPolicyData({...policyData, providerName: e.target.value})} required />
+            </div>
+            
+            <div className="form-group">
+              <label>Policy Number</label>
+              <input type="text" placeholder="Policy Number" value={policyData.policyNumber} onChange={e => setPolicyData({...policyData, policyNumber: e.target.value})} required />
+            </div>
+            
+            <div className="form-group">
+              <label>Plan Type</label>
+              <select value={policyData.planType} onChange={e => setPolicyData({...policyData, planType: e.target.value})} required>
+                <option value="Individual">Individual</option>
+                <option value="Family Floater">Family Floater</option>
+                <option value="Group">Group</option>
               </select>
             </div>
+            
             <div className="form-group">
-              <label>Policy Number / ABHA ID</label>
-              <input 
-                type="text" 
-                placeholder="Enter ID number..." 
-                value={verifyData.policyNumber}
-                onChange={e => setVerifyData({...verifyData, policyNumber: e.target.value})}
-                required
-              />
+              <label>Sum Insured (₹)</label>
+              <input type="number" placeholder="Total Cover Amount" value={policyData.sumInsured} onChange={e => setPolicyData({...policyData, sumInsured: e.target.value})} required />
             </div>
-            <div className="form-group">
-              <label>Patient Name (As per policy)</label>
-              <input 
-                type="text" 
-                placeholder="Enter patient name..." 
-                value={verifyData.patientName}
-                onChange={e => setVerifyData({...verifyData, patientName: e.target.value})}
-                required
-              />
+
+            <div className="form-group" style={{ display: 'flex', gap: '10px' }}>
+              <div style={{ flex: 1 }}>
+                <label>Start Date</label>
+                <input type="date" value={policyData.policyStartDate} onChange={e => setPolicyData({...policyData, policyStartDate: e.target.value})} required />
+              </div>
+              <div style={{ flex: 1 }}>
+                <label>End Date</label>
+                <input type="date" value={policyData.policyEndDate} onChange={e => setPolicyData({...policyData, policyEndDate: e.target.value})} required />
+              </div>
             </div>
-            <button type="submit" className="primary-btn" style={{ width: '100%' }} disabled={loading}>
-              {loading ? "Verifying..." : "Verify Eligibility"}
+
+            <button type="submit" className="primary-btn" style={{ width: '100%', marginTop: '15px' }} disabled={loading}>
+              {loading ? "Registering..." : "Register Policy"}
             </button>
           </form>
         </div>
       )}
 
-      {/* 3. PRE-AUTH REQUEST */}
-      {step === "pre-auth" && (
+      {/* 3. ENROLL SCHEME */}
+      {step === "enroll-scheme" && (
         <div className="dashboard-container">
           <div className="section-header">
-            <h2>Submit Pre-Authorization</h2>
+            <h2>Enroll Government Scheme</h2>
           </div>
-          <form className="form-container" onSubmit={handlePreAuth}>
-            {message && <p style={{ color: message.includes('failed') ? 'red' : 'green' }}>{message}</p>}
+          <form className="form-container" onSubmit={handleEnrollScheme}>
+            {message.text && <p className={`alert alert-${message.type}`}>{message.text}</p>}
+            
             <div className="form-group">
-              <label>Patient ID / Claim Reference</label>
-              <input 
-                type="text" 
-                placeholder="Enter Patient ID..." 
-                value={preAuthData.patientId}
-                onChange={e => setPreAuthData({...preAuthData, patientId: e.target.value})}
-                required
-              />
+              <label>Patient ID</label>
+              <input type="text" placeholder="Enter Patient ID" value={schemeData.patientId} onChange={e => setSchemeData({...schemeData, patientId: e.target.value})} required />
             </div>
+            
             <div className="form-group">
-              <label>Estimated Amount (₹)</label>
-              <input 
-                type="number" 
-                placeholder="Enter estimated cost..." 
-                value={preAuthData.estimatedCost}
-                onChange={e => setPreAuthData({...preAuthData, estimatedCost: e.target.value})}
-                required
-              />
+              <label>Scheme Name</label>
+              <select value={schemeData.schemeName} onChange={e => setSchemeData({...schemeData, schemeName: e.target.value})} required>
+                <option value="PM-JAY">Ayushman Bharat (PM-JAY)</option>
+                <option value="CGHS">CGHS</option>
+                <option value="ESIC">ESIC</option>
+                <option value="MJPJAY">MJPJAY</option>
+                <option value="Other">Other</option>
+              </select>
             </div>
+            
             <div className="form-group">
-              <label>Diagnosis / Procedure</label>
-              <textarea 
-                rows="3" 
-                placeholder="Enter clinical diagnosis details..."
-                value={preAuthData.diagnosis}
-                onChange={e => setPreAuthData({...preAuthData, diagnosis: e.target.value})}
-                required
-              ></textarea>
+              <label>ABHA Number (14-digit)</label>
+              <input type="text" placeholder="e.g. 12-3456-7890-1234" value={schemeData.abhaNumber} onChange={e => setSchemeData({...schemeData, abhaNumber: e.target.value})} />
             </div>
+
             <div className="form-group">
-              <label>Upload Documents (PDF/Images)</label>
-              <input 
-                type="file" 
-                multiple 
-                onChange={e => setFiles(e.target.files)}
-              />
+              <label>Ayushman / Scheme Card Number</label>
+              <input type="text" placeholder="Card Number" value={schemeData.ayushmanCardNumber} onChange={e => setSchemeData({...schemeData, ayushmanCardNumber: e.target.value})} />
             </div>
-            <button type="submit" className="primary-btn" style={{ width: '100%' }} disabled={loading}>
-              {loading ? "Submitting..." : "Submit Request"}
+
+            <button type="submit" className="primary-btn" style={{ width: '100%', marginTop: '15px' }} disabled={loading}>
+              {loading ? "Enrolling..." : "Enroll Scheme"}
             </button>
           </form>
         </div>
       )}
 
-      {/* 4. ALL CLAIMS TABLE */}
+      {/* Placeholders for remaining steps to avoid breaking UI */}
+      {step === "pre-auth" && (
+        <div className="dashboard-container">
+          <h2>Pre-Auth Requests</h2>
+          <p>This module will be implemented in Month 2 Week 1.</p>
+        </div>
+      )}
+
       {step === "claims" && (
-        <div className="table-container">
-          <div className="section-header">
-            <h2>All Insurance Claims</h2>
-            <button className="add-btn">+ New Claim</button>
-          </div>
-          <table>
-            <thead>
-              <tr>
-                <th>Claim ID</th>
-                <th>Patient ID</th>
-                <th>Provider</th>
-                <th>Diagnosis</th>
-                <th>Amount</th>
-                <th>Status</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {claims.length > 0 ? claims.map((c) => (
-                <tr key={c._id}>
-                  <td>{c._id.substring(c._id.length - 6).toUpperCase()}</td>
-                  <td>{c.patientId}</td>
-                  <td>{c.provider}</td>
-                  <td>{c.diagnosis}</td>
-                  <td>₹{c.estimatedCost}</td>
-                  <td>
-                    <span className={`status-badge ${getStatusClass(c.status)}`}>
-                      {c.status}
-                    </span>
-                  </td>
-                  <td>{new Date(c.createdAt).toLocaleDateString()}</td>
-                </tr>
-              )) : (
-                <tr><td colSpan="7">No claims found.</td></tr>
-              )}
-            </tbody>
-          </table>
+        <div className="dashboard-container">
+          <h2>All Claims</h2>
+          <p>This module will be implemented in Month 2 Week 2.</p>
         </div>
       )}
 
