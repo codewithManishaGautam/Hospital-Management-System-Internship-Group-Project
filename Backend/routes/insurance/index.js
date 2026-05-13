@@ -2,16 +2,16 @@ const express = require('express');
 const router = express.Router();
 
 // Import sub-routes (will be populated over the coming weeks)
-// const policyRoutes = require('./policyRoutes');
-// const schemeRoutes = require('./schemeRoutes');
+const policyRoutes = require('./policyRoutes');
+const schemeRoutes = require('./schemeRoutes');
 // const preAuthRoutes = require('./preAuthRoutes');
 // const claimRoutes = require('./claimRoutes');
 // const documentRoutes = require('./documentRoutes');
 // const masterDataRoutes = require('./masterDataRoutes');
 
 // Mount sub-routes
-// router.use('/policies', policyRoutes);
-// router.use('/schemes', schemeRoutes);
+router.use('/policies', policyRoutes);
+router.use('/schemes', schemeRoutes);
 // router.use('/pre-auth', preAuthRoutes);
 // router.use('/claims', claimRoutes);
 // router.use('/documents', documentRoutes);
