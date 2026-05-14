@@ -1,5 +1,9 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
 
 import LoginDashboard from "./pages/Login";
 import ReceptionistDashboard from "./pages/Receptionist";
@@ -15,15 +19,61 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LoginDashboard />} />
-        <Route path="/receptionist" element={<ReceptionistDashboard />} />
-        <Route path="/doctor" element={<DoctorDashboard />} />
-        <Route path="/lab" element={<LabDashboard />} />
-        <Route path="/pharmacy" element={<PharmacyDashboard />} />
-        <Route path="/nurse" element={<NurseDashboard />} />
-        <Route path="/billing" element={<BillingDashboard />} />
-        <Route path="/insurance" element={<InsuranceDashboard />} />
-        <Route path="/admin" element={<AdminDashboard />} />
+
+        {/* Login Page */}
+        <Route
+          path="/"
+          element={<LoginDashboard />}
+        />
+
+        {/* Receptionist */}
+        <Route
+          path="/receptionist"
+          element={<ReceptionistDashboard />}
+        />
+
+        {/* Doctor */}
+        <Route
+          path="/doctor"
+          element={<DoctorDashboard />}
+        />
+
+        {/* Lab Module */}
+        <Route
+          path="/lab"
+          element={<LabDashboard />}
+        />
+
+        {/* Pharmacy */}
+        <Route
+          path="/pharmacy"
+          element={<PharmacyDashboard />}
+        />
+
+        {/* Nurse */}
+        <Route
+          path="/nurse"
+          element={<NurseDashboard />}
+        />
+
+        {/* Billing */}
+        <Route
+          path="/billing"
+          element={<BillingDashboard />}
+        />
+
+        {/* Insurance */}
+        <Route
+          path="/insurance"
+          element={<InsuranceDashboard />}
+        />
+
+        {/* Admin */}
+        <Route
+          path="/admin"
+          element={<AdminDashboard />}
+        />
+
       </Routes>
     </BrowserRouter>
   );
