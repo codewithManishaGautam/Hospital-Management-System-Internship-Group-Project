@@ -5,13 +5,18 @@
 
 .sidebar {
   width: 220px;
-  background: #1d3557;
+  /* background: linear-gradient(180deg, #0f172a, #1e293b); */
+  background: linear-gradient(135deg, #1e293b, #1c53ab);
   color: white;
   padding: 20px;
   display: flex;
   flex-direction: column;
 }
 
+.sidebar:hover{
+/* background : #2563eb; */
+border-radius : 8px;
+}
 .sidebar button {
   background: none;
   border: none;
@@ -22,17 +27,18 @@
 }
 
 .sidebar button:hover {
-  background: #457b9d;
+  background: #2563eb;
 }
 
 .main {
   flex: 1;
   padding: 20px;
-  background: #f5f7fa;
+  background: #f1f5f9;
 }
 
 .topbar {
-  background: #457b9d;
+  background: linear-gradient(135deg, #1e293b, #1c53ab);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.25);
   color: white;
   padding: 15px;
   border-radius: 10px;

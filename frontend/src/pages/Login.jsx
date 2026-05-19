@@ -69,7 +69,7 @@ return (
       >
         <option value="">Select Role</option>
         <option value="Receptionist">Receptionist</option>
-        <option value="Doctor">DoctorDashboard</option>
+        <option value="Doctor">Doctor</option>
         <option value="Lab">Lab</option>
         <option value="Pharmacy">Pharmacy</option>
         <option value="Nurse">Nurse</option>
