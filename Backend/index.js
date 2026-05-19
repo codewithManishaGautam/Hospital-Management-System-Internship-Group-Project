@@ -3,82 +3,22 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const app = express();
-app.use(express.json());
+
 app.use(cors());
+app.use(express.json());
 
-// MongoDB Connect and server startup
-const startServer = async () => {
-  try {
-    await mongoose.connect("mongodb://127.0.0.1:27017/hospitalDB");
-    console.log("MongoDB Connected");
-
-    app.listen(5000, () => {
-      console.log("Server running on port 5000");
-    });
-  } catch (err) {
-    console.error("Failed to connect MongoDB:", err);
-    process.exit(1);
-  }
-};
-
-// ---------------- SCHEMAS ----------------
-const Patient = mongoose.model("Patient", {
-  name: String,
-  age: Number,
-  mobile: String,
-  address: String,
-  adhaar: String,
+app.get("/", (req, res) => {
+  res.send("Hospital Management Backend Running");
 });
 
-const Doctor = mongoose.model("Doctor", {
-  name: String,
-  specialization: String,
-  mobile: String,
+const PORT = 5000;
+
+const patientRoutes = require("./routes/patientRoutes");
+app.use("/api/patient", patientRoutes);
+
+const adminRoutes = require("./routes/adminRoutes");
+app.use("/api/admin", adminRoutes);
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
-
-const Appointment = mongoose.model("Appointment", {
-  patientId: String,
-  doctorId: String,
-  date: String,
-  status: { type: String, default: "pending" },
-});
-
-// ---------------- ROUTES ----------------
-
-// Add Patient
-app.post("/addPatient", async (req, res, next) => {
-  try {
-    const data = await Patient.create(req.body);
-    res.json(data);
-  } catch (err) {
-    next(err);
-  }
-});
-
-// Get Patients
-app.get("/patients", async (req, res, next) => {
-  try {
-    const data = await Patient.find();
-    res.json(data);
-  } catch (err) {
-    next(err);
-  }
-});
-
-// Delete Patient
-app.delete("/patients/:id", async (req, res, next) => {
-  try {
-    await Patient.findByIdAndDelete(req.params.id);
-    res.json({ success: true });
-  } catch (err) {
-    next(err);
-  }
-});
-
-// Global error handler
-app.use((err, req, res, next) => {
-  console.error("Unhandled server error:", err);
-  res.status(500).json({ error: err.message || "Internal server error" });
-});
-
-startServer();
