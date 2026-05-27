@@ -38,7 +38,7 @@ let staff = [
     phone: "9876543210",
     role: "Receptionist",
     salary: "15000",
-    Status: "Active",
+    status: "Active",
     joining: "12 Jan 2025",
   },
 
@@ -49,7 +49,7 @@ let staff = [
     phone: "9876501234",
     role: "Nurse",
     salary: "20000",
-    Status: "Leave",
+    status: "Leave",
     joining: "05 Mar 2025",
   },
 ];
@@ -114,7 +114,7 @@ const getPatients = (req, res) => {
 
 const addStaff = (req, res) => {
   const newStaff = {
-    id: staff.length + 1,
+    id: Date.now(),
     ...req.body,
   };
 
@@ -153,7 +153,7 @@ const editStaff = (req, res) => {
 // ADD PATIENT
 const addPatient = (req, res) => {
   const newPatient = {
-    id: patients.length + 1,
+    id: Date.now(),
     ...req.body,
   };
 
@@ -192,7 +192,7 @@ const editPatient = (req, res) => {
 
 const addDoctor = (req, res) => {
   const newDoctor = {
-    id: doctors.length + 1,
+    id: Date.now(),
     ...req.body,
   };
   doctors.push(newDoctor);
@@ -200,42 +200,6 @@ const addDoctor = (req, res) => {
     message: "Doctor Added Successfully",
     doctors,
   });
-};
-
-const downloadPrescription = (patient) => {
-  const content = `
-Patient Name: ${patient.name}
-
-Doctor: ${patient.doctor}
-
-Disease: ${patient.disease}
-
-Prescription:
-${patient.prescription}
-
-Tests:
-${patient.tests.join(", ")}
-
-Insurance:
-${patient.insurance}
-
-Bill:
-${patient.bill}
-`;
-
-  const blob = new Blob([content], { type: "text/plain" });
-
-  const link = document.createElement("a");
-
-  link.href = URL.createObjectURL(blob);
-
-  link.download = `${patient.name}_Prescription.txt`;
-
-  document.body.appendChild(link);
-
-  link.click();
-
-  document.body.removeChild(link);
 };
 
 const deleteDoctor = (req, res) => {
