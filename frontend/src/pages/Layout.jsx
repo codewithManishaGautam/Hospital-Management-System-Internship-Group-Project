@@ -12,36 +12,15 @@ function Layout({ role, children, setStep }) {
             alt="profile"
           />
 
-          <h3>User</h3>
+          <h3>{role}</h3>
         </div>
-
 
         {/* Receptionist */}
         {role === "Receptionist" && (
           <button onClick={() => setStep("register")}>Register Patient</button>
         )}
 
-        {/* Doctor */}
-        {role === "Doctor" && (
-          <button onClick={() => setStep("search")}>Search Patient</button>
-        )}
-        {/* Lab */}
-        {role === "Lab" && (
-          <button onClick={() => setStep("search")}>Search Patient</button>
-        )}
-
-        {/* Pharmacy */}
-        {role === "Pharmacy" && (
-          <button onClick={() => setStep("search")}>Search Patient</button>
-        )}
-
-        {/* Billing */}
-        {role === "Bill" && (
-          <button onClick={() => setStep("search")}>Search Patient</button>
-        )}
-
-        {/* Insurance */}
-        {role === "Insurance" && (
+        {["Doctor", "Lab", "Pharmacy", "Bill", "Insurance"].includes(role) && (
           <button onClick={() => setStep("search")}>Search Patient</button>
         )}
 

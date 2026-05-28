@@ -1,0 +1,13 @@
+.status-active {
+  background: #dcfce7;
+  color: #15803d;
+  padding: 8px 16px;
+  border-radius: 10px;
+}
+
+.status-leave {
+  background: #fef3c7;
+  color: #b45309;
+  padding: 8px 16px;
+  border-radius: 10px;
+}
