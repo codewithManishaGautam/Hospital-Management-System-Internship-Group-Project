@@ -1,5 +1,7 @@
 import React, { useMemo, useState } from "react";
-import Layout from "./Layout";
+import DoctorLayoutShell from "../Components/Doctor/DoctorLayoutShell";
+
+
 
 import "../styles/doctor/doctorCommon.css";
 import "../styles/doctor/doctorDashboard.css";
@@ -18,7 +20,6 @@ import PrescriptionForm from "../Components/Doctor/PrescriptionForm";
 import ReportUpload from "../Components/Doctor/ReportUpload";
 import DoctorProfileCard from "../Components/Doctor/DoctorProfileCard";
 import AnalyticsCard from "../Components/Doctor/AnalyticsCard";
-import DoctorShell from "../Components/Doctor/DoctorShell";
 import EmergencyPanel from "../Components/Doctor/EmergencyPanel";
 
 function Doctor() {
@@ -123,22 +124,20 @@ function Doctor() {
     alert(`Appointment rejected (UI placeholder): ${appt?.patientName || "patient"}`);
   }
 
-
-
   function handleLogout() {
+
     localStorage.removeItem("token");
     window.location.href = "/";
   }
 
   return (
-    <Layout role="Doctor" setStep={setStep}>
-      <DoctorShell
-        active={step}
-        onNavigate={(next) => setStep(next)}
-        doctor={doctor}
-        onLogout={handleLogout}
-      >
-        {step === "patients" && (
+    <DoctorLayoutShell
+      step={step}
+      onNavigate={(next) => setStep(next)}
+      doctor={doctor}
+      onLogout={handleLogout}
+    >
+      {step === "patients" && (
           <PatientTable
             patients={patients}
             query={patientQuery}
@@ -219,16 +218,6 @@ function Doctor() {
 
         {step === "analytics" && (
           <div>
-            <div className="doctor-panel__header">
-              <div>
-                <h3 className="doctor-panel__title">Doctor Analytics</h3>
-                <p className="doctor-panel__subtitle">Performance overview (lightweight)</p>
-              </div>
-              <div className="doctor-panel__actions">
-                <button className="doctor-btn" type="button" onClick={() => setStep("patients")}>Back</button>
-              </div>
-            </div>
-
             <div className="doctor-analytics-row">
               <AnalyticsCard
                 title="Appointments"
@@ -272,8 +261,6 @@ function Doctor() {
             </div>
           </div>
         )}
-      </DoctorShell>
-
       {modalOpen && selectedPatient && (
         <PatientDetailsModal
           patient={selectedPatient}
@@ -285,7 +272,7 @@ function Doctor() {
           }}
         />
       )}
-    </Layout>
+    </DoctorLayoutShell>
   );
 }
 

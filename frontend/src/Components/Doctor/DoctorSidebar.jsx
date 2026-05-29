@@ -4,18 +4,20 @@ import DoctorNavItem from "./DoctorNavItem";
 function DoctorSidebar({ active, onNavigate, doctor, onLogout }) {
   return (
     <div className="doctor-sidebar" role="navigation" aria-label="Doctor sidebar">
+      {/* Doctor Profile (top) */}
       <div className="doctor-sidebar__profile">
         <div className="doctor-sidebar__avatar" aria-hidden="true">
           👨‍⚕️
         </div>
         <div className="doctor-sidebar__profileText">
-          <div className="doctor-sidebar__doctorTitle">Doctor</div>
+          <div className="doctor-sidebar__doctorTitle">Doctor Profile</div>
           <div className="doctor-sidebar__doctorName">{doctor?.name || "Dr."}</div>
         </div>
       </div>
 
-
+      {/* Menu */}
       <div className="doctor-sidebar__menu">
+        {/* Main */}
         <DoctorNavItem
           active={active === "patients"}
           icon="🧑‍⚕️"
@@ -44,6 +46,7 @@ function DoctorSidebar({ active, onNavigate, doctor, onLogout }) {
           onClick={() => onNavigate("emergency")}
         />
 
+        {/* Secondary */}
         <DoctorNavItem
           active={active === "profile"}
           icon="👨‍⚕️"
@@ -66,8 +69,8 @@ function DoctorSidebar({ active, onNavigate, doctor, onLogout }) {
         />
       </div>
 
+      {/* Logout (bottom fixed) */}
       <div className="doctor-sidebar__spacer" />
-
       <button type="button" className="doctor-sidebar__logout" onClick={onLogout}>
         Logout
       </button>
@@ -76,4 +79,5 @@ function DoctorSidebar({ active, onNavigate, doctor, onLogout }) {
 }
 
 export default DoctorSidebar;
+
 
