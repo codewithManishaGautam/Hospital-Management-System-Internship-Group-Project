@@ -131,3 +131,25 @@
   .doctor-modal{border-radius:12px;}
 }
 
+/* Doctor layout: keep main UI stable while scrolling */
+.doctor-shell{
+  display:flex;
+  width:100%;
+  gap:14px;
+}
+
+.doctor-shell__content{
+  flex:1 1 auto;
+  /* match sidebar top/bottom spacing */
+  height:calc(100vh - 28px);
+  overflow:hidden;
+}
+
+.doctor-shell__contentInner{
+  height:100%;
+  min-height:0;
+  overflow:auto;
+  padding:14px;
+}
+
+
