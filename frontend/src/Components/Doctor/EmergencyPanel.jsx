@@ -20,8 +20,8 @@ function EmergencyPanel({ patients }) {
         </div>
       </div>
 
-      <div className="doctor-appts" style={{ gap: 14 }}>
-        <div style={{ gridColumn: "span 7" }}>
+      <div className="doctor-emergencyGrid">
+        <div className="doctor-emergencyGrid__left">
           <div className="doctor-form__section-title">Emergency Patient List</div>
           <div className="doctor-table-wrap doctor-table-wrap--small">
             <table className="doctor-table">
@@ -43,7 +43,10 @@ function EmergencyPanel({ patients }) {
                 ) : (
                   emergencyPatients.map((p) => (
                     <tr key={p.uHID}>
-                      <td style={{ fontWeight: 1000 }}>{p.name}</td>
+                      <td style={{ fontWeight: 1000 }}>
+                        <div>{p.name}</div>
+                        <div style={{ fontSize: 12, color: "var(--doctor-muted)", fontWeight: 900 }}>{p.uHID}</div>
+                      </td>
                       <td>{p.condition}</td>
                       <td>{p.phone}</td>
                       <td>
@@ -57,7 +60,7 @@ function EmergencyPanel({ patients }) {
           </div>
         </div>
 
-        <div style={{ gridColumn: "span 5" }}>
+        <div className="doctor-emergencyGrid__right">
           <div className="doctor-calendar" style={{ height: "fit-content" }}>
             <div className="doctor-calendar__title">Emergency Notifications</div>
             <div className="doctor-hint" style={{ marginTop: 0 }}>

@@ -1,8 +1,6 @@
 import React, { useMemo, useState } from "react";
 import DoctorLayoutShell from "../Components/Doctor/DoctorLayoutShell";
 
-import DashboardCard from "../Components/Doctor/DashboardCard";
-
 import "../styles/doctor/doctorCommon.css";
 import "../styles/doctor/doctorDashboard.css";
 import "../styles/doctor/patientManagement.css";
@@ -21,6 +19,15 @@ import ReportUpload from "../Components/Doctor/ReportUpload";
 import DoctorProfileCard from "../Components/Doctor/DoctorProfileCard";
 import AnalyticsCard from "../Components/Doctor/AnalyticsCard";
 import EmergencyPanel from "../Components/Doctor/EmergencyPanel";
+
+import DashboardWidgetTitle from "../Components/Doctor/DashboardWidgetTitle";
+import DoctorDashboardSummaryGrid from "../Components/Doctor/DoctorDashboardSummaryGrid";
+import DoctorDashboardSection from "../Components/Doctor/DoctorDashboardSection";
+
+import StatusBadge from "../Components/Doctor/StatusBadge";
+import SearchBar from "../Components/Doctor/SearchBar";
+
+
 
 function Doctor() {
   const [step, setStep] = useState("dashboard");
@@ -89,7 +96,8 @@ function Doctor() {
         patientName: "Rahul Verma",
         time: "10:30 AM",
         department: "Cardiology",
-        date: "Today",
+        date: "2026-06-07",
+        symptoms: "Chest discomfort, fatigue",
         status: "Pending",
       },
       {
@@ -97,7 +105,8 @@ function Doctor() {
         patientName: "Ananya Singh",
         time: "12:00 PM",
         department: "Endocrinology",
-        date: "Today",
+        date: "2026-06-07",
+        symptoms: "Frequent urination, thirst",
         status: "Accepted",
       },
       {
@@ -105,12 +114,23 @@ function Doctor() {
         patientName: "Vikram Rao",
         time: "3:15 PM",
         department: "General Medicine",
-        date: "Tomorrow",
+        date: "2026-06-08",
+        symptoms: "Fever and body ache",
         status: "Pending",
+      },
+      {
+        id: "a4",
+        patientName: "Sanya Gupta",
+        time: "5:10 PM",
+        department: "Cardiology",
+        date: "2026-06-08",
+        symptoms: "Palpitations",
+        status: "Completed",
       },
     ],
     []
   );
+
 
   function handleSelectPatient(p) {
     setSelectedPatient(p);
@@ -138,97 +158,290 @@ function Doctor() {
       onLogout={handleLogout}
     >
       {step === "dashboard" && (
-        <div>
-          <div className="doctor-dashboard-grid">
-            <div className="doctor-dashboard-card-col">
-              <DashboardCard
-                title="Total Patients"
-                value={patients.length}
-                icon="🧑 Patients"
-                onClick={() => setStep("patients")}
-              />
-            </div>
+        <div className="doctor-dashboard">
+          <div className="doctor-dashboard__top">
+            <DoctorDashboardSummaryGrid
+              cards={[
+                {
+                  title: "Total Patients",
+                  value: patients.length,
+                  icon: "🧑",
+                  accent: "#2563eb",
+                  description: "Active patient records",
+                  onClick: () => setStep("patients"),
+                },
+                {
+                  title: "Today Appointments",
+                  value: upcomingAppointments.filter((a) => a.date === "2026-06-07").length,
+                  icon: "📅",
+                  accent: "#1c53ab",
+                  description: "Appointments for today",
+                  onClick: () => setStep("appointments"),
+                },
+                {
+                  title: "Pending Reports",
+                  value: 3,
+                  icon: "🧪",
+                  accent: "#2563eb",
+                  description: "Awaiting doctor review",
+                  onClick: () => setStep("reports"),
+                },
+                {
+                  title: "Emergency Cases",
+                  value: patients.filter((p) => p.status === "Critical").length,
+                  icon: "🚨",
+                  accent: "#dc2626",
+                  description: "Critical alerts",
+                  onClick: () => setStep("emergency"),
+                },
+                {
+                  title: "Completed Appointments",
+                  value: upcomingAppointments.filter((a) => a.status === "Completed").length,
+                  icon: "✅",
+                  accent: "#16a34a",
+                  description: "Finished consultations",
+                  onClick: () => setStep("appointments"),
+                },
+                {
+                  title: "Total Prescriptions",
+                  value: 12,
+                  icon: "💊",
+                  accent: "#1d4ed8",
+                  description: "Prescriptions created",
+                  onClick: () => setStep("prescriptions"),
+                },
+              ]}
+            />
+          </div>
 
-            <div className="doctor-dashboard-card-col">
-              <DashboardCard
-                title="Today Appointments"
-                value={upcomingAppointments.filter((a) => a.date === "Today").length}
-                icon="📅"
-                onClick={() => setStep("appointments")}
-              />
-            </div>
-
-            <div className="doctor-dashboard-card-col">
-              <DashboardCard
-                title="Pending Reports"
-                value={3}
-                icon="🧪"
-                onClick={() => setStep("reports")}
-              />
-            </div>
-
-            <div className="doctor-dashboard-card-col" style={{ gridColumn: "span 9" }}>
-              <div className="doctor-panel--inner">
-                <div className="doctor-panel__header">
-                  <div>
-                    <p className="doctor-panel__title">Doctor Dashboard</p>
-                    <p className="doctor-panel__subtitle">Quick actions & status overview</p>
+          <div className="doctor-dashboard__middle">
+            <div className="doctor-dashboard__col doctor-dashboard__col--wide">
+              <DoctorDashboardSection
+                title="Upcoming Appointments"
+                subtitle="Manage and update appointment status"
+                right={
+                  <div className="doctor-apptTools">
+                    <SearchBar placeholder="Search patient..." value={patientQuery} onChange={setPatientQuery} />
+                    <div className="doctor-apptTools__filters">
+                      <label className="doctor-apptTools__label">Status</label>
+                      <select
+                        className="doctor-select"
+                        value={patientFilter}
+                        onChange={(e) => setPatientFilter(e.target.value)}
+                      >
+                        <option value="all">All</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Accepted">Accepted</option>
+                        <option value="Completed">Completed</option>
+                      </select>
+                    </div>
                   </div>
-                  <button className="doctor-btn" type="button" onClick={() => setStep("analytics")}>
-                    View Analytics
-                  </button>
+                }
+              >
+                <div className="doctor-tableWrap">
+                  <table className="doctor-table doctor-table--striped">
+                    <thead>
+                      <tr>
+                        <th>Patient Name</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Symptoms</th>
+                        <th>Status</th>
+                        <th className="doctor-table__action">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {upcomingAppointments
+                        .filter((a) => {
+                          const q = patientQuery.trim().toLowerCase();
+                          const matchesQuery =
+                            !q ||
+                            a.patientName.toLowerCase().includes(q) ||
+                            a.department.toLowerCase().includes(q);
+                          const matchesStatus = patientFilter === "all" ? true : a.status === patientFilter;
+                          return matchesQuery && matchesStatus;
+                        })
+                        .map((a) => (
+                          <tr key={a.id}>
+                            <td>
+                              <div className="doctor-cellMain">
+                                <div className="doctor-cellMain__title">{a.patientName}</div>
+                                <div className="doctor-cellMain__sub">{a.department}</div>
+                              </div>
+                            </td>
+                            <td>{a.date}</td>
+                            <td>{a.time}</td>
+                            <td className="doctor-muted">{a.symptoms}</td>
+                            <td>
+                              <StatusBadge status={a.status} />
+                            </td>
+                            <td>
+                              <div className="doctor-rowActions">
+                                <button
+                                  className="doctor-btn doctor-btn--primary"
+                                  type="button"
+                                  onClick={() => handleAcceptAppointment(a)}
+                                >
+                                  Accept
+                                </button>
+                                <button
+                                  className="doctor-btn doctor-btn--danger"
+                                  type="button"
+                                  onClick={() => handleRejectAppointment(a)}
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      {upcomingAppointments.length === 0 ? (
+                        <tr>
+                          <td colSpan={6} className="doctor-table__empty">
+                            No appointments found.
+                          </td>
+                        </tr>
+                      ) : null}
+                    </tbody>
+                  </table>
                 </div>
+              </DoctorDashboardSection>
 
-                <div className="doctor-analytics-row">
-                  <AnalyticsCard
-                    title="Appointments"
-                    value={upcomingAppointments.length}
-                    subtitle="Upcoming requests"
-                  />
-                  <AnalyticsCard
-                    title="Patients"
-                    value={patients.length}
-                    subtitle="Active records"
-                    accent="#2563eb"
-                  />
-                  <AnalyticsCard
-                    title="Reports"
-                    value={3}
-                    subtitle="Uploaded/Reviewed"
-                    accent="#1c53ab"
-                  />
+              <DoctorDashboardSection title="Pending Reports" subtitle="Awaiting review" right={<button className="doctor-btn" type="button" onClick={() => setStep("reports")}>View Reports</button>}>
+                <div className="doctor-pendingReports">
+                  {[
+                    { patientName: "Rahul Verma", type: "Lab Test", date: "2026-06-06", status: "Pending" },
+                    { patientName: "Ananya Singh", type: "Blood Work", date: "2026-06-06", status: "Pending" },
+                    { patientName: "Vikram Rao", type: "ECG", date: "2026-06-05", status: "Pending" },
+                  ].map((r, idx) => (
+                    <div key={idx} className="doctor-pendingReports__item">
+                      <div className="doctor-cellMain">
+                        <div className="doctor-cellMain__title">{r.patientName}</div>
+                        <div className="doctor-cellMain__sub">{r.type}</div>
+                      </div>
+                      <div className="doctor-pendingReports__meta">
+                        <div className="doctor-kv__k">Uploaded</div>
+                        <div className="doctor-kv__v">{r.date}</div>
+                      </div>
+                      <div>
+                        <StatusBadge status={r.status} />
+                      </div>
+                      <div>
+                        <button className="doctor-iconBtn" type="button" onClick={() => setStep("reports")} aria-label="Download">
+                          ⬇️
+                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
+              </DoctorDashboardSection>
+            </div>
 
-                <div style={{ height: 14 }} />
+            <div className="doctor-dashboard__col doctor-dashboard__col--narrow">
+              <DoctorDashboardSection title="Emergency Cases" subtitle="Critical patient monitoring">
+                <EmergencyPanel patients={patients} />
+              </DoctorDashboardSection>
 
-                <div className="doctor-panel__header" style={{ marginBottom: 0 }}>
-                  <div>
-                    <p className="doctor-panel__title" style={{ fontSize: 16 }}>
-                      Today Highlights
-                    </p>
-                    <p className="doctor-panel__subtitle">Fast navigation to key areas</p>
-                  </div>
+              <DoctorDashboardSection title="Pending Reports" subtitle="Awaiting doctor review">
+                <div className="doctor-pendingReports">
+                  {[
+                    { patientName: "Rahul Verma", type: "Lab Test", date: "2026-06-06", status: "Pending" },
+                    { patientName: "Ananya Singh", type: "Blood Work", date: "2026-06-06", status: "Pending" },
+                    { patientName: "Vikram Rao", type: "ECG", date: "2026-06-05", status: "Pending" },
+                  ].map((r, idx) => (
+                    <div key={idx} className="doctor-pendingReports__item">
+                      <div className="doctor-cellMain">
+                        <div className="doctor-cellMain__title">{r.patientName}</div>
+                        <div className="doctor-cellMain__sub">{r.type}</div>
+                      </div>
+                      <div className="doctor-pendingReports__meta">
+                        <div className="doctor-kv__k">Uploaded</div>
+                        <div className="doctor-kv__v">{r.date}</div>
+                      </div>
+                      <div>
+                        <StatusBadge status={r.status} />
+                      </div>
+                      <div>
+                        <button className="doctor-iconBtn" type="button" onClick={() => setStep("reports")} aria-label="Download">
+                          ⬇️
+                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
+              </DoctorDashboardSection>
+            </div>
 
-                <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 10 }}>
+          </div>
+
+          <div className="doctor-dashboard__bottom">
+            <div className="doctor-dashboard__col doctor-dashboard__col--wide">
+              <DoctorDashboardSection
+                title="Recent Patients"
+                subtitle="Quick access to patient history"
+                right={
                   <button className="doctor-btn" type="button" onClick={() => setStep("patients")}>
-                    Patients
+                    Open Patients
                   </button>
-                  <button className="doctor-btn" type="button" onClick={() => setStep("appointments")}>
-                    Appointments
-                  </button>
-                  <button className="doctor-btn" type="button" onClick={() => setStep("reports")}>
-                    Pending Reports
-                  </button>
-                  <button className="doctor-btn doctor-btn--primary" type="button" onClick={() => setStep("emergency")}>
-                    Emergency Cases
-                  </button>
+                }
+              >
+                <div className="doctor-recentPatients">
+                  {patients
+                    .slice()
+                    .sort((a, b) => (a.lastVisit < b.lastVisit ? 1 : -1))
+                    .slice(0, 3)
+                    .map((p, idx) => (
+                      <div key={idx} className="doctor-recentPatients__item">
+                        <div className="doctor-cellMain">
+                          <div className="doctor-cellMain__title">{p.name}</div>
+                          <div className="doctor-cellMain__sub">{p.uHID} • {p.condition}</div>
+                        </div>
+                        <div className="doctor-recentPatients__meta">
+                          <div className="doctor-kv__k">Last Visit</div>
+                          <div className="doctor-kv__v">{p.lastVisit}</div>
+                        </div>
+                        <div>
+                          <StatusBadge status={p.status} />
+                        </div>
+                        <div>
+                          <button className="doctor-btn" type="button" onClick={() => handleSelectPatient(p)}>
+                            View
+                          </button>
+                        </div>
+                      </div>
+                    ))}
                 </div>
-              </div>
+              </DoctorDashboardSection>
+            </div>
+
+            <div className="doctor-dashboard__col doctor-dashboard__col--narrow">
+              <DoctorDashboardSection title="Recent Activity" subtitle="Doctor actions & updates" right={<button className="doctor-btn" type="button" onClick={() => setStep("dashboard")}>Refresh</button>}>
+                <div className="doctor-activity">
+                  {[
+                    { text: "Updated prescription", meta: "Rahul Verma • 2 hours ago" },
+                    { text: "Reviewed medical report", meta: "Ananya Singh • 1 day ago" },
+                    { text: "Responded to emergency", meta: "Vikram Rao • 3 days ago" },
+                  ].map((a, i) => (
+                    <div key={i} className="doctor-activity-item">
+                      <div className="doctor-activity-item__left">
+                        <div className="doctor-activity-item__dot" aria-hidden="true" />
+                        <div className="doctor-activity-item__desc">
+                          <div className="doctor-activity-item__text">{a.text}</div>
+                          <div className="doctor-activity-item__meta">{a.meta}</div>
+                        </div>
+                      </div>
+                      <button className="doctor-iconBtn" type="button" aria-label="Open">
+                        ↗️
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </DoctorDashboardSection>
             </div>
           </div>
         </div>
       )}
+
 
 
       {step === "patients" && (

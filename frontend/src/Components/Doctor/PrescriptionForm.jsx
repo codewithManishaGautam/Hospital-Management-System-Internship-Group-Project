@@ -39,6 +39,13 @@ function PrescriptionForm({ patient, doctor, onSubmit }) {
     setMeds((prev) => prev.map((m, i) => (i === idx ? { ...m, [field]: value } : m)));
   }
 
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "<")
+      .replace(/>/g, ">");
+  }
+
   function handlePrint() {
     const win = window.open("", "_blank", "width=900,height=700");
     if (!win) return;
@@ -48,17 +55,33 @@ function PrescriptionForm({ patient, doctor, onSubmit }) {
         <head>
           <title>Prescription</title>
           <style>
-            body{font-family: Arial, Helvetica, sans-serif; padding:24px;}
-            pre{white-space: pre-wrap; word-break: break-word; font-size:14px; line-height:1.4;}
+            @page { margin: 20mm; }
+            body{font-family: Arial, Helvetica, sans-serif; padding:0;}
+            .wrap{padding:24px;}
+            pre{white-space: pre-wrap; word-break: break-word; font-size:13.5px; line-height:1.4;}
             .hdr{margin-bottom:16px;}
+            .stamp{display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:10px;}
+            .sig{margin-top:24px; display:flex; flex-direction:column; align-items:flex-end; gap:4px;}
+            .muted{color:#475569; font-size:12px; font-weight:700;}
+            .bold{font-weight:900;}
           </style>
         </head>
         <body>
-          <div class="hdr">
-            <h2 style="margin:0 0 6px 0;">Prescription</h2>
-            <div style="color:#475569;">${new Date().toLocaleDateString()}</div>
+          <div class="wrap">
+            <div class="stamp">
+              <div>
+                <h2 style="margin:0 0 6px 0;">Prescription</h2>
+                <div class="muted">${escapeHtml(new Date().toLocaleDateString())}</div>
+                <div class="muted">Doctor: ${escapeHtml(doctor?.name || "Dr.")}</div>
+                <div class="muted">Clinic: ${escapeHtml(doctor?.clinic || "Hospital")}</div>
+              </div>
+              <div class="sig">
+                <div class="muted">Signature</div>
+                <div style="border-top:2px solid #0f172a; width:220px;"></div>
+              </div>
+            </div>
+            <pre>${escapeHtml(previewText)}</pre>
           </div>
-          <pre>${previewText.replace(/</g, "<").replace(/>/g, ">")}</pre>
         </body>
       </html>
     `;
@@ -69,6 +92,7 @@ function PrescriptionForm({ patient, doctor, onSubmit }) {
     win.focus();
     win.print();
   }
+
 
   function handleDownload() {
     const blob = new Blob([previewText], { type: "text/plain;charset=utf-8" });
@@ -171,6 +195,9 @@ function PrescriptionForm({ patient, doctor, onSubmit }) {
                   </button>
                   <button type="button" className="doctor-btn" onClick={handleDownload} disabled={!patient}>
                     Download
+                  </button>
+                  <button type="button" className="doctor-btn" onClick={() => alert("Voice note for prescription (UI placeholder).")} disabled={!patient}>
+                    Voice Note
                   </button>
                 </div>
               </div>
