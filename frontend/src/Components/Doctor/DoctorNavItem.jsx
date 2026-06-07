@@ -6,6 +6,7 @@ function DoctorNavItem({ active, icon, label, onClick }) {
       type="button"
       className={active ? "doctor-nav-item doctor-nav-item--active" : "doctor-nav-item"}
       onClick={onClick}
+      aria-current={active ? "page" : undefined}
     >
       <span className="doctor-nav-item__icon" aria-hidden="true">{icon}</span>
       <span className="doctor-nav-item__label">{label}</span>
@@ -14,4 +15,5 @@ function DoctorNavItem({ active, icon, label, onClick }) {
 }
 
 export default DoctorNavItem;
+
 

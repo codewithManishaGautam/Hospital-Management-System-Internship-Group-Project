@@ -17,41 +17,34 @@ function DoctorSidebar({ active, onNavigate, doctor, onLogout }) {
 
       {/* Menu */}
       <div className="doctor-sidebar__menu">
-        {/* Main */}
+        {/* Primary */}
         <DoctorNavItem
-          active={active === "patients"}
-          icon="🧑‍⚕️"
-          label="Total Patients"
-          onClick={() => onNavigate("patients")}
+          active={active === "dashboard"}
+          icon="🏠"
+          label="Dashboard"
+          onClick={() => onNavigate("dashboard")}
+        />
+
+        <DoctorNavItem
+          active={active === "profile"}
+          icon="👨‍⚕️"
+          label="My Profile"
+          onClick={() => onNavigate("profile")}
         />
 
         <DoctorNavItem
           active={active === "appointments"}
           icon="📅"
-          label="Today Appointments"
+          label="Appointments"
           onClick={() => onNavigate("appointments")}
         />
 
         <DoctorNavItem
-          active={active === "reports"}
-          icon="🧾"
-          label="Pending Reports"
-          onClick={() => onNavigate("reports")}
-        />
+          active={active === "patients"}
+          icon="🧑"
+          label="Patients"
 
-        <DoctorNavItem
-          active={active === "emergency"}
-          icon="🚨"
-          label="Emergency Cases"
-          onClick={() => onNavigate("emergency")}
-        />
-
-        {/* Secondary */}
-        <DoctorNavItem
-          active={active === "profile"}
-          icon="👨‍⚕️"
-          label="Profile"
-          onClick={() => onNavigate("profile")}
+          onClick={() => onNavigate("patients")}
         />
 
         <DoctorNavItem
@@ -62,10 +55,31 @@ function DoctorSidebar({ active, onNavigate, doctor, onLogout }) {
         />
 
         <DoctorNavItem
-          active={active === "analytics"}
-          icon="📈"
-          label="Analytics"
-          onClick={() => onNavigate("analytics")}
+          active={active === "reports"}
+          icon="🧪"
+          label="Medical Reports"
+          onClick={() => onNavigate("reports")}
+        />
+
+        <DoctorNavItem
+          active={active === "emergency"}
+          icon="🚨"
+          label="Emergency Cases"
+          onClick={() => onNavigate("emergency")}
+        />
+
+        <DoctorNavItem
+          active={active === "schedule"}
+          icon="🕒"
+          label="Doctor Schedule"
+          onClick={() => onNavigate("schedule")}
+        />
+
+        <DoctorNavItem
+          active={active === "notifications"}
+          icon="🔔"
+          label="Notifications"
+          onClick={() => onNavigate("notifications")}
         />
       </div>
 
@@ -79,5 +93,7 @@ function DoctorSidebar({ active, onNavigate, doctor, onLogout }) {
 }
 
 export default DoctorSidebar;
+
+
 
 
