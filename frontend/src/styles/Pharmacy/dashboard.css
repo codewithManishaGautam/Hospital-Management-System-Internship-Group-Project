@@ -1,0 +1,75 @@
+.search-section {
+  margin-bottom: 30px;
+}
+
+.section-label {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.search-container {
+  display: flex;
+  gap: 12px;
+}
+
+.search-input {
+  width: 320px;
+  padding: 10px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+}
+
+.metrics-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.metric-card {
+  background: #0b2265;
+  color: white;
+  border-radius: 10px;
+  padding: 24px;
+  display: flex;
+  gap: 20px;
+}
+
+.metric-icon-box {
+  font-size: 24px;
+}
+
+.metric-number {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.metric-label {
+  font-size: 0.9rem;
+}
+
+.badge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+}
+
+.badge.pending {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.badge.completed {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.btn-table-action {
+  background: #1043b4;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 4px;
+}
+
