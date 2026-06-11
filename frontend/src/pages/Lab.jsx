@@ -8,6 +8,7 @@ import "./lab.css";
 
 function Lab() {
   const [tests, setTests] = useState([]);
+  const [search, setSearch] = useState("");
 
   const [formData, setFormData] = useState({
     patient: "",
@@ -75,6 +76,21 @@ function Lab() {
 
     setTests(updated);
   };
+
+  const deleteTest = (id) => {
+  const updated = tests.filter(
+    (item) => item.id !== id
+  );
+
+  setTests(updated);
+};
+
+
+  const filteredTests = tests.filter((item) =>
+  item.patient
+    .toLowerCase()
+    .includes(search.toLowerCase())
+);
 
   return (
     <div className="container">
@@ -162,6 +178,19 @@ function Lab() {
           </p>
         </div>
       </div>
+              
+
+            <div className="search-box">
+  <input
+    type="text"
+    placeholder="Search Patient..."
+    value={search}
+    onChange={(e) =>
+      setSearch(e.target.value)
+    }
+  />
+</div>
+
 
       {/* Table */}
 
@@ -171,6 +200,7 @@ function Lab() {
             <th>ID</th>
             <th>Patient</th>
             <th>Doctor</th>
+            <th>Date</th>
             <th>Test</th>
             <th>Sample</th>
             <th>Status</th>
@@ -181,40 +211,50 @@ function Lab() {
         </thead>
 
         <tbody>
-          {tests.map((item) => (
+              {filteredTests.map((item) => (
             <tr key={item.id}>
               <td>{item.id}</td>
               <td>{item.patient}</td>
               <td>{item.doctor}</td>
+              <td>{item.date}</td>
               <td>{item.test}</td>
               <td>{item.sample}</td>
               <td>{item.status}</td>
               <td>{item.report}</td>
               <td>{item.payment}</td>
 
-              <td>
-                {item.status === "Pending" && (
-                  <button
-                    className="process-btn"
-                    onClick={() =>
-                      processTest(item.id)
-                    }
-                  >
-                    Process
-                  </button>
-                )}
+<td>
+  {item.status === "Pending" && (
+    <button
+      className="process-btn"
+      onClick={() =>
+        processTest(item.id)
+      }
+    >
+      Process
+    </button>
+  )}
 
-                {item.status === "Processing" && (
-                  <button
-                    className="complete-btn"
-                    onClick={() =>
-                      completeTest(item.id)
-                    }
-                  >
-                    Complete
-                  </button>
-                )}
-              </td>
+  {item.status === "Processing" && (
+    <button
+      className="complete-btn"
+      onClick={() =>
+        completeTest(item.id)
+      }
+    >
+      Complete
+    </button>
+  )}
+
+  <button
+    className="delete-btn"
+    onClick={() =>
+      deleteTest(item.id)
+    }
+  >
+    Delete
+  </button>
+</td>
             </tr>
           ))}
         </tbody>
