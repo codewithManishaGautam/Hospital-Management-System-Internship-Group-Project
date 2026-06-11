@@ -135,21 +135,37 @@
 .doctor-shell{
   display:flex;
   width:100%;
+  min-width:0;
+  min-height:100vh;
   gap:14px;
+  align-items:stretch;
 }
 
 .doctor-shell__content{
   flex:1 1 auto;
-  /* match sidebar top/bottom spacing */
-  height:calc(100vh - 28px);
-  overflow:hidden;
+  min-width:0;
+  min-height:100vh;
+  height:auto;
+  overflow:visible;
 }
 
 .doctor-shell__contentInner{
-  height:100%;
-  min-height:0;
-  overflow:auto;
-  padding:14px;
+  min-height:100vh;
+  min-width:0;
+  overflow:visible;
+  padding:14px 14px 18px;
+  box-sizing:border-box;
+  background:#ffffff !important;
 }
+
+/* Ensure doctor module has plain white background (remove any inherited image/background) */
+.doctor-shell,
+.doctor-shell__content,
+.doctor-shell__contentInner{
+  background:#ffffff !important;
+  background-image:none !important;
+  background-color:#ffffff !important;
+}
+
 
 

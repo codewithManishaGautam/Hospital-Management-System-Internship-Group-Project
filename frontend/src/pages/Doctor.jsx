@@ -20,16 +20,18 @@ import DoctorProfileCard from "../Components/Doctor/DoctorProfileCard";
 import AnalyticsCard from "../Components/Doctor/AnalyticsCard";
 import EmergencyPanel from "../Components/Doctor/EmergencyPanel";
 
-import DashboardWidgetTitle from "../Components/Doctor/DashboardWidgetTitle";
 import DoctorDashboardSummaryGrid from "../Components/Doctor/DoctorDashboardSummaryGrid";
 import DoctorDashboardSection from "../Components/Doctor/DoctorDashboardSection";
 
-import StatusBadge from "../Components/Doctor/StatusBadge";
-import SearchBar from "../Components/Doctor/SearchBar";
+
+
+
 
 
 
 function Doctor() {
+
+
   const [step, setStep] = useState("dashboard");
 
   const [patientQuery, setPatientQuery] = useState("");
@@ -158,280 +160,160 @@ function Doctor() {
       onLogout={handleLogout}
     >
       {step === "dashboard" && (
-        <div className="doctor-dashboard">
+        <div className="doctor-dashboard" aria-label="Doctor dashboard">
           <div className="doctor-dashboard__top">
-            <DoctorDashboardSummaryGrid
-              cards={[
-                {
-                  title: "Total Patients",
-                  value: patients.length,
-                  icon: "🧑",
-                  accent: "#2563eb",
-                  description: "Active patient records",
-                  onClick: () => setStep("patients"),
-                },
-                {
-                  title: "Today Appointments",
-                  value: upcomingAppointments.filter((a) => a.date === "2026-06-07").length,
-                  icon: "📅",
-                  accent: "#1c53ab",
-                  description: "Appointments for today",
-                  onClick: () => setStep("appointments"),
-                },
-                {
-                  title: "Pending Reports",
-                  value: 3,
-                  icon: "🧪",
-                  accent: "#2563eb",
-                  description: "Awaiting doctor review",
-                  onClick: () => setStep("reports"),
-                },
-                {
-                  title: "Emergency Cases",
-                  value: patients.filter((p) => p.status === "Critical").length,
-                  icon: "🚨",
-                  accent: "#dc2626",
-                  description: "Critical alerts",
-                  onClick: () => setStep("emergency"),
-                },
-                {
-                  title: "Completed Appointments",
-                  value: upcomingAppointments.filter((a) => a.status === "Completed").length,
-                  icon: "✅",
-                  accent: "#16a34a",
-                  description: "Finished consultations",
-                  onClick: () => setStep("appointments"),
-                },
-                {
-                  title: "Total Prescriptions",
-                  value: 12,
-                  icon: "💊",
-                  accent: "#1d4ed8",
-                  description: "Prescriptions created",
-                  onClick: () => setStep("prescriptions"),
-                },
-              ]}
-            />
+            <DoctorDashboardSection
+              title="Doctor Overview"
+              subtitle="Today at a glance"
+            >
+              <DoctorDashboardSummaryGrid
+                cards={[
+                  {
+                    title: "Appointments",
+                    value: upcomingAppointments.length,
+                    icon: "📅",
+                    accent: "#2563eb",
+                    onClick: () => setStep("appointments"),
+                    description: "Upcoming requests",
+                  },
+                  {
+                    title: "Active Patients",
+                    value: patients.length,
+                    icon: "🧑‍⚕️",
+                    accent: "#1c53ab",
+                    onClick: () => setStep("patients"),
+                    description: "Patients in your records",
+                  },
+                  {
+                    title: "Pending Reports",
+                    value: 3,
+                    icon: "📝",
+                    accent: "#0ea5e9",
+                    onClick: () => setStep("reports"),
+                    description: "Uploaded/awaiting review",
+                  },
+                  {
+                    title: "Emergency Cases",
+                    value: 1,
+                    icon: "🚨",
+                    accent: "#ef4444",
+                    onClick: () => setStep("emergency"),
+                    description: "Recent alerts & notifications",
+                  },
+                ]}
+              />
+            </DoctorDashboardSection>
           </div>
 
           <div className="doctor-dashboard__middle">
+
             <div className="doctor-dashboard__col doctor-dashboard__col--wide">
               <DoctorDashboardSection
                 title="Upcoming Appointments"
-                subtitle="Manage and update appointment status"
+                subtitle="Next 48 hours"
                 right={
-                  <div className="doctor-apptTools">
-                    <SearchBar placeholder="Search patient..." value={patientQuery} onChange={setPatientQuery} />
-                    <div className="doctor-apptTools__filters">
-                      <label className="doctor-apptTools__label">Status</label>
-                      <select
-                        className="doctor-select"
-                        value={patientFilter}
-                        onChange={(e) => setPatientFilter(e.target.value)}
-                      >
-                        <option value="all">All</option>
-                        <option value="Pending">Pending</option>
-                        <option value="Accepted">Accepted</option>
-                        <option value="Completed">Completed</option>
-                      </select>
-                    </div>
-                  </div>
+                  <button
+                    className="doctor-btn doctor-btn--primary"
+                    type="button"
+                    onClick={() => setStep("appointments")}
+                  >
+                    View all
+                  </button>
                 }
               >
-                <div className="doctor-tableWrap">
-                  <table className="doctor-table doctor-table--striped">
-                    <thead>
-                      <tr>
-                        <th>Patient Name</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Symptoms</th>
-                        <th>Status</th>
-                        <th className="doctor-table__action">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {upcomingAppointments
-                        .filter((a) => {
-                          const q = patientQuery.trim().toLowerCase();
-                          const matchesQuery =
-                            !q ||
-                            a.patientName.toLowerCase().includes(q) ||
-                            a.department.toLowerCase().includes(q);
-                          const matchesStatus = patientFilter === "all" ? true : a.status === patientFilter;
-                          return matchesQuery && matchesStatus;
-                        })
-                        .map((a) => (
-                          <tr key={a.id}>
-                            <td>
-                              <div className="doctor-cellMain">
-                                <div className="doctor-cellMain__title">{a.patientName}</div>
-                                <div className="doctor-cellMain__sub">{a.department}</div>
-                              </div>
-                            </td>
-                            <td>{a.date}</td>
-                            <td>{a.time}</td>
-                            <td className="doctor-muted">{a.symptoms}</td>
-                            <td>
-                              <StatusBadge status={a.status} />
-                            </td>
-                            <td>
-                              <div className="doctor-rowActions">
-                                <button
-                                  className="doctor-btn doctor-btn--primary"
-                                  type="button"
-                                  onClick={() => handleAcceptAppointment(a)}
-                                >
-                                  Accept
-                                </button>
-                                <button
-                                  className="doctor-btn doctor-btn--danger"
-                                  type="button"
-                                  onClick={() => handleRejectAppointment(a)}
-                                >
-                                  Cancel
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      {upcomingAppointments.length === 0 ? (
-                        <tr>
-                          <td colSpan={6} className="doctor-table__empty">
-                            No appointments found.
-                          </td>
-                        </tr>
-                      ) : null}
-                    </tbody>
-                  </table>
-                </div>
-              </DoctorDashboardSection>
-
-              <DoctorDashboardSection title="Pending Reports" subtitle="Awaiting review" right={<button className="doctor-btn" type="button" onClick={() => setStep("reports")}>View Reports</button>}>
-                <div className="doctor-pendingReports">
-                  {[
-                    { patientName: "Rahul Verma", type: "Lab Test", date: "2026-06-06", status: "Pending" },
-                    { patientName: "Ananya Singh", type: "Blood Work", date: "2026-06-06", status: "Pending" },
-                    { patientName: "Vikram Rao", type: "ECG", date: "2026-06-05", status: "Pending" },
-                  ].map((r, idx) => (
-                    <div key={idx} className="doctor-pendingReports__item">
-                      <div className="doctor-cellMain">
-                        <div className="doctor-cellMain__title">{r.patientName}</div>
-                        <div className="doctor-cellMain__sub">{r.type}</div>
-                      </div>
-                      <div className="doctor-pendingReports__meta">
-                        <div className="doctor-kv__k">Uploaded</div>
-                        <div className="doctor-kv__v">{r.date}</div>
-                      </div>
-                      <div>
-                        <StatusBadge status={r.status} />
-                      </div>
-                      <div>
-                        <button className="doctor-iconBtn" type="button" onClick={() => setStep("reports")} aria-label="Download">
-                          ⬇️
-                        </button>
-                      </div>
-                    </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  {upcomingAppointments.slice(0, 3).map((a) => (
+                    <AppointmentCard
+                      key={a.id}
+                      appt={a}
+                      onAccept={() => handleAcceptAppointment(a)}
+                      onReject={() => handleRejectAppointment(a)}
+                    />
                   ))}
+                  {upcomingAppointments.length === 0 ? (
+                    <div className="doctor-empty">No appointments yet.</div>
+                  ) : null}
                 </div>
               </DoctorDashboardSection>
             </div>
 
             <div className="doctor-dashboard__col doctor-dashboard__col--narrow">
-              <DoctorDashboardSection title="Emergency Cases" subtitle="Critical patient monitoring">
-                <EmergencyPanel patients={patients} />
-              </DoctorDashboardSection>
-
-              <DoctorDashboardSection title="Pending Reports" subtitle="Awaiting doctor review">
-                <div className="doctor-pendingReports">
-                  {[
-                    { patientName: "Rahul Verma", type: "Lab Test", date: "2026-06-06", status: "Pending" },
-                    { patientName: "Ananya Singh", type: "Blood Work", date: "2026-06-06", status: "Pending" },
-                    { patientName: "Vikram Rao", type: "ECG", date: "2026-06-05", status: "Pending" },
-                  ].map((r, idx) => (
-                    <div key={idx} className="doctor-pendingReports__item">
-                      <div className="doctor-cellMain">
-                        <div className="doctor-cellMain__title">{r.patientName}</div>
-                        <div className="doctor-cellMain__sub">{r.type}</div>
-                      </div>
-                      <div className="doctor-pendingReports__meta">
-                        <div className="doctor-kv__k">Uploaded</div>
-                        <div className="doctor-kv__v">{r.date}</div>
-                      </div>
-                      <div>
-                        <StatusBadge status={r.status} />
-                      </div>
-                      <div>
-                        <button className="doctor-iconBtn" type="button" onClick={() => setStep("reports")} aria-label="Download">
-                          ⬇️
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </DoctorDashboardSection>
-            </div>
-
-          </div>
-
-          <div className="doctor-dashboard__bottom">
-            <div className="doctor-dashboard__col doctor-dashboard__col--wide">
               <DoctorDashboardSection
                 title="Recent Patients"
-                subtitle="Quick access to patient history"
+                subtitle="Quick access"
                 right={
-                  <button className="doctor-btn" type="button" onClick={() => setStep("patients")}>
-                    Open Patients
+                  <button
+                    className="doctor-btn"
+                    type="button"
+                    onClick={() => setStep("patients")}
+                  >
+                    Open
                   </button>
                 }
               >
                 <div className="doctor-recentPatients">
-                  {patients
-                    .slice()
-                    .sort((a, b) => (a.lastVisit < b.lastVisit ? 1 : -1))
-                    .slice(0, 3)
-                    .map((p, idx) => (
-                      <div key={idx} className="doctor-recentPatients__item">
-                        <div className="doctor-cellMain">
-                          <div className="doctor-cellMain__title">{p.name}</div>
-                          <div className="doctor-cellMain__sub">{p.uHID} • {p.condition}</div>
+                  {patients.slice(0, 3).map((p) => (
+                    <div key={p.uHID} className="doctor-recentPatients__item">
+                      <div className="doctor-recentPatients__meta">
+                        <div style={{ fontWeight: 950, color: "#0f172a", fontSize: 13 }}>
+                          {p.name}
                         </div>
-                        <div className="doctor-recentPatients__meta">
-                          <div className="doctor-kv__k">Last Visit</div>
-                          <div className="doctor-kv__v">{p.lastVisit}</div>
-                        </div>
-                        <div>
-                          <StatusBadge status={p.status} />
-                        </div>
-                        <div>
-                          <button className="doctor-btn" type="button" onClick={() => handleSelectPatient(p)}>
-                            View
-                          </button>
+                        <div style={{ color: "var(--doctor-muted)", fontWeight: 800, fontSize: 12 }}>
+                          {p.condition} • Last visit {p.lastVisit}
                         </div>
                       </div>
-                    ))}
+                      <button
+                        type="button"
+                        className="doctor-btn"
+                        onClick={() => handleSelectPatient(p)}
+                        style={{ padding: "8px 10px" }}
+                      >
+                        Details
+                      </button>
+                    </div>
+                  ))}
+                  {patients.length === 0 ? (
+                    <div className="doctor-empty">No patient records yet.</div>
+                  ) : null}
                 </div>
               </DoctorDashboardSection>
-            </div>
 
-            <div className="doctor-dashboard__col doctor-dashboard__col--narrow">
-              <DoctorDashboardSection title="Recent Activity" subtitle="Doctor actions & updates" right={<button className="doctor-btn" type="button" onClick={() => setStep("dashboard")}>Refresh</button>}>
-                <div className="doctor-activity">
+              <DoctorDashboardSection
+                title="Reports & Notifications"
+                subtitle="Pending review"
+                right={
+                  <button
+                    className="doctor-btn"
+                    type="button"
+                    onClick={() => setStep("reports")}
+                  >
+                    Reports
+                  </button>
+                }
+              >
+                <div className="doctor-pendingReports">
                   {[
-                    { text: "Updated prescription", meta: "Rahul Verma • 2 hours ago" },
-                    { text: "Reviewed medical report", meta: "Ananya Singh • 1 day ago" },
-                    { text: "Responded to emergency", meta: "Vikram Rao • 3 days ago" },
-                  ].map((a, i) => (
-                    <div key={i} className="doctor-activity-item">
-                      <div className="doctor-activity-item__left">
-                        <div className="doctor-activity-item__dot" aria-hidden="true" />
-                        <div className="doctor-activity-item__desc">
-                          <div className="doctor-activity-item__text">{a.text}</div>
-                          <div className="doctor-activity-item__meta">{a.meta}</div>
+                    { title: "ECG Analysis", meta: "Uploaded 2 days ago" },
+                    { title: "Blood Panel", meta: "Uploaded 5 days ago" },
+                    { title: "Diabetes Review", meta: "Uploaded 7 days ago" },
+                  ].map((r) => (
+                    <div key={r.title} className="doctor-pendingReports__item">
+                      <div className="doctor-pendingReports__meta">
+                        <div style={{ fontWeight: 950, color: "#0f172a", fontSize: 13 }}>
+                          {r.title}
+                        </div>
+                        <div style={{ color: "var(--doctor-muted)", fontWeight: 800, fontSize: 12 }}>
+                          {r.meta}
                         </div>
                       </div>
-                      <button className="doctor-iconBtn" type="button" aria-label="Open">
-                        ↗️
+                      <button
+                        type="button"
+                        className="doctor-iconBtn"
+                        onClick={() => setStep("reports")}
+                        aria-label={`Open ${r.title}`}
+                        title="Open"
+                      >
+                        ➜
                       </button>
                     </div>
                   ))}
@@ -441,6 +323,8 @@ function Doctor() {
           </div>
         </div>
       )}
+
+
 
 
 

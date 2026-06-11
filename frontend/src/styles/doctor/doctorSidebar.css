@@ -4,18 +4,27 @@
   width:240px;
   flex:0 0 auto;
   background:linear-gradient(135deg, #1e293b, #1c53ab);
-  border-radius:16px;
+  border-radius:0;
   padding:14px;
   color:#fff;
   box-shadow:0 14px 40px rgba(15,23,42,.18);
-  height:calc(100vh - 40px);
+  /* Stick full height with dashboard area */
+  height:100vh;
+  max-height:100vh;
+  min-height:100vh;
   position:sticky;
-  top:14px;
+  top:0;
+  border-radius:0;
+
+
   overflow:auto;
+
   display:flex;
   flex-direction:column;
   gap:12px;
 }
+
+
 
 .doctor-sidebar__profile{
   display:flex;
