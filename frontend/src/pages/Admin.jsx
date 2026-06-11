@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import axios from "axios";
 import Layout from "./Layout";
 
@@ -11,11 +11,26 @@ import "../styles/admin/patient.css";
 import "../styles/admin/forms.css";
 import "../styles/admin/modal.css";
 
-// components
-import StaffManagement from "../Components/Admin/StaffManagement";
-import DoctorManagement from "../Components/Admin/DoctorManagement";
-import PatientManagement from "../Components/Admin/PatientManagement";
-import Dashboard from "../Components/Admin/Dashboard";
+// Components
+// import React, { useState, useEffect, lazy, Suspense } from "react";
+
+const Dashboard = lazy(() => import("../Components/Admin/Dashboard"));
+
+const StaffManagement = lazy(
+  () => import("../Components/Admin/StaffManagement"),
+);
+
+const DoctorManagement = lazy(
+  () => import("../Components/Admin/DoctorManagement"),
+);
+
+const PatientManagement = lazy(
+  () => import("../Components/Admin/PatientManagement"),
+);
+
+// const PasswordManagement = lazy(
+//   () => import("../Components/Admin/PasswordManagement"),
+// );
 
 function Admin() {
   const [step, setStep] = useState("admin-dashboard");
@@ -37,7 +52,20 @@ function Admin() {
   const [editedStaff, setEditedStaff] = useState({});
 
   const [showStaffForm, setShowStaffForm] = useState(false);
-  const [newStaff, setNewStaff] = useState({});
+  const [newStaff, setNewStaff] = useState({
+    name: "",
+    aadhaar: "",
+    phone: "",
+    email: "",
+    role: "",
+    salary: "",
+    status: "",
+    joining: "",
+  });
+
+  const [users, setUsers] = useState([]);
+
+  // const [step, setStep] = useState("passwords");
 
   const saveStaffEdit = async (id) => {
     try {
@@ -65,7 +93,16 @@ function Admin() {
     try {
       await axios.post(`http://localhost:5000/api/admin/staff/add`, newStaff);
       setShowStaffForm(false);
-      setNewStaff({});
+      setNewStaff({
+        name: "",
+        aadhaar: "",
+        phone: "",
+        email: "",
+        role: "",
+        salary: "",
+        status: "",
+        joining: "",
+      });
       fetchStaff();
     } catch (err) {
       console.log(err);
@@ -116,6 +153,7 @@ function Admin() {
     fetchDoctors();
     fetchStaff();
     fetchPatients();
+    fetchUsers();
   }, []);
 
   const fetchDashboard = async () => {
@@ -154,58 +192,92 @@ function Admin() {
     }
   };
 
+  const fetchUsers = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/admin/users");
+
+      setUsers(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const updatePassword = async (id, password) => {
+    try {
+      await axios.put(`http://localhost:5000/api/admin/user/password/${id}`, {
+        password,
+      });
+
+      fetchUsers();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <Layout role="Admin" setStep={setStep}>
-      {/* DASHBOARD */}
-      {step === "admin-dashboard" && <Dashboard dashboard={dashboard} />}
+      <Suspense fallback={<h2>Loading Admin Module....</h2>}>
+        {/* DASHBOARD */}
+        {step === "admin-dashboard" && <Dashboard dashboard={dashboard} />}
 
-      {/* DOCTORS */}
-      {step === "doctors" && (
-        <DoctorManagement doctors={doctors} fetchDoctors={fetchDoctors} />
-      )}
+        {/* DOCTORS */}
+        {step === "doctors" && (
+          <DoctorManagement doctors={doctors} fetchDoctors={fetchDoctors} />
+        )}
 
-      {/* PATIENTS */}
-      {step === "patients" && (
-        <PatientManagement
-          patients={patients}
-          editingPatientId={editingPatientId}
-          setEditingPatientId={setEditingPatientId}
-          editedPatient={editedPatient}
-          setEditedPatient={setEditedPatient}
-          showPatientForm={showPatientForm}
-          setShowPatientForm={setShowPatientForm}
-          newPatient={newPatient}
-          setNewPatient={setNewPatient}
-          showPrescription={showPrescription}
-          setShowPrescription={setShowPrescription}
-          selectedPatient={selectedPatient}
-          setSelectedPatient={setSelectedPatient}
-          fetchPatients={fetchPatients}
-          // ✅ ADD THESE (IMPORTANT)
-          savePatientEdit={savePatientEdit}
-          deletePatient={deletePatient}
-          addPatient={addPatient}
-        />
-      )}
+        {/* PATIENTS */}
+        {step === "patients" && (
+          <PatientManagement
+            patients={patients}
+            editingPatientId={editingPatientId}
+            setEditingPatientId={setEditingPatientId}
+            editedPatient={editedPatient}
+            setEditedPatient={setEditedPatient}
+            showPatientForm={showPatientForm}
+            setShowPatientForm={setShowPatientForm}
+            newPatient={newPatient}
+            setNewPatient={setNewPatient}
+            showPrescription={showPrescription}
+            setShowPrescription={setShowPrescription}
+            selectedPatient={selectedPatient}
+            setSelectedPatient={setSelectedPatient}
+            fetchPatients={fetchPatients}
+            // ✅ ADD THESE (IMPORTANT)
+            savePatientEdit={savePatientEdit}
+            deletePatient={deletePatient}
+            addPatient={addPatient}
+          />
+        )}
 
-      {/* STAFF */}
-      {step === "users" && (
-        <StaffManagement
-          staff={staff}
-          editingStaffId={editingStaffId}
-          setEditingStaffId={setEditingStaffId}
-          editedStaff={editedStaff}
-          setEditedStaff={setEditedStaff}
-          showStaffForm={showStaffForm}
-          setShowStaffForm={setShowStaffForm}
-          newStaff={newStaff}
-          setNewStaff={setNewStaff}
-          fetchStaff={fetchStaff}
-          saveStaffEdit={saveStaffEdit}
-          deleteStaff={deleteStaff}
-          addStaff={addStaff}
-        />
-      )}
+        {/* STAFF */}
+        {step === "users" && (
+          <StaffManagement
+            staff={staff}
+            editingStaffId={editingStaffId}
+            setEditingStaffId={setEditingStaffId}
+            editedStaff={editedStaff}
+            setEditedStaff={setEditedStaff}
+            showStaffForm={showStaffForm}
+            setShowStaffForm={setShowStaffForm}
+            newStaff={newStaff}
+            setNewStaff={setNewStaff}
+            fetchStaff={fetchStaff}
+            saveStaffEdit={saveStaffEdit}
+            deleteStaff={deleteStaff}
+            addStaff={addStaff}
+          />
+        )}
+
+        {/* {step === "passwords" && (
+        <PasswordManagement users={users} updatePassword={updatePassword} />
+      )} */}
+
+        {/* {step === "passwords" && (
+          <PasswordManagement users={users} updatePassword={updatePassword} />
+        )} */}
+
+        {/* {step === "passwords" && <PasswordManagement users={users} />} */}
+      </Suspense>
     </Layout>
   );
 }

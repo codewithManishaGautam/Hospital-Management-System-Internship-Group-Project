@@ -9,6 +9,7 @@ function DoctorManagement({ doctors, fetchDoctors }) {
 
   const [editedDoctor, setEditedDoctor] = useState({
     name: "",
+    email: "",
     specialization: "",
     qualification: "",
     experience: "",
@@ -17,6 +18,7 @@ function DoctorManagement({ doctors, fetchDoctors }) {
 
   const [newDoctor, setNewDoctor] = useState({
     name: "",
+    email: "",
     specialization: "",
     qualification: "",
     experience: "",
@@ -34,6 +36,7 @@ function DoctorManagement({ doctors, fetchDoctors }) {
 
       setNewDoctor({
         name: "",
+        email: "",
         specialization: "",
         qualification: "",
         experience: "",
@@ -111,6 +114,17 @@ function DoctorManagement({ doctors, fetchDoctors }) {
                 />
 
                 <input
+                  type="email"
+                  value={editedDoctor.email}
+                  onChange={(e) =>
+                    setEditedDoctor({
+                      ...editedDoctor,
+                      email: e.target.value,
+                    })
+                  }
+                />
+
+                <input
                   type="number"
                   value={editedDoctor.phone}
                   onChange={(e) =>
@@ -157,6 +171,7 @@ function DoctorManagement({ doctors, fetchDoctors }) {
             ) : (
               <>
                 <h3>{d.name}</h3>
+                <p>{d.email}</p>
                 <p>{d.phone}</p>
                 <p>{d.specialization}</p>
                 <p>{d.qualification}</p>
@@ -180,6 +195,7 @@ function DoctorManagement({ doctors, fetchDoctors }) {
 
                     setEditedDoctor({
                       name: d.name,
+                      email: d.email,
                       phone: d.phone,
                       specialization: d.specialization,
                       qualification: d.qualification,

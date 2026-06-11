@@ -16,6 +16,8 @@ const {
   editDoctor,
   addPatient,
   deletePatient,
+  getUsers,
+  updatePassword,
 } = require("../controllers/adminController");
 
 // DASHBOARD
@@ -38,5 +40,8 @@ router.get("/patients", getPatients);
 router.post("/patient/add", addPatient);
 router.put("/patient/edit/:id", editPatient);
 router.delete("/patient/delete/:id", deletePatient);
+
+router.get("/users", getUsers);
+router.put("/user/password/:id", updatePassword);
 
 module.exports = router;

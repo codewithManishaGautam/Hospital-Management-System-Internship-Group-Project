@@ -14,6 +14,7 @@ let doctors = [
   {
     id: 1,
     name: "Dr. Sharma",
+    email: "drsharma@gmail.com",
     specialization: "Cardiologist",
     qualification: "MBBS, MD",
     experience: "10 years",
@@ -23,6 +24,7 @@ let doctors = [
   {
     id: 2,
     name: "Dr. Mehta",
+    email: "drmehta@gmail.com",
     specialization: "Neurologist",
     qualification: "MBBS, MD",
     experience: "5 years",
@@ -34,6 +36,7 @@ let staff = [
   {
     id: 1,
     name: "Rahul Sharma",
+    email: "rahul@gmail.com",
     aadhaar: "4587 9632 1452",
     phone: "9876543210",
     role: "Receptionist",
@@ -45,6 +48,7 @@ let staff = [
   {
     id: 2,
     name: "Priya Mehta",
+    email: "priya@gmail.com",
     aadhaar: "7412 8523 9631",
     phone: "9876501234",
     role: "Nurse",
@@ -97,6 +101,40 @@ let patients = [
     reports: ["MRI Report", "Sugar Report"],
 
     bill: "25000",
+  },
+];
+
+let users = [
+  {
+    id: 1,
+    name: "Main Admin",
+    role: "Admin",
+    email: "admin@gmail.com",
+    password: "admin123",
+  },
+
+  {
+    id: 2,
+    name: "Dr Sharma",
+    role: "Doctor",
+    email: "drsharma@gmail.com",
+    password: "doctor123",
+  },
+
+  {
+    id: 3,
+    name: "Rahul Sharma",
+    role: "Receptionist",
+    email: "rahul@gmail.com",
+    password: "recep123",
+  },
+
+  {
+    id: 4,
+    name: "Priya Mehta",
+    role: "Nurse",
+    email: "priya@gmail.com",
+    password: "priya123",
   },
 ];
 
@@ -154,6 +192,13 @@ const editStaff = (req, res) => {
 const addPatient = (req, res) => {
   const newPatient = {
     id: Date.now(),
+
+    prescription: "Not Available",
+    tests: [],
+    reports: [],
+    insurance: "Not Available",
+    bill: "0",
+
     ...req.body,
   };
 
@@ -221,6 +266,30 @@ const editDoctor = (req, res) => {
   });
 };
 
+const getUsers = (req, res) => {
+  res.json(users);
+};
+
+const updatePassword = (req, res) => {
+  const id = parseInt(req.params.id);
+
+  const { password } = req.body;
+
+  users = users.map((u) =>
+    u.id === id
+      ? {
+          ...u,
+          password,
+        }
+      : u,
+  );
+
+  res.json({
+    message: "Password Updated Successfully",
+    users,
+  });
+};
+
 module.exports = {
   getDashboardStats,
   getDoctors,
@@ -235,4 +304,6 @@ module.exports = {
   editDoctor,
   addPatient,
   deletePatient,
+  getUsers,
+  updatePassword,
 };
