@@ -238,8 +238,10 @@ function Doctor() {
             </div>
 
             <div className="doctor-dashboard__col doctor-dashboard__col--narrow">
+              {/* Keep section widths consistent with other dashboard cards */}
               <DoctorDashboardSection
                 title="Recent Patients"
+
                 subtitle="Quick access"
                 right={
                   <button
@@ -319,6 +321,65 @@ function Doctor() {
                   ))}
                 </div>
               </DoctorDashboardSection>
+
+              {/* Extra section to cover side blank space */}
+              <DoctorDashboardSection
+                title="Quick Actions"
+                subtitle="Common workflows"
+                right={
+                  <button
+                    className="doctor-btn"
+                    type="button"
+                    onClick={() => setStep("profile")}
+                  >
+                    Settings
+                  </button>
+                }
+              >
+                <div className="doctor-recentPatients" style={{ gap: 10 }}>
+                  {[ 
+                    {
+                      title: "Write Prescription",
+                      sub: "Start with patient details",
+                      icon: "💊",
+                      onClick: () => setStep("patients"),
+                    },
+                    {
+                      title: "View Appointments",
+                      sub: "Accept/reject requests",
+                      icon: "📅",
+                      onClick: () => setStep("appointments"),
+                    },
+                    {
+                      title: "Check Emergency",
+                      sub: "Recent alerts & cases",
+                      icon: "🚨",
+                      onClick: () => setStep("emergency"),
+                    },
+                  ].map((x) => (
+                    <div key={x.title} className="doctor-recentPatients__item">
+                      <div className="doctor-recentPatients__meta" style={{ gap: 5 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                          <div style={{ width: 34, height: 34, borderRadius: 12, background: "rgba(37,99,235,.12)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            {x.icon}
+                          </div>
+                          <div style={{ fontWeight: 950, color: "#0f172a", fontSize: 13 }}>{x.title}</div>
+                        </div>
+                        <div style={{ color: "var(--doctor-muted)", fontWeight: 800, fontSize: 12 }}>{x.sub}</div>
+                      </div>
+                      <button
+                        type="button"
+                        className="doctor-btn"
+                        onClick={x.onClick}
+                        style={{ padding: "8px 10px" }}
+                      >
+                        Open
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </DoctorDashboardSection>
+
             </div>
           </div>
         </div>
