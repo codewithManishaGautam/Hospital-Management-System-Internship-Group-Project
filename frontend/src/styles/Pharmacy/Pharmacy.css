@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg-main: #f4f7fc;
+  --sidebar-bg: #0b2265;
+  --sidebar-hover: #163691;
+  --primary-blue: #1043b4;
+  --primary-blue-hover: #0b328a;
+  --text-dark: #1e293b;
+  --text-light: #ffffff;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+
+  --status-pending-bg: #e0f2fe;
+  --status-pending-text: #0369a1;
+  --status-completed-bg: #dcfce7;
+  --status-completed-text: #15803d;
+
+  --sidebar-width: 260px;
+  --font-main: 'Inter', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-main);
+}
+
+body {
+  background: var(--bg-main);
+  color: var(--text-dark);
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-body {
+  padding: 32px;
+}
+
+.dashboard-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--sidebar-bg);
+  margin-bottom: 24px;
+}
+
+.table-container {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th {
+  background: var(--sidebar-bg);
+  color: white;
+  padding: 16px;
+}
+
+.data-table td {
+  padding: 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.bottom-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.btn-primary {
+  background: var(--primary-blue);
+  color: white;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: var(--primary-blue-hover);
+}
+.btn-primary {
+  background-color: #0b2265;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background-color: #163691;
+}
