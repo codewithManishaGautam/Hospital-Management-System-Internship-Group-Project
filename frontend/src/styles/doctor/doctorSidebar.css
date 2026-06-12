@@ -1,0 +1,80 @@
+@import url('./doctorCommon.css');
+
+.doctor-sidebar{
+  width:240px;
+  flex:0 0 auto;
+  background:linear-gradient(135deg, #1e293b, #1c53ab);
+  border-radius:0;
+  padding:14px;
+  color:#fff;
+  box-shadow:0 14px 40px rgba(15,23,42,.18);
+  /* Stick full height with dashboard area */
+  height:100vh;
+  max-height:100vh;
+  min-height:100vh;
+  position:sticky;
+  top:0;
+  border-radius:0;
+
+
+  overflow:auto;
+
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+
+
+.doctor-sidebar__profile{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:10px;
+  padding-bottom:8px;
+  border-bottom:1px solid rgba(255,255,255,.14);
+}
+
+.doctor-sidebar__avatar{
+  width:56px;
+  height:56px;
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(255,255,255,.12);
+  font-size:28px;
+}
+
+.doctor-sidebar__profileText{display:flex;flex-direction:column;gap:4px;}
+.doctor-sidebar__doctorTitle{font-weight:1000;font-size:12px;opacity:.9;text-transform:uppercase;letter-spacing:.4px;}
+.doctor-sidebar__doctorName{font-weight:1000;font-size:16px;}
+
+.doctor-sidebar__menu{display:flex;flex-direction:column;gap:10px;}
+.doctor-sidebar__spacer{flex:1;}
+
+.doctor-sidebar__logout{
+  width:100%;
+  padding:12px 14px;
+  border-radius:12px;
+  border:none;
+  cursor:pointer;
+  font-weight:1000;
+  background:rgba(255,255,255,.08);
+  color:#fff;
+  transition:.15s ease;
+}
+.doctor-sidebar__logout:hover{background:rgba(239,68,68,.18);}
+
+@media (max-width: 980px){
+  .doctor-sidebar{
+    position:relative;
+    top:auto;
+    width:100%;
+    height:auto;
+    max-height:none;
+    overflow:visible;
+  }
+}
+
+
