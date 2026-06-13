@@ -324,18 +324,19 @@ function Doctor() {
 
               {/* Extra section to cover side blank space */}
               <DoctorDashboardSection
-                title="Quick Actions"
-                subtitle="Common workflows"
+                title="Profile Summary"
+                subtitle="Availability & clinic"
                 right={
                   <button
                     className="doctor-btn"
                     type="button"
                     onClick={() => setStep("profile")}
                   >
-                    Settings
+                    Edit
                   </button>
                 }
               >
+
                 <div className="doctor-recentPatients" style={{ gap: 10 }}>
                   {[ 
                     {
@@ -460,10 +461,12 @@ function Doctor() {
       )}
 
       {step === "profile" && (
-        <DoctorProfileCard
-          doctor={doctor}
-          onSave={() => alert("Profile updated (UI placeholder).")}
-        />
+        <div key="doctor-profile">
+          <DoctorProfileCard
+            doctor={doctor}
+            onSave={() => alert("Profile updated (UI placeholder).")}
+          />
+        </div>
       )}
 
       {step === "schedule" && (
