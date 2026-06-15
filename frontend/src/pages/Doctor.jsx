@@ -530,12 +530,13 @@ function Doctor() {
             ))}
           </div>
 
-          <div className="doctor-appts__side">
+        <div className="doctor-appts__side">
             <div className="doctor-calendar">
               <div className="doctor-calendar__title">Schedule Snapshot</div>
               <div className="doctor-hint" style={{ marginTop: 0 }}>
                 Lightweight calendar UI (placeholder)
               </div>
+
               <div className="doctor-calendar__grid" style={{ marginTop: 10 }}>
                 {[...Array(14)].map((_, i) => {
                   const isToday = i === 3;
@@ -564,8 +565,13 @@ function Doctor() {
           patient={selectedPatient}
           doctor={doctor}
           onSubmit={() => alert("Prescription saved (UI placeholder).")}
+          autoSelectPatientCta
+          onSelectPatient={() => setStep("patients")}
         />
       )}
+
+
+
 
       {step === "emergency" && <EmergencyPanel patients={patients} />}
 
