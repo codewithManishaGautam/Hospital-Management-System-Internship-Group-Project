@@ -1,0 +1,24 @@
+.table td,
+.table th {
+    border: 1px solid #000 !important;
+    padding: 8px !important;
+    vertical-align: middle !important;
+    font-size: 14px;
+    word-wrap: break-word;
+}
+
+input[type="datetime-local"] {
+    font-size: 12px;
+}
+
+@media print {
+
+    .table {
+        width: 100%;
+    }
+
+    input {
+        border: none !important;
+        outline: none !important;
+    }
+}

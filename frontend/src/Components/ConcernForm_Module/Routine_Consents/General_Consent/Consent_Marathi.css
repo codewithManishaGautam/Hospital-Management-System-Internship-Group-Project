@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;700&display=swap');
+
+.consent-form {
+    width: 800px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid black;
+    background: white;
+    font-family: "Times New Roman", serif;
+
+}
+
+.center {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.date {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+h4,
+h3,
+h2 {
+    font-weight: bold;
+    font-family: "Times New Roman", serif;
+}
+
+
+
+.title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.patient-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.patient-table td {
+    border: 1px solid black;
+    padding: 8px;
+}
+
+.paragraph,
+ol {
+
+    text-align: justify;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.signature-grid {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+span {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 5px;
+}
+
+
+.marathi-text {
+    font-family: 'Noto Sans Devanagari', sans-serif;
+    font-size: 15px;
+    line-height: 1.8;
+}
