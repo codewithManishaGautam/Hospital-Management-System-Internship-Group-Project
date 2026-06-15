@@ -19,6 +19,11 @@ app.use("/api/patient", patientRoutes);
 const adminRoutes = require("./routes/adminRoutes");
 app.use("/api/admin", adminRoutes);
 
+// Doctor routes
+const doctorRoutes = require("./routes/doctorRoutes");
+app.use("/api", doctorRoutes);
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
