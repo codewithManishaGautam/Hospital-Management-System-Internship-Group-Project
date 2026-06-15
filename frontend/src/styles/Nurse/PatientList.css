@@ -1,0 +1,45 @@
+.searchBox,
+.patientListBox{
+  background:white;
+  padding:25px;
+  border-radius:20px;
+  margin-bottom:20px;
+}
+
+.searchRow{
+  display:flex;
+  gap:15px;
+}
+
+.searchRow input{
+  padding:14px;
+  width:280px;
+  border-radius:10px;
+  border:1px solid #ccc;
+}
+
+.searchRow button{
+  padding:14px 20px;
+  background:#0284c7;
+  color:white;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.listTable{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.listTable th{
+  background:#0284c7;
+  color:white;
+  padding:14px;
+}
+
+.listTable td{
+  border:1px solid #ddd;
+  padding:12px;
+  text-align:center;
+}

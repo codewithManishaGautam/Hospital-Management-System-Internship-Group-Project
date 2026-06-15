@@ -1,0 +1,12 @@
+.handoverBox{
+  margin-top:35px;
+}
+
+.handoverBox textarea{
+  width:100%;
+  min-height:120px;
+  margin-top:15px;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #ccc;
+}
