@@ -1,0 +1,42 @@
+.signature
+{
+    width: 100px;
+    height: 10px;
+    margin:10px ;
+}
+
+
+.border canvas{
+
+   border:1px solid black;
+
+
+}
+
+.line canvas{
+
+   border-bottom:1px solid black;
+
+   display:inline-block;
+
+}
+
+.none canvas{
+    border:none;
+
+}
+
+#clear
+{
+    height:10px;
+    width: 10px;
+}
+
+.sigCanvas{
+   display:block;
+}
+
+.signature-main
+{
+display: flex;
+}
