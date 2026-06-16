@@ -1,11 +1,10 @@
 require("dotenv").config();
 
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
-// const connectDB = require("./config/db");
+const connectDB = require("./config/db");
 
-// connectDB();
+connectDB();
 
 const app = express();
 
@@ -16,13 +15,10 @@ app.get("/", (req, res) => {
   res.send("Hospital Management Backend Running");
 });
 
-const PORT = 5000;
+app.use("/api/patient", require("./routes/patientRoutes"));
+app.use("/api/admin", require("./routes/adminRoutes"));
 
-const patientRoutes = require("./routes/patientRoutes");
-app.use("/api/patient", patientRoutes);
-
-const adminRoutes = require("./routes/adminRoutes");
-app.use("/api/admin", adminRoutes);
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

@@ -94,13 +94,13 @@ function DoctorManagement({ doctors, fetchDoctors }) {
 
       <div className="doctor-grid">
         {doctors.map((d) => (
-          <div className="doctor-card" key={d.id}>
+          <div className="doctor-card" key={d._id}>
             <img
               src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
               alt="doctor"
             />
 
-            {editingDoctorId === d.id ? (
+            {editingDoctorId === d._id ? (
               <>
                 <input
                   type="text"
@@ -180,10 +180,10 @@ function DoctorManagement({ doctors, fetchDoctors }) {
             )}
 
             <div className="doctor-actions">
-              {editingDoctorId === d.id ? (
+              {editingDoctorId === d._id ? (
                 <button
                   className="edit-btn"
-                  onClick={() => saveDoctorEdit(d.id)}
+                  onClick={() => saveDoctorEdit(d._id)}
                 >
                   Save
                 </button>
@@ -191,7 +191,7 @@ function DoctorManagement({ doctors, fetchDoctors }) {
                 <button
                   className="edit-btn"
                   onClick={() => {
-                    setEditingDoctorId(d.id);
+                    setEditingDoctorId(d._id);
 
                     setEditedDoctor({
                       name: d.name,
@@ -207,7 +207,10 @@ function DoctorManagement({ doctors, fetchDoctors }) {
                 </button>
               )}
 
-              <button className="delete-btn" onClick={() => deleteDoctor(d.id)}>
+              <button
+                className="delete-btn"
+                onClick={() => deleteDoctor(d._id)}
+              >
                 Delete
               </button>
             </div>
