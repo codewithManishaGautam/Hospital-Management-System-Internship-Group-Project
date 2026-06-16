@@ -15,9 +15,54 @@ import BillingDashboard from "./pages/Billing";
 import InsuranceDashboard from "./pages/Insurance";
 import AdminDashboard from "./pages/Admin";
 
+
+
+
+// import BillingDept from "./components/Billing_Module/BillingDept";
+// import PatientDetail from "./components/Billing_Module/PatientDetail";
+// import ReceptionDept from "./components/ReceptionDept";
+// import SignaturePad from "./components/SignaturePad";
+
+// import AddDiagnostic
+// from "./components/Diagnostic_Module/AddDiagnostic";
+// import PICCEng from "./components/ConcernForm_Module/Routine_Consents/PICC/PICCEng";
+
+
+
+
+
 function App() {
   return (
+
+
+
+    // <AddDiagnostic />
+
+
+
+    //   <Routes>
+
+    //     <Route
+    //       path="/"
+    //       element={<BillingDept>
+
+    //       </BillingDept>}
+    //     />
+
+        
+
+    //     <Route
+    //       path="/patient/:id"
+    //       element={<PatientDetail />}
+    //     />
+
+    //   </Routes>
+
+
+
+
     <BrowserRouter>
+
       <Routes>
 
         {/* Login Page */}

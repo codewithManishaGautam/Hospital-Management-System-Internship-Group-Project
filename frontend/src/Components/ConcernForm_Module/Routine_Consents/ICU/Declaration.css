@@ -1,0 +1,16 @@
+label {
+    display: block;
+}
+
+.card {
+    border-radius: 10px;
+}
+
+@media print {
+
+    .card {
+        box-shadow: none !important;
+        border: 1px solid black;
+    }   
+
+}

@@ -111,10 +111,13 @@ function PatientDetailsModal({ patient, onClose, onAddPrescription }) {
 
           {tab === "prescription" && (
             <div className="doctor-empty-block">
-              <div className="doctor-empty">Prescription entry will appear here.</div>
-              <div className="doctor-hint">Use the Prescription module for the full form and preview.</div>
+              <div className="doctor-empty">Prescription & Orders will appear here.</div>
+              <div className="doctor-hint">
+                Doctor can add medicines + select Lab Test and/or Scan using dropdowns in the Prescription module.
+              </div>
             </div>
           )}
+
         </div>
       </div>
     </div>
