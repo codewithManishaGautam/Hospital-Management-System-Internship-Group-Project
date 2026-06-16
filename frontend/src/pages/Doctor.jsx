@@ -288,7 +288,7 @@ function Doctor() {
                     title: "Appointments",
                     value: upcomingAppointments.length,
                     icon: "📅",
-                    accent: "#2563eb",
+                    accent: "#1043b4",
                     onClick: () => setStep("appointments"),
                     description: "Upcoming requests",
                   },

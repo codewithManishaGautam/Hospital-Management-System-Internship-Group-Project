@@ -1,6 +1,6 @@
 :root{
-  --doctor-primary:#1c53ab;
-  --doctor-primary-2:#2563eb;
+  --doctor-primary:#1043b4;
+  --doctor-primary-2:#0b328a;
   --doctor-bg:#f1f5f9;
   --doctor-card:#ffffff;
   --doctor-text:#0f172a;
@@ -43,7 +43,7 @@
 .doctor-dashboard-card__icon{
   width:42px;height:42px;border-radius:12px;
   display:flex;align-items:center;justify-content:center;
-  background:rgba(37,99,235,.12);
+  background:rgba(16,67,180,.12);
   color:var(--doctor-primary-2);
   font-size:18px;
   flex:0 0 auto;
