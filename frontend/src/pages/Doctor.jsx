@@ -261,10 +261,36 @@ function Doctor() {
   function handleRejectAppointment(appt) {
     alert(`Appointment rejected (UI placeholder): ${appt?.patientName || "patient"}`);
   }
-
   function handleLogout() {
     localStorage.removeItem("token");
     window.location.href = "/";
+  }
+
+  const pageTitles = {
+    patients: "Patients",
+    appointments: "Appointments",
+    prescriptions: "Prescriptions",
+    emergency: "Emergency Cases",
+    reports: "Medical Reports",
+    profile: "My Profile",
+    schedule: "Doctor Schedule",
+    notifications: "Notifications",
+    analytics: "Analytics",
+  };
+
+  function BackToDashboard({ title }) {
+    return (
+      <div className="doctor-pageBack">
+        <button
+          type="button"
+          className="doctor-btn"
+          onClick={() => setStep("dashboard")}
+        >
+          &larr; Back to Dashboard
+        </button>
+        {title ? <div className="doctor-pageBack__title">{title}</div> : null}
+      </div>
+    );
   }
 
   return (
@@ -288,7 +314,7 @@ function Doctor() {
                     title: "Appointments",
                     value: upcomingAppointments.length,
                     icon: "📅",
-                    accent: "#2563eb",
+                    accent: "#1043b4",
                     onClick: () => setStep("appointments"),
                     description: "Upcoming requests",
                   },
@@ -318,6 +344,66 @@ function Doctor() {
                   },
                 ]}
               />
+            </DoctorDashboardSection>
+                   </div>
+
+          <div className="doctor-dashboard__features">
+            <DoctorDashboardSection
+              title="Today's Queue"
+              subtitle="Live patient flow"
+            >
+              <div className="doctor-queue">
+                {upcomingAppointments.slice(0, 3).map((a, index) => (
+                  <div key={a.id} className="doctor-queue__item">
+                    <div>
+                      <div className="doctor-queue__name">{a.patientName}</div>
+                      <div className="doctor-queue__meta">
+                        {a.department} • {a.time}
+                      </div>
+                    </div>
+                    <span className="doctor-queue__status">
+                      {index === 0 ? "Waiting" : index === 1 ? "Next" : "Scheduled"}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </DoctorDashboardSection>
+
+            <DoctorDashboardSection
+              title="Quick Actions"
+              subtitle="Common doctor tasks"
+            >
+              <div className="doctor-quickActions">
+                <button className="doctor-btn doctor-btn--primary" onClick={() => setStep("appointments")}>
+                  Start Consultation
+                </button>
+                <button className="doctor-btn" onClick={() => setStep("prescriptions")}>
+                  Add Prescription
+                </button>
+                <button className="doctor-btn" onClick={() => setStep("reports")}>
+                  Review Reports
+                </button>
+                <button className="doctor-btn" onClick={() => setStep("patients")}>
+                  Search Patient
+                </button>
+              </div>
+            </DoctorDashboardSection>
+
+            <DoctorDashboardSection
+              title="Critical Alerts"
+              subtitle="Needs attention"
+            >
+              <div className="doctor-alerts">
+                <div className="doctor-alerts__item doctor-alerts__item--danger">
+                  Emergency case waiting for review
+                </div>
+                <div className="doctor-alerts__item">
+                  3 medical reports pending
+                </div>
+                <div className="doctor-alerts__item">
+                  Next appointment starts soon
+                </div>
+              </div>
             </DoctorDashboardSection>
           </div>
 
@@ -503,8 +589,9 @@ function Doctor() {
       )}
 
 
-
-
+      {step !== "dashboard" && (
+        <BackToDashboard title={pageTitles[step]} />
+      )}
 
       {step === "patients" && (
         <PatientTable
@@ -516,7 +603,6 @@ function Doctor() {
           onSelectPatient={(p) => handleSelectPatient(p)}
         />
       )}
-
       {step === "appointments" && (
         <div className="doctor-appts">
           <div className="doctor-appts__col">
@@ -530,7 +616,7 @@ function Doctor() {
             ))}
           </div>
 
-        <div className="doctor-appts__side">
+          <div className="doctor-appts__side">
             <div className="doctor-calendar">
               <div className="doctor-calendar__title">Schedule Snapshot</div>
               <div className="doctor-hint" style={{ marginTop: 0 }}>
