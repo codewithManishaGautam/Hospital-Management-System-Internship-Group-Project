@@ -3,20 +3,22 @@ const mongoose = require("mongoose");
 const patientSchema = new mongoose.Schema({
   name: String,
   age: Number,
-  
-  gender: String, // OPD / IPD
-  // createdAt: {
-  //   type: Date,
-  //   default: Date.now
-  // },
-  mobile:Number,
-  aadhar:Number,
+  gender: String,
+  phone: String,
   disease: String,
-  type: String, // OPD / IPD
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
+  doctor: String,
+  admission: String,
+  status: String,
+
+  prescription: String,
+
+  tests: [String],
+
+  insurance: String,
+
+  reports: [String],
+
+  bill: String,
 });
 
 module.exports = mongoose.model("Patient", patientSchema);

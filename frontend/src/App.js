@@ -1,22 +1,15 @@
-import React from "react";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-} from "react-router-dom";
+import React, { Suspense, lazy } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import LoginDashboard from "./pages/Login";
-import ReceptionistDashboard from "./pages/Receptionist";
-import DoctorDashboard from "./pages/Doctor";
-import LabDashboard from "./pages/Lab";
-import PharmacyDashboard from "./pages/Pharmacy";
-import NurseDashboard from "./pages/Nurse";
-import BillingDashboard from "./pages/Billing";
-import InsuranceDashboard from "./pages/Insurance";
-import AdminDashboard from "./pages/Admin";
-
-
-
+const LoginDashboard = lazy(() => import("./pages/Login"));
+const ReceptionistDashboard = lazy(() => import("./pages/Receptionist"));
+const DoctorDashboard = lazy(() => import("./pages/Doctor"));
+const LabDashboard = lazy(() => import("./pages/Lab"));
+const PharmacyDashboard = lazy(() => import("./pages/Pharmacy"));
+const NurseDashboard = lazy(() => import("./pages/Nurse"));
+const BillingDashboard = lazy(() => import("./pages/Billing"));
+const InsuranceDashboard = lazy(() => import("./pages/Insurance"));
+const AdminDashboard = lazy(() => import("./pages/Admin"));
 
 // import BillingDept from "./components/Billing_Module/BillingDept";
 // import PatientDetail from "./components/Billing_Module/PatientDetail";
@@ -27,18 +20,9 @@ import AdminDashboard from "./pages/Admin";
 // from "./components/Diagnostic_Module/AddDiagnostic";
 // import PICCEng from "./components/ConcernForm_Module/Routine_Consents/PICC/PICCEng";
 
-
-
-
-
 function App() {
   return (
-
-
-
     // <AddDiagnostic />
-
-
 
     //   <Routes>
 
@@ -49,8 +33,6 @@ function App() {
     //       </BillingDept>}
     //     />
 
-        
-
     //     <Route
     //       path="/patient/:id"
     //       element={<PatientDetail />}
@@ -58,68 +40,28 @@ function App() {
 
     //   </Routes>
 
-
-
-
     <BrowserRouter>
+      <Suspense fallback={<h2>Loading....</h2>}>
+        <Routes>
+          <Route path="/" element={<LoginDashboard />} />
 
-      <Routes>
+          <Route path="/receptionist" element={<ReceptionistDashboard />} />
 
-        {/* Login Page */}
-        <Route
-          path="/"
-          element={<LoginDashboard />}
-        />
+          <Route path="/doctor" element={<DoctorDashboard />} />
 
-        {/* Receptionist */}
-        <Route
-          path="/receptionist"
-          element={<ReceptionistDashboard />}
-        />
+          <Route path="/lab" element={<LabDashboard />} />
 
-        {/* Doctor */}
-        <Route
-          path="/doctor"
-          element={<DoctorDashboard />}
-        />
+          <Route path="/pharmacy" element={<PharmacyDashboard />} />
 
-        {/* Lab Module */}
-        <Route
-          path="/lab"
-          element={<LabDashboard />}
-        />
+          <Route path="/nurse" element={<NurseDashboard />} />
 
-        {/* Pharmacy */}
-        <Route
-          path="/pharmacy"
-          element={<PharmacyDashboard />}
-        />
+          <Route path="/billing" element={<BillingDashboard />} />
 
-        {/* Nurse */}
-        <Route
-          path="/nurse"
-          element={<NurseDashboard />}
-        />
+          <Route path="/insurance" element={<InsuranceDashboard />} />
 
-        {/* Billing */}
-        <Route
-          path="/billing"
-          element={<BillingDashboard />}
-        />
-
-        {/* Insurance */}
-        <Route
-          path="/insurance"
-          element={<InsuranceDashboard />}
-        />
-
-        {/* Admin */}
-        <Route
-          path="/admin"
-          element={<AdminDashboard />}
-        />
-
-      </Routes>
+          <Route path="/admin" element={<AdminDashboard />} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }
