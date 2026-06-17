@@ -7,35 +7,17 @@ function Login() {
   const navigate = useNavigate();
 
   const [selectedRole, setSelectedRole] = useState("");
-  // const [phone, setPhone] = useState("");
-  // const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-    if (!selectedRole || !email || !password) {
+    if (!selectedRole || !phone || !password) {
       alert("Please fill all fields");
       return;
     }
 
-    const userData = {
-      name:
-        selectedRole === "Doctor"
-          ? "Dr Sharma"
-          : selectedRole === "Receptionist"
-            ? "Rahul Sharma"
-            : selectedRole === "Nurse"
-              ? "Priya Mehta"
-              : selectedRole === "Admin"
-                ? "Main Admin"
-                : selectedRole,
-      role: selectedRole,
-      email: email,
-    };
-
-    localStorage.setItem("user", JSON.stringify(userData));
-
-    switch (selectedRole) {
+    switch (selectedRole) 
+    {
       case "Receptionist":
         navigate("/receptionist");
         break;
@@ -64,52 +46,55 @@ function Login() {
         navigate("/");
     }
 
-    console.log(selectedRole, email, password);
+    console.log(selectedRole, phone, password);
 
     // later role-based routing
     // navigate("/dashboard");
   };
 
-  return (
-    <div className="login-page">
-      {/* OUTSIDE BOX */}
-      <h1 className="hospital-title">Welcome to Shraddha Hospital🏥🩺</h1>
+return (
+  <div className="login-page">
 
-      {/* LOGIN BOX */}
-      <div className="center">
-        <h2>Login</h2>
+    {/* OUTSIDE BOX */}
+    <h1 className="hospital-title">
+      Welcome to Shraddha Hospital🏥🩺
+    </h1>
 
-        <select
-          value={selectedRole}
-          onChange={(e) => setSelectedRole(e.target.value)}
-        >
-          <option value="">Select Role</option>
-          <option value="Receptionist">Receptionist</option>
-          <option value="Doctor">Doctor</option>
-          <option value="Lab">Lab</option>
-          <option value="Pharmacy">Pharmacy</option>
-          <option value="Nurse">Nurse</option>
-          <option value="Billing">Billing</option>
-          <option value="Insurance">Insurance</option>
-          <option value="Admin">Admin</option>
-        </select>
+    {/* LOGIN BOX */}
+    <div className="center">
+      <h2>Login</h2>
 
-        <input
-          type="email"
-          placeholder="Enter Email"
-          onChange={(e) => setEmail(e.target.value)}
-        />
+      <select
+        value={selectedRole}
+        onChange={(e) => setSelectedRole(e.target.value)}
+      >
+        <option value="">Select Role</option>
+        <option value="Receptionist">Receptionist</option>
+        <option value="Doctor">Doctor</option>
+        <option value="Lab">Lab</option>
+        <option value="Pharmacy">Pharmacy</option>
+        <option value="Nurse">Nurse</option>
+        <option value="Billing">Billing</option>
+        <option value="Insurance">Insurance</option>
+        <option value="Admin">Admin</option>
+      </select>
 
-        <input
-          type="password"
-          placeholder="Enter Password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
+      <input
+        placeholder="Enter phone"
+        onChange={(e) => setPhone(e.target.value)}
+      />
 
-        <button onClick={handleLogin}>Login</button>
-      </div>
+      <input
+        type="password"
+        placeholder="Enter Password"
+        onChange={(e) => setPassword(e.target.value)}
+      />
+
+      <button onClick={handleLogin}>Login</button>
     </div>
-  );
+
+  </div>
+);
 }
 
 export default Login;

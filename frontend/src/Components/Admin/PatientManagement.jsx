@@ -58,11 +58,11 @@ function PatientManagement({
 
         <tbody>
           {patients.map((p) => (
-            <tr key={p._id}>
-              <td>{p._id}</td>
+            <tr key={p.id}>
+              <td>{p.id}</td>
 
               <td>
-                {editingPatientId === p._id ? (
+                {editingPatientId === p.id ? (
                   <input
                     value={editedPatient.name}
                     onChange={(e) =>
@@ -78,7 +78,7 @@ function PatientManagement({
               </td>
 
               <td>
-                {editingPatientId === p._id ? (
+                {editingPatientId === p.id ? (
                   <input
                     type="number"
                     value={editedPatient.age}
@@ -95,7 +95,7 @@ function PatientManagement({
               </td>
 
               <td>
-                {editingPatientId === p._id ? (
+                {editingPatientId === p.id ? (
                   <select
                     value={editedPatient.gender}
                     onChange={(e) =>
@@ -114,7 +114,7 @@ function PatientManagement({
               </td>
 
               <td>
-                {editingPatientId === p._id ? (
+                {editingPatientId === p.id ? (
                   <input
                     value={editedPatient.phone}
                     onChange={(e) =>
@@ -129,7 +129,7 @@ function PatientManagement({
                 )}
               </td>
               <td>
-                {editingPatientId === p._id ? (
+                {editingPatientId === p.id ? (
                   <input
                     value={editedPatient.disease}
                     onChange={(e) =>
@@ -144,7 +144,7 @@ function PatientManagement({
                 )}
               </td>
               <td>
-                {editingPatientId === p._id ? (
+                {editingPatientId === p.id ? (
                   <input
                     value={editedPatient.doctor}
                     onChange={(e) =>
@@ -159,7 +159,7 @@ function PatientManagement({
                 )}
               </td>
               <td>
-                {editingPatientId === p._id ? (
+                {editingPatientId === p.id ? (
                   <input
                     type="date"
                     value={editedPatient.admission}
@@ -176,7 +176,7 @@ function PatientManagement({
               </td>
 
               <td>
-                {editingPatientId === p._id ? (
+                {editingPatientId === p.id ? (
                   <select
                     value={editedPatient.status}
                     onChange={(e) =>
@@ -215,11 +215,11 @@ function PatientManagement({
               </td>
 
               <td className="action-cell">
-                {editingPatientId === p._id ? (
+                {editingPatientId === p.id ? (
                   <>
                     <button
                       className="edit-btn"
-                      onClick={() => savePatientEdit(p._id)}
+                      onClick={() => savePatientEdit(p.id)}
                     >
                       Save
                     </button>
@@ -236,7 +236,7 @@ function PatientManagement({
                     <button
                       className="edit-btn"
                       onClick={() => {
-                        setEditingPatientId(p._id);
+                        setEditingPatientId(p.id);
                         setEditedPatient(p);
                       }}
                     >
@@ -245,7 +245,7 @@ function PatientManagement({
 
                     <button
                       className="delete-btn"
-                      onClick={() => deletePatient(p._id)}
+                      onClick={() => deletePatient(p.id)}
                     >
                       Delete
                     </button>

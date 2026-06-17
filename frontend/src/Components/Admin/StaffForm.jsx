@@ -46,18 +46,6 @@ function StaffForm({
         />
 
         <input
-          type="email"
-          placeholder="Email"
-          value={newStaff.email}
-          onChange={(e) =>
-            setNewStaff({
-              ...newStaff,
-              email: e.target.value,
-            })
-          }
-        />
-
-        <input
           type="text"
           placeholder="Role"
           value={newStaff.role}
