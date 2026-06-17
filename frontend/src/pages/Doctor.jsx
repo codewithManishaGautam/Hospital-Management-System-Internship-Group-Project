@@ -39,17 +39,132 @@ function Doctor() {
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
 
-  const doctor = useMemo(
-    () => ({
-      id: "d1",
-      name: "Dr. A. Sharma",
-      specialization: "Cardiology",
-      experience: "8",
-      availability: "Mon-Fri 10:00 AM - 5:00 PM",
-      clinic: "City Heart Clinic",
-    }),
+  // Schedule UI state
+  const [scheduleSpeciality, setScheduleSpeciality] = useState("Cardiology");
+  const [scheduleDoctorId, setScheduleDoctorId] = useState("d1");
+
+
+  // Demo data: doctor schedule should support "multiple types of doctors" (UI-level categories).
+  const doctorsBySpeciality = useMemo(
+    () => [
+      {
+        speciality: "Cardiology",
+        types: ["Cardiologist"],
+        doctors: [
+          {
+            id: "d1",
+            name: "Dr. A. Sharma",
+            specialization: "Cardiology",
+            experience: "8",
+            availability: "Mon-Fri 10:00 AM - 5:00 PM",
+            clinic: "City Heart Clinic",
+          },
+          {
+            id: "d2",
+            name: "Dr. Neha Kapoor",
+            specialization: "Cardiology",
+            experience: "6",
+            availability: "Mon-Thu 11:00 AM - 6:00 PM",
+            clinic: "Pulse Care Center",
+          },
+          {
+            id: "d5",
+            name: "Dr. Sameer Kulkarni",
+            specialization: "Cardiology",
+            experience: "9",
+            availability: "Tue-Sat 9:00 AM - 2:00 PM",
+            clinic: "Apex Cardio",
+          },
+          {
+            id: "d6",
+            name: "Dr. Priya Nair",
+            specialization: "Cardiology",
+            experience: "5",
+            availability: "Mon-Fri 1:00 PM - 6:00 PM",
+            clinic: "HeartBeat Clinic",
+          },
+        ],
+      },
+      {
+        speciality: "Endocrinology",
+        types: ["Endocrinologist"],
+        doctors: [
+          {
+            id: "d3",
+            name: "Dr. R. Mehta",
+            specialization: "Endocrinology",
+            experience: "10",
+            availability: "Tue-Sat 9:30 AM - 4:30 PM",
+            clinic: "Diabetes & You",
+          },
+          {
+            id: "d7",
+            name: "Dr. Kavita Joshi",
+            specialization: "Endocrinology",
+            experience: "7",
+            availability: "Mon-Thu 10:00 AM - 5:00 PM",
+            clinic: "Metabolic Care",
+          },
+          {
+            id: "d8",
+            name: "Dr. Rahul Bansal",
+            specialization: "Endocrinology",
+            experience: "4",
+            availability: "Wed-Sat 11:00 AM - 6:00 PM",
+            clinic: "Glucose Clinic",
+          },
+        ],
+      },
+      {
+        speciality: "General Medicine",
+        types: ["Physician"],
+        doctors: [
+          {
+            id: "d4",
+            name: "Dr. Vikram Iyer",
+            specialization: "General Medicine",
+            experience: "7",
+            availability: "Mon-Fri 9:00 AM - 3:00 PM",
+            clinic: "Green Valley Hospital",
+          },
+          {
+            id: "d9",
+            name: "Dr. Shalini Rao",
+            specialization: "General Medicine",
+            experience: "6",
+            availability: "Mon-Thu 2:00 PM - 7:00 PM",
+            clinic: "CareFirst General",
+          },
+          {
+            id: "d10",
+            name: "Dr. Arjun Verma",
+            specialization: "General Medicine",
+            experience: "5",
+            availability: "Tue-Sat 8:30 AM - 1:30 PM",
+            clinic: "Village Health Center",
+          },
+        ],
+      },
+    ],
     []
   );
+
+  // Current logged-in doctor (demo)
+  const doctor = useMemo(
+    () => doctorsBySpeciality[0]?.doctors?.[0],
+    [doctorsBySpeciality]
+  );
+
+  // Build speciality->doctors map for schedule dropdowns
+  const doctorsForSchedule = useMemo(() => {
+    const map = {};
+    doctorsBySpeciality.forEach((s) => {
+      map[s.speciality] = s.doctors || [];
+    });
+    return map;
+  }, [doctorsBySpeciality]);
+
+
 
   const patients = useMemo(
     () => [
@@ -159,6 +274,7 @@ function Doctor() {
       doctor={doctor}
       onLogout={handleLogout}
     >
+      {/* Quick fix: schedule needs doctorsBySpeciality; all schedule UI lives inside this file for speed */}
       {step === "dashboard" && (
         <div className="doctor-dashboard" aria-label="Doctor dashboard">
           <div className="doctor-dashboard__top">
@@ -324,18 +440,19 @@ function Doctor() {
 
               {/* Extra section to cover side blank space */}
               <DoctorDashboardSection
-                title="Quick Actions"
-                subtitle="Common workflows"
+                title="Profile Summary"
+                subtitle="Availability & clinic"
                 right={
                   <button
                     className="doctor-btn"
                     type="button"
                     onClick={() => setStep("profile")}
                   >
-                    Settings
+                    Edit
                   </button>
                 }
               >
+
                 <div className="doctor-recentPatients" style={{ gap: 10 }}>
                   {[ 
                     {
@@ -413,12 +530,13 @@ function Doctor() {
             ))}
           </div>
 
-          <div className="doctor-appts__side">
+        <div className="doctor-appts__side">
             <div className="doctor-calendar">
               <div className="doctor-calendar__title">Schedule Snapshot</div>
               <div className="doctor-hint" style={{ marginTop: 0 }}>
                 Lightweight calendar UI (placeholder)
               </div>
+
               <div className="doctor-calendar__grid" style={{ marginTop: 10 }}>
                 {[...Array(14)].map((_, i) => {
                   const isToday = i === 3;
@@ -447,8 +565,13 @@ function Doctor() {
           patient={selectedPatient}
           doctor={doctor}
           onSubmit={() => alert("Prescription saved (UI placeholder).")}
+          autoSelectPatientCta
+          onSelectPatient={() => setStep("patients")}
         />
       )}
+
+
+
 
       {step === "emergency" && <EmergencyPanel patients={patients} />}
 
@@ -460,37 +583,142 @@ function Doctor() {
       )}
 
       {step === "profile" && (
-        <DoctorProfileCard
-          doctor={doctor}
-          onSave={() => alert("Profile updated (UI placeholder).")}
-        />
+        <div key="doctor-profile">
+          <DoctorProfileCard
+            doctor={doctor}
+            onSave={() => alert("Profile updated (UI placeholder).")}
+          />
+        </div>
       )}
 
       {step === "schedule" && (
         <div className="doctor-panel--inner">
           <div className="doctor-form__section-title">Doctor Schedule</div>
-          <div className="doctor-hint">Mon-Fri 10:00 AM - 5:00 PM (UI placeholder)</div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 12, marginTop: 14 }}>
-            {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((d, i) => (
-              <div key={d} style={{ textAlign: "center" }}>
-                <div
-                  style={{
-                    borderRadius: 14,
-                    padding: 12,
-                    border: "1px solid rgba(37,99,235,.22)",
-                    background: i < 5 ? "rgba(37,99,235,.12)" : "#f8fafc",
-                    fontWeight: 900,
-                    color: "#0f172a",
-                  }}
-                >
-                  {d}
+          <div className="doctor-hint">
+            Doctor-type view (UI-level): Day-wise availability per speciality & doctor
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              gap: 12,
+              flexWrap: "wrap",
+              marginTop: 14,
+              alignItems: "center",
+            }}
+          >
+            <div>
+              <div className="doctor-hint" style={{ marginTop: 0 }}>
+                Doctor Type / Speciality
+              </div>
+              <select
+                value={scheduleSpeciality}
+                onChange={(e) => {
+                  const next = e.target.value;
+                  setScheduleSpeciality(next);
+                  const firstDoctor = doctorsBySpeciality.find((x) => x.speciality === next)?.doctors?.[0];
+                  if (firstDoctor?.id) setScheduleDoctorId(firstDoctor.id);
+                }}
+                style={{
+                  padding: "10px 12px",
+                  borderRadius: 12,
+                  border: "1px solid rgba(37,99,235,.22)",
+                  background: "#fff",
+                  fontWeight: 800,
+                }}
+              >
+                {doctorsBySpeciality.map((s) => (
+                  <option key={s.speciality} value={s.speciality}>
+                    {s.speciality}
+                  </option>
+                ))}
+              </select>
+              <div style={{ color: "#64748b", fontWeight: 800, fontSize: 12, marginTop: 6 }}>
+                {doctorsBySpeciality.find((x) => x.speciality === scheduleSpeciality)?.types?.join(", ") || ""}
+              </div>
+            </div>
+
+            <div>
+              <div className="doctor-hint" style={{ marginTop: 0 }}>
+                Select Doctor
+              </div>
+              <select
+                value={scheduleDoctorId}
+                onChange={(e) => setScheduleDoctorId(e.target.value)}
+                style={{
+                  padding: "10px 12px",
+                  borderRadius: 12,
+                  border: "1px solid rgba(37,99,235,.22)",
+                  background: "#fff",
+                  fontWeight: 800,
+                  minWidth: 240,
+                }}
+              >
+                {doctorsBySpeciality
+                  .find((x) => x.speciality === scheduleSpeciality)
+                  ?.doctors?.map((d) => (
+                    <option key={d.id} value={d.id}>
+                      {d.name}
+                    </option>
+                  ))}
+              </select>
+            </div>
+          </div>
+
+          {(() => {
+            const activeDoctor = doctorsBySpeciality
+              .find((x) => x.speciality === scheduleSpeciality)
+              ?.doctors?.find((d) => d.id === scheduleDoctorId);
+
+            return (
+              <div style={{ marginTop: 16 }}>
+                <div style={{ fontWeight: 950, color: "#0f172a", fontSize: 14 }}>
+                  {activeDoctor?.name || doctor?.name} • {activeDoctor?.specialization || doctor?.specialization}
                 </div>
-                <div style={{ marginTop: 8, color: "#64748b", fontWeight: 800, fontSize: 12 }}>
-                  {i < 5 ? "Clinic" : "Off"}
+                <div style={{ color: "#64748b", fontWeight: 800, fontSize: 12, marginTop: 4 }}>
+                  {activeDoctor?.availability || doctor?.availability} • {activeDoctor?.clinic || doctor?.clinic}
+                </div>
+
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 12, marginTop: 14 }}>
+                  {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((d, i) => {
+                    // UI rule: Mon-Fri clinic, Sat half-day, Sun off
+                    const isClinic = i < 5;
+                    const isSat = i === 5;
+                    const label = isClinic ? "Clinic" : isSat ? "Clinic (half)" : "Off";
+                    const bg = isClinic
+                      ? "rgba(37,99,235,.12)"
+                      : isSat
+                        ? "rgba(37,99,235,.08)"
+                        : "#f8fafc";
+
+                    return (
+                      <div key={d} style={{ textAlign: "center" }}>
+                        <div
+                          style={{
+                            borderRadius: 14,
+                            padding: 12,
+                            border: "1px solid rgba(37,99,235,.22)",
+                            background: bg,
+                            fontWeight: 900,
+                            color: "#0f172a",
+                          }}
+                        >
+                          {d}
+                        </div>
+                        <div style={{ marginTop: 8, color: "#64748b", fontWeight: 800, fontSize: 12 }}>
+                          {label}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div className="doctor-hint" style={{ marginTop: 14 }}>
+                  Slot granularity (30-min) can be added later if backend provides appointment slots.
                 </div>
               </div>
-            ))}
-          </div>
+            );
+          })()}
         </div>
       )}
 

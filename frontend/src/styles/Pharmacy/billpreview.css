@@ -1,0 +1,48 @@
+.bill-btns {
+  display: flex;
+  gap: 12px;
+  margin-top: 25px;
+  flex-wrap: wrap;
+}
+
+.download-btn,
+.send-btn,
+.insurance-btn {
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  color: white;
+  background: #0b2265;
+  cursor: pointer;
+}
+
+.download-btn:hover,
+.send-btn:hover,
+.insurance-btn:hover {
+  background: #06133a;
+}
+
+.payment-section {
+  display: flex;
+  gap: 20px;
+  margin-top: 25px;
+  flex-wrap: wrap;
+}
+
+.payment-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.payment-box label {
+  font-weight: 600;
+  color: #0b2265;
+}
+
+.payment-box select {
+  width: 200px;
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+}

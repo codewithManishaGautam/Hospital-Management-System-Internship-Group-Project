@@ -1,11 +1,16 @@
 /* PAGE BACKGROUND LAYER */
-body {
+/* body {
   margin: 0;
   font-family: "Segoe UI", sans-serif;
   background: url("../image/login.jpg") no-repeat center center/cover;
   height: 100vh;
-}
+} */
 
+.login-page {
+  min-height: 100vh;
+  background: url("../image/login.jpg") no-repeat center center;
+  background-size: cover;
+}
 /* DARK OVERLAY */
 body::before {
   content: "";

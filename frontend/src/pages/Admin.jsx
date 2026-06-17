@@ -165,14 +165,17 @@ function Admin() {
     }
   };
 
-  const fetchDoctors = async () => {
-    try {
-      const res = await axios.get("http://localhost:5000/api/admin/doctors");
-      setDoctors(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+const fetchDoctors = async () => {
+  try {
+    const res = await axios.get("http://localhost:5000/api/admin/doctors");
+
+    console.log("Doctors API:", res.data);
+
+    setDoctors(res.data);
+  } catch (err) {
+    console.log(err);
+  }
+};
 
   const fetchStaff = async () => {
     try {
@@ -183,14 +186,17 @@ function Admin() {
     }
   };
 
-  const fetchPatients = async () => {
-    try {
-      const res = await axios.get("http://localhost:5000/api/admin/patients");
-      setPatients(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+const fetchPatients = async () => {
+  try {
+    const res = await axios.get("http://localhost:5000/api/admin/patients");
+
+    console.log("Patients API:", res.data);
+
+    setPatients(res.data);
+  } catch (err) {
+    console.log(err);
+  }
+};
 
   const fetchUsers = async () => {
     try {

@@ -11,36 +11,54 @@ const BillingDashboard = lazy(() => import("./pages/Billing"));
 const InsuranceDashboard = lazy(() => import("./pages/Insurance"));
 const AdminDashboard = lazy(() => import("./pages/Admin"));
 
+// import BillingDept from "./components/Billing_Module/BillingDept";
+// import PatientDetail from "./components/Billing_Module/PatientDetail";
+// import ReceptionDept from "./components/ReceptionDept";
+// import SignaturePad from "./components/SignaturePad";
+
+// import AddDiagnostic
+// from "./components/Diagnostic_Module/AddDiagnostic";
+// import PICCEng from "./components/ConcernForm_Module/Routine_Consents/PICC/PICCEng";
+
 function App() {
   return (
+    // <AddDiagnostic />
+
+    //   <Routes>
+
+    //     <Route
+    //       path="/"
+    //       element={<BillingDept>
+
+    //       </BillingDept>}
+    //     />
+
+    //     <Route
+    //       path="/patient/:id"
+    //       element={<PatientDetail />}
+    //     />
+
+    //   </Routes>
+
     <BrowserRouter>
       <Suspense fallback={<h2>Loading....</h2>}>
         <Routes>
-          {/* Login Page */}
           <Route path="/" element={<LoginDashboard />} />
 
-          {/* Receptionist */}
           <Route path="/receptionist" element={<ReceptionistDashboard />} />
 
-          {/* Doctor */}
           <Route path="/doctor" element={<DoctorDashboard />} />
 
-          {/* Lab Module */}
           <Route path="/lab" element={<LabDashboard />} />
 
-          {/* Pharmacy */}
           <Route path="/pharmacy" element={<PharmacyDashboard />} />
 
-          {/* Nurse */}
           <Route path="/nurse" element={<NurseDashboard />} />
 
-          {/* Billing */}
           <Route path="/billing" element={<BillingDashboard />} />
 
-          {/* Insurance */}
           <Route path="/insurance" element={<InsuranceDashboard />} />
 
-          {/* Admin */}
           <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
       </Suspense>
