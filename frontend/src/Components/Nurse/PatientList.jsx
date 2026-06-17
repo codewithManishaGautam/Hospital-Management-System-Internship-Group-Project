@@ -10,6 +10,7 @@ export default function PatientList({
   return (
     <div>
 
+<div className="nurse-topbar">Nurse Panel</div>
       <div className="searchBox">
 
         <h2>Search By UHID</h2>
