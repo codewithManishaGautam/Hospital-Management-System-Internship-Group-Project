@@ -1,0 +1,37 @@
+.dashboardCards{
+  display:flex;
+  justify-content:center;
+  gap:35px;
+  margin-top:120px;
+}
+
+.card{
+  width:260px;
+  padding:40px;
+  border-radius:25px;
+  background:white;
+  text-align:center;
+  border:5px solid;
+  box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
+.card h2{
+  font-size:30px;
+}
+
+.card p{
+  font-size:50px;
+  font-weight:bold;
+}
+
+.blue{
+  border-color:#0284c7;
+}
+
+.red{
+  border-color:#dc2626;
+}
+
+.green{
+  border-color:#16a34a;
+}

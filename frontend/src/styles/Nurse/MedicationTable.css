@@ -1,0 +1,38 @@
+.medicationSection{
+  margin-top:25px;
+}
+
+.medicineTable{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:20px;
+}
+
+.medicineTable th{
+  background:#0284c7;
+  color:white;
+  padding:12px;
+}
+
+.medicineTable td{
+  border:1px solid #ddd;
+  padding:10px;
+  text-align:center;
+}
+
+.medicineTable select{
+  padding:8px;
+  border-radius:6px;
+}
+
+.notesBox{
+  margin-top:25px;
+}
+
+.notesBox textarea{
+  width:100%;
+  min-height:120px;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #ccc;
+}
