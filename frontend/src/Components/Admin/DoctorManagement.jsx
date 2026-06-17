@@ -9,7 +9,6 @@ function DoctorManagement({ doctors, fetchDoctors }) {
 
   const [editedDoctor, setEditedDoctor] = useState({
     name: "",
-    email: "",
     specialization: "",
     qualification: "",
     experience: "",
@@ -18,7 +17,6 @@ function DoctorManagement({ doctors, fetchDoctors }) {
 
   const [newDoctor, setNewDoctor] = useState({
     name: "",
-    email: "",
     specialization: "",
     qualification: "",
     experience: "",
@@ -36,7 +34,6 @@ function DoctorManagement({ doctors, fetchDoctors }) {
 
       setNewDoctor({
         name: "",
-        email: "",
         specialization: "",
         qualification: "",
         experience: "",
@@ -94,13 +91,13 @@ function DoctorManagement({ doctors, fetchDoctors }) {
 
       <div className="doctor-grid">
         {doctors.map((d) => (
-          <div className="doctor-card" key={d._id}>
+          <div className="doctor-card" key={d.id}>
             <img
               src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
               alt="doctor"
             />
 
-            {editingDoctorId === d._id ? (
+            {editingDoctorId === d.id ? (
               <>
                 <input
                   type="text"
@@ -109,17 +106,6 @@ function DoctorManagement({ doctors, fetchDoctors }) {
                     setEditedDoctor({
                       ...editedDoctor,
                       name: e.target.value,
-                    })
-                  }
-                />
-
-                <input
-                  type="email"
-                  value={editedDoctor.email}
-                  onChange={(e) =>
-                    setEditedDoctor({
-                      ...editedDoctor,
-                      email: e.target.value,
                     })
                   }
                 />
@@ -171,7 +157,6 @@ function DoctorManagement({ doctors, fetchDoctors }) {
             ) : (
               <>
                 <h3>{d.name}</h3>
-                <p>{d.email}</p>
                 <p>{d.phone}</p>
                 <p>{d.specialization}</p>
                 <p>{d.qualification}</p>
@@ -180,10 +165,10 @@ function DoctorManagement({ doctors, fetchDoctors }) {
             )}
 
             <div className="doctor-actions">
-              {editingDoctorId === d._id ? (
+              {editingDoctorId === d.id ? (
                 <button
                   className="edit-btn"
-                  onClick={() => saveDoctorEdit(d._id)}
+                  onClick={() => saveDoctorEdit(d.id)}
                 >
                   Save
                 </button>
@@ -191,11 +176,10 @@ function DoctorManagement({ doctors, fetchDoctors }) {
                 <button
                   className="edit-btn"
                   onClick={() => {
-                    setEditingDoctorId(d._id);
+                    setEditingDoctorId(d.id);
 
                     setEditedDoctor({
                       name: d.name,
-                      email: d.email,
                       phone: d.phone,
                       specialization: d.specialization,
                       qualification: d.qualification,
@@ -207,10 +191,7 @@ function DoctorManagement({ doctors, fetchDoctors }) {
                 </button>
               )}
 
-              <button
-                className="delete-btn"
-                onClick={() => deleteDoctor(d._id)}
-              >
+              <button className="delete-btn" onClick={() => deleteDoctor(d.id)}>
                 Delete
               </button>
             </div>

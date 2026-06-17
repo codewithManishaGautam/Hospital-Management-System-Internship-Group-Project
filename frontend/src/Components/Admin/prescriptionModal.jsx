@@ -29,17 +29,17 @@ function PrescriptionModal({
 
         <p>
           <strong>Prescription:</strong>
-          {selectedPatient.prescription || "Not Available"}
+          {selectedPatient.prescription}
         </p>
 
         <p>
-          <strong>Tests:</strong>{" "}
-          {selectedPatient.tests?.join(", ") || "No Tests"}
+          <strong>Tests:</strong>
+          {selectedPatient.tests.join(", ")}
         </p>
 
         <p>
           <strong>Insurance:</strong>
-          {selectedPatient.insurance || "Not Available"}
+          {selectedPatient.insurance}
         </p>
 
         <p>
@@ -47,31 +47,23 @@ function PrescriptionModal({
         </p>
 
         <ul>
-          {selectedPatient.reports?.length ? (
-            selectedPatient.reports.map((report, index) => (
-              <li key={index}>{report}</li>
-            ))
-          ) : (
-            <li>No Reports</li>
-          )}
+          {selectedPatient.reports.map((report, index) => (
+            <li key={index}>{report}</li>
+          ))}
         </ul>
 
         {selectedPatient.status === "Discharged" && (
           <p>
-            <strong>Bill:</strong> {selectedPatient.bill || "Not Available"}
+            <strong>Bill:</strong> {selectedPatient.bill}
           </p>
         )}
 
         <div className="form-buttons">
-          {/* <button
+          <button
             className="save-btn"
             onClick={() => downloadPrescription(selectedPatient)}
           >
             Download
-          </button> */}
-
-          <button className="save-btn" disabled>
-            Download (Coming Soon)
           </button>
 
           <button

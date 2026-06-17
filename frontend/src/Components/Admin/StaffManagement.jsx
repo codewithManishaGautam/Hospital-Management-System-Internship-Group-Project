@@ -39,7 +39,6 @@ function StaffManagement({
             <th>ID</th>
             <th>Name</th>
             <th>Aadhaar</th>
-            <th>Email</th>
             <th>Phone</th>
             <th>Role</th>
             <th>Salary</th>
@@ -51,11 +50,11 @@ function StaffManagement({
 
         <tbody>
           {staff.map((s) => (
-            <tr key={s._id}>
-              <td>{s._id}</td>
+            <tr key={s.id}>
+              <td>{s.id}</td>
 
               <td>
-                {editingStaffId === s._id? (
+                {editingStaffId === s.id ? (
                   <input
                     type="text"
                     value={editedStaff.name}
@@ -72,7 +71,7 @@ function StaffManagement({
               </td>
 
               <td>
-                {editingStaffId === s._id? (
+                {editingStaffId === s.id ? (
                   <input
                     type="text"
                     value={editedStaff.aadhaar}
@@ -89,24 +88,7 @@ function StaffManagement({
               </td>
 
               <td>
-                {editingStaffId === s._id? (
-                  <input
-                    type="email"
-                    value={editedStaff.email}
-                    onChange={(e) =>
-                      setEditedStaff({
-                        ...editedStaff,
-                        email: e.target.value,
-                      })
-                    }
-                  />
-                ) : (
-                  s.email
-                )}
-              </td>
-
-              <td>
-                {editingStaffId === s._id? (
+                {editingStaffId === s.id ? (
                   <input
                     type="text"
                     value={editedStaff.phone}
@@ -123,7 +105,7 @@ function StaffManagement({
               </td>
 
               <td>
-                {editingStaffId === s._id? (
+                {editingStaffId === s.id ? (
                   <input
                     type="text"
                     value={editedStaff.role}
@@ -140,7 +122,7 @@ function StaffManagement({
               </td>
 
               <td>
-                {editingStaffId === s._id? (
+                {editingStaffId === s.id ? (
                   <input
                     type="text"
                     value={editedStaff.salary}
@@ -157,7 +139,7 @@ function StaffManagement({
               </td>
 
               <td>
-                {editingStaffId === s._id? (
+                {editingStaffId === s.id ? (
                   <select
                     value={editedStaff.status}
                     onChange={(e) =>
@@ -176,7 +158,7 @@ function StaffManagement({
               </td>
 
               <td>
-                {editingStaffId === s._id? (
+                {editingStaffId === s.id ? (
                   <input
                     type="date"
                     value={editedStaff.joining}
@@ -193,11 +175,11 @@ function StaffManagement({
               </td>
 
               <td>
-                {editingStaffId === s._id? (
+                {editingStaffId === s.id ? (
                   <>
                     <button
                       className="edit-btn"
-                      onClick={() => saveStaffEdit(s._id)}
+                      onClick={() => saveStaffEdit(s.id)}
                     >
                       Save
                     </button>
@@ -214,12 +196,11 @@ function StaffManagement({
                     <button
                       className="edit-btn"
                       onClick={() => {
-                        setEditingStaffId(s._id);
+                        setEditingStaffId(s.id);
 
                         setEditedStaff({
                           name: s.name,
                           aadhaar: s.aadhaar,
-                          email: s.email,
                           phone: s.phone,
                           role: s.role,
                           salary: s.salary,
@@ -233,7 +214,7 @@ function StaffManagement({
 
                     <button
                       className="delete-btn"
-                      onClick={() => deleteStaff(s._id)}
+                      onClick={() => deleteStaff(s.id)}
                     >
                       Delete
                     </button>

@@ -22,18 +22,6 @@ function AddDoctorForm({
         />
 
         <input
-          type="email"
-          placeholder="Email Address"
-          value={newDoctor.email}
-          onChange={(e) =>
-            setNewDoctor({
-              ...newDoctor,
-              email: e.target.value,
-            })
-          }
-        />
-
-        <input
           type="text"
           placeholder="Specialization"
           value={newDoctor.specialization}
