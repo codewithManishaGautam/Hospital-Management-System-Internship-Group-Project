@@ -16,7 +16,7 @@ function DeclarationFooter({
     doctorSignLabel,
     stampLabel,
     Stamp
-}) {ac
+}) {
     return (
         <div className="container mt-4">
 
