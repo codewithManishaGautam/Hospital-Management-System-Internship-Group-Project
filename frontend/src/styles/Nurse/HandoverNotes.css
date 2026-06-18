@@ -1,4 +1,4 @@
-.handoverBox{
+/* .handoverBox{
   margin-top:35px;
 }
 
@@ -9,4 +9,113 @@
   padding:12px;
   border-radius:10px;
   border:1px solid #ccc;
+} */
+
+/* मुख्य बॉक्सची स्टाईल */
+.handoverBox {
+  background-color: #ffffff;
+  border: 3px solid black;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.handoverBox h2 {
+  font-size: 1.4rem;
+  color: #333333;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+/* टेक्स्ट एरिया (टाईपिंग बॉक्स) */
+.handoverBox textarea {
+  width: 100%;
+  height: 90px;
+  padding: 12px;
+  border: 2px solid #333333;
+  border-radius: 6px;
+  font-size: 1rem;
+  resize: vertical;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.handoverBox textarea:focus {
+  border-color: #002244;
+  outline: none;
+}
+
+/* सेव्ह बटनची स्टाईल */
+.btn-save-handover {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #002244;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-save-handover:hover {
+  background-color: #002244;
+}
+
+/* जुन्या नोट्स दाखवणारा इतिहास विभाग */
+.history-section {
+  margin-top: 25px;
+  border-top: 1px solid black;
+  padding-top: 15px;
+}
+
+.history-section h3 {
+  font-size: 1.15rem;
+  color: #495057;
+  margin-bottom: 10px;
+}
+
+.no-notes {
+  color: #868e96;
+  font-style: italic;
+  font-size: 0.95rem;
+}
+
+.history-container {
+  max-height: 220px;
+  overflow-y: auto;
+  background-color: #f8f9fa;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+}
+
+/* प्रत्येक वैयक्तिक जुनी नोट */
+.history-item {
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.history-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.history-item small {
+  color: #002244;
+  font-weight: 600;
+  font-size: 0.85rem;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.history-item p {
+  margin: 0;
+  color: #495057;
+  font-size: 0.95rem;
+  line-height: 1.4;
 }

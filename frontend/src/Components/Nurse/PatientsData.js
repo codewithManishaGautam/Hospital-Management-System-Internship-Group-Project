@@ -1,7 +1,7 @@
 const patientsData = [
   {
-    id: "1001",
-    name: "Ramesh Sharma",
+     id: "1001",
+     name: "Ramesh Sharma",
     age: 45,
     gender: "Male",
     bed: "ICU Bed 1",
@@ -50,7 +50,7 @@ const patientsData = [
         notes: "Patient stable today"
       }
     ]
-  },
+   },
 
   {
     id: "1002",
