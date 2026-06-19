@@ -1,0 +1,129 @@
+Admin Module Documentation
+1. Introduction
+The Admin Module is one of the most important modules of the Hospital Management System. It provides complete administrative control over hospital operations such as doctor management, staff management, patient monitoring, and dashboard analytics.
+The Admin Panel acts as the central control system where administrators can monitor hospital activities and manage hospital resources efficiently.
+2. Objective
+The main objectives of the Admin Module are:
+• To manage hospital staff and doctors
+• To monitor patient records
+• To provide hospital statistics and analytics
+• To maintain centralized administration control
+• To improve hospital workflow management
+4. Features
+Dashboard Features
+• Total Doctors Count
+• Total Staff Count
+• Total Patients Count
+• Admitted Patients Count
+• Discharged Patients Count
+
+Staff Management
+• View all staff details
+• Add new staff
+• Edit staff information
+• Delete staff records
+Doctor Management
+• View doctor cards
+• Display specialization and experience
+• Edit doctor information
+• Delete doctor records
+Patient Monitoring (Planned)
+• View patient details
+• Track admission status
+• Monitor patient records
+Additional Features
+• Responsive Design
+• Modern UI Cards
+• Role-Based Layout Support
+• Dynamic Data Rendering using React State
+5. UI Description
+The Admin Panel contains multiple sections:
+A. Dashboard Section
+The dashboard includes statistical cards showing:
+• Total Doctors
+• Total Staff
+• Total Patients
+• Admitted Patients
+• Discharged Patients
+B. Staff Management Section
+The staff section contains:
+• Staff table
+• Staff details:
+ID 
+Name 
+Aadhaar Number 
+Phone Number 
+Role 
+Salary 
+Status 
+Joining Date 
+• Action buttons:
+Edit 
+Delete 
+Add Staff 
+C. Doctor Management Section
+The doctor section displays doctor cards containing:
+Doctor Image
+Doctor Name
+Specialization
+Qualification
+Experience
+Phone Number
+Buttons included:
+• Edit
+• Delete
+• Add Doctor
+6. Working Process
+Dashboard Workflow
+Admin logs into system 
+Dashboard loads automatically 
+System calculates: 
+Total doctors 
+Total staff 
+Total patients 
+Admitted patients 
+Discharged patients 
+Statistics are displayed dynamically using React state arrayzz
+
+Staff Management Workflow
+Admin opens Staff Management 
+Staff records are displayed in table format 
+Admin can: 
+Add staff 
+Edit details 
+Delete records 
+Doctor Management Workflow
+Admin opens Doctor Section 
+Doctor cards are displayed dynamically 
+Admin can: 
+Add doctors 
+Edit doctor information 
+Delete doctor records
+
+
+
+
+
+
+
+
+
+11. Diagram
+FlowChart Diagram:
+ 
+
+
+
+
+Data Flow Diagram:
+
+
+
+Use Case Diagram:
+
+10. Conclusion
+The module currently supports:
+Dashboard statistics
+Staff management
+Doctor management
+Patient management

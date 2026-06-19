@@ -8,7 +8,8 @@ const preAuthRoutes = require('./preAuthRoutes');
 const claimRoutes = require('./claimRoutes');
 const documentRoutes = require('./documentRoutes');
 const billingIntegrationRoutes = require('./billingIntegrationRoutes');
-// const masterDataRoutes = require('./masterDataRoutes');
+const masterDataRoutes = require('./masterDataRoutes');
+const notificationRoutes = require('./notificationRoutes');
 
 // Mount sub-routes
 router.use('/policies', policyRoutes);
@@ -17,7 +18,8 @@ router.use('/pre-auth', preAuthRoutes);
 router.use('/claims', claimRoutes);
 router.use('/documents', documentRoutes);
 router.use('/billing', billingIntegrationRoutes);
-// router.use('/master-data', masterDataRoutes);
+router.use('/master-data', masterDataRoutes);
+router.use('/notifications', notificationRoutes);
 
 // @route   GET /api/insurance/health
 // @desc    Health check endpoint for Insurance Module

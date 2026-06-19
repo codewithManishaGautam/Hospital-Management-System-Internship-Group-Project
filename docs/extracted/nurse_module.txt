@@ -1,0 +1,163 @@
+Hospital Management System – Nurse Module
+
+ Introduction
+The Nurse Module is an important part of the Hospital Management System (HMS).
+It is designed to help nurses manage patient activities digitally in a paperless environment.
+This module helps nurses to:
+Search patient records
+View patient details
+Update activity charts
+Manage medicines
+Add daily reports
+Handle shift handover
+Generate PDF reports
+Send reports to the Pharmacy Module
+The system improves hospital workflow, reduces paperwork, and increases communication between nurses and other hospital departments.
+ Objectives
+Main Objectives of Nurse Module is:
+To maintain patient records digitally
+To reduce paperwork in hospitals
+To improve nurse communication during shift changes
+To track patient activities and medicines
+To generate reports automatically
+To send prescription reports to pharmacy digitally
+ Scope of the Project
+The Nurse Module is used inside hospitals by authorized nurses only.
+The module includes:
+Patient Search
+Patient Monitoring
+Activity Chart Management
+Medicine Tracking
+Shift Handover
+PDF Report Generation
+ Users of the Module:
+User
+Role
+Nurse
+Main user of the module
+Doctor
+Provides prescriptions
+Pharmacy Staff
+Receives PDF reports
+Admin
+Monitors records
+ Features of Nurse Module
+Nurse Login
+Description
+Lab test
+The nurse logs into the system using Nurse ID and Password.
+Functions
+Secure Login
+Logout
+Authentication
+
+Dashboard
+Dashboard shows overall patient and hospital activity information.
+Dashboard Includes
+Total Patients
+ICU Patients
+Available Beds
+Emergency Alerts
+Description
+
+Patient Search
+Description
+The nurse can search patient details using UHID.
+Search Methods
+UHID
+Patient Name
+Mobile Number
+Patient Details
+Description
+After searching, patient details are displayed.
+Information Displayed:
+Patient Name
+Age
+Gender
+Doctor Name
+Disease
+Room Number
+Bed Number
+Status
+ Room & Bed Management
+Description
+Displays room allocation and bed status.
+Features
+Room Number
+Bed Number
+ICU/General Ward
+Available Beds
+Occupied Beds
+
+ Activity Chart
+Description
+The nurse records daily patient activities digitally.
+Activities
+ECG
+Oxygen
+Nebulization
+X-Ray
+Dressing
+Dialysis
+Blood Transfusion
+Physiotherapy
+Medicines Management
+Description
+The nurse checks doctor prescriptions and updates medicine status.
+Functions
+Medicine Given 
+Pending Medicines
+Dosage Tracking
+Daily Reports
+Description
+Nurses update daily patient reports.
+Reports Include
+BP
+Temperature
+Sugar Level
+Oxygen Level
+Symptoms
+Nurse Notes
+Shift Handover
+Description
+Used during nurse duty changes.
+Features
+Previous Nurse Notes
+Pending Work
+Critical Alerts
+PDF Report Generation
+Description
+The system generates patient reports in PDF format.
+PDF Includes
+Patient Details
+Medicines
+Activities
+Reports
+Notes
+Pharmacy Integration
+Generated PDF reports are sent digitally to the Pharmacy Module.
+Benefits
+Faster medicine preparation
+Reduced paperwork
+Better coordination
+📌 Workflow of Nurse Module
+Plain text
+Nurse Login
+      ↓
+Dashboard Open
+      ↓
+Search Patient by UHID
+      ↓
+View Patient Details
+      ↓
+Update Activity Chart
+      ↓
+Update Medicines
+      ↓
+Add Daily Reports
+      ↓
+Save Shift Notes
+      ↓
+Generate PDF
+      ↓
+Send PDF to Pharmacy

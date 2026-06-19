@@ -33,7 +33,9 @@ const PreAuthRequestSchema = new mongoose.Schema({
     notes: String
   }],
   documents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ClaimDocument' }],
-  submittedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+  submittedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  providerTemplateUsed: { type: String }, // e.g., "IRDAI_STANDARD", "PM_JAY"
+  providerSpecificData: { type: Map, of: mongoose.Schema.Types.Mixed } // Flexible schema for dynamic form fields
 }, { timestamps: true });
 
 module.exports = mongoose.model('PreAuthRequest', PreAuthRequestSchema);

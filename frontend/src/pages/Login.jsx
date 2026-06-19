@@ -1,99 +1,97 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { authService } from "../services/authService";
 import "./Login.css";
 
 function Login() {
   const navigate = useNavigate();
 
-  const [selectedRole, setSelectedRole] = useState("");
-  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleLogin = () => {
-    if (!selectedRole || !phone || !password) {
-      alert("Please fill all fields");
+  const handleLogin = async () => {
+    if (!email || !password) {
+      setError("Please fill all fields");
       return;
     }
 
-    switch (selectedRole) 
-    {
-      case "Receptionist":
-        navigate("/receptionist");
-        break;
-      case "Doctor":
-        navigate("/doctor");
-        break;
-      case "Lab":
-        navigate("/lab");
-        break;
-      case "Pharmacy":
-        navigate("/pharmacy");
-        break;
-      case "Nurse":
-        navigate("/nurse");
-        break;
-      case "Billing":
-        navigate("/billing");
-        break;
-      case "Insurance":
-        navigate("/insurance");
-        break;
-      case "Admin":
-        navigate("/admin");
-        break;
-      default:
-        navigate("/");
+    setLoading(true);
+    setError("");
+
+    try {
+      const result = await authService.login(email, password);
+
+      if (result.success) {
+        const role = result.data.user.role;
+        const roleRoutes = {
+          Admin: "/admin",
+          Insurance: "/insurance",
+          Receptionist: "/receptionist",
+          Doctor: "/doctor",
+          Billing: "/billing",
+          Lab: "/lab",
+          Pharmacy: "/pharmacy",
+          Nurse: "/nurse",
+        };
+
+        const route = roleRoutes[role];
+        if (route) {
+          navigate(route);
+        } else {
+          setError("Unknown role: " + role);
+        }
+      } else {
+        setError(result.message || "Login failed");
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || "Login failed. Check server connection.");
     }
 
-    console.log(selectedRole, phone, password);
-
-    // later role-based routing
-    // navigate("/dashboard");
+    setLoading(false);
   };
 
-return (
-  <div className="login-page">
+  return (
+    <div className="login-page">
+      <h1 className="hospital-title">
+        Welcome to Shraddha Hospital🏥🩺
+      </h1>
 
-    {/* OUTSIDE BOX */}
-    <h1 className="hospital-title">
-      Welcome to Shraddha Hospital🏥🩺
-    </h1>
+      <div className="center">
+        <h2>Login</h2>
 
-    {/* LOGIN BOX */}
-    <div className="center">
-      <h2>Login</h2>
+        {error && (
+          <p style={{ color: "#e74c3c", background: "#fdecea", padding: "10px", borderRadius: "4px", fontSize: "14px", marginBottom: "10px" }}>
+            {error}
+          </p>
+        )}
 
-      <select
-        value={selectedRole}
-        onChange={(e) => setSelectedRole(e.target.value)}
-      >
-        <option value="">Select Role</option>
-        <option value="Receptionist">Receptionist</option>
-        <option value="Doctor">DoctorDashboard</option>
-        <option value="Lab">Lab</option>
-        <option value="Pharmacy">Pharmacy</option>
-        <option value="Nurse">Nurse</option>
-        <option value="Billing">Billing</option>
-        <option value="Insurance">Insurance</option>
-        <option value="Admin">Admin</option>
-      </select>
+        <input
+          type="email"
+          placeholder="Enter email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-      <input
-        placeholder="Enter phone"
-        onChange={(e) => setPhone(e.target.value)}
-      />
+        <input
+          type="password"
+          placeholder="Enter Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleLogin()}
+        />
 
-      <input
-        type="password"
-        placeholder="Enter Password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
+        <button onClick={handleLogin} disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
+        </button>
 
-      <button onClick={handleLogin}>Login</button>
+        <p style={{ marginTop: "15px", fontSize: "12px", color: "#999" }}>
+          Use your role email (e.g. insurance@shraddha.com)
+        </p>
+      </div>
     </div>
-
-  </div>
-);
+  );
 }
 
 export default Login;

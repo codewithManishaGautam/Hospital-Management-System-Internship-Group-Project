@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -6,45 +7,30 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+// Import Models
+const Patient = require("./models/Patient");
+const Doctor = require("./models/Doctor");
+const Appointment = require("./models/Appointment");
+
 // Import Routes
 const insuranceRoutes = require("./routes/insurance/index");
+const authRoutes = require("./routes/authRoutes");
 
 // MongoDB Connect and server startup
 const startServer = async () => {
   try {
-    await mongoose.connect("mongodb://127.0.0.1:27017/hospitalDB");
+    await mongoose.connect(process.env.MONGODB_URI);
     console.log("MongoDB Connected");
 
-    app.listen(5000, () => {
-      console.log("Server running on port 5000");
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
     });
   } catch (err) {
     console.error("Failed to connect MongoDB:", err);
     process.exit(1);
   }
 };
-
-// ---------------- SCHEMAS ----------------
-const Patient = mongoose.model("Patient", {
-  name: String,
-  age: Number,
-  mobile: String,
-  address: String,
-  adhaar: String,
-});
-
-const Doctor = mongoose.model("Doctor", {
-  name: String,
-  specialization: String,
-  mobile: String,
-});
-
-const Appointment = mongoose.model("Appointment", {
-  patientId: String,
-  doctorId: String,
-  date: String,
-  status: { type: String, default: "pending" },
-});
 
 // ---------------- ROUTES ----------------
 
@@ -58,10 +44,14 @@ app.post("/addPatient", async (req, res, next) => {
   }
 });
 
-// Get Patients
+// Get Patients (with optional search)
 app.get("/patients", async (req, res, next) => {
   try {
-    const data = await Patient.find();
+    const { search } = req.query;
+    const query = search
+      ? { name: { $regex: search, $options: 'i' } }
+      : {};
+    const data = await Patient.find(query).limit(20);
     res.json(data);
   } catch (err) {
     next(err);
@@ -78,13 +68,13 @@ app.delete("/patients/:id", async (req, res, next) => {
   }
 });
 
+const errorHandler = require('./middleware/errorHandler');
+
 // Mount modular routes
+app.use("/api/auth", authRoutes);
 app.use("/api/insurance", insuranceRoutes);
 
 // Global error handler
-app.use((err, req, res, next) => {
-  console.error("Unhandled server error:", err);
-  res.status(500).json({ error: err.message || "Internal server error" });
-});
+app.use(errorHandler);
 
 startServer();

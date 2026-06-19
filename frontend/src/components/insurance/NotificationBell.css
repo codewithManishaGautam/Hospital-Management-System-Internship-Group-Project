@@ -1,0 +1,86 @@
+.notification-container {
+  position: relative;
+  display: inline-block;
+  margin-left: auto;
+}
+
+.bell-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #e74c3c;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.dropdown {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  width: 300px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.dropdown h4 {
+  margin: 0;
+  padding: 10px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #ddd;
+  font-size: 1rem;
+}
+
+.dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.dropdown li {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.dropdown li:hover {
+  background: #f1f2f6;
+}
+
+.dropdown li.unread {
+  background: #ebf5fb;
+  font-weight: bold;
+}
+
+.dropdown li p {
+  margin: 0 0 5px 0;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.dropdown li small {
+  color: #777;
+}
+
+.dropdown .empty {
+  padding: 15px;
+  text-align: center;
+  color: #888;
+}

@@ -1,0 +1,245 @@
+Hospital Management System (HMS) Billing Module 
+
+1. Introduction
+The Billing Module in the Hospital Management System (HMS) is designed to manage all patient-related billing activities in an organized and automated manner.
+This module integrates multiple hospital departments such as Laboratory, Pharmacy, Diagnostic, Insurance, Nursing, and Doctor Consultation into a centralized billing workflow.
+The system allows department-wise bill generation while maintaining a unified billing dashboard for the billing department.
+All generated billing PDFs are finally merged into a single document and sent to the patient via email.
+
+2. Objective of the Billing Module
+The main objectives of the billing module are:
+To automate hospital billing operations 
+To reduce manual billing errors 
+To maintain department-wise financial records 
+To generate and manage billing PDFs 
+To provide centralized billing monitoring 
+To improve patient billing transparency 
+To send consolidated billing reports digitally 
+3. Modules Involved in the Billing Workflow
+1. IPD (In-Patient Department) Module
+2. Laboratory Billing Module
+3. Diagnostic Billing Module
+4. Pharmacy Billing Module
+5. Insurance Billing Module
+6. Nurse Charges Module
+7. Doctor Charges Module
+8. Billing Dashboard Module
+9. PDF Merge & Email Module
+
+
+4. Overall Working Flow of the Billing System
+
+ 
+                           ↓            
+                           
+                           ↓
+            
+                           ↓
+
+                        
+                          ↓            
+
+                          ↓
+
+          
+                         ↓           
+
+                        ↓
+
+          
+                        ↓
+
+
+5. Detailed Workflow Explanation
+5.1 Patient Admission Process (IPD)
+When a patient is admitted to the hospital under the IPD section, the hospital staff creates a new patient entry in the HMS.
+The following details are stored:
+Patient ID 
+Patient Name 
+Age and Gender 
+Admission Date 
+Ward/Room Details 
+Insurance Information 
+Doctor Information 
+After admission, a billing account is automatically created for the patient.
+
+5.2 Daily Laboratory Billing Flow
+Doctors may prescribe various laboratory tests during the patient’s stay.
+Examples:
+Blood Test 
+Urine Test 
+CBC Test 
+Sugar Test 
+Laboratory Billing Process
+Doctor Prescribes Test
+            ↓
+Lab Test Performed
+            ↓
+Lab Bill Generated
+            ↓
+Lab PDF Created
+            ↓
+Payment Collected in Lab Department
+            ↓
+PDF Displayed on Billing Dashboard
+Important Point
+The payment for laboratory services is collected directly by the Laboratory Department, not by the central billing department.
+However, the generated laboratory PDF is shared with the billing dashboard for record management.
+5.3 Diagnostic Billing Flow
+Diagnostic services include:
+X-Ray 
+MRI Scan 
+CT Scan 
+Sonography 
+ECG 
+Diagnostic Billing Process
+Diagnostic Test Requested
+            ↓
+Diagnostic Service Performed
+            ↓
+Diagnostic Charges Calculated
+            ↓
+Diagnostic PDF Generated
+            ↓
+Payment Collected in Diagnostic Department
+            ↓
+PDF Sent to Billing Dashboard
+Important Point
+The diagnostic department manages its own payment collection process independently.
+
+5.4 Pharmacy Billing Flow
+The Pharmacy Module handles medicine distribution and medicine billing.
+Pharmacy Billing Process
+Doctor Prescribes Medicines
+            ↓
+Medicines Issued by Pharmacy
+            ↓
+Medicine Bill Generated
+            ↓
+Pharmacy PDF Created
+            ↓
+Payment Collected in Pharmacy
+            ↓
+PDF Displayed on Billing Dashboard
+Important Point
+Medicine charges are paid directly in the Pharmacy Department and not in the billing section.
+
+5.5 Insurance Billing Flow
+If the patient has medical insurance, the insurance process is initiated.
+Insurance Workflow
+Insurance Verification
+            ↓
+Approval Request Sent
+            ↓
+Insurance Claim Processed
+            ↓
+Insurance PDF Generated
+            ↓
+Insurance PDF Displayed on Billing Dashboard
+Insurance PDF Contains
+Approved Amount 
+Insurance Claim Details 
+TPA Information 
+Remaining Balance 
+
+5.6 Nurse Charges Billing Flow
+Nurses provide various patient care services such as:
+Injection Administration 
+Dressing 
+Monitoring 
+Bed Care 
+IV Fluid Management 
+Nurse Billing Process
+Nursing Services Provided
+            ↓
+Nursing Charges Added
+            ↓
+Nurse PDF Generated
+            ↓
+Charges Managed in Billing Department
+
+Important Point
+Unlike Lab or Pharmacy charges, nurse charges are collected directly by the Billing Department.
+
+5.7 Doctor Charges Billing Flow
+Doctor charges include:
+Consultation Fees 
+Daily Visit Charges 
+Follow-up Charges 
+Procedure Charges 
+Doctor Billing Workflow
+Doctor Visit Completed
+            ↓
+Doctor Charges Added
+            ↓
+Doctor PDF Generated
+            ↓
+Payment Collected in Billing Department
+
+6. Billing Dashboard Functionality
+The Billing Dashboard acts as the central billing monitoring system.
+It displays all department-wise billing PDFs related to a patient.
+Dashboard Displays
+
+The billing operator can monitor all billing activities from a single interface.
+
+7. Department-wise Payment Collection Logic
+
+8. PDF Merge Process
+All PDFs generated from different departments are merged into a single consolidated PDF document.
+PDFs Included in Merge
+Laboratory PDF 
+Pharmacy PDF 
+Diagnostic PDF 
+Insurance PDF 
+Nurse Charges PDF 
+Doctor Charges PDF 
+Merge Workflow
+Department PDFs
+        ↓
+PDF Merge Engine
+        ↓
+Single Combined PDF
+        ↓
+Final Hospital Billing Document
+This process provides the patient with a single organized billing document instead of multiple separate files.
+
+9. Email Sending Process
+After the final merged PDF is created, it is automatically sent to the patient’s registered email address.
+Email Sending Workflow
+Merged Final PDF
+        ↓
+Email Service (Nodemailer)
+        ↓
+Patient Email Address
+        ↓
+Final PDF Delivered
+
+10. Technologies Used
+Frontend Technologies
+React.js 
+Bootstrap 
+Backend Technologies
+Node.js 
+Express.js 
+Database
+MongoDB 
+PDF Handling
+jsPDF 
+pdf-lib 
+Email Integration
+Nodemailer 
+
+11. Advantages of This Billing System
+Centralized billing management 
+Department-wise independent billing 
+Reduced manual errors 
+Faster patient discharge process 
+Better billing transparency 
+Digital PDF document management 
+Easy email-based billing communication 
+Improved hospital workflow efficiency 
+12. Conclusion
+The HMS Billing Module provides a centralized and efficient billing management solution for hospitals.
+Different departments independently manage their own charges and billing activities, while all generated billing documents are integrated into a centralized billing dashboard.
+The final merged PDF system improves document organization and enhances the patient experience by providing a single comprehensive billing document via email.

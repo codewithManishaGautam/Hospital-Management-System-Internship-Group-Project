@@ -1,0 +1,86 @@
+[
+  {
+    "file": "01_system_architecture",
+    "section": "6.1 HMS Full System Architecture",
+    "png": "C:\\Dev\\HMS-Team-Project\\Hospital-Management-System-Internship-Group-Project\\docs\\insurance-module\\diagrams\\01_system_architecture.png",
+    "format": "png"
+  },
+  {
+    "file": "02_insurance_architecture",
+    "section": "6.2 Insurance Module Architecture",
+    "png": "C:\\Dev\\HMS-Team-Project\\Hospital-Management-System-Internship-Group-Project\\docs\\insurance-module\\diagrams\\02_insurance_architecture.png",
+    "format": "png"
+  },
+  {
+    "file": "03_er_diagram",
+    "section": "8. Entity Relationship Diagram",
+    "png": "C:\\Dev\\HMS-Team-Project\\Hospital-Management-System-Internship-Group-Project\\docs\\insurance-module\\diagrams\\03_er_diagram.png",
+    "format": "png"
+  },
+  {
+    "file": "13_frontend_hierarchy",
+    "section": "10.1 Main Insurance Page (`Insurance.jsx`)",
+    "png": "C:\\Dev\\HMS-Team-Project\\Hospital-Management-System-Internship-Group-Project\\docs\\insurance-module\\diagrams\\13_frontend_hierarchy.png",
+    "format": "png"
+  },
+  {
+    "file": "09_flowchart_policy",
+    "section": "11.1 Policy & Scheme Registration Flow",
+    "png": "C:\\Dev\\HMS-Team-Project\\Hospital-Management-System-Internship-Group-Project\\docs\\insurance-module\\diagrams\\09_flowchart_policy.png",
+    "format": "png"
+  },
+  {
+    "file": "10_flowchart_preauth",
+    "section": "11.2 Pre-Authorization Workflow",
+    "png": "C:\\Dev\\HMS-Team-Project\\Hospital-Management-System-Internship-Group-Project\\docs\\insurance-module\\diagrams\\10_flowchart_preauth.png",
+    "format": "png"
+  },
+  {
+    "file": "11_flowchart_claims",
+    "section": "11.3 Claims Workflow",
+    "png": "C:\\Dev\\HMS-Team-Project\\Hospital-Management-System-Internship-Group-Project\\docs\\insurance-module\\diagrams\\11_flowchart_claims.png",
+    "format": "png"
+  },
+  {
+    "file": "12_flowchart_billing",
+    "section": "11.4 Billing Integration Flow",
+    "png": "C:\\Dev\\HMS-Team-Project\\Hospital-Management-System-Internship-Group-Project\\docs\\insurance-module\\diagrams\\12_flowchart_billing.png",
+    "format": "png"
+  },
+  {
+    "file": "diagram_09",
+    "section": "12.2 Data Flow Diagram (DFD)",
+    "png": "C:\\Dev\\HMS-Team-Project\\Hospital-Management-System-Internship-Group-Project\\docs\\insurance-module\\diagrams\\diagram_09.png",
+    "format": "png"
+  },
+  {
+    "file": "diagram_10",
+    "section": "12.2 Data Flow Diagram (DFD)",
+    "png": "C:\\Dev\\HMS-Team-Project\\Hospital-Management-System-Internship-Group-Project\\docs\\insurance-module\\diagrams\\diagram_10.png",
+    "format": "png"
+  },
+  {
+    "file": "diagram_11",
+    "section": "12.3 Use Case Diagram",
+    "png": "C:\\Dev\\HMS-Team-Project\\Hospital-Management-System-Internship-Group-Project\\docs\\insurance-module\\diagrams\\diagram_11.png",
+    "format": "png"
+  },
+  {
+    "file": "07_sequence_preauth",
+    "section": "12.4 Sequence Diagram \u2014 Pre-Authorization Flow",
+    "png": "C:\\Dev\\HMS-Team-Project\\Hospital-Management-System-Internship-Group-Project\\docs\\insurance-module\\diagrams\\07_sequence_preauth.png",
+    "format": "png"
+  },
+  {
+    "file": "08_sequence_claims",
+    "section": "12.5 Sequence Diagram \u2014 Claim Processing Flow",
+    "png": "C:\\Dev\\HMS-Team-Project\\Hospital-Management-System-Internship-Group-Project\\docs\\insurance-module\\diagrams\\08_sequence_claims.png",
+    "format": "png"
+  },
+  {
+    "file": "14_module_interaction",
+    "section": "12.6 Module Interaction Diagram",
+    "png": "C:\\Dev\\HMS-Team-Project\\Hospital-Management-System-Internship-Group-Project\\docs\\insurance-module\\diagrams\\14_module_interaction.png",
+    "format": "png"
+  }
+]

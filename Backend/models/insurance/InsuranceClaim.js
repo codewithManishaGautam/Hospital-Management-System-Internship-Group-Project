@@ -51,7 +51,9 @@ const InsuranceClaimSchema = new mongoose.Schema({
     insuranceCardCopy: { type: Boolean, default: false },
     idProof: { type: Boolean, default: false }
   },
-  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  providerTemplateUsed: { type: String },
+  providerSpecificData: { type: Map, of: mongoose.Schema.Types.Mixed }
 }, { timestamps: true });
 
 module.exports = mongoose.model('InsuranceClaim', InsuranceClaimSchema);

@@ -13,7 +13,7 @@ const ClaimDocumentSchema = new mongoose.Schema({
   filePath: { type: String, required: true },
   fileSize: { type: Number },
   mimeType: { type: String, enum: ['application/pdf', 'image/jpeg', 'image/png'] },
-  uploadedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  uploadedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   isDeleted: { type: Boolean, default: false },
   deletedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   deletedAt: { type: Date }

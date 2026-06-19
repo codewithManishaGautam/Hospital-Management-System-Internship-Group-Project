@@ -10,20 +10,21 @@ import NurseDashboard from "./pages/Nurse";
 import BillingDashboard from "./pages/Billing";
 import InsuranceDashboard from "./pages/Insurance";
 import AdminDashboard from "./pages/Admin";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LoginDashboard />} />
-        <Route path="/receptionist" element={<ReceptionistDashboard />} />
-        <Route path="/doctor" element={<DoctorDashboard />} />
-        <Route path="/lab" element={<LabDashboard />} />
-        <Route path="/pharmacy" element={<PharmacyDashboard />} />
-        <Route path="/nurse" element={<NurseDashboard />} />
-        <Route path="/billing" element={<BillingDashboard />} />
-        <Route path="/insurance" element={<InsuranceDashboard />} />
-        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/receptionist" element={<PrivateRoute><ReceptionistDashboard /></PrivateRoute>} />
+        <Route path="/doctor" element={<PrivateRoute><DoctorDashboard /></PrivateRoute>} />
+        <Route path="/lab" element={<PrivateRoute><LabDashboard /></PrivateRoute>} />
+        <Route path="/pharmacy" element={<PrivateRoute><PharmacyDashboard /></PrivateRoute>} />
+        <Route path="/nurse" element={<PrivateRoute><NurseDashboard /></PrivateRoute>} />
+        <Route path="/billing" element={<PrivateRoute><BillingDashboard /></PrivateRoute>} />
+        <Route path="/insurance" element={<PrivateRoute><InsuranceDashboard /></PrivateRoute>} />
+        <Route path="/admin" element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />
       </Routes>
     </BrowserRouter>
   );
