@@ -11,7 +11,7 @@
   border:1px solid #ccc;
 } */
 
-/* मुख्य बॉक्सची स्टाईल */
+
 .handoverBox {
   background-color: #ffffff;
   border: 3px solid black;
@@ -28,7 +28,6 @@
   font-weight: 600;
 }
 
-/* टेक्स्ट एरिया (टाईपिंग बॉक्स) */
 .handoverBox textarea {
   width: 100%;
   height: 90px;
@@ -46,7 +45,7 @@
   outline: none;
 }
 
-/* सेव्ह बटनची स्टाईल */
+
 .btn-save-handover {
   margin-top: 10px;
   padding: 10px 20px;
@@ -64,7 +63,7 @@
   background-color: #002244;
 }
 
-/* जुन्या नोट्स दाखवणारा इतिहास विभाग */
+
 .history-section {
   margin-top: 25px;
   border-top: 1px solid black;
@@ -92,7 +91,7 @@
   border: 1px solid #e9ecef;
 }
 
-/* प्रत्येक वैयक्तिक जुनी नोट */
+
 .history-item {
   border-bottom: 1px solid #e9ecef;
   padding-bottom: 10px;
