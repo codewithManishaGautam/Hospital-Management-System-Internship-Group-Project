@@ -1,0 +1,32 @@
+@import url('./doctorCommon.css');
+
+.doctor-panel__toolbar{margin:10px 0 14px 0;}
+
+doctor-filter{display:flex;align-items:flex-end;gap:10px;}
+.doctor-filter__label{display:block;font-size:12px;color:var(--doctor-muted);font-weight:900;margin-bottom:6px;}
+.doctor-filter__select{
+  padding:10px 12px;border-radius:12px;border:1px solid var(--doctor-border);
+  background:#fff;outline:none;font-weight:700;
+}
+.doctor-filter__select:focus{border-color:rgba(37,99,235,.5);box-shadow:0 0 0 3px rgba(37,99,235,.15);}
+
+.doctor-table__action .doctor-btn{width:auto;}
+
+.doctor-inline-actions{display:flex;gap:8px;flex-wrap:wrap;}
+
+.doctor-modal .doctor-patient-summary{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;}
+.doctor-modal .doctor-patient-summary__left{display:flex;gap:16px;flex-wrap:wrap;}
+.doctor-modal .doctor-patient-summary__right{flex:0 0 auto;}
+
+.doctor-history{margin-top:8px;}
+.doctor-history__title{font-weight:900;color:var(--doctor-text);margin-bottom:10px;}
+.doctor-history__list{display:flex;flex-direction:column;gap:10px;}
+.doctor-history-item{border:1px solid #eef2f7;border-radius:12px;padding:12px;background:#fff;}
+.doctor-history-item__date{font-weight:900;color:#334155;font-size:13px;margin-bottom:4px;}
+.doctor-history-item__desc{color:var(--doctor-muted);font-weight:700;font-size:13px;margin-bottom:6px;}
+.doctor-history-item__treat{color:#0f172a;font-weight:800;font-size:13px;}
+
+@media (max-width: 560px){
+  .doctor-modal .doctor-patient-summary{flex-direction:column;}
+}
+

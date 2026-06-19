@@ -1,5 +1,9 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
 
 import LoginDashboard from "./pages/Login";
 import ReceptionistDashboard from "./pages/Receptionist";
@@ -12,9 +16,54 @@ import InsuranceDashboard from "./pages/Insurance";
 import AdminDashboard from "./pages/Admin";
 import PrivateRoute from "./components/PrivateRoute";
 
+
+
+
+// import BillingDept from "./components/Billing_Module/BillingDept";
+// import PatientDetail from "./components/Billing_Module/PatientDetail";
+// import ReceptionDept from "./components/ReceptionDept";
+// import SignaturePad from "./components/SignaturePad";
+
+// import AddDiagnostic
+// from "./components/Diagnostic_Module/AddDiagnostic";
+// import PICCEng from "./components/ConcernForm_Module/Routine_Consents/PICC/PICCEng";
+
+
+
+
+
 function App() {
   return (
+
+
+
+    // <AddDiagnostic />
+
+
+
+    //   <Routes>
+
+    //     <Route
+    //       path="/"
+    //       element={<BillingDept>
+
+    //       </BillingDept>}
+    //     />
+
+        
+
+    //     <Route
+    //       path="/patient/:id"
+    //       element={<PatientDetail />}
+    //     />
+
+    //   </Routes>
+
+
+
+
     <BrowserRouter>
+
       <Routes>
         <Route path="/" element={<LoginDashboard />} />
         <Route path="/receptionist" element={<PrivateRoute><ReceptionistDashboard /></PrivateRoute>} />

@@ -1,0 +1,67 @@
+.addDayBtn{
+  margin-top:20px;
+  padding:12px 20px;
+  background:#16a34a;
+  color:white;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.chartContainer{
+  overflow-x:auto;
+  margin-top:25px;
+}
+
+.activityTable{
+  min-width:1500px;
+  width:100%;
+  border-collapse:collapse;
+}
+
+.activityTable th{
+  background:#0284c7;
+  color:white;
+  padding:12px;
+}
+
+.activityTable td{
+  border:1px solid #ddd;
+  padding:10px;
+  text-align:center;
+}
+
+.section td{
+  background:#dbeafe;
+  font-weight:bold;
+}
+
+.btns{
+  display:flex;
+  gap:18px;
+  margin-top:30px;
+}
+
+.pdfBtn,
+.pharmacyBtn,
+.billingBtn{
+  padding:14px 24px;
+  border:none;
+  border-radius:12px;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.pdfBtn{
+  background:#9333ea;
+}
+
+.pharmacyBtn{
+  background:#16a34a;
+}
+
+.billingBtn{
+  background:#ea580c;
+}

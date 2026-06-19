@@ -1,0 +1,21 @@
+.status-admitted {
+  background: #dcfce7;
+  color: #15803d;
+  padding: 8px 16px;
+  border-radius: 10px;
+}
+
+.status-discharged {
+  background: #fef3c7;
+  color: #b45309;
+  padding: 8px 16px;
+  border-radius: 10px;
+}
+
+.view-btn {
+  background: linear-gradient(135deg, #0ea5e9, #2563eb);
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+}
