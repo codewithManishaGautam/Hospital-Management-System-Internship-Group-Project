@@ -1,7 +1,7 @@
 .addDayBtn{
   margin-top:20px;
   padding:12px 20px;
-  background:#16a34a;
+  background:#0b2447;
   color:white;
   border:none;
   border-radius:10px;
@@ -20,7 +20,7 @@
 }
 
 .activityTable th{
-  background:#0284c7;
+  background:#0b2447;
   color:white;
   padding:12px;
 }
@@ -55,13 +55,13 @@
 }
 
 .pdfBtn{
-  background:#9333ea;
+  background:#0b2447;
 }
 
 .pharmacyBtn{
-  background:#16a34a;
+  background:#0b2447;
 }
 
 .billingBtn{
-  background:#ea580c;
+  background:#0b2447;
 }
