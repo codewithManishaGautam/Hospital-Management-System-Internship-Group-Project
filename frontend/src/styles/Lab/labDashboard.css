@@ -1,0 +1,102 @@
+.labDash{
+  width:100%;
+}
+
+.labDash__header{
+  display:flex;
+  gap:16px;
+  align-items:center;
+  justify-content:space-between;
+  background:#fff;
+  padding:16px 18px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(15,23,42,.08);
+  margin-bottom:16px;
+}
+
+.labDash__title{
+  margin:0;
+  font-size:20px;
+  color:#0f172a;
+}
+
+.labDash__search input{
+  padding:10px 12px;
+  width:320px;
+  max-width:50vw;
+  border:1px solid #cbd5e1;
+  border-radius:10px;
+  outline:none;
+}
+
+.labDash__search input:focus{
+  border-color:#2563eb;
+  box-shadow:0 0 0 3px rgba(37,99,235,.15);
+}
+
+.labDash__tableWrap{
+  background:#fff;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 6px 20px rgba(15,23,42,.08);
+}
+
+.labDash__table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.labDash__table th,
+.labDash__table td{
+  padding:12px 14px;
+  text-align:left;
+  border-bottom:1px solid #eef2f7;
+  font-size:14px;
+  color:#0f172a;
+}
+
+.labDash__table th{
+  background:#f8fafc;
+  font-weight:700;
+}
+
+.labDash__empty{
+  text-align:center !important;
+  padding:18px 14px !important;
+  color:#64748b;
+}
+
+.pill{
+  display:inline-flex;
+  align-items:center;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700;
+  border:1px solid transparent;
+}
+
+.pill--ok{
+  background:rgba(34,197,94,.12);
+  border-color:rgba(34,197,94,.3);
+  color:#15803d;
+}
+
+.pill--progress{
+  background:rgba(59,130,246,.12);
+  border-color:rgba(59,130,246,.3);
+  color:#1d4ed8;
+}
+
+.pill--pending{
+  background:rgba(245,158,11,.14);
+  border-color:rgba(245,158,11,.35);
+  color:#b45309;
+}
+
+.labDash__hint{
+  margin-top:12px;
+  color:#64748b;
+  font-size:12px;
+}
+
