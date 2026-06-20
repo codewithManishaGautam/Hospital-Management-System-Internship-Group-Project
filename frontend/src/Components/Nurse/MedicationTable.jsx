@@ -51,7 +51,7 @@ export default function MedicationTable({
 
       </table>
 
-      <div className="notesBox">
+      {/* <div className="notesBox">
 
         <h2>Nurse Observing Notes</h2>
 
@@ -59,7 +59,7 @@ export default function MedicationTable({
           placeholder="Enter Observing Notes"
         ></textarea>
 
-      </div>
+      </div> */}
 
     </div>
   );
