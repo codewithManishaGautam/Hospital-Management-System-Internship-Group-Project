@@ -15,7 +15,7 @@ function Layout({ role, children, setStep }) {
           <h3>{role}</h3>
         </div>
 
-        {/* Receptionist */}
+        Receptionist
         {role === "Receptionist" && (
           <button onClick={() => setStep("register")}>Register Patient</button>
         )}
