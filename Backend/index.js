@@ -40,6 +40,19 @@ app.use(express.json());
 
 // //  Code Before changes :
 
+// Doctor/Receptionist appointment listing (simple placeholder)
+// Note: This project currently has no dedicated appointment collection.
+// The endpoint is added so Doctor.jsx “Appointments” section can be populated.
+app.get('/api/doctor/upcoming-appointments', (req, res) => {
+  // In future, this should query appointments stored by Receptionist module.
+  return res.json({
+    message: 'Upcoming appointments',
+    data: global.__receptionistAppointments || [],
+  });
+});
+
+
+
 // app.get("/", (req, res) => {
 //   res.send("Hospital Management Backend Running");
 // });
