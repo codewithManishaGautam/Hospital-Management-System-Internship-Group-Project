@@ -58,11 +58,11 @@ function PatientManagement({
 
         <tbody>
           {patients.map((p) => (
-            <tr key={p.id}>
-              <td>{p.id}</td>
+            <tr key={p._id}>
+              <td>{p._id}</td>
 
               <td>
-                {editingPatientId === p.id ? (
+                {editingPatientId === p._id ? (
                   <input
                     value={editedPatient.name}
                     onChange={(e) =>
@@ -78,7 +78,7 @@ function PatientManagement({
               </td>
 
               <td>
-                {editingPatientId === p.id ? (
+                {editingPatientId === p._id ? (
                   <input
                     type="number"
                     value={editedPatient.age}
@@ -95,7 +95,7 @@ function PatientManagement({
               </td>
 
               <td>
-                {editingPatientId === p.id ? (
+                {editingPatientId === p._id ? (
                   <select
                     value={editedPatient.gender}
                     onChange={(e) =>
@@ -114,7 +114,7 @@ function PatientManagement({
               </td>
 
               <td>
-                {editingPatientId === p.id ? (
+                {editingPatientId === p._id ? (
                   <input
                     value={editedPatient.phone}
                     onChange={(e) =>
@@ -129,7 +129,7 @@ function PatientManagement({
                 )}
               </td>
               <td>
-                {editingPatientId === p.id ? (
+                {editingPatientId === p._id ? (
                   <input
                     value={editedPatient.disease}
                     onChange={(e) =>
@@ -144,7 +144,7 @@ function PatientManagement({
                 )}
               </td>
               <td>
-                {editingPatientId === p.id ? (
+                {editingPatientId === p._id ? (
                   <input
                     value={editedPatient.doctor}
                     onChange={(e) =>
@@ -159,7 +159,7 @@ function PatientManagement({
                 )}
               </td>
               <td>
-                {editingPatientId === p.id ? (
+                {editingPatientId === p._id ? (
                   <input
                     type="date"
                     value={editedPatient.admission}
@@ -176,7 +176,7 @@ function PatientManagement({
               </td>
 
               <td>
-                {editingPatientId === p.id ? (
+                {editingPatientId === p._id ? (
                   <select
                     value={editedPatient.status}
                     onChange={(e) =>
@@ -215,11 +215,11 @@ function PatientManagement({
               </td>
 
               <td className="action-cell">
-                {editingPatientId === p.id ? (
+                {editingPatientId === p._id ? (
                   <>
                     <button
                       className="edit-btn"
-                      onClick={() => savePatientEdit(p.id)}
+                      onClick={() => savePatientEdit(p._id)}
                     >
                       Save
                     </button>
@@ -236,8 +236,17 @@ function PatientManagement({
                     <button
                       className="edit-btn"
                       onClick={() => {
-                        setEditingPatientId(p.id);
-                        setEditedPatient(p);
+                        setEditingPatientId(p._id);
+                        setEditedPatient({
+                          name: p.name || "",
+                          age: p.age || "",
+                          gender: p.gender || "",
+                          phone: p.phone || "",
+                          disease: p.disease || "",
+                          doctor: p.doctor || "",
+                          admission: p.admission || "",
+                          status: p.status || "",
+                        });
                       }}
                     >
                       Edit
@@ -245,7 +254,7 @@ function PatientManagement({
 
                     <button
                       className="delete-btn"
-                      onClick={() => deletePatient(p.id)}
+                      onClick={() => deletePatient(p._id)}
                     >
                       Delete
                     </button>

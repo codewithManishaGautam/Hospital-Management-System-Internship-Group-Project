@@ -1,55 +1,44 @@
-
-
-
-
-
-
 require("dotenv").config();
 
-const express =
-require("express");
+const connectDB = require("./config/db");
+const Patient = require("./models/Patient");
 
-const mongoose =
-require("mongoose");
+console.log("ENV URL =", process.env.MONGO_URL);
+connectDB();
 
-const cors =
-require("cors");
+// mongoose.connection.once("open", () => {
+//   console.log("Connected DB:", mongoose.connection.db.databaseName);
+// });
 
-const multer =
-require("multer");
+const express = require("express");
 
-const nodemailer =
-require("nodemailer");
+const mongoose = require("mongoose");
 
-const fs =
-require("fs");
+const cors = require("cors");
 
-const path =
-require("path");
+const multer = require("multer");
 
-const PDFDocument =
-require("pdfkit");
+const nodemailer = require("nodemailer");
 
-const mergePDFs =
-require("./mergePdf");
+const fs = require("fs");
 
-const Diagnostic =
-require("./models/Diagnostic");
+const path = require("path");
 
-const Bill =
-require("./models/Bill");
+const PDFDocument = require("pdfkit");
 
+const mergePDFs = require("./mergePdf");
 
-const app =
-express();
+const Diagnostic = require("./models/Diagnostic");
+
+const Bill = require("./models/Bill");
+
+const app = express();
 
 app.use(cors());
 
 app.use(express.json());
 
-
-
-// //  Code Before changes : 
+// //  Code Before changes :
 
 // app.get("/", (req, res) => {
 //   res.send("Hospital Management Backend Running");
@@ -57,883 +46,523 @@ app.use(express.json());
 
 // const PORT = 5000;
 
-
 // const patientRoutes = require("./routes/patientRoutes");
 // app.use("/api/patient", patientRoutes);
 
-// const adminRoutes = require("./routes/adminRoutes");
-// app.use("/api/admin", adminRoutes);
+const adminRoutes = require("./routes/adminRoutes");
+app.use("/api/admin", adminRoutes);
 
 // // Doctor routes
 // const doctorRoutes = require("./routes/doctorRoutes");
 // app.use("/api", doctorRoutes);
 
-
-
-
-
-
-
 // ======================
 // MongoDB
 // ======================
 
-mongoose.connect(
-
- "mongodb://127.0.0.1:27017/patientdb"
-
-)
-
-.then(() =>
-
- console.log(
-   "MongoDB Connected"
- )
-
-)
-
-.catch((error) => {
-
- console.log(error);
-
-});
-
+// connectDB();
 
 // ======================
 // Patient Schema
 // ======================
 
-const PatientSchema =
-new mongoose.Schema({
+// const PatientSchema = new mongoose.Schema({
+//   name: String,
 
- name: String,
+//   age: Number,
 
- age: Number,
+//   gender: String,
+// });
 
- gender: String
+// const Patient = mongoose.model(
+//   "Patient",
 
-});
-
-const Patient =
-mongoose.model(
-
- "Patient",
-
- PatientSchema
-
-);
-
+//   PatientSchema,
+// );
 
 // ======================
 // Create Folders
 // ======================
 
-if (
-
- !fs.existsSync("uploads")
-
-) {
-
- fs.mkdirSync("uploads");
-
+if (!fs.existsSync("uploads")) {
+  fs.mkdirSync("uploads");
 }
 
-if (
-
- !fs.existsSync("generated")
-
-) {
-
- fs.mkdirSync("generated");
-
+if (!fs.existsSync("generated")) {
+  fs.mkdirSync("generated");
 }
-
 
 // ======================
 // Static Folders
 // ======================
 
 app.use(
+  "/uploads",
 
- "/uploads",
-
- express.static(
-
-   path.join(
-     __dirname,
-     "uploads"
-   )
-
- )
-
+  express.static(path.join(__dirname, "uploads")),
 );
 
 app.use(
+  "/generated",
 
- "/generated",
-
- express.static(
-
-   path.join(
-     __dirname,
-     "generated"
-   )
-
- )
-
+  express.static(path.join(__dirname, "generated")),
 );
-
 
 // ======================
 // Multer
 // ======================
 
-const storage =
-multer.diskStorage({
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
 
- destination:
+  filename: (req, file, cb) => {
+    cb(
+      null,
 
- (req, file, cb) => {
-
-   cb(
-     null,
-     "uploads/"
-   );
-
- },
-
- filename:
-
- (req, file, cb) => {
-
-   cb(
-
-     null,
-
-     Date.now()
-
-     +
-
-     "_" +
-
-     file.originalname
-
-   );
-
- }
-
+      Date.now() + "_" + file.originalname,
+    );
+  },
 });
 
-const upload =
-multer({ storage });
-
+const upload = multer({ storage });
 
 // ======================
 // Nodemailer
 // ======================
 
-const transporter =
+const transporter = nodemailer.createTransport({
+  service: "gmail",
 
-nodemailer.createTransport({
+  auth: {
+    user: process.env.EMAIL_USER,
 
- service: "gmail",
-
- auth: {
-
-   user:
-   process.env.EMAIL_USER,
-
-   pass:
-   process.env.EMAIL_PASS
-
- }
-
+    pass: process.env.EMAIL_PASS,
+  },
 });
-
 
 // ======================
 // Verify Email
 // ======================
 
-transporter.verify(
-
- (error, success) => {
-
-   if (error) {
-
-     console.log(error);
-
-   }
-
-   else {
-
-     console.log(
-       "Email Server Ready"
-     );
-
-   }
-
- }
-
-);
-
+transporter.verify((error, success) => {
+  if (error) {
+    console.log(error);
+  } else {
+    console.log("Email Server Ready");
+  }
+});
 
 // ======================
 // Add Patient
 // ======================
 
 app.post(
+  "/add",
 
- "/add",
+  async (req, res) => {
+    try {
+      const patient = new Patient(req.body);
 
- async (req, res) => {
+      await patient.save();
 
-   try {
+      res.json({
+        success: true,
 
-     const patient =
-
-     new Patient(req.body);
-
-     await patient.save();
-
-     res.json({
-
-       success: true,
-
-       message:
-       "Patient Added"
-
-     });
-
-   }
-
-   catch (error) {
-
-     console.log(error);
-
-   }
-
- }
-
+        message: "Patient Added",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  },
 );
-
 
 // ======================
 // Get All Patients
 // ======================
 
 app.get(
+  "/patients",
 
- "/patients",
+  async (req, res) => {
+    const data = await Patient.find();
 
- async (req, res) => {
-
-   const data =
-
-   await Patient.find();
-
-   res.json(data);
-
- }
-
+    res.json(data);
+  },
 );
-
 
 // ======================
 // Get Single Patient
 // ======================
 
 app.get(
+  "/patient/:id",
 
- "/patient/:id",
+  async (req, res) => {
+    const data = await Patient.findById(req.params.id);
 
- async (req, res) => {
-
-   const data =
-
-   await Patient.findById(
-
-     req.params.id
-
-   );
-
-   res.json(data);
-
- }
-
+    res.json(data);
+  },
 );
-
 
 // ======================
 // Delete Patient
 // ======================
 
 app.delete(
+  "/delete-patient/:id",
 
- "/delete-patient/:id",
+  async (req, res) => {
+    try {
+      await Patient.findByIdAndDelete(req.params.id);
 
- async (req, res) => {
+      res.json({
+        success: true,
 
-   try {
-
-     await Patient.findByIdAndDelete(
-
-       req.params.id
-
-     );
-
-     res.json({
-
-       success: true,
-
-       message:
-       "Patient Deleted"
-
-     });
-
-   }
-
-   catch (error) {
-
-     console.log(error);
-
-   }
-
- }
-
+        message: "Patient Deleted",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  },
 );
-
 
 // ======================
 // Add Diagnostic
 // ======================
 
 app.post(
+  "/add-diagnostic",
 
- "/add-diagnostic",
+  upload.single("image"),
 
- upload.single("image"),
+  async (req, res) => {
+    try {
+      const {
+        patientId,
 
- async (req, res) => {
+        patientName,
 
-   try {
+        age,
 
-     const {
+        gender,
 
-       patientId,
+        doctorName,
 
-       patientName,
+        scanName,
 
-       age,
+        findings,
 
-       gender,
+        impression,
 
-       doctorName,
+        amount,
 
-       scanName,
+        paymentStatus,
 
-       findings,
+        email,
+      } = req.body;
 
-       impression,
+      // Image Path
+      const imagePath = req.file.path.replace(
+        /\\/g,
 
-       amount,
+        "/",
+      );
 
-       paymentStatus,
+      // PDF Name
+      const pdfName = `Diagnostic_${Date.now()}.pdf`;
 
-       email
+      const pdfPath = `generated/${pdfName}`;
 
-     }
+      // Create PDF
+      const doc = new PDFDocument({
+        margin: 50,
+      });
 
-     = req.body;
+      doc.pipe(fs.createWriteStream(pdfPath));
 
+      // PDF Title
+      doc
 
-     // Image Path
-     const imagePath =
+        .fontSize(22)
 
-     req.file.path.replace(
+        .text(
+          "Diagnostic Report",
 
-       /\\/g,
+          {
+            align: "center",
+          },
+        );
 
-       "/"
+      doc.moveDown();
 
-     );
+      // Patient Details
+      doc.fontSize(14);
 
+      doc.text(`Patient Name: ${patientName}`);
 
-     // PDF Name
-     const pdfName =
+      doc.text(`Age: ${age}`);
 
-     `Diagnostic_${Date.now()}.pdf`;
+      doc.text(`Gender: ${gender}`);
 
-     const pdfPath =
+      doc.text(`Doctor Name: ${doctorName}`);
 
-     `generated/${pdfName}`;
+      doc.text(`Scan Name: ${scanName}`);
 
+      doc.moveDown();
 
-     // Create PDF
-     const doc =
+      // Findings
+      doc.fontSize(16).text("Findings");
 
-     new PDFDocument({
+      doc.fontSize(12).text(findings);
 
-       margin: 50
+      doc.moveDown();
 
-     });
+      // Impression
+      doc.fontSize(16).text("Impression");
 
-     doc.pipe(
+      doc.fontSize(12).text(impression);
 
-       fs.createWriteStream(
-         pdfPath
-       )
+      doc.moveDown();
 
-     );
+      // Billing
+      doc.text(`Amount: ₹${amount}`);
 
+      doc.text(`Payment Status: ${paymentStatus}`);
 
-     // PDF Title
-     doc
+      doc.moveDown();
 
-     .fontSize(22)
+      // Image
+      doc.fontSize(16).text("Diagnostic Image");
 
-     .text(
+      doc.moveDown();
 
-       "Diagnostic Report",
+      doc.image(
+        imagePath,
 
-       {
+        {
+          width: 300,
 
-         align: "center"
+          align: "center",
+        },
+      );
 
-       }
+      // Footer
+      doc.moveDown();
 
-     );
+      doc
+        .fontSize(10)
 
-     doc.moveDown();
+        .text(
+          "Generated By HMS",
 
+          {
+            align: "center",
+          },
+        );
 
-     // Patient Details
-     doc.fontSize(14);
+      // End PDF
+      doc.end();
 
-     doc.text(`Patient Name: ${patientName}`);
+      // Save MongoDB
+      const diagnostic = new Diagnostic({
+        patientId,
 
-     doc.text(`Age: ${age}`);
+        patientName,
 
-     doc.text(`Gender: ${gender}`);
+        age,
 
-     doc.text(`Doctor Name: ${doctorName}`);
+        gender,
 
-     doc.text(`Scan Name: ${scanName}`);
+        doctorName,
 
-     doc.moveDown();
+        scanName,
 
+        findings,
 
-     // Findings
-     doc.fontSize(16).text("Findings");
+        impression,
 
-     doc.fontSize(12).text(findings);
+        amount,
 
-     doc.moveDown();
+        paymentStatus,
 
+        imagePath,
 
-     // Impression
-     doc.fontSize(16).text("Impression");
+        pdfPath,
+      });
 
-     doc.fontSize(12).text(impression);
+      await diagnostic.save();
 
-     doc.moveDown();
+      // Send Email
+      const mailOptions = {
+        from: process.env.EMAIL_USER,
 
+        to: email,
 
-     // Billing
-     doc.text(`Amount: ₹${amount}`);
+        subject: "Diagnostic Report",
 
-     doc.text(`Payment Status: ${paymentStatus}`);
+        text: "Your diagnostic report attached.",
 
-     doc.moveDown();
+        attachments: [
+          {
+            filename: pdfName,
 
+            path: path.join(__dirname, pdfPath),
+          },
+        ],
+      };
 
-     // Image
-     doc.fontSize(16).text("Diagnostic Image");
+      transporter.sendMail(
+        mailOptions,
 
-     doc.moveDown();
+        (error, info) => {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log(info.response);
+          }
+        },
+      );
 
-     doc.image(
+      // Response
+      res.json({
+        success: true,
 
-       imagePath,
+        message: "Diagnostic Added",
 
-       {
-
-         width: 300,
-
-         align: "center"
-
-       }
-
-     );
-
-
-     // Footer
-     doc.moveDown();
-
-     doc.fontSize(10)
-
-     .text(
-
-       "Generated By HMS",
-
-       {
-
-         align: "center"
-
-       }
-
-     );
-
-
-     // End PDF
-     doc.end();
-
-
-     // Save MongoDB
-     const diagnostic =
-
-     new Diagnostic({
-
-       patientId,
-
-       patientName,
-
-       age,
-
-       gender,
-
-       doctorName,
-
-       scanName,
-
-       findings,
-
-       impression,
-
-       amount,
-
-       paymentStatus,
-
-       imagePath,
-
-       pdfPath
-
-     });
-
-     await diagnostic.save();
-
-
-     // Send Email
-     const mailOptions = {
-
-       from:
-       process.env.EMAIL_USER,
-
-       to:
-       email,
-
-       subject:
-       "Diagnostic Report",
-
-       text:
-       "Your diagnostic report attached.",
-
-       attachments: [
-
-         {
-
-           filename:
-           pdfName,
-
-           path:
-           path.join(
-             __dirname,
-             pdfPath
-           )
-
-         }
-
-       ]
-
-     };
-
-
-     transporter.sendMail(
-
-       mailOptions,
-
-       (error, info) => {
-
-         if (error) {
-
-           console.log(error);
-
-         }
-
-         else {
-
-           console.log(
-             info.response
-           );
-
-         }
-
-       }
-
-     );
-
-
-     // Response
-     res.json({
-
-       success: true,
-
-       message:
-       "Diagnostic Added",
-
-       pdfUrl:
-
-       `http://localhost:5000/${pdfPath}`
-
-     });
-
-   }
-
-   catch (error) {
-
-     console.log(error);
-
-   }
-
- }
-
+        pdfUrl: `http://localhost:5000/${pdfPath}`,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  },
 );
-
 
 // ======================
 // Get Diagnostics
 // ======================
 
 app.get(
+  "/diagnostics",
 
- "/diagnostics",
+  async (req, res) => {
+    const data = await Diagnostic.find();
 
- async (req, res) => {
-
-   const data =
-
-   await Diagnostic.find();
-
-   res.json(data);
-
- }
-
+    res.json(data);
+  },
 );
-
 
 // ======================
 // Delete Diagnostic
 // ======================
 
 app.delete(
+  "/delete-diagnostic/:id",
 
- "/delete-diagnostic/:id",
+  async (req, res) => {
+    try {
+      await Diagnostic.findByIdAndDelete(req.params.id);
 
- async (req, res) => {
+      res.json({
+        success: true,
 
-   try {
-
-     await Diagnostic.findByIdAndDelete(
-
-       req.params.id
-
-     );
-
-     res.json({
-
-       success: true,
-
-       message:
-       "Diagnostic Deleted"
-
-     });
-
-   }
-
-   catch (error) {
-
-     console.log(error);
-
-   }
-
- }
-
+        message: "Diagnostic Deleted",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  },
 );
-
 
 // ======================
 // Merge PDFs
 // ======================
 
 app.post(
+  "/send-email",
 
- "/send-email",
+  upload.array("pdfs", 10),
 
- upload.array("pdfs", 10),
+  async (req, res) => {
+    try {
+      const {
+        patientName,
 
- async (req, res) => {
+        email,
+      } = req.body;
 
-   try {
+      const uploadedFiles = req.files.map((file) => file.path);
 
-     const {
+      const mergedPath = `generated/merged_${Date.now()}.pdf`;
 
-       patientName,
+      await mergePDFs(
+        uploadedFiles,
 
-       email
+        mergedPath,
+      );
 
-     }
+      const bill = new Bill({
+        patientName,
 
-     = req.body;
+        email,
 
+        pdfPath: mergedPath,
+      });
 
-     const uploadedFiles =
+      await bill.save();
 
-     req.files.map(
+      const mailOptions = {
+        from: process.env.EMAIL_USER,
 
-       (file) => file.path
+        to: email,
 
-     );
+        subject: "Merged Hospital Documents",
 
+        text: "Your merged hospital documents attached.",
 
-     const mergedPath =
+        attachments: [
+          {
+            filename: "Hospital_Report.pdf",
 
-     `generated/merged_${Date.now()}.pdf`;
+            path: path.join(__dirname, mergedPath),
+          },
+        ],
+      };
 
+      transporter.sendMail(
+        mailOptions,
 
-     await mergePDFs(
+        (error, info) => {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log(info.response);
+          }
+        },
+      );
 
-       uploadedFiles,
+      res.json({
+        success: true,
 
-       mergedPath
+        message: "Merged PDF Sent",
 
-     );
-
-
-     const bill =
-
-     new Bill({
-
-       patientName,
-
-       email,
-
-       pdfPath:
-       mergedPath
-
-     });
-
-     await bill.save();
-
-
-     const mailOptions = {
-
-       from:
-       process.env.EMAIL_USER,
-
-       to:
-       email,
-
-       subject:
-       "Merged Hospital Documents",
-
-       text:
-       "Your merged hospital documents attached.",
-
-       attachments: [
-
-         {
-
-           filename:
-           "Hospital_Report.pdf",
-
-           path:
-           path.join(
-             __dirname,
-             mergedPath
-           )
-
-         }
-
-       ]
-
-     };
-
-
-     transporter.sendMail(
-
-       mailOptions,
-
-       (error, info) => {
-
-         if (error) {
-
-           console.log(error);
-
-         }
-
-         else {
-
-           console.log(
-             info.response
-           );
-
-         }
-
-       }
-
-     );
-
-
-     res.json({
-
-       success: true,
-
-       message:
-       "Merged PDF Sent",
-
-       pdfUrl:
-
-       `http://localhost:5000/${mergedPath}`
-
-     });
-
-   }
-
-   catch (error) {
-
-     console.log(error);
-
-   }
-
- }
-
+        pdfUrl: `http://localhost:5000/${mergedPath}`,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  },
 );
-
 
 // ======================
 // Server
 // ======================
 
 app.listen(
+  5000,
 
- 5000,
-
- () => {
-
-   console.log(
-     "Server Running"
-   );
-
- }
-
+  () => {
+    console.log("Server Running");
+  },
 );
