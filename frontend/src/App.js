@@ -20,6 +20,8 @@ import {
 
 import BillingDept from "./Components/Billing_Module/BillingDept";
 import PatientDetail from "./Components/Billing_Module/PatientDetail";
+
+
 // import ReceptionDept from "./components/ReceptionDept";
 // import SignaturePad from "./components/SignaturePad";
 
