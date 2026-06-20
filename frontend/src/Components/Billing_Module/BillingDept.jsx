@@ -1,5 +1,5 @@
 import React from 'react'
-// import "./css/BillingDept.css";
+import "./css/BillingDept.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PdfCreate from './PdfCreate';
 import { faBars, faBell } from "@fortawesome/free-solid-svg-icons";
