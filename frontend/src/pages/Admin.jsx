@@ -25,19 +25,52 @@ function Admin() {
   const [staff, setStaff] = useState([]);
   const [patients, setPatients] = useState([]);
   const [editingPatientId, setEditingPatientId] = useState(null);
-  const [editedPatient, setEditedPatient] = useState({});
-
+  const [editedPatient, setEditedPatient] = useState({
+    name: "",
+    age: "",
+    gender: "",
+    phone: "",
+    disease: "",
+    doctor: "",
+    admission: "",
+    status: "",
+  });
   const [showPatientForm, setShowPatientForm] = useState(false);
-  const [newPatient, setNewPatient] = useState({});
+  const [newPatient, setNewPatient] = useState({
+    name: "",
+    age: "",
+    gender: "",
+    phone: "",
+    disease: "",
+    doctor: "",
+    admission: "",
+    status: "",
+  });
 
   const [showPrescription, setShowPrescription] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
 
   const [editingStaffId, setEditingStaffId] = useState(null);
-  const [editedStaff, setEditedStaff] = useState({});
+  const [editedStaff, setEditedStaff] = useState({
+    name: "",
+    aadhaar: "",
+    phone: "",
+    role: "",
+    salary: "",
+    status: "",
+    joining: "",
+  });
 
   const [showStaffForm, setShowStaffForm] = useState(false);
-  const [newStaff, setNewStaff] = useState({});
+  const [newStaff, setNewStaff] = useState({
+    name: "",
+    aadhaar: "",
+    phone: "",
+    role: "",
+    salary: "",
+    status: "",
+    joining: "",
+  });
 
   const saveStaffEdit = async (id) => {
     try {
@@ -65,7 +98,15 @@ function Admin() {
     try {
       await axios.post(`http://localhost:5000/api/admin/staff/add`, newStaff);
       setShowStaffForm(false);
-      setNewStaff({});
+      setNewStaff({
+        name: "",
+        aadhaar: "",
+        phone: "",
+        role: "",
+        salary: "",
+        status: "",
+        joining: "",
+      });
       fetchStaff();
     } catch (err) {
       console.log(err);
@@ -103,7 +144,16 @@ function Admin() {
         newPatient,
       );
       setShowPatientForm(false);
-      setNewPatient({});
+      setNewPatient({
+        name: "",
+        age: "",
+        gender: "",
+        phone: "",
+        disease: "",
+        doctor: "",
+        admission: "",
+        status: "",
+      });
       fetchPatients();
     } catch (err) {
       console.log(err);
