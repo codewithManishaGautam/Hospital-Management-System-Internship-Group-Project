@@ -1,87 +1,27 @@
 import React, { useState } from "react";
-
-import Layout from "../Components/Reception/Layout";
-
-import Dashboard from "../Components/Reception/Dashboard";
-import RegistrationForm from "../Components/Reception/RegistrationForm";
-import OPDBilling from "../Components/Reception/OPDBilling";
-import IPDAdmission from "../Components/Reception/IPDadmission";
-import IPDPatientList from "../Components/Reception/IPDPatientList";
-import SearchPatient from "../Components/Reception/SearchPatient";
-import Reports from "../Components/Reception/Reports";
+import Layout from "./Layout";
+// import "./Receptionist.css";
 
 function Receptionist() {
-
-  const [step, setStep] =
-    useState("dashboard");
-
-  const [
-    selectedPatient,
-    setSelectedPatient,
-  ] = useState(null);
+  const [step, setStep] = useState("dashboard");
 
   return (
-
-    // <Layout
-    //   role="Receptionist"
-    //   setStep={setStep}
-    // >
-
-    <Layout
-  role="Receptionist"
-  setStep={setStep}
-  currentStep={step}
->
+    <Layout role="Receptionist" setStep={setStep}>
 
       {step === "dashboard" && (
-        <Dashboard
-          setStep={setStep}
-          setSelectedPatient={
-            setSelectedPatient
-          }
-        />
+        <div className="card">
+          <h2>Receptionist Dashboard</h2>
+        </div>
       )}
 
       {step === "register" && (
-        <RegistrationForm
-          patient={selectedPatient}
-        />
-      )}
-
-      {step === "billing" && (
-        <OPDBilling
-          patient={selectedPatient}
-        />
-      )}
-
-      {step === "ipdAdmission" && (
-        <IPDAdmission
-          patient={selectedPatient}
-        />
-      )}
-
-      {step === "ipdPatients" && (
-        <IPDPatientList />
-      )}
-
-      {step === "searchPatient" && (
-        <SearchPatient
-          setStep={setStep}
-          setSelectedPatient={
-            setSelectedPatient
-          }
-        />
-      )}
-
-      {step === "reports" && (
-        <Reports />
+        <div className="card">
+          <h2>Register Patient</h2>
+        </div>
       )}
 
     </Layout>
-
   );
 }
-
-
 
 export default Receptionist;
