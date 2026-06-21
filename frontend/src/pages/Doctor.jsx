@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+
 import DoctorLayoutShell from "../Components/Doctor/DoctorLayoutShell";
 
 import "../styles/doctor/doctorCommon.css";
@@ -166,87 +167,110 @@ function Doctor() {
 
 
 
-  const patients = useMemo(
-    () => [
-      {
-        uHID: "UHID-1029",
-        name: "Rahul Verma",
-        condition: "Cardiac",
-        phone: "+91 98765 12345",
-        lastVisit: "2026-05-20",
-        status: "Pending",
-        history: [
-          { date: "2026-04-02", note: "Chest discomfort", treatment: "ECG + lifestyle changes" },
-          { date: "2026-05-20", note: "Follow-up", treatment: "Beta blocker adjusted" },
-        ],
-      },
-      {
-        uHID: "UHID-1182",
-        name: "Ananya Singh",
-        condition: "Diabetes",
-        phone: "+91 91234 55421",
-        lastVisit: "2026-05-19",
-        status: "Approved",
-        history: [
-          { date: "2026-03-11", note: "High HbA1c", treatment: "Metformin optimization" },
-        ],
-      },
-      {
-        uHID: "UHID-1210",
-        name: "Vikram Rao",
-        condition: "General",
-        phone: "+91 99887 44321",
-        lastVisit: "2026-05-18",
-        status: "Critical",
-        history: [
-          { date: "2026-05-10", note: "Fever and fatigue", treatment: "Tests + supportive care" },
-        ],
-      },
-    ],
-    []
-  );
+  // Receptionist-side patients (doctor dashboard should not show blank records)
+  const [patients, setPatients] = useState([]);
+  const [patientsLoading, setPatientsLoading] = useState(false);
+  const [patientsError, setPatientsError] = useState("");
 
-  const upcomingAppointments = useMemo(
-    () => [
-      {
-        id: "a1",
-        patientName: "Rahul Verma",
-        time: "10:30 AM",
-        department: "Cardiology",
-        date: "2026-06-07",
-        symptoms: "Chest discomfort, fatigue",
-        status: "Pending",
-      },
-      {
-        id: "a2",
-        patientName: "Ananya Singh",
-        time: "12:00 PM",
-        department: "Endocrinology",
-        date: "2026-06-07",
-        symptoms: "Frequent urination, thirst",
-        status: "Accepted",
-      },
-      {
-        id: "a3",
-        patientName: "Vikram Rao",
-        time: "3:15 PM",
-        department: "General Medicine",
-        date: "2026-06-08",
-        symptoms: "Fever and body ache",
-        status: "Pending",
-      },
-      {
-        id: "a4",
-        patientName: "Sanya Gupta",
-        time: "5:10 PM",
-        department: "Cardiology",
-        date: "2026-06-08",
-        symptoms: "Palpitations",
-        status: "Completed",
-      },
-    ],
-    []
-  );
+  useEffect(() => {
+    const fetchPatients = async () => {
+      try {
+        setPatientsLoading(true);
+        setPatientsError("");
+
+        const token = localStorage.getItem("token");
+        const res = await fetch("/api/doctor/patients", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error(`Failed to fetch patients: ${res.status}`);
+        }
+
+        const payload = await res.json();
+        const rawPatients = payload?.data || payload?.patients || payload || [];
+
+        const normalized = (rawPatients || []).map((p) => ({
+          uHID: p?.uHID || p?.UHID || p?.uhid || p?.patientUHID || "",
+          name: p?.name || p?.patientName || "",
+          condition: p?.condition || p?.diagnosis || "",
+          phone: p?.phone || p?.contact || "",
+          lastVisit: p?.lastVisit || p?.updatedAt || p?.visitDate || "",
+          status: p?.status || "",
+          history: Array.isArray(p?.history)
+            ? p.history.map((h) => ({
+                date: h?.date || h?.createdAt || "",
+                note: h?.note || h?.symptoms || "",
+                treatment: h?.treatment || h?.plan || "",
+              }))
+            : [],
+        }));
+
+        setPatients(normalized);
+      } catch (err) {
+        setPatients([]);
+        setPatientsError(err?.message || "Unable to load patient records");
+      } finally {
+        setPatientsLoading(false);
+      }
+    };
+
+    fetchPatients();
+  }, []);
+
+
+  const [upcomingAppointments, setUpcomingAppointments] = useState([]);
+  const [upcomingAppointmentsLoading, setUpcomingAppointmentsLoading] = useState(false);
+  const [upcomingAppointmentsError, setUpcomingAppointmentsError] = useState("");
+
+  useEffect(() => {
+    const fetchUpcomingAppointments = async () => {
+      try {
+        setUpcomingAppointmentsLoading(true);
+        setUpcomingAppointmentsError("");
+
+        const token = localStorage.getItem("token");
+        const res = await fetch("/api/doctor/upcoming-appointments", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error(`Failed to fetch appointments: ${res.status}`);
+        }
+
+        const payload = await res.json();
+        const rawAppointments = payload?.data || payload?.appointments || payload || [];
+
+        const normalized = (rawAppointments || []).map((a) => ({
+          id: a?.id || a?._id || "",
+          patientName: a?.patientName || a?.patient || a?.name || "",
+          time: a?.time || a?.appointmentTime || "",
+          department: a?.department || a?.departmentName || "",
+          date: a?.date || a?.appointmentDate || "",
+          symptoms: a?.symptoms || a?.reason || "",
+          status: a?.status || "",
+        }));
+
+        setUpcomingAppointments(normalized.filter((x) => x.patientName || x.id));
+      } catch (err) {
+        setUpcomingAppointments([]);
+        setUpcomingAppointmentsError(err?.message || "Unable to load appointments");
+      } finally {
+        setUpcomingAppointmentsLoading(false);
+      }
+    };
+
+    fetchUpcomingAppointments();
+  }, []);
+
 
 
   function handleSelectPatient(p) {
@@ -261,10 +285,36 @@ function Doctor() {
   function handleRejectAppointment(appt) {
     alert(`Appointment rejected (UI placeholder): ${appt?.patientName || "patient"}`);
   }
-
   function handleLogout() {
     localStorage.removeItem("token");
     window.location.href = "/";
+  }
+
+  const pageTitles = {
+    patients: "Patients",
+    appointments: "Appointments",
+    prescriptions: "Prescriptions",
+    emergency: "Emergency Cases",
+    reports: "Medical Reports",
+    profile: "My Profile",
+    schedule: "Doctor Schedule",
+    notifications: "Notifications",
+    analytics: "Analytics",
+  };
+
+  function BackToDashboard({ title }) {
+    return (
+      <div className="doctor-pageBack">
+        <button
+          type="button"
+          className="doctor-btn"
+          onClick={() => setStep("dashboard")}
+        >
+          &larr; Back to Dashboard
+        </button>
+        {title ? <div className="doctor-pageBack__title">{title}</div> : null}
+      </div>
+    );
   }
 
   return (
@@ -288,17 +338,17 @@ function Doctor() {
                     title: "Appointments",
                     value: upcomingAppointments.length,
                     icon: "📅",
-                    accent: "#2563eb",
+                    accent: "#1043b4",
                     onClick: () => setStep("appointments"),
                     description: "Upcoming requests",
                   },
                   {
                     title: "Active Patients",
-                    value: patients.length,
+                    value: patientsLoading ? 0 : patients.length,
                     icon: "🧑‍⚕️",
                     accent: "#1c53ab",
                     onClick: () => setStep("patients"),
-                    description: "Patients in your records",
+                    description: patientsLoading ? "Loading receptionist records..." : "Patients in your records",
                   },
                   {
                     title: "Pending Reports",
@@ -318,6 +368,71 @@ function Doctor() {
                   },
                 ]}
               />
+            </DoctorDashboardSection>
+                   </div>
+
+          <div className="doctor-dashboard__features">
+            <DoctorDashboardSection
+              title="Today's Queue"
+              subtitle="Live patient flow"
+            >
+              <div className="doctor-queue">
+                  {upcomingAppointments.length > 0 ? (
+                    upcomingAppointments.slice(0, 3).map((a, index) => (
+                      <div key={a.id} className="doctor-queue__item">
+                        <div>
+                          <div className="doctor-queue__name">{a.patientName}</div>
+                          <div className="doctor-queue__meta">
+                            {a.department} • {a.time}
+                          </div>
+                        </div>
+                        <span className="doctor-queue__status">
+                          {index === 0 ? "Waiting" : index === 1 ? "Next" : "Scheduled"}
+                        </span>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="doctor-empty">No upcoming appointments</div>
+                  )}
+                </div>
+
+            </DoctorDashboardSection>
+
+            <DoctorDashboardSection
+              title="Quick Actions"
+              subtitle="Common doctor tasks"
+            >
+              <div className="doctor-quickActions">
+                <button className="doctor-btn doctor-btn--primary" onClick={() => setStep("appointments")}>
+                  Start Consultation
+                </button>
+                <button className="doctor-btn" onClick={() => setStep("prescriptions")}>
+                  Add Prescription
+                </button>
+                <button className="doctor-btn" onClick={() => setStep("reports")}>
+                  Review Reports
+                </button>
+                <button className="doctor-btn" onClick={() => setStep("patients")}>
+                  Search Patient
+                </button>
+              </div>
+            </DoctorDashboardSection>
+
+            <DoctorDashboardSection
+              title="Critical Alerts"
+              subtitle="Needs attention"
+            >
+              <div className="doctor-alerts">
+                <div className="doctor-alerts__item doctor-alerts__item--danger">
+                  Emergency case waiting for review
+                </div>
+                <div className="doctor-alerts__item">
+                  3 medical reports pending
+                </div>
+                <div className="doctor-alerts__item">
+                  Next appointment starts soon
+                </div>
+              </div>
             </DoctorDashboardSection>
           </div>
 
@@ -503,8 +618,9 @@ function Doctor() {
       )}
 
 
-
-
+      {step !== "dashboard" && (
+        <BackToDashboard title={pageTitles[step]} />
+      )}
 
       {step === "patients" && (
         <PatientTable
@@ -516,21 +632,29 @@ function Doctor() {
           onSelectPatient={(p) => handleSelectPatient(p)}
         />
       )}
-
       {step === "appointments" && (
         <div className="doctor-appts">
           <div className="doctor-appts__col">
-            {upcomingAppointments.map((a) => (
-              <AppointmentCard
-                key={a.id}
-                appt={a}
-                onAccept={() => handleAcceptAppointment(a)}
-                onReject={() => handleRejectAppointment(a)}
-              />
-            ))}
+            <div className="doctor-empty doctor-empty-block">
+              Today: {upcomingAppointments.length} appointment(s)
+            </div>
+
+            {upcomingAppointments.length > 0 ? (
+              upcomingAppointments.map((a) => (
+                <AppointmentCard
+                  key={a.id}
+                  appt={a}
+                  onAccept={() => handleAcceptAppointment(a)}
+                  onReject={() => handleRejectAppointment(a)}
+                />
+              ))
+            ) : (
+              <div className="doctor-empty">No appointment scheduled.</div>
+            )}
           </div>
 
-        <div className="doctor-appts__side">
+
+          <div className="doctor-appts__side">
             <div className="doctor-calendar">
               <div className="doctor-calendar__title">Schedule Snapshot</div>
               <div className="doctor-hint" style={{ marginTop: 0 }}>

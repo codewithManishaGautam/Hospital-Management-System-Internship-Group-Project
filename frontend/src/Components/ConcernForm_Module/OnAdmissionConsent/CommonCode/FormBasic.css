@@ -1,0 +1,55 @@
+.consent-form
+{
+    width: 800px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid black;
+    font-family: "Times New Roman", serif;
+    font-size: 14px;
+    background: white;}
+
+.patient-table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+h4,h3,h2,h6{
+    font-weight: bold;
+}
+
+.title{
+    text-align: center;
+    /* font-size: 22px; */
+    margin-bottom: 10px;
+}
+
+span {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 5px;
+}
+
+.date{
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.patient-table td{
+    border: 1px solid black;
+    padding: 8px;
+    vertical-align: top;
+}
+
+
+.paragraph{
+    text-align: justify;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.signature-grid
+{
+    display: flex;
+    justify-content: space-between;
+}
