@@ -1,0 +1,252 @@
+.reports-container {
+  padding: 25px;
+}
+
+/* Header */
+
+.reports-header {
+  margin-bottom: 25px;
+}
+
+.reports-header h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #0d47a1;
+}
+
+/* Filter Card */
+
+.report-filter-card {
+  background: #ffffff;
+
+  padding: 20px;
+
+  border-radius: 15px;
+
+  margin-bottom: 25px;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filter-group label {
+  font-weight: 600;
+  color: #334155;
+}
+
+.filter-group input {
+  padding: 12px 15px;
+
+  border: 1px solid #cbd5e1;
+
+  border-radius: 10px;
+
+  font-size: 14px;
+}
+
+/* Buttons */
+
+.report-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.download-btn,
+.print-btn {
+  border: none;
+
+  padding: 12px 20px;
+
+  border-radius: 10px;
+
+  color: white;
+
+  cursor: pointer;
+
+  font-weight: 600;
+
+  transition: 0.3s;
+}
+
+.download-btn {
+  background: #1565c0;
+}
+
+.download-btn:hover {
+  background: #0d47a1;
+}
+
+.print-btn {
+  background: #0b2265;
+}
+
+.print-btn:hover {
+  background: #0b2265;
+}
+
+/* Statistics Cards */
+
+.report-cards {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 20px;
+
+  margin-bottom: 25px;
+}
+
+.report-card {
+  background: white;
+
+  padding: 25px;
+
+  border-radius: 15px;
+
+  text-align: center;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+
+  border-top: 5px solid #1565c0;
+}
+
+.report-card h4 {
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+.report-card h2 {
+  color: #1565c0;
+  font-size: 32px;
+}
+
+/* Revenue Card */
+
+.revenue-card {
+  background: linear-gradient(
+    135deg,
+    #1565c0,
+    #42a5f5
+  );
+
+  color: white;
+
+  text-align: center;
+
+  padding: 30px;
+
+  border-radius: 15px;
+
+  margin-bottom: 25px;
+
+  box-shadow: 0 4px 15px rgba(21,101,192,.25);
+}
+
+.revenue-card h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.revenue-card h1 {
+  font-size: 42px;
+  font-weight: 700;
+}
+
+/* Table Card */
+
+.report-table-card {
+  background: white;
+
+  border-radius: 15px;
+
+  overflow: hidden;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+}
+
+.report-table-card h3 {
+  background: #1565c0;
+
+  color: white;
+
+  padding: 18px 20px;
+}
+
+/* Table */
+
+.report-table {
+  width: 100%;
+
+  border-collapse: collapse;
+}
+
+.report-table th {
+  background: #1976d2;
+
+  color: white;
+
+  padding: 15px;
+
+  border: 1px solid #dbe4f0;
+
+  text-align: center;
+}
+
+.report-table td {
+  padding: 15px;
+
+  border: 1px solid #dbe4f0;
+
+  text-align: center;
+}
+
+.report-table tbody tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+.report-table tbody tr:hover {
+  background: #eef6ff;
+}
+
+/* Responsive */
+
+@media (max-width: 992px) {
+
+  .report-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .report-filter-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .report-buttons {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .report-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .report-table-card {
+    overflow-x: auto;
+  }
+
+  .report-table {
+    min-width: 700px;
+  }
+}
