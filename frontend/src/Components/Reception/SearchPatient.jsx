@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import "../../styles/Reception/SearchPatient.css";
+import "../../styles/Reception/searchPatient.css";
 
 function SearchPatient({
   setStep,

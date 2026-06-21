@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import "../../styles/Reception/IPDpatientList.css";
+import "../../styles/Reception/ipdPatientList.css";
 
 function IPDPatientList() {
 

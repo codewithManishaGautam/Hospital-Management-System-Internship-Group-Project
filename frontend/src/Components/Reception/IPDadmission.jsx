@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../styles/Reception/IPDadmission.css";
+import "../../styles/Reception/ipdadmission.css";
 
 function IPDAdmission({ patient }) {
   const [ipdData, setIpdData] = useState({

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import "../../styles/Reception/Reports.css";
+import "../../styles/Reception/reports.css";
 
 function Reports() {
 

@@ -2,8 +2,8 @@ import React, {
   useState,
   useEffect,
 } from "react";
-import generateUHID from "../Utils/generateUHID";
-import "../../styles/Reception/Registration.css";
+import generateUHID from "./utils/generateUHID";
+import "../../styles/Reception/registration.css";
 function RegistrationForm({ patient }) {
   const [formData, setFormData] = useState({
     uhid: "",

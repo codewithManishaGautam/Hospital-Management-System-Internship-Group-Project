@@ -1,7 +1,12 @@
 import React from "react";
-import "./layout.css";
-//import "../Reception/Layout.css"
-function Layout({ role, children, setStep }) {
+//import "./layout.css";
+import "../Reception/Layout.css"
+function Layout({
+  role,
+  children,
+  setStep,
+  currentStep,
+})  {
   return (
     <div className="layout-container">
 
@@ -102,13 +107,25 @@ function Layout({ role, children, setStep }) {
         </div>
 
         <div className="page-content">
-          {children}
-        </div>
 
+  {currentStep !== "dashboard" && (
+    <button
+      className="back-btn"
+      onClick={() => setStep("dashboard")}
+    >
+      ← Back to Dashboard
+    </button>
+  )}
+
+  {children}
+
+</div>
       </div>
 
     </div>
   );
 }
+
+
 
 export default Layout;

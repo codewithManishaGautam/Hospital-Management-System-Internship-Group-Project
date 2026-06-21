@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../styles/Reception/Dashboard.css";
+import "../../styles/Reception/dashboard.css";
 
 function Dashboard({ setStep, setSelectedPatient }) {
   const [searchTerm, setSearchTerm] = useState("");
