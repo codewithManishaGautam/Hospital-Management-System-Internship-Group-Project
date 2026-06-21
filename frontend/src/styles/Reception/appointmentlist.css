@@ -1,0 +1,249 @@
+.appointment-container {
+  padding: 25px;
+  min-height: 100vh;
+}
+
+/* Page Title */
+
+.appointment-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #1565c0;
+  margin-bottom: 25px;
+}
+
+/* Top Card */
+
+.appointment-card {
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Search Section */
+
+.search-box {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.search-box input {
+  flex: 1;
+
+  padding: 12px 15px;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+
+  font-size: 14px;
+
+  outline: none;
+}
+
+.search-box input:focus {
+  border-color: #1565c0;
+  box-shadow: 0 0 6px rgba(21, 101, 192, 0.25);
+}
+
+.search-btn {
+  background: #1565c0;
+  color: white;
+
+  border: none;
+
+  padding: 12px 20px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  font-weight: 600;
+}
+
+.search-btn:hover {
+  background: #0d47a1;
+}
+
+/* Table Section */
+
+.table-card {
+  background: #ffffff;
+
+  border-radius: 15px;
+
+  overflow: hidden;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Table Header */
+
+.table-header {
+  background: #1565c0;
+  color: white;
+
+  padding: 18px 20px;
+
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Space Between Header and Table */
+
+.table-wrapper {
+  padding: 15px;
+}
+
+/* Main Table */
+
+.appointment-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Table Head */
+
+.appointment-table th {
+  background: #1976d2;
+  color: white;
+
+  padding: 15px;
+
+  text-align: center;
+
+  border: 1px solid #dbe4f0;
+
+  font-size: 14px;
+}
+
+/* Table Data */
+
+.appointment-table td {
+  padding: 15px;
+
+  text-align: center;
+
+  border: 1px solid #dbe4f0;
+
+  font-size: 14px;
+
+  color: #334155;
+}
+
+/* Alternate Rows */
+
+.appointment-table tbody tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+/* Hover Effect */
+
+.appointment-table tbody tr:hover {
+  background: #eef6ff;
+}
+
+/* Status */
+
+.status-paid {
+  color: #0b2265;
+  font-weight: 700;
+}
+
+.status-unpaid {
+  color: #0b2265;
+  font-weight: 700;
+}
+
+.status-completed {
+  color: #0b2265;
+  font-weight: 700;
+}
+
+.status-pending {
+  color: #0b2265;
+  font-weight: 700;
+}
+
+/* View Button */
+
+.view-btn {
+  background: #1565c0;
+  color: white;
+
+  border: none;
+
+  padding: 8px 16px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  font-weight: 600;
+}
+
+.view-btn:hover {
+  background: #0d47a1;
+}
+
+/* Edit Button */
+
+.edit-btn {
+  background: #0b2265;
+  color: white;
+
+  border: none;
+
+  padding: 8px 16px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  margin-right: 8px;
+}
+
+.edit-btn:hover {
+  background: #d97706;
+}
+
+/* Delete Button */
+
+.delete-btn {
+  background: #0b2265;
+  color: white;
+
+  border: none;
+
+  padding: 8px 16px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background: #b91c1c;
+}
+
+/* Responsive */
+
+@media (max-width: 992px) {
+  .table-wrapper {
+    overflow-x: auto;
+  }
+
+  .appointment-table {
+    min-width: 1000px;
+  }
+
+  .search-box {
+    flex-direction: column;
+  }
+
+  .search-btn {
+    width: 100%;
+  }
+}

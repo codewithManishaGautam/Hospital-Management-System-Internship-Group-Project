@@ -1,0 +1,328 @@
+/* =====================================
+   Search Patient Container
+===================================== */
+
+.search-patient-container {
+  padding: 25px;
+  background: #f4f8fc;
+  min-height: 100vh;
+}
+
+/* =====================================
+   Header Section
+===================================== */
+
+.search-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 25px;
+}
+
+.search-header h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1565c0;
+}
+
+/* =====================================
+   Search Card
+===================================== */
+
+.search-box {
+  background: #ffffff;
+
+  padding: 20px;
+
+  border-radius: 15px;
+
+  margin-bottom: 25px;
+
+  box-shadow:
+    0 4px 12px
+    rgba(0, 0, 0, 0.08);
+}
+
+/* =====================================
+   Search Input
+===================================== */
+
+.search-input {
+  width: 100%;
+
+  padding: 14px 18px;
+
+  border: 1px solid #d1d5db;
+
+  border-radius: 10px;
+
+  outline: none;
+
+  font-size: 15px;
+
+  transition: 0.3s;
+}
+
+.search-input:focus {
+  border-color: #1565c0;
+
+  box-shadow:
+    0 0 5px
+    rgba(
+      21,
+      101,
+      192,
+      0.3
+    );
+}
+
+/* =====================================
+   Table Card
+===================================== */
+
+.patient-table-wrapper {
+  background: #ffffff;
+
+  border-radius: 15px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 4px 12px
+    rgba(0, 0, 0, 0.08);
+}
+
+/* =====================================
+   Patient Table
+===================================== */
+
+.patient-table {
+  width: 100%;
+
+  border-collapse: collapse;
+}
+
+.patient-table thead {
+  background: #1565c0;
+}
+
+.patient-table thead th {
+  color: white;
+
+  padding: 15px;
+
+  text-align: left;
+
+  font-size: 14px;
+}
+
+.patient-table tbody td {
+  padding: 15px;
+
+  border-bottom:
+    1px solid #e5e7eb;
+
+  font-size: 14px;
+}
+
+.patient-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+/* =====================================
+   View Button
+===================================== */
+
+.view-btn {
+  background: #1565c0;
+  color: white;
+
+  border: none;
+
+  padding: 8px 16px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.view-btn:hover {
+  background: #0d47a1;
+}
+
+/* =====================================
+   Patient Details Card
+===================================== */
+
+.patient-info-card {
+  background: white;
+
+  border-radius: 15px;
+
+  padding: 20px;
+
+  margin-top: 25px;
+
+  box-shadow:
+    0 4px 12px
+    rgba(0, 0, 0, 0.08);
+}
+
+.patient-info-card h3 {
+  color: #1565c0;
+
+  margin-bottom: 15px;
+}
+
+.patient-info-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 20px;
+}
+
+.patient-info-item {
+  background: #f8fafc;
+
+  padding: 15px;
+
+  border-radius: 10px;
+}
+
+.patient-info-item label {
+  display: block;
+
+  font-size: 13px;
+
+  color: #64748b;
+
+  margin-bottom: 5px;
+}
+
+.patient-info-item span {
+  font-size: 15px;
+
+  font-weight: 600;
+
+  color: #1e293b;
+}
+
+/* =====================================
+   No Data
+===================================== */
+
+.no-data {
+  text-align: center;
+
+  padding: 30px;
+
+  color: #64748b;
+
+  font-size: 15px;
+}
+
+/* =====================================
+   Responsive
+===================================== */
+
+@media screen and (max-width: 992px) {
+
+  .patient-info-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+
+  .search-patient-container {
+    padding: 15px;
+  }
+
+  .search-header {
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 10px;
+  }
+
+  .patient-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .patient-table {
+    min-width: 900px;
+  }
+
+  .patient-table-wrapper {
+    overflow-x: auto;
+  }
+}
+
+.patient-details-card {
+  margin-top: 25px;
+
+  background: white;
+
+  padding: 25px;
+
+  border-radius: 15px;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+}
+
+.patient-details-card h3 {
+  color: #1565c0;
+
+  margin-bottom: 20px;
+}
+
+.details-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 15px;
+
+  margin-bottom: 20px;
+}
+
+.action-buttons {
+  display: flex;
+
+  gap: 15px;
+}
+
+.bill-btn,
+.appointment-btn,
+.ipd-btn {
+  border: none;
+
+  padding: 12px 18px;
+
+  border-radius: 10px;
+
+  color: white;
+
+  cursor: pointer;
+
+  font-weight: 600;
+}
+
+.bill-btn {
+  background: #0b2265;
+}
+
+.appointment-btn {
+  background: #0b2265;
+}
+
+.ipd-btn {
+  background: #0b2265;
+}

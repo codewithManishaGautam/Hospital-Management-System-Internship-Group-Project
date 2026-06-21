@@ -1,0 +1,205 @@
+.ipd-patient-container {
+  padding: 25px;
+}
+
+.ipd-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 25px;
+}
+
+.ipd-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #0d47a1;
+}
+
+.patient-count {
+  min-width: 180px;
+
+  background: linear-gradient(
+    135deg,
+    #1565c0,
+    #42a5f5
+  );
+
+  color: white;
+
+  padding: 15px 20px;
+
+  border-radius: 15px;
+
+  text-align: center;
+
+  box-shadow: 0 4px 15px rgba(21,101,192,0.25);
+}
+
+.count-label {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.count-number {
+  font-size: 28px;
+  font-weight: 700;
+  margin-top: 5px;
+}
+
+
+
+/* Search Section */
+
+.search-section {
+  background: white;
+
+  padding: 20px;
+
+  border-radius: 15px;
+
+  margin-bottom: 25px;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+}
+
+.search-box {
+  display: flex;
+  gap: 15px;
+}
+
+.search-box input {
+  flex: 1;
+
+  padding: 14px 18px;
+
+  border: 2px solid #dbe4f0;
+
+  border-radius: 12px;
+
+  font-size: 15px;
+
+  outline: none;
+
+  transition: 0.3s;
+}
+
+.search-box input:focus {
+  border-color: #1565c0;
+
+  box-shadow: 0 0 10px rgba(21,101,192,.2);
+}
+
+.search-btn {
+  background: #1565c0;
+
+  color: white;
+
+  border: none;
+
+  padding: 14px 25px;
+
+  border-radius: 12px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.search-btn:hover {
+  background: #0d47a1;
+}
+
+/* Table Card */
+
+.ipd-table-card {
+  background: white;
+
+  border-radius: 15px;
+
+  overflow: hidden;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+}
+
+.table-header {
+  background: #1565c0;
+
+  color: white;
+
+  padding: 18px 20px;
+
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Table */
+
+.ipd-table {
+  width: 100%;
+
+  border-collapse: collapse;
+}
+
+.ipd-table th {
+  background: #1976d2;
+
+  color: white;
+
+  padding: 15px;
+
+  border: 1px solid #dbe4f0;
+
+  text-align: center;
+}
+
+.ipd-table td {
+  padding: 15px;
+
+  border: 1px solid #dbe4f0;
+
+  text-align: center;
+}
+
+.ipd-table tbody tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+.ipd-table tbody tr:hover {
+  background: #eef6ff;
+}
+
+/* Status */
+
+.admitted-status {
+  color: #0b2265;
+  font-weight: 700;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+
+  .ipd-header {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .search-box {
+    flex-direction: column;
+  }
+
+  .search-btn {
+    width: 100%;
+  }
+
+  .ipd-table-card {
+    overflow-x: auto;
+  }
+
+  .ipd-table {
+    min-width: 900px;
+  }
+}
