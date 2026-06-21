@@ -14,6 +14,7 @@ import ReportHistory from "../Components/Lab/ReportHistory";
 
 function Lab() {
   const [step, setStep] = useState("overview");
+  const [labData, setLabData] = useState([]);
 
   const renderContent = () => {
     switch (step) {
@@ -21,28 +22,33 @@ function Lab() {
         return <LabOverview />;
 
       case "patients":
-        return <PatientRecords />;
+  return (
+    <PatientRecords
+      labData={labData}
+      setLabData={setLabData}
+    />
+  );
 
       case "tests":
-        return <TestCatalog />;
+        return <TestCatalog labData={labData} />;
 
       case "booking":
-        return <TestBooking />;
+  return <TestBooking labData={labData} />;
 
       case "samples":
-        return <SampleTracker />;
+  return <SampleTracker labData={labData} />;
 
       case "analysis":
-        return <AnalysisPanel />;
+  return <AnalysisPanel labData={labData} />;
 
       case "findings":
-        return <FindingsEntry />;
+  return <FindingsEntry labData={labData} />;
 
-      case "reports":
-        return <ReportHub />;
+     case "reports":
+  return <ReportHub labData={labData} />;
 
-      case "payments":
-        return <PaymentDesk />;
+     case "payments":
+  return <PaymentDesk labData={labData} />;
 
       case "history":
         return <ReportHistory />;

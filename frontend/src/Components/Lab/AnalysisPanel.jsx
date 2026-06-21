@@ -1,13 +1,16 @@
 import React from "react";
 import "../../styles/Lab/AnalysisPanel.css";
 
-function AnalysisPanel() {
+function AnalysisPanel({ labData }) {
   return (
-    <div className="lab-card">
-      <h2>Testing Panel</h2>
+    <div>
+      <h2>Analysis Panel</h2>
 
-      <button>Start Analysis</button>
-      <button>Mark Completed</button>
+      {labData.map((patient) => (
+        <div key={patient.id}>
+          <p>{patient.patientName} - Analysis Pending</p>
+        </div>
+      ))}
     </div>
   );
 }
