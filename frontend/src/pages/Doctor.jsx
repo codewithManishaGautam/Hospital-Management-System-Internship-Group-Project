@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { Suspense, lazy, useEffect, useMemo, useState } from "react";
 
 import DoctorLayoutShell from "../Components/Doctor/DoctorLayoutShell";
 
@@ -12,17 +12,17 @@ import "../styles/doctor/doctorProfile.css";
 import "../styles/doctor/doctorAnalytics.css";
 import "../styles/doctor/doctorSidebar.css";
 
-import PatientTable from "../Components/Doctor/PatientTable";
-import PatientDetailsModal from "../Components/Doctor/PatientDetailsModal";
-import AppointmentCard from "../Components/Doctor/AppointmentCard";
-import PrescriptionForm from "../Components/Doctor/PrescriptionForm";
-import ReportUpload from "../Components/Doctor/ReportUpload";
-import DoctorProfileCard from "../Components/Doctor/DoctorProfileCard";
-import AnalyticsCard from "../Components/Doctor/AnalyticsCard";
-import EmergencyPanel from "../Components/Doctor/EmergencyPanel";
+const PatientTable = lazy(() => import("../Components/Doctor/PatientTable"));
+const PatientDetailsModal = lazy(() => import("../Components/Doctor/PatientDetailsModal"));
+const AppointmentCard = lazy(() => import("../Components/Doctor/AppointmentCard"));
+const PrescriptionForm = lazy(() => import("../Components/Doctor/PrescriptionForm"));
+const ReportUpload = lazy(() => import("../Components/Doctor/ReportUpload"));
+const DoctorProfileCard = lazy(() => import("../Components/Doctor/DoctorProfileCard"));
+const AnalyticsCard = lazy(() => import("../Components/Doctor/AnalyticsCard"));
+const EmergencyPanel = lazy(() => import("../Components/Doctor/EmergencyPanel"));
 
-import DoctorDashboardSummaryGrid from "../Components/Doctor/DoctorDashboardSummaryGrid";
-import DoctorDashboardSection from "../Components/Doctor/DoctorDashboardSection";
+const DoctorDashboardSummaryGrid = lazy(() => import("../Components/Doctor/DoctorDashboardSummaryGrid"));
+const DoctorDashboardSection = lazy(() => import("../Components/Doctor/DoctorDashboardSection"));
 
 
 
@@ -324,9 +324,10 @@ function Doctor() {
       doctor={doctor}
       onLogout={handleLogout}
     >
-      {/* Quick fix: schedule needs doctorsBySpeciality; all schedule UI lives inside this file for speed */}
-      {step === "dashboard" && (
-        <div className="doctor-dashboard" aria-label="Doctor dashboard">
+      <Suspense fallback={<div className="doctor-empty">Loading doctor module...</div>}>
+        {/* Quick fix: schedule needs doctorsBySpeciality; all schedule UI lives inside this file for speed */}
+        {step === "dashboard" && (
+          <div className="doctor-dashboard" aria-label="Doctor dashboard">
           <div className="doctor-dashboard__top">
             <DoctorDashboardSection
               title="Doctor Overview"
@@ -911,6 +912,8 @@ function Doctor() {
           }}
         />
       )}
+        
+      </Suspense>
     </DoctorLayoutShell>
   );
 }
