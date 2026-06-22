@@ -36,7 +36,7 @@ function StaffManagement({
       <table>
         <thead>
           <tr>
-            <th>ID</th>
+            <th>Staff ID</th>
             <th>Name</th>
             <th>Aadhaar</th>
             <th>Phone</th>
@@ -51,7 +51,7 @@ function StaffManagement({
         <tbody>
           {staff.map((s) => (
             <tr key={s._id}>
-              <td>{s._id}</td>
+              <td>STF-{s._id.slice(-6).toUpperCase()}</td>
 
               <td>
                 {editingStaffId === s._id ? (

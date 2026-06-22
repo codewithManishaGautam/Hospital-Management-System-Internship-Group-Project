@@ -1,0 +1,33 @@
+.lab-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.lab-card h2 {
+  margin-bottom: 20px;
+}
+
+.lab-card input,
+.lab-card textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.lab-card button {
+  padding: 10px 20px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.stats {
+  display: flex;
+  gap: 20px;
+}
+
+.stat-box {
+  background: #f2f2f2;
+  padding: 20px;
+  border-radius: 10px;
+}
