@@ -93,6 +93,7 @@ function DoctorManagement({ doctors, fetchDoctors }) {
         {doctors.map((d) => (
           <div className="doctor-card" key={d._id}>
             <img
+              className="doctor-avatar"
               src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
               alt="doctor"
             />
@@ -191,7 +192,10 @@ function DoctorManagement({ doctors, fetchDoctors }) {
                 </button>
               )}
 
-              <button className="delete-btn" onClick={() => deleteDoctor(d._id)}>
+              <button
+                className="delete-btn"
+                onClick={() => deleteDoctor(d._id)}
+              >
                 Delete
               </button>
             </div>

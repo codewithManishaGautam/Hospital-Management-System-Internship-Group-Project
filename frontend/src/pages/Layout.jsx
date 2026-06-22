@@ -28,11 +28,14 @@ function Layout({ role, children, setStep }) {
         {role === "Admin" && (
           <>
             <button onClick={() => setStep("admin-dashboard")}>
-              Admin Dashboard
+              📊 Dashboard
             </button>
-            <button onClick={() => setStep("users")}>Manage Users</button>
-            <button onClick={() => setStep("doctors")}>Manage Doctors</button>
-            <button onClick={() => setStep("patients")}>Patients</button>
+
+            <button onClick={() => setStep("users")}>👨‍💼 Staff</button>
+
+            <button onClick={() => setStep("doctors")}>👨‍⚕️ Doctors</button>
+
+            <button onClick={() => setStep("patients")}>🧑‍🦽 Patients</button>
           </>
         )}
 
