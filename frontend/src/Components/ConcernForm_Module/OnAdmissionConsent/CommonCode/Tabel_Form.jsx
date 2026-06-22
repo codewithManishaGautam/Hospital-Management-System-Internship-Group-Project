@@ -14,27 +14,27 @@ function Table_Form() {
                 <tbody>
 
                     <tr>
-                        <td ><b>UHID :</b><span><SignaturePad width="145px" height="35px" design="border"/></span></td>
+                        <td ><b>UHID :</b><span><SignaturePad width="145px" height="40px" design="border"/></span></td>
                         <td><b>DOA:</b> {getDateTime()}</td>
-                        <td><b>Gender / Age :</b><span><SignaturePad width="100px" height="35px" design="border"/></span> </td>
+                        <td><b>Gender / Age :</b><span><SignaturePad width="100px" height="40px" design="border"/></span> </td>
                     </tr>
 
                     <tr>
                         <td>
                             <b>IPD ID</b><br />
                             <pre style={{display:"inline-flex"}}>
-                            <SignaturePad width="70px" height="35px" design="border"/>
+                            <SignaturePad width="70px" height="40px" design="border"/>
                             </pre>
                         </td>
 
                         <td>
                             <b>Patient Name</b><br />
-                            <SignaturePad width="280px" height="35px" design="line"/>
+                            <SignaturePad width="280px" height="40px" design="line"/>
                         </td>
 
                         <td>
                             <b>Consulting Doctor</b><br />
-                            <SignaturePad width="180px" height="35px"  design="line"/>
+                            <SignaturePad width="180px" height="40px"  design="line"/>
                         </td>
                     </tr>
 

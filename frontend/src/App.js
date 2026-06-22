@@ -1,9 +1,12 @@
 import React from "react";
-import {
-  Routes,
-  Route,
-  BrowserRouter,
-} from "react-router-dom";
+
+import SchemeBenefitByRelative from "./Components/ConcernForm_Module/OnAdmissionConsent/SchemeNotTakeBenefit/SchemeBenefitByRelative";
+
+// import {
+//   Routes,
+//   Route,
+//   BrowserRouter,
+// } from "react-router-dom";
 
 // import LoginDashboard from "./pages/Login";
 // import ReceptionistDashboard from "./pages/Receptionist";
@@ -18,8 +21,8 @@ import {
 
 
 
-import BillingDept from "./Components/Billing_Module/BillingDept";
-import PatientDetail from "./Components/Billing_Module/PatientDetail";
+// import BillingDept from "./Components/Billing_Module/BillingDept";
+// import PatientDetail from "./Components/Billing_Module/PatientDetail";
 
 
 // import ReceptionDept from "./components/ReceptionDept";
@@ -40,27 +43,30 @@ function App() {
     // <AddDiagnostic />
 
 
-    <BrowserRouter>
-
-      <Routes>
-
-        <Route
-          path="/"
-          element={<BillingDept>
-
-          </BillingDept>}
-        />
+    <SchemeBenefitByRelative/>
 
 
+    // <BrowserRouter>
 
-        <Route
-          path="/patient/:id"
-          element={<PatientDetail />}
-        />
+    //   <Routes>
 
-      </Routes>
+    //     <Route
+    //       path="/"
+    //       element={<BillingDept>
 
-    </BrowserRouter>
+    //       </BillingDept>}
+    //     />
+
+
+
+    //     <Route
+    //       path="/patient/:id"
+    //       element={<PatientDetail />}
+    //     />
+
+    //   </Routes>
+
+    // </BrowserRouter>
 
 
 
