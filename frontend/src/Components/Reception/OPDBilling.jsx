@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../styles/Reception/OPDbilling.css";
+import "../../styles/Reception/billing.css";
 
 function OPDBilling() {
   const [billingData, setBillingData] = useState({
