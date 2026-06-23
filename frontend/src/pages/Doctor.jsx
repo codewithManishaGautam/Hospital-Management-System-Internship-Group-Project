@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { Suspense, lazy, useEffect, useMemo, useState } from "react";
 
 import DoctorLayoutShell from "../Components/Doctor/DoctorLayoutShell";
 
@@ -12,17 +12,17 @@ import "../styles/doctor/doctorProfile.css";
 import "../styles/doctor/doctorAnalytics.css";
 import "../styles/doctor/doctorSidebar.css";
 
-import PatientTable from "../Components/Doctor/PatientTable";
-import PatientDetailsModal from "../Components/Doctor/PatientDetailsModal";
-import AppointmentCard from "../Components/Doctor/AppointmentCard";
-import PrescriptionForm from "../Components/Doctor/PrescriptionForm";
-import ReportUpload from "../Components/Doctor/ReportUpload";
-import DoctorProfileCard from "../Components/Doctor/DoctorProfileCard";
-import AnalyticsCard from "../Components/Doctor/AnalyticsCard";
-import EmergencyPanel from "../Components/Doctor/EmergencyPanel";
+const PatientTable = lazy(() => import("../Components/Doctor/PatientTable"));
+const PatientDetailsModal = lazy(() => import("../Components/Doctor/PatientDetailsModal"));
+const AppointmentCard = lazy(() => import("../Components/Doctor/AppointmentCard"));
+const PrescriptionForm = lazy(() => import("../Components/Doctor/PrescriptionForm"));
+const ReportUpload = lazy(() => import("../Components/Doctor/ReportUpload"));
+const DoctorProfileCard = lazy(() => import("../Components/Doctor/DoctorProfileCard"));
+const AnalyticsCard = lazy(() => import("../Components/Doctor/AnalyticsCard"));
+const EmergencyPanel = lazy(() => import("../Components/Doctor/EmergencyPanel"));
 
-import DoctorDashboardSummaryGrid from "../Components/Doctor/DoctorDashboardSummaryGrid";
-import DoctorDashboardSection from "../Components/Doctor/DoctorDashboardSection";
+const DoctorDashboardSummaryGrid = lazy(() => import("../Components/Doctor/DoctorDashboardSummaryGrid"));
+const DoctorDashboardSection = lazy(() => import("../Components/Doctor/DoctorDashboardSection"));
 
 
 
@@ -302,6 +302,44 @@ function Doctor() {
     analytics: "Analytics",
   };
 
+  // ===== NEW: Local UI-only state for dashboard widgets =====
+  const [today, setToday] = useState(() => {
+    const d = new Date();
+    return d.toLocaleDateString(undefined, { weekday: "long", day: "numeric", month: "short" });
+  });
+  const [earnings] = useState({ today: 2400, week: 14500, month: 58000 });
+  const [rating] = useState({ avg: 4.7, count: 182 });
+  const [pendingReports] = useState(3);
+  const [medicineReminders] = useState([
+    { time: "9:00 AM", text: "Patient: Asha — Metformin 500mg" },
+    { time: "2:00 PM", text: "Patient: Ravi — Amlodipine 5mg" },
+    { time: "8:00 PM", text: "Patient: Neha — Vitamin D3" },
+  ]);
+  const [recentActivity] = useState([
+    { time: "2 min ago", text: "Prescription created for Asha (UHID-1042)" },
+    { time: "1 hour ago", text: "Accepted appointment with Ravi (UHID-1099)" },
+    { time: "Yesterday", text: "Reviewed Blood Panel report for Neha" },
+  ]);
+  const [emergencyAlerts] = useState([
+    { severity: "danger", text: "Patient Asha — Chest pain (UHID-1042)" },
+    { severity: "warn", text: "Patient Ravi — High BP (UHID-1099)" },
+  ]);
+  const [calendarDays] = useState(() => {
+    // Build a 14-day mini calendar starting from today
+    const start = new Date();
+    return Array.from({ length: 14 }).map((_, i) => {
+      const d = new Date(start);
+      d.setDate(start.getDate() + i);
+      return {
+        label: d.getDate(),
+        isToday: i === 0,
+        muted: i < 0,
+        hasAppt: [1, 3, 5, 7, 10].includes(i),
+      };
+    });
+  });
+  // ==============================================================
+
   function BackToDashboard({ title }) {
     return (
       <div className="doctor-pageBack">
@@ -324,9 +362,10 @@ function Doctor() {
       doctor={doctor}
       onLogout={handleLogout}
     >
-      {/* Quick fix: schedule needs doctorsBySpeciality; all schedule UI lives inside this file for speed */}
-      {step === "dashboard" && (
-        <div className="doctor-dashboard" aria-label="Doctor dashboard">
+      <Suspense fallback={<div className="doctor-empty">Loading doctor module...</div>}>
+        {/* Quick fix: schedule needs doctorsBySpeciality; all schedule UI lives inside this file for speed */}
+        {step === "dashboard" && (
+          <div className="doctor-dashboard" aria-label="Doctor dashboard">
           <div className="doctor-dashboard__top">
             <DoctorDashboardSection
               title="Doctor Overview"
@@ -569,7 +608,7 @@ function Doctor() {
               >
 
                 <div className="doctor-recentPatients" style={{ gap: 10 }}>
-                  {[ 
+                  {[
                     {
                       title: "Write Prescription",
                       sub: "Start with patient details",
@@ -911,6 +950,8 @@ function Doctor() {
           }}
         />
       )}
+
+      </Suspense>
     </DoctorLayoutShell>
   );
 }

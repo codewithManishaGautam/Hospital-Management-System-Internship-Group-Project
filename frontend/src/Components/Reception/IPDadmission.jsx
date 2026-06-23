@@ -77,7 +77,6 @@ function IPDAdmission({ patient }) {
 
       <div className="ipd-form-card">
         <form onSubmit={handleAdmission}>
-          
           {/* Auto Filled Patient Details */}
 
           <div className="ipd-grid">

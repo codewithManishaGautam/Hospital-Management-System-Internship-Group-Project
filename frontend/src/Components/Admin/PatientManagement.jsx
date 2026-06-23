@@ -42,7 +42,7 @@ function PatientManagement({
       <table>
         <thead>
           <tr>
-            <th>ID</th>
+            <th>Patient ID</th>
             <th>Name</th>
             <th>Age</th>
             <th>Gender</th>
@@ -59,7 +59,7 @@ function PatientManagement({
         <tbody>
           {patients.map((p) => (
             <tr key={p._id}>
-              <td>{p._id}</td>
+              <td>pat-{p._id.slice(-6).touppercase()}</td>
 
               <td>
                 {editingPatientId === p._id ? (
