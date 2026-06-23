@@ -16,6 +16,13 @@ import StaffManagement from "../Components/Admin/StaffManagement";
 import DoctorManagement from "../Components/Admin/DoctorManagement";
 import PatientManagement from "../Components/Admin/PatientManagement";
 import Dashboard from "../Components/Admin/Dashboard";
+import AddRoom from "../Components/Admin/AddRoom";
+import RoomInventory from "../Components/Admin/RoomInventory";
+import Inventory from "../Components/Admin/Inventory";
+import Income from "../Components/Admin/Income";
+import Expense from "../Components/Admin/Expense";
+// import Analytics from "../Components/Admin/Analytics";
+import Charges from "../Components/Admin/Charges";
 
 function Admin() {
   const [step, setStep] = useState("admin-dashboard");
@@ -46,6 +53,8 @@ function Admin() {
     admission: "",
     status: "",
   });
+
+  const [finance, setFinance] = useState({});
 
   const [showPrescription, setShowPrescription] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
@@ -166,6 +175,7 @@ function Admin() {
     fetchDoctors();
     fetchStaff();
     fetchPatients();
+    fetchFinance();
   }, []);
 
   const fetchDashboard = async () => {
@@ -204,10 +214,22 @@ function Admin() {
     }
   };
 
+  const fetchFinance = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/admin/analytics");
+
+      setFinance(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <Layout role="Admin" setStep={setStep}>
       {/* DASHBOARD */}
-      {step === "admin-dashboard" && <Dashboard dashboard={dashboard} />}
+      {step === "admin-dashboard" && (
+        <Dashboard dashboard={dashboard} finance={finance} />
+      )}
 
       {/* DOCTORS */}
       {step === "doctors" && (
@@ -256,6 +278,20 @@ function Admin() {
           addStaff={addStaff}
         />
       )}
+
+      {step === "add-room" && <AddRoom />}
+
+      {step === "room-inventory" && <RoomInventory />}
+
+      {step === "inventory" && <Inventory />}
+
+      {step === "income" && <Income />}
+
+      {step === "expense" && <Expense />}
+
+      {/* {step === "analytics" && <Analytics />} */}
+
+      {step === "charges" && <Charges />}
     </Layout>
   );
 }
