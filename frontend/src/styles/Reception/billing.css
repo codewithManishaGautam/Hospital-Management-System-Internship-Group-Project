@@ -1,388 +1,156 @@
-/* =====================================
-   OPD Billing Container
-===================================== */
-
 .billing-container {
-  padding: 25px;
+  padding: 20px;
   background: #f4f8fc;
   min-height: 100vh;
 }
 
-/* =====================================
-   Billing Header
-===================================== */
+/* Header */
 
 .billing-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 .billing-header h2 {
-  color: #1565c0;
+  color: #0f4c81;
   font-size: 28px;
   font-weight: 700;
+  margin: 0;
 }
 
-.billing-header p {
-  color: #64748b;
-  margin-top: 5px;
-}
-
-/* =====================================
-   Billing Card
-===================================== */
+/* Main Card */
 
 .billing-card {
   background: #ffffff;
-  border-radius: 15px;
   padding: 25px;
-
-  box-shadow:
-    0 4px 12px
-    rgba(0, 0, 0, 0.08);
-
-  margin-bottom: 25px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* =====================================
-   Section Title
-===================================== */
-
-.section-title {
-  color: #1565c0;
-  font-size: 18px;
-  font-weight: 600;
-
-  margin-bottom: 20px;
-
-  padding-bottom: 10px;
-
-  border-bottom:
-    2px solid #e3f2fd;
-}
-
-/* =====================================
-   Form Grid
-===================================== */
+/* Form Grid */
 
 .billing-grid {
   display: grid;
-
-  grid-template-columns:
-    repeat(3, 1fr);
-
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
 }
 
-/* =====================================
-   Form Group
-===================================== */
+/* Form Group */
 
-.billing-group {
+.form-group {
   display: flex;
   flex-direction: column;
 }
 
-.billing-group label {
-  margin-bottom: 8px;
-
+.form-group label {
   font-size: 14px;
   font-weight: 600;
-
-  color: #334155;
+  color: #0f4c81;
+  margin-bottom: 6px;
 }
 
-.billing-group input,
-.billing-group select {
-  padding: 12px;
-
-  border:
-    1px solid #d1d5db;
-
-  border-radius: 10px;
-
+.form-group input,
+.form-group select {
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  background: #fff;
   outline: none;
-
-  transition: 0.3s;
 }
 
-.billing-group input:focus,
-.billing-group select:focus {
-  border-color: #1565c0;
-
-  box-shadow:
-    0 0 5px
-    rgba(
-      21,
-      101,
-      192,
-      0.3
-    );
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #0f4c81;
 }
 
-/* =====================================
-   Amount Box
-===================================== */
+/* Readonly Fields */
 
-.amount-box {
-  background: #e3f2fd;
+.form-group input[readonly] {
+  background: #f8fafc;
+  color: #555;
+  cursor: not-allowed;
+}
 
-  border-left:
-    5px solid #1565c0;
+/* Bill Summary */
 
+.bill-summary {
+  margin-top: 30px;
+  background: #f8fbff;
+  border: 1px solid #dbeafe;
+  border-radius: 10px;
   padding: 20px;
-
-  border-radius: 12px;
-
-  margin-top: 25px;
-
-  text-align: center;
 }
 
-.amount-box h3 {
-  color: #1565c0;
-  margin-bottom: 10px;
+.bill-summary h3 {
+  color: #0f4c81;
+  margin-bottom: 15px;
+  font-size: 20px;
 }
 
-.amount-box h1 {
-  color: #0d47a1;
-  font-size: 36px;
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-/* =====================================
-   Payment Status
-===================================== */
-
-.status-paid {
-  background: #dcfce7;
-  color: #15803d;
-
-  padding: 6px 14px;
-
-  border-radius: 20px;
-
-  font-size: 13px;
-  font-weight: 600;
+.summary-row:last-child {
+  border-bottom: none;
 }
 
-.status-pending {
-  background: #fef3c7;
-  color: #b45309;
-
-  padding: 6px 14px;
-
-  border-radius: 20px;
-
-  font-size: 13px;
-  font-weight: 600;
+.summary-row span {
+  font-size: 15px;
 }
 
-/* =====================================
-   Button Section
-===================================== */
+.total {
+  font-size: 18px;
+  font-weight: bold;
+  color: #0f4c81;
+}
+
+/* Buttons */
 
 .billing-buttons {
   display: flex;
   gap: 15px;
-
   margin-top: 25px;
+}
+
+.generate-btn,
+.print-btn {
+  border: none;
+  padding: 12px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
 }
 
 /* Generate Bill */
 
-.generate-bill-btn {
-  background: #1565c0;
+.generate-btn {
+  background: #0f4c81;
   color: white;
-
-  border: none;
-
-  padding: 12px 20px;
-
-  border-radius: 10px;
-
-  cursor: pointer;
-
-  font-weight: 600;
-
-  transition: 0.3s;
 }
 
-.generate-bill-btn:hover {
-  background: #0d47a1;
+.generate-btn:hover {
+  background: #0c3c66;
 }
 
-/* Payment Button */
-
-.payment-btn {
-  background: #16a34a;
-  color: white;
-
-  border: none;
-
-  padding: 12px 20px;
-
-  border-radius: 10px;
-
-  cursor: pointer;
-
-  font-weight: 600;
-
-  transition: 0.3s;
-}
-
-.payment-btn:hover {
-  background: #15803d;
-}
-
-/* Print Button */
+/* Print Bill */
 
 .print-btn {
-  background: #7c3aed;
+  background: #2563eb;
   color: white;
-
-  border: none;
-
-  padding: 12px 20px;
-
-  border-radius: 10px;
-
-  cursor: pointer;
-
-  font-weight: 600;
-
-  transition: 0.3s;
 }
 
 .print-btn:hover {
-  background: #6d28d9;
+  background: #1d4ed8;
 }
 
-/* =====================================
-   Billing History
-===================================== */
+/* Responsive */
 
-.billing-history {
-  background: white;
-
-  border-radius: 15px;
-
-  overflow: hidden;
-
-  box-shadow:
-    0 4px 12px
-    rgba(0, 0, 0, 0.08);
-}
-
-.billing-history-header {
-  background: #1565c0;
-
-  color: white;
-
-  padding: 18px;
-}
-
-.billing-history-header h3 {
-  font-size: 18px;
-}
-
-/* =====================================
-   Table
-===================================== */
-
-.table-wrapper {
-  overflow-x: auto;
-}
-
-.billing-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.billing-table thead {
-  background: #e3f2fd;
-}
-
-.billing-table th {
-  padding: 15px;
-  text-align: left;
-
-  color: #0d47a1;
-  font-weight: 600;
-}
-
-.billing-table td {
-  padding: 15px;
-
-  border-top:
-    1px solid #e5e7eb;
-}
-
-.billing-table tbody tr:hover {
-  background: #f8fafc;
-}
-
-/* =====================================
-   View Button
-===================================== */
-
-.view-btn {
-  background: #1565c0;
-  color: white;
-
-  border: none;
-
-  padding: 8px 14px;
-
-  border-radius: 8px;
-
-  cursor: pointer;
-}
-
-.view-btn:hover {
-  background: #0d47a1;
-}
-
-/* =====================================
-   Search Box
-===================================== */
-
-.search-box {
-  margin-bottom: 20px;
-}
-
-.search-input {
-  width: 100%;
-
-  padding: 12px;
-
-  border:
-    1px solid #d1d5db;
-
-  border-radius: 10px;
-
-  outline: none;
-}
-
-.search-input:focus {
-  border-color: #1565c0;
-}
-
-/* =====================================
-   Responsive
-===================================== */
-
-@media screen and (max-width: 992px) {
-
-  .billing-grid {
-    grid-template-columns:
-      repeat(2, 1fr);
-  }
-}
-
-@media screen and (max-width: 768px) {
-
+@media (max-width: 768px) {
   .billing-grid {
     grid-template-columns: 1fr;
   }
@@ -391,13 +159,8 @@
     flex-direction: column;
   }
 
-  .generate-bill-btn,
-  .payment-btn,
+  .generate-btn,
   .print-btn {
     width: 100%;
-  }
-
-  .billing-container {
-    padding: 15px;
   }
 }

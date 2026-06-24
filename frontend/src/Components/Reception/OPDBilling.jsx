@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import "../../styles/Reception/billing.css";
 
-function OPDBilling() {
+function OPDBilling({ patient }) {
   const [billingData, setBillingData] = useState({
-    uhid: "",
-    patientName: "",
-    doctorName: "",
-    consultationFee: "",
+    consultationFee: 500,
     paymentMode: "Cash",
   });
 
@@ -23,23 +20,18 @@ function OPDBilling() {
 
   return (
     <div className="billing-container">
-
       <div className="billing-header">
         <h2>OPD Billing</h2>
       </div>
 
       <div className="billing-card">
-
         <div className="billing-grid">
-
           <div className="form-group">
             <label>UHID Number</label>
             <input
               type="text"
-              name="uhid"
-              value={billingData.uhid}
-              onChange={handleChange}
-              placeholder="Enter UHID"
+              value={patient?.uhid || ""}
+              readOnly
             />
           </div>
 
@@ -47,10 +39,35 @@ function OPDBilling() {
             <label>Patient Name</label>
             <input
               type="text"
-              name="patientName"
-              value={billingData.patientName}
-              onChange={handleChange}
-              placeholder="Enter Patient Name"
+              value={patient?.patientName || ""}
+              readOnly
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Mobile Number</label>
+            <input
+              type="text"
+              value={patient?.mobile || ""}
+              readOnly
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Age</label>
+            <input
+              type="text"
+              value={patient?.age || ""}
+              readOnly
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Gender</label>
+            <input
+              type="text"
+              value={patient?.gender || ""}
+              readOnly
             />
           </div>
 
@@ -58,10 +75,8 @@ function OPDBilling() {
             <label>Doctor Name</label>
             <input
               type="text"
-              name="doctorName"
-              value={billingData.doctorName}
-              onChange={handleChange}
-              placeholder="Enter Doctor Name"
+              value={patient?.doctor || ""}
+              readOnly
             />
           </div>
 
@@ -72,7 +87,6 @@ function OPDBilling() {
               name="consultationFee"
               value={billingData.consultationFee}
               onChange={handleChange}
-              placeholder="Enter Fee"
             />
           </div>
 
@@ -89,31 +103,23 @@ function OPDBilling() {
               <option>Net Banking</option>
             </select>
           </div>
-
         </div>
 
         <div className="bill-summary">
-
           <h3>Bill Summary</h3>
 
           <div className="summary-row">
             <span>Consultation Fee</span>
-            <span>
-              ₹{billingData.consultationFee || 0}
-            </span>
+            <span>₹{billingData.consultationFee || 0}</span>
           </div>
 
           <div className="summary-row total">
             <span>Total Amount</span>
-            <span>
-              ₹{billingData.consultationFee || 0}
-            </span>
+            <span>₹{billingData.consultationFee || 0}</span>
           </div>
-
         </div>
 
         <div className="billing-buttons">
-
           <button
             className="generate-btn"
             onClick={handleGenerateBill}
@@ -124,11 +130,8 @@ function OPDBilling() {
           <button className="print-btn">
             Print Bill
           </button>
-
         </div>
-
       </div>
-
     </div>
   );
 }

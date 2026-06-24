@@ -1,328 +1,163 @@
-/* =====================================
-   Search Patient Container
-===================================== */
-
 .search-patient-container {
-  padding: 25px;
-  background: #f4f8fc;
+  padding: 20px;
+  background: #f5f7fa;
   min-height: 100vh;
 }
 
-/* =====================================
-   Header Section
-===================================== */
-
 .search-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 .search-header h2 {
+  color: #1e3a8a;
   font-size: 28px;
-  font-weight: 700;
-  color: #1565c0;
+  font-weight: 600;
 }
-
-/* =====================================
-   Search Card
-===================================== */
 
 .search-box {
-  background: #ffffff;
-
-  padding: 20px;
-
-  border-radius: 15px;
-
-  margin-bottom: 25px;
-
-  box-shadow:
-    0 4px 12px
-    rgba(0, 0, 0, 0.08);
+  margin-bottom: 20px;
 }
-
-/* =====================================
-   Search Input
-===================================== */
 
 .search-input {
   width: 100%;
-
-  padding: 14px 18px;
-
+  max-width: 500px;
+  padding: 12px 15px;
   border: 1px solid #d1d5db;
-
-  border-radius: 10px;
-
-  outline: none;
-
+  border-radius: 8px;
   font-size: 15px;
-
-  transition: 0.3s;
+  outline: none;
 }
 
 .search-input:focus {
-  border-color: #1565c0;
-
-  box-shadow:
-    0 0 5px
-    rgba(
-      21,
-      101,
-      192,
-      0.3
-    );
+  border-color: #2563eb;
 }
-
-/* =====================================
-   Table Card
-===================================== */
 
 .patient-table-wrapper {
-  background: #ffffff;
-
-  border-radius: 15px;
-
-  overflow: hidden;
-
-  box-shadow:
-    0 4px 12px
-    rgba(0, 0, 0, 0.08);
+  background: white;
+  border-radius: 10px;
+  overflow-x: auto;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
-
-/* =====================================
-   Patient Table
-===================================== */
 
 .patient-table {
   width: 100%;
-
   border-collapse: collapse;
 }
 
 .patient-table thead {
-  background: #1565c0;
-}
-
-.patient-table thead th {
+  background: #1e3a8a;
   color: white;
-
-  padding: 15px;
-
-  text-align: left;
-
-  font-size: 14px;
 }
 
-.patient-table tbody td {
-  padding: 15px;
-
-  border-bottom:
-    1px solid #e5e7eb;
-
-  font-size: 14px;
+.patient-table th,
+.patient-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .patient-table tbody tr:hover {
-  background: #f8fafc;
+  background: #f9fafb;
 }
 
-/* =====================================
-   View Button
-===================================== */
-
 .view-btn {
-  background: #1565c0;
+  background: #2563eb;
   color: white;
-
   border: none;
-
-  padding: 8px 16px;
-
-  border-radius: 8px;
-
+  padding: 7px 14px;
+  border-radius: 5px;
   cursor: pointer;
-
   transition: 0.3s;
 }
 
 .view-btn:hover {
-  background: #0d47a1;
-}
-
-/* =====================================
-   Patient Details Card
-===================================== */
-
-.patient-info-card {
-  background: white;
-
-  border-radius: 15px;
-
-  padding: 20px;
-
-  margin-top: 25px;
-
-  box-shadow:
-    0 4px 12px
-    rgba(0, 0, 0, 0.08);
-}
-
-.patient-info-card h3 {
-  color: #1565c0;
-
-  margin-bottom: 15px;
-}
-
-.patient-info-grid {
-  display: grid;
-
-  grid-template-columns:
-    repeat(3, 1fr);
-
-  gap: 20px;
-}
-
-.patient-info-item {
-  background: #f8fafc;
-
-  padding: 15px;
-
-  border-radius: 10px;
-}
-
-.patient-info-item label {
-  display: block;
-
-  font-size: 13px;
-
-  color: #64748b;
-
-  margin-bottom: 5px;
-}
-
-.patient-info-item span {
-  font-size: 15px;
-
-  font-weight: 600;
-
-  color: #1e293b;
-}
-
-/* =====================================
-   No Data
-===================================== */
-
-.no-data {
-  text-align: center;
-
-  padding: 30px;
-
-  color: #64748b;
-
-  font-size: 15px;
-}
-
-/* =====================================
-   Responsive
-===================================== */
-
-@media screen and (max-width: 992px) {
-
-  .patient-info-grid {
-    grid-template-columns:
-      repeat(2, 1fr);
-  }
-}
-
-@media screen and (max-width: 768px) {
-
-  .search-patient-container {
-    padding: 15px;
-  }
-
-  .search-header {
-    flex-direction: column;
-    align-items: flex-start;
-
-    gap: 10px;
-  }
-
-  .patient-info-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .patient-table {
-    min-width: 900px;
-  }
-
-  .patient-table-wrapper {
-    overflow-x: auto;
-  }
+  background: #1d4ed8;
 }
 
 .patient-details-card {
   margin-top: 25px;
-
   background: white;
-
-  padding: 25px;
-
-  border-radius: 15px;
-
-  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
 
 .patient-details-card h3 {
-  color: #1565c0;
-
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  color: #1e3a8a;
 }
 
 .details-grid {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 10px;
+}
 
-  grid-template-columns:
-    repeat(2, 1fr);
-
-  gap: 15px;
-
-  margin-bottom: 20px;
+.details-grid p {
+  margin: 0;
+  padding: 8px 0;
 }
 
 .action-buttons {
   display: flex;
-
   gap: 15px;
+  margin-top: 20px;
+  flex-wrap: wrap;
 }
 
 .bill-btn,
 .appointment-btn,
 .ipd-btn {
   border: none;
-
-  padding: 12px 18px;
-
-  border-radius: 10px;
-
-  color: white;
-
+  padding: 10px 18px;
+  border-radius: 6px;
   cursor: pointer;
-
-  font-weight: 600;
+  color: white;
+  font-weight: 500;
+  transition: 0.3s;
 }
 
 .bill-btn {
-  background: #16a34a;
+  background: #2563eb;
+}
+
+.bill-btn:hover {
+  background: #2563eb;
 }
 
 .appointment-btn {
   background: #2563eb;
 }
 
+.appointment-btn:hover {
+  background: #1d4ed8;
+}
+
 .ipd-btn {
-  background: #dc2626;
+  background: #2563eb;
+}
+
+.ipd-btn:hover {
+  background: #2563eb;
+}
+
+@media (max-width: 768px) {
+  .patient-table {
+    font-size: 13px;
+  }
+
+  .patient-table th,
+  .patient-table td {
+    padding: 8px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .bill-btn,
+  .appointment-btn,
+  .ipd-btn {
+    width: 100%;
+  }
 }

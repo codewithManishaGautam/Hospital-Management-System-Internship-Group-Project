@@ -152,7 +152,7 @@ function Dashboard({ setStep, setSelectedPatient }) {
             <p><strong>Address:</strong> {viewPatient.address}</p>
           </div>
 
-          <div className="action-buttons">
+          {/* <div className="action-buttons">
             <button className="bill-btn" onClick={() => setStep("billing")}>
               Generate Bill
             </button>
@@ -162,7 +162,38 @@ function Dashboard({ setStep, setSelectedPatient }) {
             <button className="ipd-btn" onClick={() => setStep("ipdAdmission")}>
               IPD Admission
             </button>
-          </div>
+          </div> */}
+          <div className="action-buttons">
+  <button
+    className="bill-btn"
+    onClick={() => {
+      setSelectedPatient(viewPatient);
+      setStep("billing");
+    }}
+  >
+    Generate Bill
+  </button>
+
+  <button
+    className="appointment-btn"
+    onClick={() => {
+      setSelectedPatient(viewPatient);
+      setStep("register");
+    }}
+  >
+    Book Appointment
+  </button>
+
+  <button
+    className="ipd-btn"
+    onClick={() => {
+      setSelectedPatient(viewPatient);
+      setStep("ipdAdmission");
+    }}
+  >
+    IPD Admission
+  </button>
+</div>
         </div>
       )}
     </div>

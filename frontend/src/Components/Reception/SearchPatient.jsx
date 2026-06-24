@@ -303,34 +303,32 @@ function SearchPatient({
           <div className="action-buttons">
 
             <button
-              className="bill-btn"
-              onClick={() =>
-                setStep(
-                  "billing"
-                )
-              }
-            >
-              Generate Bill
-            </button>
-
+  className="bill-btn"
+  onClick={() => {
+    setSelectedPatient(viewPatient);
+    setStep("billing");
+  }}
+>
+  Generate Bill
+</button>
             <button
   className="appointment-btn"
-  onClick={() => setStep("register")}
+  onClick={() => {
+    setSelectedPatient(viewPatient);
+    setStep("register");
+  }}
 >
   Book Appointment
 </button>
             <button
-              className="ipd-btn"
-              onClick={() =>
-                setStep(
-                  "ipdAdmission"
-                )
-              }
-            >
-              IPD Admission
-            </button>
-
-          </div>
+  className="ipd-btn"
+  onClick={() => {
+    setSelectedPatient(viewPatient);
+    setStep("ipdAdmission");
+  }}
+>
+  IPD Admission
+</button>          </div>
 
         </div>
 

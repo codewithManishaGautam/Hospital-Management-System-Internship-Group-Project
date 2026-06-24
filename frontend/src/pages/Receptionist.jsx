@@ -12,23 +12,33 @@ import Reports from "../Components/Reception/Reports";
 function Receptionist() {
   const [step, setStep] = useState("dashboard");
 
+  // Selected Patient State
+  const [selectedPatient, setSelectedPatient] = useState(null);
+
   return (
     <Layout role="Receptionist" setStep={setStep}>
-      
+
       {step === "dashboard" && (
-        <Dashboard />
+        <Dashboard
+          setStep={setStep}
+          setSelectedPatient={setSelectedPatient}
+        />
       )}
 
       {step === "register" && (
-        <RegistrationForm />
+        <RegistrationForm
+          patient={selectedPatient}
+        />
       )}
 
       {step === "billing" && (
-        <OPDBilling />
+        <OPDBilling patient={selectedPatient} />
       )}
 
       {step === "ipdAdmission" && (
-        <IPDAdmission />
+        <IPDAdmission
+          patient={selectedPatient}
+        />
       )}
 
       {step === "ipdPatients" && (
@@ -36,8 +46,11 @@ function Receptionist() {
       )}
 
       {step === "searchPatient" && (
-        <SearchPatient />
-      )}
+  <SearchPatient
+    setStep={setStep}
+    setSelectedPatient={setSelectedPatient}
+  />
+)}
 
       {step === "reports" && (
         <Reports />
