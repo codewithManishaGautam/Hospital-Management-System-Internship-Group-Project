@@ -2,13 +2,17 @@ const Doctor = require("../models/Doctor");
 const Patient = require("../models/Patient");
 const User = require("../models/User");
 const Staff = require("../models/Staff");
+const Room = require("../models/Room");
+const Inventory = require("../models/Inventory");
+const Charge = require("../models/Charges");
+const Expense = require("../models/Expense");
+const Income = require("../models/Income");
+const Activity = require("../models/Activity");
 
 const getDashboardStats = async (req, res) => {
   try {
     const totalDoctors = await Doctor.countDocuments();
-
     const totalStaff = await Staff.countDocuments();
-
     const totalPatients = await Patient.countDocuments();
 
     const admittedPatients = await Patient.countDocuments({
@@ -19,12 +23,31 @@ const getDashboardStats = async (req, res) => {
       status: "Discharged",
     });
 
+    const incomes = await Income.find();
+    const expenses = await Expense.find();
+
+    const totalIncome = incomes.reduce(
+      (sum, item) => sum + Number(item.amount),
+      0,
+    );
+
+    const totalExpense = expenses.reduce(
+      (sum, item) => sum + Number(item.amount),
+      0,
+    );
+
+    const netProfit = totalIncome - totalExpense;
+
     res.status(200).json({
       totalDoctors,
       totalStaff,
       totalPatients,
       admittedPatients,
       dischargedPatients,
+
+      totalIncome,
+      totalExpense,
+      netProfit,
     });
   } catch (error) {
     res.status(500).json({
@@ -163,6 +186,10 @@ const addStaff = async (req, res) => {
   try {
     const staff = await Staff.create(req.body);
 
+    await Activity.create({
+      message: `New Staff Added : ${staff.name}`,
+    });
+
     res.status(201).json({
       message: "Staff Added Successfully",
       staff,
@@ -209,6 +236,10 @@ const editStaff = async (req, res) => {
 const addPatient = async (req, res) => {
   try {
     const patient = await Patient.create(req.body);
+
+    await Activity.create({
+      message: `New Patient Registered : ${patient.name}`,
+    });
 
     res.status(201).json({
       message: "Patient Added Successfully",
@@ -257,6 +288,10 @@ const addDoctor = async (req, res) => {
   try {
     const doctor = await Doctor.create(req.body);
 
+    await Activity.create({
+      message: `Doctor Added : ${doctor.name}`,
+    });
+
     res.status(201).json({
       message: "Doctor Added Successfully",
       doctor,
@@ -299,6 +334,285 @@ const editDoctor = async (req, res) => {
   }
 };
 
+// GET ROOMS
+const getRooms = async (req, res) => {
+  try {
+    const rooms = await Room.find();
+    res.status(200).json(rooms);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// ADD ROOM
+const addRoom = async (req, res) => {
+  try {
+    const room = await Room.create(req.body);
+
+    await Activity.create({
+      message: `Room Allocated : ${room.roomNumber}`,
+    });
+
+    res.status(201).json({
+      message: "Room Added Successfully",
+      room,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// DELETE ROOM
+const deleteRoom = async (req, res) => {
+  try {
+    await Room.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({
+      message: "Room Deleted Successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+const getInventory = async (req, res) => {
+  try {
+    const inventory = await Inventory.find();
+    res.json(inventory);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+const addInventory = async (req, res) => {
+  try {
+    const item = await Inventory.create(req.body);
+
+    res.json(item);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+const deleteInventory = async (req, res) => {
+  try {
+    await Inventory.findByIdAndDelete(req.params.id);
+
+    res.json({
+      message: "Inventory Deleted",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// GET CHARGES
+const getCharges = async (req, res) => {
+  try {
+    const charges = await Charge.find();
+
+    res.json(charges);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// ADD CHARGE
+const addCharge = async (req, res) => {
+  try {
+    const charge = await Charge.create(req.body);
+
+    res.json(charge);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// DELETE CHARGE
+const deleteCharge = async (req, res) => {
+  try {
+    await Charge.findByIdAndDelete(req.params.id);
+
+    res.json({
+      message: "Charge Deleted",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// GET EXPENSES
+const getExpenses = async (req, res) => {
+  try {
+    const expenses = await Expense.find();
+    res.json(expenses);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// ADD EXPENSE
+const addExpense = async (req, res) => {
+  try {
+    const expense = await Expense.create(req.body);
+
+    res.json(expense);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// DELETE EXPENSE
+const deleteExpense = async (req, res) => {
+  try {
+    await Expense.findByIdAndDelete(req.params.id);
+
+    res.json({
+      message: "Expense Deleted",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// GET INCOME
+const getIncome = async (req, res) => {
+  try {
+    const income = await Income.find();
+    res.json(income);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// ADD INCOME
+const addIncome = async (req, res) => {
+  try {
+    const income = await Income.create(req.body);
+    res.json(income);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// DELETE INCOME
+const deleteIncome = async (req, res) => {
+  try {
+    await Income.findByIdAndDelete(req.params.id);
+
+    res.json({
+      message: "Income Deleted",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// FINANCE DASHBOARD
+const getFinanceStats = async (req, res) => {
+  try {
+    const incomes = await Income.find();
+    const expenses = await Expense.find();
+
+    const totalIncome = incomes.reduce(
+      (sum, item) => sum + Number(item.amount),
+      0,
+    );
+
+    const totalExpense = expenses.reduce(
+      (sum, item) => sum + Number(item.amount),
+      0,
+    );
+
+    const netProfit = totalIncome - totalExpense;
+
+    res.json({
+      totalIncome,
+      totalExpense,
+      netProfit,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+const getAnalytics = async (req, res) => {
+  try {
+    const totalIncome = await Income.aggregate([
+      {
+        $group: {
+          _id: null,
+          total: { $sum: "$amount" },
+        },
+      },
+    ]);
+
+    const totalExpense = await Expense.aggregate([
+      {
+        $group: {
+          _id: null,
+          total: { $sum: "$amount" },
+        },
+      },
+    ]);
+
+    const income = totalIncome[0]?.total || 0;
+    const expense = totalExpense[0]?.total || 0;
+
+    res.json({
+      totalIncome: income,
+      totalExpense: expense,
+      profit: income - expense,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+const getActivities = async (req, res) => {
+  try {
+    const activities = await Activity.find().sort({ createdAt: -1 }).limit(10);
+
+    res.json(activities);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   getDashboardStats,
   getDoctors,
@@ -313,4 +627,22 @@ module.exports = {
   editDoctor,
   addPatient,
   deletePatient,
+  getRooms,
+  addRoom,
+  deleteRoom,
+  getInventory,
+  addInventory,
+  deleteInventory,
+  getCharges,
+  addCharge,
+  deleteCharge,
+  getExpenses,
+  addExpense,
+  deleteExpense,
+  getIncome,
+  addIncome,
+  deleteIncome,
+  getFinanceStats,
+  getAnalytics,
+  getActivities,
 };

@@ -18,3 +18,12 @@
 .prescription-modal ul {
   margin-left: 20px;
 }
+
+@media (max-width: 768px) {
+  .prescription-modal {
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 20px;
+  }
+}
