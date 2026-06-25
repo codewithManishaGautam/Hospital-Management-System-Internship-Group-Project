@@ -1,6 +1,6 @@
 import React, { Suspense, lazy, useEffect, useMemo, useState } from "react";
 
-import DoctorLayoutShell from "../Components/Doctor/DoctorLayoutShell";
+import Layout from "./Layout";
 
 import "../styles/doctor/doctorCommon.css";
 import "../styles/doctor/doctorDashboard.css";
@@ -10,7 +10,6 @@ import "../styles/doctor/prescriptionSystem.css";
 import "../styles/doctor/medicalReports.css";
 import "../styles/doctor/doctorProfile.css";
 import "../styles/doctor/doctorAnalytics.css";
-import "../styles/doctor/doctorSidebar.css";
 
 const PatientTable = lazy(() => import("../Components/Doctor/PatientTable"));
 const PatientDetailsModal = lazy(() => import("../Components/Doctor/PatientDetailsModal"));
@@ -285,10 +284,6 @@ function Doctor() {
   function handleRejectAppointment(appt) {
     alert(`Appointment rejected (UI placeholder): ${appt?.patientName || "patient"}`);
   }
-  function handleLogout() {
-    localStorage.removeItem("token");
-    window.location.href = "/";
-  }
 
   const pageTitles = {
     patients: "Patients",
@@ -356,12 +351,7 @@ function Doctor() {
   }
 
   return (
-    <DoctorLayoutShell
-      step={step}
-      onNavigate={(next) => setStep(next)}
-      doctor={doctor}
-      onLogout={handleLogout}
-    >
+    <Layout role="Doctor" setStep={setStep}>
       <Suspense fallback={<div className="doctor-empty">Loading doctor module...</div>}>
         {/* Quick fix: schedule needs doctorsBySpeciality; all schedule UI lives inside this file for speed */}
         {step === "dashboard" && (
@@ -952,7 +942,7 @@ function Doctor() {
       )}
 
       </Suspense>
-    </DoctorLayoutShell>
+    </Layout>
   );
 }
 

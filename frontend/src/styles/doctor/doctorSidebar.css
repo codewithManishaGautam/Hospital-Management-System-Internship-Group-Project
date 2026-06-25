@@ -3,24 +3,20 @@
 .doctor-sidebar{
   width:240px;
   flex:0 0 auto;
-  background:#111d31;
+  background: linear-gradient(180deg, #07182f 0%, #0c264f 100%);
   border-radius:0;
-  padding:14px;
+  padding:20px 18px;
   color:#fff;
   box-shadow:0 14px 40px rgba(15,23,42,.18);
-  /* Stick full height with dashboard area */
   height:100vh;
   max-height:100vh;
   min-height:100vh;
   position:sticky;
   top:0;
-  border-radius:0;
-
   overflow:auto;
-
   display:flex;
   flex-direction:column;
-  gap:12px;
+  gap:16px;
 }
 
 .doctor-sidebar__profile{
@@ -30,25 +26,28 @@
   flex-direction:column;
   align-items:center;
   gap:10px;
-  padding-bottom:8px;
-  border-bottom:1px solid rgba(255,255,255,.14);
+  padding-bottom:14px;
+  border-bottom:1px solid rgba(255,255,255,.12);
 }
 
 .doctor-sidebar__avatar{
-  width:62px;
-  height:62px;
+  width:84px;
+  height:84px;
   border-radius:50%;
   display:flex;
   align-items:center;
   justify-content:center;
-  background:rgba(255,255,255,.12);
-  font-size:32px;
+  background:#f8fafc;
+  color:#0f172a;
+  font-size:42px;
+  box-shadow:0 14px 30px rgba(15,23,42,.14);
 }
 
 .doctor-sidebar__profileText{
   display:flex;
   flex-direction:column;
-  gap:4px;
+  gap:6px;
+  align-items:center;
 }
 
 .doctor-sidebar__doctorTitle{
@@ -70,24 +69,65 @@
   gap:10px;
 }
 
+.doctor-sidebar-item{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:14px 16px;
+  border-radius:16px;
+  border:none;
+  background:rgba(255,255,255,.08);
+  color:#fff;
+  cursor:pointer;
+  font-weight:900;
+  text-align:left;
+  transition:.15s ease, transform .15s ease, background .15s ease;
+}
+
+.doctor-sidebar-item:hover{
+  background:rgba(255,255,255,.14);
+  transform:translateY(-1px);
+}
+
+.doctor-sidebar-item--active{
+  background:rgba(255,255,255,.18);
+  box-shadow:0 10px 22px rgba(15,23,42,.1);
+}
+
+.doctor-sidebar-item__icon{
+  width:34px;
+  height:34px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  background:rgba(255,255,255,.16);
+}
+
+.doctor-sidebar-item__label{
+  font-size:14px;
+}
+
 .doctor-sidebar__spacer{
   flex:1;
 }
 
 .doctor-sidebar__logout{
   width:100%;
-  padding:12px 14px;
-  border-radius:12px;
+  padding:14px 16px;
+  border-radius:14px;
   border:none;
   cursor:pointer;
   font-weight:1000;
-  background:#34455e;
+  background:#ee2b3b;
   color:#fff;
-  transition:.15s ease;
+  transition:.15s ease, transform .15s ease;
 }
 
 .doctor-sidebar__logout:hover{
-  background:#40536f;
+  background:#d02836;
+  transform:translateY(-1px);
 }
 
 @media (max-width: 980px){
