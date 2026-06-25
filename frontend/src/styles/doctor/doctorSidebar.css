@@ -70,6 +70,47 @@
   gap:10px;
 }
 
+.doctor-sidebar-item{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 14px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.08);
+  background:#1c2a45;
+  color:#fff;
+  cursor:pointer;
+  font-weight:900;
+  text-align:left;
+  transition:.15s ease, transform .15s ease;
+}
+
+.doctor-sidebar-item:hover{
+  background:#2b3b5b;
+  transform:translateY(-1px);
+}
+
+.doctor-sidebar-item--active{
+  background:linear-gradient(135deg, #2563eb, #1d4ed8);
+  border-color:rgba(255,255,255,.22);
+  box-shadow:0 10px 30px rgba(37,99,235,.18);
+}
+
+.doctor-sidebar-item__icon{
+  width:30px;
+  height:30px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:10px;
+  background:rgba(255,255,255,.12);
+}
+
+.doctor-sidebar-item__label{
+  font-size:13px;
+}
+
 .doctor-sidebar__spacer{
   flex:1;
 }
