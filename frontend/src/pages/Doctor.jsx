@@ -10,13 +10,14 @@ import "../styles/doctor/prescriptionSystem.css";
 import "../styles/doctor/medicalReports.css";
 import "../styles/doctor/doctorProfile.css";
 import "../styles/doctor/doctorAnalytics.css";
+import "../styles/doctor/doctorProfileDashboard.css";
 
 const PatientTable = lazy(() => import("../Components/Doctor/PatientTable"));
 const PatientDetailsModal = lazy(() => import("../Components/Doctor/PatientDetailsModal"));
 const AppointmentCard = lazy(() => import("../Components/Doctor/AppointmentCard"));
 const PrescriptionForm = lazy(() => import("../Components/Doctor/PrescriptionForm"));
 const ReportUpload = lazy(() => import("../Components/Doctor/ReportUpload"));
-const DoctorProfileCard = lazy(() => import("../Components/Doctor/DoctorProfileCard"));
+const DoctorProfileDashboard = lazy(() => import("../Components/Doctor/DoctorProfileDashboard"));
 const AnalyticsCard = lazy(() => import("../Components/Doctor/AnalyticsCard"));
 const EmergencyPanel = lazy(() => import("../Components/Doctor/EmergencyPanel"));
 
@@ -150,10 +151,86 @@ function Doctor() {
   );
 
   // Current logged-in doctor (demo)
-  const doctor = useMemo(
-    () => doctorsBySpeciality[0]?.doctors?.[0],
-    [doctorsBySpeciality]
-  );
+  const [loggedInDoctor, setLoggedInDoctor] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    // Backend routes/controllers in this repo currently expose only:
+    // - /api/doctor/patients
+    // - /api/doctor/upcoming-appointments
+    // - /api/doctor/doctor/prescriptions (through doctorRoutes)
+    // There is NO implemented endpoint for doctor profile.
+    // So we derive “logged-in doctor” info from the decoded token payload if possible.
+    try {
+      const parts = token.split(".");
+      if (parts.length < 2) return;
+
+      // JWT payload is base64url encoded
+      const payloadStr = parts[1].replace(/-/g, "+").replace(/_/g, "/");
+      const decoded = JSON.parse(
+        decodeURIComponent(
+          atob(payloadStr)
+            .split("")
+            .map((c) => {
+              return `%${c.charCodeAt(0).toString(16).padStart(2, "0")}`;
+            })
+            .join("")
+        )
+      );
+
+      // Common keys used in various backends
+      const doctorId = decoded?.doctorId || decoded?.id || decoded?.userId || decoded?._id || decoded?.doctor?._id;
+      const doctorName = decoded?.name || decoded?.doctor?.name;
+      const specialization = decoded?.specialization || decoded?.doctor?.specialization;
+
+      // If token contains a doctorId, try to match from demo doctors list.
+      if (doctorId) {
+        const match = doctorsBySpeciality
+          .flatMap((s) => s.doctors || [])
+          .find((d) => String(d.id) === String(doctorId));
+        setLoggedInDoctor(
+          match || {
+            id: String(doctorId),
+            name: doctorName || match?.name || "Dr.",
+            specialization: specialization || match?.specialization || "",
+            experience: match?.experience || "",
+            availability: match?.availability || "",
+            clinic: match?.clinic || "",
+          }
+        );
+        return;
+      }
+
+      if (doctorName) {
+        setLoggedInDoctor({
+          id: decoded?.doctorId || "",
+          name: doctorName,
+          specialization: specialization || "",
+          experience: "",
+          availability: "",
+          clinic: "",
+        });
+      }
+    } catch {
+      // Ignore decoding errors; UI will fall back to demo doctor.
+    }
+  }, [doctorsBySpeciality]);
+
+  const doctor = useMemo(() => {
+    // Fallback to first demo doctor if we can't infer logged-in doctor.
+    return (
+      loggedInDoctor ||
+      doctorsBySpeciality[0]?.doctors?.[0] ||
+      {
+        name: "Dr.",
+        specialization: "",
+        availability: "",
+        clinic: "",
+      }
+    );
+  }, [loggedInDoctor, doctorsBySpeciality]);
 
   // Build speciality->doctors map for schedule dropdowns
   const doctorsForSchedule = useMemo(() => {
@@ -292,6 +369,7 @@ function Doctor() {
     emergency: "Emergency Cases",
     reports: "Medical Reports",
     profile: "My Profile",
+    "profile-dashboard": "Profile & Doctors Directory",
     schedule: "Doctor Schedule",
     notifications: "Notifications",
     analytics: "Analytics",
@@ -735,13 +813,17 @@ function Doctor() {
         />
       )}
 
+      {/* Profile edit moved to profile-dashboard, keeping old profile step for backward compatibility */}
       {step === "profile" && (
-        <div key="doctor-profile">
-          <DoctorProfileCard
-            doctor={doctor}
-            onSave={() => alert("Profile updated (UI placeholder).")}
-          />
-        </div>
+        <DoctorProfileDashboard
+          currentDoctor={doctor}
+        />
+      )}
+
+      {step === "profile-dashboard" && (
+        <DoctorProfileDashboard
+          currentDoctor={doctor}
+        />
       )}
 
       {step === "schedule" && (
