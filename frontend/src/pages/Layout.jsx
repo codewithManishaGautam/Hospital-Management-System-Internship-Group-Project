@@ -34,7 +34,7 @@ function Layout({ role, children, setStep }) {
             <button onClick={() => setStep("prescriptions")}>💊 Prescriptions</button>
             <button onClick={() => setStep("reports")}>🧪 Medical Reports</button>
             <button onClick={() => setStep("emergency")}>🚨 Emergency</button>
-            <button onClick={() => setStep("profile")}>👤 Profile</button>
+            <button onClick={() => setStep("profile-dashboard")}>👤 Profile</button>
             <button onClick={() => setStep("schedule")}>🕒 Schedule</button>
             <button onClick={() => setStep("notifications")}>🔔 Notifications</button>
             <button onClick={() => setStep("analytics")}>📈 Analytics</button>
