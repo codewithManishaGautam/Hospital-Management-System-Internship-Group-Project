@@ -1,6 +1,6 @@
 import React from "react";
 
-import SchemeBenefitByRelative from "./Components/ConcernForm_Module/OnAdmissionConsent/SchemeNotTakeBenefit/SchemeBenefitByRelative";
+import SedationProcedureEng from "./Components/ConcernForm_Module/OperativeConsent/SedationDuringProcedure/SedationProcedureEng";
 
 // import {
 //   Routes,
@@ -43,8 +43,7 @@ function App() {
     // <AddDiagnostic />
 
 
-    <SchemeBenefitByRelative/>
-
+    <SedationProcedureEng/>
 
     // <BrowserRouter>
 
