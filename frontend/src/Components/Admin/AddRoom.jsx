@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "../../styles/admin/forms.css";
+import "../../styles/admin/table.css";
 
 function AddRoom() {
   const [room, setRoom] = useState({

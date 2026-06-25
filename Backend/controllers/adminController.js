@@ -7,6 +7,7 @@ const Inventory = require("../models/Inventory");
 const Charge = require("../models/Charges");
 const Expense = require("../models/Expense");
 const Income = require("../models/Income");
+const Activity = require("../models/Activity");
 
 const getDashboardStats = async (req, res) => {
   try {
@@ -185,6 +186,10 @@ const addStaff = async (req, res) => {
   try {
     const staff = await Staff.create(req.body);
 
+    await Activity.create({
+      message: `New Staff Added : ${staff.name}`,
+    });
+
     res.status(201).json({
       message: "Staff Added Successfully",
       staff,
@@ -232,6 +237,10 @@ const addPatient = async (req, res) => {
   try {
     const patient = await Patient.create(req.body);
 
+    await Activity.create({
+      message: `New Patient Registered : ${patient.name}`,
+    });
+
     res.status(201).json({
       message: "Patient Added Successfully",
       patient,
@@ -278,6 +287,10 @@ const editPatient = async (req, res) => {
 const addDoctor = async (req, res) => {
   try {
     const doctor = await Doctor.create(req.body);
+
+    await Activity.create({
+      message: `Doctor Added : ${doctor.name}`,
+    });
 
     res.status(201).json({
       message: "Doctor Added Successfully",
@@ -335,6 +348,10 @@ const getRooms = async (req, res) => {
 const addRoom = async (req, res) => {
   try {
     const room = await Room.create(req.body);
+
+    await Activity.create({
+      message: `Room Allocated : ${room.roomNumber}`,
+    });
 
     res.status(201).json({
       message: "Room Added Successfully",
@@ -584,6 +601,18 @@ const getAnalytics = async (req, res) => {
   }
 };
 
+const getActivities = async (req, res) => {
+  try {
+    const activities = await Activity.find().sort({ createdAt: -1 }).limit(10);
+
+    res.json(activities);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   getDashboardStats,
   getDoctors,
@@ -615,4 +644,5 @@ module.exports = {
   deleteIncome,
   getFinanceStats,
   getAnalytics,
+  getActivities,
 };

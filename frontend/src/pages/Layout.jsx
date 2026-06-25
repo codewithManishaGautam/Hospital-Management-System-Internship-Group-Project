@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Layout.css";
 
 function Layout({ role, children, setStep }) {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
     <div className="dashboard">
+      <button className="menu-btn" onClick={() => setSidebarOpen(!sidebarOpen)}>
+        ☰
+      </button>
+
       {/* SIDEBAR */}
-      <div className="sidebar">
+      <div className={`sidebar ${sidebarOpen ? "active" : ""}`}>
         <div className="profile">
           <img
             src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
@@ -57,6 +63,10 @@ function Layout({ role, children, setStep }) {
 
             <button onClick={() => setStep("charges")}>
               💳 Charges Management
+            </button>
+
+            <button onClick={() => setStep("insurance")}>
+              🛡 Insurance Records
             </button>
           </>
         )}

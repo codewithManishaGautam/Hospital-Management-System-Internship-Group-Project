@@ -1,5 +1,7 @@
 import React from "react";
 import StaffForm from "./StaffForm";
+import "../../styles/admin/staff.css";
+import "../../styles/admin/table.css";
 
 function StaffManagement({
   staff,

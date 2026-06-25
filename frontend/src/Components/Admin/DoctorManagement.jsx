@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import AddDoctorForm from "./AddDoctorForm";
+import "../../styles/admin/doctor.css";
+import "../../styles/admin/table.css";
 
 function DoctorManagement({ doctors, fetchDoctors }) {
   const [showDoctorForm, setShowDoctorForm] = useState(false);

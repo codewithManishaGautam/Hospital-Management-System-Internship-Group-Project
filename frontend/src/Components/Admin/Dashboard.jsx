@@ -7,14 +7,16 @@ import {
   Legend,
 } from "recharts";
 
-function Dashboard({ dashboard, finance }) {
+import "../../styles/admin/dashboard.css";
+
+function Dashboard({ dashboard, finance, activities }) {
   const chartData = [
     {
-      name: "Income",
+      name: `Income ₹${finance.totalIncome || 0}`,
       value: finance.totalIncome || 0,
     },
     {
-      name: "Expense",
+      name: `Expense ₹${finance.totalExpense || 0}`,
       value: finance.totalExpense || 0,
     },
   ];
@@ -65,29 +67,52 @@ function Dashboard({ dashboard, finance }) {
           <h3>Net Profit</h3>
           <p>₹{finance.profit || 0}</p>
         </div>
+
+        <div className="stats-card">
+          <h3>Insurance Claims</h3>
+          <p>12</p>
+        </div>
+
+        <div className="stats-card">
+          <h3>Approved Claims</h3>
+          <p>8</p>
+        </div>
       </div>
 
-      <div
-        style={{
-          width: "100%",
-          height: "400px",
-          marginTop: "30px",
-        }}
-      >
+      <div className="finance-chart-card">
         <h3>Finance Overview</h3>
 
-        <ResponsiveContainer>
+        <ResponsiveContainer width="100%" height={300}>
           <PieChart>
-            <Pie data={chartData} dataKey="value" outerRadius={120} label>
+            <Pie data={chartData} dataKey="value" outerRadius={140} label>
               {chartData.map((entry, index) => (
                 <Cell key={index} fill={COLORS[index]} />
               ))}
             </Pie>
 
-            <Tooltip />
-            <Legend />
+            <Tooltip formatter={(value) => `₹${value}`} />
+            <Legend verticalAlign="bottom" height={36} />
           </PieChart>
         </ResponsiveContainer>
+
+        <div
+          style={{
+            textAlign: "center",
+            fontSize: "24px",
+            fontWeight: "bold",
+            marginTop: "10px",
+          }}
+        >
+          Net Profit: ₹{finance.profit || 0}
+        </div>
+      </div>
+
+      <div className="activity-card">
+        <h3>Recent Activities</h3>
+
+        {activities?.map((a) => (
+          <p key={a._id}>{a.message}</p>
+        ))}
       </div>
     </div>
   );

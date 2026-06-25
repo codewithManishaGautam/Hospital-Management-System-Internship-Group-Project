@@ -34,6 +34,8 @@ const {
   deleteIncome,
   getFinanceStats,
   getAnalytics,
+
+  getActivities,
 } = require("../controllers/adminController");
 
 // DASHBOARD
@@ -83,9 +85,11 @@ router.post("/income/add", addIncome);
 router.delete("/income/delete/:id", deleteIncome);
 
 //FINANCE
-// router.get("/finance", getFinanceStats);
+router.get("/finance", getFinanceStats);
 
-//ROUTES
-// router.get("/analytics", getAnalytics);
+//ANALYTICS
+router.get("/analytics", getAnalytics);
 
+//ACTIVITIES
+router.get("/activities", getActivities);
 module.exports = router;
