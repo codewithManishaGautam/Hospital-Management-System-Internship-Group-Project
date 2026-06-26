@@ -4,6 +4,7 @@
   gap: 14px;
 }
 
+/* CARD */
 .prescription-card-item {
   display: flex;
   justify-content: space-between;
@@ -12,8 +13,15 @@
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   background: #f8fafc;
+  transition: 0.3s ease;
 }
 
+.prescription-card-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* TEXT */
 .medicine-title-text {
   font-size: 1rem;
   font-weight: 700;
@@ -25,6 +33,7 @@
   color: #64748b;
 }
 
+/* BADGES */
 .badge-status {
   padding: 6px 18px;
   border-radius: 20px;
@@ -42,8 +51,48 @@
   color: #b91c1c;
 }
 
+/* TABLE BORDER */
 .bordered-table,
 .bordered-table th,
 .bordered-table td {
   border: 1px solid #cbd5e1 !important;
+}
+
+/* =========================
+   RESPONSIVE UI QUERIES
+========================= */
+
+/* 📱 Mobile */
+@media (max-width: 600px) {
+
+  .prescription-card-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px;
+  }
+
+  .medicine-title-text {
+    font-size: 0.95rem;
+  }
+
+  .medicine-sub-text {
+    font-size: 0.8rem;
+  }
+
+  .badge-status {
+    align-self: flex-start;
+  }
+}
+
+/* 📱 Tablet */
+@media (max-width: 900px) {
+
+  .prescription-card-item {
+    padding: 14px 18px;
+  }
+
+  .medicine-title-text {
+    font-size: 0.98rem;
+  }
 }
