@@ -17,10 +17,10 @@ function SearchPatient({
     {
       id: 1,
       uhid: "UH17062632104567",
-      patientName: "Rahul Sharma",
+      patientName: "Rahul varma",
       age: 35,
       gender: "Male",
-      mobile: "9876543210",
+      mobile: "9896543210",
       address: "Latur",
       date: "27-06-2025",
     },

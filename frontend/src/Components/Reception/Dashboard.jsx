@@ -37,11 +37,11 @@ function Dashboard({ setStep, setSelectedPatient }) {
     },
     {
       id: 3,
-      uhid: "UH1003",
+      uhid: "UH1004",
       patientName: "Amit Kumar",
       age: 45,
       gender: "Male",
-      mobile: "9876543212",
+      mobile: "9876543412",
       address: "Mumbai",
       doctor: "Dr. Shah",
       feeStatus: "Unpaid",
