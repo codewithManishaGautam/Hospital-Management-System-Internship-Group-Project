@@ -24,7 +24,10 @@
 .doctor-textarea{min-height:120px;resize:vertical;}
 
 .doctor-form__row-actions{display:flex;justify-content:flex-start;}
-.doctor-form__submit{display:flex;justify-content:flex-end;}
+.doctor-form__submit{display:flex;justify-content:flex-end;gap:10px;align-items:flex-end;}
+.doctor-form__submit--with-send{display:flex;justify-content:space-between;gap:12px;align-items:flex-end;flex-wrap:wrap;}
+.doctor-send-group{display:flex;gap:10px;align-items:center;}
+.doctor-send-group .doctor-input{width:auto;min-width:160px;}
 
 .doctor-preview{
   background:#fff;border:1px solid var(--doctor-border);border-radius:var(--doctor-radius);
