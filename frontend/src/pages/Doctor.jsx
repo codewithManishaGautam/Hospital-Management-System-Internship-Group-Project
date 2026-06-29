@@ -41,11 +41,12 @@ function Doctor() {
   const [modalOpen, setModalOpen] = useState(false);
 
   // Schedule UI state
-  const [scheduleSpeciality, setScheduleSpeciality] = useState("Cardiology");
-  const [scheduleDoctorId, setScheduleDoctorId] = useState("d1");
+  const [scheduleSpeciality, setScheduleSpeciality] = useState("General Medicine");
+  const [scheduleDoctorId, setScheduleDoctorId] = useState("d4");
 
 
   // Demo data: doctor schedule should support "multiple types of doctors" (UI-level categories).
+  // Expanded hospital-relevant specializations (frontend demo directory + schedule filter).
   const doctorsBySpeciality = useMemo(
     () => [
       {
@@ -68,6 +69,254 @@ function Doctor() {
             availability: "Mon-Thu 11:00 AM - 6:00 PM",
             clinic: "Pulse Care Center",
           },
+        ],
+      },
+      {
+        speciality: "Endocrinology",
+        types: ["Endocrinologist"],
+        doctors: [
+          {
+            id: "d3",
+            name: "Dr. R. Mehta",
+            specialization: "Endocrinology",
+            experience: "10",
+            availability: "Tue-Sat 9:30 AM - 4:30 PM",
+            clinic: "Diabetes & You",
+          },
+        ],
+      },
+      {
+        speciality: "General Medicine",
+        types: ["Physician"],
+        doctors: [
+          {
+            id: "d4",
+            name: "Dr. Vikram Iyer",
+            specialization: "General Medicine",
+            experience: "7",
+            availability: "Mon-Fri 9:00 AM - 3:00 PM",
+            clinic: "Green Valley Hospital",
+          },
+        ],
+      },
+
+      // --- Added: common hospital departments / specialties ---
+      {
+        speciality: "Neurology",
+        types: ["Neurologist"],
+        doctors: [
+          {
+            id: "d11",
+            name: "Dr. Ananya Sen",
+            specialization: "Neurology",
+            experience: "9",
+            availability: "Mon-Wed 10:00 AM - 2:00 PM",
+            clinic: "NeuroCare",
+          },
+        ],
+      },
+      {
+        speciality: "Orthopedics",
+        types: ["Orthopedic Surgeon", "Orthopedist"],
+        doctors: [
+          {
+            id: "d12",
+            name: "Dr. Rohan Gupta",
+            specialization: "Orthopedics",
+            experience: "11",
+            availability: "Tue-Fri 11:00 AM - 5:00 PM",
+            clinic: "OrthoHub",
+          },
+        ],
+      },
+      {
+        speciality: "Pediatrics",
+        types: ["Pediatrician"],
+        doctors: [
+          {
+            id: "d13",
+            name: "Dr. Meera Kulkarni",
+            specialization: "Pediatrics",
+            experience: "8",
+            availability: "Mon-Thu 9:30 AM - 1:30 PM",
+            clinic: "KidsFirst",
+          },
+        ],
+      },
+      {
+        speciality: "Dermatology",
+        types: ["Dermatologist"],
+        doctors: [
+          {
+            id: "d14",
+            name: "Dr. Farah Ali",
+            specialization: "Dermatology",
+            experience: "7",
+            availability: "Wed-Sat 10:00 AM - 4:00 PM",
+            clinic: "SkinSphere",
+          },
+        ],
+      },
+      {
+        speciality: "Psychiatry",
+        types: ["Psychiatrist"],
+        doctors: [
+          {
+            id: "d15",
+            name: "Dr. Kunal Verma",
+            specialization: "Psychiatry",
+            experience: "10",
+            availability: "Mon-Fri 2:00 PM - 6:00 PM",
+            clinic: "MindCare Clinic",
+          },
+        ],
+      },
+      {
+        speciality: "Gastroenterology",
+        types: ["Gastroenterologist"],
+        doctors: [
+          {
+            id: "d16",
+            name: "Dr. Priyanka Das",
+            specialization: "Gastroenterology",
+            experience: "9",
+            availability: "Tue-Thu 10:00 AM - 3:00 PM",
+            clinic: "GastroGrove",
+          },
+        ],
+      },
+      {
+        speciality: "Pulmonology",
+        types: ["Pulmonologist"],
+        doctors: [
+          {
+            id: "d17",
+            name: "Dr. Sameer Iqbal",
+            specialization: "Pulmonology",
+            experience: "8",
+            availability: "Mon-Wed 11:00 AM - 4:00 PM",
+            clinic: "RespiraCare",
+          },
+        ],
+      },
+      {
+        speciality: "Nephrology",
+        types: ["Nephrologist"],
+        doctors: [
+          {
+            id: "d18",
+            name: "Dr. Shreya Nair",
+            specialization: "Nephrology",
+            experience: "12",
+            availability: "Tue-Fri 9:00 AM - 2:00 PM",
+            clinic: "KidneyLane",
+          },
+        ],
+      },
+      {
+        speciality: "Urology",
+        types: ["Urologist"],
+        doctors: [
+          {
+            id: "d19",
+            name: "Dr. Aditya Roy",
+            specialization: "Urology",
+            experience: "9",
+            availability: "Mon-Thu 1:00 PM - 5:00 PM",
+            clinic: "UrineCare",
+          },
+        ],
+      },
+      {
+        speciality: "Radiology",
+        types: ["Radiologist"],
+        doctors: [
+          {
+            id: "d20",
+            name: "Dr. Manav Jain",
+            specialization: "Radiology",
+            experience: "10",
+            availability: "Mon-Fri 10:00 AM - 4:00 PM",
+            clinic: "ImagiTech",
+          },
+        ],
+      },
+      {
+        speciality: "Oncology",
+        types: ["Oncologist"],
+        doctors: [
+          {
+            id: "d21",
+            name: "Dr. Tanya Bose",
+            specialization: "Oncology",
+            experience: "13",
+            availability: "Tue-Sat 9:00 AM - 2:00 PM",
+            clinic: "CancerCare",
+          },
+        ],
+      },
+      {
+        speciality: "Obstetrics & Gynecology",
+        types: ["Gynecologist", "Obstetrician"],
+        doctors: [
+          {
+            id: "d22",
+            name: "Dr. Ritu Sharma",
+            specialization: "Obstetrics & Gynecology",
+            experience: "9",
+            availability: "Mon-Thu 10:30 AM - 3:30 PM",
+            clinic: "WomenWell",
+          },
+        ],
+      },
+      {
+        speciality: "General Surgery",
+        types: ["General Surgeon"],
+        doctors: [
+          {
+            id: "d23",
+            name: "Dr. Harsh Patel",
+            specialization: "General Surgery",
+            experience: "12",
+            availability: "Mon-Wed 1:00 PM - 5:00 PM",
+            clinic: "SurgiCore",
+          },
+        ],
+      },
+      {
+        speciality: "ENT",
+        types: ["ENT Specialist", "Otolaryngologist"],
+        doctors: [
+          {
+            id: "d24",
+            name: "Dr. Farhan Qureshi",
+            specialization: "ENT",
+            experience: "8",
+            availability: "Wed-Sat 10:00 AM - 4:30 PM",
+            clinic: "EarNoseThroat Hub",
+          },
+        ],
+      },
+      {
+        speciality: "Emergency Medicine",
+        types: ["Emergency Physician"],
+        doctors: [
+          {
+            id: "d25",
+            name: "Dr. Neel Mehra",
+            specialization: "Emergency Medicine",
+            experience: "7",
+            availability: "Mon-Sun 24x7 (demo)",
+            clinic: "Emergency Department",
+          },
+        ],
+      },
+
+      // keep original ids (if token matches them)
+      {
+        speciality: "Cardiology (Alt)",
+        types: ["Cardiologist"],
+        doctors: [
           {
             id: "d5",
             name: "Dr. Sameer Kulkarni",
@@ -87,17 +336,9 @@ function Doctor() {
         ],
       },
       {
-        speciality: "Endocrinology",
+        speciality: "Endocrinology (Alt)",
         types: ["Endocrinologist"],
         doctors: [
-          {
-            id: "d3",
-            name: "Dr. R. Mehta",
-            specialization: "Endocrinology",
-            experience: "10",
-            availability: "Tue-Sat 9:30 AM - 4:30 PM",
-            clinic: "Diabetes & You",
-          },
           {
             id: "d7",
             name: "Dr. Kavita Joshi",
@@ -117,20 +358,12 @@ function Doctor() {
         ],
       },
       {
-        speciality: "General Medicine",
+        speciality: "General Medicine (Alt)",
         types: ["Physician"],
         doctors: [
           {
-            id: "d4",
-            name: "Dr. Vikram Iyer",
-            specialization: "General Medicine",
-            experience: "7",
-            availability: "Mon-Fri 9:00 AM - 3:00 PM",
-            clinic: "Green Valley Hospital",
-          },
-          {
             id: "d9",
-            name: "Dr. Shalini Rao",
+            name: "Dr. Sharavani Rao",
             specialization: "General Medicine",
             experience: "6",
             availability: "Mon-Thu 2:00 PM - 7:00 PM",
@@ -149,6 +382,19 @@ function Doctor() {
     ],
     []
   );
+
+  // Deduplicate by specialization so same specialist shows only once.
+  // (Applies when expanded demo list has multiple entries for same specialization.)
+  const doctorsBySpecialityDeduped = useMemo(() => {
+    const seen = new Set();
+    return doctorsBySpeciality.filter((s) => {
+      const key = s?.speciality || "";
+      if (!key) return true;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }, [doctorsBySpeciality]);
 
   // Current logged-in doctor (demo)
   const [loggedInDoctor, setLoggedInDoctor] = useState(null);
@@ -219,9 +465,14 @@ function Doctor() {
   }, [doctorsBySpeciality]);
 
   const doctor = useMemo(() => {
-    // Fallback to first demo doctor if we can't infer logged-in doctor.
+    // Fallback to General Medicine before other demo doctors if we can't infer logged-in doctor.
+    const generalMedicineDoctor = doctorsBySpeciality
+      .find((s) => s.speciality === "General Medicine")
+      ?.doctors?.[0];
+
     return (
       loggedInDoctor ||
+      generalMedicineDoctor ||
       doctorsBySpeciality[0]?.doctors?.[0] ||
       {
         name: "Dr.",
@@ -347,6 +598,15 @@ function Doctor() {
     fetchUpcomingAppointments();
   }, []);
 
+  // Display helpers: show "Upcoming" while loading, otherwise a numeric count (0 if missing)
+  const upcomingCountDisplay = upcomingAppointmentsLoading
+    ? "Upcoming"
+    : Array.isArray(upcomingAppointments)
+    ? upcomingAppointments.length
+    : 0;
+
+  const upcomingHasItems = Array.isArray(upcomingAppointments) && upcomingAppointments.length > 0;
+
 
 
   function handleSelectPatient(p) {
@@ -443,7 +703,7 @@ function Doctor() {
                 cards={[
                   {
                     title: "Appointments",
-                    value: upcomingAppointments.length,
+                    value: upcomingCountDisplay,
                     icon: "📅",
                     accent: "#1043b4",
                     onClick: () => setStep("appointments"),
@@ -484,7 +744,7 @@ function Doctor() {
               subtitle="Live patient flow"
             >
               <div className="doctor-queue">
-                  {upcomingAppointments.length > 0 ? (
+                  {upcomingHasItems ? (
                     upcomingAppointments.slice(0, 3).map((a, index) => (
                       <div key={a.id} className="doctor-queue__item">
                         <div>
@@ -560,17 +820,18 @@ function Doctor() {
                 }
               >
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                  {upcomingAppointments.slice(0, 3).map((a) => (
-                    <AppointmentCard
-                      key={a.id}
-                      appt={a}
-                      onAccept={() => handleAcceptAppointment(a)}
-                      onReject={() => handleRejectAppointment(a)}
-                    />
-                  ))}
-                  {upcomingAppointments.length === 0 ? (
+                  {upcomingHasItems ? (
+                    upcomingAppointments.slice(0, 3).map((a) => (
+                      <AppointmentCard
+                        key={a.id}
+                        appt={a}
+                        onAccept={() => handleAcceptAppointment(a)}
+                        onReject={() => handleRejectAppointment(a)}
+                      />
+                    ))
+                  ) : (
                     <div className="doctor-empty">No appointments yet.</div>
-                  ) : null}
+                  )}
                 </div>
               </DoctorDashboardSection>
             </div>
@@ -743,10 +1004,12 @@ function Doctor() {
         <div className="doctor-appts">
           <div className="doctor-appts__col">
             <div className="doctor-empty doctor-empty-block">
-              Today: {upcomingAppointments.length} appointment(s)
+              {typeof upcomingCountDisplay === "number"
+                ? `Today: ${upcomingCountDisplay} appointment(s)`
+                : `Today: ${upcomingCountDisplay}`}
             </div>
 
-            {upcomingAppointments.length > 0 ? (
+            {upcomingHasItems ? (
               upcomingAppointments.map((a) => (
                 <AppointmentCard
                   key={a.id}
@@ -970,7 +1233,7 @@ function Doctor() {
           <div className="doctor-analytics-row">
             <AnalyticsCard
               title="Appointments"
-              value={upcomingAppointments.length}
+              value={upcomingCountDisplay}
               subtitle="Upcoming requests"
             />
             <AnalyticsCard title="Patients" value={patients.length} subtitle="Active records" accent="#2563eb" />
