@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function StampUpload() {
+function StampUpload({showName=true}) {
 
     const [stampImage, setStampImage] = useState(null);
 
@@ -16,10 +16,14 @@ function StampUpload() {
     return (
         <div className="text-center">
 
-            <label className="fw-bold d-block mb-2">
-                शिक्का :
-            </label>
-
+            {
+                showName &&
+                (
+                    <label className="fw-bold d-block mb-2">
+                        शिक्का :
+                    </label>
+                )
+            }
             {
                 stampImage ? (
                     <img

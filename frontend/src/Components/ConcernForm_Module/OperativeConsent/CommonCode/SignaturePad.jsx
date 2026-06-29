@@ -1,77 +1,101 @@
-import React, { useRef } from "react";
-import { FontAwesomeIcon }
-from "@fortawesome/react-fontawesome";
 
-import { faEraser }
-from "@fortawesome/free-solid-svg-icons";
 
+import React, { useEffect, useRef, useState } from "react";
 import SignatureCanvas from "react-signature-canvas";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEraser } from "@fortawesome/free-solid-svg-icons";
 
 import "./SignaturePad.css";
 
 function SignaturePad({
 
-  width = 300,
+    height = 40,
 
-  height = 100,
-
-  design = "line"
+    design = "line"
 
 }) {
 
-  const sigCanvas = useRef();
+    const wrapperRef = useRef(null);
 
-  // CLEAR SIGNATURE
+    const sigCanvas = useRef(null);
 
-  const clearSignature = () => {
+    const [canvasWidth, setCanvasWidth] = useState(300);
 
-    sigCanvas.current.clear();
+    useEffect(() => {
 
-  };
+        const resizeCanvas = () => {
 
-  return (
+            if(wrapperRef.current){
 
-    <div className="signature-main">
-      
+                setCanvasWidth(wrapperRef.current.offsetWidth);
 
-      <div className={design}>
+            }
 
-        <SignatureCanvas
-        
+        };
 
-          ref={sigCanvas}
+        resizeCanvas();
 
-          penColor="blue"
+        window.addEventListener("resize", resizeCanvas);
 
-          canvasProps={{
+        return ()=>window.removeEventListener("resize", resizeCanvas);
 
-            width: width,
+    }, []);
 
-            height: height,
+    const clearSignature = ()=>{
 
-            className: "sigCanvas"
+        sigCanvas.current.clear();
 
-          }}
+    };
 
-        />
+    return(
 
-      </div>
+        <div className="signature-main">
 
-      <button
-        onClick={clearSignature}
-        style={{
-          marginTop: "2px"
-        }}
+            <div
 
-        className="btn text-primary"
-      >
-        <FontAwesomeIcon icon={faEraser} id="clear"/>
-        
-      </button>
+                ref={wrapperRef}
 
-    </div>
+                className={design}
 
-  );
+            >
+
+                <SignatureCanvas
+
+                    ref={sigCanvas}
+
+                    penColor="blue"
+
+                    canvasProps={{
+
+                        width:canvasWidth,
+
+                        height:height,
+
+                        className:"sigCanvas"
+
+                    }}
+
+                />
+
+            </div>
+
+            <button
+
+                type="button"
+
+                className="btn btn-sm text-primary"
+
+                onClick={clearSignature}
+
+            >
+
+                <FontAwesomeIcon icon={faEraser}/>
+
+            </button>
+
+        </div>
+
+    );
 
 }
 

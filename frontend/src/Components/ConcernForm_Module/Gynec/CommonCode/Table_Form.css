@@ -1,0 +1,123 @@
+/* Wrapper */
+
+.table-form-wrapper{
+    width:100%;
+}
+
+/* Date */
+
+.date{
+    text-align:right;
+    margin-bottom:10px;
+    font-weight:bold;
+}
+
+/* Responsive */
+
+.table-responsive{
+    width:100%;
+    overflow-x:auto;
+}
+
+/* Table */
+
+.patient-table{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+}
+
+.patient-table td{
+    border:1px solid #000;
+    padding:8px;
+    vertical-align:top;
+    word-break:break-word;
+}
+
+/* Signature */
+
+.patient-table .signature-main{
+    width:100%;
+}
+
+/* Desktop */
+
+@media (min-width:992px){
+
+.patient-table td{
+    font-size:15px;
+}
+
+}
+
+/* Tablet */
+
+@media (max-width:991px){
+
+.patient-table td{
+
+    font-size:14px;
+
+    padding:7px;
+
+}
+
+}
+
+/* Mobile */
+
+@media (max-width:768px){
+
+.table-responsive{
+
+    overflow-x:auto;
+
+}
+
+.patient-table{
+
+    min-width:700px;
+
+}
+
+.patient-table td{
+
+    padding:6px;
+
+    font-size:13px;
+
+}
+
+.date{
+
+    font-size:13px;
+
+}
+
+}
+
+/* Small Mobile */
+
+@media (max-width:480px){
+
+.patient-table{
+
+    min-width:650px;
+
+}
+
+.patient-table td{
+
+    font-size:12px;
+
+    padding:5px;
+
+}
+
+.date{
+
+    font-size:12px;
+
+}
+
+}

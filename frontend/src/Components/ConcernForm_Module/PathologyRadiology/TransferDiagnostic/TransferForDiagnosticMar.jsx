@@ -6,7 +6,7 @@ import DeclarationInfo from "./DeclarationInfo";
 
 
 
-function TransferForDiagnostic() {
+function TransferForDiagnosticMar() {
     return (
         <div className="consent-form">
             <h2 className="title" >
@@ -38,4 +38,4 @@ function TransferForDiagnostic() {
     )
 }
 
-export default TransferForDiagnostic;
+export default TransferForDiagnosticMar;

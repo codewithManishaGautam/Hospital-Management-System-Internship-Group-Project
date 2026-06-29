@@ -1,49 +1,107 @@
+
+
 import React from "react";
 import SignaturePad from "./SignaturePad";
 import { getDateTime, getTodayDate } from "./GetDate_Time";
-import "./Tabel_Form.css";
+import "./Table_Form.css";
 
 function Table_Form() {
-    return (
-        <div>
-            <div className="date">
-                <b>Date:</b> {getTodayDate()}
-            </div>
-            <table className="patient-table">
+  return (
+    <div className="table-form-wrapper">
 
-                <tbody>
+      <div className="date">
+        <b>Date :</b> {getTodayDate()}
+      </div>
 
-                    <tr>
-                        <td ><b>UHID :</b><span><SignaturePad width="145px" height="40px" design="border"/></span></td>
-                        <td><b>DOA:</b> {getDateTime()}</td>
-                        <td><b>Gender / Age :</b><span><SignaturePad width="100px" height="40px" design="border"/></span> </td>
-                    </tr>
+      <div className="table-responsive">
 
-                    <tr>
-                        <td>
-                            <b>IPD ID</b><br />
-                            <pre style={{display:"inline-flex"}}>
-                            <SignaturePad width="70px" height="40px" design="border"/>
-                            </pre>
-                        </td>
+        <table className="patient-table">
 
-                        <td>
-                            <b>Patient Name</b><br />
-                            <SignaturePad width="280px" height="40px" design="line"/>
-                        </td>
+          <tbody>
 
-                        <td>
-                            <b>Consulting Doctor</b><br />
-                            <SignaturePad width="180px" height="40px"  design="line"/>
-                        </td>
-                    </tr>
+            <tr>
 
+              <td>
+                <b>UHID :</b>
+                <div className="mt-1">
+                  <SignaturePad
+                    height={40}
+                    design="border"
+                  />
+                </div>
+              </td>
 
+              <td>
+                <b>DOA :</b>
+                <br />
+                {getDateTime()}
+              </td>
 
-                </tbody>
-            </table>
-        </div>
-    );
+              <td>
+                <b>Gender / Age :</b>
+
+                <div className="mt-1">
+                  <SignaturePad
+                    height={40}
+                    design="border"
+                  />
+                </div>
+
+              </td>
+
+            </tr>
+
+            <tr>
+
+              <td>
+
+                <b>IPD ID</b>
+
+                <div className="mt-1">
+                  <SignaturePad
+                    height={40}
+                    design="border"
+                  />
+                </div>
+
+              </td>
+
+              <td>
+
+                <b>Patient Name</b>
+
+                <div className="mt-1">
+                  <SignaturePad
+                    height={35}
+                    design="line"
+                  />
+                </div>
+
+              </td>
+
+              <td>
+
+                <b>Consulting Doctor</b>
+
+                <div className="mt-1">
+                  <SignaturePad
+                    height={35}
+                    design="line"
+                  />
+                </div>
+
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+  );
 }
 
 export default Table_Form;

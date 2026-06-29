@@ -112,3 +112,23 @@ table input:focus,
 table select:focus {
   border-color: #2563eb;
 }
+
+@media (max-width: 768px) {
+  .table-container {
+    padding: 15px;
+  }
+
+  .section-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+
+  .section-header h2 {
+    font-size: 26px;
+  }
+
+  table {
+    min-width: 900px;
+  }
+}

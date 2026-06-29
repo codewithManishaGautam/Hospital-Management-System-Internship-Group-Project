@@ -64,3 +64,20 @@
   padding: 13px;
   border-radius: 12px;
 }
+
+.table-container .staff-form {
+  width: 100%;
+  max-width: 700px;
+  margin: auto;
+}
+
+@media (max-width: 768px) {
+  .staff-form {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+  }
+}

@@ -3,19 +3,27 @@ import axios from "axios";
 import Layout from "./Layout";
 
 // styles
-import "../styles/admin/dashboard.css";
-import "../styles/admin/table.css";
-import "../styles/admin/doctor.css";
-import "../styles/admin/staff.css";
-import "../styles/admin/patient.css";
-import "../styles/admin/forms.css";
-import "../styles/admin/modal.css";
+// import "../styles/admin/dashboard.css";
+// import "../styles/admin/table.css";
+// import "../styles/admin/doctor.css";
+// import "../styles/admin/staff.css";
+// import "../styles/admin/patient.css";
+// import "../styles/admin/forms.css";
+// import "../styles/admin/modal.css";
 
 // components
 import StaffManagement from "../Components/Admin/StaffManagement";
 import DoctorManagement from "../Components/Admin/DoctorManagement";
 import PatientManagement from "../Components/Admin/PatientManagement";
 import Dashboard from "../Components/Admin/Dashboard";
+import AddRoom from "../Components/Admin/AddRoom";
+import RoomInventory from "../Components/Admin/RoomInventory";
+import Inventory from "../Components/Admin/Inventory";
+import Income from "../Components/Admin/Income";
+import Expense from "../Components/Admin/Expense";
+// import Analytics from "../Components/Admin/Analytics";
+import Charges from "../Components/Admin/Charges";
+import Insurance from "../Components/Admin/Insurance";
 
 function Admin() {
   const [step, setStep] = useState("admin-dashboard");
@@ -35,6 +43,9 @@ function Admin() {
     admission: "",
     status: "",
   });
+
+  const [searchTerm, setSearchTerm] = useState("");
+
   const [showPatientForm, setShowPatientForm] = useState(false);
   const [newPatient, setNewPatient] = useState({
     name: "",
@@ -46,6 +57,9 @@ function Admin() {
     admission: "",
     status: "",
   });
+
+  const [finance, setFinance] = useState({});
+  const [activities, setActivities] = useState([]);
 
   const [showPrescription, setShowPrescription] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
@@ -166,6 +180,8 @@ function Admin() {
     fetchDoctors();
     fetchStaff();
     fetchPatients();
+    fetchFinance();
+    fetchActivities();
   }, []);
 
   const fetchDashboard = async () => {
@@ -204,10 +220,36 @@ function Admin() {
     }
   };
 
+  const fetchFinance = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/admin/analytics");
+
+      setFinance(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchActivities = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/admin/activities");
+
+      setActivities(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <Layout role="Admin" setStep={setStep}>
       {/* DASHBOARD */}
-      {step === "admin-dashboard" && <Dashboard dashboard={dashboard} />}
+      {step === "admin-dashboard" && (
+        <Dashboard
+          dashboard={dashboard}
+          finance={finance}
+          activities={activities}
+        />
+      )}
 
       {/* DOCTORS */}
       {step === "doctors" && (
@@ -235,6 +277,8 @@ function Admin() {
           savePatientEdit={savePatientEdit}
           deletePatient={deletePatient}
           addPatient={addPatient}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
         />
       )}
 
@@ -256,6 +300,22 @@ function Admin() {
           addStaff={addStaff}
         />
       )}
+
+      {step === "add-room" && <AddRoom />}
+
+      {step === "room-inventory" && <RoomInventory />}
+
+      {step === "inventory" && <Inventory />}
+
+      {step === "income" && <Income />}
+
+      {step === "expense" && <Expense />}
+
+      {/* {step === "analytics" && <Analytics />} */}
+
+      {step === "charges" && <Charges />}
+
+      {step === "insurance" && <Insurance />}
     </Layout>
   );
 }
