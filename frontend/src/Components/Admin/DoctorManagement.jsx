@@ -4,6 +4,8 @@ import AddDoctorForm from "./AddDoctorForm";
 import "../../styles/admin/doctor.css";
 import "../../styles/admin/table.css";
 
+import { ForgotPassword } from "../../api/admin/adminApi";
+
 function DoctorManagement({ doctors, fetchDoctors }) {
   const [showDoctorForm, setShowDoctorForm] = useState(false);
 

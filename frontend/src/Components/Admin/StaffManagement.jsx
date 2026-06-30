@@ -42,6 +42,7 @@ function StaffManagement({
             <th>Name</th>
             <th>Aadhaar</th>
             <th>Phone</th>
+            <th>Email</th>
             <th>Role</th>
             <th>Salary</th>
             <th>Status</th>
@@ -103,6 +104,23 @@ function StaffManagement({
                   />
                 ) : (
                   s.phone
+                )}
+              </td>
+
+              <td>
+                {editingStaffId === s._id ? (
+                  <input
+                    type="email"
+                    value={editedStaff.email}
+                    onChange={(e) =>
+                      setEditedStaff({
+                        ...editedStaff,
+                        email: e.target.value,
+                      })
+                    }
+                  />
+                ) : (
+                  s.email
                 )}
               </td>
 
@@ -208,6 +226,7 @@ function StaffManagement({
                           salary: s.salary,
                           status: s.status,
                           joining: s.joining,
+                          email: s.email,
                         });
                       }}
                     >

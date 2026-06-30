@@ -69,6 +69,8 @@ function Admin() {
     name: "",
     aadhaar: "",
     phone: "",
+    email: "",
+    // password: "",
     role: "",
     salary: "",
     status: "",
@@ -80,6 +82,8 @@ function Admin() {
     name: "",
     aadhaar: "",
     phone: "",
+    email: "",
+    // password: "",
     role: "",
     salary: "",
     status: "",
@@ -116,11 +120,14 @@ function Admin() {
         name: "",
         aadhaar: "",
         phone: "",
+        email: "",
+        // password: "",
         role: "",
         salary: "",
         status: "",
         joining: "",
       });
+
       fetchStaff();
     } catch (err) {
       console.log(err);

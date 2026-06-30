@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+import { Finance } from "../../api/admin/adminApi";
+
 function Finance() {
   const [stats, setStats] = useState({
     totalIncome: 0,

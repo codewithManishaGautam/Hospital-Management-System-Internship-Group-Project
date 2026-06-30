@@ -1,0 +1,222 @@
+.login-page {
+  min-height: 100vh;
+  background: url("../../image/login.jpg") center center/cover no-repeat;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+  overflow: hidden;
+}
+
+.login-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(10, 30, 60, 0.35),
+    rgba(15, 25, 40, 0.25)
+  );
+  z-index: 1;
+}
+
+/* LOGIN CARD */
+.center {
+  width: 100%;
+  max-width: 420px;
+  padding: 32px;
+
+  border-radius: 18px;
+
+  background: rgba(14, 24, 42, 0.88);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.45),
+    0 0 25px rgba(33, 150, 243, 0.18);
+
+  position: relative;
+  z-index: 2;
+}
+
+/* TITLE */
+.center h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 18px;
+  letter-spacing: 0.5px;
+}
+
+/* INPUTS */
+.center input,
+.center select {
+  width: 100%;
+  padding: 12px 14px;
+  margin: 10px 0;
+
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+
+  outline: none;
+  font-size: 14px;
+}
+
+/* placeholder */
+.center input::placeholder {
+  color: #d7e9ff;
+}
+
+.center input:focus,
+.center select:focus {
+  border: 1px solid #4fc3f7;
+
+  box-shadow: 0 0 10px rgba(79, 195, 247, 0.45);
+
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* dropdown text fix */
+.center select option {
+  color: black;
+}
+
+/* BUTTONS */
+.center button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 12px;
+
+  border: none;
+  border-radius: 10px;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+/* First Button */
+.center button:first-of-type {
+  background: linear-gradient(135deg, #4f8dfd, #2563eb);
+  color: #fff;
+  box-shadow: 0 12px 25px rgba(37, 99, 235, 0.35);
+}
+
+.center button:first-of-type:hover {
+  background: linear-gradient(135deg, #6aa8ff, #3b82f6);
+}
+
+/* Last Button */
+.center button:last-of-type {
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+}
+
+/* Hover */
+.center button:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* ==========================================
+   LAPTOP (769px - 1024px)
+========================================== */
+@media (max-width: 1024px) {
+  .center {
+    max-width: 380px;
+    padding: 30px;
+  }
+}
+
+/* ==========================================
+   TABLET (481px - 768px)
+========================================== */
+@media (max-width: 768px) {
+  .login-page {
+    padding: 25px;
+  }
+
+  .center {
+    max-width: 420px;
+    width: 100%;
+    margin: 40px auto;
+    padding: 28px;
+  }
+
+  .center h2 {
+    font-size: 24px;
+  }
+
+  .center input,
+  .center select,
+  .center button {
+    padding: 11px;
+    font-size: 15px;
+  }
+}
+
+/* ==========================================
+   MOBILE (320px - 480px)
+========================================== */
+@media (max-width: 480px) {
+  .login-page {
+    padding: 15px;
+  }
+
+  .center {
+    width: 100%;
+    max-width: 100%;
+    margin: 20px auto;
+    padding: 22px 18px;
+    border-radius: 12px;
+  }
+
+  .center h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+  }
+
+  .center input,
+  .center select,
+  .center button {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+/* ==========================================
+   VERY SMALL MOBILE (Below 360px)
+========================================== */
+@media (max-width: 360px) {
+  .login-page {
+    padding: 10px;
+  }
+
+  .center {
+    padding: 18px 14px;
+  }
+
+  .center h2 {
+    font-size: 20px;
+  }
+
+  .center input,
+  .center select,
+  .center button {
+    font-size: 13px;
+    padding: 9px;
+  }
+}

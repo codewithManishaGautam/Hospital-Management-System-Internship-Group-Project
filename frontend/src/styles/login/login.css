@@ -1,0 +1,117 @@
+.hospital-title {
+  position: relative;
+  z-index: 2;
+
+  color: #f8fbff;
+  font-size: 42px;
+  font-weight: 800;
+  text-align: center;
+
+  margin-bottom: 35px;
+
+  text-shadow: 0 8px 25px rgba(0, 0, 0, 0.45);
+}
+
+.login-link {
+  color: #6bb6ff;
+  font-weight: 600;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+  color: #ffffff;
+}
+
+.register-link {
+  color: #7cfc98;
+  font-weight: 600;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+  color: #ffffff;
+}
+
+/* Forgot Password & Register */
+
+.login-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 22px;
+  margin-top: 16px;
+}
+
+.login-actions p {
+  margin: 0;
+  cursor: pointer;
+}
+
+.login-link,
+.register-link {
+  font-size: 16px;
+}
+
+/* ==========================================
+   LAPTOP
+========================================== */
+@media (max-width: 1024px) {
+  .hospital-title {
+    font-size: 36px;
+    margin-top: 120px;
+  }
+}
+
+/* ==========================================
+   TABLET
+========================================== */
+@media (max-width: 768px) {
+  .hospital-title {
+    font-size: 30px;
+    margin-top: 70px;
+    padding: 0 20px;
+    text-align: center;
+  }
+
+  .login-link,
+  .register-link {
+    font-size: 15px;
+  }
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+@media (max-width: 480px) {
+  .hospital-title {
+    font-size: 24px;
+    margin-top: 20px;
+    padding: 0 10px;
+    line-height: 1.5;
+  }
+
+  .login-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .login-link,
+  .register-link {
+    font-size: 14px;
+  }
+}
+
+/* ==========================================
+   VERY SMALL MOBILE
+========================================== */
+@media (max-width: 360px) {
+  .hospital-title {
+    font-size: 20px;
+    line-height: 1.4;
+  }
+
+  .login-link,
+  .register-link {
+    font-size: 13px;
+  }
+}

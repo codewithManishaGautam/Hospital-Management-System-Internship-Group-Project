@@ -7,6 +7,8 @@ import {
   Legend,
 } from "recharts";
 
+import React from "react";
+
 import "../../styles/admin/dashboard.css";
 
 function Dashboard({ dashboard, finance, activities }) {

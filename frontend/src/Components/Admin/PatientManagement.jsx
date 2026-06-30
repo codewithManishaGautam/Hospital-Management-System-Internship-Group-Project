@@ -5,6 +5,8 @@ import "../../styles/admin/patient.css";
 import "../../styles/admin/table.css";
 import "../../styles/admin/modal.css";
 
+// import { PatientManagement } from "../../api/admin/adminApi";
+
 function PatientManagement({
   patients,
   editingPatientId,

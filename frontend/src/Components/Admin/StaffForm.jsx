@@ -1,5 +1,7 @@
 import React from "react";
 
+// import { StaffForm } from "../../api/admin/adminApi";
+
 function StaffForm({
   showStaffForm,
   setShowStaffForm,
@@ -46,8 +48,30 @@ function StaffForm({
         />
 
         <input
-          type="text"
-          placeholder="Role"
+          type="email"
+          placeholder="Email"
+          value={newStaff.email}
+          onChange={(e) =>
+            setNewStaff({
+              ...newStaff,
+              email: e.target.value,
+            })
+          }
+        />
+
+        {/* <input
+          type="password"
+          placeholder="Password"
+          value={newStaff.password}
+          onChange={(e) =>
+            setNewStaff({
+              ...newStaff,
+              password: e.target.value,
+            })
+          }
+        /> */}
+
+        <select
           value={newStaff.role}
           onChange={(e) =>
             setNewStaff({
@@ -55,7 +79,17 @@ function StaffForm({
               role: e.target.value,
             })
           }
-        />
+        >
+          <option value="">Select Role</option>
+          <option value="receptionist">Receptionist</option>
+          <option value="doctor">Doctor</option>
+          <option value="lab">Lab</option>
+          <option value="pharmacy">Pharmacy</option>
+          <option value="nurse">Nurse</option>
+          <option value="billing">Billing</option>
+          <option value="insurance">Insurance</option>
+          <option value="admin">Admin</option>
+        </select>
 
         <input
           type="text"

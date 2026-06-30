@@ -1,13 +1,15 @@
 const Doctor = require("../models/Doctor");
 const Patient = require("../models/Patient");
-const User = require("../models/User");
-const Staff = require("../models/Staff");
+// const User = require("../models/User");
 const Room = require("../models/Room");
 const Inventory = require("../models/Inventory");
 const Charge = require("../models/Charges");
 const Expense = require("../models/Expense");
 const Income = require("../models/Income");
 const Activity = require("../models/Activity");
+const Staff = require("../models/Staff");
+const sendEmail = require("../utils/sendEmail");
+const bcrypt = require("bcryptjs");
 
 const getDashboardStats = async (req, res) => {
   try {
@@ -184,14 +186,49 @@ const getPatients = async (req, res) => {
 
 const addStaff = async (req, res) => {
   try {
-    const staff = await Staff.create(req.body);
+    const existing = await Staff.findOne({
+      email: req.body.email,
+    });
+
+    if (existing) {
+      return res.status(400).json({
+        message: "Email already exists",
+      });
+    }
+
+    // const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    const staff = await Staff.create({
+      name: req.body.name,
+      aadhaar: req.body.aadhaar,
+      phone: req.body.phone,
+      email: req.body.email,
+      password: "",
+      role: req.body.role,
+      salary: req.body.salary,
+      status: req.body.status,
+      joining: req.body.joining,
+      otp: "",
+      isVerified: false,
+    });
+
+    //     await sendEmail(
+    //       staff.email,
+    //       "Shraddha Hospital Registration",
+    //       `Welcome to Shraddha Hospital.
+
+    // Your OTP is : ${otp}
+
+    // Use this OTP to verify your account and create your password.`,
+    //     );
 
     await Activity.create({
       message: `New Staff Added : ${staff.name}`,
     });
 
     res.status(201).json({
-      message: "Staff Added Successfully",
+      success: true,
+      message: "Staff Added Successfully.",
       staff,
     });
   } catch (error) {
@@ -217,7 +254,13 @@ const deleteStaff = async (req, res) => {
 
 const editStaff = async (req, res) => {
   try {
-    const staff = await Staff.findByIdAndUpdate(req.params.id, req.body, {
+    const updateData = { ...req.body };
+
+    if (updateData.password && !updateData.password.startsWith("$2")) {
+      updateData.password = await bcrypt.hash(updateData.password, 10);
+    }
+
+    const staff = await Staff.findByIdAndUpdate(req.params.id, updateData, {
       new: true,
     });
 
