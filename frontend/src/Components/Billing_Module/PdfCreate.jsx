@@ -1,3 +1,44 @@
+// import html2pdf from "html2pdf.js";
+
+// function PdfCreate() {
+
+//   const downloadPDF = () => {
+
+//     const element =
+//       document.getElementById("bill");
+
+//     html2pdf().from(element).save();
+//   };
+
+//   return (
+
+//     <div>
+
+//       {/* Hidden PDF Content */}
+
+//       <div
+//         id="bill"
+//       >
+
+//         <h2>Hospital Bill</h2>
+
+//         <p>Patient: Rahul</p>
+
+//         <p>Amount: ₹2000</p>
+
+//       </div>
+
+//       <button onClick={downloadPDF}>
+//          Download PDF
+//       </button>
+
+//     </div>
+//   );
+// }
+
+// export default PdfCreate;
+
+
 
 import html2pdf from "html2pdf.js";
 

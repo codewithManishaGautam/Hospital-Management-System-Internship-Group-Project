@@ -3,7 +3,7 @@ import SignaturePad from "../SignaturePad";
 import FormChart from "../Common_Code/FormChart";
 import Table_Form from "../Tabel_Form";
 import "../Minor_Surgical/MinorEnglish.css";
-import DeclarationPICCBoneMarrowChemo from "../Common_Code/DeclarationPICCBoneMarrowChemo";
+import DeclarationPICC from "./DeclarationPICC";
 
 
 function PICCMar() {
@@ -23,10 +23,10 @@ function PICCMar() {
                 <b >
                     निदान: <span><SignaturePad width={700} height={40} design="border" /></span>
                 </b>
-                <br /> <br />
+                <br />
 
                 <b>
-                    प्रस्तावित उपचार : <span><SignaturePad width={700} height={40} design="border" /></span>
+                    प्रस्तावित उपचार :
                 </b>
                 <br />
 
@@ -109,7 +109,7 @@ function PICCMar() {
                     </li>
                 </ol>
                 वरील नमूद धोके टाळण्यासाठी आवश्यक ती काळजी घेण्यात येईल व रुग्णाचे नियमित निरीक्षण केले जाईल.                <br /><br />
-                <DeclarationPICCBoneMarrowChemo 
+                <DeclarationPICC 
                 patientSign="रुग्णाची सही :"
                 parentName="पालक / अधिकृत प्रतिनिधीचे नाव  :"
                 parentSign="पालक / अधिकृत प्रतिनिधीचे सही :"

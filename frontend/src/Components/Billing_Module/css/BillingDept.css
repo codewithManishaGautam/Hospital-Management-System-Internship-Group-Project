@@ -4,12 +4,12 @@ body
    background-color:rgb(194, 131, 245);
 }
 
-.navbar
+.nav
 {
    background-color: rgb(204, 226, 245);
    display: flex;
-   justify-content: space-evenly;
-   align-items: center;
+    justify-content: space-evenly;
+    align-items: center;
 
 }
 
@@ -22,4 +22,8 @@ h1
 {
     margin-left: 40%;
     margin-bottom: 25px;
+}
+.nav
+{
+    
 }

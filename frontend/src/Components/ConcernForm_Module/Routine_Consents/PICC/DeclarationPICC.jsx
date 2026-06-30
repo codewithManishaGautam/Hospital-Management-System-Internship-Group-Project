@@ -1,6 +1,7 @@
 import React from "react";
 import SignaturePad from "../SignaturePad";
-function DeclarationPICCBoneMarrowChemo({patientSign,parentName,parentSign,patientRelative,date}) 
+
+function DeclarationPICC({patientSign,parentName,parentSign,patientRelative,date}) 
 {
     return(
         <div>
@@ -69,4 +70,4 @@ function DeclarationPICCBoneMarrowChemo({patientSign,parentName,parentSign,patie
     )
 }
 
-export default  DeclarationPICCBoneMarrowChemo;
+export default  DeclarationPICC;

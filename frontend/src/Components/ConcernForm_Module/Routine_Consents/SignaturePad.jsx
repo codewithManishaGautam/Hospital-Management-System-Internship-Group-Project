@@ -1,102 +1,198 @@
+// import React,
+// {
+//   useRef
+// }
+// from "react";
+
+// import SignatureCanvas
+// from "react-signature-canvas";
+
+// function SignaturePad({ width = "300px", height = "150px" ,design="border"}) {
+
+//   const sigCanvas =
+//   useRef();
+
+//   const saveSignature =
+//   () => {
+
+//     const image =
+
+//     sigCanvas.current
+//     .toDataURL();
+
+//     console.log(image);
+
+//   };
+
+//   return (
+
+//     <div >
+
+//       <SignatureCanvas
+
+//         ref={sigCanvas}
+
+//         penColor="black"
+
+//         canvasProps={{
+
+//           width: width,
+
+//           height: height,
+
+//           design:
+//           design
+
+//         }}
+
+//       />
+
+//       {/* <button
+//       onClick={saveSignature}
+//       >
+//         Save
+//       </button> */}
 
 
 
-import React, { useEffect, useRef, useState } from "react";
+//     </div>
+
+//   );
+
+// }
+
+// export default SignaturePad;
+
+
+
+
+
+// import React, { useRef } from "react";
+
+// import SignatureCanvas from "react-signature-canvas";
+
+// import "./SignaturePad.css";
+
+// function SignaturePad({
+
+//   width = 300,
+
+//   height = 100,
+
+//   design = "border"
+
+// }) {
+
+//   const sigCanvas = useRef();
+
+//   return (
+
+//     <div className={design}>
+
+//       <SignatureCanvas
+
+//         ref={sigCanvas}
+
+//         penColor="black"
+
+//         canvasProps={{
+
+//           width: width,
+
+//           height: height,
+
+//           className: "sigCanvas"
+
+//         }}
+
+//       />
+
+//     </div>
+
+//   );
+
+// }
+
+// export default SignaturePad;
+
+
+
+
+
+import React, { useRef } from "react";
+import { FontAwesomeIcon }
+from "@fortawesome/react-fontawesome";
+
+import { faEraser }
+from "@fortawesome/free-solid-svg-icons";
+
 import SignatureCanvas from "react-signature-canvas";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEraser } from "@fortawesome/free-solid-svg-icons";
 
 import "./SignaturePad.css";
 
 function SignaturePad({
 
-    height = 40,
+  width = 300,
 
-    design = "line"
+  height = 100,
+
+  design = "line"
 
 }) {
 
-    const wrapperRef = useRef(null);
+  const sigCanvas = useRef();
 
-    const sigCanvas = useRef(null);
+  // CLEAR SIGNATURE
 
-    const [canvasWidth, setCanvasWidth] = useState(300);
+  const clearSignature = () => {
 
-    useEffect(() => {
+    sigCanvas.current.clear();
 
-        const resizeCanvas = () => {
+  };
 
-            if(wrapperRef.current){
+  return (
 
-                setCanvasWidth(wrapperRef.current.offsetWidth);
+    <div className="signature-main">
+      
 
-            }
+      <div className={design}>
 
-        };
+        <SignatureCanvas
+        
 
-        resizeCanvas();
+          ref={sigCanvas}
 
-        window.addEventListener("resize", resizeCanvas);
+          penColor="blue"
 
-        return ()=>window.removeEventListener("resize", resizeCanvas);
+          canvasProps={{
 
-    }, []);
+            width: width,
 
-    const clearSignature = ()=>{
+            height: height,
 
-        sigCanvas.current.clear();
+            className: "sigCanvas"
 
-    };
+          }}
 
-    return(
+        />
 
-        <div className="signature-main">
+      </div>
 
-            <div
+      <button
+        onClick={clearSignature}
+        style={{
+          marginTop: "2px"
+        }}
 
-                ref={wrapperRef}
+        className="btn text-primary"
+      >
+        <FontAwesomeIcon icon={faEraser} id="clear"/>
+        
+      </button>
 
-                className={design}
+    </div>
 
-            >
-
-                <SignatureCanvas
-
-                    ref={sigCanvas}
-
-                    penColor="blue"
-
-                    canvasProps={{
-
-                        width:canvasWidth,
-
-                        height:height,
-
-                        className:"sigCanvas"
-
-                    }}
-
-                />
-
-            </div>
-
-            <button
-
-                type="button"
-
-                className="btn btn-sm text-primary"
-
-                onClick={clearSignature}
-
-            >
-
-                <FontAwesomeIcon icon={faEraser}/>
-
-            </button>
-
-        </div>
-
-    );
+  );
 
 }
 
