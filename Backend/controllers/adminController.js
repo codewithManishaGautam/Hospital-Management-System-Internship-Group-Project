@@ -656,6 +656,22 @@ const getActivities = async (req, res) => {
   }
 };
 
+const getSentPrescriptions = async (req, res) => {
+  try {
+    let SentPrescription;
+    try { SentPrescription = require('../models/SentPrescription'); } catch (e) { SentPrescription = null; }
+
+    if (SentPrescription) {
+      const docs = await SentPrescription.find().sort({ createdAt: -1 }).limit(200);
+      return res.status(200).json({ data: docs });
+    }
+
+    return res.status(200).json({ data: global.__sentPrescriptions || { lab: [], pharmacy: [], nurse: [] } });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getDashboardStats,
   getDoctors,

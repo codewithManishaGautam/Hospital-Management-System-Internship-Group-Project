@@ -6,6 +6,7 @@ function DoctorProfileDashboard({ currentDoctor }) {
   const [error, setError] = useState("");
 
   // Demo doctors data fallback
+  // Only show 8 unique hospital-critical specialists in the doctor profile directory.
   const demoAllDoctors = [
     {
       _id: "d1",
@@ -16,22 +17,6 @@ function DoctorProfileDashboard({ currentDoctor }) {
       phone: "9876543210"
     },
     {
-      _id: "d2",
-      name: "Dr. Neha Kapoor",
-      specialization: "Cardiology",
-      qualification: "MBBS, DM Cardiology",
-      experience: "6",
-      phone: "9876543211"
-    },
-    {
-      _id: "d3",
-      name: "Dr. R. Mehta",
-      specialization: "Endocrinology",
-      qualification: "MBBS, MD Endocrinology",
-      experience: "10",
-      phone: "9876543212"
-    },
-    {
       _id: "d4",
       name: "Dr. Vikram Iyer",
       specialization: "General Medicine",
@@ -40,36 +25,52 @@ function DoctorProfileDashboard({ currentDoctor }) {
       phone: "9876543213"
     },
     {
-      _id: "d5",
-      name: "Dr. Sameer Kulkarni",
-      specialization: "Cardiology",
-      qualification: "MBBS, DM Cardiology",
+      _id: "d13",
+      name: "Dr. Meera Kulkarni",
+      specialization: "Pediatrics",
+      qualification: "MBBS, MD Pediatrics",
+      experience: "8",
+      phone: "9876543220"
+    },
+    {
+      _id: "d12",
+      name: "Dr. Rohan Gupta",
+      specialization: "Orthopedics",
+      qualification: "MBBS, MS Orthopedics",
+      experience: "11",
+      phone: "9876543219"
+    },
+    {
+      _id: "d22",
+      name: "Dr. Ritu Sharma",
+      specialization: "Obstetrics & Gynecology",
+      qualification: "MBBS, MD OBG",
       experience: "9",
-      phone: "9876543214"
+      phone: "9876543229"
     },
     {
-      _id: "d6",
-      name: "Dr. Priya Nair",
-      specialization: "Cardiology",
-      qualification: "MBBS, MD Cardiology",
-      experience: "5",
-      phone: "9876543215"
+      _id: "d11",
+      name: "Dr. Ananya Sen",
+      specialization: "Neurology",
+      qualification: "MBBS, MD Neurology",
+      experience: "9",
+      phone: "9876543218"
     },
     {
-      _id: "d7",
-      name: "Dr. Kavita Joshi",
-      specialization: "Endocrinology",
-      qualification: "MBBS, MD Endocrinology",
+      _id: "d24",
+      name: "Dr. Farhan Qureshi",
+      specialization: "ENT",
+      qualification: "MBBS, MS ENT",
+      experience: "8",
+      phone: "9876543231"
+    },
+    {
+      _id: "d25",
+      name: "Dr. Neel Mehra",
+      specialization: "Emergency Medicine",
+      qualification: "MBBS, MD Emergency",
       experience: "7",
-      phone: "9876543216"
-    },
-    {
-      _id: "d8",
-      name: "Dr. Rahul Bansal",
-      specialization: "Endocrinology",
-      qualification: "MBBS, DM Endocrinology",
-      experience: "4",
-      phone: "9876543217"
+      phone: "9876543232"
     }
   ];
 
@@ -98,7 +99,19 @@ function DoctorProfileDashboard({ currentDoctor }) {
 
         const payload = await res.json();
         const doctorsList = payload?.data || payload?.doctors || demoAllDoctors;
-        setAllDoctors(doctorsList.length > 0 ? doctorsList : demoAllDoctors);
+
+        // Deduplicate by specialization so same specialist doctor appears only once.
+        const list = Array.isArray(doctorsList) ? doctorsList : demoAllDoctors;
+        const seen = new Set();
+        const deduped = list.filter((d) => {
+          const key = d?.specialization || d?.speciality || "";
+          if (!key) return true;
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
+
+        setAllDoctors(deduped.length > 0 ? deduped.slice(0, 8) : demoAllDoctors);
       } catch (err) {
         console.warn("Error fetching doctors, using demo data:", err.message);
         setAllDoctors(demoAllDoctors);
