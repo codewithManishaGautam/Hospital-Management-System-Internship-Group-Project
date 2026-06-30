@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import "./css/TableForm.css";
+import "./style/TableForm.css";
 import DeletePatientInTable from "./DeletePatientInTable";
 
 
@@ -88,41 +88,6 @@ function TableForm() {
     return (
         <div >
 
-            {/* <h2>Patient Form</h2>
-
-            <input
-                type="text"
-                placeholder="Name"
-                onChange={(e) => setName(e.target.value)}
-            />
-
-            <input
-                type="number"
-                placeholder="Age"
-                onChange={(e) => setAge(e.target.value)}
-            />
-
-            <select onChange={(e) => setGender(e.target.value)}>
-
-                <option value="">Select Gender</option>
-
-                <option value="Male">
-                    Male
-                </option>
-
-                <option value="Female">
-                    Female
-                </option>
-
-                <option value="Transgender">
-                    Transgender
-                </option>
-
-            </select>
-
-            <button onClick={handleSubmit}>
-                Save
-            </button> */}
 
             <hr />
 
@@ -130,12 +95,12 @@ function TableForm() {
 
                 <thead >
                     <tr >
-                        <th style={{ backgroundColor: "orange" }}>Sr.No</th>
-                        <th style={{ backgroundColor: "orange" }}>Name</th>
-                        <th style={{ backgroundColor: "orange" }}>Age</th>
-                        <th style={{ backgroundColor: "orange" }}>Gender</th>
-                        <th style={{ backgroundColor: "orange" }}>Delete</th>
-                        <th style={{ backgroundColor: "orange" }}>More INFO</th>
+                        <th style={{ backgroundColor: "#1976d2" }}>Sr.No</th>
+                        <th style={{ backgroundColor: "#1976d2" }}>Name</th>
+                        <th style={{ backgroundColor: "#1976d2" }}>Age</th>
+                        <th style={{ backgroundColor: "#1976d2" }}>Gender</th>
+                        <th style={{ backgroundColor: "#1976d2" }}>Delete</th>
+                        <th style={{ backgroundColor: "#1976d2" }}>More INFO</th>
                     </tr>
 
                 </thead>

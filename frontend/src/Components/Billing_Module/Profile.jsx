@@ -1,5 +1,6 @@
 import React, { Profiler, useRef, useState } from "react";
 
+let imageURL;
 function Profile() {
 
   const [profile, setProfile] = useState(
@@ -21,7 +22,7 @@ function Profile() {
 
     if (file) {
 
-      const imageURL = URL.createObjectURL(file);
+      imageURL = URL.createObjectURL(file);
 
       setProfile(imageURL);
 
@@ -36,7 +37,8 @@ function Profile() {
 
         {/* Profile Image */}
         <img
-          src={`https://img.icons8.com/color/1200/administrator-male.jpg`}
+          src={imageURL}
+          // src={`https://img.icons8.com/color/1200/administrator-male.jpg`}
           alt="profile"
           width="55"
           height="55"
