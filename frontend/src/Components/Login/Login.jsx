@@ -61,8 +61,11 @@ function Login() {
       const message = err.response?.data?.message;
 
       if (message === "Please verify your email first.") {
-        alert(message);
-        navigate("/verify-account");
+        alert("Please register before login");
+
+        navigate("/register", {
+          state: { email, role: selectedRole },
+        });
       } else {
         alert(message || "Invalid Email, Password or Role");
       }

@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { sendRegistrationOtp } from "../../api/authApi";
 import { useNavigate } from "react-router-dom";
 import AuthLayout from "./AuthLayout";
 import "../../styles/login/authLayout.css";
+import { useLocation } from "react-router-dom";
 
 function Register() {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
+  const location = useLocation();
+  const prefilledEmail = location.state?.email || "";
+
+  const [email, setEmail] = useState(prefilledEmail);
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [password, setPassword] = useState("");
@@ -20,10 +25,7 @@ function Register() {
     }
 
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/send-registration-otp",
-        { email },
-      );
+      const res = await sendRegistrationOtp({ email });
 
       alert(res.data.message);
       setOtpSent(true);

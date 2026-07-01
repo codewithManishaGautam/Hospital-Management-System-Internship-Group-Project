@@ -1,13 +1,17 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { verifyOtp } from "../../api/authApi";
 import { useNavigate } from "react-router-dom";
 import "../../styles/login/authLayout.css";
 import AuthLayout from "./AuthLayout";
 
 function VerifyAccount() {
+  const location = useLocation();
+  const emailFromLogin = location.state?.email || "";
+
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(emailFromLogin);
   const [otp, setOtp] = useState("");
   const [password, setPassword] = useState("");
 
