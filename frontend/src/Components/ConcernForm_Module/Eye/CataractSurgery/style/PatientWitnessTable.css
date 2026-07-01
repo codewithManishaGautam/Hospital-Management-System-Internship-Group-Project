@@ -1,0 +1,143 @@
+.patient-witness{
+
+    width:100%;
+
+    overflow-x:auto;
+
+}
+
+.patient-witness table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    table-layout:fixed;
+
+}
+
+.patient-witness .half-col{
+
+    width:50%;
+
+    vertical-align:top;
+
+    padding:12px;
+
+}
+
+.patient-witness strong{
+
+    display:block;
+
+    margin-bottom:5px;
+
+    white-space:normal;
+
+    word-break:break-word;
+
+}
+
+.patient-witness input{
+
+    width:100%;
+
+}
+
+.patient-witness .signature-main{
+
+    width:100%;
+
+}
+
+.patient-witness .line{
+
+    width:100%;
+
+}
+
+.patient-witness .border{
+
+    width:220px;
+
+}
+
+/* ---------------- Laptop ---------------- */
+
+@media(min-width:992px){
+
+    .patient-witness td{
+
+        font-size:15px;
+
+    }
+
+}
+
+/* ---------------- Tablet ---------------- */
+
+@media(max-width:991px){
+
+    .patient-witness td{
+
+        font-size:14px;
+
+        padding:10px;
+
+    }
+
+}
+
+/* ---------------- Mobile ---------------- */
+
+@media(max-width:768px){
+
+    .patient-witness{
+
+        overflow-x:auto;
+
+    }
+
+    .patient-witness table{
+
+        min-width:900px;
+
+    }
+
+    .patient-witness .half-col{
+
+        width:450px;
+
+    }
+
+    .patient-witness td{
+
+        font-size:13px;
+
+    }
+
+}
+
+/* ---------------- Small Mobile ---------------- */
+
+@media(max-width:480px){
+
+    .patient-witness table{
+
+        min-width:900px;
+
+    }
+
+    .patient-witness .half-col{
+
+        width:450px;
+
+    }
+
+    .patient-witness td{
+
+        font-size:12px;
+
+    }
+
+}

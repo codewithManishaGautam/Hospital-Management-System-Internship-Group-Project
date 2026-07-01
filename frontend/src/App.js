@@ -1,32 +1,35 @@
 import React from "react";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-} from "react-router-dom";
+import VenousEngMar from "./Components/ConcernForm_Module/Routine_Consents/CentralVenousCatheterisation/VenousEngMar";
 
-import LoginDashboard from "./pages/Login";
-import ReceptionistDashboard from "./pages/Receptionist";
-import DoctorDashboard from "./pages/Doctor";
-import LabDashboard from "./pages/Lab";
-import PharmacyDashboard from "./pages/Pharmacy";
-import NurseDashboard from "./pages/Nurse";
-import BillingDashboard from "./pages/Billing";
-import InsuranceDashboard from "./pages/Insurance";
-import AdminDashboard from "./pages/Admin";
+// import {
+//   Routes,
+//   Route,
+//   BrowserRouter,
+// } from "react-router-dom";
+
+// import LoginDashboard from "./pages/Login";
+// import ReceptionistDashboard from "./pages/Receptionist";
+// import DoctorDashboard from "./pages/Doctor";
+// import LabDashboard from "./pages/Lab";
+// import PharmacyDashboard from "./pages/Pharmacy";
+// import NurseDashboard from "./pages/Nurse";
+// import BillingDashboard from "./pages/Billing";
+// import InsuranceDashboard from "./pages/Insurance";
+// import AdminDashboard from "./pages/Admin";
 
 
 
 
-// import BillingDept from "./components/Billing_Module/BillingDept";
-// import PatientDetail from "./components/Billing_Module/PatientDetail";
+// import BillingDept from "./Components/Billing_Module/BillingDept";
+// import PatientDetail from "./Components/Billing_Module/PatientDetail";
+
+
 // import ReceptionDept from "./components/ReceptionDept";
 // import SignaturePad from "./components/SignaturePad";
 
 // import AddDiagnostic
 // from "./components/Diagnostic_Module/AddDiagnostic";
 // import PICCEng from "./components/ConcernForm_Module/Routine_Consents/PICC/PICCEng";
-
 
 
 
@@ -39,6 +42,9 @@ function App() {
     // <AddDiagnostic />
 
 
+    <VenousEngMar/>
+
+    // <BrowserRouter>
 
     //   <Routes>
 
@@ -49,7 +55,7 @@ function App() {
     //       </BillingDept>}
     //     />
 
-        
+
 
     //     <Route
     //       path="/patient/:id"
@@ -58,69 +64,74 @@ function App() {
 
     //   </Routes>
 
+    // </BrowserRouter>
 
 
 
-    <BrowserRouter>
 
-      <Routes>
+    // <BrowserRouter>
 
-        {/* Login Page */}
-        <Route
-          path="/"
-          element={<LoginDashboard />}
-        />
+    //   <Routes>
 
-        {/* Receptionist */}
-        <Route
-          path="/receptionist"
-          element={<ReceptionistDashboard />}
-        />
+    //     {/* Login Page */}
+    //     <Route
+    //       path="/"
+    //       element={<LoginDashboard />}
+    //     />
 
-        {/* Doctor */}
-        <Route
-          path="/doctor"
-          element={<DoctorDashboard />}
-        />
+    //     {/* Receptionist */}
+    //     <Route
+    //       path="/receptionist"
+    //       element={<ReceptionistDashboard />}
+    //     />
 
-        {/* Lab Module */}
-        <Route
-          path="/lab"
-          element={<LabDashboard />}
-        />
+    //     {/* Doctor */}
+    //     <Route
+    //       path="/doctor"
+    //       element={<DoctorDashboard />}
+    //     />
 
-        {/* Pharmacy */}
-        <Route
-          path="/pharmacy"
-          element={<PharmacyDashboard />}
-        />
+    //     {/* Lab Module */}
+    //     <Route
+    //       path="/lab"
+    //       element={<LabDashboard />}
+    //     />
 
-        {/* Nurse */}
-        <Route
-          path="/nurse"
-          element={<NurseDashboard />}
-        />
+    //     {/* Pharmacy */}
+    //     <Route
+    //       path="/pharmacy"
+    //       element={<PharmacyDashboard />}
+    //     />
 
-        {/* Billing */}
-        <Route
-          path="/billing"
-          element={<BillingDashboard />}
-        />
+    //     {/* Nurse */}
+    //     <Route
+    //       path="/nurse"
+    //       element={<NurseDashboard />}
+    //     />
 
-        {/* Insurance */}
-        <Route
-          path="/insurance"
-          element={<InsuranceDashboard />}
-        />
+    //     {/* Billing */}
+    //     <Route
+    //       path="/billing"
+    //       element={<BillingDashboard />}
+    //     />
 
-        {/* Admin */}
-        <Route
-          path="/admin"
-          element={<AdminDashboard />}
-        />
+    //     {/* Insurance */}
+    //     <Route
+    //       path="/insurance"
+    //       element={<InsuranceDashboard />}
+    //     />
 
-      </Routes>
-    </BrowserRouter>
+    //     {/* Admin */}
+    //     <Route
+    //       path="/admin"
+    //       element={<AdminDashboard />}
+    //     />
+
+    //   </Routes>
+    // </BrowserRouter>
+
+
+
   );
 }
 

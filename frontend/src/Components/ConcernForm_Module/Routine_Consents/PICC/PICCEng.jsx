@@ -3,7 +3,7 @@ import SignaturePad from "../SignaturePad";
 import FormChart from "../Common_Code/FormChart";
 import Table_Form from "../Tabel_Form";
 import "../Minor_Surgical/MinorEnglish.css";
-import DeclarationPICC from "./DeclarationPICC";
+import DeclarationPICCBoneMarrowChemo from "../Common_Code/DeclarationPICCBoneMarrowChemo";
 
 
 function PICCEng() {
@@ -23,10 +23,10 @@ function PICCEng() {
                 <b >
                     Diagnosis: <span><SignaturePad width={700} height={40} design="border" /></span>
                 </b>
-                <br />
+                <br /> <br />
 
                 <b>
-                    Proposed Treatment:
+                    Proposed Treatment: <span><SignaturePad width={700} height={40} design="border" /></span>
                 </b>
                 <br />
 
@@ -133,7 +133,7 @@ function PICCEng() {
                 </ol>
                 These risks will be minimized through proper procedure techniques and patient monitoring.
                 <br /><br />
-                <DeclarationPICC 
+                <DeclarationPICCBoneMarrowChemo 
                     patientSign="Patient Signature :"
                     parentName="Parent/Guardian Name :"
                     parentSign="Parent/Guardian Signature :"
