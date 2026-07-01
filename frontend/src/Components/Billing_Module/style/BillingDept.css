@@ -1,0 +1,271 @@
+/* 
+.billing-page{
+    min-height:100vh;
+    background:#f4f8fc;
+    padding-bottom:30px;
+}
+.navbar
+{
+   background-color: #eaf4ff;
+   display: flex;
+   justify-content: space-evenly;
+   align-items: center;
+
+}
+
+b{
+    margin-left: 15px;
+}
+
+
+h1
+{
+    margin-left: 40%;
+    margin-bottom: 25px;
+}  */
+
+
+
+/* ===========================
+   Global
+=========================== */
+
+html,
+body,
+#root{
+    margin:0;
+    padding:0;
+    min-height:100%;
+    background:#F4F8FC !important;
+    font-family:"Segoe UI",sans-serif;
+}
+
+/* ===========================
+   Page
+=========================== */
+
+.billing-page{
+    min-height:100vh;
+    background:#F4F8FC;
+}
+
+/* ===========================
+   Heading
+=========================== */
+
+h1{
+    margin:0;
+    padding:20px 0;
+    text-align:center;
+    font-size:48px;
+    font-weight:700;
+    color:#0F3D5E;
+    background:#ffffff;
+    border-bottom:1px solid #dbe7f3;
+}
+
+/* ===========================
+   Navbar
+=========================== */
+
+.navbar{
+    height:95px;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    padding:0 35px;
+    background:linear-gradient(90deg,#1565C0,#1E88E5);
+    box-shadow:0 4px 12px rgba(0,0,0,.12);
+}
+
+/* ===========================
+   Menu Icon
+=========================== */
+
+.navbar svg{
+    color:white;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.navbar svg:hover{
+    transform:scale(1.12);
+}
+
+/* ===========================
+   Search Box
+=========================== */
+
+.navbar input{
+    width:340px !important;
+    height:45px;
+    border:none;
+    border-radius:12px;
+    padding-left:18px;
+    font-size:18px;
+    box-shadow:0 3px 12px rgba(0,0,0,.12);
+}
+
+.navbar input:focus{
+    outline:none;
+    box-shadow:0 0 0 3px rgba(255,255,255,.35);
+}
+
+/* ===========================
+   Notification
+=========================== */
+
+.fa-bell{
+    color:white;
+    font-size:30px;
+}
+
+.badge{
+    font-size:8px;
+    padding:7px 10px;
+}
+
+/* ===========================
+   Bill Staff
+=========================== */
+
+.navbar b{
+    color:white;
+    display:flex;
+    align-items:center;
+    gap:15px;
+    font-size:26px;
+    font-weight:600;
+}
+
+.DateTime
+{
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    margin-top: 15px;
+    text-align: center;
+    color: #ffffff;
+}
+
+/* ===========================
+   Profile Image
+=========================== */
+
+.navbar img{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    /* border:3px solid white; */
+    object-fit:cover;
+    box-shadow:0 4px 10px rgba(0,0,0,.2);
+}
+
+/* ===========================
+   Table
+=========================== */
+
+.table{
+    margin-top:30px;
+    background:white;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 5px 18px rgba(0,0,0,.12);
+}
+
+.table thead th{
+    background:linear-gradient(90deg,#1565C0,#1E88E5);
+    color:white;
+    font-size:16px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight:600;
+    text-align:center;
+    padding:16px;
+    border:1px solid #0D47A1;
+}
+
+.table tbody td{
+    background:white;
+    font-family: 'Times New Roman', Times, serif;
+    text-align:center;
+    padding:18px;
+    font-size:18px;
+    border:1px solid #d9e5f0;
+}
+
+.table tbody tr:hover td{
+    background:#EAF4FF;
+    transition:.3s;
+}
+
+/* ===========================
+   Buttons
+=========================== */
+
+.btn-outline-danger{
+    border-radius:10px;
+    transition:.3s;
+}
+
+.btn-outline-danger:hover{
+    transform:scale(1.05);
+}
+
+/* ===========================
+   Links
+=========================== */
+
+a{
+    color:#1565C0;
+    text-decoration:none;
+    font-weight:600;
+}
+
+a:hover{
+    color:#0D47A1;
+}
+
+/* ===========================
+   Responsive
+=========================== */
+
+@media(max-width:992px){
+
+    h1{
+        font-size:38px;
+    }
+
+    .navbar{
+        padding:20px;
+        gap:20px;
+        flex-wrap:wrap;
+        height:auto;
+    }
+
+    .navbar input{
+        width:280px !important;
+    }
+
+}
+
+@media(max-width:768px){
+
+    h1{
+        font-size:32px;
+    }
+
+    .navbar{
+        flex-direction:column;
+        gap:18px;
+    }
+
+    .navbar input{
+        width:100% !important;
+        max-width:320px;
+    }
+
+    .navbar b{
+        font-size:22px;
+    }
+
+}

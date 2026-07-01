@@ -1,27 +1,27 @@
 import React from "react";
 import VenousEngMar from "./Components/ConcernForm_Module/Routine_Consents/CentralVenousCatheterisation/VenousEngMar";
 
-// import {
-//   Routes,
-//   Route,
-//   BrowserRouter,
-// } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  BrowserRouter,
+} from "react-router-dom";
 
-// import LoginDashboard from "./pages/Login";
-// import ReceptionistDashboard from "./pages/Receptionist";
-// import DoctorDashboard from "./pages/Doctor";
-// import LabDashboard from "./pages/Lab";
-// import PharmacyDashboard from "./pages/Pharmacy";
-// import NurseDashboard from "./pages/Nurse";
-// import BillingDashboard from "./pages/Billing";
-// import InsuranceDashboard from "./pages/Insurance";
-// import AdminDashboard from "./pages/Admin";
-
-
+import LoginDashboard from "./pages/Login";
+import ReceptionistDashboard from "./pages/Receptionist";
+import DoctorDashboard from "./pages/Doctor";
+import LabDashboard from "./pages/Lab";
+import PharmacyDashboard from "./pages/Pharmacy";
+import NurseDashboard from "./pages/Nurse";
+import BillingDashboard from "./pages/Billing";
+import InsuranceDashboard from "./pages/Insurance";
+import AdminDashboard from "./pages/Admin";
 
 
-// import BillingDept from "./Components/Billing_Module/BillingDept";
-// import PatientDetail from "./Components/Billing_Module/PatientDetail";
+
+
+import BillingDept from "./Components/Billing_Module/BillingDept";
+import PatientDetail from "./Components/Billing_Module/PatientDetail";
 
 
 // import ReceptionDept from "./components/ReceptionDept";
@@ -42,93 +42,103 @@ function App() {
     // <AddDiagnostic />
 
 
-    <VenousEngMar/>
+    // <VenousEngMar/>
 
     // <BrowserRouter>
 
-    //   <Routes>
+    // <Routes>
 
-    //     <Route
-    //       path="/"
-    //       element={<BillingDept>
+    //   <Route
+    //     path="/"
+    //     element={<BillingDept>
 
-    //       </BillingDept>}
-    //     />
+    //     </BillingDept>}
+    //   />
 
 
 
-    //     <Route
-    //       path="/patient/:id"
-    //       element={<PatientDetail />}
-    //     />
+    //   <Route
+    //     path="/patient/:id"
+    //     element={<PatientDetail />}
+    //   />
 
-    //   </Routes>
+    // </Routes>
 
     // </BrowserRouter>
 
 
 
 
-    // <BrowserRouter>
+    <BrowserRouter>
 
-    //   <Routes>
+      <Routes>
 
-    //     {/* Login Page */}
-    //     <Route
-    //       path="/"
-    //       element={<LoginDashboard />}
-    //     />
+        {/* Login Page */}
+        <Route
+          path="/"
+          element={<LoginDashboard />}
+        />
 
-    //     {/* Receptionist */}
-    //     <Route
-    //       path="/receptionist"
-    //       element={<ReceptionistDashboard />}
-    //     />
+        {/* Receptionist */}
+        <Route
+          path="/receptionist"
+          element={<ReceptionistDashboard />}
+        />
 
-    //     {/* Doctor */}
-    //     <Route
-    //       path="/doctor"
-    //       element={<DoctorDashboard />}
-    //     />
+        {/* Doctor */}
+        <Route
+          path="/doctor"
+          element={<DoctorDashboard />}
+        />
 
-    //     {/* Lab Module */}
-    //     <Route
-    //       path="/lab"
-    //       element={<LabDashboard />}
-    //     />
+        {/* Lab Module */}
+        <Route
+          path="/lab"
+          element={<LabDashboard />}
+        />
 
-    //     {/* Pharmacy */}
-    //     <Route
-    //       path="/pharmacy"
-    //       element={<PharmacyDashboard />}
-    //     />
+        {/* Pharmacy */}
+        <Route
+          path="/pharmacy"
+          element={<PharmacyDashboard />}
+        />
 
-    //     {/* Nurse */}
-    //     <Route
-    //       path="/nurse"
-    //       element={<NurseDashboard />}
-    //     />
+        {/* Nurse */}
+        <Route
+          path="/nurse"
+          element={<NurseDashboard />}
+        />
 
-    //     {/* Billing */}
-    //     <Route
-    //       path="/billing"
-    //       element={<BillingDashboard />}
-    //     />
+        {/* Billing */}
+        {/* <Route
+          path="/billing"
+          element={<BillingDashboard />}
+        /> */}
 
-    //     {/* Insurance */}
-    //     <Route
-    //       path="/insurance"
-    //       element={<InsuranceDashboard />}
-    //     />
+        <Route
+          path="/billing"
+          element={<BillingDept />}
+        />
 
-    //     {/* Admin */}
-    //     <Route
-    //       path="/admin"
-    //       element={<AdminDashboard />}
-    //     />
+        <Route
+          path="/patient/:id"
+          element={<PatientDetail />}
+        />
 
-    //   </Routes>
-    // </BrowserRouter>
+        {/* Insurance */}
+        <Route
+          path="/insurance"
+          element={<InsuranceDashboard />}
+        />
+
+        {/* Admin */}
+        <Route
+          path="/admin"
+          element={<AdminDashboard />}
+        />
+
+      </Routes>
+    </BrowserRouter>
 
 
 

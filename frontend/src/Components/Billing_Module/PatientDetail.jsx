@@ -19,7 +19,7 @@ import {
 import PdfCreate
    from "./PdfCreate";
 
-import "./css/PatientDetail.css";
+import "./style/PatientDetail.css";
 
 import MergePdf
    from "./MergePdf";
