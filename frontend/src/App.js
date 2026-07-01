@@ -1,5 +1,15 @@
 import React from "react";
+<<<<<<< HEAD
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+=======
+import VenousEngMar from "./Components/ConcernForm_Module/Routine_Consents/CentralVenousCatheterisation/VenousEngMar";
+
+import {
+  Routes,
+  Route,
+  BrowserRouter,
+} from "react-router-dom";
+>>>>>>> main
 
 import LoginDashboard from "./pages/Login";
 import ReceptionistDashboard from "./pages/Receptionist";
@@ -39,6 +49,13 @@ import Register from "./Components/Login/Register";
 // import BillingDept from "./Components/Billing_Module/BillingDept";
 // import PatientDetail from "./Components/Billing_Module/PatientDetail";
 
+<<<<<<< HEAD
+=======
+import BillingDept from "./Components/Billing_Module/BillingDept";
+import PatientDetail from "./Components/Billing_Module/PatientDetail";
+
+
+>>>>>>> main
 // import ReceptionDept from "./components/ReceptionDept";
 // import SignaturePad from "./components/SignaturePad";
 
@@ -46,29 +63,52 @@ import Register from "./Components/Login/Register";
 // from "./components/Diagnostic_Module/AddDiagnostic";
 // import PICCEng from "./components/ConcernForm_Module/Routine_Consents/PICC/PICCEng";
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> main
 function App() {
   return (
     // <AddDiagnostic />
 
     // <VenousEngMar/>
 
+<<<<<<< HEAD
+    // <BrowserRouter>
+=======
+    // <VenousEngMar/>
+>>>>>>> main
+
     // <BrowserRouter>
 
-    //   <Routes>
+    // <Routes>
 
-    //     <Route
-    //       path="/"
-    //       element={<BillingDept>
+    //   <Route
+    //     path="/"
+    //     element={<BillingDept>
 
-    //       </BillingDept>}
-    //     />
-
+<<<<<<< HEAD
     //     <Route
     //       path="/patient/:id"
     //       element={<PatientDetail />}
     //     />
+=======
+    //     </BillingDept>}
+    //   />
 
-    //   </Routes>
+>>>>>>> main
+
+
+    //   <Route
+    //     path="/patient/:id"
+    //     element={<PatientDetail />}
+    //   />
+
+    // </Routes>
+
+    // </BrowserRouter>
 
     <BrowserRouter>
       <Routes>
@@ -91,7 +131,24 @@ function App() {
         <Route path="/nurse" element={<NurseDashboard />} />
 
         {/* Billing */}
+<<<<<<< HEAD
         <Route path="/billing" element={<BillingDashboard />} />
+=======
+        {/* <Route
+          path="/billing"
+          element={<BillingDashboard />}
+        /> */}
+
+        <Route
+          path="/billing"
+          element={<BillingDept />}
+        />
+
+        <Route
+          path="/patient/:id"
+          element={<PatientDetail />}
+        />
+>>>>>>> main
 
         {/* Insurance */}
         <Route path="/insurance" element={<InsuranceDashboard />} />
@@ -108,6 +165,7 @@ function App() {
         <Route path="/register" element={<Register />} />
       </Routes>
     </BrowserRouter>
+<<<<<<< HEAD
     // </BrowserRouter>
 
     // <BrowserRouter>
@@ -170,6 +228,11 @@ function App() {
 
     //   </Routes>
     // </BrowserRouter>
+=======
+
+
+
+>>>>>>> main
   );
 }
 

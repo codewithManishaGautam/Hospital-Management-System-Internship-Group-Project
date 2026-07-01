@@ -1,130 +1,3 @@
-// import React, {
-//    useEffect,
-//    useState
-// } from "react";
-
-// import axios from "axios";
-
-// import {
-//    useParams
-// } from "react-router-dom";
-
-// import PdfCreate from "./PdfCreate";
-// import "./css/PatientDetail.css";
-// import MergePdf from "./MergePdf";
-// import AddDiagnostic from "../Diagnostic_Module/AddDiagnostic";
-
-
-// function PatientDetail() {
-
-//    const { id } = useParams();
-
-//    const [patient, setPatient] = useState({});
-
-//    const getPatient = async () => {
-
-//       const res = await axios.get(
-//          `http://localhost:5000/patient/${id}`
-//       );
-
-//       setPatient(res.data);
-//    };
-
-//    useEffect(() => {
-//       getPatient();
-//    }, []);
-
-
-//    const Lab = "Lab";
-//    const Pharma = "Pharma";
-//    const Nurse = "Nurse";
-//    const Doctor = "Doctor";
-//    const Insurance = "Insurance";
-
-
-//    return (
-
-//       <div>
-
-//          <h1>Patient Information</h1>
-//          <br />
-//          <div className="Patient">
-
-//             <p><b>Name : </b>{patient.name}</p>
-
-//             <p><b>Age : </b>{patient.age}</p>
-
-//             <p><b>Gender : </b> {patient.gender}</p><br />
-//          </div>
-
-
-//          <table border="5" className="table table-bordered mt-3" >
-//             <thead>
-//                <tr >
-//                   <th className="table-primary">
-//                      Date
-//                   </th>
-//                   <th className="table-primary">
-//                      Lab Test
-//                   </th >
-//                   <th className="table-primary">
-//                      Pharma
-//                   </th>
-//                   <th className="table-primary">
-//                      Nurse
-//                   </th>
-//                   <th className="table-primary">
-//                      Doctor Fee
-//                   </th>
-//                   <th className="table-primary">
-//                      Insurance
-//                   </th>
-
-//                </tr>
-//             </thead>
-
-//             <tbody className="table-Light">
-//                <tr>
-//                   <td >
-//                      09/05/2026
-//                   </td>
-//                   <td><PdfCreate patient={patient} pdfname={Lab} /></td>
-
-//                   <td><PdfCreate patient={patient} pdfname={Pharma} /></td>
-
-//                   <td><PdfCreate patient={patient} pdfname={Nurse} /></td>
-
-//                   <td><PdfCreate patient={patient} pdfname={Doctor} /></td>
-
-//                   <td><PdfCreate patient={patient} pdfname={Insurance} /></td>
-
-//                </tr>
-//                <tr>
-//                   <td >
-//                      10/05/2026
-//                   </td>
-//                   <td><AddDiagnostic/></td>
-//                   {/* <td><PdfCreate patient={patient} pdfname={Lab} /></td> */}
-
-//                   <td><PdfCreate patient={patient} pdfname={Pharma} /></td>
-
-//                   <td><PdfCreate patient={patient} pdfname={Nurse} /></td>
-
-//                   <td><PdfCreate patient={patient} pdfname={Doctor} /></td>
-
-//                   <td><PdfCreate patient={patient} pdfname={Insurance} /></td>
-//                </tr>
-//             </tbody>
-//          </table>
-//          <MergePdf></MergePdf>
-
-//       </div>
-//    );
-// }
-
-// export default PatientDetail;
-
-
 
 
 import React,
@@ -146,10 +19,12 @@ import {
 import PdfCreate
    from "./PdfCreate";
 
-import "./css/PatientDetail.css";
+import "./style/PatientDetail.css";
 
 import MergePdf
    from "./MergePdf";
+
+
 
 
 function PatientDetail() {
