@@ -1,4 +1,5 @@
 import React from 'react'
+import { useState } from 'react';
 import "./style/BillingDept.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PdfCreate from './PdfCreate';
@@ -7,7 +8,9 @@ import { getTime, getDate } from "./GetDate_Time";
 import Profile from './Profile';
 import TableForm from './TableForm';
 
+
 function BillingDept() {
+        const [search, setSearch] = useState("");
 
 
     return (
@@ -26,14 +29,13 @@ function BillingDept() {
                     Shradha Hospital
                     daund
                 </b>
-                <input placeholder='Patient name' className="form-control" placeholder="Patient Name" style={{width:"300px"}}></input>
-                {/* <p className="position-relative">
-                    <FontAwesomeIcon icon={faBell} style={{ margin: "5px 0 0 0", height: "40px", width: "30px" }} />
-                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style={{ margin: "5px 0 0 0", height: "auto" }}>
-                        5+
-                        <span className="visually-hidden">unread messages</span>
-                    </span>
-                </p> */}
+                <input
+                className="form-control"
+                placeholder="Patient Name"
+                style={{ width: "300px" }}
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+            />
 
                     <Profile ></Profile>
             </nav>
@@ -41,7 +43,7 @@ function BillingDept() {
 
             
 
-            <TableForm></TableForm>
+            <TableForm search={search}></TableForm>
 
 
         </div>
