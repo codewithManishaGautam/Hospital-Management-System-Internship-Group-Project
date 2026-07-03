@@ -1,0 +1,35 @@
+.patient-records {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.patient-records__intro {
+  margin: 0;
+  color: #4b5563;
+}
+
+.patient-records__list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.patient-records__list h3 {
+  margin: 0;
+}
+
+.patient-records__empty {
+  margin: 0;
+  color: #6b7280;
+}
+
+.patient-records__card {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
