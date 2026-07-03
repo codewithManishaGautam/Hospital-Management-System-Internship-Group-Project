@@ -41,7 +41,22 @@ function Layout({ role, children, setStep }) {
           </>
         )}
 
-        {['Lab', 'Pharmacy', 'Bill', 'Insurance'].includes(role) && (
+        {role === "Lab" && (
+          <>
+            <button onClick={() => setStep("overview")}>🏠 Overview</button>
+            <button onClick={() => setStep("patients")}>🧑 Patients</button>
+            <button onClick={() => setStep("tests")}>🧪 Test Catalog</button>
+            <button onClick={() => setStep("booking")}>📅 Booking</button>
+            <button onClick={() => setStep("samples")}>🧬 Samples</button>
+            <button onClick={() => setStep("analysis")}>🔬 Analysis</button>
+            <button onClick={() => setStep("findings")}>📄 Findings</button>
+            <button onClick={() => setStep("reports")}>📝 Reports</button>
+            <button onClick={() => setStep("payments")}>💰 Billing</button>
+            <button onClick={() => setStep("history")}>📜 History</button>
+          </>
+        )}
+
+        {['Pharmacy', 'Bill', 'Insurance'].includes(role) && (
           <button onClick={() => setStep('search')}>Search Patient</button>
         )}
 
