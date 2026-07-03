@@ -2,7 +2,7 @@ import "../../styles/login/authLayout.css";
 function AuthLayout({ title, children }) {
   return (
     <div className="login-page">
-      <div className="center">
+      <div className="login-card">
         <h2>{title}</h2>
 
         {children}

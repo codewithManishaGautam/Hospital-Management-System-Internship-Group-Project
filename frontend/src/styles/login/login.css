@@ -1,117 +1,94 @@
-.hospital-title {
-  position: relative;
-  z-index: 2;
+.login-overlay {
+  position: absolute;
 
-  color: #f8fbff;
-  font-size: 42px;
-  font-weight: 800;
-  text-align: center;
+  inset: 0;
 
-  margin-bottom: 35px;
-
-  text-shadow: 0 8px 25px rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.25);
 }
 
-.login-link {
-  color: #6bb6ff;
-  font-weight: 600;
-}
+.login-content {
+  width: 100%;
+  max-width: 700px;
 
-.login-link:hover {
-  text-decoration: underline;
-  color: #ffffff;
-}
-
-.register-link {
-  color: #7cfc98;
-  font-weight: 600;
-}
-
-.register-link:hover {
-  text-decoration: underline;
-  color: #ffffff;
-}
-
-/* Forgot Password & Register */
-
-.login-actions {
   display: flex;
+  flex-direction: column;
+
   justify-content: center;
   align-items: center;
-  gap: 22px;
-  margin-top: 16px;
+
+  text-align: center;
+
+  gap: 35px;
 }
 
-.login-actions p {
-  margin: 0;
-  cursor: pointer;
+.login-left {
+  width: 100%;
+  color: white;
+}
+
+.hospital-title {
+  font-size: 56px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 10px;
+  background: transparent;
+}
+
+.hospital-subtitle {
+  font-size: 22px;
+  color: white;
+  opacity: 0.9;
+}
+
+.login-actions {
+  margin-top: 18px;
 }
 
 .login-link,
 .register-link {
-  font-size: 16px;
+  color: white;
+
+  text-align: center;
+
+  cursor: pointer;
+
+  margin-top: 10px;
+
+  transition: 0.3s;
 }
 
-/* ==========================================
-   LAPTOP
-========================================== */
-@media (max-width: 1024px) {
-  .hospital-title {
-    font-size: 36px;
-    margin-top: 120px;
-  }
+.login-link:hover,
+.register-link:hover {
+  color: #9dd1ff;
 }
 
-/* ==========================================
-   TABLET
-========================================== */
-@media (max-width: 768px) {
-  .hospital-title {
-    font-size: 30px;
-    margin-top: 70px;
-    padding: 0 20px;
-    text-align: center;
-  }
-
-  .login-link,
-  .register-link {
-    font-size: 15px;
-  }
+.login-card input,
+.login-card select {
+  background: white;
 }
 
-/* ==========================================
-   MOBILE
-========================================== */
-@media (max-width: 480px) {
+.login-card button {
+  background: linear-gradient(90deg, #0d6efd, #2563eb);
+}
+
+.login-card button:hover {
+  background: linear-gradient(90deg, #0b5ed7, #1d4ed8);
+}
+
+@media (max-width: 900px) {
+  .login-content {
+    max-width: 95%;
+  }
+
   .hospital-title {
-    font-size: 24px;
-    margin-top: 20px;
-    padding: 0 10px;
-    line-height: 1.5;
+    font-size: 42px;
   }
 
-  .login-actions {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .login-link,
-  .register-link {
-    font-size: 14px;
+  .hospital-subtitle {
+    font-size: 18px;
   }
 }
 
-/* ==========================================
-   VERY SMALL MOBILE
-========================================== */
-@media (max-width: 360px) {
-  .hospital-title {
-    font-size: 20px;
-    line-height: 1.4;
-  }
-
-  .login-link,
-  .register-link {
-    font-size: 13px;
-  }
+.login-card {
+  margin-top: 20px;
 }
