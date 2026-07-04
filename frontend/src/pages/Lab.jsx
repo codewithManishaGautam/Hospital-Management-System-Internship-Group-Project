@@ -60,19 +60,6 @@ function Lab() {
 
   return (
     <Layout role="Lab" setStep={setStep}>
-      <div style={{ marginBottom: "20px" }}>
-        <button onClick={() => setStep("overview")}>Overview</button>
-        <button onClick={() => setStep("patients")}>Patients</button>
-        <button onClick={() => setStep("tests")}>Tests</button>
-        <button onClick={() => setStep("booking")}>Booking</button>
-        <button onClick={() => setStep("samples")}>Samples</button>
-        <button onClick={() => setStep("analysis")}>Analysis</button>
-        <button onClick={() => setStep("findings")}>Results</button>
-        <button onClick={() => setStep("reports")}>Reports</button>
-        <button onClick={() => setStep("payments")}>Billing</button>
-        <button onClick={() => setStep("history")}>History</button>
-      </div>
-
       {renderContent()}
     </Layout>
   );
