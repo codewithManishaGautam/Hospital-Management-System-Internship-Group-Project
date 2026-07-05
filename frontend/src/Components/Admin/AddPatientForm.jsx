@@ -1,4 +1,5 @@
 import React from "react";
+import "../../styles/admin/forms.css";
 
 function AddPatientForm({
   showPatientForm,
@@ -17,7 +18,7 @@ function AddPatientForm({
         <input
           type="text"
           placeholder="Patient Name"
-          value={newPatient.name}
+          value={newPatient.name || ""}
           onChange={(e) =>
             setNewPatient({
               ...newPatient,
@@ -29,7 +30,7 @@ function AddPatientForm({
         <input
           type="number"
           placeholder="Age"
-          value={newPatient.age}
+          value={newPatient.age || ""}
           onChange={(e) =>
             setNewPatient({
               ...newPatient,
@@ -56,7 +57,7 @@ function AddPatientForm({
         <input
           type="number"
           placeholder="Phone"
-          value={newPatient.phone}
+          value={newPatient.phone || ""}
           onChange={(e) =>
             setNewPatient({
               ...newPatient,
@@ -80,7 +81,7 @@ function AddPatientForm({
         <input
           type="text"
           placeholder="Doctor"
-          value={newPatient.doctor}
+          value={newPatient.doctor || ""}
           onChange={(e) =>
             setNewPatient({
               ...newPatient,
@@ -101,7 +102,7 @@ function AddPatientForm({
         />
 
         <select
-          value={newPatient.status}
+          value={newPatient.status || ""}
           onChange={(e) =>
             setNewPatient({
               ...newPatient,

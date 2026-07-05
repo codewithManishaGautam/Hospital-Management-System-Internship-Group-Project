@@ -1,0 +1,19 @@
+
+.observation-table {
+    border: 0.9px solid #000;
+}
+
+.observation-table th,
+.observation-table td {
+    border: 0.9px solid #000;
+    text-align: center;
+}
+
+.observation-title {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.observation-table th {
+    font-size: 14px;
+}

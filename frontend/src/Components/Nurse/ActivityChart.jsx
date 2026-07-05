@@ -4,9 +4,9 @@ import "../../styles/Nurse/ActivityChart.css";
 export default function ActivityChart({
   days,
   addDay,
-  createPDF,
-  sendPharmacy,
-  sendBilling
+  // createPDF,
+  // sendPharmacy,
+  // sendBilling
 }) {
 
   const renderRows = (items) => {
@@ -166,7 +166,7 @@ export default function ActivityChart({
         </table>
 
       </div>
-
+{/* 
       <div className="btns">
 
         <button
@@ -190,7 +190,7 @@ export default function ActivityChart({
           Send To Billing
         </button>
 
-      </div>
+      </div> */}
     </>
   );
 }

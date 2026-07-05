@@ -117,6 +117,8 @@ function PrescriptionForm({ patient, doctor, onSubmit }) {
     URL.revokeObjectURL(url);
   }
 
+  const [sendTarget, setSendTarget] = useState("lab");
+
   async function handleSubmit(e) {
     e.preventDefault();
     const payload = {
@@ -156,6 +158,43 @@ function PrescriptionForm({ patient, doctor, onSubmit }) {
     }
   }
 
+  const [sending, setSending] = useState(false);
+
+  async function handleSend() {
+    if (!patient) return;
+    try {
+      setSending(true);
+
+      const payload = {
+        target: sendTarget,
+        prescription: {
+          patientUHID: patient?.uHID,
+          medicines: meds,
+          instructions,
+          doctorId: doctor?.id,
+          lab: { required: labRequired === "yes", testType: labRequired === "yes" ? labTestType : null },
+          scan: { required: scanRequired === "yes", scanType: scanRequired === "yes" ? scanType : null },
+          createdAt: new Date().toISOString(),
+        },
+      };
+
+      const res = await fetch("/api/doctor/send-prescription", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.message || "Send failed");
+
+      alert(data?.message || `Prescription sent to ${sendTarget}`);
+    } catch (err) {
+      console.error(err);
+      alert(err?.message || "Failed to send prescription.");
+    } finally {
+      setSending(false);
+    }
+  }
 
   return (
     <div className="doctor-panel">
@@ -299,7 +338,33 @@ function PrescriptionForm({ patient, doctor, onSubmit }) {
               />
             </div>
 
-            <div className="doctor-form__submit">
+            <div className="doctor-form__submit doctor-form__submit--with-send">
+              <div className="doctor-send-group">
+                <label className="doctor-label" htmlFor="send-target" style={{ marginBottom: 6 }}>
+                  Send To
+                </label>
+                <select
+                  id="send-target"
+                  className="doctor-input"
+                  value={sendTarget}
+                  onChange={(e) => setSendTarget(e.target.value)}
+                  disabled={!patient}
+                  style={{ minWidth: 220, marginRight: 10 }}
+                >
+                  <option value="lab">Lab</option>
+                  <option value="pharmacy">Pharmacy</option>
+                  <option value="nurse">Nurse</option>
+                </select>
+                <button
+                  type="button"
+                  className="doctor-btn doctor-btn--secondary"
+                  onClick={handleSend}
+                  disabled={!patient}
+                >
+                  Send
+                </button>
+              </div>
+
               <button type="submit" className="doctor-btn doctor-btn--primary" disabled={!patient}>
                 Save Prescription
               </button>

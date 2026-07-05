@@ -38,7 +38,7 @@ table {
   border-spacing: 0;
   min-width: 900px;
   background: #fff;
-  border-radius: 20px;
+  border-radius: 16px;
   overflow: hidden;
   white-space: nowrap;
 }
@@ -63,8 +63,12 @@ table td {
   border-bottom: 1px solid #e2e8f0;
 }
 
+table tbody tr {
+  transition: 0.25s;
+}
+
 table tbody tr:hover {
-  background: #f8fbff;
+  background: #eff6ff;
 }
 
 .edit-btn {
@@ -73,6 +77,7 @@ table tbody tr:hover {
   border: none;
   padding: 10px 18px;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 .delete-btn {
@@ -81,4 +86,49 @@ table tbody tr:hover {
   border: none;
   padding: 10px 18px;
   border-radius: 10px;
+  cursor: pointer;
+}
+
+.action-cell {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.view-btn {
+  cursor: pointer;
+}
+
+table input,
+table select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  outline: none;
+}
+
+table input:focus,
+table select:focus {
+  border-color: #2563eb;
+}
+
+@media (max-width: 768px) {
+  .table-container {
+    padding: 15px;
+  }
+
+  .section-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+
+  .section-header h2 {
+    font-size: 26px;
+  }
+
+  table {
+    min-width: 900px;
+  }
 }

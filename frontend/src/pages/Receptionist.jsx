@@ -1,7 +1,12 @@
 import React, { useState } from "react";
-import axios from "axios";
-import Layout from "./Layout";
-// import "./Receptionist.css";
+import Layout from "../Components/Reception/Layout";
+import Dashboard from "../Components/Reception/Dashboard";
+import RegistrationForm from "../Components/Reception/RegistrationForm";
+import OPDBilling from "../Components/Reception/OPDBilling";
+import IPDAdmission from "../Components/Reception/IPDadmission";
+import IPDPatientList from "../Components/Reception/IPDPatientList";
+import SearchPatient from "../Components/Reception/SearchPatient";
+import Reports from "../Components/Reception/Reports";
 
 function Receptionist() {
   const [step, setStep] = useState("dashboard");
@@ -54,62 +59,31 @@ function Receptionist() {
   return (
     <Layout role="Receptionist" setStep={setStep}>
       {step === "dashboard" && (
-        <div className="card" style={{ padding: '20px' }}>
-          <h2>Receptionist Dashboard</h2>
-          <p>Welcome to the front desk.</p>
-        </div>
+        <Dashboard />
       )}
 
       {step === "register" && (
-        <div className="card" style={{ padding: '20px' }}>
-          <h2>Register Patient (Integration Demo)</h2>
-          {message && <div style={{ padding: '10px', background: '#d4edda', color: '#155724', marginBottom: '15px', borderRadius: '4px' }}>{message}</div>}
-          
-          <form onSubmit={handleRegister} style={{ display: 'flex', flexDirection: 'column', gap: '15px', maxWidth: '500px' }}>
-            <div>
-              <label>Full Name:</label>
-              <input type="text" name="name" value={formData.name} onChange={handleInputChange} required style={{ width: '100%', padding: '8px' }} />
-            </div>
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <div style={{ flex: 1 }}>
-                <label>Age:</label>
-                <input type="number" name="age" value={formData.age} onChange={handleInputChange} required style={{ width: '100%', padding: '8px' }} />
-              </div>
-              <div style={{ flex: 1 }}>
-                <label>Gender:</label>
-                <select name="gender" value={formData.gender} onChange={handleInputChange} style={{ width: '100%', padding: '8px' }}>
-                  <option>Male</option>
-                  <option>Female</option>
-                  <option>Other</option>
-                </select>
-              </div>
-            </div>
-            <div>
-              <label>Contact Details:</label>
-              <input type="text" name="contact" value={formData.contact} onChange={handleInputChange} required style={{ width: '100%', padding: '8px' }} />
-            </div>
-            
-            <div style={{ background: '#f8f9fa', padding: '15px', border: '1px solid #ddd', borderRadius: '4px' }}>
-              <h4>Insurance Status (Cross-Module Trigger)</h4>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-                <input type="checkbox" name="hasInsurance" checked={formData.hasInsurance} onChange={handleInputChange} />
-                Patient has an Active Insurance Policy
-              </label>
-              
-              {formData.hasInsurance && (
-                <div>
-                  <label>Policy ID / Number:</label>
-                  <input type="text" name="policyNumber" value={formData.policyNumber} onChange={handleInputChange} required placeholder="Enter active Policy ID" style={{ width: '100%', padding: '8px' }} />
-                  <small style={{ color: '#666', display: 'block', marginTop: '5px' }}>Submitting this will auto-generate a Draft Pre-Auth in the Insurance module.</small>
-                </div>
-              )}
-            </div>
+        <RegistrationForm />
+      )}
 
-            <button type="submit" style={{ padding: '10px', background: '#2ecc71', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>
-              Register Patient
-            </button>
-          </form>
-        </div>
+      {step === "billing" && (
+        <OPDBilling />
+      )}
+
+      {step === "ipdAdmission" && (
+        <IPDAdmission />
+      )}
+
+      {step === "ipdPatients" && (
+        <IPDPatientList />
+      )}
+
+      {step === "searchPatient" && (
+        <SearchPatient />
+      )}
+
+      {step === "reports" && (
+        <Reports />
       )}
     </Layout>
   );
