@@ -163,27 +163,27 @@ const upload = multer({ storage });
 // Nodemailer
 // ======================
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
+// const transporter = nodemailer.createTransport({
+//   service: "gmail",
 
-  auth: {
-    user: process.env.EMAIL_USER,
+//   auth: {
+//     user: process.env.EMAIL_USER,
 
-    pass: process.env.EMAIL_PASS,
-  },
-});
+//     pass: process.env.EMAIL_PASS,
+//   },
+// });
 
-// ======================
-// Verify Email
-// ======================
+// // ======================
+// // Verify Email
+// // ======================
 
-transporter.verify((error, success) => {
-  if (error) {
-    console.log(error);
-  } else {
-    console.log("Email Server Ready");
-  }
-});
+// transporter.verify((error, success) => {
+//   if (error) {
+//     console.log(error);
+//   } else {
+//     console.log("Email Server Ready");
+//   }
+// });
 
 // ======================
 // Add Patient
@@ -618,27 +618,27 @@ const upload = multer({ storage });
 // Nodemailer
 // ======================
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
+// const transporter = nodemailer.createTransport({
+//   service: "gmail",
 
-  auth: {
-    user: process.env.EMAIL_USER,
+//   auth: {
+//     user: process.env.EMAIL_USER,
 
-    pass: process.env.EMAIL_PASS,
-  },
-});
+//     pass: process.env.EMAIL_PASS,
+//   },
+// });
 
-// ======================
-// Verify Email
-// ======================
+// // ======================
+// // Verify Email
+// // ======================
 
-transporter.verify((error, success) => {
-  if (error) {
-    console.log(error);
-  } else {
-    console.log("Email Server Ready");
-  }
-});
+// transporter.verify((error, success) => {
+//   if (error) {
+//     console.log(error);
+//   } else {
+//     console.log("Email Server Ready");
+//   }
+// });
 
 // ======================
 // Add Patient
