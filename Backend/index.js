@@ -189,39 +189,162 @@ transporter.verify((error, success) => {
 // Add Patient
 // ======================
 
-app.post(
-  "/add",
+// // Before Change Code : 
 
-  async (req, res) => {
+// app.post(
+//   "/add",
+
+//   async (req, res) => {
+//     try {
+//       const patient = new Patient(req.body);
+
+//       await patient.save();
+
+//       res.json({
+//         success: true,
+
+//         message: "Patient Added",
+//       });
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   },
+// );
+
+app.post("/add", async (req, res) => {
+
     try {
-      const patient = new Patient(req.body);
 
-      await patient.save();
+        const patient = new Patient({
 
-      res.json({
-        success: true,
+            uhid: req.body.uhid,
 
-        message: "Patient Added",
-      });
-    } catch (error) {
-      console.log(error);
+            name: req.body.name,
+
+            age: req.body.age,
+
+            gender: req.body.gender,
+
+            mobile: req.body.mobile,
+
+            address: req.body.address,
+
+            disease: req.body.disease,
+
+            doctor: req.body.doctor,
+
+            appointmentType: req.body.appointmentType,
+
+            role: req.body.role,
+
+            admissionDate: req.body.admissionDate,
+
+            roomNo: req.body.roomNo,
+
+            bedNo: req.body.bedNo,
+
+            status: req.body.status
+
+        });
+
+        await patient.save();
+
+        res.json({
+
+            success: true,
+
+            message: "Patient Registered Successfully",
+
+            patient
+
+        });
+
     }
-  },
-);
+
+    catch (err) {
+
+        console.log(err);
+
+        res.status(500).json({
+
+            success: false,
+
+            message: "Registration Failed"
+
+        });
+
+    }
+
+});
+
+
+
+
 
 // ======================
 // Get All Patients
 // ======================
 
-app.get(
-  "/patients",
 
-  async (req, res) => {
-    const data = await Patient.find();
+// // Before Change The Code :
+ 
+// app.get(
+//   "/patients",
 
-    res.json(data);
-  },
-);
+//   async (req, res) => {
+//     const data = await Patient.find();
+
+//     res.json(data);
+//   },
+// );
+
+app.get("/patients", async (req, res) => {
+
+    try {
+
+        const page = Number(req.query.page) || 1;
+
+        const limit = Number(req.query.limit) || 10;
+
+        const skip = (page - 1) * limit;
+
+        const search = req.query.search || "";
+
+        const query = {
+
+            role: { $ne: "OPD" },
+
+            name: {
+                $regex: search,
+                $options: "i"
+            }
+
+        };
+
+        const patients = await Patient.find(query)
+            .skip(skip)
+            .limit(limit);
+
+        const total = await Patient.countDocuments(query);
+
+        res.json({
+
+            patients,
+
+            total,
+
+            hasMore:
+                skip + patients.length < total
+
+        });
+
+    } catch (err) {
+
+        res.status(500).json(err);
+
+    }
+
+});
 
 // ======================
 // Get Single Patient
@@ -395,6 +518,7 @@ app.get('/api/doctor/upcoming-appointments', (req, res) => {
 
 const adminRoutes = require("./routes/adminRoutes");
 app.use("/api/admin", adminRoutes);
+
 
 // ======================
 // Doctor routes (lazy loaded)
