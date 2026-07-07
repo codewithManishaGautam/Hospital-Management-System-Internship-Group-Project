@@ -6,43 +6,42 @@ import RegistrationForm from "../Components/Reception/RegistrationForm";
 import OPDBilling from "../Components/Reception/OPDBilling";
 import IPDAdmission from "../Components/Reception/IPDadmission";
 import IPDPatientList from "../Components/Reception/IPDPatientList";
-import SearchPatient from "../Components/Reception/SearchPatient";
+import PatientList from "../Components/Reception/patientList";
 import Reports from "../Components/Reception/Reports";
 
 function Receptionist() {
   const [step, setStep] = useState("dashboard");
+  const [selectedPatient, setSelectedPatient] = useState(null);
 
   return (
-    <Layout role="Receptionist" setStep={setStep}>
-      
+    <Layout role="Receptionist" setStep={setStep} currentStep={step}>
       {step === "dashboard" && (
-        <Dashboard />
+        <Dashboard setStep={setStep} setSelectedPatient={setSelectedPatient} />
       )}
 
-      {step === "register" && (
-        <RegistrationForm />
-      )}
+      {step === "register" && <RegistrationForm patient={selectedPatient} />}
 
-      {step === "billing" && (
-        <OPDBilling />
-      )}
+      {step === "billing" && <OPDBilling patient={selectedPatient} />}
 
-      {step === "ipdAdmission" && (
-        <IPDAdmission />
-      )}
+      {step === "ipdAdmission" && <IPDAdmission patient={selectedPatient} />}
 
-      {step === "ipdPatients" && (
-        <IPDPatientList />
-      )}
+      {step === "ipdPatients" && <IPDPatientList />}
 
-      {step === "searchPatient" && (
-        <SearchPatient />
-      )}
+      {/* {step === "searchPatient" && (
+        <SearchPatient
+          setStep={setStep}
+          setSelectedPatient={setSelectedPatient}
+        />
+      )} */}
 
-      {step === "reports" && (
-        <Reports />
-      )}
+      {step === "reports" && <Reports />}
 
+      {step === "patientList" && (
+        <PatientList
+          setStep={setStep}
+          setSelectedPatient={setSelectedPatient}
+        />
+      )}
     </Layout>
   );
 }

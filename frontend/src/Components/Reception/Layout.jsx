@@ -1,18 +1,11 @@
 import React from "react";
 //import "./layout.css";
-import "../Reception/Layout.css"
-function Layout({
-  role,
-  children,
-  setStep,
-  currentStep,
-})  {
+import "../Reception/Layout.css";
+function Layout({ role, children, setStep, currentStep }) {
   return (
     <div className="layout-container">
-
       {/* Sidebar */}
       <div className="sidebar">
-
         <div className="sidebar-header">
           <img
             src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
@@ -29,57 +22,33 @@ function Layout({
 
         {role === "Receptionist" && (
           <div className="menu-list">
+            <button onClick={() => setStep("dashboard")}>📊 Dashboard</button>
 
-            <button
-              onClick={() => setStep("dashboard")}
-            >
-              📊 Dashboard
-            </button>
-
-            <button
-              onClick={() => setStep("register")}
-            >
+            <button onClick={() => setStep("register")}>
               📝 Register Patient
             </button>
 
-            
-            <button
-              onClick={() => setStep("billing")}
-            >
-              💳 OPD Billing
-            </button>
+            <button onClick={() => setStep("billing")}>💳 OPD Billing</button>
 
-            <button
-              onClick={() => setStep("ipdAdmission")}
-            >
+            <button onClick={() => setStep("ipdAdmission")}>
               🏥 IPD Admission
             </button>
 
-            <button
-              onClick={() => setStep("ipdPatients")}
-            >
+            <button onClick={() => setStep("ipdPatients")}>
               🛏️ IPD Patient List
             </button>
 
-            <button
-              onClick={() => setStep("searchPatient")}
-            >
-              🔍 Search Patient
+            <button onClick={() => setStep("patientList")}>
+              👥 Patient List
             </button>
 
-            <button
-              onClick={() => setStep("reports")}
-            >
-              📈 Reports
-            </button>
-
+            <button onClick={() => setStep("reports")}>📈 Reports</button>
           </div>
         )}
 
         {/* Logout */}
 
         <div className="logout-section">
-
           <button
             className="logout-btn"
             onClick={() => {
@@ -89,43 +58,28 @@ function Layout({
           >
             🚪 Logout
           </button>
-
         </div>
-
       </div>
 
       {/* Main Area */}
 
       <div className="main-section">
-
         <div className="topbar">
-
-          <h2>
-            Reception Management Dashboard
-          </h2>
-
+          <h2>Reception Management Dashboard</h2>
         </div>
 
         <div className="page-content">
+          {currentStep !== "dashboard" && (
+            <button className="back-btn" onClick={() => setStep("dashboard")}>
+              ← Back to Dashboard
+            </button>
+          )}
 
-  {currentStep !== "dashboard" && (
-    <button
-      className="back-btn"
-      onClick={() => setStep("dashboard")}
-    >
-      ← Back to Dashboard
-    </button>
-  )}
-
-  {children}
-
-</div>
+          {children}
+        </div>
       </div>
-
     </div>
   );
 }
-
-
 
 export default Layout;

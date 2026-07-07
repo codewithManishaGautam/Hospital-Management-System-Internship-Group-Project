@@ -41,6 +41,7 @@ function Admin() {
     disease: "",
     doctor: "",
     admission: "",
+    appointmentDate: "",
     status: "",
   });
 
@@ -55,6 +56,7 @@ function Admin() {
     disease: "",
     doctor: "",
     admission: "",
+    appointmentDate: "",
     status: "",
   });
 
@@ -166,6 +168,7 @@ function Admin() {
         disease: "",
         doctor: "",
         admission: "",
+        appointmentDate: "",
         status: "",
       });
       fetchPatients();

@@ -1,8 +1,6 @@
-import React, {
-  useState,
-  useEffect,
-} from "react";
+import React, { useState, useEffect } from "react";
 import generateUHID from "./utils/generateUHID";
+import { createPatient } from "./services/patientService";
 import "../../styles/Reception/registration.css";
 function RegistrationForm({ patient }) {
   const [formData, setFormData] = useState({
@@ -12,35 +10,38 @@ function RegistrationForm({ patient }) {
     gender: "",
     mobile: "",
     address: "",
+
+    disease: "",
+    doctor: "",
+
+    appointmentDate: "",
+    appointmentTime: "",
   });
-useEffect(() => {
+  useEffect(() => {
+    if (patient) {
+      setFormData({
+        uhid: patient.uhid || "",
 
-  if (patient) {
+        name: patient.name || "",
 
-    setFormData({
-      uhid:
-        patient.uhid || "",
+        age: patient.age || "",
 
-      name:
-        patient.patientName || "",
+        gender: patient.gender || "",
 
-      age:
-        patient.age || "",
+        mobile: patient.mobile || "",
 
-      gender:
-        patient.gender || "",
+        address: patient.address || "",
 
-      mobile:
-        patient.mobile || "",
+        disease: patient.disease || "",
 
-      address:
-        patient.address || "",
-    });
+        doctor: patient.doctor || "",
 
-  }
+        appointmentDate: patient.appointmentDate || "",
 
-}, [patient]);
-
+        appointmentTime: patient.appointmentTime || "",
+      });
+    }
+  }, [patient]);
 
   const handleChange = (e) => {
     setFormData({
@@ -63,28 +64,113 @@ useEffect(() => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Patient Data:", formData);
+    try {
+      const patientData = {
+        uhid: formData.uhid,
 
-    alert("Patient Registered Successfully");
+        name: formData.name,
+
+        age: Number(formData.age),
+
+        gender: formData.gender,
+
+        mobile: formData.mobile,
+
+        address: formData.address,
+
+        disease: formData.disease,
+
+        doctor: formData.doctor,
+
+        appointmentDate: formData.appointmentDate,
+
+        appointmentTime: formData.appointmentTime,
+
+        role: "OPD",
+
+        fee: 500,
+
+        paymentStatus: "Pending",
+
+        status: "Waiting",
+
+        roomNo: "",
+
+        bedNo: "",
+
+        admissionDate: "",
+
+        ipdNo: "",
+
+        // Doctor
+        diagnosis: "",
+        prescription: "",
+        advice: "",
+        notes: "",
+
+        // Lab
+        labReport: "",
+
+        // Pharmacy
+        medicinesIssued: [],
+
+        // Nurse
+        nurseNotes: "",
+        vitals: "",
+
+        // Insurance
+        insuranceStatus: "",
+        claimNumber: "",
+
+        status: "Waiting Doctor",
+
+        diagnosis: "",
+
+        prescription: "",
+
+        advice: "",
+
+        notes: "",
+
+        currentDepartment: "Doctor",
+
+        flowStatus: "Registered",
+      };
+
+      await createPatient(patientData);
+
+      alert("Patient Registered Successfully");
+      window.location.reload();
+
+      setFormData({
+        uhid: "",
+        name: "",
+        age: "",
+        gender: "",
+        mobile: "",
+        address: "",
+        disease: "",
+        doctor: "",
+        appointmentDate: "",
+        appointmentTime: "",
+      });
+    } catch (error) {
+      console.log(error);
+      alert("Registration Failed");
+    }
   };
 
   return (
     <div className="registration-container">
-
       <div className="registration-header">
         <h2>Patient Registration</h2>
       </div>
 
-      <form
-        className="registration-form"
-        onSubmit={handleSubmit}
-      >
-
+      <form className="registration-form" onSubmit={handleSubmit}>
         <div className="form-grid">
-
           <div className="form-group">
             <label>Patient Name</label>
 
@@ -120,22 +206,13 @@ useEffect(() => {
               onChange={handleChange}
               required
             >
-              <option value="">
-                Select Gender
-              </option>
+              <option value="">Select Gender</option>
 
-              <option value="Male">
-                Male
-              </option>
+              <option value="Male">Male</option>
 
-              <option value="Female">
-                Female
-              </option>
+              <option value="Female">Female</option>
 
-              <option value="Other">
-                Other
-              </option>
-
+              <option value="Other">Other</option>
             </select>
           </div>
 
@@ -164,11 +241,52 @@ useEffect(() => {
             />
           </div>
 
+          <div className="form-group">
+            <label>Disease / Complaint</label>
+
+            <input
+              name="disease"
+              value={formData.disease}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Doctor</label>
+
+            <input
+              name="doctor"
+              value={formData.doctor}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Appointment Date</label>
+
+            <input
+              type="date"
+              name="appointmentDate"
+              value={formData.appointmentDate}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Appointment Time</label>
+
+            <input
+              type="time"
+              name="appointmentTime"
+              value={formData.appointmentTime}
+              onChange={handleChange}
+            />
+          </div>
+
           <div className="form-group full-width">
             <label>UHID Number</label>
 
             <div className="uhid-container">
-
               <input
                 type="text"
                 value={formData.uhid}
@@ -183,33 +301,20 @@ useEffect(() => {
               >
                 Generate UHID
               </button>
-
             </div>
-
           </div>
-
         </div>
 
         <div className="form-buttons">
-
-          <button
-            type="submit"
-            className="save-btn"
-          >
+          <button type="submit" className="save-btn">
             Save Registration
           </button>
 
-          <button
-            type="button"
-            className="send-btn"
-          >
+          <button type="button" className="send-btn">
             Send To Doctor
           </button>
-
         </div>
-
       </form>
-
     </div>
   );
 }
