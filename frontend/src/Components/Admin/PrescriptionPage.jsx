@@ -81,9 +81,7 @@ function PrescriptionPage() {
           typeof diagnosisPad.current?.getCanvas,
         );
 
-        diagnosisData = diagnosisPad.current
-          .getTrimmedCanvas()
-          .toDataURL("image/png");
+        diagnosisData = diagnosisPad.current.getCanvas().toDataURL("image/png");
       }
 
       if (
@@ -92,7 +90,7 @@ function PrescriptionPage() {
         !prescriptionPad.current.isEmpty()
       ) {
         prescriptionData = prescriptionPad.current
-          .getTrimmedCanvas()
+          .getCanvas()
           .toDataURL("image/png");
       }
 
@@ -101,9 +99,7 @@ function PrescriptionPage() {
         advicePad.current &&
         !advicePad.current.isEmpty()
       ) {
-        adviceData = advicePad.current
-          .getTrimmedCanvas()
-          .toDataURL("image/png");
+        adviceData = advicePad.current.getCanvas().toDataURL("image/png");
       }
 
       if (
@@ -111,13 +107,11 @@ function PrescriptionPage() {
         notesPad.current &&
         !notesPad.current.isEmpty()
       ) {
-        notesData = notesPad.current.getTrimmedCanvas().toDataURL("image/png");
+        notesData = notesPad.current.getCanvas().toDataURL("image/png");
       }
 
       if (sigCanvas.current && !sigCanvas.current.isEmpty()) {
-        signatureData = sigCanvas.current
-          .getTrimmedCanvas()
-          .toDataURL("image/png");
+        signatureData = sigCanvas.current.getCanvas().toDataURL("image/png");
       }
 
       console.log("Diagnosis:", diagnosisData);
@@ -139,6 +133,18 @@ function PrescriptionPage() {
       console.log("PAYLOAD =", payload);
 
       await axios.put(`http://localhost:5000/api/patient/${id}`, payload);
+
+      const res = await axios.get(`http://localhost:5000/api/patient/${id}`);
+
+      console.log("UPDATED PATIENT");
+      console.log(res.data);
+      console.log(res.data.prescriptionHistory);
+
+      const latest =
+        res.data.prescriptionHistory[res.data.prescriptionHistory.length - 1];
+
+      console.log("LATEST =", latest);
+
       alert("Prescription Saved Successfully");
 
       await loadPatient();
@@ -151,7 +157,6 @@ function PrescriptionPage() {
       notesPad.current?.clear();
       sigCanvas.current?.clear();
 
-      await loadPatient();
       setEditMode(false);
     } catch (err) {
       console.log(err);
@@ -172,10 +177,39 @@ function PrescriptionPage() {
       if (history.length > 0) {
         const latest = history[history.length - 1];
 
+        console.log("Diagnosis =", latest.diagnosis);
+        console.log("Prescription =", latest.prescription);
+        console.log("Advice =", latest.advice);
+        console.log("Notes =", latest.notes);
+
         setDiagnosis(latest.diagnosis || "");
         setPrescription(latest.prescription || "");
         setAdvice(latest.advice || "");
         setNotes(latest.notes || "");
+
+        if (latest.diagnosis?.startsWith("data:image")) {
+          setDiagnosisMode("write");
+        } else {
+          setDiagnosisMode("type");
+        }
+
+        if (latest.prescription?.startsWith("data:image")) {
+          setPrescriptionMode("write");
+        } else {
+          setPrescriptionMode("type");
+        }
+
+        if (latest.advice?.startsWith("data:image")) {
+          setAdviceMode("write");
+        } else {
+          setAdviceMode("type");
+        }
+
+        if (latest.notes?.startsWith("data:image")) {
+          setNotesMode("write");
+        } else {
+          setNotesMode("type");
+        }
       }
     } catch (err) {
       console.log(err);
@@ -253,7 +287,7 @@ function PrescriptionPage() {
             <h2>Prescription History</h2>
 
             {history
-              .slice(0, -1)
+              .slice()
               .reverse()
               .map((item, index) => (
                 <div
