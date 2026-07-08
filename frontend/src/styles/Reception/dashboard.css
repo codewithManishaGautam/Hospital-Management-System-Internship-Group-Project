@@ -126,7 +126,7 @@
 
 .dashboard-card h3 {
   font-size: 14px;
-  color: var(--text-muted);
+  color: whitesmoke;
   margin: 0 0 8px 0;
   font-weight: 500;
 }
@@ -156,7 +156,7 @@
 
 .table-header h3 {
   margin: 0;
-  color: var(--primary-blue);
+  color: whitesmoke;
   font-size: 16px;
 }
 
@@ -167,7 +167,7 @@
 }
 
 .patient-table th {
-  background-color: #f1f5f9;
+  background-color: #062849;
   color: var(--text-dark);
   font-weight: 600;
   padding: 12px 20px;

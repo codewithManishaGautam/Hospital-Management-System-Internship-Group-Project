@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import "../../styles/Reception/billing.css";
 
-function OPDBilling() {
+function OPDBilling({ patient }) {
   const [billingData, setBillingData] = useState({
-    uhid: "",
-    patientName: "",
-    doctorName: "",
+    uhid: patient?.uhid || "",
+    patientName: patient?.name || "",
+    doctorName: patient?.doctor || "",
     consultationFee: "",
     paymentMode: "Cash",
   });
@@ -23,15 +23,12 @@ function OPDBilling() {
 
   return (
     <div className="billing-container">
-
       <div className="billing-header">
         <h2>OPD Billing</h2>
       </div>
 
       <div className="billing-card">
-
         <div className="billing-grid">
-
           <div className="form-group">
             <label>UHID Number</label>
             <input
@@ -89,46 +86,30 @@ function OPDBilling() {
               <option>Net Banking</option>
             </select>
           </div>
-
         </div>
 
         <div className="bill-summary">
-
           <h3>Bill Summary</h3>
 
           <div className="summary-row">
             <span>Consultation Fee</span>
-            <span>
-              ₹{billingData.consultationFee || 0}
-            </span>
+            <span>₹{billingData.consultationFee || 0}</span>
           </div>
 
           <div className="summary-row total">
             <span>Total Amount</span>
-            <span>
-              ₹{billingData.consultationFee || 0}
-            </span>
+            <span>₹{billingData.consultationFee || 0}</span>
           </div>
-
         </div>
 
         <div className="billing-buttons">
-
-          <button
-            className="generate-btn"
-            onClick={handleGenerateBill}
-          >
+          <button className="generate-btn" onClick={handleGenerateBill}>
             Generate Bill
           </button>
 
-          <button className="print-btn">
-            Print Bill
-          </button>
-
+          <button className="print-btn">Print Bill</button>
         </div>
-
       </div>
-
     </div>
   );
 }

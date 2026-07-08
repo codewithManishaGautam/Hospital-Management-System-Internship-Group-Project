@@ -29,14 +29,24 @@ function Layout({ role, children, setStep }) {
         {role === "Doctor" && (
           <>
             <button onClick={() => setStep("dashboard")}>🏠 Dashboard</button>
-            <button onClick={() => setStep("profile-dashboard")}>👤 Profile</button>
-            <button onClick={() => setStep("appointments")}>📅 Appointments</button>
+            <button onClick={() => setStep("profile-dashboard")}>
+              👤 Profile
+            </button>
+            <button onClick={() => setStep("appointments")}>
+              📅 Appointments
+            </button>
             <button onClick={() => setStep("patients")}>🧑 Patients</button>
-            <button onClick={() => setStep("prescriptions")}>💊 Prescriptions</button>
-            <button onClick={() => setStep("reports")}>🧪 Medical Reports</button>
+            <button onClick={() => setStep("prescriptions")}>
+              💊 Prescriptions
+            </button>
+            <button onClick={() => setStep("reports")}>
+              🧪 Medical Reports
+            </button>
             <button onClick={() => setStep("emergency")}>🚨 Emergency</button>
             <button onClick={() => setStep("schedule")}>🕒 Schedule</button>
-            <button onClick={() => setStep("notifications")}>🔔 Notifications</button>
+            <button onClick={() => setStep("notifications")}>
+              🔔 Notifications
+            </button>
             <button onClick={() => setStep("analytics")}>📈 Analytics</button>
           </>
         )}
@@ -56,8 +66,10 @@ function Layout({ role, children, setStep }) {
           </>
         )}
 
-        {['Pharmacy', 'Bill', 'Insurance'].includes(role) && (
-          <button onClick={() => setStep('search')}>Search Patient</button>
+        {["Pharmacy", "Bill", "Insurance"].includes(role) && (
+          <button onClick={() => setStep("patientList")}>
+            👨‍⚕️ Patient List
+          </button>
         )}
 
         {/* Admin */}
