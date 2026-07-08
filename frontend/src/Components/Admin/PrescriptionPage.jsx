@@ -147,6 +147,28 @@ function PrescriptionPage() {
 
       alert("Prescription Saved Successfully");
 
+      <button
+        className="edit-btn"
+        onClick={() => {
+          setDiagnosis("");
+          setPrescription("");
+          setAdvice("");
+          setNotes("");
+
+          setDiagnosisMode("type");
+          setPrescriptionMode("type");
+          setAdviceMode("type");
+          setNotesMode("type");
+
+          diagnosisPad.current?.clear();
+          prescriptionPad.current?.clear();
+          advicePad.current?.clear();
+          notesPad.current?.clear();
+          sigCanvas.current?.clear();
+
+          setEditMode(true);
+        }}
+      ></button>;
       await loadPatient();
 
       setEditMode(false);
@@ -182,10 +204,10 @@ function PrescriptionPage() {
         console.log("Advice =", latest.advice);
         console.log("Notes =", latest.notes);
 
-        setDiagnosis(latest.diagnosis || "");
-        setPrescription(latest.prescription || "");
-        setAdvice(latest.advice || "");
-        setNotes(latest.notes || "");
+        // setDiagnosis(latest.diagnosis || "");
+        // setPrescription(latest.prescription || "");
+        // setAdvice(latest.advice || "");
+        // setNotes(latest.notes || "");
 
         if (latest.diagnosis?.startsWith("data:image")) {
           setDiagnosisMode("write");
@@ -228,7 +250,28 @@ function PrescriptionPage() {
         </button>
 
         <div>
-          <button className="edit-btn" onClick={() => setEditMode(!editMode)}>
+          <button
+            className="edit-btn"
+            onClick={() => {
+              setDiagnosis("");
+              setPrescription("");
+              setAdvice("");
+              setNotes("");
+
+              setDiagnosisMode("type");
+              setPrescriptionMode("type");
+              setAdviceMode("type");
+              setNotesMode("type");
+
+              diagnosisPad.current?.clear();
+              prescriptionPad.current?.clear();
+              advicePad.current?.clear();
+              notesPad.current?.clear();
+              sigCanvas.current?.clear();
+
+              setEditMode(true);
+            }}
+          >
             {editMode ? "Cancel" : "Edit"}
           </button>
 
