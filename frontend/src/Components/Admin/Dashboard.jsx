@@ -7,6 +7,7 @@ import {
   Legend,
 } from "recharts";
 
+
 import "../../styles/admin/dashboard.css";
 
 function Dashboard({ dashboard, finance, activities }) {

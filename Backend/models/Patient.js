@@ -1,47 +1,46 @@
 // const mongoose = require("mongoose");
 
 // const patientSchema = new mongoose.Schema({
-//   name: 
+//   name:
 //   {
 //     type:String
 //   },
-//   age: 
+//   age:
 //   {
 //     type:Number
 //   },
-//   gender: 
+//   gender:
 //   {
 //     type:String
 //   },
-//   phone: 
+//   phone:
 //   {
 //     type:String
 //   },
-//   disease: 
+//   disease:
 //   {
 //     type:String
 //   },
-//   doctor: 
+//   doctor:
 //   {
 //     type:String
 //   },
-//   admission: 
+//   admission:
 //   {
 //     type:String
 //   },
- 
+
 //   status:
 //   {
 //     type:String
 //   },
-//   role: 
+//   role:
 //     {
 //         type: String,
 //         enum: ["OPD","IPD","ICU","OT","General Ward","Casulty","Emergency"]
 //     },
 
-
-//   createdAt: 
+//   createdAt:
 //   {
 //     type: Date,
 //     default: Date.now,
@@ -50,95 +49,245 @@
 
 // module.exports = mongoose.model("Patient", patientSchema);
 
-
-
-
 const mongoose = require("mongoose");
 
-const patientSchema = new mongoose.Schema({
-
+const patientSchema = new mongoose.Schema(
+  {
     uhid: {
-        type: String,
-        required: true,
-        unique: true
+      type: String,
+      unique: true,
     },
 
-    name: {
-        type: String,
-        required: true
+    name: String,
+
+    age: Number,
+
+    gender: String,
+
+    mobile: String,
+
+    address: String,
+
+    // Medical
+    disease: String,
+
+    doctor: String,
+
+    prescriptionHistory: [
+      {
+        diagnosis: {
+          type: String,
+          default: "",
+        },
+
+        prescription: {
+          type: String,
+          default: "",
+        },
+
+        advice: {
+          type: String,
+          default: "",
+        },
+
+        notes: {
+          type: String,
+          default: "",
+        },
+
+        signature: {
+          type: String,
+          default: "",
+        },
+
+        createdAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
+
+    // Lab
+    labReport: {
+      type: String,
+      default: "",
     },
 
-    age: {
-        type: Number,
-        required: true
+    // Pharmacy
+    medicinesIssued: [
+      {
+        name: String,
+        quantity: Number,
+      },
+    ],
+
+    // Nurse
+    nurseNotes: {
+      type: String,
+      default: "",
     },
 
-    gender: {
-        type: String,
-        required: true
+    vitals: {
+      type: String,
+      default: "",
     },
 
-    mobile: {
-        type: String,
-        required: true
+    // Insurance
+    insuranceStatus: {
+      type: String,
+      default: "",
     },
 
-    address: {
-        type: String
+    claimNumber: {
+      type: String,
+      default: "",
     },
 
-    disease: {
-        type: String
-    },
+    // Appointment
+    appointmentDate: String,
 
-    doctor: {
-        type: String
-    },
+    appointmentTime: String,
 
-    appointmentType: {
-        type: String
-    },
-
+    // OPD / IPD
     role: {
-        type: String,
-        enum: [
-            "OPD",
-            "IPD",
-            "ICU",
-            "OT",
-            "General Ward",
-            "Casualty",
-            "Emergency"
-        ],
-        default: "OPD"
+      type: String,
+      enum: [
+        "OPD",
+        "IPD",
+        "ICU",
+        "OT",
+        "General Ward",
+        "Casualty",
+        "Emergency",
+      ],
+      default: "OPD",
     },
 
-    admissionDate: {
-        type: String
+    // Billing
+    fee: {
+      type: Number,
+      default: 0,
     },
 
-    dischargeDate: {
-        type: String
+    paymentStatus: {
+      type: String,
+      default: "Pending",
     },
 
-    roomNo: {
-        type: String
-    },
+    // Admission
+    ipdNo: String,
 
-    bedNo: {
-        type: String
-    },
+    admissionDate: String,
 
+    roomNo: String,
+
+    bedNo: String,
+
+    // Patient Status
     status: {
-        type: String,
-        default: "Waiting"
+      type: String,
+      default: "Waiting",
     },
 
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
+    currentDepartment: {
+      type: String,
+      default: "Reception",
+    },
 
-});
+    flowStatus: {
+      type: String,
+      default: "Registered",
+    },
+  },
+
+  {
+    timestamps: true,
+  },
+);
+// const patientSchema = new mongoose.Schema({
+
+//     uhid: {
+//         type: String,
+//         required: true,
+//         unique: true
+//     },
+
+//     name: {
+//         type: String,
+//         required: true
+//     },
+
+//     age: {
+//         type: Number,
+//         required: true
+//     },
+
+//     gender: {
+//         type: String,
+//         required: true
+//     },
+
+//     mobile: {
+//         type: String,
+//         required: true
+//     },
+
+//     address: {
+//         type: String
+//     },
+
+//     disease: {
+//         type: String
+//     },
+
+//     doctor: {
+//         type: String
+//     },
+
+//     appointmentType: {
+//         type: String
+//     },
+
+//     role: {
+//         type: String,
+//         enum: [
+//             "OPD",
+//             "IPD",
+//             "ICU",
+//             "OT",
+//             "General Ward",
+//             "Casualty",
+//             "Emergency"
+//         ],
+//         default: "OPD"
+//     },
+
+//     admissionDate: {
+//         type: String
+//     },
+
+//     dischargeDate: {
+//         type: String
+//     },
+
+//     roomNo: {
+//         type: String
+//     },
+
+//     bedNo: {
+//         type: String
+//     },
+
+//     status: {
+//         type: String,
+//         default: "Waiting"
+//     },
+
+//     createdAt: {
+//         type: Date,
+//         default: Date.now
+//     }
+
+// });
 
 module.exports = mongoose.model("Patient", patientSchema);
