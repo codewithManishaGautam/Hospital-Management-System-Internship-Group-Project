@@ -4,38 +4,39 @@ import "../../styles/Pharmacy/Pharmacy.css";
 function Dashboard({ prescriptions, setStep }) {
   const [search, setSearch] = useState("");
 
-  // Today's date in dd/mm/yyyy format
-  const today = new Date().toLocaleDateString("en-GB");
+  // Search by UHID or Patient Name
+  const filteredPrescriptions = prescriptions.filter((item) => {
+    const text = search.toLowerCase();
 
-  // Show only today's prescriptions
-  const todayPrescriptions = prescriptions.filter(
-    (item) => item.date === today
-  );
+    return (
+      item.uhid?.toLowerCase().includes(text) ||
+      item.name?.toLowerCase().includes(text)
+    );
+  });
 
-  // Search by patient name
-  const filteredPatients = todayPrescriptions.filter((item) =>
-    item.name.toLowerCase().includes(search.toLowerCase())
-  );
-
-  // Dashboard Counts
-  const pendingCount = todayPrescriptions.filter(
+  // Pending Prescription Count
+  const pendingCount = prescriptions.filter(
     (item) => item.status === "Pending"
   ).length;
 
-  const billsToday = todayPrescriptions.length;
+  // Today's Bill Count
+  const todayBills = prescriptions.filter(
+    (item) => item.status === "Completed"
+  ).length;
 
   return (
     <>
       <h1 className="dashboard-title">Pharmacy Dashboard</h1>
 
-      {/* Search */}
+      {/* Search Section */}
       <div className="search-section">
         <h3>Search Patient</h3>
 
         <input
           type="text"
-          placeholder="Enter Patient Name"
+          placeholder="Search by UHID or Patient Name"
           className="search-input"
+          value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
 
@@ -44,22 +45,25 @@ function Dashboard({ prescriptions, setStep }) {
         </button>
       </div>
 
-      {/* Cards */}
+      {/* Dashboard Cards */}
       <div className="metrics-row">
+
         <div className="metric-card">
           <h2>{pendingCount}</h2>
           <p>Pending Prescriptions</p>
         </div>
 
         <div className="metric-card">
-          <h2>{billsToday}</h2>
-          <p>Bills Today</p>
+          <h2>{todayBills}</h2>
+          <p>Today's Bills</p>
         </div>
+
       </div>
 
-      {/* Table */}
+      {/* Prescription Table */}
       <div className="table-container">
         <table className="data-table">
+
           <thead>
             <tr>
               <th>#</th>
@@ -73,39 +77,60 @@ function Dashboard({ prescriptions, setStep }) {
           </thead>
 
           <tbody>
-            {filteredPatients.length > 0 ? (
-              filteredPatients.map((item) => (
+
+            {filteredPrescriptions.length > 0 ? (
+
+              filteredPrescriptions.map((item, index) => (
+
                 <tr key={item.id}>
-                  <td>{item.id}</td>
+
+                  <td>{index + 1}</td>
+
                   <td>{item.uhid}</td>
+
                   <td>{item.name}</td>
+
                   <td>{item.doctor}</td>
+
                   <td>{item.date}</td>
+
                   <td>{item.status}</td>
 
                   <td>
+
                     <button
                       className="btn-primary"
                       onClick={() => setStep("prescription")}
                     >
                       Open
                     </button>
+
                   </td>
+
                 </tr>
+
               ))
+
             ) : (
+
               <tr>
+
                 <td colSpan="7" style={{ textAlign: "center" }}>
-                  No Prescriptions Available Today
+                  No Prescription Found
                 </td>
+
               </tr>
+
             )}
+
           </tbody>
+
         </table>
       </div>
 
       {/* Bottom Buttons */}
       <div className="bottom-actions">
+
         <button onClick={() => setStep("payments")}>
           Open Payments
         </button>
@@ -113,6 +138,7 @@ function Dashboard({ prescriptions, setStep }) {
         <button onClick={() => setStep("billpreview")}>
           Open Bill Preview
         </button>
+
       </div>
     </>
   );
