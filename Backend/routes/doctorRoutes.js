@@ -32,7 +32,7 @@ router.get("/doctor/sent-prescriptions", (req, res) => {
       return;
     }
 
-    res.json({ data: global.__sentPrescriptions || { lab: [], pharmacy: [], nurse: [] } });
+    res.json({ data: global.__sentPrescriptions || { lab: [], pharmacy: [], nurse: [], referralDoctor: [] } });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
