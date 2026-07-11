@@ -483,6 +483,18 @@ function Doctor() {
     );
   }, [loggedInDoctor, doctorsBySpeciality]);
 
+  const allReferralDoctors = useMemo(() => {
+    const seen = new Set();
+    return doctorsBySpeciality
+      .flatMap((group) => group.doctors || [])
+      .filter((item) => {
+        const key = String(item?.id || item?.name || "");
+        if (!key || seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+  }, [doctorsBySpeciality]);
+
   // Build speciality->doctors map for schedule dropdowns
   const doctorsForSchedule = useMemo(() => {
     const map = {};
@@ -524,6 +536,10 @@ function Doctor() {
         const normalized = (rawPatients || []).map((p) => ({
           uHID: p?.uHID || p?.UHID || p?.uhid || p?.patientUHID || "",
           name: p?.name || p?.patientName || "",
+          age: p?.age || p?.patientAge || p?.years || "",
+          gender: p?.gender || p?.sex || "",
+          bloodGroup: p?.bloodGroup || p?.blood_group || p?.blood || "",
+          allergy: p?.allergy || p?.allergyAlert || p?.allergies || "",
           condition: p?.condition || p?.diagnosis || "",
           phone: p?.phone || p?.contact || "",
           lastVisit: p?.lastVisit || p?.updatedAt || p?.visitDate || "",
@@ -1058,7 +1074,7 @@ function Doctor() {
         <PrescriptionForm
           patient={selectedPatient}
           doctor={doctor}
-          onSubmit={() => alert("Prescription saved (UI placeholder).")}
+          doctors={allReferralDoctors}
           autoSelectPatientCta
           onSelectPatient={() => setStep("patients")}
         />
