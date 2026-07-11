@@ -54,6 +54,9 @@ app.use(
 const patientRoutes = require("./routes/patientRoutes");
 app.use("/api/patient", patientRoutes);
 
+const paymentRoutes = require("./routes/paymentRoutes");
+app.use("/api/payment", paymentRoutes);
+
 const roomRoutes = require("./routes/roomRoutes");
 const bedRoutes = require("./routes/bedRoutes");
 

@@ -91,6 +91,9 @@ function Layout({ role, children, setStep }) {
               🏨 Room Inventory
             </button>
 
+            {/* <button onClick={() => setStep("add-bed")}>🛌 Add Bed</button> */}
+            <button onClick={() => setStep("beds")}>🛏 Bed Management</button>
+
             <button onClick={() => setStep("inventory")}>
               📦 Inventory Management
             </button>

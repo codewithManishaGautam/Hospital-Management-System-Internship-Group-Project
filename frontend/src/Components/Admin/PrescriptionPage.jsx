@@ -193,6 +193,12 @@ function PrescriptionPage() {
 
       setPatient(res.data);
 
+      console.log("API Response =", res.data);
+
+      console.log("History =", res.data.prescriptionHistory);
+
+      console.log("Length =", res.data.prescriptionHistory.length);
+
       const history = res.data.prescriptionHistory || [];
       setHistory(history);
 
@@ -204,10 +210,10 @@ function PrescriptionPage() {
         console.log("Advice =", latest.advice);
         console.log("Notes =", latest.notes);
 
-        // setDiagnosis(latest.diagnosis || "");
-        // setPrescription(latest.prescription || "");
-        // setAdvice(latest.advice || "");
-        // setNotes(latest.notes || "");
+        setDiagnosis(latest.diagnosis || "");
+        setPrescription(latest.prescription || "");
+        setAdvice(latest.advice || "");
+        setNotes(latest.notes || "");
 
         if (latest.diagnosis?.startsWith("data:image")) {
           setDiagnosisMode("write");

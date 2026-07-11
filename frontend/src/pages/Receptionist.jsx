@@ -13,13 +13,32 @@ function Receptionist() {
   const [step, setStep] = useState("dashboard");
   const [selectedPatient, setSelectedPatient] = useState(null);
 
+  const [mode, setMode] = useState("register");
+
   return (
     <Layout role="Receptionist" setStep={setStep} currentStep={step}>
       {step === "dashboard" && (
-        <Dashboard setStep={setStep} setSelectedPatient={setSelectedPatient} />
+        <Dashboard
+          setStep={setStep}
+          setSelectedPatient={setSelectedPatient}
+          setMode={setMode}
+        />
       )}
 
-      {step === "register" && <RegistrationForm patient={selectedPatient} />}
+      {step === "register" && (
+        <RegistrationForm
+          patient={selectedPatient}
+          setSelectedPatient={setSelectedPatient}
+          setStep={setStep}
+          mode={
+            selectedPatient
+              ? selectedPatient.isAppointment
+                ? "appointment"
+                : "edit"
+              : "new"
+          }
+        />
+      )}
 
       {step === "billing" && <OPDBilling patient={selectedPatient} />}
 

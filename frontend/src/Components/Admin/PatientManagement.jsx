@@ -77,7 +77,7 @@ function PatientManagement({
             .filter(
               (p) =>
                 p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                p.phone.includes(searchTerm),
+                p.mobile.includes(searchTerm),
             )
             .map((p) => (
               <tr key={p._id}>
@@ -138,16 +138,16 @@ function PatientManagement({
                 <td>
                   {editingPatientId === p._id ? (
                     <input
-                      value={editedPatient.phone}
+                      value={editedPatient.mobile}
                       onChange={(e) =>
                         setEditedPatient({
                           ...editedPatient,
-                          phone: e.target.value,
+                          mobile: e.target.value,
                         })
                       }
                     />
                   ) : (
-                    p.phone
+                    p.mobile
                   )}
                 </td>
                 <td>
@@ -279,7 +279,7 @@ function PatientManagement({
                             name: p.name || "",
                             age: p.age || "",
                             gender: p.gender || "",
-                            phone: p.phone || "",
+                            mobile: p.mobile || "",
                             disease: p.disease || "",
                             doctor: p.doctor || "",
                             admission: p.admission || "",

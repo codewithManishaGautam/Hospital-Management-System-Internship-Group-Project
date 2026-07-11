@@ -7,10 +7,9 @@ import {
   Legend,
 } from "recharts";
 
-
 import "../../styles/admin/dashboard.css";
 
-function Dashboard({ dashboard, finance, activities }) {
+function Dashboard({ dashboard, finance, activities, rooms, beds }) {
   const chartData = [
     {
       name: `Income ₹${finance.totalIncome || 0}`,
@@ -23,6 +22,22 @@ function Dashboard({ dashboard, finance, activities }) {
   ];
 
   const COLORS = ["#4CAF50", "#F44336"];
+
+  const availableBeds = (beds || []).filter(
+    (b) => b.status === "Available",
+  ).length;
+
+  const occupiedBeds = (beds || []).filter(
+    (b) => b.status === "Occupied",
+  ).length;
+
+  const maintenanceRooms = (rooms || []).filter(
+    (r) => r.status === "Maintenance",
+  ).length;
+
+  const availableRooms = (rooms || []).filter(
+    (r) => r.status === "Available",
+  ).length;
 
   return (
     <div className="dashboard-container">
@@ -67,6 +82,31 @@ function Dashboard({ dashboard, finance, activities }) {
         <div className="stats-card">
           <h3>Net Profit</h3>
           <p>₹{finance.profit || 0}</p>
+        </div>
+
+        <div className="stats-card">
+          <h3>Total Rooms</h3>
+          <p>{rooms?.length || 0}</p>
+        </div>
+
+        <div className="stats-card">
+          <h3>Available Rooms</h3>
+          <p>{availableRooms}</p>
+        </div>
+
+        <div className="stats-card">
+          <h3>Maintenance Rooms</h3>
+          <p>{maintenanceRooms}</p>
+        </div>
+
+        <div className="stats-card">
+          <h3>Available Beds</h3>
+          <p>{availableBeds}</p>
+        </div>
+
+        <div className="stats-card">
+          <h3>Occupied Beds</h3>
+          <p>{occupiedBeds}</p>
         </div>
 
         <div className="stats-card">
