@@ -3,6 +3,7 @@ const Patient = require("../models/Patient");
 const User = require("../models/User");
 const Staff = require("../models/Staff");
 const Room = require("../models/Room");
+const Bed = require("../models/Bed");
 const Inventory = require("../models/Inventory");
 const Charge = require("../models/Charges");
 const Expense = require("../models/Expense");
@@ -349,8 +350,22 @@ const addRoom = async (req, res) => {
   try {
     const room = await Room.create(req.body);
 
+    const totalBeds = Number(req.body.totalBeds) || 1;
+
+    const beds = [];
+
+    for (let i = 1; i <= totalBeds; i++) {
+      beds.push({
+        roomNumber: room.roomNumber,
+        bedNo: `${room.roomNumber}-B${i}`,
+        status: "Available",
+      });
+    }
+
+    await Bed.insertMany(beds);
+
     await Activity.create({
-      message: `Room Allocated : ${room.roomNumber}`,
+      message: `Room Added : ${room.roomNumber}`,
     });
 
     res.status(201).json({
@@ -616,14 +631,26 @@ const getActivities = async (req, res) => {
 const getSentPrescriptions = async (req, res) => {
   try {
     let SentPrescription;
-    try { SentPrescription = require('../models/SentPrescription'); } catch (e) { SentPrescription = null; }
+    try {
+      SentPrescription = require("../models/SentPrescription");
+    } catch (e) {
+      SentPrescription = null;
+    }
 
     if (SentPrescription) {
-      const docs = await SentPrescription.find().sort({ createdAt: -1 }).limit(200);
+      const docs = await SentPrescription.find()
+        .sort({ createdAt: -1 })
+        .limit(200);
       return res.status(200).json({ data: docs });
     }
 
-    return res.status(200).json({ data: global.__sentPrescriptions || { lab: [], pharmacy: [], nurse: [] } });
+    return res.status(200).json({
+      data: global.__sentPrescriptions || {
+        lab: [],
+        pharmacy: [],
+        nurse: [],
+      },
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

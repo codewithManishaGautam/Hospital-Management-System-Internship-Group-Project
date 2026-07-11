@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { getAllPatients } from "./services/patientService";
+import { getAllPatients, deletePatient } from "./services/patientService";
 import { useNavigate } from "react-router-dom";
 import "../../styles/Reception/dashboard.css";
 
-function Dashboard({ setStep, setSelectedPatient }) {
+function Dashboard({ setStep, setSelectedPatient, setMode }) {
   const navigate = useNavigate();
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,11 +17,11 @@ function Dashboard({ setStep, setSelectedPatient }) {
     },
     {
       title: "Registered Patients",
-      count: patients.length,
+      count: patients?.length || 0,
     },
     {
       title: "IPD Patients",
-      count: patients.filter((p) => p.role === "IPD").length,
+      count: (patients || []).filter((p) => p.role === "IPD").length,
     },
     {
       title: "Today's Revenue",
@@ -43,9 +43,39 @@ function Dashboard({ setStep, setSelectedPatient }) {
   const fetchPatients = async () => {
     try {
       const data = await getAllPatients();
-      setPatients(data);
+
+      console.log("Patients API Response :", data);
+
+      const sorted = [...data].sort((a, b) => {
+        if (a.appointmentDate && b.appointmentDate) {
+          return (
+            new Date(b.appointmentDate + " " + b.appointmentTime) -
+            new Date(a.appointmentDate + " " + a.appointmentTime)
+          );
+        }
+        return 0;
+      });
+
+      setPatients(sorted);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleDeletePatient = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this patient?",
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+      await deletePatient(id);
+      fetchPatients();
+      alert("Patient deleted successfully.");
+    } catch (error) {
+      console.log(error);
+      alert("Failed to delete patient.");
     }
   };
 
@@ -53,14 +83,36 @@ function Dashboard({ setStep, setSelectedPatient }) {
     navigate(`/prescription/${patient._id}`);
   };
 
+  const handleEdit = (patient) => {
+    setSelectedPatient({
+      ...patient,
+      isAppointment: false,
+    });
+
+    setStep("register");
+  };
+
   return (
     <div className="dashboard-container">
       {/* Header */}
       <div className="dashboard-header">
         <h2>Reception Dashboard</h2>
-        <button className="add-btn" onClick={() => setStep("register")}>
+        <button
+          className="add-btn"
+          onClick={() => {
+            setSelectedPatient(null);
+            setStep("register");
+          }}
+        >
           + New Registration
         </button>
+
+        {/* <button
+          className="appointment-btn"
+          onClick={() => setStep("appointment")}
+        >
+          Book Appointment
+        </button> */}
       </div>
 
       {/* Analytics Cards */}
@@ -106,9 +158,16 @@ function Dashboard({ setStep, setSelectedPatient }) {
             <tr>
               <th>UHID</th>
               <th>Name</th>
+              <th>Age</th>
+              <th>Gender</th>
               <th>Mobile</th>
+              <th>Address</th>
+              <th>Disease</th>
               <th>Doctor</th>
-              <th>Fee Status</th>
+              <th>Appointment</th>
+              <th>Patient Type</th>
+              <th>Payment</th>
+              <th>Status</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -118,18 +177,77 @@ function Dashboard({ setStep, setSelectedPatient }) {
                 <tr key={patient._id}>
                   <td>{patient.uhid}</td>
                   <td>{patient.name}</td>
+                  <td>{patient.age}</td>
+                  <td>{patient.gender}</td>
                   <td>{patient.mobile}</td>
+                  <td>{patient.address}</td>
+                  <td>{patient.disease}</td>
                   <td>{patient.doctor}</td>
                   <td>
-                    <span>{patient.status}</span>
+                    {patient.appointmentDate}
+                    <br />
+                    {patient.appointmentTime}
                   </td>
+                  <td>{patient.role}</td>
+                  <td>{patient.paymentStatus}</td>
+                  <td>{patient.status}</td>
                   <td>
-                    <button
-                      className="view-btn"
-                      onClick={() => handleViewPatient(patient)}
+                    <span
+                      className={
+                        patient.paymentStatus === "Paid" ? "paid" : "unpaid"
+                      }
                     >
-                      View
-                    </button>
+                      {patient.paymentStatus || "Pending"}
+                    </span>
+                  </td>
+
+                  <td>
+                    <div className="action-btns">
+                      <button
+                        className="view-btn"
+                        onClick={() => handleViewPatient(patient)}
+                      >
+                        View
+                      </button>
+
+                      <button
+                        className="edit-btn"
+                        onClick={() => handleEdit(patient)}
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        className="delete-btn"
+                        onClick={() => handleDeletePatient(patient._id)}
+                      >
+                        Delete
+                      </button>
+
+                      <button
+                        className="payment-btn"
+                        onClick={() => {
+                          setSelectedPatient(patient);
+                          setStep("billing");
+                        }}
+                      >
+                        Payment
+                      </button>
+
+                      <button
+                        className="appointment-btn"
+                        onClick={() => {
+                          setSelectedPatient({
+                            ...patient,
+                            isAppointment: true,
+                          });
+
+                          setStep("register");
+                        }}
+                      >
+                        Book Appointment
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))
@@ -191,7 +309,10 @@ function Dashboard({ setStep, setSelectedPatient }) {
             </button>
             <button
               className="appointment-btn"
-              onClick={() => setStep("register")}
+              onClick={() => {
+                setSelectedPatient(viewPatient);
+                setStep("register");
+              }}
             >
               Book Appointment
             </button>

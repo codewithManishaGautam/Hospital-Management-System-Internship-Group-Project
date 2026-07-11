@@ -1,54 +1,3 @@
-// const mongoose = require("mongoose");
-
-// const patientSchema = new mongoose.Schema({
-//   name:
-//   {
-//     type:String
-//   },
-//   age:
-//   {
-//     type:Number
-//   },
-//   gender:
-//   {
-//     type:String
-//   },
-//   phone:
-//   {
-//     type:String
-//   },
-//   disease:
-//   {
-//     type:String
-//   },
-//   doctor:
-//   {
-//     type:String
-//   },
-//   admission:
-//   {
-//     type:String
-//   },
-
-//   status:
-//   {
-//     type:String
-//   },
-//   role:
-//     {
-//         type: String,
-//         enum: ["OPD","IPD","ICU","OT","General Ward","Casulty","Emergency"]
-//     },
-
-//   createdAt:
-//   {
-//     type: Date,
-//     default: Date.now,
-//   },
-// });
-
-// module.exports = mongoose.model("Patient", patientSchema);
-
 const mongoose = require("mongoose");
 
 const patientSchema = new mongoose.Schema(
@@ -72,6 +21,26 @@ const patientSchema = new mongoose.Schema(
     disease: String,
 
     doctor: String,
+
+    diagnosis: {
+      type: String,
+      default: "",
+    },
+
+    prescription: {
+      type: String,
+      default: "",
+    },
+
+    advice: {
+      type: String,
+      default: "",
+    },
+
+    notes: {
+      type: String,
+      default: "",
+    },
 
     prescriptionHistory: [
       {
@@ -132,6 +101,11 @@ const patientSchema = new mongoose.Schema(
       default: "",
     },
 
+    dischargeDate: {
+      type: String,
+      default: "",
+    },
+
     // Insurance
     insuranceStatus: {
       type: String,
@@ -174,6 +148,11 @@ const patientSchema = new mongoose.Schema(
       default: "Pending",
     },
 
+    paymentMode: {
+      type: String,
+      default: "Cash",
+    },
+
     // Admission
     ipdNo: String,
 
@@ -182,6 +161,8 @@ const patientSchema = new mongoose.Schema(
     roomNo: String,
 
     bedNo: String,
+
+    roomType: String,
 
     // Patient Status
     status: {
@@ -198,96 +179,45 @@ const patientSchema = new mongoose.Schema(
       type: String,
       default: "Registered",
     },
+
+    appointmentHistory: [
+      {
+        appointmentDate: String,
+        appointmentTime: String,
+
+        doctor: String,
+        disease: String,
+
+        fee: {
+          type: Number,
+          default: 500,
+        },
+
+        paymentStatus: {
+          type: String,
+          default: "Pending",
+        },
+
+        paymentMode: {
+          type: String,
+          default: "Cash",
+        },
+
+        status: {
+          type: String,
+          default: "Waiting Doctor",
+        },
+
+        createdAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
   },
 
   {
     timestamps: true,
   },
 );
-// const patientSchema = new mongoose.Schema({
-
-//     uhid: {
-//         type: String,
-//         required: true,
-//         unique: true
-//     },
-
-//     name: {
-//         type: String,
-//         required: true
-//     },
-
-//     age: {
-//         type: Number,
-//         required: true
-//     },
-
-//     gender: {
-//         type: String,
-//         required: true
-//     },
-
-//     mobile: {
-//         type: String,
-//         required: true
-//     },
-
-//     address: {
-//         type: String
-//     },
-
-//     disease: {
-//         type: String
-//     },
-
-//     doctor: {
-//         type: String
-//     },
-
-//     appointmentType: {
-//         type: String
-//     },
-
-//     role: {
-//         type: String,
-//         enum: [
-//             "OPD",
-//             "IPD",
-//             "ICU",
-//             "OT",
-//             "General Ward",
-//             "Casualty",
-//             "Emergency"
-//         ],
-//         default: "OPD"
-//     },
-
-//     admissionDate: {
-//         type: String
-//     },
-
-//     dischargeDate: {
-//         type: String
-//     },
-
-//     roomNo: {
-//         type: String
-//     },
-
-//     bedNo: {
-//         type: String
-//     },
-
-//     status: {
-//         type: String,
-//         default: "Waiting"
-//     },
-
-//     createdAt: {
-//         type: Date,
-//         default: Date.now
-//     }
-
-// });
-
 module.exports = mongoose.model("Patient", patientSchema);
