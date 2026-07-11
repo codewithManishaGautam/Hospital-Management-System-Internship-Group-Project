@@ -36,7 +36,6 @@ function Dashboard({ prescriptions, setStep }) {
           type="text"
           placeholder="Enter Patient Name"
           className="search-input"
-          value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
 
