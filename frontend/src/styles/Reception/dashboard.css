@@ -288,3 +288,32 @@
   background-color: #475569; /* Slate grey for distinct action */
   color: var(--bg-white);
 }
+
+.action-btns{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.edit-btn,
+.delete-btn,
+.payment-btn{
+    border:none;
+    color:white;
+    padding:6px 12px;
+    border-radius:5px;
+    cursor:pointer;
+    font-size:13px;
+}
+
+.edit-btn{
+    background:#f59e0b;
+}
+
+.delete-btn{
+    background:#dc2626;
+}
+
+.payment-btn{
+    background:#16a34a;
+}
