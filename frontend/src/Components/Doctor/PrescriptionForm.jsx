@@ -1,18 +1,31 @@
 import React, { useMemo, useRef, useState } from "react";
 
 function PrescriptionForm({ patient, doctor, onSubmit }) {
-  const [meds, setMeds] = useState([
-    { medicine: "", dosage: "", notes: "" },
-  ]);
+  const [meds, setMeds] = useState([{ medicine: "", dosage: "", notes: "" }]);
   const [instructions, setInstructions] = useState("");
+
+  // Lab/Scan requirement (static dropdowns)
+  const LAB_TESTS = ["CBC", "LFT", "RBS", "Lipid Profile"];
+  const SCANS = ["X-Ray", "Ultrasound", "CT Scan", "MRI"];
+
+  const [labRequired, setLabRequired] = useState("no"); // yes|no
+  const [labTestType, setLabTestType] = useState(LAB_TESTS[0]);
+
+  const [scanRequired, setScanRequired] = useState("no"); // yes|no
+  const [scanType, setScanType] = useState(SCANS[0]);
 
   const previewRef = useRef(null);
 
   const previewText = useMemo(() => {
     const medsText = meds
       .filter((m) => m.medicine.trim())
-      .map((m, i) => `${i + 1}. ${m.medicine} — ${m.dosage}${m.notes ? ` (${m.notes})` : ""}`)
+      .map(
+        (m, i) => `${i + 1}. ${m.medicine} — ${m.dosage}${m.notes ? ` (${m.notes})` : ""}`
+      )
       .join("\n");
+
+    const labText = labRequired === "yes" ? `Lab: ${labTestType}` : "Lab: Not required";
+    const scanText = scanRequired === "yes" ? `Scan: ${scanType}` : "Scan: Not required";
 
     return [
       `Doctor: ${doctor?.name || "Dr."}`,
@@ -23,13 +36,16 @@ function PrescriptionForm({ patient, doctor, onSubmit }) {
       "Prescription:",
       medsText || "(No medicines yet)",
       "",
+      labText,
+      scanText,
+      "",
       instructions ? `Instructions: ${instructions}` : "",
       "",
       `Generated: ${new Date().toLocaleString()}`,
     ]
       .filter(Boolean)
       .join("\n");
-  }, [doctor, patient, meds, instructions]);
+  }, [doctor, patient, meds, instructions, labRequired, labTestType, scanRequired, scanType]);
 
   function handleAddRow() {
     setMeds((prev) => [...prev, { medicine: "", dosage: "", notes: "" }]);
@@ -59,11 +75,9 @@ function PrescriptionForm({ patient, doctor, onSubmit }) {
             body{font-family: Arial, Helvetica, sans-serif; padding:0;}
             .wrap{padding:24px;}
             pre{white-space: pre-wrap; word-break: break-word; font-size:13.5px; line-height:1.4;}
-            .hdr{margin-bottom:16px;}
             .stamp{display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:10px;}
             .sig{margin-top:24px; display:flex; flex-direction:column; align-items:flex-end; gap:4px;}
             .muted{color:#475569; font-size:12px; font-weight:700;}
-            .bold{font-weight:900;}
           </style>
         </head>
         <body>
@@ -93,7 +107,6 @@ function PrescriptionForm({ patient, doctor, onSubmit }) {
     win.print();
   }
 
-
   function handleDownload() {
     const blob = new Blob([previewText], { type: "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
@@ -104,17 +117,83 @@ function PrescriptionForm({ patient, doctor, onSubmit }) {
     URL.revokeObjectURL(url);
   }
 
-  function handleSubmit(e) {
+  const [sendTarget, setSendTarget] = useState("lab");
+
+  async function handleSubmit(e) {
     e.preventDefault();
     const payload = {
       patientUHID: patient?.uHID,
       medicines: meds,
       instructions,
       doctorId: doctor?.id,
+      lab: {
+        required: labRequired === "yes",
+        testType: labRequired === "yes" ? labTestType : null,
+      },
+      scan: {
+        required: scanRequired === "yes",
+        scanType: scanRequired === "yes" ? scanType : null,
+      },
       createdAt: new Date().toISOString(),
     };
 
-    onSubmit?.(payload);
+    // if parent provides handler, use it (current Doctor.jsx uses placeholder)
+    if (onSubmit) {
+      onSubmit(payload);
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/doctor/prescriptions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      alert(data?.message || "Prescription saved");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to save prescription.");
+    }
+  }
+
+  const [sending, setSending] = useState(false);
+
+  async function handleSend() {
+    if (!patient) return;
+    try {
+      setSending(true);
+
+      const payload = {
+        target: sendTarget,
+        prescription: {
+          patientUHID: patient?.uHID,
+          medicines: meds,
+          instructions,
+          doctorId: doctor?.id,
+          lab: { required: labRequired === "yes", testType: labRequired === "yes" ? labTestType : null },
+          scan: { required: scanRequired === "yes", scanType: scanRequired === "yes" ? scanType : null },
+          createdAt: new Date().toISOString(),
+        },
+      };
+
+      const res = await fetch("/api/doctor/send-prescription", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.message || "Send failed");
+
+      alert(data?.message || `Prescription sent to ${sendTarget}`);
+    } catch (err) {
+      console.error(err);
+      alert(err?.message || "Failed to send prescription.");
+    } finally {
+      setSending(false);
+    }
   }
 
   return (
@@ -122,7 +201,7 @@ function PrescriptionForm({ patient, doctor, onSubmit }) {
       <div className="doctor-panel__header">
         <div>
           <h3 className="doctor-panel__title">Prescription System</h3>
-          <p className="doctor-panel__subtitle">Create a prescription and preview before printing</p>
+          <p className="doctor-panel__subtitle">Create a prescription, add Lab/Scan orders, then preview before printing</p>
         </div>
       </div>
 
@@ -165,6 +244,91 @@ function PrescriptionForm({ patient, doctor, onSubmit }) {
             </div>
 
             <div className="doctor-form__section">
+              <div className="doctor-form__section-title">Orders (Lab Test / Scan)</div>
+
+              <div className="doctor-form__section-title" style={{ marginTop: 10, fontSize: 12, fontWeight: 900 }}>
+                Lab Test
+              </div>
+              <div className="doctor-form__grid" style={{ marginTop: 8 }}>
+                <div className="doctor-form__col" style={{ gridColumn: "span 6" }}>
+                  <div style={{ fontWeight: 900, fontSize: 12, color: "#334155", marginBottom: 6 }}>
+                    Needs Lab Test?
+                  </div>
+
+                  <select
+                    className="doctor-input"
+                    value={labRequired}
+                    onChange={(e) => setLabRequired(e.target.value)}
+                    disabled={!patient}
+                    style={{ WebkitAppearance: "auto", appearance: "auto" }}
+                  >
+
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                  </select>
+                </div>
+
+                <div className="doctor-form__col" style={{ gridColumn: "span 6" }}>
+                  <label className="doctor-label" style={{ fontWeight: 900, fontSize: 12, color: "#334155" }}>
+                    Lab Test Type
+                  </label>
+                  <select
+                    className="doctor-input"
+                    value={labTestType}
+                    onChange={(e) => setLabTestType(e.target.value)}
+                    disabled={!patient || labRequired !== "yes"}
+                  >
+
+
+                    {LAB_TESTS.map((t) => (
+                      <option key={t} value={t}>
+                        {t}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="doctor-form__section-title" style={{ marginTop: 16, fontSize: 12, fontWeight: 900 }}>
+                Scan
+              </div>
+              <div className="doctor-form__grid" style={{ marginTop: 8 }}>
+                <div className="doctor-form__col" style={{ gridColumn: "span 6" }}>
+                  <label className="doctor-label" style={{ fontWeight: 900, fontSize: 12, color: "#334155" }}>
+                    Needs Scan?
+                  </label>
+                  <select
+                    className="doctor-input"
+                    value={scanRequired}
+                    onChange={(e) => setScanRequired(e.target.value)}
+                    disabled={!patient}
+                  >
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                  </select>
+                </div>
+
+                <div className="doctor-form__col" style={{ gridColumn: "span 6" }}>
+                  <label className="doctor-label" style={{ fontWeight: 900, fontSize: 12, color: "#334155" }}>
+                    Scan Type
+                  </label>
+                  <select
+                    className="doctor-input"
+                    value={scanType}
+                    onChange={(e) => setScanType(e.target.value)}
+                    disabled={!patient || scanRequired !== "yes"}
+                  >
+                    {SCANS.map((t) => (
+                      <option key={t} value={t}>
+                        {t}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div className="doctor-form__section">
               <div className="doctor-form__section-title">Instructions</div>
               <textarea
                 className="doctor-textarea"
@@ -174,7 +338,33 @@ function PrescriptionForm({ patient, doctor, onSubmit }) {
               />
             </div>
 
-            <div className="doctor-form__submit">
+            <div className="doctor-form__submit doctor-form__submit--with-send">
+              <div className="doctor-send-group">
+                <label className="doctor-label" htmlFor="send-target" style={{ marginBottom: 6 }}>
+                  Send To
+                </label>
+                <select
+                  id="send-target"
+                  className="doctor-input"
+                  value={sendTarget}
+                  onChange={(e) => setSendTarget(e.target.value)}
+                  disabled={!patient}
+                  style={{ minWidth: 220, marginRight: 10 }}
+                >
+                  <option value="lab">Lab</option>
+                  <option value="pharmacy">Pharmacy</option>
+                  <option value="nurse">Nurse</option>
+                </select>
+                <button
+                  type="button"
+                  className="doctor-btn doctor-btn--secondary"
+                  onClick={handleSend}
+                  disabled={!patient}
+                >
+                  Send
+                </button>
+              </div>
+
               <button type="submit" className="doctor-btn doctor-btn--primary" disabled={!patient}>
                 Save Prescription
               </button>
@@ -196,7 +386,12 @@ function PrescriptionForm({ patient, doctor, onSubmit }) {
                   <button type="button" className="doctor-btn" onClick={handleDownload} disabled={!patient}>
                     Download
                   </button>
-                  <button type="button" className="doctor-btn" onClick={() => alert("Voice note for prescription (UI placeholder).")} disabled={!patient}>
+                  <button
+                    type="button"
+                    className="doctor-btn"
+                    onClick={() => alert("Voice note for prescription (UI placeholder).")}
+                    disabled={!patient}
+                  >
                     Voice Note
                   </button>
                 </div>

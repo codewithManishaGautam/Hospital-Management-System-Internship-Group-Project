@@ -1,5 +1,7 @@
 import React from "react";
 import StaffForm from "./StaffForm";
+import "../../styles/admin/staff.css";
+import "../../styles/admin/table.css";
 
 function StaffManagement({
   staff,
@@ -36,7 +38,7 @@ function StaffManagement({
       <table>
         <thead>
           <tr>
-            <th>ID</th>
+            <th>Staff ID</th>
             <th>Name</th>
             <th>Aadhaar</th>
             <th>Phone</th>
@@ -50,11 +52,11 @@ function StaffManagement({
 
         <tbody>
           {staff.map((s) => (
-            <tr key={s.id}>
-              <td>{s.id}</td>
+            <tr key={s._id}>
+              <td>STF-{s._id.slice(-6).toUpperCase()}</td>
 
               <td>
-                {editingStaffId === s.id ? (
+                {editingStaffId === s._id ? (
                   <input
                     type="text"
                     value={editedStaff.name}
@@ -71,7 +73,7 @@ function StaffManagement({
               </td>
 
               <td>
-                {editingStaffId === s.id ? (
+                {editingStaffId === s._id ? (
                   <input
                     type="text"
                     value={editedStaff.aadhaar}
@@ -88,7 +90,7 @@ function StaffManagement({
               </td>
 
               <td>
-                {editingStaffId === s.id ? (
+                {editingStaffId === s._id ? (
                   <input
                     type="text"
                     value={editedStaff.phone}
@@ -105,7 +107,7 @@ function StaffManagement({
               </td>
 
               <td>
-                {editingStaffId === s.id ? (
+                {editingStaffId === s._id ? (
                   <input
                     type="text"
                     value={editedStaff.role}
@@ -122,7 +124,7 @@ function StaffManagement({
               </td>
 
               <td>
-                {editingStaffId === s.id ? (
+                {editingStaffId === s._id ? (
                   <input
                     type="text"
                     value={editedStaff.salary}
@@ -139,7 +141,7 @@ function StaffManagement({
               </td>
 
               <td>
-                {editingStaffId === s.id ? (
+                {editingStaffId === s._id ? (
                   <select
                     value={editedStaff.status}
                     onChange={(e) =>
@@ -158,7 +160,7 @@ function StaffManagement({
               </td>
 
               <td>
-                {editingStaffId === s.id ? (
+                {editingStaffId === s._id ? (
                   <input
                     type="date"
                     value={editedStaff.joining}
@@ -175,11 +177,11 @@ function StaffManagement({
               </td>
 
               <td>
-                {editingStaffId === s.id ? (
+                {editingStaffId === s._id ? (
                   <>
                     <button
                       className="edit-btn"
-                      onClick={() => saveStaffEdit(s.id)}
+                      onClick={() => saveStaffEdit(s._id)}
                     >
                       Save
                     </button>
@@ -196,7 +198,7 @@ function StaffManagement({
                     <button
                       className="edit-btn"
                       onClick={() => {
-                        setEditingStaffId(s.id);
+                        setEditingStaffId(s._id);
 
                         setEditedStaff({
                           name: s.name,
@@ -214,7 +216,7 @@ function StaffManagement({
 
                     <button
                       className="delete-btn"
-                      onClick={() => deleteStaff(s.id)}
+                      onClick={() => deleteStaff(s._id)}
                     >
                       Delete
                     </button>

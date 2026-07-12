@@ -1,0 +1,82 @@
+.consent-form{
+    width: 800px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid black;
+    font-family: "Times New Roman", serif;
+    font-size: 14px;
+    background: white;
+}
+
+.title{
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.date{
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.patient-table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+h4,h3,h2{
+    font-weight: bold;
+}
+
+.patient-table td{
+    border: 1px solid black;
+    padding: 8px;
+    vertical-align: top;
+}
+
+.paragraph{
+    text-align: justify;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+span {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 5px;
+}
+
+.signature-grid{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.center{
+    text-align: center;
+    margin-top: 30px;
+}
+
+.print-btn{
+    margin: 20px;
+    padding: 10px 20px;
+}
+
+
+/* PRINT */
+@media print {
+
+    .print-btn{
+        display: none;
+    }
+
+    body{
+        margin: 0;
+    }
+
+    .consent-form{
+        width: 100%;
+        border: none;
+    }
+}

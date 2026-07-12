@@ -34,7 +34,7 @@ function PrescriptionModal({
 
         <p>
           <strong>Tests:</strong>
-          {selectedPatient.tests.join(", ")}
+          {selectedPatient.tests?.join(", ") || "No Tests"}
         </p>
 
         <p>
@@ -47,9 +47,13 @@ function PrescriptionModal({
         </p>
 
         <ul>
-          {selectedPatient.reports.map((report, index) => (
-            <li key={index}>{report}</li>
-          ))}
+          {selectedPatient.reports?.length ? (
+            selectedPatient.reports.map((report, index) => (
+              <li key={index}>{report}</li>
+            ))
+          ) : (
+            <li>No Reports</li>
+          )}
         </ul>
 
         {selectedPatient.status === "Discharged" && (
