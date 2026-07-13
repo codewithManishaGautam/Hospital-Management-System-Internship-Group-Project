@@ -132,3 +132,23 @@ table select:focus {
     min-width: 900px;
   }
 }
+
+.status-waiting {
+  color: orange;
+  font-weight: bold;
+}
+
+.status-admitted {
+  color: green;
+  font-weight: bold;
+}
+
+.status-discharged {
+  color: red;
+  font-weight: bold;
+}
+
+.status-default {
+  color: #555;
+  font-weight: bold;
+}

@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../styles/Reception/PrescriptionPage.css";
+// import "../../styles/Reception/PrescriptionPage";
 
 function PrescriptionPage() {
   // console.log(SignatureCanvas);
@@ -123,6 +124,16 @@ function PrescriptionPage() {
       console.log("Sending PUT request...");
 
       const payload = {
+        uhid: patient.uhid,
+        name: patient.name,
+        age: patient.age,
+        gender: patient.gender,
+        mobile: patient.mobile,
+        address: patient.address,
+        doctor: patient.doctor,
+        disease: patient.disease,
+        role: patient.role,
+
         diagnosis: diagnosisData,
         prescription: prescriptionData,
         advice: adviceData,
@@ -147,28 +158,28 @@ function PrescriptionPage() {
 
       alert("Prescription Saved Successfully");
 
-      <button
-        className="edit-btn"
-        onClick={() => {
-          setDiagnosis("");
-          setPrescription("");
-          setAdvice("");
-          setNotes("");
+      // <button
+      //   className="edit-btn"
+      //   onClick={() => {
+      //     setDiagnosis("");
+      //     setPrescription("");
+      //     setAdvice("");
+      //     setNotes("");
 
-          setDiagnosisMode("type");
-          setPrescriptionMode("type");
-          setAdviceMode("type");
-          setNotesMode("type");
+      //     setDiagnosisMode("type");
+      //     setPrescriptionMode("type");
+      //     setAdviceMode("type");
+      //     setNotesMode("type");
 
-          diagnosisPad.current?.clear();
-          prescriptionPad.current?.clear();
-          advicePad.current?.clear();
-          notesPad.current?.clear();
-          sigCanvas.current?.clear();
+      //     diagnosisPad.current?.clear();
+      //     prescriptionPad.current?.clear();
+      //     advicePad.current?.clear();
+      //     notesPad.current?.clear();
+      //     sigCanvas.current?.clear();
 
-          setEditMode(true);
-        }}
-      ></button>;
+      //     setEditMode(true);
+      //   }}
+      // ></button>;
       await loadPatient();
 
       setEditMode(false);
@@ -185,6 +196,10 @@ function PrescriptionPage() {
       console.log(err.response);
       alert("Error: " + (err.response?.data?.message || err.message));
     }
+  };
+
+  const downloadPDF = () => {
+    window.open(`http://localhost:5000/api/patient/${id}/pdf`);
   };
 
   const loadPatient = async () => {
@@ -287,13 +302,25 @@ function PrescriptionPage() {
             </button>
           )}
 
-          <button className="print-btn" onClick={() => window.print()}>
+          <button
+            className="print-btn"
+            onClick={() =>
+              window.open(
+                `http://localhost:5000/api/patient/${id}/pdf`,
+                "_blank",
+              )
+            }
+          >
+            Download PDF
+          </button>
+
+          <button className="print-btn" onClick={downloadPDF}>
             Print
           </button>
         </div>
       </div>
       <div className="prescription-card">
-        <h1>ABC Hospital</h1>
+        <h1>Shraddha Hospital</h1>
         <hr />
         <div className="patient-grid">
           <div>
@@ -430,9 +457,25 @@ function PrescriptionPage() {
 
           {editMode ? (
             <div>
-              <button onClick={() => setDiagnosisMode("type")}>Typing</button>
+              <button
+                className={
+                  diagnosisMode === "type" ? "mode-btn active-mode" : "mode-btn"
+                }
+                onClick={() => setDiagnosisMode("type")}
+              >
+                Typing
+              </button>
 
-              <button onClick={() => setDiagnosisMode("write")}>Writing</button>
+              <button
+                className={
+                  diagnosisMode === "write"
+                    ? "mode-btn active-mode"
+                    : "mode-btn"
+                }
+                onClick={() => setDiagnosisMode("write")}
+              >
+                Writing
+              </button>
 
               {diagnosisMode === "type" ? (
                 <textarea

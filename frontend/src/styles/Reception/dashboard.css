@@ -1,21 +1,21 @@
 /* File Path: src/styles/Reception/dashboard.css */
 
 :root {
-  --primary-blue: #1e40af;       /* Deep Hospital Blue */
-  --light-blue: #f0fdf4;         /* Soft Background Blue-Grey tint */
-  --accent-blue: #3b82f6;        /* Bright Active Blue */
-  --bg-white: #ffffff;           /* Clean White */
-  --border-color: #e2e8f0;       /* Light border */
-  --text-dark: #1e293b;          /* Dark Charcoal Text */
-  --text-muted: #64748b;         /* Muted Gray Text */
-  --success-green: #10b981;      /* Paid status */
-  --warning-orange: #f59e0b;     /* Unpaid status */
+  --primary-blue: #1e40af; /* Deep Hospital Blue */
+  --light-blue: #f0fdf4; /* Soft Background Blue-Grey tint */
+  --accent-blue: #3b82f6; /* Bright Active Blue */
+  --bg-white: #ffffff; /* Clean White */
+  --border-color: #e2e8f0; /* Light border */
+  --text-dark: #1e293b; /* Dark Charcoal Text */
+  --text-muted: #64748b; /* Muted Gray Text */
+  --success-green: #10b981; /* Paid status */
+  --warning-orange: #f59e0b; /* Unpaid status */
 }
 
 .dashboard-container {
   padding: 24px;
   background-color: #f8fafc;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   min-height: 100vh;
   color: var(--text-dark);
 }
@@ -63,7 +63,8 @@
   border: 1px solid var(--border-color);
 }
 
-.dashboard-date-box, .dashboard-search-box {
+.dashboard-date-box,
+.dashboard-search-box {
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -126,9 +127,9 @@
 
 .dashboard-card h3 {
   font-size: 14px;
-  color: whitesmoke;
+  color: var(--text-muted);
   margin: 0 0 8px 0;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .dashboard-card h1 {
@@ -140,46 +141,67 @@
 
 /* Patient List Table Card */
 .patient-table-card {
-  background-color: var(--bg-white);
+  background: #fff;
   border-radius: 8px;
   border: 1px solid var(--border-color);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-  overflow: hidden;
   margin-bottom: 24px;
+  overflow-x: auto;
 }
 
 .table-header {
   padding: 16px 20px;
   border-bottom: 1px solid var(--border-color);
   background-color: #f8fafc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
 }
 
 .table-header h3 {
-  margin: 0;
-  color: whitesmoke;
-  font-size: 16px;
+  color: var(--primary-blue);
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .patient-table {
   width: 100%;
+  min-width: 1650px;
   border-collapse: collapse;
-  text-align: left;
+  table-layout: auto;
 }
 
 .patient-table th {
-  background-color: #062849;
-  color: var(--text-dark);
-  font-weight: 600;
-  padding: 12px 20px;
-  font-size: 14px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
 }
 
+.patient-table th,
 .patient-table td {
-  padding: 14px 20px;
-  border-bottom: 1px solid var(--border-color);
-  font-size: 14px;
+  padding: 12px 15px;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-align: center;
 }
 
+.patient-table td:nth-child(6) {
+  white-space: normal;
+  min-width: 180px;
+}
+
+.patient-table td:nth-child(1) {
+  min-width: 150px;
+}
+
+.patient-table td:nth-child(8) {
+  min-width: 130px;
+}
+
+.patient-table td:nth-child(9) {
+  min-width: 140px;
+}
 .patient-table tr:hover {
   background-color: #f8fafc;
 }
@@ -284,36 +306,96 @@
   color: var(--bg-white);
 }
 
+.appointment-btn:hover {
+  background: #1d4ed8;
+}
+
 .ipd-btn {
   background-color: #475569; /* Slate grey for distinct action */
   color: var(--bg-white);
 }
 
-.action-btns{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
+.action-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 140px;
 }
 
+.view-btn,
 .edit-btn,
 .delete-btn,
-.payment-btn{
-    border:none;
-    color:white;
-    padding:6px 12px;
-    border-radius:5px;
-    cursor:pointer;
-    font-size:13px;
+.payment-btn,
+.appointment-btn {
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 13px;
+  width: 100%;
+  padding: 8px;
 }
 
-.edit-btn{
-    background:#f59e0b;
+.edit-btn {
+  background: #f59e0b;
 }
 
-.delete-btn{
-    background:#dc2626;
+.delete-btn {
+  background: #dc2626;
 }
 
-.payment-btn{
-    background:#16a34a;
+.payment-btn {
+  background: #16a34a;
+}
+
+.search-input {
+  width: 280px;
+  max-width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  outline: none;
+}
+
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .dashboard-header h2 {
+    font-size: 22px;
+  }
+
+  .add-btn {
+    width: 100%;
+  }
+
+  .table-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-input {
+    width: 100px;
+    max-width: 100%;
+  }
+
+  .search-input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  }
+
+  .action-btns {
+    flex-direction: column;
+  }
+
+  .action-btns button {
+    width: 100%;
+  }
+
+  .dashboard-container {
+    padding: 15px;
+  }
 }

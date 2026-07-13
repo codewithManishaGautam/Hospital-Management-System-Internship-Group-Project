@@ -16,25 +16,21 @@
 
 .sidebar {
   width: 270px;
+  /* left: -270px; */
   min-height: 100vh;
-
-  background: linear-gradient(
-    180deg,
-    #021024 0%,
-    #052659 40%,
-    #0a4fa3 100%
-  );
-
+  overflow-y: auto;
+  background: linear-gradient(180deg, #021024 0%, #052659 40%, #0a4fa3 100%);
   color: white;
-
   display: flex;
   flex-direction: column;
-
   justify-content: space-between;
-
   padding: 20px;
-
   box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 1000;
 }
 
 /* ======================
@@ -163,10 +159,10 @@
 
 .main-section {
   flex: 1;
-
   display: flex;
-
   flex-direction: column;
+  margin-left: 270px;
+  min-height: 100vh;
 }
 
 /* ======================
@@ -228,4 +224,152 @@
 
 .back-btn:hover {
   background: #0d47a1;
+}
+
+/* ======================
+   RESPONSIVE
+====================== */
+
+@media (max-width: 768px) {
+  .layout-container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -270px;
+
+    width: 270px;
+    height: 100vh;
+
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+
+    transition: 0.3s;
+    z-index: 1000;
+  }
+
+  .sidebar-header {
+    margin-bottom: 20px;
+  }
+
+  .profile-image {
+    width: 70px;
+    height: 70px;
+  }
+
+  .sidebar-header h2 {
+    font-size: 20px;
+  }
+
+  .menu-list {
+    margin-top: 20px;
+  }
+
+  .menu-list button {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .logout-btn {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .topbar {
+    height: auto;
+    padding: 15px;
+  }
+
+  .topbar h2 {
+    font-size: 20px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .page-content {
+    padding: 15px;
+    overflow-x: auto;
+  }
+
+  .back-btn {
+    width: 100%;
+  }
+}
+
+.menu-btn {
+  display: none;
+}
+
+.overlay {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .menu-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: fixed;
+    top: 15px;
+    left: 15px;
+
+    width: 45px;
+    height: 45px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #1565c0;
+    color: white;
+
+    font-size: 24px;
+    cursor: pointer;
+
+    z-index: 1001;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -270px;
+
+    width: 270px;
+    height: 100vh;
+
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+
+    transition: 0.3s;
+    z-index: 1000;
+  }
+
+  .sidebar.active {
+    left: 0;
+  }
+
+  .overlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    background: rgba(0, 0, 0, 0.4);
+
+    z-index: 999;
+  }
+
+  .main-section {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .topbar {
+    height: 70px;
+    padding: 15px 20px 15px 75px;
+  }
 }

@@ -127,14 +127,7 @@ function Dashboard({ setStep, setSelectedPatient, setMode }) {
 
       {/* Patients Table Card */}
       <div className="patient-table-card">
-        <div
-          className="table-header"
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
+        <div className="table-header">
           <h3>Today's Appointment List</h3>
 
           {/* ✨ ADDED: Search Input Box */}
@@ -144,12 +137,6 @@ function Dashboard({ setStep, setSelectedPatient, setMode }) {
             placeholder="Search by Name, UHID, Mobile..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            style={{
-              padding: "6px 12px",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-              width: "250px",
-            }}
           />
         </div>
 
@@ -189,8 +176,6 @@ function Dashboard({ setStep, setSelectedPatient, setMode }) {
                     {patient.appointmentTime}
                   </td>
                   <td>{patient.role}</td>
-                  <td>{patient.paymentStatus}</td>
-                  <td>{patient.status}</td>
                   <td>
                     <span
                       className={
@@ -200,6 +185,8 @@ function Dashboard({ setStep, setSelectedPatient, setMode }) {
                       {patient.paymentStatus || "Pending"}
                     </span>
                   </td>
+
+                  <td>{patient.status}</td>
 
                   <td>
                     <div className="action-btns">
@@ -254,7 +241,7 @@ function Dashboard({ setStep, setSelectedPatient, setMode }) {
             ) : (
               <tr>
                 <td
-                  colSpan="6"
+                  colSpan="13"
                   style={{ textAlign: "center", padding: "15px" }}
                 >
                   No patients found

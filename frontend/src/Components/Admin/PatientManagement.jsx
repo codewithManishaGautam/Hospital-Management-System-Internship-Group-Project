@@ -1,6 +1,7 @@
 import React from "react";
 import AddPatientForm from "./AddPatientForm";
-import PrescriptionModal from "./prescriptionModal";
+// import PrescriptionModal from "./prescriptionModal";
+import PrescriptionPage from "./PrescriptionPage";
 import { useNavigate } from "react-router-dom";
 import "../../styles/admin/patient.css";
 import "../../styles/admin/table.css";
@@ -34,18 +35,19 @@ function PatientManagement({
       <div className="section-header">
         <h2>Patients</h2>
 
-        <button className="add-btn" onClick={() => setShowPatientForm(true)}>
+        {/* <button className="add-btn" onClick={() => setShowPatientForm(true)}>
           + Add Patient
-        </button>
+        </button> */}
       </div>
 
-      <AddPatientForm
+      {/* <AddPatientForm
         showPatientForm={showPatientForm}
         setShowPatientForm={setShowPatientForm}
         newPatient={newPatient}
         setNewPatient={setNewPatient}
         addPatient={addPatient}
-      />
+      /> */}
+
       <input
         type="text"
         placeholder="Search by Name or Phone"
@@ -57,11 +59,11 @@ function PatientManagement({
       <table>
         <thead>
           <tr>
-            <th>Patient ID</th>
+            <th>UHID</th>
             <th>Name</th>
             <th>Age</th>
             <th>Gender</th>
-            <th>Phone</th>
+            <th>Mobile</th>
             <th>Disease</th>
             <th>Doctor</th>
             <th>Admission</th>
@@ -76,12 +78,15 @@ function PatientManagement({
           {patients
             .filter(
               (p) =>
-                p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                p.mobile.includes(searchTerm),
+                (p.name || "")
+                  .toLowerCase()
+                  .includes(searchTerm.toLowerCase()) ||
+                (p.mobile || "").includes(searchTerm) ||
+                (p.uhid || "").toLowerCase().includes(searchTerm.toLowerCase()),
             )
             .map((p) => (
               <tr key={p._id}>
-                <td>pat-{p._id.slice(-6).toUpperCase()}</td>
+                <td>{p.uhid}</td>
 
                 <td>
                   {editingPatientId === p._id ? (
@@ -180,20 +185,23 @@ function PatientManagement({
                     p.doctor
                   )}
                 </td>
+
                 <td>
                   {editingPatientId === p._id ? (
                     <input
                       type="date"
-                      value={editedPatient.admission}
+                      value={editedPatient.admissionDate || ""}
                       onChange={(e) =>
                         setEditedPatient({
                           ...editedPatient,
-                          admission: e.target.value,
+                          admissionDate: e.target.value,
                         })
                       }
                     />
+                  ) : p.admissionDate ? (
+                    new Date(p.admissionDate).toLocaleDateString("en-IN")
                   ) : (
-                    p.admission
+                    "-"
                   )}
                 </td>
 
@@ -209,8 +217,10 @@ function PatientManagement({
                         })
                       }
                     />
+                  ) : p.appointmentDate ? (
+                    new Date(p.appointmentDate).toLocaleDateString("en-IN")
                   ) : (
-                    p.appointmentDate || "-"
+                    "-"
                   )}
                 </td>
 
@@ -225,6 +235,7 @@ function PatientManagement({
                         })
                       }
                     >
+                      <option value="Waiting Doctor">Waiting Doctor</option>
                       <option value="Admitted">Admitted</option>
                       <option value="Discharged">Discharged</option>
                     </select>
@@ -233,7 +244,11 @@ function PatientManagement({
                       className={
                         p.status === "Admitted"
                           ? "status-admitted"
-                          : "status-discharged"
+                          : p.status === "Waiting Doctor"
+                            ? "status-waiting"
+                            : p.status === "Discharged"
+                              ? "status-discharged"
+                              : "status-default"
                       }
                     >
                       {p.status}
@@ -282,7 +297,7 @@ function PatientManagement({
                             mobile: p.mobile || "",
                             disease: p.disease || "",
                             doctor: p.doctor || "",
-                            admission: p.admission || "",
+                            admissionDate: p.admissionDate || "",
                             appointmentDate: p.appointmentDate || "",
                             status: p.status || "",
                           });
@@ -305,12 +320,12 @@ function PatientManagement({
         </tbody>
       </table>
 
-      <PrescriptionModal
+      {/* <PrescriptionModal
         showPrescription={showPrescription}
         selectedPatient={selectedPatient}
         setShowPrescription={setShowPrescription}
         downloadPrescription={downloadPrescription}
-      />
+      /> */}
     </div>
   );
 }

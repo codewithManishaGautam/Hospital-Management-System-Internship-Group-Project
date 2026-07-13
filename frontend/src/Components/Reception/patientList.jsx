@@ -5,10 +5,9 @@ import "../../styles/Reception/searchPatient.css";
 
 function PatientList() {
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState("");
 
-  const [viewPatient, setViewPatient] = useState(null);
   const [patients, setPatients] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     loadPatients();
@@ -108,7 +107,7 @@ function PatientList() {
             ) : (
               <tr>
                 <td
-                  colSpan="8"
+                  colSpan="9"
                   style={{
                     textAlign: "center",
                   }}

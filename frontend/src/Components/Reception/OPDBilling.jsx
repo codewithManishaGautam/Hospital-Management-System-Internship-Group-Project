@@ -184,20 +184,24 @@ function OPDBilling({ patient }) {
         fee: Number(billingData.consultationFee),
         paymentMode: billingData.paymentMode,
         paymentStatus: "Paid",
-        appointmentHistory: patient.appointmentHistory?.map((a, index) =>
-          index === patient.appointmentHistory.length - 1
-            ? {
-                ...a,
-                paymentStatus: "Paid",
-                paymentMode: billingData.paymentMode,
-                fee: Number(billingData.consultationFee),
-              }
-            : a,
-        ),
+        appointmentHistory:
+          patient.appointmentHistory?.length > 0
+            ? patient.appointmentHistory.map((a, index) =>
+                index === patient.appointmentHistory.length - 1
+                  ? {
+                      ...a,
+                      paymentStatus: "Paid",
+                      paymentMode: billingData.paymentMode,
+                      fee: Number(billingData.consultationFee),
+                    }
+                  : a,
+              )
+            : [],
         status: "Completed",
       });
 
       console.log("Response:", res);
+      console.log("Updated Payment Status:", res.data?.paymentStatus);
 
       alert("Bill Generated Successfully");
 
@@ -222,6 +226,7 @@ function OPDBilling({ patient }) {
               type="text"
               name="uhid"
               value={billingData.uhid}
+              readOnly
               onChange={handleChange}
               placeholder="Enter UHID"
             />
@@ -233,6 +238,7 @@ function OPDBilling({ patient }) {
               type="text"
               name="patientName"
               value={billingData.patientName}
+              readOnly
               onChange={handleChange}
               placeholder="Enter Patient Name"
             />
@@ -244,6 +250,7 @@ function OPDBilling({ patient }) {
               type="text"
               name="doctorName"
               value={billingData.doctorName}
+              readOnly
               onChange={handleChange}
               placeholder="Enter Doctor Name"
             />
