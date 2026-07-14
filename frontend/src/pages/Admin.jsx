@@ -24,6 +24,7 @@ import Expense from "../Components/Admin/Expense";
 // import Analytics from "../Components/Admin/Analytics";
 import Charges from "../Components/Admin/Charges";
 import Insurance from "../Components/Admin/Insurance";
+import BedManagement from "../Components/Admin/BedManagement";
 
 function Admin() {
   const [step, setStep] = useState("admin-dashboard");
@@ -37,10 +38,11 @@ function Admin() {
     name: "",
     age: "",
     gender: "",
-    phone: "",
+    mobile: "",
     disease: "",
     doctor: "",
     admission: "",
+    appointmentDate: "",
     status: "",
   });
 
@@ -51,10 +53,11 @@ function Admin() {
     name: "",
     age: "",
     gender: "",
-    phone: "",
+    mobile: "",
     disease: "",
     doctor: "",
     admission: "",
+    appointmentDate: "",
     status: "",
   });
 
@@ -68,7 +71,7 @@ function Admin() {
   const [editedStaff, setEditedStaff] = useState({
     name: "",
     aadhaar: "",
-    phone: "",
+    mobile: "",
     role: "",
     salary: "",
     status: "",
@@ -79,12 +82,15 @@ function Admin() {
   const [newStaff, setNewStaff] = useState({
     name: "",
     aadhaar: "",
-    phone: "",
+    mobile: "",
     role: "",
     salary: "",
     status: "",
     joining: "",
   });
+
+  const [rooms, setRooms] = useState([]);
+  const [beds, setBeds] = useState([]);
 
   const saveStaffEdit = async (id) => {
     try {
@@ -115,7 +121,7 @@ function Admin() {
       setNewStaff({
         name: "",
         aadhaar: "",
-        phone: "",
+        mobile: "",
         role: "",
         salary: "",
         status: "",
@@ -162,10 +168,11 @@ function Admin() {
         name: "",
         age: "",
         gender: "",
-        phone: "",
+        mobile: "",
         disease: "",
         doctor: "",
         admission: "",
+        appointmentDate: "",
         status: "",
       });
       fetchPatients();
@@ -176,12 +183,14 @@ function Admin() {
 
   // ---------------- FETCH DATA ----------------
   useEffect(() => {
-    fetchDashboard();
-    fetchDoctors();
-    fetchStaff();
-    fetchPatients();
-    fetchFinance();
-    fetchActivities();
+    const interval = setInterval(() => {
+      fetchPatients();
+      fetchRooms();
+      fetchBeds();
+      fetchDashboard();
+    }, 5000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const fetchDashboard = async () => {
@@ -240,6 +249,24 @@ function Admin() {
     }
   };
 
+  const fetchRooms = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/rooms");
+      setRooms(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchBeds = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/beds");
+      setBeds(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <Layout role="Admin" setStep={setStep}>
       {/* DASHBOARD */}
@@ -248,6 +275,8 @@ function Admin() {
           dashboard={dashboard}
           finance={finance}
           activities={activities}
+          rooms={rooms}
+          beds={beds}
         />
       )}
 
@@ -304,6 +333,8 @@ function Admin() {
       {step === "add-room" && <AddRoom />}
 
       {step === "room-inventory" && <RoomInventory />}
+
+      {step === "beds" && <BedManagement />}
 
       {step === "inventory" && <Inventory />}
 
