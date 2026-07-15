@@ -38,31 +38,41 @@ const authRoutes = require("./routes/authRoutes");
 
 app.use(cors());
 
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
+
+app.use(
+  express.urlencoded({
+    limit: "50mb",
+    extended: true,
+  }),
+);
 
 app.use("/api/auth", authRoutes);
 
-// //  Code Before changes :
-
-// Doctor/Receptionist appointment listing (simple placeholder)
-// Note: This project currently has no dedicated appointment collection.
-// The endpoint is added so Doctor.jsx “Appointments” section can be populated.
+// Doctor/Receptionist appointment listing
 app.get("/api/doctor/upcoming-appointments", (req, res) => {
-  // In future, this should query appointments stored by Receptionist module.
   return res.json({
     message: "Upcoming appointments",
     data: global.__receptionistAppointments || [],
   });
 });
-
 // app.get("/", (req, res) => {
 //   res.send("Hospital Management Backend Running");
 // });
 
 // const PORT = 5000;
 
-// const patientRoutes = require("./routes/patientRoutes");
-// app.use("/api/patient", patientRoutes);
+const patientRoutes = require("./routes/patientRoutes");
+app.use("/api/patient", patientRoutes);
+
+const paymentRoutes = require("./routes/paymentRoutes");
+app.use("/api/payment", paymentRoutes);
+
+const roomRoutes = require("./routes/roomRoutes");
+const bedRoutes = require("./routes/bedRoutes");
+
+app.use("/api/rooms", roomRoutes);
+app.use("/api/beds", bedRoutes);
 
 const adminRoutes = require("./routes/adminRoutes");
 app.use("/api/admin", adminRoutes);
@@ -189,39 +199,131 @@ transporter.verify((error, success) => {
 // Add Patient
 // ======================
 
-app.post(
-  "/add",
+// // Before Change Code :
 
-  async (req, res) => {
-    try {
-      const patient = new Patient(req.body);
+// app.post(
+//   "/add",
 
-      await patient.save();
+//   async (req, res) => {
+//     try {
+//       const patient = new Patient(req.body);
 
-      res.json({
-        success: true,
+//       await patient.save();
 
-        message: "Patient Added",
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  },
-);
+//       res.json({
+//         success: true,
+
+//         message: "Patient Added",
+//       });
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   },
+// );
+
+app.post("/add", async (req, res) => {
+  try {
+    const patient = new Patient({
+      uhid: req.body.uhid,
+
+      name: req.body.name,
+
+      age: req.body.age,
+
+      gender: req.body.gender,
+
+      mobile: req.body.mobile,
+
+      address: req.body.address,
+
+      disease: req.body.disease,
+
+      doctor: req.body.doctor,
+
+      appointmentDate: req.body.appointmentDate,
+      appointmentTime: req.body.appointmentTime,
+
+      role: req.body.role,
+
+      admissionDate: req.body.admissionDate,
+
+      roomNo: req.body.roomNo,
+
+      bedNo: req.body.bedNo,
+
+      status: req.body.status,
+    });
+
+    await patient.save();
+
+    res.json({
+      success: true,
+
+      message: "Patient Registered Successfully",
+
+      patient,
+    });
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json({
+      success: false,
+
+      message: "Registration Failed",
+    });
+  }
+});
 
 // ======================
 // Get All Patients
 // ======================
 
-app.get(
-  "/patients",
+// // Before Change The Code :
 
-  async (req, res) => {
-    const data = await Patient.find();
+// app.get(
+//   "/patients",
 
-    res.json(data);
-  },
-);
+//   async (req, res) => {
+//     const data = await Patient.find();
+
+//     res.json(data);
+//   },
+// );
+
+app.get("/patients", async (req, res) => {
+  try {
+    const page = Number(req.query.page) || 1;
+
+    const limit = Number(req.query.limit) || 10;
+
+    const skip = (page - 1) * limit;
+
+    const search = req.query.search || "";
+
+    const query = {
+      role: { $ne: "OPD" },
+
+      name: {
+        $regex: search,
+        $options: "i",
+      },
+    };
+
+    const patients = await Patient.find(query).skip(skip).limit(limit);
+
+    const total = await Patient.countDocuments(query);
+
+    res.json({
+      patients,
+
+      total,
+
+      hasMore: skip + patients.length < total,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 // ======================
 // Get Single Patient

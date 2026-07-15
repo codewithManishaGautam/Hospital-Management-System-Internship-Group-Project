@@ -1,6 +1,7 @@
 import React from "react";
 import AddPatientForm from "./AddPatientForm";
 import PrescriptionModal from "./prescriptionModal";
+import { useNavigate } from "react-router-dom";
 import "../../styles/admin/patient.css";
 import "../../styles/admin/table.css";
 import "../../styles/admin/modal.css";
@@ -28,6 +29,8 @@ function PatientManagement({
   searchTerm,
   setSearchTerm,
 }) {
+  const navigate = useNavigate();
+
   return (
     <div className="table-container">
       <div className="section-header">
@@ -64,6 +67,7 @@ function PatientManagement({
             <th>Disease</th>
             <th>Doctor</th>
             <th>Admission</th>
+            <th>Appointment Date</th>
             <th>Status</th>
             <th>Prescription</th>
             <th>Actions</th>
@@ -75,7 +79,7 @@ function PatientManagement({
             .filter(
               (p) =>
                 p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                p.phone.includes(searchTerm),
+                p.mobile.includes(searchTerm),
             )
             .map((p) => (
               <tr key={p._id}>
@@ -136,16 +140,16 @@ function PatientManagement({
                 <td>
                   {editingPatientId === p._id ? (
                     <input
-                      value={editedPatient.phone}
+                      value={editedPatient.mobile}
                       onChange={(e) =>
                         setEditedPatient({
                           ...editedPatient,
-                          phone: e.target.value,
+                          mobile: e.target.value,
                         })
                       }
                     />
                   ) : (
-                    p.phone
+                    p.mobile
                   )}
                 </td>
                 <td>
@@ -197,6 +201,23 @@ function PatientManagement({
 
                 <td>
                   {editingPatientId === p._id ? (
+                    <input
+                      type="date"
+                      value={editedPatient.appointmentDate || ""}
+                      onChange={(e) =>
+                        setEditedPatient({
+                          ...editedPatient,
+                          appointmentDate: e.target.value,
+                        })
+                      }
+                    />
+                  ) : (
+                    p.appointmentDate || "-"
+                  )}
+                </td>
+
+                <td>
+                  {editingPatientId === p._id ? (
                     <select
                       value={editedPatient.status}
                       onChange={(e) =>
@@ -226,8 +247,7 @@ function PatientManagement({
                   <button
                     className="view-btn"
                     onClick={() => {
-                      setSelectedPatient(p);
-                      setShowPrescription(true);
+                      navigate(`/prescription/${p._id}`);
                     }}
                   >
                     View
@@ -261,10 +281,11 @@ function PatientManagement({
                             name: p.name || "",
                             age: p.age || "",
                             gender: p.gender || "",
-                            phone: p.phone || "",
+                            mobile: p.mobile || "",
                             disease: p.disease || "",
                             doctor: p.doctor || "",
                             admission: p.admission || "",
+                            appointmentDate: p.appointmentDate || "",
                             status: p.status || "",
                           });
                         }}

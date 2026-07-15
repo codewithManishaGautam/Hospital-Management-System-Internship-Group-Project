@@ -6,6 +6,7 @@ from "react";
 
 import axios
 from "axios";
+import "./style/MergePdf.css"
 
 function MergePdf() {
 
@@ -88,7 +89,7 @@ function MergePdf() {
 
   return (
 
-    <div className="container mt-5">
+    <div className="container mt-5" className="merge-container">
 
       <h2>
         Merge PDF & Send
@@ -153,7 +154,7 @@ function MergePdf() {
 
       <button
 
-        className="btn btn-primary"
+        className="btn btn-primary" className="merge-btn"
 
         onClick={sendPDF}
 
@@ -169,3 +170,8 @@ function MergePdf() {
 }
 
 export default MergePdf;
+
+
+
+ 
+  
