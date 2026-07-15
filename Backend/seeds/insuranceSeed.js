@@ -13,117 +13,50 @@ const seedData = async () => {
     console.log('Connected to MongoDB for Seeding');
 
     // 1. Seed TPAs (10 records)
-    await TPAMaster.deleteMany({});
+    try { await TPAMaster.collection.drop(); } catch(e) {}
     const tpas = [
-        { name: 'Medi Assist India', preAuthTAT: '2-4 hours', claimTAT: '7-15 working days' },
-        { name: 'Paramount Health Services', preAuthTAT: '4-6 hours', claimTAT: '10-21 working days' },
-        { name: 'Health India TPA', preAuthTAT: '4-8 hours', claimTAT: '10-21 working days' },
-        { name: 'FHPL (Family Health Plan Ltd)', preAuthTAT: '2-4 hours', claimTAT: '7-14 working days' },
-        { name: 'Vidal Health', preAuthTAT: '2-4 hours', claimTAT: '7-15 working days' },
-        { name: 'MDIndia Health Insurance TPA', preAuthTAT: '4-6 hours', claimTAT: '10-21 working days' },
-        { name: 'Raksha TPA', preAuthTAT: '4-8 hours', claimTAT: '15-21 working days' },
-        { name: 'East West Assist', preAuthTAT: '6-12 hours', claimTAT: '15-30 working days' },
-        { name: 'Heritage Health TPA', preAuthTAT: '4-8 hours', claimTAT: '10-21 working days' },
-        { name: 'DHCS (Dedicated Healthcare Services)', preAuthTAT: '4-6 hours', claimTAT: '10-21 working days' }
+        { tpaName: 'Medi Assist India', shortName: 'Medi Assist', irdaiTpaCode: 'TPA01', preAuthEmail: 'preauth@mediassist.com', claimsEmail: 'claims@mediassist.com', standardTatHours: 4, claimTatDays: 15 },
+        { tpaName: 'Paramount Health Services', shortName: 'Paramount', irdaiTpaCode: 'TPA02', preAuthEmail: 'preauth@paramount.com', claimsEmail: 'claims@paramount.com', standardTatHours: 6, claimTatDays: 21 },
+        { tpaName: 'Health India TPA', shortName: 'Health India', irdaiTpaCode: 'TPA03', preAuthEmail: 'preauth@healthindia.com', claimsEmail: 'claims@healthindia.com', standardTatHours: 8, claimTatDays: 21 },
+        { tpaName: 'FHPL (Family Health Plan Ltd)', shortName: 'FHPL', irdaiTpaCode: 'TPA04', preAuthEmail: 'preauth@fhpl.com', claimsEmail: 'claims@fhpl.com', standardTatHours: 4, claimTatDays: 14 },
+        { tpaName: 'Vidal Health', shortName: 'Vidal', irdaiTpaCode: 'TPA05', preAuthEmail: 'preauth@vidal.com', claimsEmail: 'claims@vidal.com', standardTatHours: 4, claimTatDays: 15 },
+        { tpaName: 'MDIndia Health Insurance TPA', shortName: 'MDIndia', irdaiTpaCode: 'TPA06', preAuthEmail: 'preauth@mdindia.com', claimsEmail: 'claims@mdindia.com', standardTatHours: 6, claimTatDays: 21 },
+        { tpaName: 'Raksha TPA', shortName: 'Raksha', irdaiTpaCode: 'TPA07', preAuthEmail: 'preauth@raksha.com', claimsEmail: 'claims@raksha.com', standardTatHours: 8, claimTatDays: 21 },
+        { tpaName: 'East West Assist', shortName: 'East West', irdaiTpaCode: 'TPA08', preAuthEmail: 'preauth@eastwest.com', claimsEmail: 'claims@eastwest.com', standardTatHours: 12, claimTatDays: 30 },
+        { tpaName: 'Heritage Health TPA', shortName: 'Heritage', irdaiTpaCode: 'TPA09', preAuthEmail: 'preauth@heritage.com', claimsEmail: 'claims@heritage.com', standardTatHours: 8, claimTatDays: 21 },
+        { tpaName: 'DHCS (Dedicated Healthcare Services)', shortName: 'DHCS', irdaiTpaCode: 'TPA10', preAuthEmail: 'preauth@dhcs.com', claimsEmail: 'claims@dhcs.com', standardTatHours: 6, claimTatDays: 21 }
       ];
 
       const insertedTpas = await TPAMaster.insertMany(tpas);
       console.log(`Seeded ${insertedTpas.length} TPAs`);
 
     // 2. Seed Insurance Companies
-    await InsuranceCompany.deleteMany({});
+    try { await InsuranceCompany.collection.drop(); } catch(e) {}
     const companies = [
-        { name: 'Star Health and Allied Insurance', type: 'Private' },
-        { name: 'HDFC ERGO Health Insurance', type: 'Private' },
-        { name: 'Bajaj Allianz General Insurance', type: 'Private' },
-        { name: 'ICICI Lombard General Insurance', type: 'Private' },
-        { name: 'Niva Bupa Health Insurance', type: 'Private' },
-        { name: 'Care Health Insurance', type: 'Private' },
-        { name: 'Tata AIG General Insurance', type: 'Private' },
-        { name: 'Reliance General Insurance', type: 'Private' },
-        { name: 'Aditya Birla Health Insurance', type: 'Private' },
-        { name: 'SBI General Insurance', type: 'Private' },
-        { name: 'New India Assurance Company', type: 'PSU' },
-        { name: 'United India Insurance Company', type: 'PSU' },
-        { name: 'Oriental Insurance Company', type: 'PSU' }
+        { companyName: 'Star Health and Allied Insurance', shortName: 'Star Health', irdaiRegistrationNo: 'IRDA129', companyType: 'PRIVATE', claimEmail: 'claims@starhealth.com', claimDepartmentPhone: '1800-425-2255' },
+        { companyName: 'HDFC ERGO Health Insurance', shortName: 'HDFC ERGO', irdaiRegistrationNo: 'IRDA146', companyType: 'PRIVATE', claimEmail: 'healthclaims@hdfcergo.com', claimDepartmentPhone: '1800-2700-700' },
+        { companyName: 'Bajaj Allianz General Insurance', shortName: 'Bajaj Allianz', irdaiRegistrationNo: 'IRDA113', companyType: 'PRIVATE', claimEmail: 'bagichelp@bajajallianz.co.in', claimDepartmentPhone: '1800-209-5858' },
+        { companyName: 'ICICI Lombard General Insurance', shortName: 'ICICI Lombard', irdaiRegistrationNo: 'IRDA115', companyType: 'PRIVATE', claimEmail: 'customersupport@icicilombard.com', claimDepartmentPhone: '1800-2666' },
+        { companyName: 'Niva Bupa Health Insurance', shortName: 'Niva Bupa', irdaiRegistrationNo: 'IRDA145', companyType: 'PRIVATE', claimEmail: 'customercare@nivabupa.com', claimDepartmentPhone: '1860-500-8888' },
+        { companyName: 'Care Health Insurance', shortName: 'Care Health', irdaiRegistrationNo: 'IRDA148', companyType: 'PRIVATE', claimEmail: 'customerfirst@careinsurance.com', claimDepartmentPhone: '1800-102-4488' },
+        { companyName: 'Tata AIG General Insurance', shortName: 'Tata AIG', irdaiRegistrationNo: 'IRDA108', companyType: 'PRIVATE', claimEmail: 'customersupport@tataaig.com', claimDepartmentPhone: '1800-266-7780' },
+        { companyName: 'Reliance General Insurance', shortName: 'Reliance', irdaiRegistrationNo: 'IRDA103', companyType: 'PRIVATE', claimEmail: 'rgicl.services@relianceada.com', claimDepartmentPhone: '1800-3009' },
+        { companyName: 'Aditya Birla Health Insurance', shortName: 'Aditya Birla', irdaiRegistrationNo: 'IRDA153', companyType: 'PRIVATE', claimEmail: 'care.healthinsurance@adityabirlacapital.com', claimDepartmentPhone: '1800-270-7000' },
+        { companyName: 'SBI General Insurance', shortName: 'SBI General', irdaiRegistrationNo: 'IRDA144', companyType: 'PRIVATE', claimEmail: 'customer.care@sbigeneral.in', claimDepartmentPhone: '1800-22-1111' },
+        { companyName: 'New India Assurance Company', shortName: 'New India', irdaiRegistrationNo: 'IRDA190', companyType: 'PUBLIC', claimEmail: 'tech.support@newindia.co.in', claimDepartmentPhone: '1800-209-1415' },
+        { companyName: 'United India Insurance Company', shortName: 'United India', irdaiRegistrationNo: 'IRDA545', companyType: 'PUBLIC', claimEmail: 'customercare@uiic.co.in', claimDepartmentPhone: '1800-425-33333' },
+        { companyName: 'Oriental Insurance Company', shortName: 'Oriental', irdaiRegistrationNo: 'IRDA556', companyType: 'PUBLIC', claimEmail: 'portal.support@orientalinsurance.co.in', claimDepartmentPhone: '1800-11-8485' }
       ];
 
       const insertedCompanies = await InsuranceCompany.insertMany(companies);
       console.log(`Seeded ${insertedCompanies.length} Insurance Companies`);
 
-    // 3. Seed Official Forms Registry
+    // 3. Official Forms Registry (Handled by formsRegistrySeed.js)
+    /*
     await OfficialFormsRegistry.deleteMany({});
-    const forms = [
-        {
-          formName: 'IRDAI Standard Pre-Auth Form',
-          formType: 'Pre-Auth',
-          insurerOrTpaName: 'IRDAI',
-          downloadUrl: '/official-forms/IRDAI_Standard_PreAuth_Form.pdf'
-        },
-        {
-          formName: 'PM-JAY Pre-Authorization Request Form',
-          formType: 'Pre-Auth',
-          insurerOrTpaName: 'NHA (National Health Authority)',
-          downloadUrl: '/official-forms/PM_JAY_Ayushman_Form.pdf'
-        },
-        {
-          formName: 'CGHS Pre-Authorization Form',
-          formType: 'Pre-Auth',
-          insurerOrTpaName: 'CGHS',
-          downloadUrl: '/official-forms/CGHS_Request_Form.pdf'
-        },
-        {
-          formName: 'Star Health Pre-Auth Request',
-          formType: 'Pre-Auth',
-          insurerOrTpaName: 'Star Health and Allied Insurance',
-          downloadUrl: '/official-forms/Star_Health_PreAuth_Form.pdf'
-        },
-        {
-          formName: 'HDFC ERGO Pre-Authorization Form',
-          formType: 'Pre-Auth',
-          insurerOrTpaName: 'HDFC ERGO Health Insurance',
-          downloadUrl: '/official-forms/HDFC_ERGO_Request_Form.pdf'
-        },
-        {
-          formName: 'Bajaj Allianz Cashless Form',
-          formType: 'Pre-Auth',
-          insurerOrTpaName: 'Bajaj Allianz General Insurance',
-          downloadUrl: '/official-forms/Bajaj_Allianz_Cashless_Form.pdf'
-        },
-        {
-          formName: 'ICICI Lombard Cashless Form',
-          formType: 'Pre-Auth',
-          insurerOrTpaName: 'ICICI Lombard General Insurance',
-          downloadUrl: '/official-forms/ICICI_Lombard_Cashless_Form.pdf'
-        },
-        {
-          formName: 'Niva Bupa Pre-Auth Form',
-          formType: 'Pre-Auth',
-          insurerOrTpaName: 'Niva Bupa Health Insurance',
-          downloadUrl: '/official-forms/Niva_Bupa_PreAuth_Form.pdf'
-        },
-        {
-          formName: 'Care Health Cashless Form',
-          formType: 'Pre-Auth',
-          insurerOrTpaName: 'Care Health Insurance',
-          downloadUrl: '/official-forms/Care_Health_Cashless_Form.pdf'
-        },
-        {
-          formName: 'SBI General Cashless Form',
-          formType: 'Pre-Auth',
-          insurerOrTpaName: 'SBI General Insurance',
-          downloadUrl: '/official-forms/SBI_General_Cashless_Form.pdf'
-        },
-        {
-          formName: 'Insurance Claim Intimation Form',
-          formType: 'Claim',
-          insurerOrTpaName: 'Generic',
-          downloadUrl: '/official-forms/Generic_Claim_Form.pdf'
-        }
-      ];
-
-      const insertedForms = await OfficialFormsRegistry.insertMany(forms);
-      console.log(`Seeded ${insertedForms.length} Official Forms`);
+    ...
+    console.log(`Seeded ${insertedForms.length} Official Forms`);
+    */
 
     // 4. Seed default users (idempotent)
     const existingUserCount = await User.countDocuments();

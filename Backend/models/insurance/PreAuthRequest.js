@@ -76,7 +76,11 @@ const PreAuthRequestSchema = new mongoose.Schema({
   }],
   
   // Documents
-  documents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ClaimDocument' }]
+  documents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ClaimDocument' }],
+  
+  // Custom Dynamic Forms Data
+  providerTemplateUsed: { type: String },
+  providerSpecificData: { type: Map, of: mongoose.Schema.Types.Mixed }
 }, { timestamps: true });
 
 // Pre-save hook to calculate total estimated cost
