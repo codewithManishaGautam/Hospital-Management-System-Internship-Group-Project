@@ -18,7 +18,36 @@ const cors = require("cors");
 
 const multer = require("multer");
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+
+const upload = multer({
+  storage,
+});
+
 const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
+transporter.verify((error) => {
+  if (error) {
+    console.log("Email Server Error:", error);
+  } else {
+    console.log("Email Server Ready");
+  }
+});
 
 const fs = require("fs");
 
@@ -66,17 +95,9 @@ app.use("/api/beds", bedRoutes);
 const adminRoutes = require("./routes/adminRoutes");
 app.use("/api/admin", adminRoutes);
 
-// ======================
-// Doctor routes (lazy loaded)
-// ======================
-// Route modules ko require karne ko deferred rakha gaya hai
-// (Doctor module related file ke andar hi isolate rehta hai)
 app.use((req, res, next) => {
-  // Only doctor-related module routes ko deferred require karke lazy-load mindset
-  // rakha gaya hai.
   if (req.path.startsWith("/doctor") && process.env.NODE_ENV !== "test") {
     try {
-      // eslint-disable-next-line global-require
       const doctorRoutes = require("./routes/doctorRoutes");
       return doctorRoutes(req, res, next);
     } catch (e) {
@@ -85,199 +106,6 @@ app.use((req, res, next) => {
   }
   return next();
 });
-
-// ======================
-// MongoDB
-// ======================
-
-// connectDB();
-
-// ======================
-// Patient Schema
-// ======================
-
-// const PatientSchema = new mongoose.Schema({
-//   name: String,
-
-//   age: Number,
-
-//   gender: String,
-// });
-
-// const Patient = mongoose.model(
-//   "Patient",
-
-//   PatientSchema,
-// );
-
-// ======================
-// Create Folders
-// ======================
-
-if (!fs.existsSync("uploads")) {
-  fs.mkdirSync("uploads");
-}
-
-if (!fs.existsSync("generated")) {
-  fs.mkdirSync("generated");
-}
-
-// ======================
-// Static Folders
-// ======================
-
-app.use(
-  "/uploads",
-
-  express.static(path.join(__dirname, "uploads")),
-);
-
-app.use(
-  "/generated",
-
-  express.static(path.join(__dirname, "generated")),
-);
-
-// ======================
-// Multer
-// ======================
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
-
-  filename: (req, file, cb) => {
-    cb(
-      null,
-
-      Date.now() + "_" + file.originalname,
-    );
-  },
-});
-
-const upload = multer({ storage });
-
-// ======================
-// Nodemailer
-// ======================
-
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-
-  auth: {
-    user: process.env.EMAIL_USER,
-
-    pass: process.env.EMAIL_PASS,
-  },
-});
-
-// ======================
-// Verify Email
-// ======================
-
-transporter.verify((error, success) => {
-  if (error) {
-    console.log(error);
-  } else {
-    console.log("Email Server Ready");
-  }
-});
-
-// ======================
-// Add Patient
-// ======================
-
-// // Before Change Code :
-
-// app.post(
-//   "/add",
-
-//   async (req, res) => {
-//     try {
-//       const patient = new Patient(req.body);
-
-//       await patient.save();
-
-//       res.json({
-//         success: true,
-
-//         message: "Patient Added",
-//       });
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   },
-// );
-
-app.post("/add", async (req, res) => {
-  try {
-    const patient = new Patient({
-      uhid: req.body.uhid,
-
-      name: req.body.name,
-
-      age: req.body.age,
-
-      gender: req.body.gender,
-
-      mobile: req.body.mobile,
-
-      address: req.body.address,
-
-      disease: req.body.disease,
-
-      doctor: req.body.doctor,
-
-      appointmentDate: req.body.appointmentDate,
-      appointmentTime: req.body.appointmentTime,
-
-      role: req.body.role,
-
-      admissionDate: req.body.admissionDate,
-
-      roomNo: req.body.roomNo,
-
-      bedNo: req.body.bedNo,
-
-      status: req.body.status,
-    });
-
-    await patient.save();
-
-    res.json({
-      success: true,
-
-      message: "Patient Registered Successfully",
-
-      patient,
-    });
-  } catch (err) {
-    console.log(err);
-
-    res.status(500).json({
-      success: false,
-
-      message: "Registration Failed",
-    });
-  }
-});
-
-// ======================
-// Get All Patients
-// ======================
-
-// // Before Change The Code :
-
-// app.get(
-//   "/patients",
-
-//   async (req, res) => {
-//     const data = await Patient.find();
-
-//     res.json(data);
-//   },
-// );
 
 app.get("/patients", async (req, res) => {
   try {
@@ -318,15 +146,15 @@ app.get("/patients", async (req, res) => {
 // Get Single Patient
 // ======================
 
-app.get(
-  "/patient/:id",
+// app.get(
+//   "/patient/:id",
 
-  async (req, res) => {
-    const data = await Patient.findById(req.params.id);
+//   async (req, res) => {
+//     const data = await Patient.findById(req.params.id);
 
-    res.json(data);
-  },
-);
+//     res.json(data);
+//   },
+// );
 
 // ======================
 // Delete Patient

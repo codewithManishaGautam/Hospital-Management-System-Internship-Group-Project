@@ -123,9 +123,9 @@ function Dashboard({ dashboard, finance, activities, rooms, beds }) {
       <div className="finance-chart-card">
         <h3>Finance Overview</h3>
 
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer width="99%" height={350}>
           <PieChart>
-            <Pie data={chartData} dataKey="value" outerRadius={140} label>
+            <Pie data={chartData} dataKey="value" outerRadius={110} label>
               {chartData.map((entry, index) => (
                 <Cell key={index} fill={COLORS[index]} />
               ))}
