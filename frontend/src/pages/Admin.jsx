@@ -7,7 +7,7 @@ import Layout from "./Layout";
 // import "../styles/admin/table.css";
 // import "../styles/admin/doctor.css";
 // import "../styles/admin/staff.css";
-// import "../styles/admin/patient.css";
+// import "../styles/admiacn/patient.css";
 // import "../styles/admin/forms.css";
 // import "../styles/admin/modal.css";
 
@@ -68,38 +68,32 @@ function Admin() {
   const [selectedPatient, setSelectedPatient] = useState(null);
 
   const [editingStaffId, setEditingStaffId] = useState(null);
-  const [editedStaff, setEditedStaff] = useState({
-    name: "",
-    aadhaar: "",
-<<<<<<< HEAD
-    phone: "",
-    email: "",
-    // password: "",
-=======
-    mobile: "",
->>>>>>> main
-    role: "",
-    salary: "",
-    status: "",
-    joining: "",
-  });
+const [editedStaff, setEditedStaff] = useState({
+  name: "",
+  aadhaar: "",
+  phone: "",
+  email: "",
+  mobile: "",
+  role: "",
+  salary: "",
+  status: "",
+  joining: "",
+});
 
-  const [showStaffForm, setShowStaffForm] = useState(false);
-  const [newStaff, setNewStaff] = useState({
-    name: "",
-    aadhaar: "",
-<<<<<<< HEAD
-    phone: "",
-    email: "",
-    // password: "",
-=======
-    mobile: "",
->>>>>>> main
-    role: "",
-    salary: "",
-    status: "",
-    joining: "",
-  });
+const [showStaffForm, setShowStaffForm] = useState(false);
+
+const [newStaff, setNewStaff] = useState({
+  name: "",
+  aadhaar: "",
+  phone: "",
+  email: "",
+  mobile: "",
+  role: "",
+  salary: "",
+  status: "",
+  joining: "",
+});
+
 
   const [rooms, setRooms] = useState([]);
   const [beds, setBeds] = useState([]);
@@ -130,21 +124,17 @@ function Admin() {
     try {
       await axios.post(`http://localhost:5000/api/admin/staff/add`, newStaff);
       setShowStaffForm(false);
-      setNewStaff({
-        name: "",
-        aadhaar: "",
-<<<<<<< HEAD
-        phone: "",
-        email: "",
-        // password: "",
-=======
-        mobile: "",
->>>>>>> main
-        role: "",
-        salary: "",
-        status: "",
-        joining: "",
-      });
+   setNewStaff({
+  name: "",
+  aadhaar: "",
+  phone: "",
+  email: "",
+  mobile: "",
+  role: "",
+  salary: "",
+  status: "",
+  joining: "",
+});
 
       fetchStaff();
     } catch (err) {
