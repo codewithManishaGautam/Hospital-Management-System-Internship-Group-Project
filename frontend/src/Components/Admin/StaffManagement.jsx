@@ -53,9 +53,11 @@ function StaffManagement({
         <tbody>
           {staff.map((s) => (
             <tr key={s._id}>
-              <td classname="action-cell">STF-{s._id.slice(-6).toUpperCase()}</td>
+              <td className="action-cell">
+                STF-{s._id.slice(-6).toUpperCase()}
+              </td>
 
-              <td classname="action-cell">
+              <td className="action-cell">
                 {editingStaffId === s._id ? (
                   <input
                     type="text"
@@ -72,7 +74,7 @@ function StaffManagement({
                 )}
               </td>
 
-              <td classname="action-cell">
+              <td className="action-cell">
                 {editingStaffId === s._id ? (
                   <input
                     type="text"
@@ -91,7 +93,7 @@ function StaffManagement({
                 )}
               </td>
 
-              <td classname="action-cell">
+              <td className="action-cell">
                 {editingStaffId === s._id ? (
                   <input
                     type="text"
@@ -110,7 +112,7 @@ function StaffManagement({
                 )}
               </td>
 
-              <td classname="action-cell">
+              <td className="action-cell">
                 {editingStaffId === s._id ? (
                   <input
                     type="text"
@@ -127,7 +129,7 @@ function StaffManagement({
                 )}
               </td>
 
-              <td classname="action-cell">
+              <td className="action-cell">
                 {editingStaffId === s._id ? (
                   <input
                     type="text"
@@ -145,7 +147,7 @@ function StaffManagement({
                 )}
               </td>
 
-              <td classname="action-cell">
+              <td className="action-cell">
                 {editingStaffId === s._id ? (
                   <select
                     value={editedStaff.status}
@@ -164,7 +166,7 @@ function StaffManagement({
                 )}
               </td>
 
-              <td classname="action-cell">
+              <td className="action-cell">
                 {editingStaffId === s._id ? (
                   <input
                     type="date"
@@ -181,7 +183,7 @@ function StaffManagement({
                 )}
               </td>
 
-              <td classname="action-cell">
+              <td className="action-cell">
                 {editingStaffId === s._id ? (
                   <>
                     <button

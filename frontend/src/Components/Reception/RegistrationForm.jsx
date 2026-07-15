@@ -107,6 +107,20 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
     });
   }, [patient]);
 
+  useEffect(() => {
+    const loadBeds = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/beds/available");
+
+        setBeds(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    loadBeds();
+  }, [formData.roomNo]);
+
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -645,11 +659,13 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
                   >
                     <option value="">Select Bed</option>
 
-                    {beds.map((bed) => (
-                      <option key={bed._id} value={bed.bedNo}>
-                        {bed.roomNumber} - {bed.bedNo}
-                      </option>
-                    ))}
+                    {beds
+                      .filter((bed) => bed.roomNumber === formData.roomNo)
+                      .map((bed) => (
+                        <option key={bed._id} value={bed.bedNo}>
+                          {bed.bedNo}
+                        </option>
+                      ))}
                   </select>
                 </div>
 

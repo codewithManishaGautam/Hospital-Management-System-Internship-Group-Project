@@ -18,7 +18,36 @@ const cors = require("cors");
 
 const multer = require("multer");
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+
+const upload = multer({
+  storage,
+});
+
 const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
+transporter.verify((error) => {
+  if (error) {
+    console.log("Email Server Error:", error);
+  } else {
+    console.log("Email Server Ready");
+  }
+});
 
 const fs = require("fs");
 
@@ -66,9 +95,7 @@ app.use("/api/beds", bedRoutes);
 const adminRoutes = require("./routes/adminRoutes");
 app.use("/api/admin", adminRoutes);
 
-
 app.use((req, res, next) => {
-
   if (req.path.startsWith("/doctor") && process.env.NODE_ENV !== "test") {
     try {
       const doctorRoutes = require("./routes/doctorRoutes");
@@ -79,7 +106,6 @@ app.use((req, res, next) => {
   }
   return next();
 });
-
 
 app.get("/patients", async (req, res) => {
   try {

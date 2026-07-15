@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import Layout from "../Components/Reception/Layout";
+// import Layout from "./Layout";
 import Dashboard from "../Components/Reception/Dashboard";
 import RegistrationForm from "../Components/Reception/RegistrationForm";
 import OPDBilling from "../Components/Reception/OPDBilling";
@@ -19,7 +20,7 @@ function Receptionist() {
   return (
 <Layout
     role="Receptionist"
-    step={step}
+    currentStep={step}
     setStep={setStep}
 >
         {step === "dashboard" && (

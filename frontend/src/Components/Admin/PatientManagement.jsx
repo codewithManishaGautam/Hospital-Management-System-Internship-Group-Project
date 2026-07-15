@@ -1,7 +1,7 @@
 import React from "react";
-import AddPatientForm from "./AddPatientForm";
+// import AddPatientForm from "./AddPatientForm";
 // import PrescriptionModal from "./prescriptionModal";
-import PrescriptionPage from "./PrescriptionPage";
+// import PrescriptionPage from "./PrescriptionPage";
 import { useNavigate } from "react-router-dom";
 import "../../styles/admin/patient.css";
 import "../../styles/admin/table.css";
@@ -9,22 +9,7 @@ import "../../styles/admin/modal.css";
 
 function PatientManagement({
   patients,
-  editingPatientId,
-  editedPatient,
-  setEditedPatient,
-  setEditingPatientId,
-  savePatientEdit,
   deletePatient,
-  showPatientForm,
-  setShowPatientForm,
-  newPatient,
-  setNewPatient,
-  addPatient,
-  showPrescription,
-  setShowPrescription,
-  selectedPatient,
-  setSelectedPatient,
-  downloadPrescription,
   searchTerm,
   setSearchTerm,
 }) {
@@ -88,172 +73,41 @@ function PatientManagement({
               <tr key={p._id}>
                 <td>{p.uhid}</td>
 
+                <td>{p.name}</td>
+
+                <td>{p.age}</td>
+
+                <td>{p.gender}</td>
+
+                <td>{p.mobile}</td>
+                <td>{p.disease}</td>
+                <td>{p.doctor}</td>
+
                 <td>
-                  {editingPatientId === p._id ? (
-                    <input
-                      value={editedPatient.name}
-                      onChange={(e) =>
-                        setEditedPatient({
-                          ...editedPatient,
-                          name: e.target.value,
-                        })
-                      }
-                    />
-                  ) : (
-                    p.name
-                  )}
+                  {p.admissionDate
+                    ? new Date(p.admissionDate).toLocaleDateString("en-IN")
+                    : "-"}
+                </td>
+                <td>
+                  {p.appointmentDate
+                    ? new Date(p.appointmentDate).toLocaleDateString("en-IN")
+                    : "-"}
                 </td>
 
                 <td>
-                  {editingPatientId === p._id ? (
-                    <input
-                      type="number"
-                      value={editedPatient.age}
-                      onChange={(e) =>
-                        setEditedPatient({
-                          ...editedPatient,
-                          age: e.target.value,
-                        })
-                      }
-                    />
-                  ) : (
-                    p.age
-                  )}
-                </td>
-
-                <td>
-                  {editingPatientId === p._id ? (
-                    <select
-                      value={editedPatient.gender}
-                      onChange={(e) =>
-                        setEditedPatient({
-                          ...editedPatient,
-                          gender: e.target.value,
-                        })
-                      }
-                    >
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
-                    </select>
-                  ) : (
-                    p.gender
-                  )}
-                </td>
-
-                <td>
-                  {editingPatientId === p._id ? (
-                    <input
-                      value={editedPatient.mobile}
-                      onChange={(e) =>
-                        setEditedPatient({
-                          ...editedPatient,
-                          mobile: e.target.value,
-                        })
-                      }
-                    />
-                  ) : (
-                    p.mobile
-                  )}
-                </td>
-                <td>
-                  {editingPatientId === p._id ? (
-                    <input
-                      value={editedPatient.disease}
-                      onChange={(e) =>
-                        setEditedPatient({
-                          ...editedPatient,
-                          disease: e.target.value,
-                        })
-                      }
-                    />
-                  ) : (
-                    p.disease
-                  )}
-                </td>
-                <td>
-                  {editingPatientId === p._id ? (
-                    <input
-                      value={editedPatient.doctor}
-                      onChange={(e) =>
-                        setEditedPatient({
-                          ...editedPatient,
-                          doctor: e.target.value,
-                        })
-                      }
-                    />
-                  ) : (
-                    p.doctor
-                  )}
-                </td>
-
-                <td>
-                  {editingPatientId === p._id ? (
-                    <input
-                      type="date"
-                      value={editedPatient.admissionDate || ""}
-                      onChange={(e) =>
-                        setEditedPatient({
-                          ...editedPatient,
-                          admissionDate: e.target.value,
-                        })
-                      }
-                    />
-                  ) : p.admissionDate ? (
-                    new Date(p.admissionDate).toLocaleDateString("en-IN")
-                  ) : (
-                    "-"
-                  )}
-                </td>
-
-                <td>
-                  {editingPatientId === p._id ? (
-                    <input
-                      type="date"
-                      value={editedPatient.appointmentDate || ""}
-                      onChange={(e) =>
-                        setEditedPatient({
-                          ...editedPatient,
-                          appointmentDate: e.target.value,
-                        })
-                      }
-                    />
-                  ) : p.appointmentDate ? (
-                    new Date(p.appointmentDate).toLocaleDateString("en-IN")
-                  ) : (
-                    "-"
-                  )}
-                </td>
-
-                <td>
-                  {editingPatientId === p._id ? (
-                    <select
-                      value={editedPatient.status}
-                      onChange={(e) =>
-                        setEditedPatient({
-                          ...editedPatient,
-                          status: e.target.value,
-                        })
-                      }
-                    >
-                      <option value="Waiting Doctor">Waiting Doctor</option>
-                      <option value="Admitted">Admitted</option>
-                      <option value="Discharged">Discharged</option>
-                    </select>
-                  ) : (
-                    <span
-                      className={
-                        p.status === "Admitted"
-                          ? "status-admitted"
-                          : p.status === "Waiting Doctor"
-                            ? "status-waiting"
-                            : p.status === "Discharged"
-                              ? "status-discharged"
-                              : "status-default"
-                      }
-                    >
-                      {p.status}
-                    </span>
-                  )}
+                  <span
+                    className={
+                      p.status === "Admitted"
+                        ? "status-admitted"
+                        : p.status === "Waiting Doctor"
+                          ? "status-waiting"
+                          : p.status === "Discharged"
+                            ? "status-discharged"
+                            : "status-default"
+                    }
+                  >
+                    {p.status}
+                  </span>
                 </td>
 
                 <td>
@@ -268,52 +122,12 @@ function PatientManagement({
                 </td>
 
                 <td className="action-cell">
-                  {editingPatientId === p._id ? (
-                    <>
-                      <button
-                        className="edit-btn"
-                        onClick={() => savePatientEdit(p._id)}
-                      >
-                        Save
-                      </button>
-
-                      <button
-                        className="delete-btn"
-                        onClick={() => setEditingPatientId(null)}
-                      >
-                        Cancel
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <button
-                        className="edit-btn"
-                        onClick={() => {
-                          setEditingPatientId(p._id);
-                          setEditedPatient({
-                            name: p.name || "",
-                            age: p.age || "",
-                            gender: p.gender || "",
-                            mobile: p.mobile || "",
-                            disease: p.disease || "",
-                            doctor: p.doctor || "",
-                            admissionDate: p.admissionDate || "",
-                            appointmentDate: p.appointmentDate || "",
-                            status: p.status || "",
-                          });
-                        }}
-                      >
-                        Edit
-                      </button>
-
-                      <button
-                        className="delete-btn"
-                        onClick={() => deletePatient(p._id)}
-                      >
-                        Delete
-                      </button>
-                    </>
-                  )}
+                  <button
+                    className="delete-btn"
+                    onClick={() => deletePatient(p._id)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
