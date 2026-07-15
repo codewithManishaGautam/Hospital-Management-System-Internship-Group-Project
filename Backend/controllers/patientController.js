@@ -466,316 +466,376 @@ const generatePrescriptionPDF = async (req, res) => {
     }
 
     const latest =
-      patient.prescriptionHistory[patient.prescriptionHistory.length - 1];
+      patient.prescriptionHistory[
+        patient.prescriptionHistory.length - 1
+      ];
 
     const pdfName = `Prescription_${patient.uhid}.pdf`;
-    const pdfPath = path.join(__dirname, "../generated", pdfName);
+
+    const pdfPath = path.join(
+      __dirname,
+      "../generated",
+      pdfName
+    );
 
     const doc = new PDFDocument({
-      margin: 40,
       size: "A4",
+      margin: 40,
     });
+
+    const outputDir = path.join(__dirname, "../generated");
+
+if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+}
 
     const stream = fs.createWriteStream(pdfPath);
 
     doc.pipe(stream);
 
-    // ==========================
-    // HOSPITAL HEADER
-    // ==========================
+    const PRIMARY = "#1565C0";
+    const LIGHT = "#EEF6FF";
+    const BORDER = "#C7D9EC";
+    const TEXT = "#222222";
 
-    doc
-      .font("Helvetica-Bold")
-      .fontSize(24)
-      .fillColor("#0d6efd")
-      .text("Shraddha Hospital", {
-        align: "center",
-      });
+  function drawHeading(title) {
 
-    doc.font("Helvetica").fontSize(11).fillColor("black").text("Daund", {
-      align: "center",
+if (doc.y > 700) {
+    doc.addPage();
+    doc.y = 40;
+}
+
+const y = doc.y;
+
+  doc
+    .roundedRect(40, y, 515, 26, 6)
+    .fill(PRIMARY);
+
+  doc
+    .fillColor("white")
+    .font("Helvetica-Bold")
+    .fontSize(14)
+    .text(title, 55, y + 7);
+
+  doc.y = y + 35;
+
+  doc.fillColor(TEXT);
+}
+
+function drawContent(value) {
+  doc.fillColor(TEXT);
+  doc.font("Helvetica");
+  doc.fontSize(12);
+
+  if (
+    value &&
+    typeof value === "string" &&
+    value.startsWith("data:image")
+  ) {
+    const base64 = value.replace(
+      /^data:image\/\w+;base64,/,
+      ""
+    );
+
+    const imageBuffer = Buffer.from(base64, "base64");
+
+    doc.image(imageBuffer, {
+      fit: [300, 120],
+      align: "left",
     });
 
-    doc.text("Phone : 9999999999", {
-      align: "center",
+    doc.moveDown(1);
+  } else {
+    doc.text(value || "N/A", {
+      width: 500,
+      align: "left",
     });
 
-    doc.text("Email : shraddhahospital@gmail.com", {
-      align: "center",
-    });
-
-    doc.moveDown(0.5);
-
-    doc
-      .moveTo(40, doc.y)
-      .lineTo(555, doc.y)
-      .lineWidth(2)
-      .strokeColor("#0d6efd")
-      .stroke();
-
-    doc.moveDown();
-
-    // ==========================
-    // PATIENT DETAILS
-    // ==========================
-
-    doc
-      .font("Helvetica-Bold")
-      .fontSize(13)
-      .fillColor("#0d6efd")
-      .text("Patient Details");
-
-    doc.moveDown(0.4);
-
-    const startY = doc.y;
-
-    doc.rect(40, startY, 515, 150).lineWidth(1).strokeColor("#0d6efd").stroke();
-
-    doc.y = startY + 10;
-    doc.x = 50;
-
-    doc.fillColor("black");
-
-    doc.font("Helvetica-Bold").text("Patient Name : ", {
-      continued: true,
-    });
-    doc.font("Helvetica").text(patient.name);
-
-    doc.font("Helvetica-Bold").text("UHID : ", {
-      continued: true,
-    });
-    doc.font("Helvetica").text(patient.uhid);
-
-    doc.font("Helvetica-Bold").text("Age : ", {
-      continued: true,
-    });
-    doc.font("Helvetica").text(String(patient.age));
-
-    doc.font("Helvetica-Bold").text("Gender : ", {
-      continued: true,
-    });
-    doc.font("Helvetica").text(patient.gender);
-
-    doc.font("Helvetica-Bold").text("Doctor : ", {
-      continued: true,
-    });
-    doc.font("Helvetica").text(patient.doctor);
-
-    // Date
-    doc.font("Helvetica-Bold").text("Date : ", {
-      continued: true,
-    });
-    doc.font("Helvetica").text(new Date().toLocaleDateString("en-IN"));
-
-    doc.y = startY + 165;
-
-    // ==========================
-    // Diagnosis
-    // ==========================
-
-    doc.rect(40, doc.y, 515, 22).fill("#0d6efd");
-
-    doc
-      .fillColor("black")
-      .font("Helvetica-Bold")
-      .fontSize(14)
-      .text("Diagnosis", 50, doc.y - 18);
-
-    doc.moveDown();
-
-    doc.fillColor("black");
-    doc.font("Helvetica");
-    doc.moveDown(0.3);
-
-    doc.fillColor("black").font("Helvetica").fontSize(12);
-
-    if (latest.diagnosis && latest.diagnosis.startsWith("data:image")) {
-      const base64 = latest.diagnosis.replace(/^data:image\/\w+;base64,/, "");
-
-      doc.image(Buffer.from(base64, "base64"), {
-        fit: [300, 120],
-        align: "left",
-      });
-    } else {
-      doc.text(latest.diagnosis || "N/A");
-    }
-
-    doc.moveDown();
-
-    // ==========================
-    // Prescription
-    // ==========================
-
-    doc.rect(40, doc.y, 515, 22).fill("#0d6efd");
-
-    doc
-      .fillColor("black")
-      .font("Helvetica-Bold")
-      .fontSize(14)
-      .text("Prescription", 50, doc.y - 18);
-
-    doc.moveDown();
-
-    doc.fillColor("black");
-    doc.font("Helvetica");
-
-    doc.moveDown();
-
-    doc.fillColor("black");
-    doc.font("Helvetica");
-
-    doc.moveDown(0.3);
-
-    doc.fillColor("black").font("Helvetica").fontSize(12);
-
-    if (latest.prescription && latest.prescription.startsWith("data:image")) {
-      const base64 = latest.prescription.replace(
-        /^data:image\/\w+;base64,/,
-        "",
-      );
-
-      doc.image(Buffer.from(base64, "base64"), {
-        fit: [300, 120],
-        align: "left",
-      });
-    } else {
-      doc.text(latest.prescription || "N/A");
-    }
-
-    doc.moveDown();
-
-    // ==========================
-    // Advice
-    // ==========================
-
-    doc.rect(40, doc.y, 515, 22).fill("#0d6efd");
-
-    doc
-      .fillColor("black")
-      .font("Helvetica-Bold")
-      .fontSize(14)
-      .text("Advice", 50, doc.y - 18);
-
-    doc.moveDown();
-
-    doc.fillColor("black");
-    doc.font("Helvetica");
-
-    doc.moveDown(0.3);
-
-    doc.fillColor("black").font("Helvetica").fontSize(12);
-
-    if (latest.advice && latest.advice.startsWith("data:image")) {
-      const base64 = latest.advice.replace(/^data:image\/\w+;base64,/, "");
-
-      doc.image(Buffer.from(base64, "base64"), {
-        fit: [300, 120],
-        align: "left",
-      });
-    } else {
-      doc.text(latest.advice || "N/A");
-    }
-
-    doc.moveDown();
-
-    // ==========================
-    // Doctor Notes
-    // ==========================
-
-    doc.rect(40, doc.y, 515, 22).fill("#0d6efd");
-    doc
-      .fillColor("black")
-      .font("Helvetica-Bold")
-      .fontSize(14)
-      .text("Doctor Notes", 50, doc.y - 18);
-
-    doc.moveDown();
-
-    doc.fillColor("black");
-    doc.font("Helvetica");
-
-    doc.moveDown(0.3);
-
-    doc.fillColor("black").font("Helvetica").fontSize(12);
-
-    if (latest.notes && latest.notes.startsWith("data:image")) {
-      const base64 = latest.notes.replace(/^data:image\/\w+;base64,/, "");
-
-      doc.image(Buffer.from(base64, "base64"), {
-        fit: [300, 120],
-        align: "left",
-      });
-    } else {
-      doc.text(latest.notes || "N/A");
-    }
-
-    doc.moveDown();
-
-    // ==========================
-    // Signature
-    // ==========================
-
-    doc.rect(40, doc.y, 515, 22).fill("#0d6efd");
-
-    doc
-      .fillColor("black")
-      .font("Helvetica-Bold")
-      .fontSize(14)
-      .text("Doctor Signature", 50, doc.y - 18);
-
-    doc.moveDown();
-
-    doc.fillColor("black");
-
-    doc.moveDown(0.5);
-
-    if (latest.signature) {
-      const base64 = latest.signature.replace(/^data:image\/\w+;base64,/, "");
-
-      doc.image(Buffer.from(base64, "base64"), 380, doc.y, {
-        fit: [140, 60],
-      });
-    }
-
-    doc.moveDown(2);
-
-    doc.moveDown(2);
-
-    doc.moveTo(40, doc.y).lineTo(555, doc.y).strokeColor("#cccccc").stroke();
-
-    doc.moveDown(0.5);
-
-    doc
-      .font("Helvetica")
-      .fontSize(10)
-      .fillColor("gray")
-      .text("Shraddha Hospital | Daund | Phone : 9999999999", {
-        align: "center",
-      });
-
-    doc.text("Email : shraddhahospital@gmail.com", {
-      align: "center",
-    });
-
-    doc.moveDown(0.3);
-
-    doc
-      .font("Helvetica-Oblique")
-      .text("Generated by Hospital Management System", {
-        align: "center",
-      });
-
-    doc.end();
-
-    stream.on("finish", () => {
-      res.download(pdfPath);
-    });
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: err.message,
-    });
+    doc.moveDown(1);
   }
+
+if (doc.y > 650) {
+    doc.addPage();
+    doc.y = 40;
+}
+}
+
+doc
+
+.font("Helvetica-Bold")
+
+.fontSize(24)
+
+.fillColor(PRIMARY)
+
+.text("SHRADDHA HOSPITAL", {
+
+align: "center",
+
+});
+
+doc
+
+.font("Helvetica")
+
+.fontSize(11)
+
+.fillColor(TEXT)
+
+.text("Daund", {
+
+align: "center",
+
+});
+
+doc.text("Phone : 9999999999", {
+
+align: "center",
+
+});
+
+doc.text("Email : shraddhahospital@gmail.com", {
+
+align: "center",
+
+});
+
+doc.moveDown(.5);
+
+doc
+
+.moveTo(40, doc.y)
+
+.lineTo(555, doc.y)
+
+.lineWidth(2)
+
+.strokeColor(PRIMARY)
+
+.stroke();
+
+doc.moveDown();
+doc
+
+.font("Helvetica-Bold")
+
+.fontSize(15)
+
+.fillColor(PRIMARY)
+
+.text("Patient Details");
+
+doc.moveDown(.4);
+
+const startY = doc.y;
+
+doc
+
+.rect(40, startY, 515, 180)
+
+.fillAndStroke(LIGHT, BORDER);
+
+doc.y = startY + 12;
+
+doc.x = 55;
+
+doc.fillColor(TEXT);
+
+doc.font("Helvetica-Bold").text("Patient Name : ", {
+
+continued: true,
+
+});
+
+doc.font("Helvetica").text(patient.name);
+
+doc.font("Helvetica-Bold").text("UHID : ", {
+
+continued: true,
+
+});
+
+doc.font("Helvetica").text(patient.uhid);
+
+doc.font("Helvetica-Bold").text("Age : ", {
+
+continued: true,
+
+});
+
+doc.font("Helvetica").text(String(patient.age));
+
+doc.font("Helvetica-Bold").text("Gender : ", {
+
+continued: true,
+
+});
+
+doc.font("Helvetica").text(patient.gender);
+
+doc.font("Helvetica-Bold").text("Doctor : ", {
+
+continued: true,
+
+});
+
+doc.font("Helvetica").text(patient.doctor || "N/A");
+
+// doc.font("Helvetica-Bold").text("Date : ", {
+
+// continued: true,
+
+// });
+
+// doc.font("Helvetica-Bold").text("Doctor : ", {
+//   continued: true,
+// });
+
+// doc.font("Helvetica").text(patient.doctor || "N/A");
+
+// ADD THIS
+doc.font("Helvetica-Bold").text("Disease : ", {
+  continued: true,
+});
+
+doc.font("Helvetica").text(patient.disease || "N/A");
+
+// Date
+doc.font("Helvetica-Bold").text("Date : ", {
+  continued: true,
+});
+
+doc
+
+.font("Helvetica")
+
+.text(new Date().toLocaleDateString("en-IN"));
+
+doc.y = startY + 195;
+
+// ========================================
+// DIAGNOSIS
+// ========================================
+
+drawHeading("Diagnosis");
+drawContent(latest.diagnosis);
+
+// ========================================
+// PRESCRIPTION
+// ========================================
+
+drawHeading("Prescription");
+drawContent(latest.prescription);
+
+// ========================================
+// ADVICE
+// ========================================
+
+drawHeading("Advice");
+drawContent(latest.advice);
+
+// ========================================
+// DOCTOR NOTES
+// ========================================
+
+drawHeading("Doctor Notes");
+drawContent(latest.notes);
+
+// ========================================
+// DOCTOR SIGNATURE
+// ========================================
+
+drawHeading("Doctor Signature");
+
+doc.fillColor(TEXT);
+
+if (
+  latest.signature &&
+  latest.signature.startsWith("data:image")
+) {
+  const base64 = latest.signature.replace(
+    /^data:image\/\w+;base64,/,
+    ""
+  );
+
+  const imageBuffer = Buffer.from(base64, "base64");
+
+doc.image(imageBuffer, {
+  fit: [140, 60],
+  align: "right",
+});
+
+  doc.moveDown(4);
+
+} else {
+
+  doc
+    .font("Helvetica")
+    .fontSize(12)
+    .text("No Signature");
+
+  doc.moveDown(2);
+}
+
+// ========================================
+// FOOTER
+// ========================================
+
+doc.moveDown();
+
+doc
+  .moveTo(40, doc.y)
+  .lineTo(555, doc.y)
+  .strokeColor("#cccccc")
+  .stroke();
+
+doc.moveDown(0.6);
+
+doc
+  .font("Helvetica")
+  .fontSize(10)
+  .fillColor("#666666")
+  .text(
+    "Shraddha Hospital | Daund | Phone : 9999999999",
+    {
+      align: "center",
+    }
+  );
+
+doc.text(
+  "Email : shraddhahospital@gmail.com",
+  {
+    align: "center",
+  }
+);
+
+doc.moveDown(0.3);
+
+doc
+  .font("Helvetica-Oblique")
+  .text(
+    "Generated by Hospital Management System",
+    {
+      align: "center",
+    }
+  );
+
+doc.end();
+
+stream.on("finish", () => {
+    res.download(pdfPath, () => {
+        fs.unlink(pdfPath, () => {});
+    });
+});
+
+} catch (err) {
+
+  res.status(500).json({
+    success: false,
+    message: err.message,
+  });
+
+}
 };
 
 const updateRoomStatus = async (roomNumber) => {

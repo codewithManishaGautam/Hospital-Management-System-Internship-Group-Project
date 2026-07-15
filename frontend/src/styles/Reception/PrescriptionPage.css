@@ -85,12 +85,16 @@ body{
 }
 
 .section textarea {
-  width: 100%;
-  min-height: 120px;
+  width: auto;
+  height: 300px;      /* motha textarea */
+  min-height: 300px;
+  max-height: 500px;
+  overflow-y: auto;   /* scroll */
   border: 1px solid #d1d5db;
   border-radius: 10px;
   padding: 12px;
-  font-size: 15px;
+  font-size: 16px;
+  line-height: 1.7;
   resize: vertical;
   outline: none;
   box-sizing: border-box;
@@ -276,12 +280,14 @@ body{
 }
 
 .signature-canvas {
-  border: 2px solid #d1d5db;
-  border-radius: 10px;
+  border: 2px solid #2563eb;
+  border-radius: 8px;
   background: white;
-  width: 100%;
-  max-width: 500px;
-  height: auto;
+
+  width: 350px;
+  height: 100px;
+
+  cursor: crosshair;
 }
 
 .signature-buttons {
@@ -340,14 +346,15 @@ body{
     border: none;
   }
 
-  .signature-box {
+.signature-box {
     width: 100%;
-    max-width: 700px;
-    height: 200px;
+    max-width: 100%;
+    height: 500px;
     border: 2px dashed #94a3b8;
     border-radius: 12px;
-    background: #fff;
-  }
+    background: white;
+    overflow: auto;
+}
 }
 
 .history-section {
@@ -429,10 +436,11 @@ body{
 }
 
 .signature-image {
-  width: 220px;
-  margin-top: 15px;
+  width: 150px;
+  height: auto;
+  margin-top: 10px;
   border-top: 1px solid #444;
-  padding-top: 8px;
+  padding-top: 5px;
   background: white;
 }
 
@@ -460,4 +468,28 @@ body{
 .active-mode {
   background: #2563eb;
   color: white;
+}
+
+
+.signature-box {
+  width: 100%;
+  max-width: 100%;
+  height: 500px;
+ margin-top: 10px;
+  margin-bottom: 10px;
+  border: 2px solid #2563eb;
+  border-radius: 10px;
+
+  background-color: #ffffff;
+
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.08);
+
+  cursor: crosshair;
+}
+
+.canvas-note {
+  margin: 8px 0;
+  color: #2563eb;
+  font-size: 14px;
+  font-weight: 600;
 }
