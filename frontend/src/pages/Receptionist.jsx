@@ -1,89 +1,65 @@
 import React, { useState } from "react";
+
 import Layout from "../Components/Reception/Layout";
 import Dashboard from "../Components/Reception/Dashboard";
 import RegistrationForm from "../Components/Reception/RegistrationForm";
 import OPDBilling from "../Components/Reception/OPDBilling";
 import IPDAdmission from "../Components/Reception/IPDadmission";
 import IPDPatientList from "../Components/Reception/IPDPatientList";
-import SearchPatient from "../Components/Reception/SearchPatient";
+import PatientList from "../Components/Reception/patientList";
 import Reports from "../Components/Reception/Reports";
 
 function Receptionist() {
   const [step, setStep] = useState("dashboard");
-  const [formData, setFormData] = useState({
-    name: '',
-    age: '',
-    gender: 'Male',
-    contact: '',
-    hasInsurance: false,
-    policyNumber: ''
-  });
-  const [message, setMessage] = useState('');
+  const [selectedPatient, setSelectedPatient] = useState(null);
 
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }));
-  };
-
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    setMessage('Registering patient...');
-    
-    // Simulate saving patient to Reception/Hospital DB
-    const newPatientId = `PAT-${Math.floor(Math.random() * 10000)}`;
-    
-    // Trigger Insurance Integration if they have insurance
-    if (formData.hasInsurance && formData.policyNumber) {
-      try {
-        await axios.post('http://localhost:5000/api/insurance/pre-auth', {
-          patientId: newPatientId,
-          policyId: formData.policyNumber, // treating policyNumber as ID for mock
-          hospitalId: 'HOSP-001',
-          estimatedCost: 0,
-          status: 'Draft'
-        });
-        setMessage(`Patient ${newPatientId} registered successfully! A Draft Pre-Auth was automatically created for the Insurance Desk.`);
-      } catch (err) {
-        setMessage(`Patient ${newPatientId} registered, but failed to create Draft Pre-Auth. Ensure Insurance backend is running.`);
-      }
-    } else {
-      setMessage(`Patient ${newPatientId} registered successfully as a Cash-paying patient.`);
-    }
-    
-    setFormData({ name: '', age: '', gender: 'Male', contact: '', hasInsurance: false, policyNumber: '' });
-  };
+  const [mode, setMode] = useState("register");
 
   return (
-    <Layout role="Receptionist" setStep={setStep}>
+    <Layout role="Receptionist" setStep={setStep} currentStep={step}>
       {step === "dashboard" && (
-        <Dashboard />
+        <Dashboard
+          setStep={setStep}
+          setSelectedPatient={setSelectedPatient}
+          setMode={setMode}
+        />
       )}
 
       {step === "register" && (
-        <RegistrationForm />
+        <RegistrationForm
+          patient={selectedPatient}
+          setSelectedPatient={setSelectedPatient}
+          setStep={setStep}
+          mode={
+            selectedPatient
+              ? selectedPatient.isAppointment
+                ? "appointment"
+                : "edit"
+              : "new"
+          }
+        />
       )}
 
-      {step === "billing" && (
-        <OPDBilling />
-      )}
+      {step === "billing" && <OPDBilling patient={selectedPatient} />}
 
-      {step === "ipdAdmission" && (
-        <IPDAdmission />
-      )}
+      {step === "ipdAdmission" && <IPDAdmission patient={selectedPatient} />}
 
-      {step === "ipdPatients" && (
-        <IPDPatientList />
-      )}
+      {step === "ipdPatients" && <IPDPatientList />}
 
-      {step === "searchPatient" && (
-        <SearchPatient />
-      )}
+      {/* {step === "searchPatient" && (
+        <SearchPatient
+          setStep={setStep}
+          setSelectedPatient={setSelectedPatient}
+        />
+      )} */}
 
-      {step === "reports" && (
-        <Reports />
+      {step === "reports" && <Reports />}
+
+      {step === "patientList" && (
+        <PatientList
+          setStep={setStep}
+          setSelectedPatient={setSelectedPatient}
+        />
       )}
     </Layout>
   );

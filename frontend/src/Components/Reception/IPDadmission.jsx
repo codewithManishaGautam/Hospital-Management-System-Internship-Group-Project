@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { getAllRooms } from "./services/roomService";
 import "../../styles/Reception/ipdadmission.css";
 
 function IPDAdmission({ patient }) {
@@ -10,32 +11,21 @@ function IPDAdmission({ patient }) {
     condition: "",
   });
 
-  const rooms = [
-    {
-      roomNo: "101",
-      bedNo: "B1",
-      bedType: "General",
-      status: "Available",
-    },
-    {
-      roomNo: "101",
-      bedNo: "B2",
-      bedType: "General",
-      status: "Occupied",
-    },
-    {
-      roomNo: "102",
-      bedNo: "B1",
-      bedType: "Semi-Private",
-      status: "Available",
-    },
-    {
-      roomNo: "103",
-      bedNo: "B1",
-      bedType: "Private",
-      status: "Available",
-    },
-  ];
+  const [rooms, setRooms] = useState([]);
+
+  useEffect(() => {
+    fetchRooms();
+  }, []);
+
+  const fetchRooms = async () => {
+    try {
+      const data = await getAllRooms();
+
+      setRooms(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -49,24 +39,14 @@ function IPDAdmission({ patient }) {
   const handleAdmission = (e) => {
     e.preventDefault();
 
-    if (
-      !patient ||
-      !ipdData.roomNo ||
-      !ipdData.bedNo
-    ) {
+    if (!patient || !ipdData.roomNo || !ipdData.bedNo) {
       alert("Please select room and bed");
       return;
     }
 
-    const ipdNumber =
-      "IPD" +
-      Math.floor(
-        100000 + Math.random() * 900000
-      );
+    const ipdNumber = "IPD" + Math.floor(100000 + Math.random() * 900000);
 
-    alert(
-      `Patient Admitted Successfully\nIPD No : ${ipdNumber}`
-    );
+    alert(`Patient Admitted Successfully\nIPD No : ${ipdNumber}`);
   };
 
   return (
@@ -83,57 +63,31 @@ function IPDAdmission({ patient }) {
             <div className="ipd-group">
               <label>UHID</label>
 
-              <input
-                type="text"
-                value={patient?.uhid || ""}
-                readOnly
-              />
+              <input type="text" value={patient?.uhid || ""} readOnly />
             </div>
 
             <div className="ipd-group">
               <label>Patient Name</label>
 
-              <input
-                type="text"
-                value={
-                  patient?.patientName || ""
-                }
-                readOnly
-              />
+              <input type="text" value={patient?.name || ""} readOnly />
             </div>
 
             <div className="ipd-group">
               <label>Age</label>
 
-              <input
-                type="text"
-                value={patient?.age || ""}
-                readOnly
-              />
+              <input type="text" value={patient?.age || ""} readOnly />
             </div>
 
             <div className="ipd-group">
               <label>Gender</label>
 
-              <input
-                type="text"
-                value={
-                  patient?.gender || ""
-                }
-                readOnly
-              />
+              <input type="text" value={patient?.gender || ""} readOnly />
             </div>
 
             <div className="ipd-group">
               <label>Mobile</label>
 
-              <input
-                type="text"
-                value={
-                  patient?.mobile || ""
-                }
-                readOnly
-              />
+              <input type="text" value={patient?.mobile || ""} readOnly />
             </div>
 
             <div className="ipd-group">
@@ -142,41 +96,31 @@ function IPDAdmission({ patient }) {
               <input
                 type="text"
                 name="doctorName"
-                value={
-                  ipdData.doctorName
-                }
+                value={ipdData.doctorName}
                 onChange={handleChange}
                 placeholder="Doctor Name"
               />
             </div>
 
             <div className="ipd-group">
-              <label>
-                Admission Date
-              </label>
+              <label>Admission Date</label>
 
               <input
                 type="date"
                 name="admissionDate"
-                value={
-                  ipdData.admissionDate
-                }
+                value={ipdData.admissionDate}
                 onChange={handleChange}
               />
             </div>
           </div>
 
           <div className="ipd-group">
-            <label>
-              Patient Condition
-            </label>
+            <label>Patient Condition</label>
 
             <textarea
               rows="4"
               name="condition"
-              value={
-                ipdData.condition
-              }
+              value={ipdData.condition}
               onChange={handleChange}
               placeholder="Patient Condition"
             />
@@ -185,9 +129,7 @@ function IPDAdmission({ patient }) {
           {/* Available Rooms & Beds */}
 
           <div className="room-table-card">
-            <h3>
-              Available Rooms & Beds
-            </h3>
+            <h3>Available Rooms & Beds</h3>
 
             <table className="room-table">
               <thead>
@@ -201,59 +143,43 @@ function IPDAdmission({ patient }) {
               </thead>
 
               <tbody>
-                {rooms.map(
-                  (room, index) => (
-                    <tr key={index}>
-                      <td>
-                        {room.roomNo}
-                      </td>
+                {rooms.map((room, index) => (
+                  <tr key={index}>
+                    <td>{room.roomNumber}</td>
 
-                      <td>
-                        {room.bedNo}
-                      </td>
+                    <td>{room.bedNo}</td>
 
-                      <td>
-                        {room.bedType}
-                      </td>
+                    <td>{room.roomType}</td>
 
-                      <td>
-                        {room.status}
-                      </td>
+                    <td>{room.status}</td>
 
-                      <td>
-                        {room.status ===
-                        "Available" ? (
-                          <button
-                            type="button"
-                            className="assign-btn"
-                            onClick={() =>
-                              setIpdData({
-                                ...ipdData,
-                                roomNo:
-                                  room.roomNo,
-                                bedNo:
-                                  room.bedNo,
-                              })
-                            }
-                          >
-                            Assign
-                          </button>
-                        ) : (
-                          "-"
-                        )}
-                      </td>
-                    </tr>
-                  )
-                )}
+                    <td>
+                      {room.status === "Available" ? (
+                        <button
+                          type="button"
+                          className="assign-btn"
+                          onClick={() =>
+                            setIpdData({
+                              ...ipdData,
+                              roomNo: room.roomNumber,
+                              bedNo: room.bedNo,
+                            })
+                          }
+                        >
+                          Assign
+                        </button>
+                      ) : (
+                        "-"
+                      )}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
 
           <div className="ipd-btn-group">
-            <button
-              type="submit"
-              className="admit-btn"
-            >
+            <button type="submit" className="admit-btn">
               Admit Patient
             </button>
           </div>

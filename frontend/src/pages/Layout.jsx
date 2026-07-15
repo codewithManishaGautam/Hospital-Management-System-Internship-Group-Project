@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./Layout.css";
-import NotificationBell from "../components/insurance/NotificationBell";
 
 function Layout({ role, children, setStep }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -30,14 +29,24 @@ function Layout({ role, children, setStep }) {
         {role === "Doctor" && (
           <>
             <button onClick={() => setStep("dashboard")}>🏠 Dashboard</button>
-            <button onClick={() => setStep("profile-dashboard")}>👤 Profile</button>
-            <button onClick={() => setStep("appointments")}>📅 Appointments</button>
+            <button onClick={() => setStep("profile-dashboard")}>
+              👤 Profile
+            </button>
+            <button onClick={() => setStep("appointments")}>
+              📅 Appointments
+            </button>
             <button onClick={() => setStep("patients")}>🧑 Patients</button>
-            <button onClick={() => setStep("prescriptions")}>💊 Prescriptions</button>
-            <button onClick={() => setStep("reports")}>🧪 Medical Reports</button>
+            <button onClick={() => setStep("prescriptions")}>
+              💊 Prescriptions
+            </button>
+            <button onClick={() => setStep("reports")}>
+              🧪 Medical Reports
+            </button>
             <button onClick={() => setStep("emergency")}>🚨 Emergency</button>
             <button onClick={() => setStep("schedule")}>🕒 Schedule</button>
-            <button onClick={() => setStep("notifications")}>🔔 Notifications</button>
+            <button onClick={() => setStep("notifications")}>
+              🔔 Notifications
+            </button>
             <button onClick={() => setStep("analytics")}>📈 Analytics</button>
           </>
         )}
@@ -57,21 +66,10 @@ function Layout({ role, children, setStep }) {
           </>
         )}
 
-        {['Pharmacy', 'Bill'].includes(role) && (
-          <button onClick={() => setStep('search')}>Search Patient</button>
-        )}
-
-        {/* Insurance */}
-        {role === "Insurance" && (
-          <>
-            <button onClick={() => setStep("dashboard")}>Dashboard</button>
-            <button onClick={() => setStep("register-policy")}>Register Policy</button>
-            <button onClick={() => setStep("enroll-scheme")}>Enroll Scheme</button>
-            <button onClick={() => setStep("pre-auth")}>Pre-Auth Requests</button>
-            <button onClick={() => setStep("claims")}>All Claims</button>
-            <button onClick={() => setStep("documents")}>Documents</button>
-            <button onClick={() => setStep("official-forms")}>Official Provider Forms</button>
-          </>
+        {["Pharmacy", "Bill", "Insurance"].includes(role) && (
+          <button onClick={() => setStep("patientList")}>
+            👨‍⚕️ Patient List
+          </button>
         )}
 
         {/* Admin */}
@@ -93,6 +91,9 @@ function Layout({ role, children, setStep }) {
               🏨 Room Inventory
             </button>
 
+            {/* <button onClick={() => setStep("add-bed")}>🛌 Add Bed</button> */}
+            <button onClick={() => setStep("beds")}>🛏 Bed Management</button>
+
             <button onClick={() => setStep("inventory")}>
               📦 Inventory Management
             </button>
@@ -112,9 +113,6 @@ function Layout({ role, children, setStep }) {
             <button onClick={() => setStep("insurance")}>
               🛡 Insurance Records
             </button>
-            <button onClick={() => setStep("insurance-master")}>
-              🛡 Insurance Master
-            </button>
           </>
         )}
 
@@ -131,10 +129,7 @@ function Layout({ role, children, setStep }) {
 
       {/* MAIN */}
       <div className="main">
-        <div className="topbar">
-          <span>{role} Panel</span>
-          {(role === "Insurance" || role === "Admin") && <NotificationBell />}
-        </div>
+        <div className="topbar">{role} Panel</div>
 
         <div className="content">{children}</div>
       </div>

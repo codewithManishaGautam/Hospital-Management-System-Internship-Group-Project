@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/patients";
+const API_URL = "http://localhost:5000/api/patient";
 
 /* ==========================
    Get All Patients
@@ -60,23 +60,15 @@ export const createPatient = async (
    Update Patient
 ========================== */
 
-export const updatePatient = async (
-  id,
-  patientData
-) => {
-  try {
-    const response = await axios.put(
-      `${API_URL}/${id}`,
-      patientData
-    );
+export const updatePatient = async (id, patientData) => {
+  const response = await axios.put(
+    `${API_URL}/${id}`,
+    patientData
+  );
 
-    return response.data;
-  } catch (error) {
-    console.error(
-      "Error updating patient:",
-      error
-    );
-  }
+  console.log(response.data);
+
+  return response.data;
 };
 
 /* ==========================
