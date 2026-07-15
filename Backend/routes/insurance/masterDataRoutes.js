@@ -1,70 +1,33 @@
 const express = require('express');
 const router = express.Router();
-const TPAMaster = require('../../models/insurance/TPAMaster');
-const InsuranceCompany = require('../../models/insurance/InsuranceCompany');
-const OfficialFormsRegistry = require('../../models/insurance/OfficialFormsRegistry');
+const insuranceMasterController = require('../../controllers/insuranceMasterController');
 
-// @route   GET /api/insurance/master-data/tpas
-router.get('/tpas', async (req, res) => {
-  try {
-    const tpas = await TPAMaster.find();
-    res.json({ success: true, data: tpas });
-  } catch (error) {
-    res.status(500).json({ success: false, error: 'Server Error' });
-  }
-});
+// Insurance Companies
+router.route('/companies')
+  .post(insuranceMasterController.createInsuranceCompany)
+  .get(insuranceMasterController.getAllInsuranceCompanies);
 
-// @route   POST /api/insurance/master-data/tpas
-router.post('/tpas', async (req, res) => {
-  try {
-    const newTpa = new TPAMaster(req.body);
-    await newTpa.save();
-    res.status(201).json({ success: true, data: newTpa });
-  } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
-  }
-});
+router.route('/companies/:id')
+  .get(insuranceMasterController.getInsuranceCompanyById)
+  .put(insuranceMasterController.updateInsuranceCompany)
+  .delete(insuranceMasterController.deleteInsuranceCompany);
 
-// @route   GET /api/insurance/master-data/companies
-router.get('/companies', async (req, res) => {
-  try {
-    const companies = await InsuranceCompany.find();
-    res.json({ success: true, data: companies });
-  } catch (error) {
-    res.status(500).json({ success: false, error: 'Server Error' });
-  }
-});
+// TPAs
+router.route('/tpas')
+  .post(insuranceMasterController.createTpa)
+  .get(insuranceMasterController.getAllTpas);
 
-// @route   POST /api/insurance/master-data/companies
-router.post('/companies', async (req, res) => {
-  try {
-    const newCompany = new InsuranceCompany(req.body);
-    await newCompany.save();
-    res.status(201).json({ success: true, data: newCompany });
-  } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
-  }
-});
+router.route('/tpas/:id')
+  .get(insuranceMasterController.getTpaById)
+  .put(insuranceMasterController.updateTpa);
 
-// @route   GET /api/insurance/master-data/forms
-router.get('/forms', async (req, res) => {
-  try {
-    const forms = await OfficialFormsRegistry.find();
-    res.json({ success: true, data: forms });
-  } catch (error) {
-    res.status(500).json({ success: false, error: 'Server Error' });
-  }
-});
+// Insurance Plans
+router.route('/plans')
+  .post(insuranceMasterController.createPlan)
+  .get(insuranceMasterController.getAllPlans);
 
-// @route   POST /api/insurance/master-data/forms
-router.post('/forms', async (req, res) => {
-  try {
-    const newForm = new OfficialFormsRegistry(req.body);
-    await newForm.save();
-    res.status(201).json({ success: true, data: newForm });
-  } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
-  }
-});
+router.route('/plans/:id')
+  .get(insuranceMasterController.getPlanById)
+  .put(insuranceMasterController.updatePlan);
 
 module.exports = router;

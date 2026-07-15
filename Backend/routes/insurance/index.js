@@ -10,6 +10,9 @@ const documentRoutes = require('./documentRoutes');
 const billingIntegrationRoutes = require('./billingIntegrationRoutes');
 const masterDataRoutes = require('./masterDataRoutes');
 const notificationRoutes = require('./notificationRoutes');
+const formsRegistryRoutes = require('./formsRegistryRoutes');
+const insuranceCaseRoutes = require('./insuranceCaseRoutes');
+const analyticsRoutes = require('./analyticsRoutes');
 
 // Mount sub-routes
 router.use('/policies', policyRoutes);
@@ -20,6 +23,9 @@ router.use('/documents', documentRoutes);
 router.use('/billing', billingIntegrationRoutes);
 router.use('/master-data', masterDataRoutes);
 router.use('/notifications', notificationRoutes);
+router.use('/forms-registry', formsRegistryRoutes);
+router.use('/cases', insuranceCaseRoutes);
+router.use('/analytics', analyticsRoutes);
 
 // @route   GET /api/insurance/health
 // @desc    Health check endpoint for Insurance Module

@@ -17,6 +17,9 @@ router.get('/pre-auth/:preAuthId', documentController.getPreAuthDocuments);
 
 // @route   DELETE /api/insurance/documents/:id
 // @desc    Delete a document
+router.get('/case/:caseId', documentController.getDocumentsByCase);
+router.get('/:id/history', documentController.getDocumentHistory);
+router.get('/:id/download', documentController.logDocumentAccess);
 router.delete('/:id', documentController.deleteDocument);
 
 module.exports = router;

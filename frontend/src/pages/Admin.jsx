@@ -354,10 +354,10 @@ function Admin() {
               {tpaList.length > 0 ? tpaList.map(tpa => (
                 <tr key={tpa._id}>
                   <td>{tpa._id.substring(tpa._id.length - 6).toUpperCase()}</td>
-                  <td>{tpa.name}</td>
-                  <td>{tpa.helpdeskPhone || "N/A"}</td>
-                  <td>{tpa.helpdeskEmail || "N/A"}</td>
-                  <td>{tpa.claimTAT || "N/A"}</td>
+                  <td>{tpa.tpaName}</td>
+                  <td>{tpa.helpline || "N/A"}</td>
+                  <td>{tpa.claimsEmail || "N/A"}</td>
+                  <td>{tpa.claimTatDays || "N/A"}</td>
                   <td>{tpa.isActive ? "Active" : "Inactive"}</td>
                 </tr>
               )) : (
@@ -377,7 +377,7 @@ function Admin() {
                 <th>Name</th>
                 <th>Provider Type</th>
                 <th>Contact Phone</th>
-                <th>Network Tie-up</th>
+                <th>Cashless Network</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -385,10 +385,10 @@ function Admin() {
               {companyList.length > 0 ? companyList.map(comp => (
                 <tr key={comp._id}>
                   <td>{comp._id.substring(comp._id.length - 6).toUpperCase()}</td>
-                  <td>{comp.name}</td>
-                  <td>{comp.type}</td>
-                  <td>{comp.contactPhone || "N/A"}</td>
-                  <td>{comp.networkHospitalStatus ? "Yes" : "No"}</td>
+                  <td>{comp.companyName}</td>
+                  <td>{comp.companyType}</td>
+                  <td>{comp.claimDepartmentPhone || "N/A"}</td>
+                  <td>{comp.isCashless ? "Yes" : "No"}</td>
                   <td>{comp.isActive ? "Active" : "Inactive"}</td>
                 </tr>
               )) : (

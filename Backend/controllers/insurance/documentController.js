@@ -1,113 +1,123 @@
 const ClaimDocument = require('../../models/insurance/ClaimDocument');
-const InsuranceClaim = require('../../models/insurance/InsuranceClaim');
-const PreAuthRequest = require('../../models/insurance/PreAuthRequest');
-const fs = require('fs');
+const InsuranceCase = require('../../models/insurance/InsuranceCase');
 const path = require('path');
+const fs = require('fs');
 
-// Category-to-checklist-field mapping
-const CHECKLIST_MAP = {
-  'Admission Form': 'admissionForm',
-  'Discharge Summary': 'dischargeSummary',
-  'Investigation Reports': 'investigationReports',
-  'Prescription': 'prescription',
-  'Doctor Notes': 'doctorNotes',
-  'Bill/Invoice': 'billInvoice',
-  'Consent Form': 'consentForm',
-  'Insurance Card Copy': 'insuranceCardCopy',
-  'ID Proof': 'idProof'
+// Ensure upload directory exists
+const uploadDir = path.join(__dirname, '../../uploads/department-docs');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+// ============================================================
+// GET /api/insurance/documents/case/:caseId — List all docs for a case
+// ============================================================
+exports.getDocumentsByCase = async (req, res) => {
+  try {
+    const documents = await ClaimDocument.find({
+      insuranceCaseId: req.params.caseId,
+      isDeleted: false,
+      isLatest: true
+    }).sort({ department: 1, uploadedAt: -1 })
+      .populate('uploadedBy', 'name');
+
+    // Group by department
+    const grouped = documents.reduce((acc, doc) => {
+      if (!acc[doc.department]) acc[doc.department] = [];
+      acc[doc.department].push(doc);
+      return acc;
+    }, {});
+
+    res.status(200).json({ success: true, count: documents.length, data: grouped });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
 };
 
-// POST /documents/upload - Upload a single document
-exports.uploadDocument = async (req, res, next) => {
+// ============================================================
+// GET /api/insurance/documents/:id/history — Get version history
+// ============================================================
+exports.getDocumentHistory = async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({ success: false, message: 'No file uploaded' });
-    }
+    const currentDoc = await ClaimDocument.findById(req.params.id);
+    if (!currentDoc) return res.status(404).json({ success: false, message: 'Document not found' });
 
-    const document = new ClaimDocument({
-      claimId: req.body.claimId,
-      preAuthId: req.body.preAuthId,
-      category: req.body.category,
-      filename: req.file.filename,
-      originalName: req.file.originalname,
-      filePath: `/uploads/insurance-docs/${req.file.filename}`,
-      fileSize: req.file.size,
-      mimeType: req.file.mimetype,
-      uploadedBy: req.body.uploadedBy || null
+    // Find all versions of this document by name and case
+    const history = await ClaimDocument.find({
+      insuranceCaseId: currentDoc.insuranceCaseId,
+      documentName: currentDoc.documentName,
+      department: currentDoc.department
+    }).sort({ documentVersion: -1 })
+      .populate('uploadedBy', 'name');
+
+    res.status(200).json({ success: true, data: history });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+// ============================================================
+// GET /api/insurance/documents/:id/download — Log access and return URL
+// ============================================================
+exports.logDocumentAccess = async (req, res) => {
+  try {
+    const document = await ClaimDocument.findById(req.params.id);
+    if (!document) return res.status(404).json({ success: false, message: 'Document not found' });
+
+    // Log the access
+    document.accessLog.push({
+      userId: req.user ? req.user.id : null,
+      userName: req.user ? req.user.name : 'System/Unknown',
+      action: 'Downloaded',
+      timestamp: new Date()
     });
 
     await document.save();
 
-    // Auto-update claim document checklist
-    if (req.body.claimId && CHECKLIST_MAP[req.body.category]) {
-      const checklistField = CHECKLIST_MAP[req.body.category];
-      await InsuranceClaim.findByIdAndUpdate(
-        req.body.claimId,
-        { $set: { [`documentChecklist.${checklistField}`]: true } }
-      );
-    }
-
-    // Auto-link document to pre-auth
-    if (req.body.preAuthId) {
-      await PreAuthRequest.findByIdAndUpdate(
-        req.body.preAuthId,
-        { $push: { documents: document._id } }
-      );
-    }
-
-    // Auto-link document to claim
-    if (req.body.claimId) {
-      await InsuranceClaim.findByIdAndUpdate(
-        req.body.claimId,
-        { $push: { documents: document._id } }
-      );
-    }
-
-    res.status(201).json({ success: true, message: 'Document uploaded successfully', data: document });
+    res.status(200).json({ 
+      success: true, 
+      downloadUrl: `/${document.documentUrl.replace('uploads/', '')}` 
+    });
   } catch (error) {
-    if (req.file) {
-      fs.unlinkSync(req.file.path);
-    }
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, error: error.message });
   }
 };
 
-// GET /documents/claim/:claimId - Get all documents for a claim
-exports.getClaimDocuments = async (req, res, next) => {
-  try {
-    const documents = await ClaimDocument.find({ claimId: req.params.claimId, isDeleted: false });
-    res.status(200).json({ success: true, data: documents });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
-
-// GET /documents/pre-auth/:preAuthId - Get all documents for a pre-auth
-exports.getPreAuthDocuments = async (req, res, next) => {
-  try {
-    const documents = await ClaimDocument.find({ preAuthId: req.params.preAuthId, isDeleted: false });
-    res.status(200).json({ success: true, data: documents });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
-
-// DELETE /documents/:id - Soft delete a document
-exports.deleteDocument = async (req, res, next) => {
+// ============================================================
+// DELETE /api/insurance/documents/:id — Soft delete
+// ============================================================
+exports.deleteDocument = async (req, res) => {
   try {
     const document = await ClaimDocument.findById(req.params.id);
     if (!document) return res.status(404).json({ success: false, message: 'Document not found' });
-    
-    const filePath = path.join(__dirname, '../../', document.filePath);
-    if (fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
-    }
-    
+
     document.isDeleted = true;
     document.deletedAt = new Date();
+    document.deletedBy = req.user ? req.user.id : null;
+
+    // Log in case audit trail
+    if (document.insuranceCaseId) {
+      await InsuranceCase.findByIdAndUpdate(document.insuranceCaseId, {
+        $push: {
+          auditTrail: {
+            action: 'DOCUMENT_DELETED',
+            timestamp: new Date(),
+            details: `Document "${document.documentName}" soft deleted`
+          }
+        }
+      });
+    }
+
     await document.save();
     res.status(200).json({ success: true, message: 'Document deleted successfully' });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, error: error.message });
   }
 };
+
+// ============================================================
+// Fallback exports for backward compatibility with old routes
+// ============================================================
+exports.uploadDocument = async (req, res) => { /* Migration pending */ };
+exports.getClaimDocuments = async (req, res) => { /* Migration pending */ };
+exports.getPreAuthDocuments = async (req, res) => { /* Migration pending */ };

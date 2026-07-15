@@ -2,9 +2,10 @@ const mongoose = require('mongoose');
 
 const InsuranceBillingMappingSchema = new mongoose.Schema({
   patientId: { type: mongoose.Schema.Types.ObjectId, ref: 'Patient', required: true },
+  admissionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Admission' },
   billId: { type: mongoose.Schema.Types.ObjectId, ref: 'Bill' },
   claimId: { type: mongoose.Schema.Types.ObjectId, ref: 'InsuranceClaim' },
-  policyId: { type: mongoose.Schema.Types.ObjectId, ref: 'InsurancePolicy' },
+  policyId: { type: mongoose.Schema.Types.ObjectId, ref: 'PatientInsurancePolicy' },
   totalBillAmount: { type: Number, required: true },
   approvedAmount: { type: Number },
   coPayAmount: { type: Number, default: 0 },

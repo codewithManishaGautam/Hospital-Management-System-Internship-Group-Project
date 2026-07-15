@@ -1,18 +1,32 @@
-﻿import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { insuranceService } from "../services/insuranceService";
 import Layout from "./Layout";
 import "./Insurance.css";
 import ProviderFormRenderer from "../components/insurance/ProviderFormRenderer";
 import PatientLookup from "../components/PatientLookup";
+import PreAuthDashboard from "../components/insurance/PreAuthDashboard";
+import PreAuthForm from "../components/insurance/PreAuthForm";
+import ClaimDashboard from "../components/insurance/ClaimDashboard";
+import InsuranceCaseDashboard from "../components/insurance/InsuranceCaseDashboard";
+import InsuranceCaseWorkspace from "../components/insurance/InsuranceCaseWorkspace";
+import AdmissionWorkflowWizard from "../components/insurance/AdmissionWorkflowWizard";
+import AnalyticsDashboard from "../components/insurance/AnalyticsDashboard";
+import DynamicFormsManager from "../components/insurance/DynamicFormsManager";
 import { validatePolicy, validateScheme, validatePreAuth, validateClaim, formatValidationErrors } from "../utils/formValidation";
 
 function Insurance() {
+  const [activeDigitalForm, setActiveDigitalForm] = useState(null);
+  const [mockRole, setMockRole] = useState("Admin"); // Simulated RBAC Role
   const [step, setStep] = useState("dashboard");
   const [stats, setStats] = useState({ totalClaims: 0, approvedClaims: 0, pendingClaims: 0, totalSettledAmount: 0 });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ text: "", type: "" });
   const [selectedPreAuthForView, setSelectedPreAuthForView] = useState(null);
   const [selectedClaimForView, setSelectedClaimForView] = useState(null);
+  const [selectedCaseForView, setSelectedCaseForView] = useState(null);
+  const [preAuthView, setPreAuthView] = useState("dashboard"); // "dashboard" or "form"
+  const [claimView, setClaimView] = useState("dashboard"); // "dashboard" or "form"
+  const [caseView, setCaseView] = useState("dashboard"); // "dashboard" or "workspace"
 
   const [policyData, setPolicyData] = useState({
     patientId: "", insuranceType: "Private", providerName: "", policyNumber: "",
@@ -33,12 +47,105 @@ function Insurance() {
   });
   const [claimsList, setClaimsList] = useState([]);
 
+  const [companiesList, setCompaniesList] = useState([]);
+
   const [docData, setDocData] = useState({
     linkType: "claim",
     linkId: "",
     category: "ID Proof"
   });
   const [selectedFile, setSelectedFile] = useState(null);
+
+  // States for company-specific official forms (Immediate Procedure)
+  const [officialFormPatientId, setOfficialFormPatientId] = useState("");
+  const [officialFormPatientData, setOfficialFormPatientData] = useState(null);
+  const [officialFormPolicies, setOfficialFormPolicies] = useState([]);
+  const [officialFormSchemes, setOfficialFormSchemes] = useState([]);
+  const [selectedPolicyOrSchemeIndex, setSelectedPolicyOrSchemeIndex] = useState("");
+  const [officialFormMode, setOfficialFormMode] = useState("pre-auth");
+
+  const handleOfficialFormPatientChange = async (id, patient) => {
+    setOfficialFormPatientId(id);
+    setOfficialFormPatientData(patient);
+    setOfficialFormPolicies([]);
+    setOfficialFormSchemes([]);
+    setSelectedPolicyOrSchemeIndex("");
+    
+    if (id) {
+      try {
+        const policyRes = await insuranceService.getPoliciesByPatientId(id);
+        if (policyRes.data.success) {
+          setOfficialFormPolicies(policyRes.data.data);
+        }
+      } catch (err) {
+        console.error("Error fetching policies for patient", err);
+      }
+      try {
+        const schemeRes = await insuranceService.getSchemesByPatientId(id);
+        if (schemeRes.data.success) {
+          setOfficialFormSchemes(schemeRes.data.data);
+        }
+      } catch (err) {
+        console.error("Error fetching schemes for patient", err);
+      }
+    }
+  };
+
+  const getOfficialFormPatientData = () => {
+    if (!officialFormPatientData) {
+      return {
+        name: "Select a patient above...",
+        age: "",
+        gender: "",
+        mobile: "",
+        policyNumber: "",
+        providerName: "",
+        cardNumber: "",
+        ayushmanCardNumber: "",
+        abhaNumber: ""
+      };
+    }
+
+    const baseData = {
+      _id: officialFormPatientData._id,
+      name: officialFormPatientData.name,
+      age: officialFormPatientData.age,
+      gender: officialFormPatientData.gender,
+      mobile: officialFormPatientData.mobile,
+      policyNumber: "",
+      providerName: "",
+      cardNumber: "",
+      ayushmanCardNumber: "",
+      abhaNumber: ""
+    };
+
+    if (selectedPolicyOrSchemeIndex !== "") {
+      const isScheme = selectedPolicyOrSchemeIndex.startsWith("scheme_");
+      const idx = parseInt(selectedPolicyOrSchemeIndex.split("_")[1], 10);
+      
+      if (isScheme) {
+        const scheme = officialFormSchemes[idx];
+        if (scheme) {
+          baseData.schemeId = scheme._id;
+          baseData.providerName = scheme.schemeName;
+          baseData.policyNumber = scheme.schemeSpecificData?.ayushmanCardNumber || "";
+          baseData.ayushmanCardNumber = scheme.schemeSpecificData?.ayushmanCardNumber || "";
+          baseData.abhaNumber = scheme.schemeSpecificData?.abhaNumber || "";
+          baseData.cardNumber = scheme.schemeSpecificData?.ayushmanCardNumber || "";
+        }
+      } else {
+        const policy = officialFormPolicies[idx];
+        if (policy) {
+          baseData.policyId = policy._id;
+          baseData.providerName = policy.insuranceCompanyId?.companyName || "Unknown Provider";
+          baseData.policyNumber = policy.policyNumber;
+          baseData.cardNumber = policy.cardNumber || policy.policyNumber || "";
+        }
+      }
+    }
+
+    return baseData;
+  };
 
   useEffect(() => {
     if (step === "dashboard") {
@@ -47,8 +154,17 @@ function Insurance() {
       fetchPreAuths();
     } else if (step === "claims") {
       fetchClaimsList();
+    } else if (step === "register-policy" && companiesList.length === 0) {
+      fetchCompanies();
     }
-  }, [step]);
+  }, [step, companiesList.length]);
+
+  const fetchCompanies = async () => {
+    try {
+      const res = await insuranceService.getCompanies();
+      if (res.data.success) setCompaniesList(res.data.data);
+    } catch (err) { console.error("Error fetching companies", err); }
+  };
 
   const fetchDashboardStats = async () => {
     try {
@@ -148,7 +264,7 @@ function Insurance() {
       const res = await insuranceService.createClaim(claimData);
       showMessage(res.data.message || "Claim submitted successfully!");
       setClaimData({ patientId: "", policyId: "", preAuthId: "", totalBilledAmount: "", claimType: "Cashless", hospitalizationDate: "", dischargeDate: "" });
-      fetchClaimsList();
+      setClaimView("dashboard");
     } catch (err) {
       showMessage("Submission failed: " + (err.response?.data?.error || err.response?.data?.errors?.[0]?.msg || err.message), "error");
     }
@@ -228,6 +344,21 @@ function Insurance() {
       {step === "dashboard" && (
         <div className="dashboard-container">
           <h2 className="dashboard-title">Insurance Desk Overview</h2>
+          
+          {/* RBAC SIMULATOR */}
+          <div style={{ marginBottom: '20px', padding: '15px', background: '#fff3cd', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '15px' }}>
+            <span style={{ fontWeight: 'bold' }}>Simulate RBAC Role:</span>
+            <select 
+              value={mockRole} 
+              onChange={(e) => setMockRole(e.target.value)}
+              style={{ padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+            >
+              <option value="Admin">Admin (Full Access)</option>
+              <option value="Insurance Desk">Insurance Desk (Claims & Auth)</option>
+              <option value="Nurse">Nurse / Lab Tech (Docs Only)</option>
+            </select>
+          </div>
+
           <div className="stats-grid">
             <div className="stats-card"><h3>Total Claims</h3><p>{stats.totalClaims}</p></div>
             <div className="stats-card success"><h3>Approved Claims</h3><p>{stats.approvedClaims}</p></div>
@@ -235,6 +366,39 @@ function Insurance() {
             <div className="stats-card success"><h3>Settled Amount</h3><p>₹{stats.totalSettledAmount.toLocaleString()}</p></div>
           </div>
         </div>
+      )}
+
+      {/* INSURANCE CASES (PHASE 4) */}
+      {step === "cases" && caseView === "dashboard" && (
+        <InsuranceCaseDashboard 
+          onViewCase={(caseId) => {
+            setSelectedCaseForView(caseId);
+            setCaseView("workspace");
+          }} 
+        />
+      )}
+
+      {step === "cases" && caseView === "workspace" && (
+        <InsuranceCaseWorkspace 
+          caseId={selectedCaseForView} 
+          onBack={() => setCaseView("dashboard")} 
+        />
+      )}
+
+      {/* ADMISSION WIZARD (PHASE 4) */}
+      {step === "admission-wizard" && (
+        <AdmissionWorkflowWizard 
+          onCaseCreated={(caseId) => {
+            setSelectedCaseForView(caseId);
+            setCaseView("workspace");
+            setStep("cases");
+          }} 
+        />
+      )}
+
+      {/* ANALYTICS DASHBOARD */}
+      {step === "analytics" && (
+        <AnalyticsDashboard />
       )}
 
       {/* REGISTER POLICY */}
@@ -250,7 +414,12 @@ function Insurance() {
 
             <div className="form-group">
               <label>Provider Name</label>
-              <input type="text" placeholder="e.g. Star Health, HDFC ERGO" value={policyData.providerName} onChange={e => setPolicyData({ ...policyData, providerName: e.target.value })} required />
+              <select value={policyData.providerName} onChange={e => setPolicyData({ ...policyData, providerName: e.target.value })} required>
+                <option value="">-- Select Provider --</option>
+                {companiesList.map(c => (
+                  <option key={c._id || c.companyName} value={c.companyName}>{c.companyName}</option>
+                ))}
+              </select>
             </div>
 
             <div className="form-group">
@@ -332,197 +501,119 @@ function Insurance() {
       {/* PRE-AUTH REQUESTS */}
       {step === "pre-auth" && (
         <div className="dashboard-container">
-          <div className="section-header"><h2>Submit Pre-Authorization</h2></div>
-          <form className="form-container" onSubmit={handlePreAuthSubmit}>
-            {message.text && <p className={`alert alert-${message.type}`}>{message.text}</p>}
+          {preAuthView === "dashboard" ? (
+            <PreAuthDashboard 
+              onNewRequest={() => setPreAuthView("form")}
+              onViewForm={(req) => setSelectedPreAuthForView(req)}
+            />
+          ) : (
+            <PreAuthForm 
+              onCancel={() => setPreAuthView("dashboard")}
+              onSuccess={(newReq) => setPreAuthView("dashboard")}
+            />
+          )}
 
-            <div className="form-group" style={{ display: 'flex', gap: '10px' }}>
-              <div style={{ flex: 1 }}>
-                <PatientLookup label="Patient" value={preAuthData.patientId} onChange={(id) => setPreAuthData({ ...preAuthData, patientId: id })} />
-              </div>
-              <div style={{ flex: 1 }}>
-                <label>Policy ID (Object ID)</label>
-                <input type="text" placeholder="Enter Policy/Scheme ID" value={preAuthData.policyId} onChange={e => setPreAuthData({ ...preAuthData, policyId: e.target.value })} required />
-              </div>
-            </div>
-
-            <div className="form-group" style={{ display: 'flex', gap: '10px' }}>
-              <div style={{ flex: 1 }}>
-                <label>Estimated Cost (₹)</label>
-                <input type="number" placeholder="Estimated Treatment Cost" value={preAuthData.estimatedCost} onChange={e => setPreAuthData({ ...preAuthData, estimatedCost: e.target.value })} required />
-              </div>
-              <div style={{ flex: 1 }}>
-                <label>Admitting Doctor</label>
-                <input type="text" placeholder="Doctor Name" value={preAuthData.admittingDoctor} onChange={e => setPreAuthData({ ...preAuthData, admittingDoctor: e.target.value })} required />
-              </div>
-            </div>
-
-            <div className="form-group">
-              <label>Diagnosis</label>
-              <textarea rows="3" placeholder="Enter diagnosis details..." value={preAuthData.diagnosis} onChange={e => setPreAuthData({ ...preAuthData, diagnosis: e.target.value })} required></textarea>
-            </div>
-
-            <div className="form-group">
-              <label>Proposed Treatment</label>
-              <textarea rows="3" placeholder="Enter proposed procedure / treatment..." value={preAuthData.proposedTreatment} onChange={e => setPreAuthData({ ...preAuthData, proposedTreatment: e.target.value })} required></textarea>
-            </div>
-
-            <button type="submit" className="primary-btn" style={{ width: '100%', marginTop: '15px' }} disabled={loading}>
-              {loading ? "Submitting..." : "Submit Pre-Auth"}
-            </button>
-          </form>
-
-          <div className="table-container" style={{ marginTop: '30px' }}>
-            <h3>Recent Pre-Auth Requests</h3>
-            <table>
-              <thead>
-                <tr>
-                  <th>Req ID</th><th>Patient</th><th>Amount</th><th>Status</th><th>Date</th><th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {preAuthsList.length > 0 ? preAuthsList.map((req) => (
-                  <tr key={req._id}>
-                    <td>{req._id.substring(req._id.length - 6).toUpperCase()}</td>
-                    <td>{getPatientDisplay(req.patientId)}</td>
-                    <td>₹{req.estimatedCost || 0}</td>
-                    <td><span className={`status-badge status-${req.status.toLowerCase().replace(' ', '-')}`}>{req.status}</span></td>
-                    <td>{new Date(req.createdAt).toLocaleDateString()}</td>
-                    <td>
-                      <button onClick={() => setSelectedPreAuthForView(req)} style={{ padding: '4px 8px', background: '#3498db', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '0.85rem' }}>View Form</button>
-                    </td>
-                  </tr>
-                )) : (
-                  <tr><td colSpan="6">No pre-auth requests found.</td></tr>
-                )}
-              </tbody>
-            </table>
-
-            {selectedPreAuthForView && (
-              <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
-                <div style={{ background: '#fff', padding: '20px', borderRadius: '8px', width: '600px', maxHeight: '80vh', overflowY: 'auto' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #ccc', paddingBottom: '10px', marginBottom: '15px' }}>
-                    <h3 style={{ margin: 0 }}>Form Details: {selectedPreAuthForView.providerTemplateUsed || 'Generic Form'}</h3>
-                    <button onClick={() => setSelectedPreAuthForView(null)} style={{ background: 'none', border: 'none', fontSize: '20px', cursor: 'pointer' }}>&times;</button>
+          {/* Form Modal for viewing existing requests */}
+          {selectedPreAuthForView && (
+            <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
+              <div style={{ background: '#fff', padding: '20px', borderRadius: '8px', width: '800px', maxHeight: '90vh', overflowY: 'auto' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #ccc', paddingBottom: '10px', marginBottom: '15px' }}>
+                  <h3 style={{ margin: 0 }}>Form Details: {selectedPreAuthForView._id}</h3>
+                  <button onClick={() => setSelectedPreAuthForView(null)} style={{ background: 'none', border: 'none', fontSize: '20px', cursor: 'pointer' }}>&times;</button>
+                </div>
+                
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                  <div style={{ background: '#f8f9fa', padding: '10px', borderRadius: '4px' }}>
+                    <strong style={{ display: 'block', color: '#7f8c8d', fontSize: '0.85rem' }}>Patient Name</strong>
+                    <span>{selectedPreAuthForView.patientId?.firstName} {selectedPreAuthForView.patientId?.lastName}</span>
                   </div>
-                  {selectedPreAuthForView.providerSpecificData ? (
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
-                      {Object.entries(selectedPreAuthForView.providerSpecificData).map(([key, value]) => (
-                        <div key={key} style={{ background: '#f8f9fa', padding: '10px', borderRadius: '4px' }}>
-                          <strong style={{ display: 'block', color: '#7f8c8d', fontSize: '0.85rem', marginBottom: '4px', textTransform: 'capitalize' }}>{key.replace(/([A-Z])/g, ' $1').trim()}</strong>
-                          <span>{value.toString()}</span>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (<p>No provider-specific detailed form data found for this request.</p>)}
-                  <div style={{ marginTop: '20px', textAlign: 'right' }}>
-                    <button onClick={() => window.print()} style={{ padding: '8px 15px', background: '#2ecc71', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', marginRight: '10px' }}>Print Form</button>
-                    <button onClick={() => setSelectedPreAuthForView(null)} style={{ padding: '8px 15px', background: '#95a5a6', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Close</button>
+                  <div style={{ background: '#f8f9fa', padding: '10px', borderRadius: '4px' }}>
+                    <strong style={{ display: 'block', color: '#7f8c8d', fontSize: '0.85rem' }}>Policy / TPA</strong>
+                    <span>{selectedPreAuthForView.policyId?.insuranceCompanyId?.companyName}</span>
+                  </div>
+                  <div style={{ background: '#f8f9fa', padding: '10px', borderRadius: '4px' }}>
+                    <strong style={{ display: 'block', color: '#7f8c8d', fontSize: '0.85rem' }}>Diagnosis</strong>
+                    <span>{selectedPreAuthForView.diagnosis} ({selectedPreAuthForView.icd10Code})</span>
+                  </div>
+                  <div style={{ background: '#f8f9fa', padding: '10px', borderRadius: '4px' }}>
+                    <strong style={{ display: 'block', color: '#7f8c8d', fontSize: '0.85rem' }}>Total Cost</strong>
+                    <span>₹{selectedPreAuthForView.estimatedCost?.total || 0}</span>
                   </div>
                 </div>
+
+                <div style={{ marginTop: '20px', textAlign: 'right' }}>
+                  <button onClick={() => window.print()} style={{ padding: '8px 15px', background: '#2ecc71', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', marginRight: '10px' }}>Print Form</button>
+                  <button onClick={() => setSelectedPreAuthForView(null)} style={{ padding: '8px 15px', background: '#95a5a6', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Close</button>
+                </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       )}
 
       {/* CLAIMS TABLE AND FILING */}
       {step === "claims" && (
         <div className="dashboard-container">
-          <div className="section-header"><h2>File a New Claim</h2></div>
-          <form className="form-container" onSubmit={handleClaimSubmit}>
-            {message.text && <p className={`alert alert-${message.type}`}>{message.text}</p>}
-
-            <div className="form-group" style={{ display: 'flex', gap: '10px' }}>
-              <div style={{ flex: 1 }}>
-                <PatientLookup label="Patient" value={claimData.patientId} onChange={(id) => setClaimData({ ...claimData, patientId: id })} />
+          {claimView === "dashboard" ? (
+            <ClaimDashboard 
+              onNewClaim={() => setClaimView("form")}
+              onViewClaim={(claim) => setSelectedClaimForView(claim)}
+            />
+          ) : (
+            <>
+              <div className="section-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <h2>File a New Claim</h2>
+                <button className="primary-btn" onClick={() => setClaimView("dashboard")}>Back to Dashboard</button>
               </div>
-              <div style={{ flex: 1 }}>
-                <label>Policy/Scheme ID (Object ID)</label>
-                <input type="text" placeholder="Enter Policy/Scheme ID" value={claimData.policyId} onChange={e => setClaimData({ ...claimData, policyId: e.target.value })} required />
-              </div>
-            </div>
+              <form className="form-container" onSubmit={handleClaimSubmit}>
+                {message.text && <p className={`alert alert-${message.type}`}>{message.text}</p>}
 
-            <div className="form-group" style={{ display: 'flex', gap: '10px' }}>
-              <div style={{ flex: 1 }}>
-                <label>Pre-Auth ID (Optional)</label>
-                <input type="text" placeholder="Leave blank if direct claim" value={claimData.preAuthId} onChange={e => setClaimData({ ...claimData, preAuthId: e.target.value })} />
-              </div>
-              <div style={{ flex: 1 }}>
-                <label>Claim Type</label>
-                <select value={claimData.claimType} onChange={e => setClaimData({ ...claimData, claimType: e.target.value })} required>
-                  <option value="Cashless">Cashless</option>
-                  <option value="Reimbursement">Reimbursement</option>
-                </select>
-              </div>
-            </div>
+                <div className="form-group" style={{ display: 'flex', gap: '10px' }}>
+                  <div style={{ flex: 1 }}>
+                    <PatientLookup label="Patient" value={claimData.patientId} onChange={(id) => setClaimData({ ...claimData, patientId: id })} />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <label>Policy/Scheme ID (Object ID)</label>
+                    <input type="text" placeholder="Enter Policy/Scheme ID" value={claimData.policyId} onChange={e => setClaimData({ ...claimData, policyId: e.target.value })} required />
+                  </div>
+                </div>
 
-            <div className="form-group" style={{ display: 'flex', gap: '10px' }}>
-              <div style={{ flex: 1 }}>
-                <label>Admission Date</label>
-                <input type="date" value={claimData.hospitalizationDate} onChange={e => setClaimData({ ...claimData, hospitalizationDate: e.target.value })} required />
-              </div>
-              <div style={{ flex: 1 }}>
-                <label>Discharge Date</label>
-                <input type="date" value={claimData.dischargeDate} onChange={e => setClaimData({ ...claimData, dischargeDate: e.target.value })} required />
-              </div>
-            </div>
+                <div className="form-group" style={{ display: 'flex', gap: '10px' }}>
+                  <div style={{ flex: 1 }}>
+                    <label>Pre-Auth ID (Optional)</label>
+                    <input type="text" placeholder="Leave blank if direct claim" value={claimData.preAuthId} onChange={e => setClaimData({ ...claimData, preAuthId: e.target.value })} />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <label>Claim Type</label>
+                    <select value={claimData.claimType} onChange={e => setClaimData({ ...claimData, claimType: e.target.value })} required>
+                      <option value="Cashless">Cashless</option>
+                      <option value="Reimbursement">Reimbursement</option>
+                    </select>
+                  </div>
+                </div>
 
-            <div className="form-group">
-              <label>Total Billed Amount (₹)</label>
-              <input type="number" placeholder="Final Hospital Bill Amount" value={claimData.totalBilledAmount} onChange={e => setClaimData({ ...claimData, totalBilledAmount: e.target.value })} required />
-            </div>
+                <div className="form-group" style={{ display: 'flex', gap: '10px' }}>
+                  <div style={{ flex: 1 }}>
+                    <label>Admission Date</label>
+                    <input type="date" value={claimData.hospitalizationDate} onChange={e => setClaimData({ ...claimData, hospitalizationDate: e.target.value })} required />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <label>Discharge Date</label>
+                    <input type="date" value={claimData.dischargeDate} onChange={e => setClaimData({ ...claimData, dischargeDate: e.target.value })} required />
+                  </div>
+                </div>
 
-            <button type="submit" className="primary-btn" style={{ width: '100%', marginTop: '15px' }} disabled={loading}>
-              {loading ? "Filing Claim..." : "File Claim"}
-            </button>
-          </form>
+                <div className="form-group">
+                  <label>Total Billed Amount (₹)</label>
+                  <input type="number" placeholder="Final Hospital Bill Amount" value={claimData.totalBilledAmount} onChange={e => setClaimData({ ...claimData, totalBilledAmount: e.target.value })} required />
+                </div>
 
-          <div className="table-container" style={{ marginTop: '30px' }}>
-            <div className="section-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h3>All Insurance Claims</h3>
-              <button onClick={() => {
-                const csvContent = "data:text/csv;charset=utf-8,"
-                  + "Claim No,Patient,Type,Billed,Approved,Status\n"
-                  + claimsList.map(c => `${c.claimNumber},"${getPatientDisplay(c.patientId)}",${c.claimType},${c.totalBilledAmount || c.totalBillAmount || 0},${c.approvedAmount || 0},${c.status}`).join("\n");
-                const encodedUri = encodeURI(csvContent);
-                const link = document.createElement("a");
-                link.setAttribute("href", encodedUri);
-                link.setAttribute("download", "claims_export.csv");
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-              }} style={{ padding: '8px 15px', background: '#34495e', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-                Export CSV
-              </button>
-            </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>Claim No.</th><th>Patient</th><th>Type</th><th>Billed (₹)</th><th>Approved (₹)</th><th>Status</th><th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {claimsList.length > 0 ? claimsList.map((c) => (
-                  <tr key={c._id}>
-                    <td>{c.claimNumber}</td>
-                    <td>{getPatientDisplay(c.patientId)}</td>
-                    <td>{c.claimType}</td>
-                    <td>₹{(c.totalBilledAmount || c.totalBillAmount || 0).toLocaleString()}</td>
-                    <td>₹{(c.approvedAmount || 0).toLocaleString()}</td>
-                    <td><span className={`status-badge status-${c.status.toLowerCase().replace(' ', '-')}`}>{c.status}</span></td>
-                    <td>
-                      {c.status !== "Approved" && c.status !== "Settled" && (
-                        <button onClick={() => handleApproveClaim(c)} style={{ padding: '4px 8px', background: '#2ecc71', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '0.85rem', marginRight: '5px' }}>Approve</button>
-                      )}
-                      <button onClick={() => setSelectedClaimForView(c)} style={{ padding: '4px 8px', background: '#3498db', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '0.85rem' }}>View Form</button>
-                    </td>
-                  </tr>
-                )) : (
-                  <tr><td colSpan="7">No claims found.</td></tr>
-                )}
-              </tbody>
-            </table>
+                <button type="submit" className="primary-btn" style={{ width: '100%', marginTop: '15px' }} disabled={loading}>
+                  {loading ? "Filing Claim..." : "File Claim"}
+                </button>
+              </form>
+            </>
+          )}
 
             {selectedClaimForView && (
               <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
@@ -548,7 +639,6 @@ function Insurance() {
                 </div>
               </div>
             )}
-          </div>
         </div>
       )}
 
@@ -612,18 +702,84 @@ function Insurance() {
         <div className="dashboard-container">
           <div className="section-header">
             <h2>Official Provider Forms</h2>
-            <p style={{ marginTop: '5px', color: '#7f8c8d' }}>Select a provider to generate the specific official pre-authorization or claim form. The form will auto-fill with known patient data.</p>
+            <p style={{ marginTop: '5px', color: '#7f8c8d' }}>Lookup a patient to auto-populate the official form fields, then select the insurance company or government scheme below.</p>
           </div>
-          <ProviderFormRenderer patientData={{
-            name: "Rajesh Kumar",
-            age: 45,
-            gender: "Male",
-            contact: "9876543210",
-            policyNumber: "POL-STAR-2023-890",
-            providerName: "Star Health Insurance",
-            ayushmanCardNumber: "PMJ-4598-1234-90",
-            abhaNumber: "14-9988-7766-5544"
-          }} />
+          
+          <div className="patient-form-setup" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '25px', background: '#fcfcfc', padding: '20px', borderRadius: '8px', border: '1px solid #eee' }}>
+            <div className="form-group">
+              <PatientLookup 
+                label="Search Patient (Admitted / Walk-in)" 
+                value={officialFormPatientId} 
+                onChange={handleOfficialFormPatientChange} 
+              />
+            </div>
+            
+            <div className="form-group">
+              <label>Select Active Policy / Scheme</label>
+              <select 
+                value={selectedPolicyOrSchemeIndex} 
+                onChange={(e) => setSelectedPolicyOrSchemeIndex(e.target.value)}
+                style={{ width: '100%', padding: '10px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px', marginTop: '6px' }}
+                disabled={!officialFormPatientId}
+              >
+                <option value="">-- Select Policy / Scheme --</option>
+                {officialFormPolicies.map((policy, idx) => (
+                  <option key={`policy_${idx}`} value={`policy_${idx}`}>
+                    Private: {policy.insuranceCompanyId?.companyName || "Unknown"} (No: {policy.policyNumber})
+                  </option>
+                ))}
+                {officialFormSchemes.map((scheme, idx) => (
+                  <option key={`scheme_${idx}`} value={`scheme_${idx}`}>
+                    Govt Scheme: {scheme.schemeName} ({scheme.schemeSpecificData?.ayushmanCardNumber || 'Enrolled'})
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="form-group" style={{ gridColumn: 'span 2', display: 'flex', gap: '20px', alignItems: 'center', marginTop: '10px' }}>
+              <span style={{ fontWeight: 'bold' }}>Procedure Mode:</span>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
+                <input 
+                  type="radio" 
+                  name="officialFormMode" 
+                  value="pre-auth" 
+                  checked={officialFormMode === "pre-auth"} 
+                  onChange={() => setOfficialFormMode("pre-auth")} 
+                />
+                Cashless Pre-Authorization
+              </label>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
+                <input 
+                  type="radio" 
+                  name="officialFormMode" 
+                  value="claim" 
+                  checked={officialFormMode === "claim"} 
+                  onChange={() => setOfficialFormMode("claim")} 
+                />
+                Cashless Claim Filing
+              </label>
+            </div>
+          </div>
+
+          {!activeDigitalForm ? (
+            <DynamicFormsManager 
+              onFillOnline={(templateId) => setActiveDigitalForm(templateId)}
+            />
+          ) : (
+            <div>
+              <button 
+                onClick={() => setActiveDigitalForm(null)}
+                style={{ marginBottom: '20px', padding: '8px 16px', backgroundColor: '#e2e8f0', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+              >
+                ← Back to Forms List
+              </button>
+              <ProviderFormRenderer 
+                patientData={getOfficialFormPatientData()} 
+                mode={officialFormMode} 
+                preselectedTemplate={activeDigitalForm}
+              />
+            </div>
+          )}
         </div>
       )}
     </Layout>

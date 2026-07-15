@@ -13,6 +13,8 @@ import BillingDashboard from "./pages/Billing";
 import InsuranceDashboard from "./pages/Insurance";
 import AdminDashboard from "./pages/Admin";
 import PrescriptionPage from "./Components/Admin/PrescriptionPage";
+import PatientPortal from "./pages/PatientPortal";
+import PrivateRoute from "./components/PrivateRoute";
 
 import BillingDept from "./Components/Billing_Module/BillingDept";
 import PatientDetail from "./Components/Billing_Module/PatientDetail";
@@ -84,9 +86,9 @@ function App() {
         <Route path="/insurance" element={<InsuranceDashboard />} />
 
         {/* Admin */}
-        <Route path="/admin" element={<AdminDashboard />} />
-
+        <Route path="/admin" element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />
         <Route path="/prescription/:id" element={<PrescriptionPage />} />
+        <Route path="/patient-portal" element={<PatientPortal />} />
       </Routes>
     </BrowserRouter>
   );

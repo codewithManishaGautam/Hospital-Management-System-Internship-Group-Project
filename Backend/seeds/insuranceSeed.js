@@ -13,9 +13,8 @@ const seedData = async () => {
     console.log('Connected to MongoDB for Seeding');
 
     // 1. Seed TPAs (10 records)
-    const existingTpaCount = await TPAMaster.countDocuments();
-    if (existingTpaCount === 0) {
-      const tpas = [
+    await TPAMaster.deleteMany({});
+    const tpas = [
         { name: 'Medi Assist India', preAuthTAT: '2-4 hours', claimTAT: '7-15 working days' },
         { name: 'Paramount Health Services', preAuthTAT: '4-6 hours', claimTAT: '10-21 working days' },
         { name: 'Health India TPA', preAuthTAT: '4-8 hours', claimTAT: '10-21 working days' },
@@ -30,14 +29,10 @@ const seedData = async () => {
 
       const insertedTpas = await TPAMaster.insertMany(tpas);
       console.log(`Seeded ${insertedTpas.length} TPAs`);
-    } else {
-      console.log(`TPAs already seeded (${existingTpaCount} records). Skipping.`);
-    }
 
-    // 2. Seed Insurance Companies (13 records: 10 private + 3 PSU)
-    const existingCompanyCount = await InsuranceCompany.countDocuments();
-    if (existingCompanyCount === 0) {
-      const companies = [
+    // 2. Seed Insurance Companies
+    await InsuranceCompany.deleteMany({});
+    const companies = [
         { name: 'Star Health and Allied Insurance', type: 'Private' },
         { name: 'HDFC ERGO Health Insurance', type: 'Private' },
         { name: 'Bajaj Allianz General Insurance', type: 'Private' },
@@ -47,7 +42,7 @@ const seedData = async () => {
         { name: 'Tata AIG General Insurance', type: 'Private' },
         { name: 'Reliance General Insurance', type: 'Private' },
         { name: 'Aditya Birla Health Insurance', type: 'Private' },
-        { name: 'Manipal Cigna Health Insurance', type: 'Private' },
+        { name: 'SBI General Insurance', type: 'Private' },
         { name: 'New India Assurance Company', type: 'PSU' },
         { name: 'United India Insurance Company', type: 'PSU' },
         { name: 'Oriental Insurance Company', type: 'PSU' }
@@ -55,69 +50,80 @@ const seedData = async () => {
 
       const insertedCompanies = await InsuranceCompany.insertMany(companies);
       console.log(`Seeded ${insertedCompanies.length} Insurance Companies`);
-    } else {
-      console.log(`Insurance Companies already seeded (${existingCompanyCount} records). Skipping.`);
-    }
 
     // 3. Seed Official Forms Registry
-    const existingFormCount = await OfficialFormsRegistry.countDocuments();
-    if (existingFormCount === 0) {
-      const forms = [
+    await OfficialFormsRegistry.deleteMany({});
+    const forms = [
         {
           formName: 'IRDAI Standard Pre-Auth Form',
           formType: 'Pre-Auth',
-          providerType: 'Generic',
-          providerName: 'IRDAI',
-          templateIdentifier: 'IRDAI_STANDARD',
-          isActive: true
+          insurerOrTpaName: 'IRDAI',
+          downloadUrl: '/official-forms/IRDAI_Standard_PreAuth_Form.pdf'
         },
         {
           formName: 'PM-JAY Pre-Authorization Request Form',
           formType: 'Pre-Auth',
-          providerType: 'Government',
-          providerName: 'NHA (National Health Authority)',
-          templateIdentifier: 'PM_JAY',
-          isActive: true
+          insurerOrTpaName: 'NHA (National Health Authority)',
+          downloadUrl: '/official-forms/PM_JAY_Ayushman_Form.pdf'
         },
         {
           formName: 'CGHS Pre-Authorization Form',
           formType: 'Pre-Auth',
-          providerType: 'Government',
-          providerName: 'CGHS',
-          templateIdentifier: 'CGHS',
-          isActive: true
+          insurerOrTpaName: 'CGHS',
+          downloadUrl: '/official-forms/CGHS_Request_Form.pdf'
         },
         {
           formName: 'Star Health Pre-Auth Request',
           formType: 'Pre-Auth',
-          providerType: 'Private',
-          providerName: 'Star Health and Allied Insurance',
-          templateIdentifier: 'STAR_HEALTH_PREAUTH',
-          isActive: true
+          insurerOrTpaName: 'Star Health and Allied Insurance',
+          downloadUrl: '/official-forms/Star_Health_PreAuth_Form.pdf'
         },
         {
           formName: 'HDFC ERGO Pre-Authorization Form',
           formType: 'Pre-Auth',
-          providerType: 'Private',
-          providerName: 'HDFC ERGO Health Insurance',
-          templateIdentifier: 'HDFC_ERGO_PREAUTH',
-          isActive: true
+          insurerOrTpaName: 'HDFC ERGO Health Insurance',
+          downloadUrl: '/official-forms/HDFC_ERGO_Request_Form.pdf'
+        },
+        {
+          formName: 'Bajaj Allianz Cashless Form',
+          formType: 'Pre-Auth',
+          insurerOrTpaName: 'Bajaj Allianz General Insurance',
+          downloadUrl: '/official-forms/Bajaj_Allianz_Cashless_Form.pdf'
+        },
+        {
+          formName: 'ICICI Lombard Cashless Form',
+          formType: 'Pre-Auth',
+          insurerOrTpaName: 'ICICI Lombard General Insurance',
+          downloadUrl: '/official-forms/ICICI_Lombard_Cashless_Form.pdf'
+        },
+        {
+          formName: 'Niva Bupa Pre-Auth Form',
+          formType: 'Pre-Auth',
+          insurerOrTpaName: 'Niva Bupa Health Insurance',
+          downloadUrl: '/official-forms/Niva_Bupa_PreAuth_Form.pdf'
+        },
+        {
+          formName: 'Care Health Cashless Form',
+          formType: 'Pre-Auth',
+          insurerOrTpaName: 'Care Health Insurance',
+          downloadUrl: '/official-forms/Care_Health_Cashless_Form.pdf'
+        },
+        {
+          formName: 'SBI General Cashless Form',
+          formType: 'Pre-Auth',
+          insurerOrTpaName: 'SBI General Insurance',
+          downloadUrl: '/official-forms/SBI_General_Cashless_Form.pdf'
         },
         {
           formName: 'Insurance Claim Intimation Form',
           formType: 'Claim',
-          providerType: 'Generic',
-          providerName: 'Generic',
-          templateIdentifier: 'GENERIC_CLAIM',
-          isActive: true
+          insurerOrTpaName: 'Generic',
+          downloadUrl: '/official-forms/Generic_Claim_Form.pdf'
         }
       ];
 
       const insertedForms = await OfficialFormsRegistry.insertMany(forms);
       console.log(`Seeded ${insertedForms.length} Official Forms`);
-    } else {
-      console.log(`Official Forms already seeded (${existingFormCount} records). Skipping.`);
-    }
 
     // 4. Seed default users (idempotent)
     const existingUserCount = await User.countDocuments();

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authService } from "../services/authService";
 import "./Login.css";
-import login from "../image/login.jpg";
 
 function Login() {
   const navigate = useNavigate();

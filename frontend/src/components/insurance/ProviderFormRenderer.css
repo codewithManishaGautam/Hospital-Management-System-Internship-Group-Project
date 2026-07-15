@@ -143,3 +143,20 @@
   cursor: pointer;
   font-weight: bold;
 }
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.checkbox-label {
+  font-size: 14px;
+  color: #333;
+}
+
+.logo-placeholder {
+  font-size: 32px;
+  margin-bottom: 8px;
+}

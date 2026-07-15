@@ -8,25 +8,25 @@ const InsuranceSplitCard = ({ patientId }) => {
   const [error, setError] = useState('');
 
   useEffect(() => {
+    const fetchSummary = async () => {
+      setLoading(true);
+      try {
+        const res = await insuranceService.getBillingSummary(patientId);
+        if (res.data.success) {
+          setSummary(res.data.data);
+          setError('');
+        }
+      } catch (err) {
+        setError(err.response?.data?.error || 'Failed to fetch insurance summary');
+        setSummary(null);
+      }
+      setLoading(false);
+    };
+
     if (patientId) {
       fetchSummary();
     }
   }, [patientId]);
-
-  const fetchSummary = async () => {
-    setLoading(true);
-    try {
-      const res = await insuranceService.getBillingSummary(patientId);
-      if (res.data.success) {
-        setSummary(res.data.data);
-        setError('');
-      }
-    } catch (err) {
-      setError(err.response?.data?.error || 'Failed to fetch insurance summary');
-      setSummary(null);
-    }
-    setLoading(false);
-  };
 
   if (!patientId) {
     return <div className="insurance-split-card empty">Please provide a Patient ID to view insurance coverage.</div>;
