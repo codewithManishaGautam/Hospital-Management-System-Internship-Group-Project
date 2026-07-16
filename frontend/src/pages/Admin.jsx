@@ -190,17 +190,26 @@ const [newStaff, setNewStaff] = useState({
     }
   };
 
-  // ---------------- FETCH DATA ----------------
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetchPatients();
-      fetchRooms();
-      fetchBeds();
-      fetchDashboard();
-    }, 5000);
+// ---------------- FETCH DATA ----------------
+useEffect(() => {
+  fetchDashboard();
+  fetchDoctors();
+  fetchStaff();
+  fetchPatients();
+  fetchFinance();
+  fetchActivities();
+  fetchRooms();
+  fetchBeds();
 
-    return () => clearInterval(interval);
-  }, []);
+  const interval = setInterval(() => {
+    fetchDashboard();
+    fetchPatients();
+    fetchRooms();
+    fetchBeds();
+  }, 5000);
+
+  return () => clearInterval(interval);
+}, []);
 
   const fetchDashboard = async () => {
     try {

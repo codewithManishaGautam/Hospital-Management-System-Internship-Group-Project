@@ -1,37 +1,39 @@
 const mongoose = require("mongoose");
 
 const staffSchema = new mongoose.Schema({
+  name: String,
 
-name:String,
-aadhaar:String,
-phone:String,
+  aadhaar: String,
 
-email:{
-type:String,
-unique:true,
-lowercase:true,
-trim:true
-},
+  mobile: String,
 
-password:String,
+  email: {
+    type: String,
+    unique: true,
+    lowercase: true,
+    trim: true,
+  },
 
-role:{
-type:String,
-lowercase:true,
-trim:true
-},
+  password: String,
 
-salary:String,
-status:String,
-joining:String,
+  role: {
+    type: String,
+    lowercase: true,
+    trim: true,
+  },
 
-isVerified:{
-type:Boolean,
-default:false
-},
+  salary: String,
 
-otp:String
+  status: String,
 
+  joining: String,
+
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
+
+  otp: String,
 });
 
 module.exports = mongoose.model("Staff", staffSchema);

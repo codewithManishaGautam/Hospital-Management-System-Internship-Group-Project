@@ -48,7 +48,7 @@ function Dashboard({ dashboard, finance, activities, rooms, beds }) {
       <div className="stats-grid">
         <div className="stats-card">
           <h3>Total Doctors</h3>
-          <p>{dashboard.totalDoctors}</p>
+          <p>{dashboard.totalDoctors || 0}</p>
         </div>
 
         <div className="stats-card">
@@ -58,17 +58,18 @@ function Dashboard({ dashboard, finance, activities, rooms, beds }) {
 
         <div className="stats-card">
           <h3>Total Patients</h3>
-          <p>{dashboard.totalPatients}</p>
+          <p>{dashboard.totalPatients || 0}</p>
+
         </div>
 
         <div className="stats-card">
           <h3>Admitted Patients</h3>
-          <p>{dashboard.admittedPatients}</p>
+          <p>{dashboard.admittedPatients || 0}</p>
         </div>
 
         <div className="stats-card">
           <h3>Discharged Patients</h3>
-          <p>{dashboard.dischargedPatients}</p>
+          <p>{dashboard.dischargedPatients || 0}</p>
         </div>
 
         <div className="stats-card">
@@ -125,9 +126,9 @@ function Dashboard({ dashboard, finance, activities, rooms, beds }) {
       <div className="finance-chart-card">
         <h3>Finance Overview</h3>
 
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer width="99%" height={350}>
           <PieChart>
-            <Pie data={chartData} dataKey="value" outerRadius={140} label>
+            <Pie data={chartData} dataKey="value" outerRadius={110} label>
               {chartData.map((entry, index) => (
                 <Cell key={index} fill={COLORS[index]} />
               ))}

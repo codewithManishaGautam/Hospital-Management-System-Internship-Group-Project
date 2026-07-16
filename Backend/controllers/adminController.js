@@ -59,96 +59,6 @@ const getDashboardStats = async (req, res) => {
   }
 };
 
-// let doctors = [
-//   {
-//     id: 1,
-//     name: "Dr. Sharma",
-//     specialization: "Cardiologist",
-//     qualification: "MBBS, MD",
-//     experience: "10 years",
-//     phone: "1111111111",
-//   },
-
-//   {
-//     id: 2,
-//     name: "Dr. Mehta",
-//     specialization: "Neurologist",
-//     qualification: "MBBS, MD",
-//     experience: "5 years",
-//     phone: "2222222222",
-//   },
-// ];
-
-// let staff = [
-//   {
-//     id: 1,
-//     name: "Rahul Sharma",
-//     aadhaar: "4587 9632 1452",
-//     phone: "9876543210",
-//     role: "Receptionist",
-//     salary: "15000",
-//     status: "Active",
-//     joining: "12 Jan 2025",
-//   },
-
-//   {
-//     id: 2,
-//     name: "Priya Mehta",
-//     aadhaar: "7412 8523 9631",
-//     phone: "9876501234",
-//     role: "Nurse",
-//     salary: "20000",
-//     status: "Leave",
-//     joining: "05 Mar 2025",
-//   },
-// ];
-
-// let patients = [
-//   {
-//     id: 1,
-//     name: "Amit",
-//     age: 19,
-//     gender: "Male",
-//     phone: "1010101010",
-//     disease: "Fever",
-//     doctor: "Dr. Patel",
-//     admission: "12 Jan 2026",
-//     status: "Admitted",
-
-//     prescription: "Paracetamol twice a day",
-
-//     tests: ["Blood Test", "X-Ray"],
-
-//     insurance: "Star Health",
-
-//     reports: ["Blood Report", "X-Ray Report"],
-
-//     bill: "15000",
-//   },
-
-//   {
-//     id: 2,
-//     name: "Sneha",
-//     age: 40,
-//     gender: "Female",
-//     phone: "2020202020",
-//     disease: "Weakness",
-//     doctor: "Dr. Sharma",
-//     admission: "1 April 2026",
-//     status: "Discharged",
-
-//     prescription: "Vitamin Tablets",
-
-//     tests: ["Sugar Test", "MRI"],
-
-//     insurance: "HDFC Ergo",
-
-//     reports: ["MRI Report", "Sugar Report"],
-
-//     bill: "25000",
-//   },
-// ];
-
 const getDoctors = async (req, res) => {
   try {
     const doctors = await Doctor.find();
@@ -173,23 +83,20 @@ const getStaff = async (req, res) => {
   }
 };
 
-const getPatients = async (req, res) => {
-  try {
-    const patients = await Patient.find();
-
-    res.status(200).json(patients);
-  } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
-  }
-};
-
 const addStaff = async (req, res) => {
   try {
-    const existing = await Staff.findOne({
-      email: req.body.email,
-    });
+    const {
+      name,
+      aadhaar,
+      mobile,
+      email,
+      role,
+      salary,
+      status,
+      joining,
+    } = req.body;
+
+    const existing = await Staff.findOne({ email });
 
     if (existing) {
       return res.status(400).json({
@@ -197,31 +104,25 @@ const addStaff = async (req, res) => {
       });
     }
 
-    // const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    if (!name || name.length < 3) {
+      return res.status(400).json({
+        message: "Invalid name",
+      });
+    }
 
     const staff = await Staff.create({
-      name: req.body.name,
-      aadhaar: req.body.aadhaar,
-      phone: req.body.phone,
-      email: req.body.email,
+      name,
+      aadhaar,
+      mobile,
+      email,
       password: "",
-      role: req.body.role,
-      salary: req.body.salary,
-      status: req.body.status,
-      joining: req.body.joining,
+      role,
+      salary,
+      status,
+      joining,
       otp: "",
       isVerified: false,
     });
-
-    //     await sendEmail(
-    //       staff.email,
-    //       "Shraddha Hospital Registration",
-    //       `Welcome to Shraddha Hospital.
-
-    // Your OTP is : ${otp}
-
-    // Use this OTP to verify your account and create your password.`,
-    //     );
 
     await Activity.create({
       message: `New Staff Added : ${staff.name}`,
@@ -229,7 +130,7 @@ const addStaff = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: "Staff Added Successfully.",
+      message: "Staff Added Successfully",
       staff,
     });
   } catch (error) {
@@ -241,13 +142,24 @@ const addStaff = async (req, res) => {
 
 const deleteStaff = async (req, res) => {
   try {
+    const staff = await Staff.findById(req.params.id);
+
+    if (!staff) {
+      return res.status(404).json({
+        success: false,
+        message: "Staff not found.",
+      });
+    }
+
     await Staff.findByIdAndDelete(req.params.id);
 
     res.status(200).json({
+      success: true,
       message: "Staff Deleted Successfully",
     });
   } catch (error) {
     res.status(500).json({
+      success: false,
       message: error.message,
     });
   }
@@ -257,72 +169,110 @@ const editStaff = async (req, res) => {
   try {
     const updateData = { ...req.body };
 
+    const {
+      name,
+      aadhaar,
+      mobile,
+      email,
+      role,
+      salary,
+      status,
+      joining,
+    } = updateData;
+
+    // Name
+    if (!name || name.trim().length < 3) {
+      return res.status(400).json({
+        success: false,
+        message: "Staff name must be at least 3 characters.",
+      });
+    }
+
+    if (!/^[A-Za-z ]+$/.test(name)) {
+      return res.status(400).json({
+        success: false,
+        message: "Only alphabets are allowed in name.",
+      });
+    }
+
+    // Aadhaar
+    if (!/^\d{12}$/.test(aadhaar)) {
+      return res.status(400).json({
+        success: false,
+        message: "Aadhaar must be 12 digits.",
+      });
+    }
+
+    // Mobile (phone किंवा mobile दोन्ही support)
+    const contact = mobile;
+
+    if (!/^[6-9]\d{9}$/.test(contact)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid mobile number.",
+      });
+    }
+
+    // Duplicate Aadhaar
+    const aadhaarExists = await Staff.findOne({
+      aadhaar,
+      _id: { $ne: req.params.id },
+    });
+
+    if (aadhaarExists) {
+      return res.status(400).json({
+        success: false,
+        message: "Aadhaar already exists.",
+      });
+    }
+
+    // Duplicate Mobile
+const mobileExists = await Staff.findOne({
+  mobile: contact,
+  _id: { $ne: req.params.id },
+});
+
+    if (mobileExists) {
+      return res.status(400).json({
+        success: false,
+        message: "Mobile number already exists.",
+      });
+    }
+
+    // Duplicate Email
+    if (email) {
+      const emailExists = await Staff.findOne({
+        email,
+        _id: { $ne: req.params.id },
+      });
+
+      if (emailExists) {
+        return res.status(400).json({
+          success: false,
+          message: "Email already exists.",
+        });
+      }
+    }
+
+    // Password hash
     if (updateData.password && !updateData.password.startsWith("$2")) {
       updateData.password = await bcrypt.hash(updateData.password, 10);
     }
 
-    const staff = await Staff.findByIdAndUpdate(req.params.id, updateData, {
-      new: true,
-    });
+    const staff = await Staff.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    );
 
     res.status(200).json({
+      success: true,
       message: "Staff Updated Successfully",
       staff,
     });
   } catch (error) {
     res.status(500).json({
-      message: error.message,
-    });
-  }
-};
-
-// ADD PATIENT
-const addPatient = async (req, res) => {
-  try {
-    const patient = await Patient.create(req.body);
-
-    await Activity.create({
-      message: `New Patient Registered : ${patient.name}`,
-    });
-
-    res.status(201).json({
-      message: "Patient Added Successfully",
-      patient,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
-  }
-};
-
-// DELETE PATIENT
-const deletePatient = async (req, res) => {
-  try {
-    await Patient.findByIdAndDelete(req.params.id);
-
-    res.status(200).json({
-      message: "Patient Deleted Successfully",
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
-  }
-};
-
-const editPatient = async (req, res) => {
-  try {
-    const patient = await Patient.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
-
-    res.status(200).json({
-      message: "Patient Updated Successfully",
-      patient,
-    });
-  } catch (error) {
-    res.status(500).json({
+      success: false,
       message: error.message,
     });
   }
@@ -330,6 +280,60 @@ const editPatient = async (req, res) => {
 
 const addDoctor = async (req, res) => {
   try {
+    const { name, specialization, qualification, experience, mobile } =
+      req.body;
+
+    // Name
+    if (!name || name.trim().length < 3) {
+      return res.status(400).json({
+        success: false,
+        message: "Doctor name must be at least 3 characters.",
+      });
+    }
+
+    // Specialization
+    if (!specialization || specialization.trim().length < 3) {
+      return res.status(400).json({
+        success: false,
+        message: "Please enter specialization.",
+      });
+    }
+
+    // Qualification
+    if (!qualification || qualification.trim().length < 2) {
+      return res.status(400).json({
+        success: false,
+        message: "Please enter qualification.",
+      });
+    }
+
+    // Experience
+    // Experience
+    if (!experience || experience.trim().length < 1) {
+      return res.status(400).json({
+        success: false,
+        message: "Please enter experience.",
+      });
+    }
+
+    // Mobile
+    if (!/^[6-9]\d{9}$/.test(mobile)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid mobile number.",
+      });
+    }
+
+    // Duplicate Mobile
+    const existingDoctor = await Doctor.findOne({ mobile });
+
+    if (existingDoctor) {
+      return res.status(400).json({
+        success: false,
+        message: "Doctor already exists with this mobile number.",
+      });
+    }
+
     const doctor = await Doctor.create(req.body);
 
     await Activity.create({
@@ -337,11 +341,13 @@ const addDoctor = async (req, res) => {
     });
 
     res.status(201).json({
+      success: true,
       message: "Doctor Added Successfully",
       doctor,
     });
   } catch (error) {
     res.status(500).json({
+      success: false,
       message: error.message,
     });
   }
@@ -349,13 +355,35 @@ const addDoctor = async (req, res) => {
 
 const deleteDoctor = async (req, res) => {
   try {
+    const doctor = await Doctor.findById(req.params.id);
+
+    if (!doctor) {
+      return res.status(404).json({
+        success: false,
+        message: "Doctor not found.",
+      });
+    }
+
+    const patientExists = await Patient.findOne({
+      doctor: doctor.name,
+    });
+
+    if (patientExists) {
+      return res.status(400).json({
+        success: false,
+        message: "Doctor has assigned patients. Cannot delete.",
+      });
+    }
+
     await Doctor.findByIdAndDelete(req.params.id);
 
     res.status(200).json({
+      success: true,
       message: "Doctor Deleted Successfully",
     });
   } catch (error) {
     res.status(500).json({
+      success: false,
       message: error.message,
     });
   }
@@ -363,16 +391,68 @@ const deleteDoctor = async (req, res) => {
 
 const editDoctor = async (req, res) => {
   try {
+    const { name, specialization, qualification, experience, mobile } =
+      req.body;
+
+    if (!name || name.trim().length < 3 || !/^[A-Za-z ]+$/.test(name)) {
+      return res.status(400).json({
+        success: false,
+        message: "Doctor name must be at least 3 characters.",
+      });
+    }
+
+    if (!specialization || specialization.trim().length < 3) {
+      return res.status(400).json({
+        success: false,
+        message: "Please enter specialization.",
+      });
+    }
+
+    if (!qualification || qualification.trim().length < 2) {
+      return res.status(400).json({
+        success: false,
+        message: "Please enter qualification.",
+      });
+    }
+
+    if (!experience || experience.trim().length < 1) {
+      return res.status(400).json({
+        success: false,
+        message: "Please enter experience.",
+      });
+    }
+
+    if (!/^[6-9]\d{9}$/.test(mobile)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid mobile number.",
+      });
+    }
+
+    const existingDoctor = await Doctor.findOne({
+      mobile,
+      _id: { $ne: req.params.id },
+    });
+
+    if (existingDoctor) {
+      return res.status(400).json({
+        success: false,
+        message: "Mobile number already exists.",
+      });
+    }
+
     const doctor = await Doctor.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
 
     res.status(200).json({
+      success: true,
       message: "Doctor Updated Successfully",
       doctor,
     });
   } catch (error) {
     res.status(500).json({
+      success: false,
       message: error.message,
     });
   }
@@ -703,16 +783,16 @@ module.exports = {
   getDashboardStats,
   getDoctors,
   getStaff,
-  getPatients,
+  // getPatients,
   addStaff,
   deleteStaff,
   editStaff,
-  editPatient,
+  // editPatient,
   addDoctor,
   deleteDoctor,
   editDoctor,
-  addPatient,
-  deletePatient,
+  // addPatient,
+  // deletePatient,
   getRooms,
   addRoom,
   deleteRoom,
@@ -730,5 +810,7 @@ module.exports = {
   deleteIncome,
   getFinanceStats,
   getAnalytics,
-  getActivities,
+getActivities,
+getSentPrescriptions,
 };
+

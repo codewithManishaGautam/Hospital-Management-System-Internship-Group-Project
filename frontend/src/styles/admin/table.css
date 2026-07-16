@@ -36,7 +36,7 @@ table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  min-width: 900px;
+  min-width: 1200px;
   background: #fff;
   border-radius: 16px;
   overflow: hidden;
@@ -61,6 +61,11 @@ table td {
   color: #1e293b;
   font-size: 15px;
   border-bottom: 1px solid #e2e8f0;
+}
+
+table th:last-child,
+table td:last-child {
+  min-width: 180px;
 }
 
 table tbody tr {
@@ -90,9 +95,17 @@ table tbody tr:hover {
 }
 
 .action-cell {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
+  white-space: nowrap;
+}
+
+.edit-btn,
+.delete-btn {
+  width: 80px;
+}
+
+.action-cell .edit-btn,
+.action-cell .delete-btn {
+  margin: 0 4px;
 }
 
 .view-btn {
@@ -131,4 +144,24 @@ table select:focus {
   table {
     min-width: 900px;
   }
+}
+
+.status-waiting {
+  color: orange;
+  font-weight: bold;
+}
+
+.status-admitted {
+  color: green;
+  font-weight: bold;
+}
+
+.status-discharged {
+  color: red;
+  font-weight: bold;
+}
+
+.status-default {
+  color: #555;
+  font-weight: bold;
 }
