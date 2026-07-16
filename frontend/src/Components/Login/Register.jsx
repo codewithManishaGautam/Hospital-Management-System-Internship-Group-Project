@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { sendRegistrationOtp } from "../../api/authApi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import AuthLayout from "./AuthLayout";
 import "../../styles/login/authLayout.css";
-import { useLocation } from "react-router-dom";
 
 function Register() {
   const navigate = useNavigate();
@@ -16,6 +15,8 @@ function Register() {
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [password, setPassword] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
 
   // STEP 1: SEND OTP
   const sendOtp = async () => {
@@ -78,21 +79,27 @@ function Register() {
             onChange={(e) => setOtp(e.target.value)}
           />
 
-          <input
-            type="password"
-            placeholder="Create Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <div className="password-wrapper">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Create Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+
+            <span
+              className="password-toggle"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? "🙈" : "👁"}
+            </span>
+          </div>
 
           <button onClick={verifyAccount}>Verify Account</button>
         </>
       )}
 
-      <p
-        style={{ color: "blue", cursor: "pointer", marginTop: "10px" }}
-        onClick={() => navigate("/")}
-      >
+      <p className="back-link" onClick={() => navigate("/")}>
         Back to Login
       </p>
     </AuthLayout>

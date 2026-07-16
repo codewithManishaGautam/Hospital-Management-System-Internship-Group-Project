@@ -38,6 +38,10 @@ function ForgotPassword() {
       />
 
       <button onClick={handleSendOtp}>Send OTP</button>
+
+      <p className="back-link" onClick={() => navigate("/")}>
+        ← Back to Login
+      </p>
     </AuthLayout>
   );
 }

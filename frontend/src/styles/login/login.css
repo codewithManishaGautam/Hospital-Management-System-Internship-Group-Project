@@ -75,20 +75,12 @@
   background: linear-gradient(90deg, #0b5ed7, #1d4ed8);
 }
 
-@media (max-width: 900px) {
-  .login-content {
-    max-width: 95%;
-  }
-
-  .hospital-title {
-    font-size: 42px;
-  }
-
-  .hospital-subtitle {
-    font-size: 18px;
-  }
+.login-actions {
+  margin-top: 22px;
 }
 
-.login-card {
-  margin-top: 20px;
+.login-link,
+.register-link {
+  font-size: 15px;
 }
+

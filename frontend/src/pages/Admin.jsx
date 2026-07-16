@@ -71,9 +71,8 @@ function Admin() {
 const [editedStaff, setEditedStaff] = useState({
   name: "",
   aadhaar: "",
-  phone: "",
-  email: "",
   mobile: "",
+  email: "",
   role: "",
   salary: "",
   status: "",
@@ -85,7 +84,6 @@ const [showStaffForm, setShowStaffForm] = useState(false);
 const [newStaff, setNewStaff] = useState({
   name: "",
   aadhaar: "",
-  phone: "",
   email: "",
   mobile: "",
   role: "",
@@ -127,7 +125,6 @@ const [newStaff, setNewStaff] = useState({
    setNewStaff({
   name: "",
   aadhaar: "",
-  phone: "",
   email: "",
   mobile: "",
   role: "",

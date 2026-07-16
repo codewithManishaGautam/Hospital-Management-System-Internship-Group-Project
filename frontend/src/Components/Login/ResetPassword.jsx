@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../../styles/login/authLayout.css";
 import AuthLayout from "./AuthLayout";
@@ -12,6 +12,8 @@ function ResetPassword() {
   const [otp, setOtp] = useState("");
   const [password, setPassword] = useState("");
 
+  const [showPassword, setShowPassword] = useState(false);
+
   const handleReset = async () => {
     if (!email || !otp || !password) {
       alert("Fill all fields");
@@ -19,14 +21,11 @@ function ResetPassword() {
     }
 
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/reset-password",
-        {
-          email,
-          otp,
-          password,
-        },
-      );
+      const res = await resetPassword({
+        email,
+        otp,
+        password,
+      });
 
       alert(res.data.message);
 
@@ -52,12 +51,21 @@ function ResetPassword() {
         onChange={(e) => setOtp(e.target.value)}
       />
 
-      <input
-        type="password"
-        placeholder="New Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+      <div className="password-wrapper">
+        <input
+          type={showPassword ? "text" : "password"}
+          placeholder="New Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <span
+          className="password-toggle"
+          onClick={() => setShowPassword(!showPassword)}
+        >
+          {showPassword ? "🙈" : "👁"}
+        </span>
+      </div>
 
       <button onClick={handleReset}>Reset Password</button>
     </AuthLayout>

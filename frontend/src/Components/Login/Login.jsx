@@ -1,6 +1,6 @@
 // import React, { useState } from "react";
 // import { useNavigate } from "react-router-dom";
-// import { login } from "../../api/authApi";
+import { login } from "../../api/authApi";
 // import "../../styles/login/authLayout.css";
 // import "../../styles/login/login.css";
 // // import loginImage from "../../image/login.jpg";
@@ -72,7 +72,6 @@
 //     }
 //   };
 
-
 //   return (
 //     <div className="login-page">
 //       <div className="login-overlay"></div>
@@ -136,7 +135,6 @@
 
 // export default Login;
 
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/login/authLayout.css";
@@ -149,47 +147,71 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    if (!selectedRole) {
-      alert("Please Select Role");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleLogin = async () => {
+    if (!selectedRole || !email || !password) {
+      alert("Please fill all fields");
       return;
     }
 
-    switch (selectedRole.toLowerCase()) {
-      case "receptionist":
-        navigate("/receptionist");
-        break;
+    try {
+      const res = await login({
+        role: selectedRole,
+        email,
+        password,
+      });
 
-      case "doctor":
-        navigate("/doctor");
-        break;
+      if (res.data.success) {
+        switch (res.data.role.toLowerCase()) {
+          case "receptionist":
+            navigate("/receptionist");
+            break;
 
-      case "lab":
-        navigate("/lab");
-        break;
+          case "doctor":
+            navigate("/doctor");
+            break;
 
-      case "pharmacy":
-        navigate("/pharmacy");
-        break;
+          case "lab":
+            navigate("/lab");
+            break;
 
-      case "nurse":
-        navigate("/nurse");
-        break;
+          case "pharmacy":
+            navigate("/pharmacy");
+            break;
 
-      case "billing":
-        navigate("/billing");
-        break;
+          case "nurse":
+            navigate("/nurse");
+            break;
 
-      case "insurance":
-        navigate("/insurance");
-        break;
+          case "billing":
+            navigate("/billing");
+            break;
 
-      case "admin":
-        navigate("/admin");
-        break;
+          case "insurance":
+            navigate("/insurance");
+            break;
 
-      default:
-        alert("Invalid Role");
+          case "admin":
+            navigate("/admin");
+            break;
+
+          default:
+            navigate("/");
+        }
+      }
+    } catch (err) {
+      const message = err.response?.data?.message;
+
+      if (message === "Please verify your email first.") {
+        alert("Please Register First");
+
+        navigate("/register", {
+          state: { email },
+        });
+      } else {
+        alert(message || "Invalid Credentials");
+      }
     }
   };
 
@@ -201,9 +223,7 @@ function Login() {
         <div className="login-left">
           <h1 className="hospital-title">Shraddha Hospital</h1>
 
-          <p className="hospital-subtitle">
-            Smart Hospital Management System
-          </p>
+          <p className="hospital-subtitle">Smart Hospital Management System</p>
         </div>
 
         <div className="login-card">
@@ -231,12 +251,21 @@ function Login() {
             onChange={(e) => setEmail(e.target.value)}
           />
 
-          <input
-            type="password"
-            placeholder="Enter Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <div className="password-wrapper">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Enter Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+
+            <span
+              className="password-toggle"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? "🙈" : "👁"}
+            </span>
+          </div>
 
           <button onClick={handleLogin}>Login</button>
 
@@ -248,10 +277,7 @@ function Login() {
               Forgot Password?
             </p>
 
-            <p
-              className="register-link"
-              onClick={() => navigate("/register")}
-            >
+            <p className="register-link" onClick={() => navigate("/register")}>
               Register New Staff
             </p>
           </div>

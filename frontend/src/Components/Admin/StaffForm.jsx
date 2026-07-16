@@ -141,15 +141,16 @@ function StaffForm({
           <button
             className="save-btn"
             onClick={() => {
-              if (
-                !newStaff.name ||
-                !newStaff.aadhaar ||
-                !newStaff.mobile ||
-                !newStaff.role ||
-                !newStaff.salary ||
-                !newStaff.status ||
-                !newStaff.joining
-              ) {
+             if (
+  !newStaff.name ||
+  !newStaff.aadhaar ||
+  !newStaff.mobile ||
+  !newStaff.email ||
+  !newStaff.role ||
+  !newStaff.salary ||
+  !newStaff.status ||
+  !newStaff.joining
+) {
                 alert("Please fill all fields");
                 return;
               }
