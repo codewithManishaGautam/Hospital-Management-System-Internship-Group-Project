@@ -1,6 +1,8 @@
 const Doctor = require("../models/Doctor");
 const Patient = require("../models/Patient");
 // const User = require("../models/User");
+const Staff = require("../models/Staff");
+const Room = require("../models/Room");
 const Room = require("../models/Room");
 const Bed = require("../models/Bed");
 const Inventory = require("../models/Inventory");
@@ -85,44 +87,107 @@ const getStaff = async (req, res) => {
 
 const addStaff = async (req, res) => {
   try {
-    const {
-      name,
-      aadhaar,
-      mobile,
-      email,
-      role,
-      salary,
-      status,
-      joining,
-    } = req.body;
+const { name, aadhaar, mobile, email, role, salary, status, joining } = req.body;
 
-    const existing = await Staff.findOne({ email });
+// Duplicate Email
+const existing = await Staff.findOne({ email });
 
-    if (existing) {
-      return res.status(400).json({
-        message: "Email already exists",
-      });
-    }
+if (existing) {
+  return res.status(400).json({
+    success: false,
+    message: "Email already exists",
+  });
+}
 
-    if (!name || name.length < 3) {
-      return res.status(400).json({
-        message: "Invalid name",
-      });
-    }
+// Name
+if (!name || name.trim().length < 3) {
+  return res.status(400).json({
+    success: false,
+    message: "Staff name must be at least 3 characters.",
+  });
+}
 
-    const staff = await Staff.create({
-      name,
-      aadhaar,
-      mobile,
-      email,
-      password: "",
-      role,
-      salary,
-      status,
-      joining,
-      otp: "",
-      isVerified: false,
-    });
+// Aadhaar
+if (!/^\d{12}$/.test(aadhaar)) {
+  return res.status(400).json({
+    success: false,
+    message: "Aadhaar must be 12 digits.",
+  });
+}
+
+// Mobile
+if (!/^[6-9]\d{9}$/.test(mobile)) {
+  return res.status(400).json({
+    success: false,
+    message: "Invalid mobile number.",
+  });
+}
+
+// Role
+if (!role) {
+  return res.status(400).json({
+    success: false,
+    message: "Please select role.",
+  });
+}
+
+// Salary
+if (!salary || Number(salary) <= 0) {
+  return res.status(400).json({
+    success: false,
+    message: "Enter valid salary.",
+  });
+}
+
+// Status
+if (!status) {
+  return res.status(400).json({
+    success: false,
+    message: "Please select status.",
+  });
+}
+
+// Joining
+if (!joining) {
+  return res.status(400).json({
+    success: false,
+    message: "Joining date is required.",
+  });
+}
+
+// Duplicate Aadhaar
+const aadhaarExists = await Staff.findOne({ aadhaar });
+
+if (aadhaarExists) {
+  return res.status(400).json({
+    success: false,
+    message: "Aadhaar already exists.",
+  });
+}
+
+// Duplicate Mobile
+const mobileExists = await Staff.findOne({ mobile });
+
+if (mobileExists) {
+  return res.status(400).json({
+    success: false,
+    message: "Mobile number already exists.",
+  });
+}
+
+const staff = await Staff.create({
+  name,
+  aadhaar,
+  mobile,
+  email,
+  password: "",
+  role,
+  salary,
+  status,
+  joining,
+  otp: "",
+  isVerified: false,
+});
 
     await Activity.create({
       message: `New Staff Added : ${staff.name}`,
@@ -135,6 +200,7 @@ const addStaff = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
+      success: false,
       message: error.message,
     });
   }
@@ -167,173 +233,6 @@ const deleteStaff = async (req, res) => {
 
 const editStaff = async (req, res) => {
   try {
-    const updateData = { ...req.body };
-
-    const {
-      name,
-      aadhaar,
-      mobile,
-      email,
-      role,
-      salary,
-      status,
-      joining,
-    } = updateData;
-
-    // Name
-    if (!name || name.trim().length < 3) {
-      return res.status(400).json({
-        success: false,
-        message: "Staff name must be at least 3 characters.",
-      });
-    }
-
-    if (!/^[A-Za-z ]+$/.test(name)) {
-      return res.status(400).json({
-        success: false,
-        message: "Only alphabets are allowed in name.",
-      });
-    }
-
-    // Aadhaar
-    if (!/^\d{12}$/.test(aadhaar)) {
-      return res.status(400).json({
-        success: false,
-        message: "Aadhaar must be 12 digits.",
-      });
-    }
-
-    // Mobile (phone किंवा mobile दोन्ही support)
-    const contact = mobile;
-
-    if (!/^[6-9]\d{9}$/.test(contact)) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid mobile number.",
-      });
-    }
-
-    // Duplicate Aadhaar
-    const aadhaarExists = await Staff.findOne({
-      aadhaar,
-      _id: { $ne: req.params.id },
-    });
-
-    if (aadhaarExists) {
-      return res.status(400).json({
-        success: false,
-        message: "Aadhaar already exists.",
-      });
-    }
-
-    // Duplicate Mobile
-const mobileExists = await Staff.findOne({
-  mobile: contact,
-  _id: { $ne: req.params.id },
-});
-
-    if (mobileExists) {
-      return res.status(400).json({
-        success: false,
-        message: "Mobile number already exists.",
-      });
-    }
-
-    // Duplicate Email
-    if (email) {
-      const emailExists = await Staff.findOne({
-        email,
-        _id: { $ne: req.params.id },
-      });
-
-      if (emailExists) {
-        return res.status(400).json({
-          success: false,
-          message: "Email already exists.",
-        });
-      }
-    }
-
-    // Password hash
-    if (updateData.password && !updateData.password.startsWith("$2")) {
-      updateData.password = await bcrypt.hash(updateData.password, 10);
-    }
-
-    const staff = await Staff.findByIdAndUpdate(
-      req.params.id,
-      updateData,
-      { new: true }
-    );
-
-    res.status(200).json({
-      success: true,
-      message: "Staff Updated Successfully",
-      staff,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
-
-const addDoctor = async (req, res) => {
-  try {
-    const { name, specialization, qualification, experience, mobile } =
-      req.body;
-
-    // Name
-    if (!name || name.trim().length < 3) {
-      return res.status(400).json({
-        success: false,
-        message: "Doctor name must be at least 3 characters.",
-      });
-    }
-
-    // Specialization
-    if (!specialization || specialization.trim().length < 3) {
-      return res.status(400).json({
-        success: false,
-        message: "Please enter specialization.",
-      });
-    }
-
-    // Qualification
-    if (!qualification || qualification.trim().length < 2) {
-      return res.status(400).json({
-        success: false,
-        message: "Please enter qualification.",
-      });
-    }
-
-    // Experience
-    // Experience
-    if (!experience || experience.trim().length < 1) {
-      return res.status(400).json({
-        success: false,
-        message: "Please enter experience.",
-      });
-    }
-
-    // Mobile
-    if (!/^[6-9]\d{9}$/.test(mobile)) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid mobile number.",
-      });
-    }
-
-    // Duplicate Mobile
-    const existingDoctor = await Doctor.findOne({ mobile });
-
-    if (existingDoctor) {
-      return res.status(400).json({
-        success: false,
-        message: "Doctor already exists with this mobile number.",
-      });
-    }
-
     const doctor = await Doctor.create(req.body);
 
     await Activity.create({

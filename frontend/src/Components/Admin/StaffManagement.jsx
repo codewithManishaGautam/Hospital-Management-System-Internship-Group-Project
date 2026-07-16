@@ -41,7 +41,7 @@ function StaffManagement({
             <th>Staff ID</th>
             <th>Name</th>
             <th>Aadhaar</th>
-            <th>Email</th>
+<th>Email</th>
             <th>Mobile</th>
             <th>Role</th>
             <th>Salary</th>
@@ -95,23 +95,23 @@ function StaffManagement({
               </td>
 
               <td className="action-cell">
-                {editingStaffId === s._id ? (
-                  <input
-                    type="email"
-                    value={editedStaff.email}
-                    onChange={(e) =>
-                      setEditedStaff({
-                        ...editedStaff,
-                        email: e.target.value,
-                      })
-                    }
-                  />
-                ) : (
-                  s.email
-                )}
-              </td>
+{editingStaffId === s._id ? (
+  <input
+    type="email"
+    value={editedStaff.email}
+    onChange={(e) =>
+      setEditedStaff({
+        ...editedStaff,
+        email: e.target.value,
+      })
+    }
+  />
+) : (
+  s.email
+)}
+</td>
 
-              <td className="action-cell">
+<td className="action-cell">
                 {editingStaffId === s._id ? (
                   <input
                     type="text"
@@ -130,7 +130,7 @@ function StaffManagement({
                 )}
               </td>
 
-              <td>
+              <td className="action-cell">
                 {editingStaffId === s._id ? (
                   <input
                     type="text"
@@ -226,14 +226,14 @@ function StaffManagement({
                         setEditingStaffId(s._id);
 
                         setEditedStaff({
-                          name: s.name,
-                          aadhaar: s.aadhaar,
-                          mobile: s.mobile,
-                          email: s.email,
-                          role: s.role,
-                          salary: s.salary,
-                          status: s.status,
-                          joining: s.joining,
+name: s.name || "",
+aadhaar: s.aadhaar || "",
+mobile: s.mobile || "",
+email: s.email || "",
+role: s.role || "",
+salary: s.salary || "",
+status: s.status || "",
+joining: s.joining || "",
                         });
                       }}
                     >

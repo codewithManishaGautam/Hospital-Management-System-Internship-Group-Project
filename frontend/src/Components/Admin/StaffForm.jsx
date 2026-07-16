@@ -63,7 +63,7 @@ function StaffForm({
           onChange={(e) =>
             setNewStaff({
               ...newStaff,
-              email: e.target.value,
+email: e.target.value,
             })
           }
         />
@@ -141,7 +141,7 @@ function StaffForm({
           <button
             className="save-btn"
             onClick={() => {
-             if (
+if (
   !newStaff.name ||
   !newStaff.aadhaar ||
   !newStaff.mobile ||
