@@ -1,5 +1,7 @@
 import React from "react";
 
+// import { StaffForm } from "../../api/admin/adminApi";
+
 function StaffForm({
   showStaffForm,
   setShowStaffForm,
@@ -55,8 +57,30 @@ function StaffForm({
         />
 
         <input
-          type="text"
-          placeholder="Role"
+          type="email"
+          placeholder="Email"
+          value={newStaff.email}
+          onChange={(e) =>
+            setNewStaff({
+              ...newStaff,
+email: e.target.value,
+            })
+          }
+        />
+
+        {/* <input
+          type="password"
+          placeholder="Password"
+          value={newStaff.password}
+          onChange={(e) =>
+            setNewStaff({
+              ...newStaff,
+              password: e.target.value,
+            })
+          }
+        /> */}
+
+        <select
           value={newStaff.role}
           onChange={(e) =>
             setNewStaff({
@@ -64,7 +88,17 @@ function StaffForm({
               role: e.target.value.replace(/[^A-Za-z ]/g, ""),
             })
           }
-        />
+        >
+          <option value="">Select Role</option>
+          <option value="receptionist">Receptionist</option>
+          <option value="doctor">Doctor</option>
+          <option value="lab">Lab</option>
+          <option value="pharmacy">Pharmacy</option>
+          <option value="nurse">Nurse</option>
+          <option value="billing">Billing</option>
+          <option value="insurance">Insurance</option>
+          <option value="admin">Admin</option>
+        </select>
 
         <input
           type="text"
@@ -107,15 +141,16 @@ function StaffForm({
           <button
             className="save-btn"
             onClick={() => {
-              if (
-                !newStaff.name ||
-                !newStaff.aadhaar ||
-                !newStaff.mobile ||
-                !newStaff.role ||
-                !newStaff.salary ||
-                !newStaff.status ||
-                !newStaff.joining
-              ) {
+if (
+  !newStaff.name ||
+  !newStaff.aadhaar ||
+  !newStaff.mobile ||
+  !newStaff.email ||
+  !newStaff.role ||
+  !newStaff.salary ||
+  !newStaff.status ||
+  !newStaff.joining
+) {
                 alert("Please fill all fields");
                 return;
               }

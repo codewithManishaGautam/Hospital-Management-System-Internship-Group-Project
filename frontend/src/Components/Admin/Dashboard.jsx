@@ -7,6 +7,8 @@ import {
   Legend,
 } from "recharts";
 
+import React from "react";
+
 import "../../styles/admin/dashboard.css";
 
 function Dashboard({ dashboard, finance, activities, rooms, beds }) {
@@ -46,7 +48,7 @@ function Dashboard({ dashboard, finance, activities, rooms, beds }) {
       <div className="stats-grid">
         <div className="stats-card">
           <h3>Total Doctors</h3>
-          <p>{dashboard.totalDoctors}</p>
+          <p>{dashboard.totalDoctors || 0}</p>
         </div>
 
         <div className="stats-card">
@@ -56,17 +58,18 @@ function Dashboard({ dashboard, finance, activities, rooms, beds }) {
 
         <div className="stats-card">
           <h3>Total Patients</h3>
-          <p>{dashboard.totalPatients}</p>
+          <p>{dashboard.totalPatients || 0}</p>
+
         </div>
 
         <div className="stats-card">
           <h3>Admitted Patients</h3>
-          <p>{dashboard.admittedPatients}</p>
+          <p>{dashboard.admittedPatients || 0}</p>
         </div>
 
         <div className="stats-card">
           <h3>Discharged Patients</h3>
-          <p>{dashboard.dischargedPatients}</p>
+          <p>{dashboard.dischargedPatients || 0}</p>
         </div>
 
         <div className="stats-card">
