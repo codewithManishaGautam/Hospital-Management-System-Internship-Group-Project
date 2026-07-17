@@ -93,9 +93,9 @@ function Dashboard({ setStep, setSelectedPatient, setMode }) {
   };
 
   return (
-    <div className="dashboard-container">
+    <div className="reception-dashboard-container">
       {/* Header */}
-      <div className="dashboard-header">
+      <div className="reception-dashboard-header">
         <h2>Reception Dashboard</h2>
         <button
           className="add-btn"
@@ -116,9 +116,9 @@ function Dashboard({ setStep, setSelectedPatient, setMode }) {
       </div>
 
       {/* Analytics Cards */}
-      <div className="dashboard-cards">
+      <div className="reception-dashboard-cards">
         {dashboardCards.map((card, index) => (
-          <div className="dashboard-card" key={index}>
+          <div className="reception-dashboard-card" key={index}>
             <h3>{card.title}</h3>
             <h1>{card.count}</h1>
           </div>
@@ -127,142 +127,131 @@ function Dashboard({ setStep, setSelectedPatient, setMode }) {
 
       {/* Patients Table Card */}
       <div className="patient-table-card">
-        <div
-          className="table-header"
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
+        <div className="table-header">
           <h3>Today's Appointment List</h3>
 
-          {/* ✨ ADDED: Search Input Box */}
           <input
             type="text"
             className="search-input"
             placeholder="Search by Name, UHID, Mobile..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            style={{
-              padding: "6px 12px",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-              width: "250px",
-            }}
           />
         </div>
 
-        <table className="patient-table">
-          <thead>
-            <tr>
-              <th>UHID</th>
-              <th>Name</th>
-              <th>Age</th>
-              <th>Gender</th>
-              <th>Mobile</th>
-              <th>Address</th>
-              <th>Disease</th>
-              <th>Doctor</th>
-              <th>Appointment</th>
-              <th>Patient Type</th>
-              <th>Payment</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredPatients.length > 0 ? (
-              filteredPatients.map((patient) => (
-                <tr key={patient._id}>
-                  <td>{patient.uhid}</td>
-                  <td>{patient.name}</td>
-                  <td>{patient.age}</td>
-                  <td>{patient.gender}</td>
-                  <td>{patient.mobile}</td>
-                  <td>{patient.address}</td>
-                  <td>{patient.disease}</td>
-                  <td>{patient.doctor}</td>
-                  <td>
-                    {patient.appointmentDate}
-                    <br />
-                    {patient.appointmentTime}
-                  </td>
-                  <td>{patient.role}</td>
-                  <td>{patient.paymentStatus}</td>
-                  <td>{patient.status}</td>
-                  <td>
-                    <span
-                      className={
-                        patient.paymentStatus === "Paid" ? "paid" : "unpaid"
-                      }
-                    >
-                      {patient.paymentStatus || "Pending"}
-                    </span>
-                  </td>
-
-                  <td>
-                    <div className="action-btns">
-                      <button
-                        className="view-btn"
-                        onClick={() => handleViewPatient(patient)}
+        {/* NEW DIV */}
+        <div className="table-responsive">
+          <table className="patient-table">
+            <thead>
+              <tr>
+                <th>UHID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Mobile</th>
+                <th>Address</th>
+                <th>Disease</th>
+                <th>Doctor</th>
+                <th>Appointment</th>
+                <th>Patient Type</th>
+                <th>Payment</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredPatients.length > 0 ? (
+                filteredPatients.map((patient) => (
+                  <tr key={patient._id}>
+                    <td>{patient.uhid}</td>
+                    <td>{patient.name}</td>
+                    <td>{patient.age}</td>
+                    <td>{patient.gender}</td>
+                    <td>{patient.mobile}</td>
+                    <td>{patient.address}</td>
+                    <td>{patient.disease}</td>
+                    <td>{patient.doctor}</td>
+                    <td>
+                      {patient.appointmentDate}
+                      <br />
+                      {patient.appointmentTime}
+                    </td>
+                    <td>{patient.role}</td>
+                    <td>
+                      <span
+                        className={
+                          patient.paymentStatus === "Paid" ? "paid" : "unpaid"
+                        }
                       >
-                        View
-                      </button>
+                        {patient.paymentStatus || "Pending"}
+                      </span>
+                    </td>
 
-                      <button
-                        className="edit-btn"
-                        onClick={() => handleEdit(patient)}
-                      >
-                        Edit
-                      </button>
+                    <td>{patient.status}</td>
 
-                      <button
-                        className="delete-btn"
-                        onClick={() => handleDeletePatient(patient._id)}
-                      >
-                        Delete
-                      </button>
+                    <td>
+                      <div className="action-btns">
+                        <button
+                          className="view-btn"
+                          onClick={() => handleViewPatient(patient)}
+                        >
+                          View
+                        </button>
 
-                      <button
-                        className="payment-btn"
-                        onClick={() => {
-                          setSelectedPatient(patient);
-                          setStep("billing");
-                        }}
-                      >
-                        Payment
-                      </button>
+                        <button
+                          className="edit-btn"
+                          onClick={() => handleEdit(patient)}
+                        >
+                          Edit
+                        </button>
 
-                      <button
-                        className="appointment-btn"
-                        onClick={() => {
-                          setSelectedPatient({
-                            ...patient,
-                            isAppointment: true,
-                          });
+                        <button
+                          className="delete-btn"
+                          onClick={() => handleDeletePatient(patient._id)}
+                        >
+                          Delete
+                        </button>
 
-                          setStep("register");
-                        }}
-                      >
-                        Book Appointment
-                      </button>
-                    </div>
+                        <button
+                          className="payment-btn"
+                          onClick={() => {
+                            setSelectedPatient(patient);
+                            setStep("billing");
+                          }}
+                        >
+                          Payment
+                        </button>
+
+                        <button
+                          className="appointment-btn"
+                          onClick={() => {
+                            setSelectedPatient({
+                              ...patient,
+                              isAppointment: true,
+                            });
+
+                            setStep("register");
+                          }}
+                        >
+                          Book Appointment
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan="13"
+                    style={{ textAlign: "center", padding: "15px" }}
+                  >
+                    No patients found
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td
-                  colSpan="6"
-                  style={{ textAlign: "center", padding: "15px" }}
-                >
-                  No patients found
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Patient Details Section */}

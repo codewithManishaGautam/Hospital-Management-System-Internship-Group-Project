@@ -6,16 +6,12 @@ const {
   getDashboardStats,
   getDoctors,
   getStaff,
-  getPatients,
   addStaff,
   deleteStaff,
   editStaff,
-  editPatient,
   addDoctor,
   deleteDoctor,
   editDoctor,
-  addPatient,
-  deletePatient,
   getRooms,
   addRoom,
   deleteRoom,
@@ -28,15 +24,15 @@ const {
   getExpenses,
   addExpense,
   deleteExpense,
-
   getIncome,
   addIncome,
   deleteIncome,
   getFinanceStats,
   getAnalytics,
-
   getActivities,
 } = require("../controllers/adminController");
+
+const { getPatients } = require("../controllers/patientController");
 
 // DASHBOARD
 router.get("/dashboard", getDashboardStats);
@@ -55,9 +51,9 @@ router.delete("/staff/delete/:id", deleteStaff);
 
 // PATIENTS
 router.get("/patients", getPatients);
-router.post("/patient/add", addPatient);
-router.put("/patient/edit/:id", editPatient);
-router.delete("/patient/delete/:id", deletePatient);
+// router.post("/patient/add", addPatient);
+// router.put("/patient/edit/:id", editPatient);
+// router.delete("/patient/delete/:id", deletePatient);
 
 // ROOMS
 router.get("/rooms", getRooms);

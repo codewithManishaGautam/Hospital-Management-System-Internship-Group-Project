@@ -19,7 +19,12 @@ function AddDoctorForm({
           type="text"
           placeholder="Doctor Name"
           value={newDoctor.name}
-          onChange={(e) => setNewDoctor({ ...newDoctor, name: e.target.value })}
+          onChange={(e) =>
+            setNewDoctor({
+              ...newDoctor,
+              name: e.target.value.replace(/[^A-Za-z. ]/g, ""),
+            })
+          }
         />
 
         <input
@@ -47,13 +52,14 @@ function AddDoctorForm({
         />
 
         <input
-          type="number"
+          type="text"
           placeholder="Contact Number"
-          value={newDoctor.phone}
+          maxLength={10}
+          value={newDoctor.mobile}
           onChange={(e) =>
             setNewDoctor({
               ...newDoctor,
-              phone: e.target.value,
+              mobile: e.target.value.replace(/\D/g, "").slice(0, 10),
             })
           }
         />
@@ -71,7 +77,28 @@ function AddDoctorForm({
         />
 
         <div className="form-buttons">
-          <button className="save-btn" onClick={addDoctor}>
+          <button
+            className="save-btn"
+            onClick={() => {
+              if (
+                !newDoctor.name ||
+                !newDoctor.specialization ||
+                !newDoctor.qualification ||
+                !newDoctor.experience ||
+                !newDoctor.mobile
+              ) {
+                alert("Please fill all fields");
+                return;
+              }
+
+              if (newDoctor.mobile.length !== 10) {
+                alert("Mobile number must be 10 digits");
+                return;
+              }
+
+              addDoctor();
+            }}
+          >
             Save
           </button>
 

@@ -18,6 +18,10 @@ function RoomInventory() {
 
   useEffect(() => {
     fetchRooms();
+
+    const interval = setInterval(fetchRooms, 3000);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (

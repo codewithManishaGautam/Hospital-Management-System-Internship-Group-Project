@@ -41,7 +41,7 @@ function StaffManagement({
             <th>Staff ID</th>
             <th>Name</th>
             <th>Aadhaar</th>
-            <th>Phone</th>
+            <th>Mobile</th>
             <th>Role</th>
             <th>Salary</th>
             <th>Status</th>
@@ -53,9 +53,11 @@ function StaffManagement({
         <tbody>
           {staff.map((s) => (
             <tr key={s._id}>
-              <td>STF-{s._id.slice(-6).toUpperCase()}</td>
+              <td className="action-cell">
+                STF-{s._id.slice(-6).toUpperCase()}
+              </td>
 
-              <td>
+              <td className="action-cell">
                 {editingStaffId === s._id ? (
                   <input
                     type="text"
@@ -63,7 +65,7 @@ function StaffManagement({
                     onChange={(e) =>
                       setEditedStaff({
                         ...editedStaff,
-                        name: e.target.value,
+                        name: e.target.value.replace(/[^A-Za-z ]/g, ""),
                       })
                     }
                   />
@@ -72,15 +74,17 @@ function StaffManagement({
                 )}
               </td>
 
-              <td>
+              <td className="action-cell">
                 {editingStaffId === s._id ? (
                   <input
                     type="text"
+                    inputMode="numeric"
+                    maxLength={12}
                     value={editedStaff.aadhaar}
                     onChange={(e) =>
                       setEditedStaff({
                         ...editedStaff,
-                        aadhaar: e.target.value,
+                        aadhaar: e.target.value.replace(/\D/g, "").slice(0, 12),
                       })
                     }
                   />
@@ -89,24 +93,26 @@ function StaffManagement({
                 )}
               </td>
 
-              <td>
+              <td className="action-cell">
                 {editingStaffId === s._id ? (
                   <input
                     type="text"
-                    value={editedStaff.phone}
+                    inputMode="numeric"
+                    maxLength={10}
+                    value={editedStaff.mobile}
                     onChange={(e) =>
                       setEditedStaff({
                         ...editedStaff,
-                        phone: e.target.value,
+                        mobile: e.target.value.replace(/\D/g, "").slice(0, 10),
                       })
                     }
                   />
                 ) : (
-                  s.phone
+                  s.mobile
                 )}
               </td>
 
-              <td>
+              <td className="action-cell">
                 {editingStaffId === s._id ? (
                   <input
                     type="text"
@@ -114,7 +120,7 @@ function StaffManagement({
                     onChange={(e) =>
                       setEditedStaff({
                         ...editedStaff,
-                        role: e.target.value,
+                        role: e.target.value.replace(/[^A-Za-z ]/g, ""),
                       })
                     }
                   />
@@ -123,15 +129,16 @@ function StaffManagement({
                 )}
               </td>
 
-              <td>
+              <td className="action-cell">
                 {editingStaffId === s._id ? (
                   <input
                     type="text"
+                    inputMode="numeric"
                     value={editedStaff.salary}
                     onChange={(e) =>
                       setEditedStaff({
                         ...editedStaff,
-                        salary: e.target.value,
+                        salary: e.target.value.replace(/\D/g, ""),
                       })
                     }
                   />
@@ -140,7 +147,7 @@ function StaffManagement({
                 )}
               </td>
 
-              <td>
+              <td className="action-cell">
                 {editingStaffId === s._id ? (
                   <select
                     value={editedStaff.status}
@@ -159,11 +166,11 @@ function StaffManagement({
                 )}
               </td>
 
-              <td>
+              <td className="action-cell">
                 {editingStaffId === s._id ? (
                   <input
                     type="date"
-                    value={editedStaff.joining}
+                    value={editedStaff.joining?.slice(0, 10)}
                     onChange={(e) =>
                       setEditedStaff({
                         ...editedStaff,
@@ -176,7 +183,7 @@ function StaffManagement({
                 )}
               </td>
 
-              <td>
+              <td className="action-cell">
                 {editingStaffId === s._id ? (
                   <>
                     <button
@@ -201,13 +208,13 @@ function StaffManagement({
                         setEditingStaffId(s._id);
 
                         setEditedStaff({
-                          name: s.name,
-                          aadhaar: s.aadhaar,
-                          phone: s.phone,
-                          role: s.role,
-                          salary: s.salary,
-                          status: s.status,
-                          joining: s.joining,
+                          name: s.name || "",
+                          aadhaar: s.aadhaar || "",
+                          mobile: s.mobile || "",
+                          role: s.role || "",
+                          salary: s.salary || "",
+                          status: s.status || "",
+                          joining: s.joining || "",
                         });
                       }}
                     >

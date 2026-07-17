@@ -18,29 +18,38 @@ function StaffForm({
           type="text"
           placeholder="Name"
           value={newStaff.name}
-          onChange={(e) => setNewStaff({ ...newStaff, name: e.target.value })}
-        />
-
-        <input
-          type="text"
-          placeholder="Aadhaar Number"
-          value={newStaff.aadhaar}
           onChange={(e) =>
             setNewStaff({
               ...newStaff,
-              aadhaar: e.target.value,
+              name: e.target.value.replace(/[^A-Za-z ]/g, ""),
             })
           }
         />
 
         <input
           type="text"
-          placeholder="Phone Number"
-          value={newStaff.phone}
+          inputMode="numeric"
+          maxLength={12}
+          placeholder="Aadhaar Number"
+          value={newStaff.aadhaar}
           onChange={(e) =>
             setNewStaff({
               ...newStaff,
-              phone: e.target.value,
+              aadhaar: e.target.value.replace(/\D/g, "").slice(0, 12),
+            })
+          }
+        />
+
+        <input
+          type="text"
+          inputMode="numeric"
+          maxLength={10}
+          placeholder="Mobile Number"
+          value={newStaff.mobile}
+          onChange={(e) =>
+            setNewStaff({
+              ...newStaff,
+              mobile: e.target.value.replace(/\D/g, "").slice(0, 10),
             })
           }
         />
@@ -52,7 +61,7 @@ function StaffForm({
           onChange={(e) =>
             setNewStaff({
               ...newStaff,
-              role: e.target.value,
+              role: e.target.value.replace(/[^A-Za-z ]/g, ""),
             })
           }
         />
@@ -64,7 +73,7 @@ function StaffForm({
           onChange={(e) =>
             setNewStaff({
               ...newStaff,
-              salary: e.target.value,
+              salary: e.target.value.replace(/\D/g, ""),
             })
           }
         />
@@ -95,7 +104,35 @@ function StaffForm({
         />
 
         <div className="form-buttons">
-          <button className="save-btn" onClick={addStaff}>
+          <button
+            className="save-btn"
+            onClick={() => {
+              if (
+                !newStaff.name ||
+                !newStaff.aadhaar ||
+                !newStaff.mobile ||
+                !newStaff.role ||
+                !newStaff.salary ||
+                !newStaff.status ||
+                !newStaff.joining
+              ) {
+                alert("Please fill all fields");
+                return;
+              }
+
+              if (newStaff.aadhaar.length !== 12) {
+                alert("Aadhaar must be 12 digits");
+                return;
+              }
+
+              if (newStaff.mobile.length !== 10) {
+                alert("Mobile number must be 10 digits");
+                return;
+              }
+
+              addStaff();
+            }}
+          >
             Save
           </button>
 

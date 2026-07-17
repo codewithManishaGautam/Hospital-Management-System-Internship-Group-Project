@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../styles/Reception/PrescriptionPage.css";
+// import "../../styles/Reception/PrescriptionPage";
 
 function PrescriptionPage() {
   // console.log(SignatureCanvas);
@@ -123,6 +124,16 @@ function PrescriptionPage() {
       console.log("Sending PUT request...");
 
       const payload = {
+        uhid: patient.uhid,
+        name: patient.name,
+        age: patient.age,
+        gender: patient.gender,
+        mobile: patient.mobile,
+        address: patient.address,
+        doctor: patient.doctor,
+        disease: patient.disease,
+        role: patient.role,
+
         diagnosis: diagnosisData,
         prescription: prescriptionData,
         advice: adviceData,
@@ -147,28 +158,28 @@ function PrescriptionPage() {
 
       alert("Prescription Saved Successfully");
 
-      <button
-        className="edit-btn"
-        onClick={() => {
-          setDiagnosis("");
-          setPrescription("");
-          setAdvice("");
-          setNotes("");
+      // <button
+      //   className="edit-btn"
+      //   onClick={() => {
+      //     setDiagnosis("");
+      //     setPrescription("");
+      //     setAdvice("");
+      //     setNotes("");
 
-          setDiagnosisMode("type");
-          setPrescriptionMode("type");
-          setAdviceMode("type");
-          setNotesMode("type");
+      //     setDiagnosisMode("type");
+      //     setPrescriptionMode("type");
+      //     setAdviceMode("type");
+      //     setNotesMode("type");
 
-          diagnosisPad.current?.clear();
-          prescriptionPad.current?.clear();
-          advicePad.current?.clear();
-          notesPad.current?.clear();
-          sigCanvas.current?.clear();
+      //     diagnosisPad.current?.clear();
+      //     prescriptionPad.current?.clear();
+      //     advicePad.current?.clear();
+      //     notesPad.current?.clear();
+      //     sigCanvas.current?.clear();
 
-          setEditMode(true);
-        }}
-      ></button>;
+      //     setEditMode(true);
+      //   }}
+      // ></button>;
       await loadPatient();
 
       setEditMode(false);
@@ -185,6 +196,10 @@ function PrescriptionPage() {
       console.log(err.response);
       alert("Error: " + (err.response?.data?.message || err.message));
     }
+  };
+
+  const downloadPDF = () => {
+    window.open(`http://localhost:5000/api/patient/${id}/pdf`);
   };
 
   const loadPatient = async () => {
@@ -259,23 +274,27 @@ function PrescriptionPage() {
           <button
             className="edit-btn"
             onClick={() => {
-              setDiagnosis("");
-              setPrescription("");
-              setAdvice("");
-              setNotes("");
+              if (editMode) {
+                setEditMode(false);
+              } else {
+                setDiagnosis("");
+                setPrescription("");
+                setAdvice("");
+                setNotes("");
 
-              setDiagnosisMode("type");
-              setPrescriptionMode("type");
-              setAdviceMode("type");
-              setNotesMode("type");
+                setDiagnosisMode("type");
+                setPrescriptionMode("type");
+                setAdviceMode("type");
+                setNotesMode("type");
 
-              diagnosisPad.current?.clear();
-              prescriptionPad.current?.clear();
-              advicePad.current?.clear();
-              notesPad.current?.clear();
-              sigCanvas.current?.clear();
+                diagnosisPad.current?.clear();
+                prescriptionPad.current?.clear();
+                advicePad.current?.clear();
+                notesPad.current?.clear();
+                sigCanvas.current?.clear();
 
-              setEditMode(true);
+                setEditMode(true);
+              }
             }}
           >
             {editMode ? "Cancel" : "Edit"}
@@ -287,13 +306,25 @@ function PrescriptionPage() {
             </button>
           )}
 
-          <button className="print-btn" onClick={() => window.print()}>
+          <button
+            className="print-btn"
+            onClick={() =>
+              window.open(
+                `http://localhost:5000/api/patient/${id}/pdf`,
+                "_blank",
+              )
+            }
+          >
+            Download PDF
+          </button>
+
+          <button className="print-btn" onClick={downloadPDF}>
             Print
           </button>
         </div>
       </div>
       <div className="prescription-card">
-        <h1>ABC Hospital</h1>
+        <h1>Shraddha Hospital</h1>
         <hr />
         <div className="patient-grid">
           <div>
@@ -416,219 +447,263 @@ function PrescriptionPage() {
           </div>
         )}
 
-        <div className="section">
-          {editMode && (
-            <div className="new-entry-heading">
-              <h2>Add New Prescription</h2>
-              <p>
-                Previous prescriptions are shown above. Fill only the new
-                details below.
-              </p>
-            </div>
-          )}
-          <h3>Diagnosis</h3>
+        {editMode && (
+          <div>
+            <div className="section">
+              {editMode && (
+                <div className="new-entry-heading">
+                  <h2>Add New Prescription</h2>
+                  <p>
+                    Previous prescriptions are shown above. Fill only the new
+                    details below.
+                  </p>
+                </div>
+              )}
+              <h3>Diagnosis</h3>
 
-          {editMode ? (
-            <div>
-              <button onClick={() => setDiagnosisMode("type")}>Typing</button>
-
-              <button onClick={() => setDiagnosisMode("write")}>Writing</button>
-
-              {diagnosisMode === "type" ? (
-                <textarea
-                  rows="5"
-                  value={diagnosis}
-                  onChange={(e) => setDiagnosis(e.target.value)}
-                  style={{ width: "100%" }}
-                />
-              ) : (
-                <>
-                  <SignatureCanvas
-                    ref={diagnosisPad}
-                    penColor="black"
-                    canvasProps={{
-                      width: 700,
-                      height: 200,
-                      className: "signature-box",
-                    }}
-                  />
-
-                  <button onClick={() => diagnosisPad.current.clear()}>
-                    Clear
+              {editMode ? (
+                <div>
+                  <button
+                    className={
+                      diagnosisMode === "type"
+                        ? "mode-btn active-mode"
+                        : "mode-btn"
+                    }
+                    onClick={() => setDiagnosisMode("type")}
+                  >
+                    Typing
                   </button>
-                </>
+
+                  <button
+                    className={
+                      diagnosisMode === "write"
+                        ? "mode-btn active-mode"
+                        : "mode-btn"
+                    }
+                    onClick={() => setDiagnosisMode("write")}
+                  >
+                    Writing
+                  </button>
+
+                  {diagnosisMode === "type" ? (
+                    <textarea
+                      rows="5"
+                      value={diagnosis}
+                      onChange={(e) => setDiagnosis(e.target.value)}
+                      style={{ width: "100%" }}
+                    />
+                  ) : (
+                    <>
+                      <p className="canvas-note">
+                        Write here using mouse or stylus
+                      </p>
+
+                      <SignatureCanvas
+                        ref={diagnosisPad}
+                        penColor="black"
+                        canvasProps={{
+                          width: 900,
+                          height: 500,
+                          className: "signature-box",
+                        }}
+                      />
+
+                      <button onClick={() => diagnosisPad.current.clear()}>
+                        Clear
+                      </button>
+                    </>
+                  )}
+                </div>
+              ) : diagnosis ? (
+                diagnosis.startsWith("data:image") ? (
+                  <img
+                    src={diagnosis}
+                    alt="Diagnosis"
+                    className="written-image"
+                  />
+                ) : (
+                  <p>{diagnosis}</p>
+                )
+              ) : (
+                <p>Not Added</p>
               )}
             </div>
-          ) : diagnosis ? (
-            diagnosis.startsWith("data:image") ? (
-              <img src={diagnosis} alt="Diagnosis" className="written-image" />
-            ) : (
-              <p>{diagnosis}</p>
-            )
-          ) : (
-            <p>Not Added</p>
-          )}
-        </div>
 
-        <div className="section">
-          <h3>Prescription</h3>
+            <div className="section">
+              <h3>Prescription</h3>
 
-          {editMode ? (
-            <div>
-              <button onClick={() => setPrescriptionMode("type")}>
-                Typing
-              </button>
-
-              <button
-                onClick={() => {
-                  setPrescriptionMode("write");
-                }}
-              >
-                Writing
-              </button>
-
-              {prescriptionMode === "type" ? (
-                <textarea
-                  rows="5"
-                  value={prescription}
-                  onChange={(e) => setPrescription(e.target.value)}
-                  style={{ width: "100%" }}
-                />
-              ) : (
-                <>
-                  <SignatureCanvas
-                    ref={prescriptionPad}
-                    penColor="black"
-                    canvasProps={{
-                      width: 700,
-                      height: 200,
-                      className: "signature-box",
-                    }}
-                  />
-
-                  <button onClick={() => prescriptionPad.current.clear()}>
-                    Clear
+              {editMode ? (
+                <div>
+                  <button onClick={() => setPrescriptionMode("type")}>
+                    Typing
                   </button>
-                </>
+
+                  <button
+                    onClick={() => {
+                      setPrescriptionMode("write");
+                    }}
+                  >
+                    Writing
+                  </button>
+
+                  {prescriptionMode === "type" ? (
+                    <textarea
+                      rows="5"
+                      value={prescription}
+                      onChange={(e) => setPrescription(e.target.value)}
+                      style={{ width: "100%" }}
+                    />
+                  ) : (
+                    <>
+                      <p className="canvas-note">
+                        Write here using mouse or stylus
+                      </p>
+
+                      <SignatureCanvas
+                        ref={prescriptionPad}
+                        penColor="black"
+                        canvasProps={{
+                          width: 900,
+                          height: 500,
+                          className: "signature-box",
+                        }}
+                      />
+
+                      <button onClick={() => prescriptionPad.current.clear()}>
+                        Clear
+                      </button>
+                    </>
+                  )}
+                </div>
+              ) : prescription ? (
+                prescription.startsWith("data:image") ? (
+                  <img
+                    src={prescription}
+                    alt="Prescription"
+                    className="written-image"
+                  />
+                ) : (
+                  <p>{prescription}</p>
+                )
+              ) : (
+                <p>Not Added</p>
               )}
             </div>
-          ) : prescription ? (
-            prescription.startsWith("data:image") ? (
-              <img
-                src={prescription}
-                alt="Prescription"
-                className="written-image"
-              />
-            ) : (
-              <p>{prescription}</p>
-            )
-          ) : (
-            <p>Not Added</p>
-          )}
-        </div>
 
-        <div className="section">
-          <h3>Advice</h3>
-          {editMode ? (
-            <div>
-              <button onClick={() => setAdviceMode("type")}>Typing</button>
+            <div className="section">
+              <h3>Advice</h3>
+              {editMode ? (
+                <div>
+                  <button onClick={() => setAdviceMode("type")}>Typing</button>
 
-              <button onClick={() => setAdviceMode("write")}>Writing</button>
-
-              {adviceMode === "type" ? (
-                <textarea
-                  rows="5"
-                  value={advice}
-                  onChange={(e) => setAdvice(e.target.value)}
-                  style={{ width: "100%" }}
-                />
-              ) : (
-                <>
-                  <SignatureCanvas
-                    ref={advicePad}
-                    penColor="black"
-                    canvasProps={{
-                      width: 700,
-                      height: 200,
-                      className: "signature-box",
-                    }}
-                  />
-
-                  <button onClick={() => advicePad.current.clear()}>
-                    Clear
+                  <button onClick={() => setAdviceMode("write")}>
+                    Writing
                   </button>
-                </>
+
+                  {adviceMode === "type" ? (
+                    <textarea
+                      rows="5"
+                      value={advice}
+                      onChange={(e) => setAdvice(e.target.value)}
+                      style={{ width: "100%" }}
+                    />
+                  ) : (
+                    <>
+                      <p className="canvas-note">
+                        Write here using mouse or stylus
+                      </p>
+
+                      <SignatureCanvas
+                        ref={advicePad}
+                        penColor="black"
+                        canvasProps={{
+                          width: 900,
+                          height: 500,
+                          className: "signature-box",
+                        }}
+                      />
+
+                      <button onClick={() => advicePad.current.clear()}>
+                        Clear
+                      </button>
+                    </>
+                  )}
+                </div>
+              ) : advice ? (
+                advice.startsWith("data:image") ? (
+                  <img src={advice} alt="Advice" className="written-image" />
+                ) : (
+                  <p>{advice}</p>
+                )
+              ) : (
+                <p>Not Added</p>
               )}
             </div>
-          ) : advice ? (
-            advice.startsWith("data:image") ? (
-              <img src={advice} alt="Advice" className="written-image" />
-            ) : (
-              <p>{advice}</p>
-            )
-          ) : (
-            <p>Not Added</p>
-          )}
-        </div>
 
-        <div className="section">
-          <h3>Doctor Notes</h3>
+            <div className="section">
+              <h3>Doctor Notes</h3>
 
-          {editMode ? (
-            <div>
-              <button onClick={() => setNotesMode("type")}>Typing</button>
+              {editMode ? (
+                <div>
+                  <button onClick={() => setNotesMode("type")}>Typing</button>
 
-              <button onClick={() => setNotesMode("write")}>Writing</button>
+                  <button onClick={() => setNotesMode("write")}>Writing</button>
 
-              {notesMode === "type" ? (
-                <textarea
-                  rows="5"
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  style={{ width: "100%" }}
-                />
+                  {notesMode === "type" ? (
+                    <textarea
+                      rows="5"
+                      value={notes}
+                      onChange={(e) => setNotes(e.target.value)}
+                      style={{ width: "100%" }}
+                    />
+                  ) : (
+                    <>
+                      <p className="canvas-note">
+                        Write here using mouse or stylus
+                      </p>
+
+                      <SignatureCanvas
+                        ref={notesPad}
+                        penColor="black"
+                        canvasProps={{
+                          width: 900,
+                          height: 500,
+                          className: "signature-box",
+                        }}
+                      />
+
+                      <button onClick={() => notesPad.current.clear()}>
+                        Clear
+                      </button>
+                    </>
+                  )}
+                </div>
+              ) : notes ? (
+                notes.startsWith("data:image") ? (
+                  <img src={notes} />
+                ) : (
+                  <p>{notes}</p>
+                )
               ) : (
-                <>
-                  <SignatureCanvas
-                    ref={notesPad}
-                    penColor="black"
-                    canvasProps={{
-                      width: 700,
-                      height: 200,
-                      className: "signature-box",
-                    }}
-                  />
-
-                  <button onClick={() => notesPad.current.clear()}>
-                    Clear
-                  </button>
-                </>
+                <p>Not Added</p>
               )}
             </div>
-          ) : notes ? (
-            notes.startsWith("data:image") ? (
-              <img src={notes} />
-            ) : (
-              <p>{notes}</p>
-            )
-          ) : (
-            <p>Not Added</p>
-          )}
-        </div>
-      </div>
+          </div>
+        )}
 
-      <div className="signature-section">
-        <h3>Doctor Signature</h3>
+        {editMode && (
+          <div className="signature-section">
+            <h3>Doctor Signature</h3>
 
-        {editMode ? (
-          <>
+            <p className="canvas-note">Write here using mouse or stylus</p>
+
             <SignatureCanvas
               ref={sigCanvas}
               penColor="black"
               canvasProps={{
                 className: "signature-canvas",
-                width: 500,
-                height: 180,
+                width: 350,
+                height: 100,
               }}
             />
 
@@ -640,15 +715,7 @@ function PrescriptionPage() {
                 Clear
               </button>
             </div>
-          </>
-        ) : history.length > 0 && history[history.length - 1].signature ? (
-          <img
-            src={history[history.length - 1].signature}
-            alt="Doctor Signature"
-            className="signature-image"
-          />
-        ) : (
-          <p>No Signature</p>
+          </div>
         )}
       </div>
     </div>
