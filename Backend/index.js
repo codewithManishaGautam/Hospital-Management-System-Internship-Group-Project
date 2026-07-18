@@ -63,6 +63,8 @@ const Bill = require("./models/Bill");
 
 const app = express();
 
+const authRoutes = require("./routes/authRoutes");
+
 app.use(cors());
 
 app.use(express.json({ limit: "50mb" }));
@@ -74,6 +76,15 @@ app.use(
   }),
 );
 
+app.use("/api/auth", authRoutes);
+
+// Doctor/Receptionist appointment listing
+app.get("/api/doctor/upcoming-appointments", (req, res) => {
+  return res.json({
+    message: "Upcoming appointments",
+    data: global.__receptionistAppointments || [],
+  });
+});
 // app.get("/", (req, res) => {
 //   res.send("Hospital Management Backend Running");
 // });
@@ -247,16 +258,8 @@ app.post(
 
       doc.moveDown();
 
-      //       require("dotenv").config();
-
-      // console.log("ENV URL =", process.env.MONGO_URL);
-      // connectDB();
-
-      // // mongoose.connection.once("open", () => {
-      // //   console.log("Connected DB:", mongoose.connection.db.databaseName);
-      // // });
-
       // Patient Details
+
       doc.fontSize(14);
 
       doc.text(`Patient Name: ${patientName}`);

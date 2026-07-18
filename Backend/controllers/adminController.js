@@ -9,6 +9,8 @@ const Charge = require("../models/Charges");
 const Expense = require("../models/Expense");
 const Income = require("../models/Income");
 const Activity = require("../models/Activity");
+const sendEmail = require("../utils/sendEmail");
+const bcrypt = require("bcryptjs");
 
 const getDashboardStats = async (req, res) => {
   try {
@@ -83,7 +85,18 @@ const getStaff = async (req, res) => {
 
 const addStaff = async (req, res) => {
   try {
-    const { name, aadhaar, mobile, role, salary, status, joining } = req.body;
+    const { name, aadhaar, mobile, email, role, salary, status, joining } =
+      req.body;
+
+    // Duplicate Email
+    const existing = await Staff.findOne({ email });
+
+    if (existing) {
+      return res.status(400).json({
+        success: false,
+        message: "Email already exists",
+      });
+    }
 
     // Name
     if (!name || name.trim().length < 3) {
@@ -161,7 +174,19 @@ const addStaff = async (req, res) => {
       });
     }
 
-    const staff = await Staff.create(req.body);
+    const staff = await Staff.create({
+      name,
+      aadhaar,
+      mobile,
+      email,
+      password: "",
+      role,
+      salary,
+      status,
+      joining,
+      otp: "",
+      isVerified: false,
+    });
 
     await Activity.create({
       message: `New Staff Added : ${staff.name}`,
@@ -207,105 +232,16 @@ const deleteStaff = async (req, res) => {
 
 const editStaff = async (req, res) => {
   try {
-    const { name, aadhaar, mobile, role, salary, status, joining } = req.body;
+    const doctor = await Doctor.create(req.body);
 
-    // Name
-    if (!name || name.trim().length < 3) {
-      return res.status(400).json({
-        success: false,
-        message: "Staff name must be at least 3 characters.",
-      });
-    }
-
-    if (!/^[A-Za-z ]+$/.test(name)) {
-      return res.status(400).json({
-        success: false,
-        message: "Only alphabets are allowed in name.",
-      });
-    }
-
-    // Aadhaar
-    if (!/^\d{12}$/.test(aadhaar)) {
-      return res.status(400).json({
-        success: false,
-        message: "Aadhaar must be 12 digits.",
-      });
-    }
-
-    // Mobile
-    if (!/^[6-9]\d{9}$/.test(mobile)) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid mobile number.",
-      });
-    }
-
-    // Role
-    if (!role || role.trim().length < 2) {
-      return res.status(400).json({
-        success: false,
-        message: "Enter valid role.",
-      });
-    }
-
-    // Salary
-    if (!salary || Number(salary) <= 0) {
-      return res.status(400).json({
-        success: false,
-        message: "Enter valid salary.",
-      });
-    }
-
-    // Status
-    if (!status) {
-      return res.status(400).json({
-        success: false,
-        message: "Please select status.",
-      });
-    }
-
-    // Joining
-    if (!joining) {
-      return res.status(400).json({
-        success: false,
-        message: "Joining date is required.",
-      });
-    }
-
-    // Duplicate Aadhaar
-    const aadhaarExists = await Staff.findOne({
-      aadhaar,
-      _id: { $ne: req.params.id },
+    await Activity.create({
+      message: `Doctor Added : ${doctor.name}`,
     });
 
-    if (aadhaarExists) {
-      return res.status(400).json({
-        success: false,
-        message: "Aadhaar already exists.",
-      });
-    }
-
-    // Duplicate Mobile
-    const mobileExists = await Staff.findOne({
-      mobile,
-      _id: { $ne: req.params.id },
-    });
-
-    if (mobileExists) {
-      return res.status(400).json({
-        success: false,
-        message: "Mobile number already exists.",
-      });
-    }
-
-    const staff = await Staff.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
-
-    res.status(200).json({
+    res.status(201).json({
       success: true,
-      message: "Staff Updated Successfully",
-      staff,
+      message: "Doctor Added Successfully",
+      doctor,
     });
   } catch (error) {
     res.status(500).json({
@@ -329,27 +265,26 @@ const addDoctor = async (req, res) => {
     }
 
     // Specialization
-    if (!specialization || specialization.trim().length < 3) {
+    if (!specialization) {
       return res.status(400).json({
         success: false,
-        message: "Please enter specialization.",
+        message: "Specialization is required.",
       });
     }
 
     // Qualification
-    if (!qualification || qualification.trim().length < 2) {
+    if (!qualification) {
       return res.status(400).json({
         success: false,
-        message: "Please enter qualification.",
+        message: "Qualification is required.",
       });
     }
 
     // Experience
-    // Experience
-    if (!experience || experience.trim().length < 1) {
+    if (!experience) {
       return res.status(400).json({
         success: false,
-        message: "Please enter experience.",
+        message: "Experience is required.",
       });
     }
 
@@ -361,13 +296,12 @@ const addDoctor = async (req, res) => {
       });
     }
 
-    // Duplicate Mobile
     const existingDoctor = await Doctor.findOne({ mobile });
 
     if (existingDoctor) {
       return res.status(400).json({
         success: false,
-        message: "Doctor already exists with this mobile number.",
+        message: "Mobile number already exists.",
       });
     }
 
@@ -791,6 +725,7 @@ const getActivities = async (req, res) => {
 const getSentPrescriptions = async (req, res) => {
   try {
     let SentPrescription;
+
     try {
       SentPrescription = require("../models/SentPrescription");
     } catch (e) {
@@ -801,6 +736,7 @@ const getSentPrescriptions = async (req, res) => {
       const docs = await SentPrescription.find()
         .sort({ createdAt: -1 })
         .limit(200);
+
       return res.status(200).json({ data: docs });
     }
 
@@ -812,7 +748,9 @@ const getSentPrescriptions = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
 
@@ -848,4 +786,5 @@ module.exports = {
   getFinanceStats,
   getAnalytics,
   getActivities,
+  getSentPrescriptions,
 };
