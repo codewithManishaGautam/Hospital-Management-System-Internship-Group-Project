@@ -122,7 +122,16 @@ function ReportUpload({ patient, onUpload }) {
                       </td>
                       <td>
                         <div className="doctor-inline-actions">
-                          <button type="button" className="doctor-btn" onClick={() => alert("Preview UI is placeholder for now.")}>View</button>
+                          <button
+                            type="button"
+                            className="doctor-btn"
+                            onClick={() => {
+                              const text = `Report: ${r.name}\nUploaded: ${r.uploadedAt}\nStatus: ${r.status}\nSize: ${r.size}`;
+                              alert(text);
+                            }}
+                          >
+                            View
+                          </button>
                           <button type="button" className="doctor-btn" onClick={() => handleDownload(r)}>Download</button>
                         </div>
                       </td>

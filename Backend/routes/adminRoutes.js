@@ -30,6 +30,7 @@ const {
   getFinanceStats,
   getAnalytics,
   getActivities,
+  getSentPrescriptions,
 } = require("../controllers/adminController");
 
 const { getPatients } = require("../controllers/patientController");
@@ -88,4 +89,10 @@ router.get("/analytics", getAnalytics);
 
 //ACTIVITIES
 router.get("/activities", getActivities);
+
+router.get("/activities", getActivities);
+
+// SENT PRESCRIPTIONS
+router.get("/sent-prescriptions", getSentPrescriptions);
+
 module.exports = router;
