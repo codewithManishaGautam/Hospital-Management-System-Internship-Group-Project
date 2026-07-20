@@ -7,7 +7,7 @@ import Layout from "./Layout";
 // import "../styles/admin/table.css";
 // import "../styles/admin/doctor.css";
 // import "../styles/admin/staff.css";
-// import "../styles/admin/patient.css";
+// import "../styles/admiacn/patient.css";
 // import "../styles/admin/forms.css";
 // import "../styles/admin/modal.css";
 
@@ -24,6 +24,7 @@ import Expense from "../Components/Admin/Expense";
 // import Analytics from "../Components/Admin/Analytics";
 import Charges from "../Components/Admin/Charges";
 import Insurance from "../Components/Admin/Insurance";
+import BedManagement from "../Components/Admin/BedManagement";
 
 function Admin() {
   const [step, setStep] = useState("admin-dashboard");
@@ -37,7 +38,7 @@ function Admin() {
     name: "",
     age: "",
     gender: "",
-    phone: "",
+    mobile: "",
     disease: "",
     doctor: "",
     admission: "",
@@ -52,7 +53,7 @@ function Admin() {
     name: "",
     age: "",
     gender: "",
-    phone: "",
+    mobile: "",
     disease: "",
     doctor: "",
     admission: "",
@@ -67,74 +68,122 @@ function Admin() {
   const [selectedPatient, setSelectedPatient] = useState(null);
 
   const [editingStaffId, setEditingStaffId] = useState(null);
-  const [editedStaff, setEditedStaff] = useState({
-    name: "",
-    aadhaar: "",
-    phone: "",
-    role: "",
-    salary: "",
-    status: "",
-    joining: "",
-  });
+const [editedStaff, setEditedStaff] = useState({
+  name: "",
+  aadhaar: "",
+  mobile: "",
+  email: "",
+  role: "",
+  salary: "",
+  status: "",
+  joining: "",
+});
 
-  const [showStaffForm, setShowStaffForm] = useState(false);
-  const [newStaff, setNewStaff] = useState({
-    name: "",
-    aadhaar: "",
-    phone: "",
-    role: "",
-    salary: "",
-    status: "",
-    joining: "",
-  });
+const [showStaffForm, setShowStaffForm] = useState(false);
+
+const [newStaff, setNewStaff] = useState({
+  name: "",
+  aadhaar: "",
+  email: "",
+  mobile: "",
+  role: "",
+  salary: "",
+  status: "",
+  joining: "",
+});
+
+
+  const [rooms, setRooms] = useState([]);
+  const [beds, setBeds] = useState([]);
 
   const saveStaffEdit = async (id) => {
     try {
+      if (
+        !editedStaff.name ||
+        !editedStaff.aadhaar ||
+        !editedStaff.mobile ||
+        !editedStaff.role ||
+        !editedStaff.salary ||
+        !editedStaff.status ||
+        !editedStaff.joining
+      ) {
+        alert("Please fill all fields");
+        return;
+      }
+
+      if (editedStaff.aadhaar.length !== 12) {
+        alert("Aadhaar must be 12 digits");
+        return;
+      }
+
+      if (editedStaff.mobile.length !== 10) {
+        alert("Mobile number must be 10 digits");
+        return;
+      }
+
       await axios.put(
         `http://localhost:5000/api/admin/staff/edit/${id}`,
         editedStaff,
       );
+
+      await fetchStaff();
+
       setEditingStaffId(null);
-      fetchStaff();
+
+      alert("Staff Updated Successfully");
     } catch (err) {
-      console.log(err);
+      console.log(err.response?.data);
+
+      alert(err.response?.data?.message || "Update Failed");
     }
   };
 
   const deleteStaff = async (id) => {
+    const ok = window.confirm("Are you sure you want to delete this staff?");
+
+    if (!ok) return;
+
     try {
       await axios.delete(`http://localhost:5000/api/admin/staff/delete/${id}`);
-      fetchStaff();
+
+      await fetchStaff();
+
+      alert("Staff Deleted Successfully");
     } catch (err) {
-      console.log(err);
+      console.log(err.response?.data);
+
+      alert(err.response?.data?.message || "Delete Failed");
     }
   };
 
-  const addStaff = async () => {
-    try {
-      await axios.post(`http://localhost:5000/api/admin/staff/add`, newStaff);
-      setShowStaffForm(false);
-      setNewStaff({
-        name: "",
-        aadhaar: "",
-        phone: "",
-        role: "",
-        salary: "",
-        status: "",
-        joining: "",
-      });
-      fetchStaff();
-    } catch (err) {
-      console.log(err);
-    }
-  };
+const addStaff = async () => {
+  try {
+    await axios.post("http://localhost:5000/api/admin/staff/add", newStaff);
 
+    await fetchStaff();
+
+    setNewStaff({
+      name: "",
+      aadhaar: "",
+      email: "",
+      mobile: "",
+      role: "",
+      salary: "",
+      status: "",
+      joining: "",
+    });
+
+    setShowStaffForm(false);
+
+    alert("Staff Added Successfully");
+  } catch (err) {
+    console.log(err.response?.data);
+    alert(err.response?.data?.message || "Staff Add Failed");
+  }
+};
   const savePatientEdit = async (id) => {
     try {
-      await axios.put(
-        `http://localhost:5000/api/admin/patient/edit/${id}`,
-        editedPatient,
-      );
+      await axios.put(`http://localhost:5000/api/patient/${id}`, editedPatient);
       setEditingPatientId(null);
       fetchPatients();
     } catch (err) {
@@ -144,9 +193,7 @@ function Admin() {
 
   const deletePatient = async (id) => {
     try {
-      await axios.delete(
-        `http://localhost:5000/api/admin/patient/delete/${id}`,
-      );
+      await axios.delete(`http://localhost:5000/api/patient/${id}`);
       fetchPatients();
     } catch (err) {
       console.log(err);
@@ -155,16 +202,13 @@ function Admin() {
 
   const addPatient = async () => {
     try {
-      await axios.post(
-        `http://localhost:5000/api/admin/patient/add`,
-        newPatient,
-      );
+      await axios.post("http://localhost:5000/api/patient", newPatient);
       setShowPatientForm(false);
       setNewPatient({
         name: "",
         age: "",
         gender: "",
-        phone: "",
+        mobile: "",
         disease: "",
         doctor: "",
         admission: "",
@@ -177,15 +221,26 @@ function Admin() {
     }
   };
 
-  // ---------------- FETCH DATA ----------------
-  useEffect(() => {
+// ---------------- FETCH DATA ----------------
+useEffect(() => {
+  fetchDashboard();
+  fetchDoctors();
+  fetchStaff();
+  fetchPatients();
+  fetchFinance();
+  fetchActivities();
+  fetchRooms();
+  fetchBeds();
+
+  const interval = setInterval(() => {
     fetchDashboard();
-    fetchDoctors();
-    fetchStaff();
     fetchPatients();
-    fetchFinance();
-    fetchActivities();
-  }, []);
+    fetchRooms();
+    fetchBeds();
+  }, 5000);
+
+  return () => clearInterval(interval);
+}, []);
 
   const fetchDashboard = async () => {
     try {
@@ -216,7 +271,8 @@ function Admin() {
 
   const fetchPatients = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/patients");
+      const res = await axios.get("http://localhost:5000/api/patient");
+
       setPatients(res.data);
     } catch (err) {
       console.log(err);
@@ -243,6 +299,24 @@ function Admin() {
     }
   };
 
+  const fetchRooms = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/rooms");
+      setRooms(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchBeds = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/beds");
+      setBeds(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <Layout role="Admin" setStep={setStep}>
       {/* DASHBOARD */}
@@ -251,6 +325,8 @@ function Admin() {
           dashboard={dashboard}
           finance={finance}
           activities={activities}
+          rooms={rooms}
+          beds={beds}
         />
       )}
 
@@ -307,6 +383,8 @@ function Admin() {
       {step === "add-room" && <AddRoom />}
 
       {step === "room-inventory" && <RoomInventory />}
+
+      {step === "beds" && <BedManagement />}
 
       {step === "inventory" && <Inventory />}
 

@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { getRooms, deleteRoom } from "../../api/admin/adminApi";
 
 function RoomInventory() {
   const [rooms, setRooms] = useState([]);
 
   const fetchRooms = async () => {
-    const res = await axios.get("http://localhost:5000/api/admin/rooms");
+    const res = await getRooms();
 
     setRooms(res.data);
   };
 
-  const deleteRoom = async (id) => {
-    await axios.delete(`http://localhost:5000/api/admin/room/delete/${id}`);
+  const handleDeleteRoom = async (id) => {
+    await deleteRoom(id);
 
     fetchRooms();
   };
 
   useEffect(() => {
     fetchRooms();
+
+    const interval = setInterval(fetchRooms, 3000);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -61,7 +65,7 @@ function RoomInventory() {
               <td>
                 <button
                   className="delete-btn"
-                  onClick={() => deleteRoom(room._id)}
+                  onClick={() => handleDeleteRoom(room._id)}
                 >
                   Delete
                 </button>

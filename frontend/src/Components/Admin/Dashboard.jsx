@@ -7,10 +7,11 @@ import {
   Legend,
 } from "recharts";
 
+import React from "react";
 
 import "../../styles/admin/dashboard.css";
 
-function Dashboard({ dashboard, finance, activities }) {
+function Dashboard({ dashboard, finance, activities, rooms, beds }) {
   const chartData = [
     {
       name: `Income ₹${finance.totalIncome || 0}`,
@@ -24,6 +25,22 @@ function Dashboard({ dashboard, finance, activities }) {
 
   const COLORS = ["#4CAF50", "#F44336"];
 
+  const availableBeds = (beds || []).filter(
+    (b) => b.status === "Available",
+  ).length;
+
+  const occupiedBeds = (beds || []).filter(
+    (b) => b.status === "Occupied",
+  ).length;
+
+  const maintenanceRooms = (rooms || []).filter(
+    (r) => r.status === "Maintenance",
+  ).length;
+
+  const availableRooms = (rooms || []).filter(
+    (r) => r.status === "Available",
+  ).length;
+
   return (
     <div className="dashboard-container">
       <h2 className="dashboard-title">Welcome Administrator</h2>
@@ -31,7 +48,7 @@ function Dashboard({ dashboard, finance, activities }) {
       <div className="stats-grid">
         <div className="stats-card">
           <h3>Total Doctors</h3>
-          <p>{dashboard.totalDoctors}</p>
+          <p>{dashboard.totalDoctors || 0}</p>
         </div>
 
         <div className="stats-card">
@@ -41,17 +58,18 @@ function Dashboard({ dashboard, finance, activities }) {
 
         <div className="stats-card">
           <h3>Total Patients</h3>
-          <p>{dashboard.totalPatients}</p>
+          <p>{dashboard.totalPatients || 0}</p>
+
         </div>
 
         <div className="stats-card">
           <h3>Admitted Patients</h3>
-          <p>{dashboard.admittedPatients}</p>
+          <p>{dashboard.admittedPatients || 0}</p>
         </div>
 
         <div className="stats-card">
           <h3>Discharged Patients</h3>
-          <p>{dashboard.dischargedPatients}</p>
+          <p>{dashboard.dischargedPatients || 0}</p>
         </div>
 
         <div className="stats-card">
@@ -70,6 +88,31 @@ function Dashboard({ dashboard, finance, activities }) {
         </div>
 
         <div className="stats-card">
+          <h3>Total Rooms</h3>
+          <p>{rooms?.length || 0}</p>
+        </div>
+
+        <div className="stats-card">
+          <h3>Available Rooms</h3>
+          <p>{availableRooms}</p>
+        </div>
+
+        <div className="stats-card">
+          <h3>Maintenance Rooms</h3>
+          <p>{maintenanceRooms}</p>
+        </div>
+
+        <div className="stats-card">
+          <h3>Available Beds</h3>
+          <p>{availableBeds}</p>
+        </div>
+
+        <div className="stats-card">
+          <h3>Occupied Beds</h3>
+          <p>{occupiedBeds}</p>
+        </div>
+
+        <div className="stats-card">
           <h3>Insurance Claims</h3>
           <p>12</p>
         </div>
@@ -83,9 +126,9 @@ function Dashboard({ dashboard, finance, activities }) {
       <div className="finance-chart-card">
         <h3>Finance Overview</h3>
 
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer width="99%" height={350}>
           <PieChart>
-            <Pie data={chartData} dataKey="value" outerRadius={140} label>
+            <Pie data={chartData} dataKey="value" outerRadius={110} label>
               {chartData.map((entry, index) => (
                 <Cell key={index} fill={COLORS[index]} />
               ))}

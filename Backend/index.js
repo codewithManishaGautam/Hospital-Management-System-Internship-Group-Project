@@ -18,7 +18,36 @@ const cors = require("cors");
 
 const multer = require("multer");
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+
+const upload = multer({
+  storage,
+});
+
 const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
+transporter.verify((error) => {
+  if (error) {
+    console.log("Email Server Error:", error);
+  } else {
+    console.log("Email Server Ready");
+  }
+});
 
 const fs = require("fs");
 
@@ -34,6 +63,8 @@ const Bill = require("./models/Bill");
 
 const app = express();
 
+const authRoutes = require("./routes/authRoutes");
+
 app.use(cors());
 
 app.use(express.json({ limit: "50mb" }));
@@ -45,6 +76,15 @@ app.use(
   }),
 );
 
+app.use("/api/auth", authRoutes);
+
+// Doctor/Receptionist appointment listing
+app.get("/api/doctor/upcoming-appointments", (req, res) => {
+  return res.json({
+    message: "Upcoming appointments",
+    data: global.__receptionistAppointments || [],
+  });
+});
 // app.get("/", (req, res) => {
 //   res.send("Hospital Management Backend Running");
 // });
@@ -53,6 +93,9 @@ app.use(
 
 const patientRoutes = require("./routes/patientRoutes");
 app.use("/api/patient", patientRoutes);
+
+const paymentRoutes = require("./routes/paymentRoutes");
+app.use("/api/payment", paymentRoutes);
 
 const roomRoutes = require("./routes/roomRoutes");
 const bedRoutes = require("./routes/bedRoutes");
@@ -63,17 +106,9 @@ app.use("/api/beds", bedRoutes);
 const adminRoutes = require("./routes/adminRoutes");
 app.use("/api/admin", adminRoutes);
 
-// ======================
-// Doctor routes (lazy loaded)
-// ======================
-// Route modules ko require karne ko deferred rakha gaya hai
-// (Doctor module related file ke andar hi isolate rehta hai)
 app.use((req, res, next) => {
-  // Only doctor-related module routes ko deferred require karke lazy-load mindset
-  // rakha gaya hai.
   if (req.path.startsWith("/doctor") && process.env.NODE_ENV !== "test") {
     try {
-      // eslint-disable-next-line global-require
       const doctorRoutes = require("./routes/doctorRoutes");
       return doctorRoutes(req, res, next);
     } catch (e) {
@@ -83,6 +118,7 @@ app.use((req, res, next) => {
   return next();
 });
 
+<<<<<<< HEAD
 // ======================
 // MongoDB
 // ======================
@@ -276,6 +312,8 @@ app.post("/add", async (req, res) => {
 //   },
 // );
 
+=======
+>>>>>>> origin/main
 app.get("/patients", async (req, res) => {
   try {
     const page = Number(req.query.page) || 1;
@@ -315,15 +353,15 @@ app.get("/patients", async (req, res) => {
 // Get Single Patient
 // ======================
 
-app.get(
-  "/patient/:id",
+// app.get(
+//   "/patient/:id",
 
-  async (req, res) => {
-    const data = await Patient.findById(req.params.id);
+//   async (req, res) => {
+//     const data = await Patient.findById(req.params.id);
 
-    res.json(data);
-  },
-);
+//     res.json(data);
+//   },
+// );
 
 // ======================
 // Delete Patient
@@ -416,16 +454,8 @@ app.post(
 
       doc.moveDown();
 
-      //       require("dotenv").config();
-
-      // console.log("ENV URL =", process.env.MONGO_URL);
-      // connectDB();
-
-      // // mongoose.connection.once("open", () => {
-      // //   console.log("Connected DB:", mongoose.connection.db.databaseName);
-      // // });
-
       // Patient Details
+
       doc.fontSize(14);
 
       doc.text(`Patient Name: ${patientName}`);
