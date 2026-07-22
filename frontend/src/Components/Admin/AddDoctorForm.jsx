@@ -34,7 +34,7 @@ function AddDoctorForm({
           onChange={(e) =>
             setNewDoctor({
               ...newDoctor,
-              specialization: e.target.value,
+              specialization: e.target.value.replace(/[^A-Za-z &]/g, ""),
             })
           }
         />
@@ -46,7 +46,7 @@ function AddDoctorForm({
           onChange={(e) =>
             setNewDoctor({
               ...newDoctor,
-              qualification: e.target.value,
+              qualification: e.target.value.replace(/[^A-Za-z,. ]/g, ""),
             })
           }
         />
@@ -61,6 +61,7 @@ function AddDoctorForm({
               ...newDoctor,
               mobile: e.target.value.replace(/\D/g, "").slice(0, 10),
             })
+            
           }
         />
 
@@ -71,7 +72,7 @@ function AddDoctorForm({
           onChange={(e) =>
             setNewDoctor({
               ...newDoctor,
-              experience: e.target.value,
+              experience: e.target.value.replace(/[^0-9A-Za-z ]/g, ""),
             })
           }
         />
@@ -91,10 +92,37 @@ function AddDoctorForm({
                 return;
               }
 
-              if (newDoctor.mobile.length !== 10) {
-                alert("Mobile number must be 10 digits");
+              if (newDoctor.name.trim().length < 3) {
+                alert("Doctor name must be at least 3 characters");
                 return;
               }
+
+              if (newDoctor.specialization.trim().length < 2) {
+                alert("Enter valid specialization");
+                return;
+              }
+
+              if (newDoctor.qualification.trim().length < 2) {
+                alert("Enter valid qualification");
+                return;
+              }
+
+              if (!/^[6-9]\d{9}$/.test(newDoctor.mobile)) {
+                alert("Enter valid 10 digit mobile number");
+                return;
+              }
+
+              if (
+                !/^\d+\s*(Year|Years|Month|Months)$/i.test(newDoctor.experience)
+              ) {
+                alert("Experience should be like '5 Years' or '6 Months'");
+                return;
+              }
+
+              // if (newDoctor.mobile.length !== 10) {
+              //   alert("Mobile number must be 10 digits");
+              //   return;
+              // }
 
               addDoctor();
             }}

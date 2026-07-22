@@ -18,12 +18,8 @@ function Receptionist() {
   const [mode, setMode] = useState("register");
 
   return (
-<Layout
-    role="Receptionist"
-    currentStep={step}
-    setStep={setStep}
->
-        {step === "dashboard" && (
+    <Layout role="Receptionist" currentStep={step} setStep={setStep}>
+      {step === "dashboard" && (
         <Dashboard
           setStep={setStep}
           setSelectedPatient={setSelectedPatient}
@@ -36,13 +32,7 @@ function Receptionist() {
           patient={selectedPatient}
           setSelectedPatient={setSelectedPatient}
           setStep={setStep}
-          mode={
-            selectedPatient
-              ? selectedPatient.isAppointment
-                ? "appointment"
-                : "edit"
-              : "new"
-          }
+          mode={mode}
         />
       )}
 

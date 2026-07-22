@@ -190,8 +190,17 @@ const updatePatient = async (req, res) => {
       });
     }
 
-    const { uhid, name, age, gender, mobile, address, doctor, disease, role } =
-      req.body;
+    const {
+      uhid,
+      name,
+      age,
+      gender,
+      mobile,
+      address,
+      doctor,
+      disease,
+      role,
+    } = req.body;
 
     const isPrescriptionUpdate =
       req.body.diagnosis !== undefined ||
@@ -325,6 +334,12 @@ const updatePatient = async (req, res) => {
         advice: req.body.advice || "",
         notes: req.body.notes || "",
         signature: req.body.signature || "",
+
+        referralDoctor: req.body.referralDoctor || {
+          id: "",
+          name: "",
+          specialization: "",
+        },
       });
     }
 
@@ -466,17 +481,11 @@ const generatePrescriptionPDF = async (req, res) => {
     }
 
     const latest =
-      patient.prescriptionHistory[
-        patient.prescriptionHistory.length - 1
-      ];
+      patient.prescriptionHistory[patient.prescriptionHistory.length - 1];
 
     const pdfName = `Prescription_${patient.uhid}.pdf`;
 
-    const pdfPath = path.join(
-      __dirname,
-      "../generated",
-      pdfName
-    );
+    const pdfPath = path.join(__dirname, "../generated", pdfName);
 
     const doc = new PDFDocument({
       size: "A4",
@@ -485,9 +494,9 @@ const generatePrescriptionPDF = async (req, res) => {
 
     const outputDir = path.join(__dirname, "../generated");
 
-if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
-}
+    if (!fs.existsSync(outputDir)) {
+      fs.mkdirSync(outputDir, { recursive: true });
+    }
 
     const stream = fs.createWriteStream(pdfPath);
 
@@ -498,344 +507,302 @@ if (!fs.existsSync(outputDir)) {
     const BORDER = "#C7D9EC";
     const TEXT = "#222222";
 
-  function drawHeading(title) {
+    function drawHeading(title) {
+      if (doc.y > 700) {
+        doc.addPage();
+        doc.y = 40;
+      }
 
-if (doc.y > 700) {
-    doc.addPage();
-    doc.y = 40;
-}
+      const y = doc.y;
 
-const y = doc.y;
+      doc.roundedRect(40, y, 515, 26, 6).fill(PRIMARY);
 
-  doc
-    .roundedRect(40, y, 515, 26, 6)
-    .fill(PRIMARY);
+      doc
+        .fillColor("white")
+        .font("Helvetica-Bold")
+        .fontSize(14)
+        .text(title, 55, y + 7);
 
-  doc
-    .fillColor("white")
-    .font("Helvetica-Bold")
-    .fontSize(14)
-    .text(title, 55, y + 7);
+      doc.y = y + 35;
 
-  doc.y = y + 35;
+      doc.fillColor(TEXT);
+    }
 
-  doc.fillColor(TEXT);
-}
+    function drawContent(value) {
+      doc.fillColor(TEXT);
+      doc.font("Helvetica");
+      doc.fontSize(12);
 
-function drawContent(value) {
-  doc.fillColor(TEXT);
-  doc.font("Helvetica");
-  doc.fontSize(12);
+      if (
+        value &&
+        typeof value === "string" &&
+        value.startsWith("data:image")
+      ) {
+        const base64 = value.replace(/^data:image\/\w+;base64,/, "");
 
-  if (
-    value &&
-    typeof value === "string" &&
-    value.startsWith("data:image")
-  ) {
-    const base64 = value.replace(
-      /^data:image\/\w+;base64,/,
-      ""
-    );
+        const imageBuffer = Buffer.from(base64, "base64");
 
-    const imageBuffer = Buffer.from(base64, "base64");
+        doc.image(imageBuffer, {
+          fit: [300, 120],
+          align: "left",
+        });
 
-    doc.image(imageBuffer, {
-      fit: [300, 120],
-      align: "left",
+        doc.moveDown(1);
+      } else {
+        doc.text(value || "N/A", {
+          width: 500,
+          align: "left",
+        });
+
+        doc.moveDown(1);
+      }
+
+      if (doc.y > 650) {
+        doc.addPage();
+        doc.y = 40;
+      }
+    }
+
+    doc
+
+      .font("Helvetica-Bold")
+
+      .fontSize(24)
+
+      .fillColor(PRIMARY)
+
+      .text("SHRADDHA HOSPITAL", {
+        align: "center",
+      });
+
+    doc
+
+      .font("Helvetica")
+
+      .fontSize(11)
+
+      .fillColor(TEXT)
+
+      .text("Daund", {
+        align: "center",
+      });
+
+    doc.text("Phone : 9999999999", {
+      align: "center",
     });
 
-    doc.moveDown(1);
-  } else {
-    doc.text(value || "N/A", {
-      width: 500,
-      align: "left",
+    doc.text("Email : shraddhahospital@gmail.com", {
+      align: "center",
     });
 
-    doc.moveDown(1);
-  }
+    doc.moveDown(0.5);
 
-if (doc.y > 650) {
-    doc.addPage();
-    doc.y = 40;
-}
-}
+    doc
 
-doc
+      .moveTo(40, doc.y)
 
-.font("Helvetica-Bold")
+      .lineTo(555, doc.y)
 
-.fontSize(24)
+      .lineWidth(2)
 
-.fillColor(PRIMARY)
+      .strokeColor(PRIMARY)
 
-.text("SHRADDHA HOSPITAL", {
+      .stroke();
 
-align: "center",
+    doc.moveDown();
+    doc
 
-});
+      .font("Helvetica-Bold")
 
-doc
+      .fontSize(15)
 
-.font("Helvetica")
+      .fillColor(PRIMARY)
 
-.fontSize(11)
+      .text("Patient Details");
 
-.fillColor(TEXT)
+    doc.moveDown(0.4);
 
-.text("Daund", {
+    const startY = doc.y;
 
-align: "center",
+    doc
 
-});
+      .rect(40, startY, 515, 180)
 
-doc.text("Phone : 9999999999", {
+      .fillAndStroke(LIGHT, BORDER);
 
-align: "center",
+    doc.y = startY + 12;
 
-});
+    doc.x = 55;
 
-doc.text("Email : shraddhahospital@gmail.com", {
+    doc.fillColor(TEXT);
 
-align: "center",
+    doc.font("Helvetica-Bold").text("Patient Name : ", {
+      continued: true,
+    });
 
-});
+    doc.font("Helvetica").text(patient.name);
 
-doc.moveDown(.5);
+    doc.font("Helvetica-Bold").text("UHID : ", {
+      continued: true,
+    });
 
-doc
+    doc.font("Helvetica").text(patient.uhid);
 
-.moveTo(40, doc.y)
+    doc.font("Helvetica-Bold").text("Age : ", {
+      continued: true,
+    });
 
-.lineTo(555, doc.y)
+    doc.font("Helvetica").text(String(patient.age));
 
-.lineWidth(2)
+    doc.font("Helvetica-Bold").text("Gender : ", {
+      continued: true,
+    });
 
-.strokeColor(PRIMARY)
+    doc.font("Helvetica").text(patient.gender);
 
-.stroke();
+    doc.font("Helvetica-Bold").text("Doctor : ", {
+      continued: true,
+    });
 
-doc.moveDown();
-doc
+    doc.font("Helvetica").text(patient.doctor || "N/A");
 
-.font("Helvetica-Bold")
+    // doc.font("Helvetica-Bold").text("Date : ", {
 
-.fontSize(15)
+    // continued: true,
 
-.fillColor(PRIMARY)
+    // });
 
-.text("Patient Details");
+    // doc.font("Helvetica-Bold").text("Doctor : ", {
+    //   continued: true,
+    // });
 
-doc.moveDown(.4);
+    // doc.font("Helvetica").text(patient.doctor || "N/A");
 
-const startY = doc.y;
+    // ADD THIS
+    doc.font("Helvetica-Bold").text("Disease : ", {
+      continued: true,
+    });
 
-doc
+    doc.font("Helvetica").text(patient.disease || "N/A");
 
-.rect(40, startY, 515, 180)
+    // Date
+    doc.font("Helvetica-Bold").text("Date : ", {
+      continued: true,
+    });
 
-.fillAndStroke(LIGHT, BORDER);
+    doc
 
-doc.y = startY + 12;
+      .font("Helvetica")
 
-doc.x = 55;
+      .text(new Date().toLocaleDateString("en-IN"));
 
-doc.fillColor(TEXT);
+    doc.y = startY + 195;
 
-doc.font("Helvetica-Bold").text("Patient Name : ", {
+    // ========================================
+    // DIAGNOSIS
+    // ========================================
 
-continued: true,
+    drawHeading("Diagnosis");
+    drawContent(latest.diagnosis);
 
-});
+    // ========================================
+    // PRESCRIPTION
+    // ========================================
 
-doc.font("Helvetica").text(patient.name);
+    drawHeading("Prescription");
+    drawContent(latest.prescription);
 
-doc.font("Helvetica-Bold").text("UHID : ", {
+    // ========================================
+    // ADVICE
+    // ========================================
 
-continued: true,
+    drawHeading("Advice");
+    drawContent(latest.advice);
 
-});
+    // ========================================
+    // DOCTOR NOTES
+    // ========================================
 
-doc.font("Helvetica").text(patient.uhid);
+    drawHeading("Doctor Notes");
+    drawContent(latest.notes);
 
-doc.font("Helvetica-Bold").text("Age : ", {
+    if (latest.referralDoctor?.name) {
+      drawHeading("Referred Doctor");
 
-continued: true,
-
-});
-
-doc.font("Helvetica").text(String(patient.age));
-
-doc.font("Helvetica-Bold").text("Gender : ", {
-
-continued: true,
-
-});
-
-doc.font("Helvetica").text(patient.gender);
-
-doc.font("Helvetica-Bold").text("Doctor : ", {
-
-continued: true,
-
-});
-
-doc.font("Helvetica").text(patient.doctor || "N/A");
-
-// doc.font("Helvetica-Bold").text("Date : ", {
-
-// continued: true,
-
-// });
-
-// doc.font("Helvetica-Bold").text("Doctor : ", {
-//   continued: true,
-// });
-
-// doc.font("Helvetica").text(patient.doctor || "N/A");
-
-// ADD THIS
-doc.font("Helvetica-Bold").text("Disease : ", {
-  continued: true,
-});
-
-doc.font("Helvetica").text(patient.disease || "N/A");
-
-// Date
-doc.font("Helvetica-Bold").text("Date : ", {
-  continued: true,
-});
-
-doc
-
-.font("Helvetica")
-
-.text(new Date().toLocaleDateString("en-IN"));
-
-doc.y = startY + 195;
-
-// ========================================
-// DIAGNOSIS
-// ========================================
-
-drawHeading("Diagnosis");
-drawContent(latest.diagnosis);
-
-// ========================================
-// PRESCRIPTION
-// ========================================
-
-drawHeading("Prescription");
-drawContent(latest.prescription);
-
-// ========================================
-// ADVICE
-// ========================================
-
-drawHeading("Advice");
-drawContent(latest.advice);
-
-// ========================================
-// DOCTOR NOTES
-// ========================================
-
-drawHeading("Doctor Notes");
-drawContent(latest.notes);
-
-// ========================================
-// DOCTOR SIGNATURE
-// ========================================
-
-drawHeading("Doctor Signature");
-
-doc.fillColor(TEXT);
-
-if (
-  latest.signature &&
-  latest.signature.startsWith("data:image")
-) {
-  const base64 = latest.signature.replace(
-    /^data:image\/\w+;base64,/,
-    ""
-  );
-
-  const imageBuffer = Buffer.from(base64, "base64");
-
-doc.image(imageBuffer, {
-  fit: [140, 60],
-  align: "right",
-});
-
-  doc.moveDown(4);
-
-} else {
-
-  doc
-    .font("Helvetica")
-    .fontSize(12)
-    .text("No Signature");
-
-  doc.moveDown(2);
-}
-
-// ========================================
-// FOOTER
-// ========================================
-
-doc.moveDown();
-
-doc
-  .moveTo(40, doc.y)
-  .lineTo(555, doc.y)
-  .strokeColor("#cccccc")
-  .stroke();
-
-doc.moveDown(0.6);
-
-doc
-  .font("Helvetica")
-  .fontSize(10)
-  .fillColor("#666666")
-  .text(
-    "Shraddha Hospital | Daund | Phone : 9999999999",
-    {
-      align: "center",
+      drawContent(
+        `Dr. ${latest.referralDoctor.name}
+Specialization : ${latest.referralDoctor.specialization}`,
+      );
     }
-  );
 
-doc.text(
-  "Email : shraddhahospital@gmail.com",
-  {
-    align: "center",
-  }
-);
+    // ========================================
+    // DOCTOR SIGNATURE
+    // ========================================
 
-doc.moveDown(0.3);
+    drawHeading("Doctor Signature");
 
-doc
-  .font("Helvetica-Oblique")
-  .text(
-    "Generated by Hospital Management System",
-    {
-      align: "center",
+    doc.fillColor(TEXT);
+
+    if (latest.signature && latest.signature.startsWith("data:image")) {
+      const base64 = latest.signature.replace(/^data:image\/\w+;base64,/, "");
+
+      const imageBuffer = Buffer.from(base64, "base64");
+
+      doc.image(imageBuffer, {
+        fit: [140, 60],
+        align: "right",
+      });
+
+      doc.moveDown(4);
+    } else {
+      doc.font("Helvetica").fontSize(12).text("No Signature");
+
+      doc.moveDown(2);
     }
-  );
 
-doc.end();
+    // ========================================
+    // FOOTER
+    // ========================================
 
-stream.on("finish", () => {
-    res.download(pdfPath, () => {
+    doc.moveDown();
+
+    doc.moveTo(40, doc.y).lineTo(555, doc.y).strokeColor("#cccccc").stroke();
+
+    doc.moveDown(0.6);
+
+    doc
+      .font("Helvetica")
+      .fontSize(10)
+      .fillColor("#666666")
+      .text("Shraddha Hospital | Daund | Phone : 9999999999", {
+        align: "center",
+      });
+
+    doc.text("Email : shraddhahospital@gmail.com", {
+      align: "center",
+    });
+
+    doc.moveDown(0.3);
+
+    doc
+      .font("Helvetica-Oblique")
+      .text("Generated by Hospital Management System", {
+        align: "center",
+      });
+
+    doc.end();
+
+    stream.on("finish", () => {
+      res.download(pdfPath, () => {
         fs.unlink(pdfPath, () => {});
+      });
     });
-});
-
-} catch (err) {
-
-  res.status(500).json({
-    success: false,
-    message: err.message,
-  });
-
-}
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
 };
 
 const updateRoomStatus = async (roomNumber) => {

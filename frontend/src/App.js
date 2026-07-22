@@ -43,7 +43,7 @@ import Register from "./Components/Login/Register";
 
 import BillingDept from "./Components/Billing_Module/BillingDept";
 import PatientDetail from "./Components/Billing_Module/PatientDetail";
-import PrescriptionPage from "./Components/Admin/PrescriptionPage";
+import PrescriptionPage from "./Components/Reception/PrescriptionPage";
 
 // import BillingDept from "./Components/Billing_Module/BillingDept";
 // import PatientDetail from "./Components/Billing_Module/PatientDetail";

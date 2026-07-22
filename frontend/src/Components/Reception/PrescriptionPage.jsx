@@ -35,6 +35,12 @@ function PrescriptionPage() {
   const [advice, setAdvice] = useState("");
   const [notes, setNotes] = useState("");
 
+  const [referralDoctorId, setReferralDoctorId] = useState("");
+  const [referralDoctorName, setReferralDoctorName] = useState("");
+  const [referralSpecialization, setReferralSpecialization] = useState("");
+
+  const [doctorList, setDoctorList] = useState([]);
+
   const [diagnosisMode, setDiagnosisMode] = useState("type");
   const [prescriptionMode, setPrescriptionMode] = useState("type");
   const [adviceMode, setAdviceMode] = useState("type");
@@ -42,6 +48,7 @@ function PrescriptionPage() {
 
   useEffect(() => {
     loadPatient();
+    loadDoctors();
   }, []);
 
   const savePrescription = async () => {
@@ -139,6 +146,12 @@ function PrescriptionPage() {
         advice: adviceData,
         notes: notesData,
         signature: signatureData,
+
+        referralDoctor: {
+          id: referralDoctorId,
+          name: referralDoctorName,
+          specialization: referralSpecialization,
+        },
       };
 
       console.log("PAYLOAD =", payload);
@@ -200,6 +213,16 @@ function PrescriptionPage() {
 
   const downloadPDF = () => {
     window.open(`http://localhost:5000/api/patient/${id}/pdf`);
+  };
+
+  const loadDoctors = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/doctors");
+
+      setDoctorList(res.data.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const loadPatient = async () => {
@@ -427,6 +450,20 @@ function PrescriptionPage() {
                     <img src={item.notes} alt="" className="written-image" />
                   ) : (
                     <p>{item.notes}</p>
+                  )}
+
+                  {item.referralDoctor?.name && (
+                    <>
+                      <p>
+                        <strong>Referred To :</strong>
+                      </p>
+
+                      <p>
+                        Dr. {item.referralDoctor.name}
+                        {" - "}
+                        {item.referralDoctor.specialization}
+                      </p>
+                    </>
                   )}
 
                   <p>
@@ -687,6 +724,31 @@ function PrescriptionPage() {
               ) : (
                 <p>Not Added</p>
               )}
+            </div>
+
+            <div className="section">
+              <h3>Refer To Doctor</h3>
+
+              <select
+                value={referralDoctorId}
+                onChange={(e) => {
+                  const doctor = doctorList.find(
+                    (d) => d._id === e.target.value,
+                  );
+
+                  setReferralDoctorId(doctor._id);
+                  setReferralDoctorName(doctor.name);
+                  setReferralSpecialization(doctor.specialization);
+                }}
+              >
+                <option value="">Select Doctor</option>
+
+                {doctorList.map((doctor) => (
+                  <option key={doctor._id} value={doctor._id}>
+                    Dr. {doctor.name} - {doctor.specialization}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
         )}

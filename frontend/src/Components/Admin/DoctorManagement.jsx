@@ -28,12 +28,14 @@ function DoctorManagement({ doctors, fetchDoctors }) {
   });
 
   // ADD DOCTOR
-  const addDoctor = async () => {
-    try {
-      const res = await axios.post(
-        "http://localhost:5000/api/admin/doctor/add",
-        newDoctor,
-      );
+ const addDoctor = async () => {
+  console.log("Doctor Data:", newDoctor);
+
+  try {
+    const res = await axios.post(
+      "http://localhost:5000/api/admin/doctor/add",
+      newDoctor
+    );
 
       console.log(res.data);
 
@@ -55,21 +57,21 @@ function DoctorManagement({ doctors, fetchDoctors }) {
   };
 
   // DELETE DOCTOR
-const deleteDoctor = async (id) => {
-  try {
-    const res = await axios.delete(
-      `http://localhost:5000/api/admin/doctor/delete/${id}`
-    );
+  const deleteDoctor = async (id) => {
+    try {
+      const res = await axios.delete(
+        `http://localhost:5000/api/admin/doctor/delete/${id}`,
+      );
 
-    console.log(res.data);
-    alert(res.data.message);
+      console.log(res.data);
+      alert(res.data.message);
 
-    fetchDoctors();
-  } catch (error) {
-    console.log(error.response?.data);
-    alert(error.response?.data?.message || "Delete Failed");
-  }
-};
+      fetchDoctors();
+    } catch (error) {
+      console.log(error.response?.data);
+      alert(error.response?.data?.message || "Delete Failed");
+    }
+  };
 
   // SAVE EDIT
   const saveDoctorEdit = async (id) => {
@@ -82,6 +84,35 @@ const deleteDoctor = async (id) => {
         !editedDoctor.mobile
       ) {
         alert("Please fill all fields");
+        return;
+      }
+
+      if (editedDoctor.name.trim().length < 3) {
+        alert("Doctor name must be at least 3 characters");
+        return;
+      }
+
+      if (editedDoctor.specialization.trim().length < 2) {
+        alert("Enter valid specialization");
+        return;
+      }
+
+      if (editedDoctor.qualification.trim().length < 2) {
+        alert("Enter valid qualification");
+        return;
+      }
+
+      if (!/^[6-9]\d{9}$/.test(editedDoctor.mobile)) {
+        alert("Enter valid 10 digit mobile number");
+        return;
+      }
+
+      if (
+        !/^\d+\s*(Year|Years|Month|Months|yrs|yr)$/i.test(
+          editedDoctor.experience,
+        )
+      ) {
+        alert("Experience should be like 5 Years or 6 Months");
         return;
       }
 
@@ -143,18 +174,19 @@ const deleteDoctor = async (id) => {
                   onChange={(e) =>
                     setEditedDoctor({
                       ...editedDoctor,
-                      name: e.target.value,
+                      name: e.target.value.replace(/[^A-Za-z. ]/g, ""),
                     })
                   }
                 />
 
                 <input
-                  type="number"
+                  type="text"
+                  maxLength={10}
                   value={editedDoctor.mobile}
                   onChange={(e) =>
                     setEditedDoctor({
                       ...editedDoctor,
-                      mobile: e.target.value,
+                      mobile: e.target.value.replace(/\D/g, "").slice(0, 10),
                     })
                   }
                 />
@@ -165,7 +197,10 @@ const deleteDoctor = async (id) => {
                   onChange={(e) =>
                     setEditedDoctor({
                       ...editedDoctor,
-                      specialization: e.target.value,
+                      specialization: e.target.value.replace(
+                        /[^A-Za-z &]/g,
+                        "",
+                      ),
                     })
                   }
                 />
@@ -176,7 +211,10 @@ const deleteDoctor = async (id) => {
                   onChange={(e) =>
                     setEditedDoctor({
                       ...editedDoctor,
-                      qualification: e.target.value,
+                      qualification: e.target.value.replace(
+                        /[^A-Za-z,. ]/g,
+                        "",
+                      ),
                     })
                   }
                 />
@@ -187,7 +225,7 @@ const deleteDoctor = async (id) => {
                   onChange={(e) =>
                     setEditedDoctor({
                       ...editedDoctor,
-                      experience: e.target.value,
+                      experience: e.target.value.replace(/[^0-9A-Za-z ]/g, ""),
                     })
                   }
                 />
