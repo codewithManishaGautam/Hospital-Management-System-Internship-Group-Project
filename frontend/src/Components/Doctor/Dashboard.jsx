@@ -2,7 +2,7 @@ import React from "react";
 import DashboardCards from "./DashboardCards";
 import PatientTable from "./PatientTable";
 
-function Dashboard({ doctorName, appointments, patients }) {
+function Dashboard({ doctorName, patients }) {
 
   console.log("Dashboard Loaded");
   console.log("Patients =", patients);
@@ -11,7 +11,7 @@ function Dashboard({ doctorName, appointments, patients }) {
     <>
       <h2>Welcome Dr. {doctorName}</h2>
 
-      <DashboardCards appointments={appointments} />
+      <DashboardCards patients={patients} />
 
       <PatientTable patients={patients} />
     </>

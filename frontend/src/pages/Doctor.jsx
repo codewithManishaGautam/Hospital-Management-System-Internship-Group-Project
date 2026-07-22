@@ -7,6 +7,7 @@ import PrescriptionPage from "../Components/Reception/PrescriptionPage";
 // import "./doctor.css";
 
 import Dashboard from "../Components/Doctor/Dashboard";
+import ProfileDashboard from "../Components/Doctor/ProfileDashboard";
 
 function Doctor() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -40,46 +41,37 @@ function Doctor() {
     }
   };
 
- const fetchAppointments = async () => {
-  try {
-    const res = await axios.get(
-      "http://localhost:5000/api/doctor/upcoming-appointments",
-    );
+  const fetchAppointments = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/api/doctor/upcoming-appointments",
+      );
 
-    console.log("Appointments API =", res.data);
+      console.log("Appointments API =", res.data);
 
-    const myAppointments = res.data.data.filter(
-      (item) => item.doctor === doctorName,
-    );
+      const myAppointments = res.data.data.filter(
+        (item) => item.doctor === doctorName,
+      );
 
-    console.log("My Appointments =", myAppointments);
+      console.log("My Appointments =", myAppointments);
 
-    setAppointments(myAppointments);
-  } catch (err) {
-    console.log(err);
-  }
-};
+      setAppointments(myAppointments);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-return (
-  <Layout
-    role="Doctor"
-    step={step}
-    setStep={setStep}
-  >
+  return (
+    <Layout role="Doctor" step={step} setStep={setStep}>
+      {step === "dashboard" && (
+        <Dashboard doctorName={doctorName} patients={patients} />
+      )}
 
+      {step === "profile-dashboard" && <ProfileDashboard />}
 
-    {step === "dashboard" && (
-  <Dashboard
-    doctorName={doctorName}
-    appointments={appointments}
-    patients={patients}
-  />
-)}
-
-{/* {step === "profile-dashboard" && (
+      {/* {step === "profile-dashboard" && (
   <ProfileDashboard />
 )} */}
-
 
       {/* <div className="doctor-dashboard">
         <h2>Welcome Dr. {doctorName}</h2>

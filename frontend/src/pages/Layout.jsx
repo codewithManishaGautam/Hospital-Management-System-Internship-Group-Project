@@ -39,31 +39,18 @@ function Layout({ role, children, step, setStep }) {
 
         {role === "Doctor" && (
           <>
-            <button onClick={() => handleStep("dashboard")}>
+            <button
+              className={step === "dashboard" ? "active-menu" : ""}
+              onClick={() => handleStep("dashboard")}
+            >
               🏠 Dashboard
             </button>
-            <button onClick={() => handleStep("profile-dashboard")}>
+
+            <button
+              className={step === "profile-dashboard" ? "active-menu" : ""}
+              onClick={() => handleStep("profile-dashboard")}
+            >
               👤 Profile
-            </button>
-            <button onClick={() => handleStep("appointments")}>
-              📅 Appointments
-            </button>
-            <button onClick={() => handleStep("patients")}>🧑 Patients</button>
-            <button onClick={() => handleStep("prescriptions")}>
-              💊 Prescriptions
-            </button>
-            <button onClick={() => handleStep("reports")}>
-              🧪 Medical Reports
-            </button>
-            <button onClick={() => handleStep("emergency")}>
-              🚨 Emergency
-            </button>
-            <button onClick={() => handleStep("schedule")}>🕒 Schedule</button>
-            <button onClick={() => handleStep("notifications")}>
-              🔔 Notifications
-            </button>
-            <button onClick={() => handleStep("analytics")}>
-              📈 Analytics
             </button>
           </>
         )}

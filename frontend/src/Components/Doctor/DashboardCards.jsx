@@ -1,28 +1,47 @@
 import React from "react";
 
-function DashboardCards({ appointments }) {
-  const today = new Date().toISOString().split("T")[0];
+function DashboardCards({ patients }) {
+  console.log("Patients =", patients);
 
-  // Only today's appointments
-  const todayAppointments = appointments.filter(
-    (item) => item.appointmentDate === today
+  const today = new Date().toLocaleDateString("en-CA");
+  console.log("Today =", today);
+
+  patients.forEach((p) => {
+    console.log(
+      "Patient:",
+      p.name,
+      "Date:",
+      p.appointmentDate,
+      "Status:",
+      p.status,
+    );
+  });
+
+  const todayPatients = patients.filter((p) => {
+    if (!p.appointmentDate) return false;
+
+    return p.appointmentDate.slice(0, 10) === today;
+  });
+
+  console.log("Today's Patients =", todayPatients);
+  // console.log("Pending Patients =", pendingPatients);
+
+  const pendingPatients = todayPatients.filter(
+    (p) => p.status === "Pending" || p.status === "Waiting Doctor",
   );
 
-  // Pending appointments of today
-  const pending = todayAppointments.filter(
-    (item) => item.status === "Pending"
-  ).length;
+  console.log("Pending Patients =", pendingPatients);
 
   return (
     <div className="doctor-cards">
       <div className="doctor-card">
         <h3>Today's Appointments</h3>
-        <h1>{todayAppointments.length}</h1>
+        <h1>{todayPatients.length}</h1>
       </div>
 
       <div className="doctor-card">
         <h3>Pending</h3>
-        <h1>{pending}</h1>
+        <h1>{pendingPatients.length}</h1>
       </div>
     </div>
   );
