@@ -52,6 +52,13 @@ function Layout({ role, children, step, setStep }) {
             >
               👤 Profile
             </button>
+
+            <button
+              className={step === "patients" ? "active-menu" : ""}
+              onClick={() => handleStep("patients")}
+            >
+              🧑 Patients
+            </button>
           </>
         )}
 
