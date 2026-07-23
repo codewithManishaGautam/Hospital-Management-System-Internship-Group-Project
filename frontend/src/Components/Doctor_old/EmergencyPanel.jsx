@@ -3,7 +3,9 @@ import StatusBadge from "./StatusBadge";
 
 function EmergencyPanel({ patients }) {
   const emergencyPatients = useMemo(() => {
-    return (patients || []).filter((p) => p.status === "Critical" || p.condition === "Cardiac");
+    return (patients || []).filter(
+      (p) => p.status === "Critical" || p.condition === "Cardiac",
+    );
   }, [patients]);
 
   return (
@@ -11,7 +13,9 @@ function EmergencyPanel({ patients }) {
       <div className="doctor-panel__header" style={{ marginBottom: 12 }}>
         <div>
           <h3 className="doctor-panel__title">Emergency Cases</h3>
-          <p className="doctor-panel__subtitle">Priority cases requiring immediate attention</p>
+          <p className="doctor-panel__subtitle">
+            Priority cases requiring immediate attention
+          </p>
         </div>
         <div className="doctor-panel__actions">
           <div className="doctor-panel__chip">
@@ -22,7 +26,9 @@ function EmergencyPanel({ patients }) {
 
       <div className="doctor-emergencyGrid">
         <div className="doctor-emergencyGrid__left">
-          <div className="doctor-form__section-title">Emergency Patient List</div>
+          <div className="doctor-form__section-title">
+            Emergency Patient List
+          </div>
           <div className="doctor-table-wrap doctor-table-wrap--small">
             <table className="doctor-table">
               <thead>
@@ -45,12 +51,26 @@ function EmergencyPanel({ patients }) {
                     <tr key={p.uHID}>
                       <td style={{ fontWeight: 1000 }}>
                         <div>{p.name}</div>
-                        <div style={{ fontSize: 12, color: "var(--doctor-muted)", fontWeight: 900 }}>{p.uHID}</div>
+                        <div
+                          style={{
+                            fontSize: 12,
+                            color: "var(--doctor-muted)",
+                            fontWeight: 900,
+                          }}
+                        >
+                          {p.uHID}
+                        </div>
                       </td>
                       <td>{p.condition}</td>
                       <td>{p.phone}</td>
                       <td>
-                        <StatusBadge variant={p.status === "Critical" ? "danger" : "warning"}>{p.status}</StatusBadge>
+                        <StatusBadge
+                          variant={
+                            p.status === "Critical" ? "danger" : "warning"
+                          }
+                        >
+                          {p.status}
+                        </StatusBadge>
                       </td>
                     </tr>
                   ))
@@ -62,33 +82,30 @@ function EmergencyPanel({ patients }) {
 
         <div className="doctor-emergencyGrid__right">
           <div className="doctor-calendar" style={{ height: "fit-content" }}>
-            <div className="doctor-calendar__title">Emergency Notifications</div>
+            <div className="doctor-calendar__title">
+              Emergency Notifications
+            </div>
             <div className="doctor-hint" style={{ marginTop: 0 }}>
               Live alerts (UI placeholder)
             </div>
 
             <div className="doctor-activity" style={{ marginTop: 10 }}>
-              {[
-                { text: "Critical vitals reported", meta: "Now" },
-                { text: "Cardiac patient check-in", meta: "10 minutes ago" },
-                { text: "Lab test priority requested", meta: "30 minutes ago" },
-              ].map((a, idx) => (
-                <div key={idx} className="doctor-activity-item">
-                  <div className="doctor-activity-item__left">
-                    <div className="doctor-activity-item__dot" />
-                    <div className="doctor-activity-item__desc">
-                      <div className="doctor-activity-item__text">{a.text}</div>
-                      <div className="doctor-activity-item__meta">{a.meta}</div>
-                    </div>
-                  </div>
-                  <div style={{ color: "#dc2626", fontWeight: 1000, fontSize: 12 }}>Action</div>
-                </div>
-              ))}
+              <div className="doctor-hint">
+                Emergency notifications will appear here once available.
+              </div>
             </div>
 
-            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 12 }}>
-              <button type="button" className="doctor-btn doctor-btn--primary" onClick={() => alert("Emergency triage started (UI placeholder).")}>Triage</button>
-              <button type="button" className="doctor-btn" onClick={() => alert("Notify nurse (UI placeholder).")}>Notify</button>
+            <div
+              style={{
+                display: "flex",
+                gap: 10,
+                flexWrap: "wrap",
+                marginTop: 12,
+              }}
+            >
+              <button className="doctor-btn doctor-btn--primary">Triage</button>
+
+              <button className="doctor-btn">Notify</button>
             </div>
           </div>
         </div>
@@ -98,4 +115,3 @@ function EmergencyPanel({ patients }) {
 }
 
 export default EmergencyPanel;
-
