@@ -142,6 +142,10 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
     }));
   };
 
+  const selectedDoctor = doctors.find(
+  (doctor) => doctor._id === formData.doctor
+);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -218,6 +222,8 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
       return;
     }
 
+    // const selectedDoctor = doctors.find((d) => d._id === formData.doctor);
+
     try {
       const patientData = {
         uhid: formData.uhid,
@@ -233,7 +239,7 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
 
         disease: formData.disease,
         department: formData.department,
-        doctor: formData.doctor,
+        doctor: selectedDoctor ? selectedDoctor.name : "",
 
         appointmentDate: formData.appointmentDate,
         appointmentTime: formData.appointmentTime,
@@ -244,6 +250,8 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
         roomNo: formData.roomNo,
         bedNo: formData.bedNo,
 
+        doctorId: formData.doctor,
+        doctor: doctors.find((d) => d._id === formData.doctor)?.name || "",
         //         appointmentDate: formData.appointmentDate,
         // appointmentTime: formData.appointmentTime,
 
@@ -261,7 +269,7 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
         advice: "",
         notes: "",
 
-        newAppointment: !!patient,
+        newAppointment: mode === "appointment",
 
         labReport: "",
 
@@ -570,7 +578,7 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
                     (doctor) => doctor.specialization === formData.department,
                   )
                   .map((doctor) => (
-                    <option key={doctor._id} value={doctor.name}>
+                    <option key={doctor._id} value={doctor._id}>
                       Dr. {doctor.name}
                     </option>
                   ))}
@@ -689,27 +697,45 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
 
         <div className="form-buttons">
           <button type="submit" className="save-btn">
-            Save Registration
+            {mode === "edit"
+              ? "Update Patient"
+              : mode === "appointment"
+                ? "Book Appointment"
+                : "Register Patient"}
           </button>
 
-          <button
-            type="button"
-            className="send-btn"
-            onClick={() => {
-              if (!formData.uhid) {
-                alert("Please Register Patient First");
-                return;
-              }
+         {/* <button
+  type="button"
+  className="send-btn"
+  onClick={async () => {
+    if (!patient) {
+      alert("Please Register Patient First");
+      return;
+    }
 
-              alert(
-                `Patient ${formData.name} Sent To ${formData.doctor || "Doctor"}`,
-              );
-            }}
-          >
-            Send To Doctor
-          </button>
+    try {
+      await updatePatient(patient._id, {
+        doctor: selectedDoctor?.name,
+        doctorId: selectedDoctor?._id,
 
-          {formData.role === "OPD" && (
+        status: "Waiting Doctor",
+        flowStatus: "Appointment Booked",
+
+        appointmentDate: formData.appointmentDate,
+        appointmentTime: formData.appointmentTime,
+      });
+
+      alert(`Patient sent to Dr. ${selectedDoctor?.name}`);
+    } catch (err) {
+      console.log(err);
+      alert("Send Failed");
+    }
+  }}
+>
+  Send To Doctor
+</button> */}
+
+          {/* {formData.role === "OPD" && (
             <button
               type="button"
               className="generate-btn"
@@ -724,7 +750,7 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
             >
               Generate Appointment
             </button>
-          )}
+          )} */}
         </div>
       </form>
     </div>

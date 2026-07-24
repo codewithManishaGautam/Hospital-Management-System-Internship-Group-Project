@@ -106,17 +106,20 @@ app.use("/api/beds", bedRoutes);
 const adminRoutes = require("./routes/adminRoutes");
 app.use("/api/admin", adminRoutes);
 
-app.use((req, res, next) => {
-  if (req.path.startsWith("/doctor") && process.env.NODE_ENV !== "test") {
-    try {
-      const doctorRoutes = require("./routes/doctorRoutes");
-      return doctorRoutes(req, res, next);
-    } catch (e) {
-      return next(e);
-    }
-  }
-  return next();
-});
+const doctorRoutes = require("./routes/doctorRoutes");
+app.use("/api", doctorRoutes);
+
+// app.use((req, res, next) => {
+//   if (req.path.startsWith("/doctor") && process.env.NODE_ENV !== "test") {
+//     try {
+//       const doctorRoutes = require("./routes/doctorRoutes");
+//       return doctorRoutes(req, res, next);
+//     } catch (e) {
+//       return next(e);
+//     }
+//   }
+//   return next();
+// });
 
 // ======================
 // MongoDB

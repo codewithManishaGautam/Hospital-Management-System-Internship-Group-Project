@@ -20,7 +20,30 @@ const patientSchema = new mongoose.Schema(
     // Medical
     disease: String,
 
-    doctor: String,
+    doctorId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Doctor",
+    },
+
+    doctor: {
+      type: String,
+      default: "",
+    },
+
+    referralDoctor: {
+      id: {
+        type: String,
+        default: "",
+      },
+      name: {
+        type: String,
+        default: "",
+      },
+      specialization: {
+        type: String,
+        default: "",
+      },
+    },
 
     diagnosis: {
       type: String,
@@ -67,6 +90,23 @@ const patientSchema = new mongoose.Schema(
         signature: {
           type: String,
           default: "",
+        },
+
+        referralDoctor: {
+          id: {
+            type: String,
+            default: "",
+          },
+
+          name: {
+            type: String,
+            default: "",
+          },
+
+          specialization: {
+            type: String,
+            default: "",
+          },
         },
 
         createdAt: {

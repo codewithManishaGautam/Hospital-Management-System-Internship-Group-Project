@@ -84,6 +84,8 @@ function Dashboard({ setStep, setSelectedPatient, setMode }) {
   };
 
   const handleEdit = (patient) => {
+    setMode("edit");
+
     setSelectedPatient({
       ...patient,
       isAppointment: false,
@@ -100,6 +102,8 @@ function Dashboard({ setStep, setSelectedPatient, setMode }) {
         <button
           className="add-btn"
           onClick={() => {
+            setMode("register"); // NEW
+
             setSelectedPatient(null);
             setStep("register");
           }}
@@ -225,6 +229,8 @@ function Dashboard({ setStep, setSelectedPatient, setMode }) {
                         <button
                           className="appointment-btn"
                           onClick={() => {
+                            setMode("appointment"); // NEW
+
                             setSelectedPatient({
                               ...patient,
                               isAppointment: true,
