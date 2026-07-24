@@ -118,7 +118,6 @@ app.use((req, res, next) => {
   return next();
 });
 
-<<<<<<< HEAD
 // ======================
 // MongoDB
 // ======================
@@ -312,8 +311,6 @@ app.post("/add", async (req, res) => {
 //   },
 // );
 
-=======
->>>>>>> origin/main
 app.get("/patients", async (req, res) => {
   try {
     const page = Number(req.query.page) || 1;
