@@ -12,7 +12,6 @@ import NurseDashboard from "./pages/Nurse";
 import BillingDashboard from "./pages/Billing";
 import InsuranceDashboard from "./pages/Insurance";
 import AdminDashboard from "./pages/Admin";
-import InsuranceDesk from "./components/insurance/InsuranceDesk";
 
 import VerifyAccount from "./Components/Login/VerifyAccount";
 import ForgotPassword from "./Components/Login/ForgotPassword";
@@ -106,7 +105,7 @@ function App() {
         <Route path="/patient/:id" element={<PatientDetail />} />
 
         {/* Insurance */}
-        <Route path="/insurance/*" element={<InsuranceDesk />} />
+        <Route path="/insurance/*" element={<InsuranceDashboard />} />
 
         {/* Admin */}
         <Route path="/admin" element={<AdminDashboard />} />
