@@ -244,6 +244,71 @@ const seedForms = async () => {
       templateId: 'PARAMOUNT_HEALTH'
     });
 
+    formDocs.push({
+      formName: 'Aditya Birla Health Insurance Pre-Auth',
+      formCode: 'ADITYA-BIRLA-01',
+      description: 'Pre-auth request for Aditya Birla Health Insurance.',
+      insuranceCompanyId: genericCo._id,
+      insurerOrTpaName: 'Aditya Birla Health Insurance',
+      formCategory: 'Pre-Auth',
+      claimType: 'Cashless',
+      isMandatory: true,
+      fileFormat: 'Digital Template',
+      templateId: 'ADITYA_BIRLA'
+    });
+
+    formDocs.push({
+      formName: 'Cholamandalam MS Request for Cashless Hospitalisation',
+      formCode: 'CHOLAMANDALAM-01',
+      description: 'Pre-auth request for Cholamandalam MS General Insurance.',
+      insuranceCompanyId: genericCo._id,
+      insurerOrTpaName: 'Cholamandalam MS General Insurance',
+      formCategory: 'Pre-Auth',
+      claimType: 'Cashless',
+      isMandatory: true,
+      fileFormat: 'Digital Template',
+      templateId: 'CHOLAMANDALAM'
+    });
+
+    formDocs.push({
+      formName: 'Cholamandalam MS Claim Form',
+      formCode: 'CHOLAMANDALAM-CLM-01',
+      description: 'Claim form for Cholamandalam MS General Insurance.',
+      insuranceCompanyId: genericCo._id,
+      insurerOrTpaName: 'Cholamandalam MS General Insurance',
+      formCategory: 'Claim',
+      claimType: 'Reimbursement',
+      isMandatory: true,
+      fileFormat: 'Digital Template',
+      templateId: 'CHOLAMANDALAM_CLAIM'
+    });
+
+    formDocs.push({
+      formName: 'Bajaj Allianz General Insurance Claim Form',
+      formCode: 'BAJAJ-ALLIANZ-CLM-01',
+      description: 'Claim form for Bajaj Allianz General Insurance.',
+      insuranceCompanyId: genericCo._id,
+      insurerOrTpaName: 'Bajaj Allianz General Insurance',
+      formCategory: 'Claim',
+      claimType: 'Reimbursement',
+      isMandatory: true,
+      fileFormat: 'Digital Template',
+      templateId: 'BAJAJ_ALLIANZ_CLAIM'
+    });
+
+    formDocs.push({
+      formName: 'Bajaj Allianz Global Personal Guard Policy Claim Form',
+      formCode: 'BAJAJ-ALLIANZ-PGP-01',
+      description: 'Global Personal Guard Policy Claim Form for Bajaj Allianz.',
+      insuranceCompanyId: genericCo._id,
+      insurerOrTpaName: 'Bajaj Allianz General Insurance',
+      formCategory: 'Claim',
+      claimType: 'Reimbursement',
+      isMandatory: false,
+      fileFormat: 'Digital Template',
+      templateId: 'BAJAJ_ALLIANZ_PGP_CLAIM'
+    });
+
     await OfficialFormsRegistry.insertMany(formDocs);
     console.log(`Successfully seeded ${formDocs.length} official forms!`);
 

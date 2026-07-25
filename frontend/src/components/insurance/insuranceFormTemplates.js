@@ -5590,4 +5590,193 @@ export const FORM_TEMPLATES = {
       }
     ]
   }
+  ,
+  "ADITYA_BIRLA": {
+    "id": "ADITYA_BIRLA",
+    "name": "Aditya Birla Health Insurance Co. Limited",
+    "sections": [
+      {
+        "title": "TPA / Insurance Company Details",
+        "fields": [
+          { "name": "tpaName", "label": "Name of TPA/Insurance company", "type": "text", "required": true },
+          { "name": "tollFreeNo", "label": "Toll free phone number", "type": "text" },
+          { "name": "tollFreeFax", "label": "Toll free FAX", "type": "text" }
+        ]
+      },
+      {
+        "title": "Patient Details",
+        "fields": [
+          { "name": "patientName", "label": "Name of the Patient", "type": "text", "required": true },
+          { "name": "gender", "label": "Gender", "type": "select", "options": ["Male", "Female"], "required": true },
+          { "name": "age", "label": "Age", "type": "number", "required": true },
+          { "name": "dob", "label": "Date of birth", "type": "date" },
+          { "name": "contactNo", "label": "Contact number", "type": "text", "required": true },
+          { "name": "relativeContactNo", "label": "Contact number of attending relative", "type": "text" },
+          { "name": "insuredCardId", "label": "Insured card ID number", "type": "text", "required": true },
+          { "name": "policyNo", "label": "Policy number/ Name of corporate", "type": "text", "required": true },
+          { "name": "employeeId", "label": "Employee ID", "type": "text" }
+        ]
+      },
+      {
+        "title": "Hospitalization Details",
+        "fields": [
+          { "name": "admissionDate", "label": "Date of admission", "type": "date", "required": true },
+          { "name": "admissionTime", "label": "Time of admission", "type": "time" },
+          { "name": "admissionType", "label": "Admission Type", "type": "select", "options": ["Emergency", "Planned"] },
+          { "name": "expectedDays", "label": "Expected no. of days stay", "type": "number", "required": true },
+          { "name": "roomType", "label": "Room Type", "type": "text" },
+          { "name": "sumTotalExpectedCost", "label": "Sum total expected cost", "type": "number", "required": true }
+        ]
+      }
+    ]
+  },
+  "CHOLAMANDALAM": {
+    "id": "CHOLAMANDALAM",
+    "name": "Cholamandalam MS General Insurance",
+    "sections": [
+      {
+        "title": "Basic Information",
+        "fields": [
+          { "name": "rohiniId", "label": "Rohini ID", "type": "text" },
+          { "name": "patientAbhaId", "label": "Patient ABHA ID", "type": "text" }
+        ]
+      },
+      {
+        "title": "Patient Details",
+        "fields": [
+          { "name": "patientName", "label": "Name of the Patient", "type": "text", "required": true },
+          { "name": "gender", "label": "Gender", "type": "select", "options": ["Male", "Female", "Third Gender"], "required": true },
+          { "name": "age", "label": "Age", "type": "number", "required": true },
+          { "name": "contactNo", "label": "Contact Number", "type": "text", "required": true },
+          { "name": "insuredCardId", "label": "Insured card ID number", "type": "text", "required": true },
+          { "name": "policyNo", "label": "Policy number/ Corporate", "type": "text", "required": true }
+        ]
+      },
+      {
+        "title": "Doctor Details",
+        "fields": [
+          { "name": "doctorName", "label": "Name of the Doctor", "type": "text", "required": true },
+          { "name": "clinicalFindings", "label": "Relevant Clinical Findings", "type": "textarea", "required": true },
+          { "name": "icd10Code", "label": "ICD 10 Code", "type": "text" },
+          { "name": "proposedTreatment", "label": "Proposed line of treatment", "type": "text" }
+        ]
+      }
+    ]
+  },
+  "CHOLAMANDALAM_CLAIM": {
+    "id": "CHOLAMANDALAM_CLAIM",
+    "name": "Cholamandalam Claim Form",
+    "sections": [
+      {
+        "title": "Primary Insured Details",
+        "fields": [
+          { "name": "policyNo", "label": "Policy No", "type": "text", "required": true },
+          { "name": "companyTpaId", "label": "Company / TPA ID No", "type": "text" },
+          { "name": "primaryInsuredName", "label": "Name", "type": "text", "required": true },
+          { "name": "address", "label": "Address", "type": "text" }
+        ]
+      },
+      {
+        "title": "Hospitalization Details",
+        "fields": [
+          { "name": "hospitalName", "label": "Name of the Hospital where admitted", "type": "text", "required": true },
+          { "name": "roomCategory", "label": "Room Category occupied", "type": "text" },
+          { "name": "admissionDate", "label": "Date of admission", "type": "date", "required": true },
+          { "name": "dischargeDate", "label": "Date of discharge", "type": "date", "required": true }
+        ]
+      },
+      {
+        "title": "Claim Details",
+        "fields": [
+          { "name": "inPatientHospitalization", "label": "In-Patient Hospitalization", "type": "text" },
+          { "name": "preHospitalization", "label": "Pre-hospitalization Expenses", "type": "text" },
+          { "name": "postHospitalization", "label": "Post-hospitalization Expenses", "type": "text" }
+        ]
+      }
+    ]
+  },
+  "BAJAJ_ALLIANZ_CLAIM": {
+    "id": "BAJAJ_ALLIANZ_CLAIM",
+    "name": "Bajaj Allianz General Insurance Claim Form",
+    "sections": [
+      {
+        "title": "Primary Insured Details",
+        "fields": [
+          { "name": "policyNo", "label": "Policy No", "type": "text", "required": true },
+          { "name": "companyTpaId", "label": "Company TPA ID No", "type": "text" },
+          { "name": "companyName", "label": "Company Name", "type": "text" },
+          { "name": "primaryInsuredName", "label": "Name", "type": "text", "required": true }
+        ]
+      },
+      {
+        "title": "Hospitalization Details",
+        "fields": [
+          { "name": "hospitalName", "label": "Name of Hospital where Admitted", "type": "text", "required": true },
+          { "name": "roomCategory", "label": "Room Category", "type": "text" },
+          { "name": "admissionDate", "label": "Date of admission", "type": "date", "required": true },
+          { "name": "dischargeDate", "label": "Date of Discharge", "type": "date", "required": true }
+        ]
+      },
+      {
+        "title": "Claim Details",
+        "fields": [
+          { "name": "preHospitalization", "label": "Pre-Hospitalisation Expenses", "type": "number" },
+          { "name": "postHospitalization", "label": "Post-Hospitalisation Expenses", "type": "number" },
+          { "name": "hospitalizationExpenses", "label": "Hospitalisation Expenses", "type": "number" },
+          { "name": "ambulanceCharges", "label": "Ambulance Charges", "type": "number" }
+        ]
+      }
+    ]
+  },
+  "BAJAJ_ALLIANZ_PGP_CLAIM": {
+    "id": "BAJAJ_ALLIANZ_PGP_CLAIM",
+    "name": "Bajaj Allianz Global Personal Guard Policy Claim Form",
+    "sections": [
+      {
+        "title": "Policy Details",
+        "fields": [
+          { "name": "nameOfInsured", "label": "Name of the Insured", "type": "text", "required": true },
+          { "name": "policyNumber", "label": "Policy Number", "type": "text", "required": true },
+          { "name": "addressOfInsured", "label": "Address of the Insured", "type": "textarea", "required": true },
+          { "name": "contactNumber", "label": "Contact Number", "type": "text", "required": true }
+        ]
+      },
+      {
+        "title": "Details of the Insured Person (Accident Details)",
+        "fields": [
+          { "name": "insuredPersonName", "label": "Name of the Insured Person", "type": "text", "required": true },
+          { "name": "age", "label": "Age", "type": "number", "required": true },
+          { "name": "gender", "label": "Gender", "type": "select", "options": ["Male", "Female"], "required": true },
+          { "name": "injuryDateTime", "label": "Date and time of Injury Sustained / Accident", "type": "datetime-local", "required": true },
+          { "name": "whereHappened", "label": "Where did it happen?", "type": "textarea", "required": true },
+          { "name": "howHappened", "label": "How did the Accident Occur?", "type": "textarea", "required": true },
+          { "name": "natureOfInjury", "label": "Nature of injury suffered", "type": "textarea", "required": true },
+          { "name": "policeReported", "label": "Whether accident reported to Police?", "type": "select", "options": ["Yes", "No"], "required": true },
+          { "name": "firDetails", "label": "If Yes, FIR details", "type": "text" },
+          { "name": "lossOfLimbs", "label": "Has the accident resulted into loss of hand/foot/eye or permanent disability?", "type": "textarea", "required": true },
+          { "name": "hospitalTaken", "label": "Whether Insured been taken to any hospital after the accident?", "type": "select", "options": ["Yes", "No"], "required": true },
+          { "name": "hospitalAdmissionDate", "label": "Date and Time of Admission in Hospital", "type": "datetime-local" },
+          { "name": "hospitalDischargeDate", "label": "Date and time of discharge from the Hospital", "type": "datetime-local" }
+        ]
+      },
+      {
+        "title": "Base Covers Claimed",
+        "fields": [
+          { "name": "claimDeath", "label": "Section I: Death", "type": "checkbox" },
+          { "name": "claimTotalDisability", "label": "Section II: Permanent Total Disability", "type": "checkbox" },
+          { "name": "claimPartialDisability", "label": "Section III: Permanent Partial Disability", "type": "checkbox" }
+        ]
+      },
+      {
+        "title": "Bank Account Details",
+        "fields": [
+          { "name": "accountHolder", "label": "Name of the Account Holder", "type": "text", "required": true },
+          { "name": "accountNo", "label": "Account No", "type": "text", "required": true },
+          { "name": "bankName", "label": "Bank Name", "type": "text", "required": true },
+          { "name": "ifscCode", "label": "IFSC Code", "type": "text", "required": true }
+        ]
+      }
+    ]
+  }
+
 };
