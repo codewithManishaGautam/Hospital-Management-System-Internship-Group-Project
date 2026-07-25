@@ -22,7 +22,6 @@ exports.getAllPatients = async (req, res) => {
     }
 };
 
-
 exports.searchPatientByUHID = async (req, res) => {
     try {
         const { uhid } = req.query;
@@ -72,7 +71,6 @@ exports.getPatientDetailsByUHID = async (req, res) => {
     }
 };
 
-
 exports.updatePatientAdmissionDate = async (req, res) => {
     try {
         const { uhid } = req.params;
@@ -87,11 +85,9 @@ exports.updatePatientAdmissionDate = async (req, res) => {
 // ==========================================
 // 2. BEDS CONTROLLERS
 // ==========================================
-
 exports.saveBedStatus = async (req, res) => {
     try {
         const { general, special, icu } = req.body;
-    
         if (Bed && typeof Bed.findOneAndUpdate === 'function') {
             await Bed.findOneAndUpdate({ wardName: 'General' }, general, { upsert: true, new: true });
             await Bed.findOneAndUpdate({ wardName: 'Special' }, special, { upsert: true, new: true });
@@ -102,7 +98,6 @@ exports.saveBedStatus = async (req, res) => {
         res.status(500).json({ message: "Server Error", error: error.message });
     }
 };
-
 
 exports.getBedStatus = async (req, res) => {
     try {
@@ -125,7 +120,6 @@ exports.getBedStatus = async (req, res) => {
 // ==========================================
 // 3. DAILY REPORTS CONTROLLERS
 // ==========================================
-
 exports.saveDailyReport = async (req, res) => {
     try {
         const { patientId, bp, pulse, temp, spo2, sugar, intake, output, notes } = req.body;
@@ -140,7 +134,6 @@ exports.saveDailyReport = async (req, res) => {
 // ==========================================
 // 4. HANDOVER NOTES CONTROLLERS
 // ==========================================
-
 exports.saveHandoverNote = async (req, res) => {
     try {
         const { patientId, text, time } = req.body;
@@ -151,7 +144,6 @@ exports.saveHandoverNote = async (req, res) => {
         res.status(500).json({ message: "Server Error", error: error.message });
     }
 };
-
 
 exports.getHandoverHistory = async (req, res) => {
     try {
@@ -166,7 +158,6 @@ exports.getHandoverHistory = async (req, res) => {
 // ==========================================
 // 5. MEDICATION CONTROLLERS
 // ==========================================
-
 exports.updateMedicationStatus = async (req, res) => {
     try {
         const { uhid } = req.params;
@@ -187,7 +178,6 @@ exports.updateMedicationStatus = async (req, res) => {
 // ==========================================
 // 6. ACTIVITY CHART CONTROLLERS
 // ==========================================
-
 exports.saveActivityChart = async (req, res) => {
     try {
         const { patientId, days, gridData } = req.body;
@@ -197,7 +187,6 @@ exports.saveActivityChart = async (req, res) => {
         res.status(500).json({ message: "Server Error", error: error.message });
     }
 };
-
 
 exports.getActivityChart = async (req, res) => {
     try {
