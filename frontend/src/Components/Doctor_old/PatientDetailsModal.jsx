@@ -21,7 +21,12 @@ function PatientDetailsModal({ patient, onClose, onAddPrescription }) {
               {patient.name} • UHID: {patient.uHID}
             </div>
           </div>
-          <button type="button" className="doctor-icon-btn" onClick={onClose} aria-label="Close">
+          <button
+            type="button"
+            className="doctor-icon-btn"
+            onClick={onClose}
+            aria-label="Close"
+          >
             ✕
           </button>
         </div>
@@ -29,21 +34,29 @@ function PatientDetailsModal({ patient, onClose, onAddPrescription }) {
         <div className="doctor-modal__tabs">
           <button
             type="button"
-            className={tab === "history" ? "doctor-tab doctor-tab--active" : "doctor-tab"}
+            className={
+              tab === "history" ? "doctor-tab doctor-tab--active" : "doctor-tab"
+            }
             onClick={() => setTab("history")}
           >
             History
           </button>
           <button
             type="button"
-            className={tab === "reports" ? "doctor-tab doctor-tab--active" : "doctor-tab"}
+            className={
+              tab === "reports" ? "doctor-tab doctor-tab--active" : "doctor-tab"
+            }
             onClick={() => setTab("reports")}
           >
             Reports
           </button>
           <button
             type="button"
-            className={tab === "prescription" ? "doctor-tab doctor-tab--active" : "doctor-tab"}
+            className={
+              tab === "prescription"
+                ? "doctor-tab doctor-tab--active"
+                : "doctor-tab"
+            }
             onClick={() => setTab("prescription")}
           >
             Prescription
@@ -65,7 +78,13 @@ function PatientDetailsModal({ patient, onClose, onAddPrescription }) {
                 <div className="doctor-kv__k">Status</div>
                 <div className="doctor-kv__v">
                   <StatusBadge
-                    variant={patient.status === "Pending" ? "warning" : patient.status === "Critical" ? "danger" : "success"}
+                    variant={
+                      patient.status === "Pending"
+                        ? "warning"
+                        : patient.status === "Critical"
+                          ? "danger"
+                          : "success"
+                    }
                   >
                     {patient.status}
                   </StatusBadge>
@@ -94,7 +113,9 @@ function PatientDetailsModal({ patient, onClose, onAddPrescription }) {
                     <div key={idx} className="doctor-history-item">
                       <div className="doctor-history-item__date">{h.date}</div>
                       <div className="doctor-history-item__desc">{h.note}</div>
-                      <div className="doctor-history-item__treat">Treatment: {h.treatment}</div>
+                      <div className="doctor-history-item__treat">
+                        Treatment: {h.treatment}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -104,20 +125,15 @@ function PatientDetailsModal({ patient, onClose, onAddPrescription }) {
 
           {tab === "reports" && (
             <div className="doctor-empty-block">
-              <div className="doctor-empty">Report viewing will appear here.</div>
-              <div className="doctor-hint">Use the Reports module for full upload/view/download flows.</div>
+              <div className="doctor-empty">No reports available.</div>
             </div>
           )}
 
           {tab === "prescription" && (
             <div className="doctor-empty-block">
-              <div className="doctor-empty">Prescription & Orders will appear here.</div>
-              <div className="doctor-hint">
-                Doctor can add medicines + select Lab Test and/or Scan using dropdowns in the Prescription module.
-              </div>
+              <div className="doctor-empty">No prescriptions available.</div>
             </div>
           )}
-
         </div>
       </div>
     </div>
@@ -125,4 +141,3 @@ function PatientDetailsModal({ patient, onClose, onAddPrescription }) {
 }
 
 export default PatientDetailsModal;
-

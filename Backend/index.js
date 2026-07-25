@@ -18,7 +18,36 @@ const cors = require("cors");
 
 const multer = require("multer");
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+
+const upload = multer({
+  storage,
+});
+
 const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
+transporter.verify((error) => {
+  if (error) {
+    console.log("Email Server Error:", error);
+  } else {
+    console.log("Email Server Ready");
+  }
+});
 
 const fs = require("fs");
 
@@ -34,6 +63,8 @@ const Bill = require("./models/Bill");
 
 const app = express();
 
+const authRoutes = require("./routes/authRoutes");
+
 app.use(cors());
 
 app.use(express.json({ limit: "50mb" }));
@@ -45,6 +76,15 @@ app.use(
   }),
 );
 
+app.use("/api/auth", authRoutes);
+
+// Doctor/Receptionist appointment listing
+app.get("/api/doctor/upcoming-appointments", (req, res) => {
+  return res.json({
+    message: "Upcoming appointments",
+    data: global.__receptionistAppointments || [],
+  });
+});
 // app.get("/", (req, res) => {
 //   res.send("Hospital Management Backend Running");
 // });
@@ -66,228 +106,23 @@ app.use("/api/beds", bedRoutes);
 const adminRoutes = require("./routes/adminRoutes");
 app.use("/api/admin", adminRoutes);
 
-// ======================
-// Doctor routes (lazy loaded)
-// ======================
-// Route modules ko require karne ko deferred rakha gaya hai
-// (Doctor module related file ke andar hi isolate rehta hai)
-app.use((req, res, next) => {
-  // Only doctor-related module routes ko deferred require karke lazy-load mindset
-  // rakha gaya hai.
-  if (req.path.startsWith("/doctor") && process.env.NODE_ENV !== "test") {
-    try {
-      // eslint-disable-next-line global-require
-      const doctorRoutes = require("./routes/doctorRoutes");
-      return doctorRoutes(req, res, next);
-    } catch (e) {
-      return next(e);
-    }
-  }
-  return next();
-});
+const doctorRoutes = require("./routes/doctorRoutes");
+app.use("/api", doctorRoutes);
 
-// ======================
-// MongoDB
-// ======================
+const insuranceRoutes = require("./routes/insurance/index");
+app.use("/api/insurance", insuranceRoutes);
 
-mongoose.connect(
- process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/patientdb"
-)
-.then(() =>
- console.log(
-   "MongoDB Connected"
- )
-)
-.catch((error) => {
- console.log(error);
-});
-
-// ======================
-// Patient Schema
-// ======================
-
-// const PatientSchema = new mongoose.Schema({
-//   name: String,
-
-//   age: Number,
-
-//   gender: String,
-// });
-
-// const Patient = mongoose.model(
-//   "Patient",
-
-//   PatientSchema,
-// );
-
-// ======================
-// Create Folders
-// ======================
-
-if (!fs.existsSync("uploads")) {
-  fs.mkdirSync("uploads");
-}
-
-if (!fs.existsSync("generated")) {
-  fs.mkdirSync("generated");
-}
-
-// ======================
-// Static Folders
-// ======================
-
-app.use(
-  "/uploads",
-
-  express.static(path.join(__dirname, "uploads")),
-);
-
-app.use(
-  "/generated",
-
-  express.static(path.join(__dirname, "generated")),
-);
-
-// ======================
-// Multer
-// ======================
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
-
-  filename: (req, file, cb) => {
-    cb(
-      null,
-
-      Date.now() + "_" + file.originalname,
-    );
-  },
-});
-
-const upload = multer({ storage });
-
-// ======================
-// Nodemailer
-// ======================
-
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-
-  auth: {
-    user: process.env.EMAIL_USER,
-
-    pass: process.env.EMAIL_PASS,
-  },
-});
-
-// ======================
-// Verify Email
-// ======================
-
-transporter.verify((error, success) => {
-  if (error) {
-    console.log(error);
-  } else {
-    console.log("Email Server Ready");
-  }
-});
-
-// ======================
-// Add Patient
-// ======================
-
-// // Before Change Code :
-
-// app.post(
-//   "/add",
-
-//   async (req, res) => {
+// app.use((req, res, next) => {
+//   if (req.path.startsWith("/doctor") && process.env.NODE_ENV !== "test") {
 //     try {
-//       const patient = new Patient(req.body);
-
-//       await patient.save();
-
-//       res.json({
-//         success: true,
-
-//         message: "Patient Added",
-//       });
-//     } catch (error) {
-//       console.log(error);
+//       const doctorRoutes = require("./routes/doctorRoutes");
+//       return doctorRoutes(req, res, next);
+//     } catch (e) {
+//       return next(e);
 //     }
-//   },
-// );
-
-app.post("/add", async (req, res) => {
-  try {
-    const patient = new Patient({
-      uhid: req.body.uhid,
-
-      name: req.body.name,
-
-      age: req.body.age,
-
-      gender: req.body.gender,
-
-      mobile: req.body.mobile,
-
-      address: req.body.address,
-
-      disease: req.body.disease,
-
-      doctor: req.body.doctor,
-
-      appointmentDate: req.body.appointmentDate,
-      appointmentTime: req.body.appointmentTime,
-
-      role: req.body.role,
-
-      admissionDate: req.body.admissionDate,
-
-      roomNo: req.body.roomNo,
-
-      bedNo: req.body.bedNo,
-
-      status: req.body.status,
-    });
-
-    await patient.save();
-
-    res.json({
-      success: true,
-
-      message: "Patient Registered Successfully",
-
-      patient,
-    });
-  } catch (err) {
-    console.log(err);
-
-    res.status(500).json({
-      success: false,
-
-      message: "Registration Failed",
-    });
-  }
-});
-
-// ======================
-// Get All Patients
-// ======================
-
-// // Before Change The Code :
-
-// app.get(
-//   "/patients",
-
-//   async (req, res) => {
-//     const data = await Patient.find();
-
-//     res.json(data);
-//   },
-// );
+//   }
+//   return next();
+// });
 
 app.get("/patients", async (req, res) => {
   try {
@@ -328,15 +163,15 @@ app.get("/patients", async (req, res) => {
 // Get Single Patient
 // ======================
 
-app.get(
-  "/patient/:id",
+// app.get(
+//   "/patient/:id",
 
-  async (req, res) => {
-    const data = await Patient.findById(req.params.id);
+//   async (req, res) => {
+//     const data = await Patient.findById(req.params.id);
 
-    res.json(data);
-  },
-);
+//     res.json(data);
+//   },
+// );
 
 // ======================
 // Delete Patient
@@ -429,16 +264,8 @@ app.post(
 
       doc.moveDown();
 
-      //       require("dotenv").config();
-
-      // console.log("ENV URL =", process.env.MONGO_URL);
-      // connectDB();
-
-      // // mongoose.connection.once("open", () => {
-      // //   console.log("Connected DB:", mongoose.connection.db.databaseName);
-      // // });
-
       // Patient Details
+
       doc.fontSize(14);
 
       doc.text(`Patient Name: ${patientName}`);
@@ -695,17 +522,6 @@ app.post(
     }
   },
 );
-
-// ======================
-// Insurance & Auth Routes
-// ======================
-const insuranceRoutes = require("./routes/insurance/index");
-const authRoutes = require("./routes/authRoutes");
-const errorHandler = require('./middleware/errorHandler');
-
-app.use("/api/auth", authRoutes);
-app.use("/api/insurance", insuranceRoutes);
-app.use(errorHandler);
 
 // ======================
 // Server

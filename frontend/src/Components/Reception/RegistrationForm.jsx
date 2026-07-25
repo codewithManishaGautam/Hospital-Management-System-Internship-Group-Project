@@ -17,7 +17,7 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
 
     disease: "",
     doctor: "",
-
+    department: "",
     appointmentDate: "",
     appointmentTime: "",
 
@@ -34,6 +34,7 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
 
   const [rooms, setRooms] = useState([]);
   const [beds, setBeds] = useState([]);
+  const [doctors, setDoctors] = useState([]);
 
   useEffect(() => {
     const loadRooms = async () => {
@@ -44,6 +45,12 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
         const bedRes = await axios.get(
           "http://localhost:5000/api/beds/available",
         );
+
+        const doctorRes = await axios.get(
+          "http://localhost:5000/api/admin/doctors",
+        );
+
+        setDoctors(doctorRes.data);
         setBeds(bedRes.data);
         console.log("Rooms :", roomRes.data);
         console.log("Beds :", bedRes.data);
@@ -66,6 +73,7 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
         address: "",
         role: "OPD",
         disease: "",
+        department: "",
         doctor: "",
         appointmentDate: "",
         appointmentTime: "",
@@ -87,6 +95,7 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
       address: patient.address || "",
       role: patient.role || "OPD",
       disease: patient.disease || "",
+      department: patient.department || "",
       doctor: patient.doctor || "",
       appointmentDate: patient.appointmentDate || "",
       appointmentTime: patient.appointmentTime || "",
@@ -97,6 +106,20 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
       status: patient.status || "Waiting",
     });
   }, [patient]);
+
+  useEffect(() => {
+    const loadBeds = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/beds/available");
+
+        setBeds(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    loadBeds();
+  }, [formData.roomNo]);
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -119,8 +142,87 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
     }));
   };
 
+  const selectedDoctor = doctors.find(
+  (doctor) => doctor._id === formData.doctor
+);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Mobile Validation
+    if (!/^[6-9]\d{9}$/.test(formData.mobile)) {
+      alert("Please enter a valid 10 digit mobile number.");
+      return;
+    }
+    // PATIENT NAME
+    if (formData.name.trim().length < 3) {
+      alert("Patient name must be at least 3 characters.");
+      return;
+    }
+
+    // AGE
+    if (formData.age < 1 || formData.age > 120) {
+      alert("Age must be between 1 and 120.");
+      return;
+    }
+
+    // ADDRESS
+    if (formData.address.trim().length < 5) {
+      alert("Please enter a valid address.");
+      return;
+    }
+
+    // DEPARTMENT
+    if (!formData.department) {
+      alert("Please Select Department");
+      return;
+    }
+
+    // DOCTOR NAME
+    if (!formData.doctor) {
+      alert("Please Select Doctor");
+      return;
+    }
+
+    // APPOINTMENT DATE
+    const today = new Date().toISOString().split("T")[0];
+
+    if (formData.appointmentDate && formData.appointmentDate < today) {
+      alert("Appointment date cannot be in the past.");
+      return;
+    }
+
+    // APPOINTMENT TIME
+    if (formData.appointmentDate && !formData.appointmentTime) {
+      alert("Please select appointment time.");
+      return;
+    }
+
+    // ROOM
+    if (
+      (formData.role === "IPD" || formData.role === "ICU") &&
+      !formData.roomNo
+    ) {
+      alert("Please select room.");
+      return;
+    }
+
+    // BED
+    if (
+      (formData.role === "IPD" || formData.role === "ICU") &&
+      !formData.bedNo
+    ) {
+      alert("Please select bed.");
+      return;
+    }
+
+    // UHID
+    if (!formData.uhid) {
+      alert("Please generate UHID first.");
+      return;
+    }
+
+    // const selectedDoctor = doctors.find((d) => d._id === formData.doctor);
 
     try {
       const patientData = {
@@ -136,7 +238,8 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
         roomType: formData.roomType,
 
         disease: formData.disease,
-        doctor: formData.doctor,
+        department: formData.department,
+        doctor: selectedDoctor ? selectedDoctor.name : "",
 
         appointmentDate: formData.appointmentDate,
         appointmentTime: formData.appointmentTime,
@@ -147,6 +250,8 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
         roomNo: formData.roomNo,
         bedNo: formData.bedNo,
 
+        doctorId: formData.doctor,
+        doctor: doctors.find((d) => d._id === formData.doctor)?.name || "",
         //         appointmentDate: formData.appointmentDate,
         // appointmentTime: formData.appointmentTime,
 
@@ -164,7 +269,7 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
         advice: "",
         notes: "",
 
-        newAppointment: !!patient,
+        newAppointment: mode === "appointment",
 
         labReport: "",
 
@@ -277,7 +382,14 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
               name="name"
               readOnly={mode === "appointment"}
               value={formData.name}
-              onChange={handleChange}
+              onChange={(e) => {
+                const value = e.target.value.replace(/[^A-Za-z\s]/g, "");
+
+                setFormData((prev) => ({
+                  ...prev,
+                  name: value,
+                }));
+              }}
               placeholder="Enter Patient Name"
               required
             />
@@ -291,8 +403,22 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
               name="age"
               readOnly={mode === "appointment"}
               value={formData.age}
-              onChange={handleChange}
+              onChange={(e) => {
+                const value = e.target.value;
+
+                if (
+                  value === "" ||
+                  (Number(value) >= 0 && Number(value) <= 120)
+                ) {
+                  setFormData((prev) => ({
+                    ...prev,
+                    age: value,
+                  }));
+                }
+              }}
               placeholder="Enter Age"
+              min="0"
+              max="120"
               required
             />
           </div>
@@ -322,8 +448,18 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
               name="mobile"
               readOnly={mode === "appointment"}
               value={formData.mobile}
-              onChange={handleChange}
-              placeholder="Enter Mobile Number"
+              onChange={(e) => {
+                const value = e.target.value.replace(/\D/g, "");
+
+                if (value.length <= 10) {
+                  setFormData((prev) => ({
+                    ...prev,
+                    mobile: value,
+                  }));
+                }
+              }}
+              placeholder="Enter 10 Digit Mobile Number"
+              maxLength={10}
               required
             />
           </div>
@@ -338,6 +474,8 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
               value={formData.address}
               onChange={handleChange}
               placeholder="Enter Address"
+              maxLength={200}
+              required
             />
           </div>
 
@@ -387,20 +525,64 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
                 type="text"
                 name="disease"
                 value={formData.disease}
-                onChange={handleChange}
+                onChange={(e) => {
+                  const value = e.target.value.replace(/[^A-Za-z\s]/g, "");
+
+                  setFormData((prev) => ({
+                    ...prev,
+                    disease: value,
+                  }));
+                }}
                 placeholder="Disease"
               />
             </div>
 
             <div className="form-group">
+              <label>Department</label>
+
+              <select
+                name="department"
+                value={formData.department}
+                onChange={(e) => {
+                  setFormData((prev) => ({
+                    ...prev,
+                    department: e.target.value,
+                    doctor: "",
+                  }));
+                }}
+              >
+                <option value="">Select Department</option>
+
+                {[...new Set(doctors.map((d) => d.specialization))].map(
+                  (dep) => (
+                    <option key={dep} value={dep}>
+                      {dep}
+                    </option>
+                  ),
+                )}
+              </select>
+            </div>
+
+            <div className="form-group">
               <label>Doctor</label>
-              <input
-                type="text"
+
+              <select
                 name="doctor"
                 value={formData.doctor}
                 onChange={handleChange}
-                placeholder="Doctor Name"
-              />
+              >
+                <option value="">Select Doctor</option>
+
+                {doctors
+                  .filter(
+                    (doctor) => doctor.specialization === formData.department,
+                  )
+                  .map((doctor) => (
+                    <option key={doctor._id} value={doctor._id}>
+                      Dr. {doctor.name}
+                    </option>
+                  ))}
+              </select>
             </div>
 
             <div className="form-group">
@@ -485,11 +667,13 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
                   >
                     <option value="">Select Bed</option>
 
-                    {beds.map((bed) => (
-                      <option key={bed._id} value={bed.bedNo}>
-                        {bed.roomNumber} - {bed.bedNo}
-                      </option>
-                    ))}
+                    {beds
+                      .filter((bed) => bed.roomNumber === formData.roomNo)
+                      .map((bed) => (
+                        <option key={bed._id} value={bed.bedNo}>
+                          {bed.bedNo}
+                        </option>
+                      ))}
                   </select>
                 </div>
 
@@ -513,27 +697,45 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
 
         <div className="form-buttons">
           <button type="submit" className="save-btn">
-            Save Registration
+            {mode === "edit"
+              ? "Update Patient"
+              : mode === "appointment"
+                ? "Book Appointment"
+                : "Register Patient"}
           </button>
 
-          <button
-            type="button"
-            className="send-btn"
-            onClick={() => {
-              if (!formData.uhid) {
-                alert("Please Register Patient First");
-                return;
-              }
+         {/* <button
+  type="button"
+  className="send-btn"
+  onClick={async () => {
+    if (!patient) {
+      alert("Please Register Patient First");
+      return;
+    }
 
-              alert(
-                `Patient ${formData.name} Sent To ${formData.doctor || "Doctor"}`,
-              );
-            }}
-          >
-            Send To Doctor
-          </button>
+    try {
+      await updatePatient(patient._id, {
+        doctor: selectedDoctor?.name,
+        doctorId: selectedDoctor?._id,
 
-          {formData.role === "OPD" && (
+        status: "Waiting Doctor",
+        flowStatus: "Appointment Booked",
+
+        appointmentDate: formData.appointmentDate,
+        appointmentTime: formData.appointmentTime,
+      });
+
+      alert(`Patient sent to Dr. ${selectedDoctor?.name}`);
+    } catch (err) {
+      console.log(err);
+      alert("Send Failed");
+    }
+  }}
+>
+  Send To Doctor
+</button> */}
+
+          {/* {formData.role === "OPD" && (
             <button
               type="button"
               className="generate-btn"
@@ -548,7 +750,7 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
             >
               Generate Appointment
             </button>
-          )}
+          )} */}
         </div>
       </form>
     </div>

@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 
 import Layout from "../Components/Reception/Layout";
+// import Layout from "./Layout";
 import Dashboard from "../Components/Reception/Dashboard";
 import RegistrationForm from "../Components/Reception/RegistrationForm";
 import OPDBilling from "../Components/Reception/OPDBilling";
-import IPDAdmission from "../Components/Reception/IPDadmission";
-import IPDPatientList from "../Components/Reception/IPDPatientList";
+// import IPDAdmission from "../Components/Reception/IPDadmission";
+// import IPDPatientList from "../Components/Reception/IPDPatientList";
 import PatientList from "../Components/Reception/patientList";
-import Reports from "../Components/Reception/Reports";
+// import Reports from "../Components/Reception/Reports";
+// import PrescriptionPage from "../Components/Admin/PrescriptionPage";
 
 function Receptionist() {
   const [step, setStep] = useState("dashboard");
@@ -16,7 +18,7 @@ function Receptionist() {
   const [mode, setMode] = useState("register");
 
   return (
-    <Layout role="Receptionist" setStep={setStep} currentStep={step}>
+    <Layout role="Receptionist" currentStep={step} setStep={setStep}>
       {step === "dashboard" && (
         <Dashboard
           setStep={setStep}
@@ -30,21 +32,15 @@ function Receptionist() {
           patient={selectedPatient}
           setSelectedPatient={setSelectedPatient}
           setStep={setStep}
-          mode={
-            selectedPatient
-              ? selectedPatient.isAppointment
-                ? "appointment"
-                : "edit"
-              : "new"
-          }
+          mode={mode}
         />
       )}
 
       {step === "billing" && <OPDBilling patient={selectedPatient} />}
 
-      {step === "ipdAdmission" && <IPDAdmission patient={selectedPatient} />}
+      {/* {step === "ipdAdmission" && <IPDAdmission patient={selectedPatient} />} */}
 
-      {step === "ipdPatients" && <IPDPatientList />}
+      {/* {step === "ipdPatients" && <IPDPatientList />} */}
 
       {/* {step === "searchPatient" && (
         <SearchPatient
@@ -53,7 +49,7 @@ function Receptionist() {
         />
       )} */}
 
-      {step === "reports" && <Reports />}
+      {/* {step === "reports" && <Reports />} */}
 
       {step === "patientList" && (
         <PatientList

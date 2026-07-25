@@ -22,14 +22,14 @@ const doctorSchema = new mongoose.Schema(
       required: true,
     },
 
-    phone: {
+    mobile: {
       type: String,
       required: true,
     },
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 module.exports = mongoose.model("Doctor", doctorSchema);

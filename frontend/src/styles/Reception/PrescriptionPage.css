@@ -1,3 +1,7 @@
+body{
+    background:red !important;
+}
+
 .prescription-container {
   padding: 30px;
   background: #f4f8fc;
@@ -9,6 +13,12 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+}
+
+.prescription-header div {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .prescription-card {
@@ -33,28 +43,66 @@
 
 .patient-grid div {
   background: #f8fafc;
-  padding: 12px;
-  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 15px;
+  transition: 0.3s;
+}
+
+.patient-grid div:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.patient-grid strong {
+  display: block;
+  color: #1565c0;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.patient-grid p {
+  margin: 0;
+  color: #374151;
+  font-size: 15px;
 }
 
 .section {
   margin-top: 25px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .section h3 {
   color: #1565c0;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  border-left: 5px solid #1565c0;
+  padding-left: 10px;
+  font-size: 20px;
 }
 
 .section textarea {
-  width: 100%;
-  min-height: 120px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+  width: auto;
+  height: 300px;      /* motha textarea */
+  min-height: 300px;
+  max-height: 500px;
+  overflow-y: auto;   /* scroll */
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 16px;
+  line-height: 1.7;
   resize: vertical;
-  font-size: 15px;
-  width: 100%;
-  padding: 10px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.section textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
 .back-btn,
@@ -66,6 +114,9 @@
   cursor: pointer;
   color: white;
   margin-left: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  transition: 0.3s;
 }
 
 .back-btn {
@@ -89,6 +140,103 @@
 @media (max-width: 768px) {
   .patient-grid {
     grid-template-columns: 1fr;
+  }
+
+  .prescription-container {
+    padding: 15px;
+  }
+
+  .prescription-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .prescription-header div {
+    width: 100%;
+  }
+
+  .back-btn,
+  .edit-btn,
+  .save-btn,
+  .print-btn {
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .back-btn {
+    background: #6b7280;
+  }
+
+  .edit-btn {
+    background: #2563eb;
+  }
+
+  .save-btn {
+    background: #16a34a;
+  }
+
+  .print-btn {
+    background: #7c3aed;
+  }
+
+  .back-btn:hover {
+    background: #4b5563;
+  }
+
+  .edit-btn:hover {
+    background: #1d4ed8;
+  }
+
+  .save-btn:hover {
+    background: #15803d;
+  }
+
+  .print-btn:hover {
+    background: #6d28d9;
+  }
+
+  .prescription-card {
+    padding: 18px;
+  }
+
+  .prescription-card h1 {
+    font-size: 24px;
+  }
+
+  .section textarea {
+    min-height: 100px;
+  }
+
+  .signature-image {
+    width: 150px;
+  }
+
+  .history-card {
+    padding: 15px;
+  }
+
+  .signature-canvas {
+    max-width: 100%;
+  }
+
+  .prescription-header div {
+    width: 100%;
+  }
+
+  .back-btn,
+  .edit-btn,
+  .save-btn,
+  .print-btn {
+    flex: 1;
+    min-width: 140px;
+    margin: 0;
   }
 }
 
@@ -132,11 +280,14 @@
 }
 
 .signature-canvas {
-  border: 2px solid #d1d5db;
-  border-radius: 10px;
+  border: 2px solid #2563eb;
+  border-radius: 8px;
   background: white;
-  width: 100%;
-  max-width: 500px;
+
+  width: 350px;
+  height: 100px;
+
+  cursor: crosshair;
 }
 
 .signature-buttons {
@@ -147,9 +298,15 @@
   background: #ef4444;
   color: white;
   border: none;
-  padding: 10px 18px;
+  padding: 10px 20px;
   border-radius: 8px;
   cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.clear-btn:hover {
+  background: #dc2626;
 }
 
 .clear-btn:hover {
@@ -169,6 +326,9 @@
   border-radius: 8px;
   margin-top: 10px;
   background: white;
+  display: block;
+  height: auto;
+  object-fit: contain;
 }
 
 @media print {
@@ -186,9 +346,15 @@
     border: none;
   }
 
-  .signature-box {
-    border: none;
-  }
+.signature-box {
+    width: 100%;
+    max-width: 100%;
+    height: 500px;
+    border: 2px dashed #94a3b8;
+    border-radius: 12px;
+    background: white;
+    overflow: auto;
+}
 }
 
 .history-section {
@@ -196,16 +362,33 @@
 }
 
 .history-card {
-  background: #f8fafc;
-  border-left: 5px solid #1565c0;
-  padding: 18px;
+  background: #ffffff;
+  border-left: 6px solid #2563eb;
+  border-radius: 12px;
+  padding: 20px;
   margin-bottom: 20px;
-  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: 0.3s;
+}
+
+.history-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.history-card strong {
+  color: #2563eb;
+}
+
+.history-card p {
+  line-height: 1.7;
+  color: #374151;
 }
 
 .history-card h4 {
-  color: #1565c0;
-  margin-bottom: 10px;
+  color: #1e40af;
+  font-size: 18px;
+  margin-bottom: 15px;
 }
 
 .new-entry-heading {
@@ -228,7 +411,8 @@
 
 .latest-history {
   border-left: 6px solid #16a34a;
-  background: #f0fff4;
+  background: #f0fdf4;
+  box-shadow: 0 0 15px rgba(22, 163, 74, 0.15);
 }
 
 .section button {
@@ -238,18 +422,74 @@
   cursor: pointer;
 }
 
+.history-section {
+  margin-top: 40px;
+}
+
+.history-section h2 {
+  color: #1e40af;
+  margin-bottom: 20px;
+}
+
 .section button:hover {
   opacity: 0.9;
 }
 
 .signature-image {
-  width: 220px;
-  margin-top: 15px;
+  width: 150px;
+  height: auto;
+  margin-top: 10px;
   border-top: 1px solid #444;
-  padding-top: 8px;
+  padding-top: 5px;
   background: white;
 }
 
 .history-card .signature-image {
   width: 180px;
+}
+
+.mode-btn {
+  background: #e2e8f0;
+  color: #1e293b;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 10px;
+  margin-bottom: 12px;
+  transition: 0.3s;
+  font-weight: 600;
+}
+
+.mode-btn:hover {
+  background: #cbd5e1;
+}
+
+.active-mode {
+  background: #2563eb;
+  color: white;
+}
+
+
+.signature-box {
+  width: 100%;
+  max-width: 100%;
+  height: 500px;
+ margin-top: 10px;
+  margin-bottom: 10px;
+  border: 2px solid #2563eb;
+  border-radius: 10px;
+
+  background-color: #ffffff;
+
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.08);
+
+  cursor: crosshair;
+}
+
+.canvas-note {
+  margin: 8px 0;
+  color: #2563eb;
+  font-size: 14px;
+  font-weight: 600;
 }

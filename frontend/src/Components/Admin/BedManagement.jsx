@@ -15,6 +15,10 @@ function BedManagement() {
 
   useEffect(() => {
     fetchBeds();
+
+    const interval = setInterval(fetchBeds, 3000);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (

@@ -86,11 +86,12 @@
 
 .room-table {
   width: 100%;
+  min-width: 700px;
   border-collapse: collapse;
   text-align: left;
 }
 
-.room-table th, 
+.room-table th,
 .room-table td {
   padding: 12px 16px;
   border-bottom: 1px solid #e2e8f0;
@@ -135,7 +136,7 @@
   cursor: pointer;
   font-size: 15px;
   font-weight: 600;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: background 0.2s;
 }
 
@@ -154,7 +155,34 @@
   .ipd-grid {
     grid-template-columns: 1fr;
   }
+
   .room-table-card {
-    overflow-x: auto; /* Choti screen par table scroll ho sake */
+    margin-top: 10px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    /* overflow-x:auto; */
+  }
+
+  .ipd-container {
+    padding: 15px;
+  }
+
+  .ipd-form-card {
+    padding: 15px;
+  }
+
+  .ipd-header h2 {
+    font-size: 22px;
+    text-align: center;
+  }
+
+  .admit-btn {
+    width: 100%;
+  }
+
+  .assign-btn {
+    width: 100%;
   }
 }

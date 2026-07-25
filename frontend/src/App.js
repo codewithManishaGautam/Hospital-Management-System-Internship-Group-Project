@@ -1,7 +1,7 @@
 import React from "react";
-import VenousEngMar from "./Components/ConcernForm_Module/Routine_Consents/CentralVenousCatheterisation/VenousEngMar";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import VenousEngMar from "./Components/ConcernForm_Module/Routine_Consents/CentralVenousCatheterisation/VenousEngMar";
 
 import LoginDashboard from "./pages/Login";
 import ReceptionistDashboard from "./pages/Receptionist";
@@ -12,12 +12,42 @@ import NurseDashboard from "./pages/Nurse";
 import BillingDashboard from "./pages/Billing";
 import InsuranceDashboard from "./pages/Insurance";
 import AdminDashboard from "./pages/Admin";
-import PrescriptionPage from "./Components/Admin/PrescriptionPage";
-import PatientPortal from "./pages/PatientPortal";
-import PrivateRoute from "./components/PrivateRoute";
+import InsuranceDesk from "./components/insurance/InsuranceDesk";
+
+import VerifyAccount from "./Components/Login/VerifyAccount";
+import ForgotPassword from "./Components/Login/ForgotPassword";
+import ResetPassword from "./Components/Login/ResetPassword";
+import Register from "./Components/Login/Register";
+
+// import VenousEngMar from "./Components/ConcernForm_Module/Routine_Consents/CentralVenousCatheterisation/VenousEngMar";
+
+// import {
+//   Routes,
+//   Route,
+//   BrowserRouter,
+// } from "react-router-dom";
+
+// import LoginDashboard from "./pages/Login";
+// import ReceptionistDashboard from "./pages/Receptionist";
+// import DoctorDashboard from "./pages/Doctor";
+// import LabDashboard from "./pages/Lab";
+// import PharmacyDashboard from "./pages/Pharmacy";
+// import NurseDashboard from "./pages/Nurse";
+// import BillingDashboard from "./pages/Billing";
+// import InsuranceDashboard from "./pages/Insurance";
+// import AdminDashboard from "./pages/Admin";
+
+// >>>>>>> 21a693d2d1562609078baee245cf2c5eadb5b2ff
+
+// import BillingDept from "./Components/Billing_Module/BillingDept";
+// import PatientDetail from "./Components/Billing_Module/PatientDetail";
 
 import BillingDept from "./Components/Billing_Module/BillingDept";
 import PatientDetail from "./Components/Billing_Module/PatientDetail";
+import PrescriptionPage from "./Components/Reception/PrescriptionPage";
+
+// import BillingDept from "./Components/Billing_Module/BillingDept";
+// import PatientDetail from "./Components/Billing_Module/PatientDetail";
 
 // import ReceptionDept from "./components/ReceptionDept";
 // import SignaturePad from "./components/SignaturePad";
@@ -30,6 +60,7 @@ function App() {
   return (
     // <AddDiagnostic />
 
+
     // <VenousEngMar/>
 
     // <BrowserRouter>
@@ -40,10 +71,7 @@ function App() {
     //     path="/"
     //     element={<BillingDept>
 
-    //     </BillingDept>}
-    //   />
-
-    //   <Route
+   //   <Route
     //     path="/patient/:id"
     //     element={<PatientDetail />}
     //   />
@@ -73,22 +101,24 @@ function App() {
         <Route path="/nurse" element={<NurseDashboard />} />
 
         {/* Billing */}
-        {/* <Route
-          path="/billing"
-          element={<BillingDashboard />}
-        /> */}
-
         <Route path="/billing" element={<BillingDept />} />
 
         <Route path="/patient/:id" element={<PatientDetail />} />
 
         {/* Insurance */}
-        <Route path="/insurance" element={<InsuranceDashboard />} />
+        <Route path="/insurance/*" element={<InsuranceDesk />} />
 
         {/* Admin */}
-        <Route path="/admin" element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />
+        <Route path="/admin" element={<AdminDashboard />} />
+
+        <Route path="/verify-account" element={<VerifyAccount />} />
+
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+
+        <Route path="/reset-password" element={<ResetPassword />} />
+
+        <Route path="/register" element={<Register />} />
         <Route path="/prescription/:id" element={<PrescriptionPage />} />
-        <Route path="/patient-portal" element={<PatientPortal />} />
       </Routes>
     </BrowserRouter>
   );

@@ -31,50 +31,30 @@
 ===================================== */
 
 .search-box {
-  background: #ffffff;
-
+  background: #fff;
   padding: 20px;
-
   border-radius: 15px;
-
   margin-bottom: 25px;
-
-  box-shadow:
-    0 4px 12px
-    rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
 /* =====================================
    Search Input
 ===================================== */
-
 .search-input {
   width: 100%;
-
-  padding: 14px 18px;
-
+  height: 46px;
+  padding: 0 15px;
   border: 1px solid #d1d5db;
-
   border-radius: 10px;
-
-  outline: none;
-
   font-size: 15px;
-
+  outline: none;
   transition: 0.3s;
 }
 
 .search-input:focus {
   border-color: #1565c0;
-
-  box-shadow:
-    0 0 5px
-    rgba(
-      21,
-      101,
-      192,
-      0.3
-    );
+  box-shadow: 0 0 5px rgba(21, 101, 192, 0.25);
 }
 
 /* =====================================
@@ -82,15 +62,10 @@
 ===================================== */
 
 .patient-table-wrapper {
-  background: #ffffff;
-
+  background: #fff;
   border-radius: 15px;
-
-  overflow: hidden;
-
-  box-shadow:
-    0 4px 12px
-    rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  overflow-x: auto;
 }
 
 /* =====================================
@@ -99,35 +74,40 @@
 
 .patient-table {
   width: 100%;
-
+  min-width: 1200px;
   border-collapse: collapse;
+  table-layout: auto;
 }
 
 .patient-table thead {
   background: #1565c0;
 }
 
-.patient-table thead th {
-  color: whitesmoke;
-
-  padding: 15px;
-
-  text-align: left;
-
-  font-size: 14px;
+.patient-table th {
+  color: white;
+  font-weight: 600;
 }
 
-.patient-table tbody td {
-  padding: 15px;
+.patient-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
 
-  border-bottom:
-    1px solid #e5e7eb;
+.patient-table tbody tr:nth-child(even) {
+  background: #f8fbff;
+}
 
-  font-size: 14px;
+.patient-table th,
+.patient-table td {
+  padding: 12px 15px;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
 }
 
 .patient-table tbody tr:hover {
-  background: #f8fafc;
+  background: #f8fbff;
 }
 
 /* =====================================
@@ -137,20 +117,17 @@
 .view-btn {
   background: #1565c0;
   color: white;
-
   border: none;
-
-  padding: 8px 16px;
-
+  padding: 9px 18px;
   border-radius: 8px;
-
   cursor: pointer;
-
-  transition: 0.3s;
+  font-weight: 600;
+  transition: 0.25s ease;
 }
 
 .view-btn:hover {
   background: #0d47a1;
+  transform: translateY(-2px);
 }
 
 /* =====================================
@@ -166,9 +143,7 @@
 
   margin-top: 25px;
 
-  box-shadow:
-    0 4px 12px
-    rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .patient-info-card h3 {
@@ -180,8 +155,7 @@
 .patient-info-grid {
   display: grid;
 
-  grid-template-columns:
-    repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr);
 
   gap: 20px;
 }
@@ -231,15 +205,12 @@
 ===================================== */
 
 @media screen and (max-width: 992px) {
-
   .patient-info-grid {
-    grid-template-columns:
-      repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media screen and (max-width: 768px) {
-
+@media (max-width: 768px) {
   .search-patient-container {
     padding: 15px;
   }
@@ -247,33 +218,46 @@
   .search-header {
     flex-direction: column;
     align-items: flex-start;
-
     gap: 10px;
   }
 
-  .patient-info-grid {
-    grid-template-columns: 1fr;
+  .search-header h2 {
+    font-size: 24px;
+  }
+
+  .search-box {
+    padding: 15px;
+  }
+
+  .patient-table-wrapper {
+    overflow-x: auto;
   }
 
   .patient-table {
     min-width: 900px;
   }
 
-  .patient-table-wrapper {
-    overflow-x: auto;
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .bill-btn,
+  .appointment-btn,
+  .ipd-btn {
+    width: 100%;
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr;
   }
 }
 
 .patient-details-card {
   margin-top: 25px;
-
-  background: white;
-
+  background: #fff;
   padding: 25px;
-
   border-radius: 15px;
-
-  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
 .patient-details-card h3 {
@@ -284,19 +268,16 @@
 
 .details-grid {
   display: grid;
-
-  grid-template-columns:
-    repeat(2, 1fr);
-
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 15px;
-
   margin-bottom: 20px;
 }
 
 .action-buttons {
   display: flex;
-
+  justify-content: flex-end;
   gap: 15px;
+  flex-wrap: wrap;
 }
 
 .bill-btn,

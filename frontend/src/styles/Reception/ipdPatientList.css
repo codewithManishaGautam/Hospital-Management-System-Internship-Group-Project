@@ -1,4 +1,4 @@
-.ipd-patient-container {
+.ipd-list-container {
   padding: 25px;
 }
 
@@ -19,11 +19,7 @@
 .patient-count {
   min-width: 180px;
 
-  background: linear-gradient(
-    135deg,
-    #1565c0,
-    #42a5f5
-  );
+  background: linear-gradient(135deg, #1565c0, #42a5f5);
 
   color: white;
 
@@ -33,7 +29,7 @@
 
   text-align: center;
 
-  box-shadow: 0 4px 15px rgba(21,101,192,0.25);
+  box-shadow: 0 4px 15px rgba(21, 101, 192, 0.25);
 }
 
 .count-label {
@@ -47,8 +43,6 @@
   margin-top: 5px;
 }
 
-
-
 /* Search Section */
 
 .search-section {
@@ -60,15 +54,15 @@
 
   margin-bottom: 25px;
 
-  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.search-box {
+/* .search-box {
   display: flex;
   gap: 15px;
-}
+} */
 
-.search-box input {
+/* .search-box input {
   flex: 1;
 
   padding: 14px 18px;
@@ -82,15 +76,15 @@
   outline: none;
 
   transition: 0.3s;
-}
+} */
 
-.search-box input:focus {
+/* .search-box input:focus {
   border-color: #1565c0;
 
   box-shadow: 0 0 10px rgba(21,101,192,.2);
-}
+} */
 
-.search-btn {
+/* .search-btn {
   background: #1565c0;
 
   color: white;
@@ -106,11 +100,11 @@
   cursor: pointer;
 
   transition: 0.3s;
-}
+} */
 
-.search-btn:hover {
+/* .search-btn:hover {
   background: #0d47a1;
-}
+} */
 
 /* Table Card */
 
@@ -121,7 +115,7 @@
 
   overflow: hidden;
 
-  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .table-header {
@@ -181,19 +175,19 @@
 /* Responsive */
 
 @media (max-width: 768px) {
-
-  .ipd-header {
+  .ipd-list-header {
     flex-direction: column;
+    align-items: flex-start;
     gap: 15px;
   }
 
-  .search-box {
+  /* .search-box {
     flex-direction: column;
-  }
+  } */
 
-  .search-btn {
+  /* .search-btn {
     width: 100%;
-  }
+  } */
 
   .ipd-table-card {
     overflow-x: auto;
@@ -202,4 +196,23 @@
   .ipd-table {
     min-width: 900px;
   }
+}
+
+.search-input {
+  width: 100%;
+  padding: 14px 18px;
+  border: 2px solid #dbe4f0;
+  border-radius: 12px;
+  font-size: 15px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.search-input:focus {
+  border-color: #1565c0;
+  box-shadow: 0 0 10px rgba(21, 101, 192, 0.2);
+}
+
+.table-wrapper {
+  overflow-x: auto;
 }
