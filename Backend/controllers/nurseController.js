@@ -1,5 +1,5 @@
 const Patient = require('../models/Patient');
-const Bed = require('../models/Bed'); // तुमच्या ग्रुपने बनवलेले किंवा आधीचे Bed मॉडेल
+const Bed = require('../models/Bed'); 
 const DailyReport = require('../models/DailyReport');
 const Handover = require('../models/Handover');
 const ActivityChart = require('../models/ActivityChart');
@@ -7,7 +7,6 @@ const ActivityChart = require('../models/ActivityChart');
 // ==========================================
 // 1. PATIENTS CONTROLLERS
 // ==========================================
-// सर्व पेशंट्सची लिस्ट फ्रंटएंड टेबलमध्ये दाखवण्यासाठी
 exports.getAllPatients = async (req, res) => {
     try {
         const patients = await Patient.find().sort({ createdAt: -1 });
@@ -23,7 +22,7 @@ exports.getAllPatients = async (req, res) => {
     }
 };
 
-// UHID द्वारे पेशंट सर्च करण्यासाठी
+
 exports.searchPatientByUHID = async (req, res) => {
     try {
         const { uhid } = req.query;
@@ -43,7 +42,6 @@ exports.searchPatientByUHID = async (req, res) => {
     }
 };
 
-// UHID वरून पेशंटची संपूर्ण डिटेल माहिती आणण्यासाठी (PatientDetails.jsx साठी)
 exports.getPatientDetailsByUHID = async (req, res) => {
     try {
         const { uhid } = req.params;
@@ -54,7 +52,7 @@ exports.getPatientDetailsByUHID = async (req, res) => {
 
         res.status(200).json({
             id: patient.uhid,
-            mongoId: patient._id, // फ्रंटएंडसाठी अत्यंत आवश्यक लिंक
+            mongoId: patient._id, 
             name: patient.name,
             age: patient.age,
             gender: patient.gender,
@@ -74,7 +72,7 @@ exports.getPatientDetailsByUHID = async (req, res) => {
     }
 };
 
-// फ्रंटएंडवरून ॲडमिशन डेट अपडेट करण्यासाठी
+
 exports.updatePatientAdmissionDate = async (req, res) => {
     try {
         const { uhid } = req.params;
@@ -89,11 +87,11 @@ exports.updatePatientAdmissionDate = async (req, res) => {
 // ==========================================
 // 2. BEDS CONTROLLERS
 // ==========================================
-// बेड्सचा स्टेटस सेव्ह किंवा अपडेट करण्यासाठी
+
 exports.saveBedStatus = async (req, res) => {
     try {
         const { general, special, icu } = req.body;
-        // जर Bed मॉडेल नसेल तर एरर टाळण्यासाठी सुरक्षितपणे सेव्ह करणे
+    
         if (Bed && typeof Bed.findOneAndUpdate === 'function') {
             await Bed.findOneAndUpdate({ wardName: 'General' }, general, { upsert: true, new: true });
             await Bed.findOneAndUpdate({ wardName: 'Special' }, special, { upsert: true, new: true });
@@ -105,7 +103,7 @@ exports.saveBedStatus = async (req, res) => {
     }
 };
 
-// डेटाबेसधून बेड्सचा डेटा आणण्यासाठी
+
 exports.getBedStatus = async (req, res) => {
     try {
         let general = { occupied: 1, available: 5 };
@@ -127,7 +125,7 @@ exports.getBedStatus = async (req, res) => {
 // ==========================================
 // 3. DAILY REPORTS CONTROLLERS
 // ==========================================
-// नवीन डेली रिपोर्ट सेव्ह करण्यासाठी
+
 exports.saveDailyReport = async (req, res) => {
     try {
         const { patientId, bp, pulse, temp, spo2, sugar, intake, output, notes } = req.body;
@@ -142,7 +140,7 @@ exports.saveDailyReport = async (req, res) => {
 // ==========================================
 // 4. HANDOVER NOTES CONTROLLERS
 // ==========================================
-// शिफ्ट हँडओव्हर नोट सेव्ह करण्यासाठी
+
 exports.saveHandoverNote = async (req, res) => {
     try {
         const { patientId, text, time } = req.body;
@@ -154,7 +152,7 @@ exports.saveHandoverNote = async (req, res) => {
     }
 };
 
-// जुने हँडओव्हर नोट्स आणण्यासाठी
+
 exports.getHandoverHistory = async (req, res) => {
     try {
         const { patientId } = req.params;
@@ -168,7 +166,7 @@ exports.getHandoverHistory = async (req, res) => {
 // ==========================================
 // 5. MEDICATION CONTROLLERS
 // ==========================================
-// औषधांचा स्टेटस (Given / Pending) अपडेट करण्यासाठी
+
 exports.updateMedicationStatus = async (req, res) => {
     try {
         const { uhid } = req.params;
@@ -189,7 +187,7 @@ exports.updateMedicationStatus = async (req, res) => {
 // ==========================================
 // 6. ACTIVITY CHART CONTROLLERS
 // ==========================================
-// ॲक्टिव्हिटी चार्ज ग्रिड सेव्ह करण्यासाठी
+
 exports.saveActivityChart = async (req, res) => {
     try {
         const { patientId, days, gridData } = req.body;
@@ -200,7 +198,7 @@ exports.saveActivityChart = async (req, res) => {
     }
 };
 
-// ॲक्टिव्हिटी चार्ज ग्रिड डेटा आणण्यासाठी
+
 exports.getActivityChart = async (req, res) => {
     try {
         const { patientId } = req.params;
