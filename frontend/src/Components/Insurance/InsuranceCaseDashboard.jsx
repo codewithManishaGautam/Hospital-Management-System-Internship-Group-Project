@@ -9,6 +9,7 @@ const InsuranceCaseDashboard = ({ onViewCase }) => {
 
   useEffect(() => {
     fetchCases();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
 
   const fetchCases = async () => {

@@ -101,29 +101,16 @@ function PatientDetail() {
 
 
    useEffect(() => {
-
       getPatient();
 
       getDiagnostics();
 
+   // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
 
 
    // PDF Names
-   const Lab =
-      "Lab";
 
-   const Pharma =
-      "Pharma";
-
-   const Nurse =
-      "Nurse";
-
-   const Doctor =
-      "Doctor";
-
-   const Insurance =
-      "Insurance";
 
 
    // return (
@@ -459,7 +446,7 @@ function PatientDetail() {
 
          <h1>Patient Information</h1>
 
-         <div className="patient-card" className="p-3 mb-2 bg-transparent text-primary">
+         <div className="patient-card p-3 mb-2 bg-transparent text-primary">
 
             <div className="patient-info">
 

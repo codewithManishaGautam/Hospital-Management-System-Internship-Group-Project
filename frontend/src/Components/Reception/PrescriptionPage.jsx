@@ -49,6 +49,7 @@ function PrescriptionPage() {
   useEffect(() => {
     loadPatient();
     loadDoctors();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const savePrescription = async () => {
@@ -717,7 +718,7 @@ function PrescriptionPage() {
                 </div>
               ) : notes ? (
                 notes.startsWith("data:image") ? (
-                  <img src={notes} />
+                  <img src={notes} alt="Notes" />
                 ) : (
                   <p>{notes}</p>
                 )

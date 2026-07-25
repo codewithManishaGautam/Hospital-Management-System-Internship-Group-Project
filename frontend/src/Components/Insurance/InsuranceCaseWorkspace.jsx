@@ -12,6 +12,7 @@ const InsuranceCaseWorkspace = ({ caseId, onBack }) => {
   useEffect(() => {
     fetchCaseData();
     fetchDocuments();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [caseId]);
 
   const fetchCaseData = async () => {
@@ -45,7 +46,7 @@ const InsuranceCaseWorkspace = ({ caseId, onBack }) => {
   const handleGeneratePackage = async () => {
     setMessage('Generating claim package...');
     try {
-      const res = await insuranceService.generateClaimPackage(caseId, {});
+      await insuranceService.generateClaimPackage(caseId, {});
       setMessage('Package generated successfully!');
       fetchCaseData(); // Refresh to get the link
     } catch (err) {

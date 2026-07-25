@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Layout from "../pages/Layout";
-import PrescriptionPage from "../Components/Reception/PrescriptionPage";
 import PatientsDashboard from "../Components/Doctor/PatientsDashboard";
 
 // import "./doctor.css";
@@ -13,7 +11,6 @@ import ProfileDashboard from "../Components/Doctor/ProfileDashboard";
 function Doctor() {
   const user = JSON.parse(localStorage.getItem("user"));
   const doctorName = user?.name || "";
-  const navigate = useNavigate();
 
   const [step, setStep] = useState("dashboard");
 
@@ -21,13 +18,12 @@ function Doctor() {
 
   const [todayPatients, setTodayPatients] = useState([]);
   const [historyPatients, setHistoryPatients] = useState([]);
-  const [appointments, setAppointments] = useState([]);
-  const [selectedPatient, setSelectedPatient] = useState(null);
 
   useEffect(() => {
     fetchTodayPatients();
     fetchHistoryPatients();
     fetchAppointments();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchTodayPatients = async () => {
@@ -70,7 +66,7 @@ const fetchHistoryPatients = async () => {
 
       console.log("My Appointments =", myAppointments);
 
-      setAppointments(myAppointments);
+      // setAppointments(myAppointments);
     } catch (err) {
       console.log(err);
     }
