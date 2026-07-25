@@ -124,6 +124,199 @@ app.use("/api/insurance", insuranceRoutes);
 //   return next();
 // });
 
+// ======================
+// MongoDB
+// ======================
+
+// connectDB();
+
+// ======================
+// Patient Schema
+// ======================
+
+// const PatientSchema = new mongoose.Schema({
+//   name: String,
+
+//   age: Number,
+
+//   gender: String,
+// });
+
+// const Patient = mongoose.model(
+//   "Patient",
+
+//   PatientSchema,
+// );
+
+// ======================
+// Create Folders
+// ======================
+
+if (!fs.existsSync("uploads")) {
+  fs.mkdirSync("uploads");
+}
+
+if (!fs.existsSync("generated")) {
+  fs.mkdirSync("generated");
+}
+
+// ======================
+// Static Folders
+// ======================
+
+app.use(
+  "/uploads",
+
+  express.static(path.join(__dirname, "uploads")),
+);
+
+app.use(
+  "/generated",
+
+  express.static(path.join(__dirname, "generated")),
+);
+
+// ======================
+// Multer
+// ======================
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+
+  filename: (req, file, cb) => {
+    cb(
+      null,
+
+      Date.now() + "_" + file.originalname,
+    );
+  },
+});
+
+const upload = multer({ storage });
+
+// ======================
+// Nodemailer
+// ======================
+
+// const transporter = nodemailer.createTransport({
+//   service: "gmail",
+
+//   auth: {
+//     user: process.env.EMAIL_USER,
+
+//     pass: process.env.EMAIL_PASS,
+//   },
+// });
+
+// // ======================
+// // Verify Email
+// // ======================
+
+// transporter.verify((error, success) => {
+//   if (error) {
+//     console.log(error);
+//   } else {
+//     console.log("Email Server Ready");
+//   }
+// });
+
+// ======================
+// Add Patient
+// ======================
+
+// // Before Change Code :
+
+// app.post(
+//   "/add",
+
+//   async (req, res) => {
+//     try {
+//       const patient = new Patient(req.body);
+
+//       await patient.save();
+
+//       res.json({
+//         success: true,
+
+//         message: "Patient Added",
+//       });
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   },
+// );
+
+app.post("/add", async (req, res) => {
+  try {
+    const patient = new Patient({
+      uhid: req.body.uhid,
+
+      name: req.body.name,
+
+      age: req.body.age,
+
+      gender: req.body.gender,
+
+      mobile: req.body.mobile,
+
+      address: req.body.address,
+
+      disease: req.body.disease,
+
+      doctor: req.body.doctor,
+
+      appointmentDate: req.body.appointmentDate,
+      appointmentTime: req.body.appointmentTime,
+
+      role: req.body.role,
+
+      admissionDate: req.body.admissionDate,
+
+      roomNo: req.body.roomNo,
+
+      bedNo: req.body.bedNo,
+
+      status: req.body.status,
+    });
+
+    await patient.save();
+
+    res.json({
+      success: true,
+
+      message: "Patient Registered Successfully",
+
+      patient,
+    });
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json({
+      success: false,
+
+      message: "Registration Failed",
+    });
+  }
+});
+
+// ======================
+// Get All Patients
+// ======================
+
+// // Before Change The Code :
+
+// app.get(
+//   "/patients",
+
+//   async (req, res) => {
+//     const data = await Patient.find();
+
+//     res.json(data);
+//   },
+// );
+
 app.get("/patients", async (req, res) => {
   try {
     const page = Number(req.query.page) || 1;
