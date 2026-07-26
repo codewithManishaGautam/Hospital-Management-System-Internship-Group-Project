@@ -1,0 +1,149 @@
+// const express = require("express");
+// const router = express.Router();
+// const multer = require("multer");
+
+// const {
+
+//     createLabRequest,
+//     getAllLabRequests,
+//     getPendingRequests,
+//     getProcessingRequests,
+//     getCompletedRequests,
+//     getSingleRequest,
+//     updateStatus,
+//     uploadReport
+
+// } = require("../controllers/LabRequestController");
+
+
+// // =========================================
+// // Multer Storage
+// // =========================================
+
+// const storage = multer.diskStorage({
+
+//     destination: function (req, file, cb) {
+
+//         cb(null, "uploads/lab");
+
+//     },
+
+//     filename: function (req, file, cb) {
+
+//         const uniqueName =
+
+//             Date.now() +
+
+//             "-" +
+
+//             file.originalname;
+
+//         cb(null, uniqueName);
+
+//     }
+
+// });
+
+// const upload = multer({
+
+//     storage
+
+// });
+
+
+// // =========================================
+// // Routes
+// // =========================================
+
+
+// // Create Request
+
+// router.post(
+
+//     "/create",
+
+//     createLabRequest
+
+// );
+
+
+// // Get All Requests
+
+// router.get(
+
+//     "/",
+
+//     getAllLabRequests
+
+// );
+
+
+// // Pending
+
+// router.get(
+
+//     "/pending",
+
+//     getPendingRequests
+
+// );
+
+
+// // Processing
+
+// router.get(
+
+//     "/processing",
+
+//     getProcessingRequests
+
+// );
+
+
+// // Completed
+
+// router.get(
+
+//     "/completed",
+
+//     getCompletedRequests
+
+// );
+
+
+// // Single Request
+
+// router.get(
+
+//     "/:id",
+
+//     getSingleRequest
+
+// );
+
+
+// // Update Status
+
+// router.put(
+
+//     "/status/:id",
+
+//     updateStatus
+
+// );
+
+
+// // Upload Report PDF
+
+// router.put(
+
+//     "/upload/:id",
+
+//     upload.single("report"),
+
+//     uploadReport
+
+// );
+
+
+// module.exports = router;

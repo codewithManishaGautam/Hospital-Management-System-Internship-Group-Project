@@ -1,0 +1,227 @@
+.lab-detail-container{
+
+    width:95%;
+
+    margin:30px auto;
+
+    background:white;
+
+    border-radius:15px;
+
+    padding:30px;
+
+    box-shadow:0px 5px 20px rgba(0,0,0,.15);
+
+}
+
+/* ========================= */
+
+.lab-detail-container h2{
+
+    color:#0d47a1;
+
+    margin-bottom:25px;
+
+}
+
+/* ========================= */
+
+.patient-card{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:20px;
+
+}
+
+/* ========================= */
+
+.patient-card div{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+/* ========================= */
+
+.patient-card label{
+
+    font-weight:bold;
+
+    margin-bottom:5px;
+
+    color:#37474f;
+
+}
+
+/* ========================= */
+
+.patient-card input{
+
+    padding:10px;
+
+    border-radius:8px;
+
+    border:1px solid #cfd8dc;
+
+    background:#eceff1;
+
+}
+
+/* ========================= */
+
+.tests-list{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:12px;
+
+    margin-top:20px;
+
+}
+
+/* ========================= */
+
+.test-item{
+
+    background:#e3f2fd;
+
+    padding:12px;
+
+    border-radius:8px;
+
+    font-weight:600;
+
+}
+
+/* ========================= */
+
+textarea{
+
+    width:100%;
+
+    border:1px solid #cfd8dc;
+
+    border-radius:10px;
+
+    padding:15px;
+
+    resize:none;
+
+    background:#fafafa;
+
+}
+
+/* ========================= */
+
+.status-section{
+
+    display:flex;
+
+    gap:20px;
+
+    align-items:center;
+
+}
+
+/* ========================= */
+
+.status-section select{
+
+    width:220px;
+
+    padding:10px;
+
+    border-radius:8px;
+
+}
+
+/* ========================= */
+
+.status-section button{
+
+    background:#1976d2;
+
+    color:white;
+
+    border:none;
+
+    padding:10px 25px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+}
+
+.status-section button:hover{
+
+    background:#0d47a1;
+
+}
+
+/* ========================= */
+
+.upload-btn{
+
+    margin-top:15px;
+
+    background:#43a047;
+
+    color:white;
+
+    border:none;
+
+    padding:12px 30px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+}
+
+.upload-btn:hover{
+
+    background:#2e7d32;
+
+}
+
+/* ========================= */
+
+hr{
+
+    margin:30px 0;
+
+}
+
+/* ========================= */
+
+@media(max-width:900px){
+
+.patient-card{
+
+grid-template-columns:1fr;
+
+}
+
+.tests-list{
+
+grid-template-columns:1fr;
+
+}
+
+.status-section{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+}
+
+}

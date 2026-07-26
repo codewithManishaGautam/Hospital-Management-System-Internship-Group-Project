@@ -72,6 +72,19 @@ label
     margin:3px;
 }
 
+
+@media print{
+
+.page-break{
+
+    page-break-before: always;
+
+    break-before: page;
+
+}
+
+}
+
 @media(max-width:768px){
 
 .patient-card{

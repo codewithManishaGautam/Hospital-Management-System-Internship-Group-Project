@@ -1,5 +1,4 @@
 import React from "react";
-import VenousEngMar from "./Components/ConcernForm_Module/Routine_Consents/CentralVenousCatheterisation/VenousEngMar";
 
 import {
   Routes,
@@ -10,7 +9,8 @@ import {
 import LoginDashboard from "./pages/Login";
 import ReceptionistDashboard from "./pages/Receptionist";
 import DoctorDashboard from "./pages/Doctor";
-import LabDashboard from "./pages/Lab";
+import LabDashboard from "./Components/Lab/LabDashboard";
+
 import PharmacyDashboard from "./pages/Pharmacy";
 import NurseDashboard from "./pages/Nurse";
 import BillingDashboard from "./pages/Billing";
