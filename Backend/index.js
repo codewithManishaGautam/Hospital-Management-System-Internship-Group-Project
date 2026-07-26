@@ -109,6 +109,9 @@ app.use("/api/admin", adminRoutes);
 const doctorRoutes = require("./routes/doctorRoutes");
 app.use("/api", doctorRoutes);
 
+const insuranceRoutes = require("./routes/insurance/index");
+app.use("/api/insurance", insuranceRoutes);
+
 // app.use((req, res, next) => {
 //   if (req.path.startsWith("/doctor") && process.env.NODE_ENV !== "test") {
 //     try {

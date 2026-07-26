@@ -1,0 +1,44 @@
+Login Page Documentation
+1. Introduction
+The Login Page is the entry point of the Hospital Management System. It allows different users (Admin, Doctor, Receptionist, etc.) to securely access the system using their credentials.
+2. Objective
+The main objective of the Login Page is:
+To authenticate users
+To provide role-based access
+To ensure secure system entry
+3. Features
+Role selection (Admin, Doctor, Receptionist, etc.)
+Input fields for phone number and password
+Login button for authentication
+Navigation control (Login → Dashboard)
+Responsive and modern UI design
+4. UI Description
+The Login Page includes:
+A background image with overlay effect
+A centered login card
+Dropdown for role selection
+Input fields for phone and password
+Login and Back buttons
+5. Working Process
+User selects a role
+User enters phone number and password
+On clicking Login:
+Data is captured
+Sent to backend API for verification
+If valid → Redirect to Dashboard
+If invalid → Error message shown
+6. Diagram
+FlowChart Diagram
+
+
+
+
+
+Data Flow Diagram
+
+
+Use Case Diagram
+
+
+7. Conclusion
+The Login Page will be successfully designed with a professional UI and functionality.

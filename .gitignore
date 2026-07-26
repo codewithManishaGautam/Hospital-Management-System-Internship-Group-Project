@@ -1,4 +1,8 @@
-﻿# dependencies
+# environment variables
+.env
+Backend/.env
+
+# dependencies
 /node_modules
 /Backend/node_modules
 /frontend/node_modules

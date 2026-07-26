@@ -25,7 +25,7 @@ export default function Dashboard() {
 <div className="nurse-topbar">Nurse Panel</div>
       <div className="card blue">
         <h2>Total Patients</h2>
-        {/* <p>4</p> */}
+        <p>{totalPatients}</p>
       </div>
 
       {/* <div className="card red">
@@ -35,7 +35,7 @@ export default function Dashboard() {
 
       <div className="card green">
         <h2>Total Beds</h2>
-        {/* <p>25</p> */}
+        <p>{totalBeds}</p>
       </div>
 
     </div>

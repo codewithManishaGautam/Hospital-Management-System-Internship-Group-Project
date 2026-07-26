@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insurance Module — All Diagrams</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+  h1 { color: #1a365d; border-bottom: 3px solid #2b6cb0; padding-bottom: 10px; }
+  .diagram-card { background: white; border-radius: 12px; padding: 30px; margin: 30px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  .diagram-card h2 { color: #2d3748; margin-top: 0; font-size: 1.3em; }
+  .diagram-card .mermaid { display: flex; justify-content: center; overflow-x: auto; }
+  .diagram-number { display: inline-block; background: #2b6cb0; color: white; border-radius: 20px; padding: 2px 12px; font-size: 0.8em; margin-right: 10px; }
+  @media print {
+    body { background: white; }
+    .diagram-card { box-shadow: none; break-inside: avoid; page-break-inside: avoid; margin: 15px 0; padding: 15px; border: 1px solid #ddd; }
+  }
+</style>
+</head>
+<body>
+<h1>Insurance Module — All Diagrams</h1>
+<p>Total: 14 diagrams | <button onclick="window.print()" style="padding:8px 20px;font-size:14px;cursor:pointer;background:#2b6cb0;color:white;border:none;border-radius:6px;">Print to PDF</button></p>
+
+
+<div class="diagram-card">
+  <h2><span class="diagram-number">#1</span> 6.1 HMS Full System Architecture</h2>
+  <div class="mermaid">
+graph TB
+    subgraph "Frontend (React 19)"
+        LOGIN[Login Page]
+        RECEPT[Receptionist Module]
+        DOCTOR[Doctor Module]
+        NURSE[Nurse Module]
+        LAB[Lab Module]
+        PHARMA[Pharmacy Module]
+        BILLING[Billing Module]
+        INSURANCE[Insurance Module]
+        ADMIN[Admin Module]
+    end
+
+    subgraph "Backend (Express 5)"
+        API_GW[API Gateway<br/>index.js :5000]
+        INS_ROUTES[Insurance Routes<br/>9 sub-routes]
+        LEGACY_ROUTES[Legacy Routes<br/>Patient CRUD]
+        MIDDLEWARE[Multer Upload<br/>Express Validator]
+    end
+
+    subgraph "Database (MongoDB Atlas)"
+        subgraph "Insurance Collections"
+            POLICY[(insurance_policies)]
+            SCHEME[(government_schemes)]
+            PREAUTH[(pre_authorization_requests)]
+            CLAIM[(insurance_claims)]
+            DOC[(claim_documents)]
+            BILLING_MAP[(insurance_billing_mappings)]
+            TPA[(tpa_master)]
+            COMPANY[(insurance_companies)]
+            FORMS[(official_forms_registry)]
+        end
+        PATIENT[(patients)]
+    end
+
+    subgraph "External Entities"
+        TPA_EXT[TPA / Insurer<br/>Portals]
+        PATIENT_EXT[Patient<br/>Email/SMS]
+    end
+
+    INSURANCE -->|axios| API_GW
+    BILLING -->|axios| API_GW
+    ADMIN -->|axios| API_GW
+    RECEPT -->|axios| API_GW
+    API_GW --> INS_ROUTES
+    API_GW --> LEGACY_ROUTES
+    INS_ROUTES --> MIDDLEWARE
+    INS_ROUTES --> POLICY
+    INS_ROUTES --> SCHEME
+    INS_ROUTES --> PREAUTH
+    INS_ROUTES --> CLAIM
+    INS_ROUTES --> DOC
+    INS_ROUTES --> BILLING_MAP
+    INS_ROUTES --> TPA
+    INS_ROUTES --> COMPANY
+    INS_ROUTES --> FORMS
+    LEGACY_ROUTES --> PATIENT
+    TPA -->|Manual Entry| INSURANCE
+    CLAIM -.->|Email PDF| PATIENT_EXT
+  </div>
+</div>
+
+<div class="diagram-card">
+  <h2><span class="diagram-number">#2</span> 6.2 Insurance Module Architecture</h2>
+  <div class="mermaid">
+graph TB
+    subgraph "Frontend — Insurance Module"
+        LAYOUT[Layout.jsx<br/>Sidebar + Topbar]
+        INS_PAGE[Insurance.jsx<br/>694 lines, 7 views]
+        NOTIF_BELL[NotificationBell.jsx]
+        FORM_RENDER[ProviderFormRenderer.jsx]
+        SPLIT_CARD[InsuranceSplitCard.jsx]
+        FORM_TEMPLATES[insuranceFormTemplates.js]
+        
+        LAYOUT --> INS_PAGE
+        LAYOUT --> NOTIF_BELL
+        INS_PAGE --> FORM_RENDER
+        INS_PAGE --> SPLIT_CARD
+        FORM_RENDER --> FORM_TEMPLATES
+    end
+
+    subgraph "Backend — Insurance Module"
+        ROUTER_HUB[Router Hub<br/>routes/insurance/index.js]
+        POLICY_R[policyRoutes.js<br/>6 endpoints]
+        SCHEME_R[schemeRoutes.js<br/>4 endpoints]
+        PREAUTH_R[preAuthRoutes.js<br/>4 endpoints]
+        CLAIM_R[claimRoutes.js<br/>5 endpoints]
+        DOC_R[documentRoutes.js<br/>4 endpoints]
+        BILLING_R[billingIntegrationRoutes.js<br/>2 endpoints]
+        MASTER_R[masterDataRoutes.js<br/>6 endpoints]
+        NOTIF_R[notificationRoutes.js<br/>2 endpoints]
+        UPLOAD_MW[upload.js<br/>Multer 5MB]
+        VALIDATION[express-validator]
+        
+        ROUTER_HUB --> POLICY_R
+        ROUTER_HUB --> SCHEME_R
+        ROUTER_HUB --> PREAUTH_R
+        ROUTER_HUB --> CLAIM_R
+        ROUTER_HUB --> DOC_R
+        ROUTER_HUB --> BILLING_R
+        ROUTER_HUB --> MASTER_R
+        ROUTER_HUB --> NOTIF_R
+        DOC_R --> UPLOAD_MW
+        POLICY_R --> VALIDATION
+        SCHEME_R --> VALIDATION
+    end
+
+    subgraph "Database"
+        DB[(MongoDB Atlas<br/>9 collections)]
+    end
+
+    INS_PAGE -->|axios HTTP| ROUTER_HUB
+    ROUTER_HUB --> DB
+  </div>
+</div>
+
+<div class="diagram-card">
+  <h2><span class="diagram-number">#3</span> 8. Entity Relationship Diagram</h2>
+  <div class="mermaid">
+erDiagram
+    Patient ||--o{ InsurancePolicy : "has"
+    Patient ||--o{ GovernmentScheme : "enrolled in"
+    Patient ||--o{ PreAuthRequest : "requests"
+    Patient ||--o{ InsuranceClaim : "files"
+    Patient ||--o{ InsuranceBillingMapping : "billed for"
+
+    InsurancePolicy ||--o| TPAMaster : "managed by"
+    InsurancePolicy ||--o| InsuranceCompany : "issued by"
+    InsurancePolicy ||--o{ PreAuthRequest : "used for"
+    InsurancePolicy ||--o{ InsuranceClaim : "claimed under"
+
+    GovernmentScheme ||--o{ PreAuthRequest : "used for"
+    GovernmentScheme ||--o{ InsuranceClaim : "claimed under"
+
+    TPAMaster ||--o{ InsuranceCompany : "services"
+    InsuranceCompany ||--o| TPAMaster : "default TPA"
+
+    PreAuthRequest ||--o| InsuranceClaim : "converted to"
+    PreAuthRequest ||--o{ ClaimDocument : "has"
+
+    InsuranceClaim ||--o{ ClaimDocument : "has"
+    InsuranceClaim ||--o| InsuranceBillingMapping : "generates"
+
+    InsuranceBillingMapping ||--o| InsurancePolicy : "references"
+
+    InsuranceCompany {
+        string name PK "Unique insurer name"
+        string type "Private/PSU/Government"
+        string irdaiRegistrationNumber
+        string claimPortalUrl
+        boolean networkHospitalStatus
+        ObjectId defaultTpaId FK
+        boolean isActive
+    }
+
+    TPAMaster {
+        string name PK "Unique TPA name"
+        string irdaiLicenseNumber
+        string portalUrl
+        string preAuthTAT
+        string claimTAT
+        array linkedInsurers FK
+        boolean isActive
+    }
+
+    InsurancePolicy {
+        ObjectId patientId FK
+        string insuranceType "Private/Government"
+        string providerName
+        string policyNumber UK
+        string planType "Individual/FamilyFloater/Group"
+        number sumInsured
+        object subLimits "roomRentCap, icuCap, procedureCap"
+        number coPayPercentage
+        number deductible
+        ObjectId tpaId FK
+        ObjectId insurerCompanyId FK
+        date policyStartDate
+        date policyEndDate
+        string verificationStatus
+        boolean isActive
+    }
+
+    GovernmentScheme {
+        ObjectId patientId FK
+        string schemeName "PM-JAY/CGHS/ESIC/MJPJAY"
+        object schemeSpecificData
+        string verificationStatus
+        boolean primaryScheme
+        boolean isActive
+    }
+
+    PreAuthRequest {
+        ObjectId patientId FK
+        ObjectId policyId FK
+        ObjectId schemeId FK
+        string admittingDoctor
+        date expectedAdmissionDate
+        string diagnosis
+        string icd10Code
+        string proposedTreatment
+        number estimatedCost
+        string status "Draft to Expired"
+        number approvedAmount
+        string authorizationNumber
+        string providerTemplateUsed
+        map providerSpecificData
+    }
+
+    InsuranceClaim {
+        string claimNumber UK "CLM-YYYYMMDD-NNNN"
+        ObjectId patientId FK
+        ObjectId policyId FK
+        ObjectId schemeId FK
+        ObjectId preAuthId FK
+        string claimType "Cashless/Reimbursement"
+        date admissionDate
+        date dischargeDate
+        string diagnosis
+        string icd10Code
+        number totalBillAmount
+        number claimedAmount
+        number approvedAmount
+        number settledAmount
+        number coPayAmount
+        number deductibleAmount
+        number patientPayable
+        string status "11-stage lifecycle"
+        object settlementDetails
+        object documentChecklist
+        string providerTemplateUsed
+        map providerSpecificData
+    }
+
+    InsuranceBillingMapping {
+        ObjectId patientId FK
+        ObjectId billId FK
+        ObjectId claimId FK
+        ObjectId policyId FK
+        number totalBillAmount
+        number approvedAmount
+        number coPayAmount
+        number deductibleAmount
+        array nonCoveredItems
+        number insuranceDeduction
+        number patientPayable
+        boolean isManualOverride
+    }
+
+    ClaimDocument {
+        ObjectId claimId FK
+        ObjectId preAuthId FK
+        string category "11 types"
+        string filename
+        string originalName
+        string filePath
+        number fileSize
+        string mimeType
+        ObjectId uploadedBy FK
+        boolean isDeleted
+    }
+
+    OfficialFormsRegistry {
+        string insurerOrTpaName
+        string formName
+        string formType "Pre-Auth/Claim/Reimbursement/Discharge"
+        string downloadUrl
+        string formVersion
+        boolean isDeprecated
+    }
+  </div>
+</div>
+
+<div class="diagram-card">
+  <h2><span class="diagram-number">#4</span> 10.1 Main Insurance Page (`Insurance.jsx`)</h2>
+  <div class="mermaid">
+graph LR
+    LAYOUT[Layout.jsx<br/>Sidebar Navigation] --> INSURANCE[Insurance.jsx<br/>694 lines]
+    
+    INSURANCE --> DASHBOARD["View 1: Dashboard<br/>4 stat cards + claims table"]
+    INSURANCE --> REG_POLICY["View 2: Register Policy<br/>Form: provider, policy#, sum insured"]
+    INSURANCE --> ENROLL_SCHEME["View 3: Enroll Scheme<br/>Form: PM-JAY/CGHS/ESIC/MJPJAY"]
+    INSURANCE --> PRE_AUTH["View 4: Pre-Auth Requests<br/>Submit form + table + View Form modal"]
+    INSURANCE --> CLAIMS["View 5: All Claims<br/>File claim + table + Approve + CSV export"]
+    INSURANCE --> DOCUMENTS["View 6: Documents<br/>Upload form with category select"]
+    INSURANCE --> OFFICIAL_FORMS["View 7: Official Forms<br/>ProviderFormRenderer"]
+  </div>
+</div>
+
+<div class="diagram-card">
+  <h2><span class="diagram-number">#5</span> 11.1 Policy & Scheme Registration Flow</h2>
+  <div class="mermaid">
+flowchart TD
+    A[Patient Arrives at Hospital] --> B{Insurance Type?}
+    B -->|Private Insurance| C[Insurance Desk<br/>Opens Register Policy]
+    B -->|Government Scheme| D[Insurance Desk<br/>Opens Enroll Scheme]
+    
+    C --> C1[Enter: Provider, Policy Number,<br/>Plan Type, Sum Insured, Dates]
+    C1 --> C2[Select TPA & Insurer Company]
+    C2 --> C3[POST /api/insurance/policies]
+    C3 --> C4{Policy Created?}
+    C4 -->|Yes| C5[Policy Status: Not Verified]
+    C4 -->|No| C6[Show Error]
+    C5 --> C7[Verify Policy Details]
+    C7 --> C8{PATCH /:policyId/verify}
+    C8 -->|Valid| C9[Status: Verified — Active]
+    C8 -->|Expired| C10[Status: Verified — Expired]
+    C8 -->|Failed| C11[Status: Verification Failed]
+    
+    D --> D1[Select Scheme: PM-JAY/CGHS/ESIC/MJPJAY]
+    D1 --> D2[Enter Scheme-Specific Data<br/>ABHA, Ayushman Card, CGHS ID, etc.]
+    D2 --> D3[POST /api/insurance/schemes]
+    D3 --> D4{Scheme Enrolled?}
+    D4 -->|Yes| D5[Scheme Status: Not Verified]
+    D4 -->|No| D6[Show Error]
+    D5 --> D7[Verify Scheme Eligibility]
+    D7 --> D8{PATCH /:schemeId/verify}
+    D8 -->|Valid| D9[Status: Verified — Active]
+    D8 -->|Failed| D10[Status: Verification Failed]
+  </div>
+</div>
+
+<div class="diagram-card">
+  <h2><span class="diagram-number">#6</span> 11.2 Pre-Authorization Workflow</h2>
+  <div class="mermaid">
+flowchart TD
+    A[Patient Needs Treatment] --> B[Insurance Verified?]
+    B -->|Yes| C[Insurance Desk<br/>Opens Pre-Auth Form]
+    B -->|No| END1[No Insurance Coverage]
+    
+    C --> D{Select Form Type}
+    D -->|Generic| E[Fill Standard Pre-Auth Form<br/>Diagnosis, ICD-10, Treatment, Cost]
+    D -->|Provider-Specific| F[ProviderFormRenderer<br/>IRDAI / PM-JAY / CGHS]
+    
+    E --> G[POST /api/insurance/pre-auth]
+    F --> G
+    
+    G --> H[Status: Draft]
+    H --> I[Review & Submit to Insurer/TPA]
+    I --> J[Status: Submitted]
+    J --> K[PATCH /:id/status]
+    K --> L{Insurer/TPA Response}
+    
+    L -->|Under Review| M[Status: Under Review]
+    M --> N{Decision}
+    L -->|Query Raised| O[Status: Query Raised]
+    O --> P[Hospital Responds to Query]
+    P --> M
+    
+    N -->|Approved| Q[Status: Approved<br/>Set approvedAmount<br/>authorizationNumber<br/>validityDate]
+    N -->|Enhancement Requested| R[Status: Enhancement Requested<br/>Negotiate treatment plan]
+    R --> M
+    N -->|Rejected| S[Status: Rejected<br/>Notify Patient/Doctor]
+    
+    Q --> T{Validity Expired?}
+    T -->|Yes| U[Status: Expired<br/>Cannot use for claims]
+    T -->|No| V[Ready for Admission/Treatment]
+  </div>
+</div>
+
+<div class="diagram-card">
+  <h2><span class="diagram-number">#7</span> 11.3 Claims Workflow</h2>
+  <div class="mermaid">
+flowchart TD
+    A[Treatment Complete] --> B{Has Pre-Auth?}
+    B -->|Yes| C[Link to Pre-Auth ID]
+    B -->|No| D[Independent Claim]
+    
+    C --> E[Insurance Desk<br/>Opens File Claim]
+    D --> E
+    
+    E --> F[POST /api/insurance/claims]
+    F --> G[Claim Number Auto-Generated<br/>CLM-YYYYMMDD-NNNN]
+    G --> H[Status: Draft]
+    
+    H --> I[Upload Documents]
+    I --> I1[Admission Form]
+    I --> I2[Discharge Summary]
+    I --> I3[Investigation Reports]
+    I --> I4[Prescription]
+    I --> I5[Doctor Notes]
+    I --> I6[Bill/Invoice]
+    I --> I7[Consent Form]
+    I --> I8[Insurance Card Copy]
+    I --> I9[ID Proof]
+    
+    I1 --> J[Status: Documents Pending]
+    I2 --> J
+    I3 --> J
+    I4 --> J
+    I5 --> J
+    I6 --> J
+    I7 --> J
+    I8 --> J
+    I9 --> J
+    
+    J --> K[All Documents Ready?]
+    K -->|Yes| L[Status: Ready for Submission]
+    K -->|No| J
+    
+    L --> M[Submit to Insurer/TPA]
+    M --> N[Status: Submitted]
+    N --> O[Status: Under Process]
+    
+    O --> P{Insurer Decision}
+    P -->|Query| Q[Status: Query<br/>Respond to Insurer Queries]
+    Q --> O
+    P -->|Approved| R[Status: Approved<br/>Set approvedAmount]
+    P -->|Rejected| S[Status: Rejected<br/>Set rejectionReason]
+    
+    R --> T[Create Billing Mapping<br/>POST /api/insurance/billing/mapping]
+    T --> U{Settlement}
+    U -->|Full| V[Status: Settled<br/>Set settlementDetails]
+    U -->|Partial| W[Status: Partially Settled<br/>Set partialReason]
+    
+    S --> X{Appeal?}
+    X -->|Yes| Y[Status: Appeal Filed]
+    X -->|No| Z[Claim Closed]
+  </div>
+</div>
+
+<div class="diagram-card">
+  <h2><span class="diagram-number">#8</span> 11.4 Billing Integration Flow</h2>
+  <div class="mermaid">
+flowchart TD
+    A[Billing Module<br/>Generates Final Bill] --> B[Enter Patient ID]
+    B --> C[GET /api/insurance/billing/summary/:patientId]
+    C --> D[Returns Insurance Split Data]
+    
+    D --> E[InsuranceSplitCard Displays:]
+    E --> E1[Gross Hospital Bill]
+    E --> E2[Insurance Deduction]
+    E --> E3[Patient Co-Pay Amount]
+    E --> E4[Net Patient Payable]
+    
+    F[Claim Approved] --> G[POST /api/insurance/billing/mapping]
+    G --> H[Create InsuranceBillingMapping Record]
+    H --> I[Stores: totalBillAmount,<br/>insuranceDeduction, patientPayable]
+  </div>
+</div>
+
+<div class="diagram-card">
+  <h2><span class="diagram-number">#9</span> 12.2 Data Flow Diagram (DFD)</h2>
+  <div class="mermaid">
+graph TD
+    PATIENT[Patient] -->|Provides policy/scheme details| INS_SYSTEM((Insurance<br/>Management<br/>System))
+    DOCTOR[Doctor] -->|Diagnosis, ICD-10, treatment plan| INS_SYSTEM
+    RECEPTION[Receptionist] -->|Patient registration,<br/>insurance flag| INS_SYSTEM
+    
+    INS_SYSTEM -->|Pre-auth request| TPA[TPA / Insurer]
+    INS_SYSTEM -->|Claim submission| TPA
+    INS_SYSTEM -->|Billing split data| BILLING[Billing Module]
+    INS_SYSTEM -->|Master data| ADMIN[Admin Module]
+    
+    TPA -->|Approval / Rejection / Query| INS_SYSTEM
+    BILLING -->|Bill amount| INS_SYSTEM
+    ADMIN -->|TPA/Insurer management| INS_SYSTEM
+    
+    INS_SYSTEM -->|Claim status| PATIENT
+    INS_SYSTEM -->|Pre-auth status| DOCTOR
+  </div>
+</div>
+
+<div class="diagram-card">
+  <h2><span class="diagram-number">#10</span> 12.2 Data Flow Diagram (DFD)</h2>
+  <div class="mermaid">
+graph TD
+    subgraph "External Entities"
+        PAT[Patient]
+        DOC[Doctor]
+        REC[Receptionist]
+        TPA[TPA/Insurer]
+        BILL[Billing Module]
+        ADM[Admin Module]
+    end
+
+    subgraph "Insurance System — Processes"
+        P1[1.0<br/>Policy/Scheme<br/>Management]
+        P2[2.0<br/>Pre-Authorization<br/>Processing]
+        P3[3.0<br/>Claims<br/>Processing]
+        P4[4.0<br/>Document<br/>Management]
+        P5[5.0<br/>Billing<br/>Integration]
+        P6[6.0<br/>Master Data<br/>Management]
+        P7[7.0<br/>Dashboard &<br/>Notifications]
+    end
+
+    subgraph "Data Stores"
+        D1[(Policies)]
+        D2[(Schemes)]
+        D3[(Pre-Auths)]
+        D4[(Claims)]
+        D5[(Documents)]
+        D6[(Billing Maps)]
+        D7[(TPAs/Companies)]
+    end
+
+    REC -->|Patient + insurance flag| P1
+    PAT -->|Policy/scheme details| P1
+    P1 --> D1
+    P1 --> D2
+
+    DOC -->|Diagnosis, treatment plan| P2
+    P2 --> D1
+    P2 --> D2
+    P2 --> D3
+    P2 -->|Pre-auth request| TPA
+    TPA -->|Approval/query| P2
+
+    P3 --> D1
+    P3 --> D2
+    P3 --> D3
+    P3 --> D4
+    P3 -->|Claim submission| TPA
+    TPA -->|Decision/settlement| P3
+
+    P4 --> D3
+    P4 --> D4
+    P4 --> D5
+
+    P3 -->|Approved claim| P5
+    BILL -->|Bill amount| P5
+    P5 --> D6
+    P5 -->|Split data| BILL
+
+    ADM -->|Manage TPAs/Insurers| P6
+    P6 --> D7
+    P6 --> D1
+
+    P7 --> D4
+    P7 --> D1
+    P7 --> D2
+  </div>
+</div>
+
+<div class="diagram-card">
+  <h2><span class="diagram-number">#11</span> 12.3 Use Case Diagram</h2>
+  <div class="mermaid">
+graph TD
+    subgraph "Insurance Module — Use Cases"
+        UC1[Register Insurance Policy]
+        UC2[Enroll Government Scheme]
+        UC3[Verify Policy/Scheme]
+        UC4[File Pre-Authorization Request]
+        UC5[Submit Pre-Auth to Insurer]
+        UC6[Respond to Insurer Queries]
+        UC7[File Insurance Claim]
+        UC8[Upload Claim Documents]
+        UC9[Track Claim Status]
+        UC10[Process Claim Settlement]
+        UC11[View Insurance Dashboard]
+        UC12[Manage TPA Master Data]
+        UC13[Manage Insurance Companies]
+        UC14[Manage Official Forms]
+        UC15[Calculate Billing Split]
+        UC16[View Notifications]
+    end
+
+    subgraph "Actors"
+        INS_OFFICER[Insurance Desk Officer]
+        ADMIN_USER[Admin]
+        RECEPTIONIST[Receptionist]
+        BILLING_OFFICER[Billing Officer]
+        DOCTOR_ACTOR[Doctor]
+        PATIENT_ACTOR[Patient]
+        TPA_ACTOR[TPA / Insurer]
+    end
+
+    INS_OFFICER --> UC1
+    INS_OFFICER --> UC2
+    INS_OFFICER --> UC3
+    INS_OFFICER --> UC4
+    INS_OFFICER --> UC5
+    INS_OFFICER --> UC6
+    INS_OFFICER --> UC7
+    INS_OFFICER --> UC8
+    INS_OFFICER --> UC9
+    INS_OFFICER --> UC10
+    INS_OFFICER --> UC11
+    INS_OFFICER --> UC16
+
+    ADMIN_USER --> UC11
+    ADMIN_USER --> UC12
+    ADMIN_USER --> UC13
+    ADMIN_USER --> UC14
+
+    RECEPTIONIST --> UC4
+
+    BILLING_OFFICER --> UC15
+
+    DOCTOR_ACTOR --> UC4
+    DOCTOR_ACTOR --> UC8
+
+    PATIENT_ACTOR --> UC9
+
+    TPA_ACTOR -.->|External| UC5
+    TPA_ACTOR -.->|External| UC9
+  </div>
+</div>
+
+<div class="diagram-card">
+  <h2><span class="diagram-number">#12</span> 12.4 Sequence Diagram — Pre-Authorization Flow</h2>
+  <div class="mermaid">
+sequenceDiagram
+    actor Patient
+    actor Doctor
+    participant InsuranceDesk as Insurance Desk Officer
+    participant Frontend as Insurance.jsx
+    participant Backend as Express API
+    participant DB as MongoDB
+    participant TPA as TPA / Insurer
+
+    Patient->>Doctor: Consultation
+    Doctor->>Doctor: Diagnose, Plan Treatment
+    Doctor->>InsuranceDesk: Request Pre-Auth<br/>(Diagnosis, ICD-10, Treatment, Cost)
+
+    InsuranceDesk->>Frontend: Open Pre-Auth Form
+    
+    alt Provider-Specific Form
+        Frontend->>Frontend: ProviderFormRenderer<br/>Select Template (IRDAI/PM-JAY/CGHS)
+    else Generic Form
+        Frontend->>Frontend: Fill Standard Fields
+    end
+
+    Frontend->>Backend: POST /api/insurance/pre-auth
+    Backend->>DB: Save PreAuthRequest (Status: Draft)
+    DB-->>Backend: Saved
+    Backend-->>Frontend: 201 Created
+
+    InsuranceDesk->>Frontend: Review & Submit
+    Frontend->>Backend: PATCH /api/insurance/pre-auth/:id/status<br/>(Status: Submitted)
+    Backend->>DB: Update Status + StatusHistory
+    DB-->>Backend: Updated
+
+    InsuranceDesk->>TPA: Submit Pre-Auth Request<br/>(via Insurer Portal)
+
+    TPA-->>InsuranceDesk: Under Review
+
+    alt Query Raised
+        TPA-->>InsuranceDesk: Query (Additional Info Needed)
+        InsuranceDesk->>Doctor: Request Clarification
+        Doctor-->>InsuranceDesk: Response
+        InsuranceDesk->>TPA: Submit Query Response
+    end
+
+    alt Approved
+        TPA-->>InsuranceDesk: Approved<br/>(Amount, Auth#, Validity)
+        InsuranceDesk->>Frontend: Update Status
+        Frontend->>Backend: PATCH /api/insurance/pre-auth/:id/status<br/>(Status: Approved, approvedAmount, authNumber)
+        Backend->>DB: Update with approval details
+        DB-->>Backend: Updated
+        Backend-->>Frontend: 200 OK
+        InsuranceDesk->>Doctor: Pre-Auth Approved
+    else Rejected
+        TPA-->>InsuranceDesk: Rejected (Reason)
+        InsuranceDesk->>Frontend: Update Status
+        Frontend->>Backend: PATCH /api/insurance/pre-auth/:id/status<br/>(Status: Rejected)
+        Backend->>DB: Update
+        InsuranceDesk->>Doctor: Pre-Auth Rejected
+    end
+  </div>
+</div>
+
+<div class="diagram-card">
+  <h2><span class="diagram-number">#13</span> 12.5 Sequence Diagram — Claim Processing Flow</h2>
+  <div class="mermaid">
+sequenceDiagram
+    actor Patient
+    participant InsuranceDesk as Insurance Desk Officer
+    participant Frontend as Insurance.jsx
+    participant Backend as Express API
+    participant DB as MongoDB
+    participant TPA as TPA / Insurer
+    participant Billing as Billing Module
+
+    Patient->>InsuranceDesk: Treatment Complete<br/>Provide Documents
+
+    InsuranceDesk->>Frontend: Open File Claim
+    
+    alt Linked to Pre-Auth
+        Frontend->>Frontend: Select Pre-Auth Reference
+    else Independent Claim
+        Frontend->>Frontend: Enter Claim Details Directly
+    end
+
+    Frontend->>Backend: POST /api/insurance/claims
+    Backend->>Backend: Auto-generate Claim Number<br/>(CLM-YYYYMMDD-NNNN)
+    Backend->>DB: Save InsuranceClaim (Status: Draft)
+    DB-->>Backend: Saved
+    Backend-->>Frontend: 201 Created (Claim Number)
+
+    InsuranceDesk->>Frontend: Upload Documents
+    
+    loop For Each Document
+        Frontend->>Backend: POST /api/insurance/documents/upload<br/>(Multipart: document file)
+        Backend->>Backend: Multer validates (PDF/JPG/PNG, max 5MB)
+        Backend->>DB: Save ClaimDocument
+        DB-->>Backend: Saved
+        Backend->>DB: Update Claim.documentChecklist
+        Backend-->>Frontend: 201 Created
+    end
+
+    InsuranceDesk->>Frontend: Review & Mark Ready
+    Frontend->>Backend: PATCH /api/insurance/claims/:id/status<br/>(Status: Ready for Submission)
+    Backend->>DB: Update Status
+
+    InsuranceDesk->>Frontend: Submit to Insurer
+    Frontend->>Backend: PATCH /api/insurance/claims/:id/status<br/>(Status: Submitted)
+    Backend->>DB: Update
+
+    InsuranceDesk->>TPA: Submit Claim to Insurer Portal
+
+    TPA-->>InsuranceDesk: Under Process
+
+    alt Query Raised
+        TPA-->>InsuranceDesk: Query
+        InsuranceDesk->>Frontend: Update Status: Query
+        Frontend->>Backend: PATCH (Status: Query)
+        InsuranceDesk->>TPA: Respond to Query
+        InsuranceDesk->>Frontend: Update Status: Under Process
+        Frontend->>Backend: PATCH (Status: Under Process)
+    end
+
+    alt Approved
+        TPA-->>InsuranceDesk: Approved (Amount)
+        InsuranceDesk->>Frontend: Approve Claim
+        
+        Frontend->>Backend: PATCH /api/insurance/claims/:id/status<br/>(Status: Approved, approvedAmount)
+        Backend->>DB: Update Claim
+        
+        Frontend->>Backend: POST /api/insurance/billing/mapping<br/>(insuranceDeduction, patientPayable)
+        Backend->>DB: Save InsuranceBillingMapping
+        
+        Backend-->>Frontend: 201 Created
+        Frontend-->>InsuranceDesk: Billing Mapping Created
+
+        Billing->>Backend: GET /api/insurance/billing/summary/:patientId
+        Backend->>DB: Fetch InsuranceBillingMapping
+        DB-->>Backend: Insurance Split Data
+        Backend-->>Billing: { insuranceDeduction, patientPayable, coPay }
+        Billing->>Billing: Display via InsuranceSplitCard
+
+        TPA->>InsuranceDesk: Settlement (UTR Number)
+        InsuranceDesk->>Frontend: Update Settlement
+        Frontend->>Backend: PATCH (Status: Settled, settlementDetails)
+        Backend->>DB: Update
+
+    else Rejected
+        TPA-->>InsuranceDesk: Rejected (Reason)
+        InsuranceDesk->>Frontend: Update Status: Rejected
+        Frontend->>Backend: PATCH (Status: Rejected, rejectionReason)
+    end
+  </div>
+</div>
+
+<div class="diagram-card">
+  <h2><span class="diagram-number">#14</span> 12.6 Module Interaction Diagram</h2>
+  <div class="mermaid">
+graph TB
+    subgraph "HMS Modules"
+        RECEPT[Receptionist Module<br/>Namrata]
+        ADMIN_M[Admin Module<br/>Sakshi]
+        DOCTOR_M[Doctor Module<br/>Manisha]
+        NURSE_M[Nurse Module<br/>Trupti]
+        LAB_M[Lab Module<br/>Suhas]
+        PHARMA_M[Pharmacy Module<br/>Vaishnavi]
+        BILLING_M[Billing Module<br/>Prajwal]
+        INSURANCE_M[Insurance Module<br/>Siddhant]
+    end
+
+    subgraph "Insurance Module Components"
+        POLICIES[Policy Management]
+        SCHEMES[Scheme Management]
+        PREAUTH[Pre-Authorization]
+        CLAIMS[Claims Processing]
+        DOCUMENTS[Document Management]
+        BILLING_INT[Billing Integration]
+        MASTER[Master Data]
+    end
+
+    RECEPT -->|"POST /pre-auth<br/>(auto-create Draft)"| PREAUTH
+    RECEPT -->|"Patient ID"| POLICIES
+    RECEPT -->|"Patient ID"| SCHEMES
+
+    ADMIN_M -->|"GET/POST /tpas<br/>GET/POST /companies"| MASTER
+    ADMIN_M -->|"Insurance Master View"| MASTER
+
+    DOCTOR_M -->|"Diagnosis, ICD-10<br/>Treatment Plan"| PREAUTH
+    DOCTOR_M -->|"Clinical Documents"| DOCUMENTS
+
+    NURSE_M -->|"Patient Reports"| DOCUMENTS
+    LAB_M -->|"Lab Reports"| DOCUMENTS
+    PHARMA_M -->|"Pharmacy Bills"| CLAIMS
+
+    BILLING_M -->|"GET /billing/summary/:patientId"| BILLING_INT
+    BILLING_M -->|"InsuranceSplitCard"| BILLING_INT
+
+    INSURANCE_M --> POLICIES
+    INSURANCE_M --> SCHEMES
+    INSURANCE_M --> PREAUTH
+    INSURANCE_M --> CLAIMS
+    INSURANCE_M --> DOCUMENTS
+    INSURANCE_M --> BILLING_INT
+    INSURANCE_M --> MASTER
+  </div>
+</div>
+
+<script>
+  mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+</script>
+</body>
+</html>

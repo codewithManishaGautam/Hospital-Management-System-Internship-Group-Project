@@ -78,9 +78,24 @@ function Layout({ role, children, step, setStep }) {
         )}
 
         {["Pharmacy", "Bill", "Insurance"].includes(role) && (
-          <button onClick={() => handleStep("patientList")}>
+          <button onClick={() => setStep("patientList")}>
             👨‍⚕️ Patient List
           </button>
+        )}
+
+        {/* Insurance */}
+        {role === "Insurance" && (
+          <>
+            <button onClick={() => setStep("dashboard")}>Overview</button>
+            <button onClick={() => setStep("cases")}>Insurance Cases</button>
+            <button onClick={() => setStep("admission-wizard")}>New Admission Workflow</button>
+            <button onClick={() => setStep("register-policy")}>Register Policy</button>
+            <button onClick={() => setStep("enroll-scheme")}>Enroll Scheme</button>
+            <button onClick={() => setStep("pre-auth")}>Pre-Auth Requests</button>
+            <button onClick={() => setStep("claims")}>All Claims</button>
+            <button onClick={() => setStep("documents")}>Documents</button>
+            <button onClick={() => setStep("official-forms")}>Official Provider Forms</button>
+          </>
         )}
 
         {/* Admin */}
