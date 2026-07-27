@@ -1,0 +1,111 @@
+.table-form-wrapper{
+
+    width:100%;
+    overflow-x:hidden;
+
+}
+
+.date{
+
+    text-align:right;
+    margin-bottom:10px;
+    font-weight:bold;
+
+}
+
+.table-responsive{
+
+    width:80%;
+    overflow-x:hidden;
+
+}
+
+.patient-table{
+
+    width:90%;
+    table-layout:fixed;
+    border-collapse:collapse;
+
+}
+
+.patient-table td{
+
+    padding:8px;
+    vertical-align:top;
+    word-break:break-word;
+    overflow:hidden;
+
+}
+
+.patient-table input{
+
+    width:85%;
+}
+
+.patient-table .signature-main{
+
+    width:85%;
+
+}
+
+@media(min-width:992px){
+
+    .patient-table td{
+
+        font-size:15px;
+
+    }
+
+}
+
+@media(max-width:991px){
+
+    .patient-table td{
+
+        font-size:14px;
+        padding:7px;
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .patient-table{
+
+        width:100%;
+
+    }
+
+    .patient-table td{
+
+        font-size:13px;
+        padding:6px;
+
+    }
+
+    .date{
+
+        font-size:13px;
+
+    }
+
+}
+
+@media(max-width:480px){
+
+    .patient-table td{
+
+        font-size:12px;
+        padding:5px;
+
+    }
+
+    .date{
+
+        font-size:12px;
+
+    }
+
+}
+

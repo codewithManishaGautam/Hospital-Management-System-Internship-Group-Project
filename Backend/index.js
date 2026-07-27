@@ -720,6 +720,82 @@ app.post(
 // Server
 // ======================
 
+
+
+
+// labRoute Changes :
+
+const labRoutes = require("./routes/labRoutes");
+
+app.use("/lab", labRoutes);
+
+
+
+app.use(
+
+    "/uploads",
+
+    express.static(
+
+        path.join(__dirname, "uploads")
+
+    )
+
+);
+
+
+// Billing Consent Form changes :
+
+const consentRoutes = require("./routes/consentRoutes");
+
+const uploadRoutes = require("./routes/upload");
+
+
+app.use(express.json());
+
+
+
+app.use(express.urlencoded({
+
+    extended: true
+
+}));
+
+app.use(
+
+    "/uploads",
+
+    express.static(
+
+        path.join(
+
+            __dirname,
+
+            "uploads"
+
+        )
+
+    )
+
+);
+
+app.use(
+
+    "/consent",
+
+    consentRoutes
+
+);
+
+app.use(
+
+    "/upload",
+
+    uploadRoutes
+
+);
+
+
 app.listen(
   5000,
 
@@ -727,3 +803,8 @@ app.listen(
     console.log("Server Running");
   },
 );
+
+
+
+
+

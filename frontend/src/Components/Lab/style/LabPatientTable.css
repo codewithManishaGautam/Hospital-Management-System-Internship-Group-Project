@@ -1,0 +1,211 @@
+.lab-table-card {
+
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 12px;
+
+    box-shadow: 0px 5px 15px rgba(0,0,0,.15);
+
+    margin-top: 20px;
+
+}
+
+/* ================= Header ================= */
+
+.table-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 20px;
+
+}
+
+.table-header h3 {
+
+    margin: 0;
+
+    color: #1d3557;
+
+}
+
+.search-box {
+
+    width: 300px;
+
+    padding: 10px;
+
+    border-radius: 8px;
+
+    border: 1px solid #ccc;
+
+    outline: none;
+
+}
+
+.search-box:focus {
+
+    border: 1px solid #1976d2;
+
+}
+
+/* ================= Table ================= */
+
+.lab-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+}
+
+.lab-table th {
+
+    background: #1976d2;
+
+    color: white;
+
+    padding: 12px;
+
+    text-align: center;
+
+}
+
+.lab-table td {
+
+    padding: 12px;
+
+    text-align: center;
+
+    border-bottom: 1px solid #ddd;
+
+}
+
+.lab-table tbody tr:hover {
+
+    background: #f1f8ff;
+
+}
+
+/* ================= Priority ================= */
+
+.priority {
+
+    padding: 5px 12px;
+
+    border-radius: 20px;
+
+    color: white;
+
+    font-weight: bold;
+
+}
+
+.priority.Normal {
+
+    background: #4caf50;
+
+}
+
+.priority.Urgent {
+
+    background: orange;
+
+}
+
+.priority.STAT {
+
+    background: red;
+
+}
+
+/* ================= Status ================= */
+
+.status {
+
+    padding: 5px 12px;
+
+    border-radius: 20px;
+
+    color: white;
+
+    font-weight: bold;
+
+}
+
+.status.Pending {
+
+    background: #ff9800;
+
+}
+
+.status.Processing {
+
+    background: #2196f3;
+
+}
+
+.status.Completed {
+
+    background: #4caf50;
+
+}
+
+/* ================= Button ================= */
+
+.open-btn {
+
+    border: none;
+
+    background: #1976d2;
+
+    color: white;
+
+    padding: 8px 16px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    transition: .3s;
+
+}
+
+.open-btn:hover {
+
+    background: #0d47a1;
+
+}
+
+/* ================= Responsive ================= */
+
+@media(max-width:900px){
+
+.table-header{
+
+    flex-direction: column;
+
+    gap: 15px;
+
+}
+
+.search-box{
+
+    width:100%;
+
+}
+
+.lab-table{
+
+    display:block;
+
+    overflow-x:auto;
+
+}
+
+}
