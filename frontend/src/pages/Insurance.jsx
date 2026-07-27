@@ -2,16 +2,16 @@ import React, { useState, useEffect } from "react";
 import { insuranceService } from "../services/insuranceService";
 import Layout from "./Layout";
 import "./Insurance.css";
-import ProviderFormRenderer from "../components/insurance/ProviderFormRenderer";
-import PatientLookup from "../components/PatientLookup";
-import PreAuthDashboard from "../components/insurance/PreAuthDashboard";
-import PreAuthForm from "../components/insurance/PreAuthForm";
-import ClaimDashboard from "../components/insurance/ClaimDashboard";
-import InsuranceCaseDashboard from "../components/insurance/InsuranceCaseDashboard";
-import InsuranceCaseWorkspace from "../components/insurance/InsuranceCaseWorkspace";
-import AdmissionWorkflowWizard from "../components/insurance/AdmissionWorkflowWizard";
-import AnalyticsDashboard from "../components/insurance/AnalyticsDashboard";
-import DynamicFormsManager from "../components/insurance/DynamicFormsManager";
+import ProviderFormRenderer from "../Components/Insurance/ProviderFormRenderer";
+import PatientLookup from "../Components/PatientLookup";
+import PreAuthDashboard from "../Components/Insurance/PreAuthDashboard";
+import PreAuthForm from "../Components/Insurance/PreAuthForm";
+import ClaimDashboard from "../Components/Insurance/ClaimDashboard";
+import InsuranceCaseDashboard from "../Components/Insurance/InsuranceCaseDashboard";
+import InsuranceCaseWorkspace from "../Components/Insurance/InsuranceCaseWorkspace";
+import AdmissionWorkflowWizard from "../Components/Insurance/AdmissionWorkflowWizard";
+import AnalyticsDashboard from "../Components/Insurance/AnalyticsDashboard"
+import DynamicFormsManager from "../Components/Insurance/DynamicFormsManager";
 import { validatePolicy, validateScheme, validatePreAuth, validateClaim, formatValidationErrors } from "../utils/formValidation";
 
 function Insurance() {
