@@ -2,41 +2,21 @@ const express = require("express");
 
 const router = express.Router();
 
-const { 
-  addDoctorPrescription,
-  sendPrescription,
-  getAllDoctors,
-  getDoctorById
+const {
+  getDoctorPatients,
+  getTodayPatients,
+  getHistoryPatients,
+  getDoctorProfile,
+  updateDoctorProfile,
 } = require("../controllers/doctorController");
 
-// Get all doctors
-router.get("/doctors", getAllDoctors);
+router.get("/doctor/patients/:doctor", getDoctorPatients);
 
-// Get single doctor by ID
-router.get("/doctors/:doctorId", getDoctorById);
+router.get("/doctor/today-patients/:doctor", getTodayPatients);
 
-// Doctor prescription save
-router.post("/doctor/prescriptions", addDoctorPrescription);
+router.get("/doctor/history-patients/:doctor", getHistoryPatients);
 
-// Send prescription to lab/pharmacy/nurse
-router.post("/doctor/send-prescription", sendPrescription);
-// Admin: fetch sent prescriptions (DB or in-memory)
-router.get("/doctor/sent-prescriptions", (req, res) => {
-  try {
-    const SentPrescription = (() => {
-      try { return require("../models/SentPrescription"); } catch (e) { return null; }
-    })();
+router.get("/doctor/profile/:name", getDoctorProfile);
 
-    if (SentPrescription) {
-      SentPrescription.find().sort({ createdAt: -1 }).limit(200).then(docs => res.json({ data: docs })).catch(err => res.status(500).json({ message: err.message }));
-      return;
-    }
-
-    res.json({ data: global.__sentPrescriptions || { lab: [], pharmacy: [], nurse: [] } });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
+router.put("/doctor/profile/:id", updateDoctorProfile);
 module.exports = router;
-

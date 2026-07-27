@@ -1,0 +1,86 @@
+.login-overlay {
+  position: absolute;
+
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.login-content {
+  width: 100%;
+  max-width: 700px;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+
+  gap: 35px;
+}
+
+.login-left {
+  width: 100%;
+  color: white;
+}
+
+.hospital-title {
+  font-size: 56px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 10px;
+  background: transparent;
+}
+
+.hospital-subtitle {
+  font-size: 22px;
+  color: white;
+  opacity: 0.9;
+}
+
+.login-actions {
+  margin-top: 18px;
+}
+
+.login-link,
+.register-link {
+  color: white;
+
+  text-align: center;
+
+  cursor: pointer;
+
+  margin-top: 10px;
+
+  transition: 0.3s;
+}
+
+.login-link:hover,
+.register-link:hover {
+  color: #9dd1ff;
+}
+
+.login-card input,
+.login-card select {
+  background: white;
+}
+
+.login-card button {
+  background: linear-gradient(90deg, #0d6efd, #2563eb);
+}
+
+.login-card button:hover {
+  background: linear-gradient(90deg, #0b5ed7, #1d4ed8);
+}
+
+.login-actions {
+  margin-top: 22px;
+}
+
+.login-link,
+.register-link {
+  font-size: 15px;
+}
+

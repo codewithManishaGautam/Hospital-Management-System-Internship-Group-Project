@@ -48,6 +48,7 @@ function TableForm({search}) {
 
         getPatients(true);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -58,6 +59,7 @@ function TableForm({search}) {
 
         }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
 
     useEffect(() => {
@@ -66,6 +68,7 @@ function TableForm({search}) {
 
         getPatients(true);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [search]);
 
     return (

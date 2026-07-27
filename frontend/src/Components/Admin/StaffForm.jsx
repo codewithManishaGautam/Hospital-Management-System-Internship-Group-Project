@@ -1,5 +1,7 @@
 import React from "react";
 
+// import { StaffForm } from "../../api/admin/adminApi";
+
 function StaffForm({
   showStaffForm,
   setShowStaffForm,
@@ -18,44 +20,85 @@ function StaffForm({
           type="text"
           placeholder="Name"
           value={newStaff.name}
-          onChange={(e) => setNewStaff({ ...newStaff, name: e.target.value })}
+          onChange={(e) =>
+            setNewStaff({
+              ...newStaff,
+              name: e.target.value.replace(/[^A-Za-z ]/g, ""),
+            })
+          }
         />
 
         <input
           type="text"
+          inputMode="numeric"
+          maxLength={12}
           placeholder="Aadhaar Number"
           value={newStaff.aadhaar}
           onChange={(e) =>
             setNewStaff({
               ...newStaff,
-              aadhaar: e.target.value,
+              aadhaar: e.target.value.replace(/\D/g, "").slice(0, 12),
             })
           }
         />
 
         <input
           type="text"
-          placeholder="Phone Number"
-          value={newStaff.phone}
+          inputMode="numeric"
+          maxLength={10}
+          placeholder="Mobile Number"
+          value={newStaff.mobile}
           onChange={(e) =>
             setNewStaff({
               ...newStaff,
-              phone: e.target.value,
+              mobile: e.target.value.replace(/\D/g, "").slice(0, 10),
             })
           }
         />
 
         <input
-          type="text"
-          placeholder="Role"
+          type="email"
+          placeholder="Email"
+          value={newStaff.email}
+          onChange={(e) =>
+            setNewStaff({
+              ...newStaff,
+email: e.target.value,
+            })
+          }
+        />
+
+        {/* <input
+          type="password"
+          placeholder="Password"
+          value={newStaff.password}
+          onChange={(e) =>
+            setNewStaff({
+              ...newStaff,
+              password: e.target.value,
+            })
+          }
+        /> */}
+
+        <select
           value={newStaff.role}
           onChange={(e) =>
             setNewStaff({
               ...newStaff,
-              role: e.target.value,
+              role: e.target.value.replace(/[^A-Za-z ]/g, ""),
             })
           }
-        />
+        >
+          <option value="">Select Role</option>
+          <option value="receptionist">Receptionist</option>
+          <option value="doctor">Doctor</option>
+          <option value="lab">Lab</option>
+          <option value="pharmacy">Pharmacy</option>
+          <option value="nurse">Nurse</option>
+          <option value="billing">Billing</option>
+          <option value="insurance">Insurance</option>
+          <option value="admin">Admin</option>
+        </select>
 
         <input
           type="text"
@@ -64,7 +107,7 @@ function StaffForm({
           onChange={(e) =>
             setNewStaff({
               ...newStaff,
-              salary: e.target.value,
+              salary: e.target.value.replace(/\D/g, ""),
             })
           }
         />
@@ -95,7 +138,36 @@ function StaffForm({
         />
 
         <div className="form-buttons">
-          <button className="save-btn" onClick={addStaff}>
+          <button
+            className="save-btn"
+            onClick={() => {
+if (
+  !newStaff.name ||
+  !newStaff.aadhaar ||
+  !newStaff.mobile ||
+  !newStaff.email ||
+  !newStaff.role ||
+  !newStaff.salary ||
+  !newStaff.status ||
+  !newStaff.joining
+) {
+                alert("Please fill all fields");
+                return;
+              }
+
+              if (newStaff.aadhaar.length !== 12) {
+                alert("Aadhaar must be 12 digits");
+                return;
+              }
+
+              if (newStaff.mobile.length !== 10) {
+                alert("Mobile number must be 10 digits");
+                return;
+              }
+
+              addStaff();
+            }}
+          >
             Save
           </button>
 
