@@ -1,6 +1,8 @@
 const Patient = require("../models/Patient");
 const Bed = require("../models/Bed");
 const Room = require("../models/Room");
+const Doctor = require("../models/Doctor");
+const Staff = require("../models/Staff");
 
 const PDFDocument = require("pdfkit");
 const fs = require("fs");
@@ -106,6 +108,20 @@ const addPatient = async (req, res) => {
       });
     }
 
+    const doctorData = await Doctor.findOne({
+      name: doctor.replace(/^Dr\.\s*/i, "").trim(),
+    });
+
+    if (!doctorData) {
+      return res.status(400).json({
+        success: false,
+        message: "Doctor not found",
+      });
+    }
+
+    req.body.doctorId = doctorData._id;
+    req.body.doctor = `Dr. ${doctorData.name}`;
+
     const patient = new Patient(req.body);
 
     console.log(req.body.signature);
@@ -190,17 +206,8 @@ const updatePatient = async (req, res) => {
       });
     }
 
-    const {
-      uhid,
-      name,
-      age,
-      gender,
-      mobile,
-      address,
-      doctor,
-      disease,
-      role,
-    } = req.body;
+    const { uhid, name, age, gender, mobile, address, doctor, disease, role } =
+      req.body;
 
     const isPrescriptionUpdate =
       req.body.diagnosis !== undefined ||
@@ -301,6 +308,17 @@ const updatePatient = async (req, res) => {
           success: false,
           message: "Please select patient type.",
         });
+      }
+    }
+
+    if (doctor) {
+      const doctorData = await Doctor.findOne({
+        name: doctor.replace(/^Dr\.\s*/i, "").trim(),
+      });
+
+      if (doctorData) {
+        req.body.doctorId = doctorData._id;
+        req.body.doctor = `Dr. ${doctorData.name}`;
       }
     }
 

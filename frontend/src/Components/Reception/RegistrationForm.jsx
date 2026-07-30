@@ -143,8 +143,8 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
   };
 
   const selectedDoctor = doctors.find(
-  (doctor) => doctor._id === formData.doctor
-);
+    (doctor) => doctor._id === formData.doctor,
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -239,7 +239,8 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
 
         disease: formData.disease,
         department: formData.department,
-        doctor: selectedDoctor ? selectedDoctor.name : "",
+        doctor: selectedDoctor ? `Dr. ${selectedDoctor.name}` : "",
+        doctorId: selectedDoctor ? selectedDoctor._id : "",
 
         appointmentDate: formData.appointmentDate,
         appointmentTime: formData.appointmentTime,
@@ -250,8 +251,8 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
         roomNo: formData.roomNo,
         bedNo: formData.bedNo,
 
-        doctorId: formData.doctor,
-        doctor: doctors.find((d) => d._id === formData.doctor)?.name || "",
+        // doctorId: formData.doctor,
+        // doctor: doctors.find((d) => d._id === formData.doctor)?.name || "",
         //         appointmentDate: formData.appointmentDate,
         // appointmentTime: formData.appointmentTime,
 
@@ -704,7 +705,7 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
                 : "Register Patient"}
           </button>
 
-         {/* <button
+          {/* <button
   type="button"
   className="send-btn"
   onClick={async () => {
