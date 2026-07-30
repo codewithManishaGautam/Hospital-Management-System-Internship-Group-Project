@@ -1,0 +1,78 @@
+{
+  "info": {
+    "name": "HMS Insurance Module API",
+    "description": "API Endpoints for the Hospital Management System Insurance Module",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Policies",
+      "item": [
+        {
+          "name": "Register Policy",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"664f0a1b2c3d4e5f67890001\",\n  \"insuranceType\": \"Private\",\n  \"providerName\": \"Star Health\",\n  \"policyNumber\": \"SH-2026-78901\",\n  \"sumInsured\": 500000,\n  \"policyStartDate\": \"2026-01-01\",\n  \"policyEndDate\": \"2026-12-31\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/insurance/policies",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "insurance", "policies"]
+            }
+          }
+        },
+        {
+          "name": "Get Patient Policies",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:5000/api/insurance/policies/664f0a1b2c3d4e5f67890001",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "insurance", "policies", "664f0a1b2c3d4e5f67890001"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Government Schemes",
+      "item": [
+        {
+          "name": "Enroll Scheme",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"664f0a1b2c3d4e5f67890001\",\n  \"schemeName\": \"PM-JAY\",\n  \"schemeSpecificData\": {\n    \"abhaNumber\": \"12345678901234\"\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/insurance/schemes",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "insurance", "schemes"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

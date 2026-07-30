@@ -1,0 +1,83 @@
+/* Wrapper */
+
+.estimate-table-wrapper{
+    width:100%;
+    margin:0;
+    padding:0;
+    overflow:hidden;
+    box-sizing:border-box;
+}
+
+/* Table */
+
+.estimate-table{
+    width:100% !important;
+    border-collapse:collapse;
+    table-layout:fixed;
+    border:1px solid #000;
+    margin:0;
+}
+
+/* Cells */
+
+.estimate-table th,
+.estimate-table td{
+    border:1px solid #000;
+    padding:8px;
+    vertical-align:middle;
+    box-sizing:border-box;
+    word-break:break-word;
+    white-space:normal;
+}
+
+/* Column Width */
+
+.estimate-table col:nth-child(1){
+    width:5%;
+}
+
+.estimate-table col:nth-child(2){
+    width:20%;
+}
+
+.estimate-table col:nth-child(3){
+    width:20%;
+}
+
+.estimate-table col:nth-child(4){
+    width:25%;
+}
+
+/* Text */
+
+.estimate-table th{
+    text-align:center;
+    font-weight:bold;
+}
+
+.estimate-table td:nth-child(1){
+    text-align:center;
+}
+
+.estimate-table td:nth-child(2){
+    text-align:center;
+}
+
+/* SignaturePad */
+
+.estimate-table .signature-main{
+    width:fit-content;
+    display:flex;
+    align-items:center;
+}
+
+.estimate-table .line,
+.estimate-table .border,
+.estimate-table .none{
+    width:100%;
+}
+
+.estimate-table canvas{
+    width:1000% !important;
+    height:30px !important;
+}

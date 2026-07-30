@@ -1,0 +1,186 @@
+{
+  "info": {
+    "_postman_id": "1a2b3c4d-5e6f-7g8h-9i0j",
+    "name": "HMS Insurance Module API",
+    "description": "API collection for the Hospital Management System Insurance Module.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Policies",
+      "item": [
+        {
+          "name": "Register Policy",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"60d5ec49f1b2c8b1f8e4e1a1\",\n  \"insuranceType\": \"Private\",\n  \"providerName\": \"Star Health\",\n  \"policyNumber\": \"SH-2026-001\",\n  \"planType\": \"Individual\",\n  \"sumInsured\": 500000,\n  \"policyStartDate\": \"2026-01-01\",\n  \"policyEndDate\": \"2026-12-31\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/insurance/policies",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "insurance",
+                "policies"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Policies by Patient",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/insurance/policies/:patientId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "insurance",
+                "policies",
+                ":patientId"
+              ],
+              "variable": [
+                {
+                  "key": "patientId",
+                  "value": "60d5ec49f1b2c8b1f8e4e1a1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Verify Policy",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"verificationStatus\": \"Verified — Active\",\n  \"verifiedBy\": \"60d5ec49f1b2c8b1f8e4e1a2\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/insurance/policies/:policyId/verify",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "insurance",
+                "policies",
+                ":policyId",
+                "verify"
+              ],
+              "variable": [
+                {
+                  "key": "policyId",
+                  "value": "60d5ec49f1b2c8b1f8e4e1a3"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Government Schemes",
+      "item": [
+        {
+          "name": "Enroll Scheme",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"60d5ec49f1b2c8b1f8e4e1a1\",\n  \"schemeName\": \"PM-JAY\",\n  \"schemeSpecificData\": {\n    \"abhaNumber\": \"12345678901234\",\n    \"ayushmanCardNumber\": \"AY-MH-2026-123\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/insurance/schemes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "insurance",
+                "schemes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Schemes by Patient",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/insurance/schemes/:patientId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "insurance",
+                "schemes",
+                ":patientId"
+              ],
+              "variable": [
+                {
+                  "key": "patientId",
+                  "value": "60d5ec49f1b2c8b1f8e4e1a1"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string"
+    }
+  ]
+}

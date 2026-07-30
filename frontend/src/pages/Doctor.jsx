@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Layout from "../pages/Layout";
-import PrescriptionPage from "../Components/Reception/PrescriptionPage";
 import PatientsDashboard from "../Components/Doctor/PatientsDashboard";
 
 // import "./doctor.css";
@@ -12,23 +10,18 @@ import ProfileDashboard from "../Components/Doctor/ProfileDashboard";
 
 function Doctor() {
   const user = JSON.parse(localStorage.getItem("user"));
+  
+const doctorId = user?.doctorId || "";
+const doctorName = user?.doctorName || "";
 
-  const doctorId = user?.doctorId || "";
-  const doctorName = user?.doctorName || "";
-
-  console.log("User =", user);
-  console.log("Doctor Name =", doctorName);
-
-  const navigate = useNavigate();
-
+console.log("User =", user);
+console.log("Doctor Name =", doctorName);
   const [step, setStep] = useState("dashboard");
 
   console.log("Doctor Name =", doctorName);
 
   const [todayPatients, setTodayPatients] = useState([]);
   const [historyPatients, setHistoryPatients] = useState([]);
-  const [appointments, setAppointments] = useState([]);
-  const [selectedPatient, setSelectedPatient] = useState(null);
 
   useEffect(() => {
     if (!doctorId) {
@@ -39,7 +32,7 @@ function Doctor() {
     fetchTodayPatients();
     fetchHistoryPatients();
     fetchAppointments();
-  }, [doctorId]);
+}, [doctorId]);
 
   const fetchTodayPatients = async () => {
     try {
@@ -82,7 +75,7 @@ function Doctor() {
 
       console.log("My Appointments =", myAppointments);
 
-      setAppointments(myAppointments);
+      // setAppointments(myAppointments);
     } catch (err) {
       console.log(err);
     }

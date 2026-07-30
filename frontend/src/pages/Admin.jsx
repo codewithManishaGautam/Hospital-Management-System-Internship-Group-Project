@@ -29,6 +29,27 @@ import BedManagement from "../Components/Admin/BedManagement";
 function Admin() {
   const [step, setStep] = useState("admin-dashboard");
 
+  const [tpaList, setTpaList] = useState([]);
+  const [companyList, setCompanyList] = useState([]);
+
+  useEffect(() => {
+    if (step === "insurance-master") {
+      fetchMasterData();
+    }
+  }, [step]);
+
+  const fetchMasterData = async () => {
+    try {
+      const resTpa = await axios.get("http://localhost:5000/api/insurance/master-data/tpas");
+      if (resTpa.data.success) setTpaList(resTpa.data.data);
+      
+      const resComp = await axios.get("http://localhost:5000/api/insurance/master-data/companies");
+      if (resComp.data.success) setCompanyList(resComp.data.data);
+    } catch (err) {
+      console.error("Error fetching master data:", err);
+    }
+  };
+
   const [dashboard, setDashboard] = useState({});
   const [doctors, setDoctors] = useState([]);
   const [staff, setStaff] = useState([]);
@@ -359,6 +380,73 @@ useEffect(() => {
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
         />
+      )}
+
+      {/* INSURANCE MASTER DATA */}
+      {step === "insurance-master" && (
+        <div className="table-container">
+          <div className="section-header">
+            <h2>Third Party Administrators (TPAs)</h2>
+            <button className="add-btn">+ Add TPA</button>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>TPA ID</th>
+                <th>Name</th>
+                <th>Contact Phone</th>
+                <th>Contact Email</th>
+                <th>Settlement TAT</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tpaList.length > 0 ? tpaList.map(tpa => (
+                <tr key={tpa._id}>
+                  <td>{tpa._id.substring(tpa._id.length - 6).toUpperCase()}</td>
+                  <td>{tpa.tpaName}</td>
+                  <td>{tpa.helpline || "N/A"}</td>
+                  <td>{tpa.claimsEmail || "N/A"}</td>
+                  <td>{tpa.claimTatDays || "N/A"}</td>
+                  <td>{tpa.isActive ? "Active" : "Inactive"}</td>
+                </tr>
+              )) : (
+                <tr><td colSpan="6">No TPAs found.</td></tr>
+              )}
+            </tbody>
+          </table>
+
+          <div className="section-header" style={{ marginTop: '40px' }}>
+            <h2>Insurance Companies</h2>
+            <button className="add-btn">+ Add Company</button>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Company ID</th>
+                <th>Name</th>
+                <th>Provider Type</th>
+                <th>Contact Phone</th>
+                <th>Cashless Network</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {companyList.length > 0 ? companyList.map(comp => (
+                <tr key={comp._id}>
+                  <td>{comp._id.substring(comp._id.length - 6).toUpperCase()}</td>
+                  <td>{comp.companyName}</td>
+                  <td>{comp.companyType}</td>
+                  <td>{comp.claimDepartmentPhone || "N/A"}</td>
+                  <td>{comp.isCashless ? "Yes" : "No"}</td>
+                  <td>{comp.isActive ? "Active" : "Inactive"}</td>
+                </tr>
+              )) : (
+                <tr><td colSpan="6">No Companies found.</td></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       )}
 
       {/* STAFF */}

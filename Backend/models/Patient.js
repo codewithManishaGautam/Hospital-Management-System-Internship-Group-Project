@@ -210,15 +210,130 @@ const patientSchema = new mongoose.Schema(
       default: "Waiting",
     },
 
+<<<<<<< HEAD
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+
+        
+    prescriptionHistory: [
+      {
+        diagnosis: {
+          type: String,
+          default: "",
+        },
+
+        prescription: {
+          type: String,
+          default: "",
+        },
+
+        advice: {
+          type: String,
+          default: "",
+        },
+
+        notes: {
+          type: String,
+          default: "",
+        },
+
+        signature: {
+          type: String,
+          default: "",
+        },
+
+        createdAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
+
+    // Lab
+    labReport: {
+      type: String,
+      default: "",
+    },
+
+    // Pharmacy
+    medicinesIssued: [
+      {
+        name: String,
+        quantity: Number,
+      },
+    ],
+
+    // Nurse
+    nurseNotes: {
+      type: String,
+      default: "",
+    },
+
+    vitals: {
+      type: String,
+      default: "",
+    },
+
+    // Insurance
+    insuranceStatus: {
+      type: String,
+      default: "",
+    },
+
+    claimNumber: {
+      type: String,
+      default: "",
+    },
+
+    // Appointment
+    appointmentDate: String,
+
+    appointmentTime: String,
+    
+    // Billing
+    fee: {
+      type: Number,
+      default: 0,
+    },
+
+    paymentStatus: {
+      type: String,
+      default: "Pending",
+    },
+
+
+
+=======
+>>>>>>> origin/main
     currentDepartment: {
       type: String,
       default: "Reception",
     },
+<<<<<<< HEAD
 
     flowStatus: {
       type: String,
       default: "Registered",
     },
+  },
+
+  {
+    timestamps: true,
+  }
+
+);
+
+
+
+=======
+
+    flowStatus: {
+      type: String,
+      default: "Registered",
+    },
+>>>>>>> origin/main
 
     appointmentHistory: [
       {

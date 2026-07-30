@@ -1,0 +1,242 @@
+Pharmacy Module – Hospital Management System (HMS)
+1. Introduction
+The Pharmacy Module is an important part of the Hospital Management System (HMS).
+It helps manage the complete medicine billing and prescription process digitally inside the hospital.
+This module connects:
+Doctor Dashboard
+Pharmacy Department
+Billing Department
+Insurance Department
+When a doctor creates a prescription, it is automatically sent to the pharmacy dashboard.
+The pharmacist checks the prescription, provides medicines, generates the bill, and sends the PDF bill to billing and insurance departments.
+The system reduces manual paperwork, improves accuracy, and saves time.
+
+2. Objective
+The main objectives of the Pharmacy Module are:
+Automate medicine billing process
+Reduce manual prescription handling
+Maintain medicine records digitally
+Generate bills automatically
+Improve communication between departments
+Track OPD/IPD medicine billing
+Send bill PDF to billing department
+Maintain payment and insurance records
+Reduce medicine calculation errors
+
+3. Features of Pharmacy Module
+Core Features
+Doctor Prescription Integration
+Doctor creates prescription
+Prescription automatically sent to pharmacy
+Pharmacy Dashboard
+View pending prescriptions
+Search patient by UHID
+Open prescription details
+Medicine Entry
+Add medicines one by one
+Auto calculate quantity and price
+Show medicine company, batch, expiry
+Billing System
+Generate medicine bill
+Calculate gross/net amount
+Support OPD/IPD billing
+PDF Generation
+Download bill PDF
+Send PDF to billing department
+Send PDF to insurance company
+Payment Management
+Cash / Online / Insurance payment modes
+Payment status tracking
+IPD Daily Billing
+Add medicines daily in same patient bill
+Date & time wise entries
+Reports & History
+Payment records
+Billing history
+Medicine usage reports
+
+
+4. UI Description
+1. Sidebar
+Contains navigation buttons:
+Dashboard
+Prescription
+Medicine Entry
+Billing
+Payments
+Reports
+Settings
+
+2. Pharmacy Dashboard
+Displays:
+Pending prescriptions
+Patient name
+UHID
+Doctor name
+Open prescription button
+
+3. Prescription Screen
+Shows:
+Patient details
+Doctor details
+Prescribed medicines
+Medicine status (Active/Urgent)
+
+4. Billing Section
+Contains:
+Medicine table
+Quantity
+MRP
+Amount
+Gross amount
+Net amount
+
+5. Payment Section
+Contains:
+Payment mode dropdown
+Payment status dropdown
+PDF buttons
+
+5. Working Process
+Step-by-Step Flow
+Step 1 – Doctor Prescription
+Doctor logs into Doctor Dashboard and writes prescription.
+Step 2 – Auto Send
+Prescription automatically sent to Pharmacy Module.
+Step 3 – Pharmacist Review
+Pharmacist opens prescription and checks medicines.
+Step 4 – Medicine Entry
+Medicines added with:
+quantity
+batch
+expiry
+price
+Step 5 – Bill Generation
+System calculates total automatically.
+Step 6 – Payment
+Patient payment processed:
+Cash
+Online
+Insurance
+Step 7 – PDF Generation
+Bill PDF generated automatically.
+Step 8 – Department Sharing
+PDF sent to:
+Billing Department
+Insurance Department
+Step 9 – Record Storage
+All billing data stored in HMS database.
+
+6. Flow Chart Diagram
++------------------+
+| Doctor Dashboard |
++------------------+
+          |
+          v
++----------------------+
+| Create Prescription  |
++----------------------+
+          |
+          v
++----------------------+
+| Send to Pharmacy     |
++----------------------+
+          |
+          v
++----------------------+
+| Pharmacist Reviews   |
++----------------------+
+          |
+          v
++----------------------+
+| Add Medicines        |
++----------------------+
+          |
+          v
++----------------------+
+| Generate Bill        |
++----------------------+
+          |
+          v
++----------------------+
+| Payment Processing   |
++----------------------+
+          |
+          v
++----------------------+
+| Generate PDF Bill    |
++----------------------+
+          |
+          v
++----------------------+
+| Send Billing Dept    |
++----------------------+
+          |
+          v
++----------------------+
+| Store Records        |
++----------------------+
+
+7. Data Flow Diagram (DFD)
+Level 0 DFD
+Doctor
+   |
+   v
+Prescription Data
+   |
+   v
+Pharmacy Module
+   |
+   +------> Billing Department
+   |
+   +------> Insurance Department
+   |
+   +------> HMS Database
+
+8. Use Case Diagram
+          +----------------+
+          |     Doctor     |
+          +----------------+
+                   |
+                   v
+        Create Prescription
+                   |
+                   v
+
++----------------------------------+
+|      Pharmacy Management         |
++----------------------------------+
+| - View Prescription              |
+| - Add Medicines                  |
+| - Generate Bill                  |
+| - Download PDF                   |
+| - Send Billing Department        |
+| - Send Insurance Company         |
+| - Update Payment Status          |
++----------------------------------+
+                   ^
+                   |
+          +----------------+
+          |  Pharmacist    |
+          +----------------+
+
+                   ^
+                   |
+          +----------------+
+          | Billing Dept   |
+          +----------------+
+
+9. Advantages
+Fast billing process
+Accurate medicine calculation
+Reduced paperwork
+Better patient management
+Easy record tracking
+Improved hospital workflow
+Digital PDF records
+Better coordination between departments
+
+11. Conclusion
+The Pharmacy Module is a smart and efficient solution for hospital medicine management and billing automation. It improves communication between doctors, pharmacists, billing departments, and insurance companies.
+The system reduces manual work, increases billing accuracy, maintains digital records, and provides a professional hospital workflow.
+This module makes the hospital management process faster, safer, and more organized.
