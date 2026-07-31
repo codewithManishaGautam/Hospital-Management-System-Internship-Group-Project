@@ -1,5 +1,7 @@
 import React from "react";
 
+import "../../styles/doctor/doctorDashboard.css";
+
 function DashboardCards({ patients }) {
   console.log("Patients =", patients);
 
@@ -35,13 +37,23 @@ function DashboardCards({ patients }) {
   return (
     <div className="doctor-cards">
       <div className="doctor-card">
+        <div className="doctor-card-icon">📅</div>
+
         <h3>Today's Appointments</h3>
+
         <h1>{todayPatients.length}</h1>
+
+        <p>Total scheduled patients</p>
       </div>
 
       <div className="doctor-card">
-        <h3>Pending</h3>
+        <div className="doctor-card-icon">⏳</div>
+
+        <h3>Pending Patients</h3>
+
         <h1>{pendingPatients.length}</h1>
+
+        <p>Waiting for consultation</p>
       </div>
     </div>
   );

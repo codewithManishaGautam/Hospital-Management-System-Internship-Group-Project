@@ -1,16 +1,13 @@
 const Patient = require("../models/Patient");
 const Doctor = require("../models/Doctor");
+const Staff = require("../models/Staff");
 
 const getDoctorPatients = async (req, res) => {
   try {
-    const doctor = req.params.doctor;
-
-    console.log("Doctor Param :", doctor);
+    const doctorId = req.params.doctorId;
 
     const patients = await Patient.find({
-      doctor: {
-        $regex: new RegExp(`^${doctor}$`, "i"),
-      },
+      doctorId,
     });
 
     console.log("Patients Found :", patients.length);
@@ -31,14 +28,12 @@ const getDoctorPatients = async (req, res) => {
 // Today's Patients
 const getTodayPatients = async (req, res) => {
   try {
-    const doctor = req.params.doctor;
+    const doctorId = req.params.doctorId;
 
-    const today = new Date().toLocaleDateString("en-CA");
+    const today = new Date().toISOString().split("T")[0];
 
     const patients = await Patient.find({
-      doctor: {
-        $regex: new RegExp(`^${doctor}$`, "i"),
-      },
+      doctorId,
       appointmentDate: today,
     });
 
@@ -57,16 +52,13 @@ const getTodayPatients = async (req, res) => {
 // Previous / History Patients
 const getHistoryPatients = async (req, res) => {
   try {
-    const doctor = req.params.doctor;
+    const doctorId = req.params.doctorId;
 
-    const today = new Date().toLocaleDateString("en-CA");
+    const today = new Date().toISOString().split("T")[0];
 
     const patients = await Patient.find({
-      doctor: {
-        $regex: new RegExp(`^${doctor}$`, "i"),
-      },
+      doctorId,
       appointmentDate: { $lt: today },
-      paymentStatus: "Paid",
     });
 
     res.json({
@@ -83,9 +75,11 @@ const getHistoryPatients = async (req, res) => {
 
 const getDoctorProfile = async (req, res) => {
   try {
-    const doctor = await Doctor.findOne({
-      name: req.params.name,
-    });
+    console.log("Doctor Name =", req.params.name);
+
+    const doctor = await Doctor.findById(req.params.id);
+
+    console.log("Doctor Found =", doctor);
 
     if (!doctor) {
       return res.status(404).json({
@@ -99,6 +93,8 @@ const getDoctorProfile = async (req, res) => {
       doctor,
     });
   } catch (err) {
+    console.log(err);
+
     res.status(500).json({
       success: false,
       message: err.message,
@@ -108,9 +104,44 @@ const getDoctorProfile = async (req, res) => {
 
 const updateDoctorProfile = async (req, res) => {
   try {
+    const oldDoctor = await Doctor.findById(req.params.id);
+
+    if (!oldDoctor) {
+      return res.status(404).json({
+        success: false,
+        message: "Doctor not found",
+      });
+    }
+
     const doctor = await Doctor.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
+
+    // Update all patients
+    await Patient.updateMany(
+      {
+        doctorId: doctor._id,
+      },
+      {
+        $set: {
+          doctor: `Dr. ${doctor.name}`,
+        },
+      },
+    );
+
+    // Update Staff
+    await Staff.findOneAndUpdate(
+      {
+        role: "doctor",
+        mobile: oldDoctor.mobile,
+      },
+      {
+        $set: {
+          name: doctor.name,
+          mobile: doctor.mobile,
+        },
+      },
+    );
 
     res.json({
       success: true,

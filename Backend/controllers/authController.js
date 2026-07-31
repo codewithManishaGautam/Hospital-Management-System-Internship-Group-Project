@@ -1,6 +1,7 @@
 const Staff = require("../models/Staff");
 const bcrypt = require("bcryptjs");
 const sendEmail = require("../utils/sendEmail");
+const Doctor = require("../models/Doctor");
 
 const login = async (req, res) => {
   try {
@@ -40,10 +41,17 @@ const login = async (req, res) => {
       });
     }
 
+    const doctor =
+      role === "doctor" ? await Doctor.findOne({ mobile: user.mobile }) : null;
+
+    console.log("Staff User =", user);
+    console.log("Doctor Found =", doctor);
+
     res.status(200).json({
       success: true,
       role: user.role,
       user,
+      doctor,
     });
   } catch (err) {
     console.log(err);

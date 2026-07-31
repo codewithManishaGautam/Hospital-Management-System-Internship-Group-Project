@@ -1,12 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+import "../../styles/doctor/patientManagement.css";
+
 function PatientTable({ patients }) {
   const navigate = useNavigate();
 
   return (
     <div className="patient-table">
-      <table>
+      <table classname="patients-table">
         <thead>
           <tr>
             <th>UHID</th>
@@ -51,7 +53,7 @@ function PatientTable({ patients }) {
 
               <td>
                 <button
-                  className="view-btn"
+                  className="patient-view-btn"
                   onClick={() =>
                     navigate(`/prescription/${p._id}`)
                   }

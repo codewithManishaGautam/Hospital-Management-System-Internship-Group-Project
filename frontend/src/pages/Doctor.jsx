@@ -10,8 +10,12 @@ import ProfileDashboard from "../Components/Doctor/ProfileDashboard";
 
 function Doctor() {
   const user = JSON.parse(localStorage.getItem("user"));
-  const doctorName = user?.name || "";
+  
+const doctorId = user?.doctorId || "";
+const doctorName = user?.doctorName || "";
 
+console.log("User =", user);
+console.log("Doctor Name =", doctorName);
   const [step, setStep] = useState("dashboard");
 
   console.log("Doctor Name =", doctorName);
@@ -20,16 +24,20 @@ function Doctor() {
   const [historyPatients, setHistoryPatients] = useState([]);
 
   useEffect(() => {
+    if (!doctorId) {
+      console.log("Doctor ID not found");
+      return;
+    }
+
     fetchTodayPatients();
     fetchHistoryPatients();
     fetchAppointments();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+}, [doctorId]);
 
   const fetchTodayPatients = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/doctor/today-patients/${doctorName}`,
+        `http://localhost:5000/api/doctor/today-patients/${doctorId}`,
       );
 
       setTodayPatients(res.data.patients);
@@ -38,19 +46,19 @@ function Doctor() {
     }
   };
 
-const fetchHistoryPatients = async () => {
-  try {
-    const res = await axios.get(
-      `http://localhost:5000/api/doctor/history-patients/${doctorName}`,
-    );
+  const fetchHistoryPatients = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/api/doctor/history-patients/${doctorId}`,
+      );
 
-    console.log("History API =", res.data);
+      console.log("History API =", res.data);
 
-    setHistoryPatients(res.data.patients);
-  } catch (err) {
-    console.log(err);
-  }
-};
+      setHistoryPatients(res.data.patients);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const fetchAppointments = async () => {
     try {
@@ -61,7 +69,8 @@ const fetchHistoryPatients = async () => {
       console.log("Appointments API =", res.data);
 
       const myAppointments = res.data.data.filter(
-        (item) => item.doctor === doctorName,
+        (item) =>
+          item.doctor === `Dr. ${doctorName}` || item.doctor === doctorName,
       );
 
       console.log("My Appointments =", myAppointments);
@@ -78,7 +87,9 @@ const fetchHistoryPatients = async () => {
         <Dashboard doctorName={doctorName} patients={todayPatients} />
       )}
 
-      {step === "profile-dashboard" && <ProfileDashboard />}
+      {step === "profile-dashboard" && (
+        <ProfileDashboard doctorName={doctorName} />
+      )}
 
       {step === "patients" && <PatientsDashboard patients={historyPatients} />}
     </Layout>
