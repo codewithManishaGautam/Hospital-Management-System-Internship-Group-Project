@@ -34,6 +34,11 @@ const staffSchema = new mongoose.Schema({
   },
 
   otp: String,
+
+  profileImage: {
+    type: String,
+    default: "",
+  },
 });
 
 module.exports = mongoose.model("Staff", staffSchema);

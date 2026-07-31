@@ -4,6 +4,8 @@ import "./Layout.css";
 function Layout({ role, children, step, setStep }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  const user = JSON.parse(localStorage.getItem("user"));
+
   const handleStep = (step) => {
     setStep(step);
     setSidebarOpen(false);
@@ -27,7 +29,11 @@ function Layout({ role, children, step, setStep }) {
             alt="profile"
           />
 
-          <h3>{role}</h3>
+          <h3>{user?.name || role}</h3>
+
+          <p className="profile-role">{user?.role || role}</p>
+
+          <p className="profile-email">{user?.email}</p>
         </div>
 
         {/* Receptionist */}
@@ -171,6 +177,7 @@ function Layout({ role, children, step, setStep }) {
           className="logout"
           onClick={() => {
             localStorage.removeItem("token");
+            localStorage.removeItem("user");
             window.location.href = "/";
           }}
         >

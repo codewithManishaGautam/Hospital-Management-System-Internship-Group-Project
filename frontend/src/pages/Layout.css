@@ -329,3 +329,16 @@
 .main::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
+
+.profile-role{
+    color:#dbeafe;
+    font-size:14px;
+    margin-top:6px;
+}
+
+.profile-email{
+    color:#cbd5e1;
+    font-size:12px;
+    word-break:break-word;
+    margin-top:4px;
+}
