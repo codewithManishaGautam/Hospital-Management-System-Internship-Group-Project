@@ -210,130 +210,111 @@ const patientSchema = new mongoose.Schema(
       default: "Waiting",
     },
 
-<<<<<<< HEAD
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
+    //     createdAt: {
+    //         type: Date,
+    //         default: Date.now
+    //     },
 
-        
-    prescriptionHistory: [
-      {
-        diagnosis: {
-          type: String,
-          default: "",
-        },
+    //     prescriptionHistory: [
+    //       {
+    //         diagnosis: {
+    //           type: String,
+    //           default: "",
+    //         },
 
-        prescription: {
-          type: String,
-          default: "",
-        },
+    //         prescription: {
+    //           type: String,
+    //           default: "",
+    //         },
 
-        advice: {
-          type: String,
-          default: "",
-        },
+    //         advice: {
+    //           type: String,
+    //           default: "",
+    //         },
 
-        notes: {
-          type: String,
-          default: "",
-        },
+    //         notes: {
+    //           type: String,
+    //           default: "",
+    //         },
 
-        signature: {
-          type: String,
-          default: "",
-        },
+    //         signature: {
+    //           type: String,
+    //           default: "",
+    //         },
 
-        createdAt: {
-          type: Date,
-          default: Date.now,
-        },
-      },
-    ],
+    //         createdAt: {
+    //           type: Date,
+    //           default: Date.now,
+    //         },
+    //       },
+    //     ],
 
-    // Lab
-    labReport: {
-      type: String,
-      default: "",
-    },
+    //     // Lab
+    //     labReport: {
+    //       type: String,
+    //       default: "",
+    //     },
 
-    // Pharmacy
-    medicinesIssued: [
-      {
-        name: String,
-        quantity: Number,
-      },
-    ],
+    //     // Pharmacy
+    //     medicinesIssued: [
+    //       {
+    //         name: String,
+    //         quantity: Number,
+    //       },
+    //     ],
 
-    // Nurse
-    nurseNotes: {
-      type: String,
-      default: "",
-    },
+    //     // Nurse
+    //     nurseNotes: {
+    //       type: String,
+    //       default: "",
+    //     },
 
-    vitals: {
-      type: String,
-      default: "",
-    },
+    //     vitals: {
+    //       type: String,
+    //       default: "",
+    //     },
 
-    // Insurance
-    insuranceStatus: {
-      type: String,
-      default: "",
-    },
+    //     // Insurance
+    //     insuranceStatus: {
+    //       type: String,
+    //       default: "",
+    //     },
 
-    claimNumber: {
-      type: String,
-      default: "",
-    },
+    //     claimNumber: {
+    //       type: String,
+    //       default: "",
+    //     },
 
-    // Appointment
-    appointmentDate: String,
+    //     // Appointment
+    //     appointmentDate: String,
 
-    appointmentTime: String,
-    
-    // Billing
-    fee: {
-      type: Number,
-      default: 0,
-    },
+    //     appointmentTime: String,
 
-    paymentStatus: {
-      type: String,
-      default: "Pending",
-    },
+    //     // Billing
+    //     fee: {
+    //       type: Number,
+    //       default: 0,
+    //     },
 
+    //     paymentStatus: {
+    //       type: String,
+    //       default: "Pending",
+    //     },
 
-
-=======
->>>>>>> origin/main
     currentDepartment: {
       type: String,
       default: "Reception",
     },
-<<<<<<< HEAD
+
+    currentDepartment: {
+      type: String,
+      default: "Reception",
+    },
 
     flowStatus: {
       type: String,
       default: "Registered",
     },
-  },
-
-  {
-    timestamps: true,
-  }
-
-);
-
-
-
-=======
-
-    flowStatus: {
-      type: String,
-      default: "Registered",
-    },
->>>>>>> origin/main
 
     appointmentHistory: [
       {
@@ -370,9 +351,9 @@ const patientSchema = new mongoose.Schema(
       },
     ],
   },
-
   {
     timestamps: true,
   },
 );
+
 module.exports = mongoose.model("Patient", patientSchema);
