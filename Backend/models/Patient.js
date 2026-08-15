@@ -109,6 +109,51 @@ const patientSchema = new mongoose.Schema(
           },
         },
 
+        visitDate: {
+          type: Date,
+          default: Date.now,
+        },
+
+        medicines: [
+          {
+            medicineName: {
+              type: String,
+              default: "",
+            },
+
+            quantity: {
+              type: Number,
+              default: 0,
+            },
+
+            price: {
+              type: Number,
+              default: 0,
+            },
+
+            amount: {
+              type: Number,
+              default: 0,
+            },
+          },
+        ],
+
+        billId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "PharmacyBill",
+          default: null,
+        },
+
+        paymentStatus: {
+          type: String,
+          default: "Pending",
+        },
+
+        paymentMode: {
+          type: String,
+          default: "",
+        },
+
         createdAt: {
           type: Date,
           default: Date.now,
@@ -123,10 +168,32 @@ const patientSchema = new mongoose.Schema(
     },
 
     // Pharmacy
-    medicinesIssued: [
+    medicineHistory: [
       {
-        name: String,
-        quantity: Number,
+        billId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "PharmacyBill",
+        },
+
+        medicines: [
+          {
+            medicineName: String,
+            quantity: Number,
+            price: Number,
+            amount: Number,
+          },
+        ],
+
+        totalAmount: Number,
+
+        paymentMode: String,
+
+        paymentStatus: String,
+
+        issuedAt: {
+          type: Date,
+          default: Date.now,
+        },
       },
     ],
 
@@ -208,102 +275,6 @@ const patientSchema = new mongoose.Schema(
     status: {
       type: String,
       default: "Waiting",
-    },
-
-    //     createdAt: {
-    //         type: Date,
-    //         default: Date.now
-    //     },
-
-    //     prescriptionHistory: [
-    //       {
-    //         diagnosis: {
-    //           type: String,
-    //           default: "",
-    //         },
-
-    //         prescription: {
-    //           type: String,
-    //           default: "",
-    //         },
-
-    //         advice: {
-    //           type: String,
-    //           default: "",
-    //         },
-
-    //         notes: {
-    //           type: String,
-    //           default: "",
-    //         },
-
-    //         signature: {
-    //           type: String,
-    //           default: "",
-    //         },
-
-    //         createdAt: {
-    //           type: Date,
-    //           default: Date.now,
-    //         },
-    //       },
-    //     ],
-
-    //     // Lab
-    //     labReport: {
-    //       type: String,
-    //       default: "",
-    //     },
-
-    //     // Pharmacy
-    //     medicinesIssued: [
-    //       {
-    //         name: String,
-    //         quantity: Number,
-    //       },
-    //     ],
-
-    //     // Nurse
-    //     nurseNotes: {
-    //       type: String,
-    //       default: "",
-    //     },
-
-    //     vitals: {
-    //       type: String,
-    //       default: "",
-    //     },
-
-    //     // Insurance
-    //     insuranceStatus: {
-    //       type: String,
-    //       default: "",
-    //     },
-
-    //     claimNumber: {
-    //       type: String,
-    //       default: "",
-    //     },
-
-    //     // Appointment
-    //     appointmentDate: String,
-
-    //     appointmentTime: String,
-
-    //     // Billing
-    //     fee: {
-    //       type: Number,
-    //       default: 0,
-    //     },
-
-    //     paymentStatus: {
-    //       type: String,
-    //       default: "Pending",
-    //     },
-
-    currentDepartment: {
-      type: String,
-      default: "Reception",
     },
 
     currentDepartment: {

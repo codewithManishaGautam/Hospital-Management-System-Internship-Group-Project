@@ -2,6 +2,8 @@ require("dotenv").config();
 
 const connectDB = require("./config/db");
 const Patient = require("./models/Patient");
+const pharmacyRoutes = require("./routes/PharmacyRoutes");
+const sentPrescriptionRoutes = require("./routes/sentPrescriptionRoutes");
 
 console.log("ENV URL =", process.env.MONGO_URL);
 connectDB();
@@ -109,6 +111,8 @@ app.use("/api/admin", adminRoutes);
 const doctorRoutes = require("./routes/doctorRoutes");
 app.use("/api", doctorRoutes);
 
+app.use("/api", pharmacyRoutes);
+
 const insuranceRoutes = require("./routes/insurance/index");
 app.use("/api/insurance", insuranceRoutes);
 
@@ -175,7 +179,6 @@ app.use(
 
   express.static(path.join(__dirname, "generated")),
 );
-
 
 // ======================
 // Nodemailer
@@ -701,29 +704,17 @@ app.post(
 // Server
 // ======================
 
-
-
-
 // labRoute Changes :
 
 const labRoutes = require("./routes/labRoutes");
 
 app.use("/lab", labRoutes);
 
+// app.use(
+//   "/uploads",
 
-
-app.use(
-
-    "/uploads",
-
-    express.static(
-
-        path.join(__dirname, "uploads")
-
-    )
-
-);
-
+//   express.static(path.join(__dirname, "uploads")),
+// );
 
 // Billing Consent Form changes :
 
@@ -731,51 +722,37 @@ const consentRoutes = require("./routes/consentRoutes");
 
 const uploadRoutes = require("./routes/upload");
 
-
 app.use(express.json());
 
+// app.use(
+//   express.urlencoded({
+//     extended: true,
+//   }),
+// );
 
+// app.use(
+//   "/uploads",
 
-app.use(express.urlencoded({
+//   express.static(
+//     path.join(
+//       __dirname,
 
-    extended: true
-
-}));
+//       "uploads",
+//     ),
+//   ),
+// );
 
 app.use(
+  "/consent",
 
-    "/uploads",
-
-    express.static(
-
-        path.join(
-
-            __dirname,
-
-            "uploads"
-
-        )
-
-    )
-
+  consentRoutes,
 );
 
 app.use(
+  "/upload",
 
-    "/consent",
-
-    consentRoutes
-
+  uploadRoutes,
 );
-
-app.use(
-
-    "/upload",
-
-    uploadRoutes
-
-);
-
 
 app.listen(
   5000,
@@ -784,8 +761,3 @@ app.listen(
     console.log("Server Running");
   },
 );
-
-
-
-
-

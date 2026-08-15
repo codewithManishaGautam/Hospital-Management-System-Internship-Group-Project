@@ -1,34 +1,55 @@
-* {
-  margin: 0;
-  padding: 0;
+/* =========================================================
+   RECEPTION LAYOUT CSS
+   All class names are Reception-specific to avoid conflicts
+   with other HMS modules.
+========================================================= */
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+.reception-layout-container,
+.reception-layout-container * {
   box-sizing: border-box;
 }
 
-/* ===========================
-   MAIN LAYOUT
-=========================== */
 
-.layout-container {
-  display: flex;
+/* =========================================================
+   MAIN LAYOUT
+========================================================= */
+
+.reception-layout-container {
   width: 100%;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+
+  display: flex;
+
   background: #f8fafc;
+
+  overflow-x: hidden;
 }
 
-/* ===========================
-   SIDEBAR
-=========================== */
 
-.sidebar {
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.reception-sidebar {
   position: fixed;
+
   top: 0;
   left: 0;
 
-  width: 270px;
+  width: 240px;
   height: 100vh;
 
-background: linear-gradient(to bottom, #0f172a, #1e293b);
+  background: linear-gradient(
+    to bottom,
+    #0f172a,
+    #1e293b
+  );
+
   color: white;
 
   display: flex;
@@ -41,55 +62,79 @@ background: linear-gradient(to bottom, #0f172a, #1e293b);
   z-index: 1000;
 }
 
-.sidebar::-webkit-scrollbar {
+
+/* Sidebar scrollbar */
+
+.reception-sidebar::-webkit-scrollbar {
   width: 6px;
 }
 
-.sidebar::-webkit-scrollbar-thumb {
+.reception-sidebar::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.25);
   border-radius: 20px;
 }
 
-/* ===========================
-   PROFILE
-=========================== */
 
-.sidebar-header {
+/* =========================================================
+   SIDEBAR HEADER
+========================================================= */
+
+.reception-sidebar-header {
   text-align: center;
+
   margin-bottom: 35px;
 }
 
-.profile-image {
+.reception-profile-image {
   width: 90px;
   height: 90px;
+
   border-radius: 50%;
+
   background: white;
+
   border: 3px solid white;
+
   padding: 3px;
+
   margin-bottom: 12px;
+
+  object-fit: cover;
 }
 
-.sidebar-header h2 {
+.reception-sidebar-header h2 {
   font-size: 24px;
-  margin-bottom: 6px;
+
+  margin: 0 0 6px 0;
+
+  color: white;
 }
 
-.sidebar-header p {
+.reception-sidebar-header p {
   font-size: 13px;
+
+  margin: 0;
+
   color: #d7e7ff;
 }
 
-/* ===========================
-   MENU
-=========================== */
 
-.menu-list {
+/* =========================================================
+   MENU
+========================================================= */
+
+.reception-menu-list {
   display: flex;
+
   flex-direction: column;
+
   gap: 12px;
 }
 
-.menu-list button {
+
+/* Menu buttons */
+
+.reception-menu-btn-item {
   width: 100%;
 
   border: none;
@@ -113,25 +158,28 @@ background: linear-gradient(to bottom, #0f172a, #1e293b);
   transition: 0.3s;
 }
 
-.menu-list button:hover {
+.reception-menu-btn-item:hover {
   background: #1976d2;
+
   transform: translateX(4px);
 }
 
-.menu-list button.active {
+.reception-menu-btn-item.reception-menu-active {
   background: #2196f3;
 }
 
-/* ===========================
-   LOGOUT
-=========================== */
 
-.logout-section {
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+.reception-logout-section {
   margin-top: auto;
+
   padding-top: 25px;
 }
 
-.logout-btn {
+.reception-logout-btn {
   width: 100%;
 
   border: none;
@@ -149,37 +197,50 @@ background: linear-gradient(to bottom, #0f172a, #1e293b);
   font-weight: 600;
 
   cursor: pointer;
+
+  transition: 0.3s;
 }
 
-.logout-btn:hover {
+.reception-logout-btn:hover {
   background: #133d92;
 }
 
-/* ===========================
-   RIGHT SIDE
-=========================== */
 
-.main-section{
-    /* margin-left:270px; */
-    width:calc(100% - 270px);
+/* =========================================================
+   MAIN SECTION
+========================================================= */
 
-    display:flex;
-    flex-direction:column;
+.reception-main-section {
+  width: calc(100% - 240px);
 
-    justify-content:flex-start;
-    align-items:stretch;
+  min-width: 0;
+
+  margin-left: 240px;
+
+  min-height: 100vh;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: stretch;
+
+  background: #f8fafc;
 }
 
-/* ===========================
-   TOPBAR
-=========================== */
 
-.topbar {
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.reception-topbar {
   position: sticky;
 
   top: 0;
 
-  height: 75px;
+  width: 100%;
+
+  min-height: 75px;
 
   background: white;
 
@@ -194,7 +255,9 @@ background: linear-gradient(to bottom, #0f172a, #1e293b);
   z-index: 200;
 }
 
-.topbar h2 {
+.reception-topbar h2 {
+  margin: 0;
+
   color: #0a4fa3;
 
   font-size: 24px;
@@ -202,23 +265,33 @@ background: linear-gradient(to bottom, #0f172a, #1e293b);
   font-weight: 700;
 }
 
-/* ===========================
-   CONTENT
-=========================== */
 
-.page-content{
-    flex:1;
-    width:100%;
-    padding:20px;
+/* =========================================================
+   PAGE CONTENT
+========================================================= */
 
-    overflow-x:auto;
+.reception-page-content {
+  width: 100%;
+
+  min-width: 0;
+
+  flex: 1;
+
+  padding: 20px;
+
+  overflow-x: auto;
+
+  overflow-y: visible;
+
+  background: #f8fafc;
 }
 
-/* ===========================
-   BACK BUTTON
-=========================== */
 
-.back-btn {
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.reception-back-btn {
   border: none;
 
   background: #1565c0;
@@ -234,40 +307,55 @@ background: linear-gradient(to bottom, #0f172a, #1e293b);
   margin-bottom: 18px;
 
   font-weight: 600;
+
+  transition: 0.2s;
 }
 
-.back-btn:hover {
+.reception-back-btn:hover {
   background: #0d47a1;
 }
 
-/* ===========================
-   MOBILE BUTTON
-=========================== */
 
-.menu-btn {
+/* =========================================================
+   MOBILE MENU BUTTON
+========================================================= */
+
+.reception-menu-btn {
   display: none;
 }
 
-.overlay {
+
+/* =========================================================
+   MOBILE OVERLAY
+========================================================= */
+
+.reception-overlay {
   display: none;
 }
 
-/* ===========================
-   RESPONSIVE
-=========================== */
+
+/* =========================================================
+   TABLET / MOBILE
+========================================================= */
 
 @media (max-width: 768px) {
-  .sidebar {
-    left: -270px;
+
+  /* Sidebar hidden */
+  .reception-sidebar {
+    left: -240px;
 
     transition: 0.35s;
   }
 
-  .sidebar.active {
+  /* Sidebar open */
+  .reception-sidebar.reception-sidebar-active {
     left: 0;
   }
 
-  .menu-btn {
+
+  /* Mobile menu button */
+
+  .reception-menu-btn {
     display: flex;
 
     justify-content: center;
@@ -299,7 +387,10 @@ background: linear-gradient(to bottom, #0f172a, #1e293b);
     z-index: 1200;
   }
 
-  .overlay {
+
+  /* Overlay */
+
+  .reception-overlay {
     display: block;
 
     position: fixed;
@@ -317,27 +408,43 @@ background: linear-gradient(to bottom, #0f172a, #1e293b);
     z-index: 999;
   }
 
-  .main-section {
-    margin-left: 0;
 
+  /* Main */
+
+  .reception-main-section {
     width: 100%;
+
+    margin-left: 0;
   }
 
-  .topbar {
-    height: 70px;
+
+  /* Topbar */
+
+  .reception-topbar {
+    min-height: 70px;
 
     padding-left: 75px;
+
+    padding-right: 15px;
   }
 
-  .topbar h2 {
+  .reception-topbar h2 {
     font-size: 20px;
   }
 
-  .page-content {
+
+  /* Content */
+
+  .reception-page-content {
     padding: 15px;
+
+    overflow-x: auto;
   }
 
-  .back-btn {
+
+  /* Back */
+
+  .reception-back-btn {
     width: 100%;
   }
 }
