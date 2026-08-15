@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // const multer = require("multer");
 // const path = require("path");
 
@@ -82,7 +81,6 @@ const multer = require("multer");
 
 const uploadPath = path.join(__dirname, "../uploads/reports");
 
-// Folder नसल्यास तयार कर
 if (!fs.existsSync(uploadPath)) {
 
     fs.mkdirSync(uploadPath, { recursive: true });
@@ -116,10 +114,9 @@ module.exports = multer({
     storage
 
 });
-=======
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
+// const multer = require('multer');
+// const path = require('path');
+// const fs = require('fs');
 
 // Ensure upload directory exists
 const uploadDir = path.join(__dirname, '../uploads/insurance-docs');
@@ -128,7 +125,7 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 // Set storage engine
-const storage = multer.diskStorage({
+const storage2 = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, uploadDir);
   },
@@ -156,7 +153,7 @@ function checkFileType(file, cb) {
 
 // Initialize upload variable
 const upload = multer({
-  storage: storage,
+  storage: storage2,
   limits: { fileSize: 5000000 }, // 5MB limit
   fileFilter: function (req, file, cb) {
     checkFileType(file, cb);
@@ -164,4 +161,3 @@ const upload = multer({
 });
 
 module.exports = upload;
->>>>>>> origin/main

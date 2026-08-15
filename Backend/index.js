@@ -2,6 +2,8 @@ require("dotenv").config();
 
 const connectDB = require("./config/db");
 const Patient = require("./models/Patient");
+// const Razorpay=require("razorpay");
+const paymentRoutes = require("./routes/paymentRoutes");
 
 console.log("ENV URL =", process.env.MONGO_URL);
 connectDB();
@@ -18,7 +20,7 @@ const cors = require("cors");
 
 const multer = require("multer");
 
-const storage = multer.diskStorage({
+const storage1 = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "uploads/");
   },
@@ -28,7 +30,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({
-  storage,
+  storage1,
 });
 
 const nodemailer = require("nodemailer");
@@ -94,8 +96,6 @@ app.get("/api/doctor/upcoming-appointments", (req, res) => {
 const patientRoutes = require("./routes/patientRoutes");
 app.use("/api/patient", patientRoutes);
 
-const paymentRoutes = require("./routes/paymentRoutes");
-app.use("/api/payment", paymentRoutes);
 
 const roomRoutes = require("./routes/roomRoutes");
 const bedRoutes = require("./routes/bedRoutes");
@@ -194,7 +194,7 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage });
+const upload1 = multer({storage});
 
 // ======================
 // Nodemailer
@@ -794,6 +794,15 @@ app.use(
     uploadRoutes
 
 );
+
+
+
+app.use("/api/payment", paymentRoutes);
+
+
+
+
+
 
 
 app.listen(

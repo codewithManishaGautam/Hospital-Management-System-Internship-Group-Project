@@ -1,74 +1,71 @@
 const Razorpay = require("razorpay");
-const crypto = require("crypto");
+
+console.log("KEY ID:", process.env.RAZORPAY_KEY_ID);
 
 const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-// Create Order
-const createOrder = async (req, res) => {
-  try {
-    const { amount } = req.body;
+const payment = async (req, res) => {
 
-    console.log("Received Amount:", amount);
+    console.log("PAYMENT API CALLED");
 
-    const options = {
-      amount: amount * 100, // Rupees -> Paise
-      currency: "INR",
-      receipt: `receipt_${Date.now()}`,
-    };
+    try {
 
-    const order = await razorpay.orders.create(options);
+        const data = await razorpay.orders.create({
+            amount: 50000,
+            currency: "INR",
+            receipt: "RCP_ID_" + Date.now()
+        });
 
-    console.log("Created Order:", order);
+        console.log("ORDER CREATED:", data.id);
 
-    res.status(200).json(order);
-  } catch (error) {
-    console.log(error);
+        res.status(200).json({
+          amount:data.amount,
+          orderId:data.id,
+        });
 
-    res.status(500).json({
-      success: false,
-      message: "Order Creation Failed",
-    });
-  }
-};
+    } catch (error) {
 
-// Verify Payment
-const verifyPayment = async (req, res) => {
-  try {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
-      req.body;
+        console.error("RAZORPAY ERROR:", error);
 
-    const body = razorpay_order_id + "|" + razorpay_payment_id;
-
-    const expectedSignature = crypto
-      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-      .update(body.toString())
-      .digest("hex");
-
-    if (expectedSignature === razorpay_signature) {
-      return res.json({
-        success: true,
-        message: "Payment Verified",
-      });
+        res.status(500).json({
+            message: "Payment order creation failed",
+            error: error.message
+        });
     }
-
-    res.status(400).json({
-      success: false,
-      message: "Invalid Signature",
-    });
-  } catch (error) {
-    console.log(error);
-
-    res.status(500).json({
-      success: false,
-      message: "Verification Failed",
-    });
-  }
 };
 
-module.exports = {
-  createOrder,
-  verifyPayment,
+
+const createQR = async (req, res) => {
+    try {
+
+        const qr = await razorpay.qrCode.create({
+            type: "upi_qr",
+            name: "Shradha Hospital",
+            usage: "single_use",
+            fixed_amount: true,
+            payment_amount: 50000,
+            description: "Hospital Payment"
+        });
+
+        res.json(qr);
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            message: "QR creation failed",
+            error: error.message
+        });
+    }
 };
+
+
+
+module.exports = payment,createQR;
+
+
+

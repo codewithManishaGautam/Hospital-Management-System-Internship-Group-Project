@@ -97,8 +97,12 @@ function EstimateMar({
 
 
                 </div>
+
+                <div style={{width:"100%"}}>
+                    <EstimateBillTable  />
+                </div>
                 
-                  <EstimateBillTable />
+                  
             </div>
 
             <div className="page-break"></div>

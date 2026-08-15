@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+const appointmentHistory = [];
 const patientSchema = new mongoose.Schema(
   {
     uhid: {
@@ -210,7 +211,6 @@ const patientSchema = new mongoose.Schema(
       default: "Waiting",
     },
 
-<<<<<<< HEAD
     createdAt: {
         type: Date,
         default: Date.now
@@ -305,13 +305,10 @@ const patientSchema = new mongoose.Schema(
 
 
 
-=======
->>>>>>> origin/main
     currentDepartment: {
       type: String,
       default: "Reception",
     },
-<<<<<<< HEAD
 
     flowStatus: {
       type: String,
@@ -321,21 +318,11 @@ const patientSchema = new mongoose.Schema(
 
   {
     timestamps: true,
-  }
-
-);
+  },
 
 
 
-=======
-
-    flowStatus: {
-      type: String,
-      default: "Registered",
-    },
->>>>>>> origin/main
-
-    appointmentHistory: [
+    appointmentHistory[
       {
         appointmentDate: String,
         appointmentTime: String,
@@ -367,12 +354,9 @@ const patientSchema = new mongoose.Schema(
           type: Date,
           default: Date.now,
         },
-      },
-    ],
-  },
-
-  {
-    timestamps: true,
-  },
+      }
+    ]
+  
+  
 );
 module.exports = mongoose.model("Patient", patientSchema);
