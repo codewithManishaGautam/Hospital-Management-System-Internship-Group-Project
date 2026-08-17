@@ -4,21 +4,24 @@ function Payments({ payments, setStep }) {
   const [search, setSearch] = useState("");
 
   // 👉 Search filter (name / UHID / mobile)
-  const filteredPayments = payments.filter(
-    (p) =>
-      p.name.toLowerCase().includes(search.toLowerCase()) ||
-      p.uhid.toLowerCase().includes(search.toLowerCase()) ||
-      p.mobile.includes(search)
-  );
+  const filteredPayments = payments.filter((p) => {
+    const text = search.toLowerCase();
+
+    return (
+      (p.patientName || "").toLowerCase().includes(text) ||
+      (p.patientUHID || "").toLowerCase().includes(text) ||
+      (p.patientId?.mobile || "").includes(search)
+    );
+  });
 
   // 👉 Summary calculation
   const totalPaid = payments
-    .filter((p) => p.status === "Paid")
-    .reduce((sum, p) => sum + Number(p.amount.replace(/[₹, ]/g, "")), 0);
+    .filter((p) => p.paymentStatus === "Completed")
+    .reduce((sum, p) => sum + Number(p.totalAmount || 0), 0);
 
   const totalPending = payments
-    .filter((p) => p.status === "Pending")
-    .reduce((sum, p) => sum + Number(p.amount.replace(/[₹, ]/g, "")), 0);
+    .filter((p) => p.paymentStatus === "Pending")
+    .reduce((sum, p) => sum + Number(p.totalAmount || 0), 0);
 
   return (
     <>
@@ -36,9 +39,7 @@ function Payments({ payments, setStep }) {
           onChange={(e) => setSearch(e.target.value)}
         />
 
-        <button className="btn-primary">
-          Search
-        </button>
+        <button className="btn-primary">Search</button>
       </div>
 
       {/* TABLE */}
@@ -59,23 +60,32 @@ function Payments({ payments, setStep }) {
           <tbody>
             {filteredPayments.length > 0 ? (
               filteredPayments.map((p) => (
-                <tr key={p.id}>
-                  <td>{p.id}</td>
-                  <td>{p.name}</td>
-                  <td>{p.uhid}</td>
-                  <td>{p.mobile}</td>
-                  <td>{p.date}</td>
-                  <td>{p.amount}</td>
+                <tr key={p._id}>
+                  <td>{p._id}</td>
+
+                  <td>{p.patientName || p.patientId?.name || "N/A"}</td>
+
+                  <td>{p.patientUHID || p.patientId?.uhid || "N/A"}</td>
+
+                  <td>{p.patientId?.mobile || "N/A"}</td>
+
+                  <td>
+                    {p.createdAt
+                      ? new Date(p.createdAt).toLocaleDateString("en-IN")
+                      : "N/A"}
+                  </td>
+
+                  <td>₹ {Number(p.totalAmount || 0).toFixed(2)}</td>
 
                   <td>
                     <span
                       className={`badge ${
-                        p.status === "Paid"
+                        p.paymentStatus === "Completed"
                           ? "completed"
                           : "pending"
                       }`}
                     >
-                      {p.status}
+                      {p.paymentStatus}
                     </span>
                   </td>
                 </tr>
@@ -93,18 +103,13 @@ function Payments({ payments, setStep }) {
 
       {/* PAYMENT SUMMARY CARDS */}
       <div className="metrics-row">
-
         <div className="metric-card">
           <div className="metric-icon-box">💰</div>
 
           <div className="metric-info">
-            <div className="metric-number">
-              ₹ {totalPaid}
-            </div>
+            <div className="metric-number">₹ {totalPaid}</div>
 
-            <div className="metric-label">
-              Total Paid
-            </div>
+            <div className="metric-label">Total Paid</div>
           </div>
         </div>
 
@@ -112,24 +117,16 @@ function Payments({ payments, setStep }) {
           <div className="metric-icon-box">⏳</div>
 
           <div className="metric-info">
-            <div className="metric-number">
-              ₹ {totalPending}
-            </div>
+            <div className="metric-number">₹ {totalPending}</div>
 
-            <div className="metric-label">
-              Pending Payments
-            </div>
+            <div className="metric-label">Pending Payments</div>
           </div>
         </div>
-
       </div>
 
       {/* BUTTON */}
       <div className="bottom-actions">
-        <button
-          className="btn-primary"
-          onClick={() => setStep("dashboard")}
-        >
+        <button className="btn-primary" onClick={() => setStep("dashboard")}>
           Back to Dashboard
         </button>
       </div>

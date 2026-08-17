@@ -1,24 +1,40 @@
-/* File Path: src/styles/Reception/dashboard.css */
+/* =========================================================
+   RECEPTION DASHBOARD CSS
+   All classes are uniquely prefixed with
+   reception-dashboard-
+========================================================= */
 
 :root {
-  --primary-blue: #1e40af; /* Deep Hospital Blue */
-  --light-blue: #f0fdf4; /* Soft Background Blue-Grey tint */
-  --accent-blue: #3b82f6; /* Bright Active Blue */
-  --bg-white: #ffffff; /* Clean White */
-  --border-color: #e2e8f0; /* Light border */
-  --text-dark: #1e293b; /* Dark Charcoal Text */
-  --text-muted: #64748b; /* Muted Gray Text */
-  --success-green: #10b981; /* Paid status */
-  --warning-orange: #f59e0b; /* Unpaid status */
+  --reception-dashboard-primary-blue: #1e40af;
+  --reception-dashboard-light-blue: #f0fdf4;
+  --reception-dashboard-accent-blue: #3b82f6;
+  --reception-dashboard-bg-white: #ffffff;
+  --reception-dashboard-border-color: #e2e8f0;
+  --reception-dashboard-text-dark: #1e293b;
+  --reception-dashboard-text-muted: #64748b;
+  --reception-dashboard-success-green: #10b981;
+  --reception-dashboard-warning-orange: #f59e0b;
 }
 
-.reception-dashboard-container{
-    width:100%;
-    background:#eef3f9;
-    padding:0;
+
+/* =========================================================
+   MAIN CONTAINER
+========================================================= */
+
+.reception-dashboard-container {
+  width: 100%;
+  max-width: 100%;
+  background: #eef3f9;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
-/* Header Section */
+
+/* =========================================================
+   HEADER
+========================================================= */
+
 .reception-dashboard-header {
   display: flex;
   justify-content: space-between;
@@ -29,13 +45,18 @@
 .reception-dashboard-header h2 {
   font-size: 24px;
   font-weight: 600;
-  color: var(--primary-blue);
+  color: var(--reception-dashboard-primary-blue);
   margin: 0;
 }
 
-.add-btn {
-  background-color: var(--primary-blue);
-  color: var(--bg-white);
+
+/* =========================================================
+   NEW REGISTRATION BUTTON
+========================================================= */
+
+.reception-dashboard-add-btn {
+  background-color: var(--reception-dashboard-primary-blue);
+  color: var(--reception-dashboard-bg-white);
   border: none;
   padding: 10px 20px;
   border-radius: 6px;
@@ -44,21 +65,25 @@
   transition: background-color 0.2s;
 }
 
-.add-btn:hover {
+.reception-dashboard-add-btn:hover {
   background-color: #1d4ed8;
 }
 
-/* Search Box Section */
+
+/* =========================================================
+   SEARCH SECTION
+========================================================= */
+
 .reception-dashboard-search-section {
   display: flex;
   gap: 16px;
-  background-color: var(--bg-white);
+  background-color: var(--reception-dashboard-bg-white);
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   margin-bottom: 24px;
   align-items: flex-end;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--reception-dashboard-border-color);
 }
 
 .reception-dashboard-date-box,
@@ -72,12 +97,12 @@
 .reception-dashboard-search-section label {
   font-size: 13px;
   font-weight: 600;
-  color: var(--text-muted);
+  color: var(--reception-dashboard-text-muted);
 }
 
 .reception-dashboard-search-section input {
   padding: 10px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--reception-dashboard-border-color);
   border-radius: 6px;
   font-size: 14px;
   outline: none;
@@ -85,14 +110,19 @@
 }
 
 .reception-dashboard-search-section input:focus {
-  border-color: var(--accent-blue);
-  background-color: var(--bg-white);
+  border-color: var(--reception-dashboard-accent-blue);
+  background-color: var(--reception-dashboard-bg-white);
 }
 
-.search-patient-btn {
-  background-color: var(--bg-white);
-  color: var(--primary-blue);
-  border: 1px solid var(--primary-blue);
+
+/* =========================================================
+   SEARCH BUTTON
+========================================================= */
+
+.reception-dashboard-search-patient-btn {
+  background-color: var(--reception-dashboard-bg-white);
+  color: var(--reception-dashboard-primary-blue);
+  border: 1px solid var(--reception-dashboard-primary-blue);
   padding: 10px 20px;
   border-radius: 6px;
   font-weight: 600;
@@ -100,61 +130,72 @@
   transition: all 0.2s;
 }
 
-.search-patient-btn:hover {
+.reception-dashboard-search-patient-btn:hover {
   background-color: #eff6ff;
 }
 
-/* Stats Cards Grid */
+
+/* =========================================================
+   ANALYTICS CARDS
+========================================================= */
+
 .reception-dashboard-cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
   margin-bottom: 28px;
-      /* background: linear-gradient(135deg, #1e293b, #2563eb); */
 }
 
 .reception-dashboard-card {
-    background: linear-gradient(135deg, #1e293b, #2563eb);
-      padding: 20px;
+  background: linear-gradient(135deg, #1e293b, #2563eb);
+  padding: 20px;
   border-radius: 8px;
-  border-left: 5px solid var(--primary-blue);
+  border-left: 5px solid var(--reception-dashboard-primary-blue);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-  border-top: 1px solid var(--border-color);
-  border-right: 1px solid var(--border-color);
-  border-bottom: 1px solid var(--border-color);
+  border-top: 1px solid var(--reception-dashboard-border-color);
+  border-right: 1px solid var(--reception-dashboard-border-color);
+  border-bottom: 1px solid var(--reception-dashboard-border-color);
 }
 
 .reception-dashboard-card h3 {
   font-size: 14px;
-  color: var(--text-muted);
+  color: var(--reception-dashboard-text-muted);
   margin: 0 0 8px 0;
   font-weight: 600;
 }
 
 .reception-dashboard-card h1 {
   font-size: 26px;
-  color:var(--primary-blue);
+  color: var(--reception-dashboard-primary-blue);
   background: white;
   margin: 0;
   font-weight: 700;
 }
 
-/* Patient List Table Card */
-.patient-table-card {
+
+/* =========================================================
+   PATIENT TABLE CARD
+========================================================= */
+
+.reception-dashboard-patient-table-card {
   width: 100%;
   max-width: 100%;
-
-  overflow-x: auto;
-
   background: #fff;
   border-radius: 8px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--reception-dashboard-border-color);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  overflow: visible;
+  box-sizing: border-box;
 }
 
-.table-header {
+
+/* =========================================================
+   TABLE HEADER
+========================================================= */
+
+.reception-dashboard-table-header {
   padding: 16px 20px;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--reception-dashboard-border-color);
   background-color: #f8fafc;
   display: flex;
   justify-content: space-between;
@@ -162,132 +203,264 @@
   gap: 15px;
 }
 
-.table-header h3 {
-  color: var(--primary-blue);
+.reception-dashboard-table-header h3 {
+  color: var(--reception-dashboard-primary-blue);
   font-size: 18px;
   font-weight: 600;
 }
 
-.patient-table {
+
+/* =========================================================
+   TABLE RESPONSIVE WRAPPER
+========================================================= */
+
+.reception-dashboard-table-responsive {
   width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
+  display: block;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PATIENT TABLE
+========================================================= */
+
+.reception-dashboard-patient-table {
   width: max-content;
   min-width: 100%;
   border-collapse: collapse;
-
   table-layout: auto;
 }
 
-.patient-table th {
+.reception-dashboard-patient-table th {
   position: sticky;
   top: 0;
   z-index: 5;
 }
 
-.patient-table th,
-.patient-table td {
-  padding: 12px 15px;
+.reception-dashboard-patient-table th,
+.reception-dashboard-patient-table td {
+  padding: 8px 8px;
   white-space: nowrap;
   vertical-align: middle;
   text-align: center;
+  border: 1px solid #d1d5db;
+  font-size: 13px;
+  box-sizing: border-box;
 }
 
-.patient-table td:nth-child(6) {
+.reception-dashboard-patient-table td:nth-child(6) {
   white-space: normal;
-  min-width: 180px;
+  min-width: 120px;
+  max-width: 160px;
+  word-break: break-word;
 }
 
-.patient-table td:nth-child(1) {
-  min-width: 150px;
+.reception-dashboard-patient-table td:nth-child(1) {
+  min-width: 120px;
 }
 
-.patient-table td:nth-child(8) {
-  min-width: 130px;
+.reception-dashboard-patient-table td:nth-child(8) {
+  min-width: 100px;
+  max-width: 120px;
+  white-space: normal;
+  word-break: break-word;
 }
 
-.patient-table td:nth-child(9) {
-  min-width: 140px;
+.reception-dashboard-patient-table td:nth-child(9) {
+  min-width: 110px;
 }
-.patient-table tr:hover {
+
+.reception-dashboard-patient-table tr:hover {
   background-color: #f8fafc;
 }
 
-/* Status Badges */
-.paid {
+
+/* =========================================================
+   STATUS BADGES
+========================================================= */
+
+.reception-dashboard-paid {
   background-color: #d1fae5;
-  color: var(--success-green);
+  color: var(--reception-dashboard-success-green);
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 12px;
   font-weight: 600;
 }
 
-.unpaid {
+.reception-dashboard-unpaid {
   background-color: #fef3c7;
-  color: var(--warning-orange);
+  color: var(--reception-dashboard-warning-orange);
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 12px;
   font-weight: 600;
 }
 
-.view-btn {
-  background-color: var(--accent-blue);
-  color: var(--bg-white);
-  border: none;
-  padding: 6px 14px;
-  border-radius: 4px;
-  font-size: 13px;
-  cursor: pointer;
-  font-weight: 500;
+
+/* =========================================================
+   TABLE ACTION BUTTONS
+========================================================= */
+
+.reception-dashboard-action-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 125px;
+  min-width: 125px;
+  margin: 0 auto;
 }
 
-.view-btn:hover {
+.reception-dashboard-view-btn,
+.reception-dashboard-edit-btn,
+.reception-dashboard-delete-btn,
+.reception-dashboard-payment-btn,
+.reception-dashboard-appointment-btn {
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 13px;
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+
+/* View */
+
+.reception-dashboard-view-btn {
+  background-color: var(--reception-dashboard-accent-blue);
+}
+
+.reception-dashboard-view-btn:hover {
   background-color: #2563eb;
 }
 
-/* Patient Details Drawer/Card */
-.patient-details-card {
-  background-color: var(--bg-white);
+
+/* Edit */
+
+.reception-dashboard-edit-btn {
+  background: #f59e0b;
+}
+
+
+/* Delete */
+
+.reception-dashboard-delete-btn {
+  background: #dc2626;
+}
+
+
+/* Payment */
+
+.reception-dashboard-payment-btn {
+  background: #16a34a;
+}
+
+
+/* Appointment */
+
+.reception-dashboard-appointment-btn {
+  background: var(--reception-dashboard-primary-blue);
+}
+
+.reception-dashboard-appointment-btn:hover {
+  background: #1d4ed8;
+}
+
+
+/* =========================================================
+   LAST TABLE COLUMN
+========================================================= */
+
+.reception-dashboard-patient-table th:last-child,
+.reception-dashboard-patient-table td:last-child {
+  width: 125px;
+  min-width: 125px;
+}
+
+
+/* =========================================================
+   SEARCH INPUT
+========================================================= */
+
+.reception-dashboard-search-input {
+  width: 280px;
+  max-width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #d1d5db;
   border-radius: 8px;
-  border: 1px solid var(--border-color);
+  outline: none;
+}
+
+.reception-dashboard-search-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+
+/* =========================================================
+   PATIENT DETAILS CARD
+========================================================= */
+
+.reception-dashboard-patient-details-card {
+  background-color: var(--reception-dashboard-bg-white);
+  border-radius: 8px;
+  border: 1px solid var(--reception-dashboard-border-color);
   padding: 24px;
   margin-top: 24px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
-.patient-details-card h3 {
+.reception-dashboard-patient-details-card h3 {
   margin: 0 0 16px 0;
-  color: var(--primary-blue);
+  color: var(--reception-dashboard-primary-blue);
   font-size: 18px;
   border-bottom: 2px solid #eff6ff;
   padding-bottom: 8px;
 }
 
-.details-grid {
+
+/* =========================================================
+   DETAILS GRID
+========================================================= */
+
+.reception-dashboard-details-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
   margin-bottom: 24px;
 }
 
-.details-grid p {
+.reception-dashboard-details-grid p {
   margin: 0;
   font-size: 14px;
-  color: var(--text-dark);
+  color: var(--reception-dashboard-text-dark);
 }
 
-.details-grid strong {
-  color: var(--text-muted);
+.reception-dashboard-details-grid strong {
+  color: var(--reception-dashboard-text-muted);
 }
 
-/* Action Buttons Grid at Bottom */
-.action-buttons {
+
+/* =========================================================
+   BOTTOM ACTION BUTTONS
+========================================================= */
+
+.reception-dashboard-action-buttons {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
 }
 
-.action-buttons button {
+.reception-dashboard-action-buttons button {
   padding: 10px 20px;
   border-radius: 6px;
   font-weight: 600;
@@ -297,72 +470,33 @@
   transition: opacity 0.2s;
 }
 
-.action-buttons button:hover {
+.reception-dashboard-action-buttons button:hover {
   opacity: 0.9;
 }
 
-.bill-btn {
-  background-color: var(--success-green);
-  color: var(--bg-white);
+
+/* Generate Bill */
+
+.reception-dashboard-bill-btn {
+  background-color: var(--reception-dashboard-success-green);
+  color: var(--reception-dashboard-bg-white);
 }
 
-.appointment-btn {
-  background-color: var(--primary-blue);
-  color: var(--bg-white);
+
+/* IPD */
+
+.reception-dashboard-ipd-btn {
+  background-color: #475569;
+  color: var(--reception-dashboard-bg-white);
 }
 
-.appointment-btn:hover {
-  background: #1d4ed8;
-}
 
-.ipd-btn {
-  background-color: #475569; /* Slate grey for distinct action */
-  color: var(--bg-white);
-}
-
-.action-btns {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  min-width: 140px;
-}
-
-.view-btn,
-.edit-btn,
-.delete-btn,
-.payment-btn,
-.appointment-btn {
-  border: none;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 13px;
-  width: 100%;
-  padding: 8px;
-}
-
-.edit-btn {
-  background: #f59e0b;
-}
-
-.delete-btn {
-  background: #dc2626;
-}
-
-.payment-btn {
-  background: #16a34a;
-}
-
-.search-input {
-  width: 280px;
-  max-width: 100%;
-  padding: 10px 15px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  outline: none;
-}
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media (max-width: 768px) {
+
   .reception-dashboard-header {
     flex-direction: column;
     align-items: flex-start;
@@ -373,39 +507,29 @@
     font-size: 22px;
   }
 
-  .add-btn {
+  .reception-dashboard-add-btn {
     width: 100%;
   }
 
-  .table-header {
+  .reception-dashboard-table-header {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .search-input {
-    width: 100px;
+  .reception-dashboard-search-input {
+    width: 100%;
     max-width: 100%;
   }
 
-  .search-input:focus {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-  }
-
-  .action-btns {
+  .reception-dashboard-action-btns {
     flex-direction: column;
   }
 
-  .action-btns button {
+  .reception-dashboard-action-btns button {
     width: 100%;
   }
 
   .reception-dashboard-container {
     padding: 15px;
   }
-}
-
-.table-responsive {
-  width: 100%;
-  overflow-x: auto;
 }

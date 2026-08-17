@@ -195,16 +195,16 @@ const updatePatient = async (req, res) => {
   try {
     const patient = await Patient.findById(req.params.id);
 
-    const oldRoom = patient.roomNo;
-    const oldBed = patient.bedNo;
-    const oldStatus = patient.status;
-
     if (!patient) {
       return res.status(404).json({
         success: false,
         message: "Patient not found",
       });
     }
+
+    const oldRoom = patient.roomNo;
+    const oldBed = patient.bedNo;
+    const oldStatus = patient.status;
 
     const { uhid, name, age, gender, mobile, address, doctor, disease, role } =
       req.body;
@@ -340,11 +340,11 @@ const updatePatient = async (req, res) => {
     }
 
     if (
-      req.body.diagnosis ||
-      req.body.prescription ||
-      req.body.advice ||
-      req.body.notes ||
-      req.body.signature
+      req.body.diagnosis !== undefined ||
+      req.body.prescription !== undefined ||
+      req.body.advice !== undefined ||
+      req.body.notes !== undefined ||
+      req.body.signature !== undefined
     ) {
       patient.prescriptionHistory.push({
         diagnosis: req.body.diagnosis || "",
@@ -358,6 +358,16 @@ const updatePatient = async (req, res) => {
           name: "",
           specialization: "",
         },
+
+        visitDate: new Date(),
+
+        medicines: req.body.medicines || [],
+
+        paymentStatus: "Pending",
+        paymentMode: "",
+        billId: null,
+
+        createdAt: new Date(),
       });
     }
 
@@ -419,11 +429,21 @@ const updatePatient = async (req, res) => {
 
     const updatedPatient = await Patient.findById(req.params.id);
 
+    console.log("Updated Prescription History:");
     console.log(updatedPatient.prescriptionHistory);
+
+    // Get latest prescription
+    const latestPrescription =
+      updatedPatient.prescriptionHistory[
+        updatedPatient.prescriptionHistory.length - 1
+      ];
+
+    console.log("Latest Prescription ID:", latestPrescription?._id);
 
     res.json({
       success: true,
-      data: patient,
+      data: updatedPatient,
+      prescriptionHistoryId: latestPrescription?._id || null,
     });
   } catch (err) {
     res.status(500).json({
@@ -845,4 +865,5 @@ module.exports = {
   updatePatient,
   deletePatient,
   generatePrescriptionPDF,
+  // updatePrescription,
 };

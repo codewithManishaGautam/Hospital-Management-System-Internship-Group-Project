@@ -308,7 +308,7 @@ const addDoctor = async (req, res) => {
       });
     }
 
-    const oldDoctor = await Doctor.findById(req.params.id);
+    // const oldDoctor = await Doctor.findById(req.params.id);
 
     const doctor = await Doctor.create(req.body);
 
