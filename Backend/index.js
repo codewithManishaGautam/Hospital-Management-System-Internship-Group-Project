@@ -2,7 +2,7 @@ require("dotenv").config();
 
 const connectDB = require("./config/db");
 const Patient = require("./models/Patient");
-const pharmacyRoutes = require("./routes/PharmacyRoutes");
+const pharmacyRoutes = require("./routes/pharmacyRoutes");
 const sentPrescriptionRoutes = require("./routes/sentPrescriptionRoutes");
 
 console.log("ENV URL =", process.env.MONGO_URL);

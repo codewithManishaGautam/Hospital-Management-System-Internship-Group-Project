@@ -30,4 +30,8 @@ const inventorySchema = new mongoose.Schema(
   },
 );
 
+inventorySchema.index({
+  itemName: 1,
+});
+
 module.exports = mongoose.model("Inventory", inventorySchema);

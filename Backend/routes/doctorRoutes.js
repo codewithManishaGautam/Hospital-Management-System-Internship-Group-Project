@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 const {
+  getDoctors,
   getDoctorPatients,
   getTodayPatients,
   getHistoryPatients,
@@ -13,6 +14,8 @@ const {
 const {
   sendPrescription,
 } = require("../controllers/sentPrescriptionController");
+
+router.get("/doctors", getDoctors);
 
 router.get("/doctor/patients/:doctorId", getDoctorPatients);
 
