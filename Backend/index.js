@@ -113,6 +113,38 @@ app.use("/api", doctorRoutes);
 
 app.use("/api", pharmacyRoutes);
 
+// ======================
+// OPD Billing Data
+// ======================
+
+app.get("/api/billing/opd-revenue", async (req, res) => {
+  try {
+    const opdBills = await Patient.find({
+      role: "OPD",
+      paymentStatus: "Paid",
+    }).sort({ updatedAt: -1 });
+
+    const totalRevenue = opdBills.reduce(
+      (total, patient) => total + Number(patient.fee || 0),
+      0,
+    );
+
+    res.json({
+      success: true,
+      totalRevenue,
+      count: opdBills.length,
+      bills: opdBills,
+    });
+  } catch (error) {
+    console.log("OPD Billing Error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch OPD billing data",
+    });
+  }
+});
+
 const insuranceRoutes = require("./routes/insurance/index");
 app.use("/api/insurance", insuranceRoutes);
 
