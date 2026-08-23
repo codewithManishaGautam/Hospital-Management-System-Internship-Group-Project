@@ -1,84 +1,196 @@
+// const express = require("express");
+
+// const router = express.Router();
+
+
+// const {
+
+//     uploadLabReport,
+//     getAllPatients,
+//     getPatientReports,
+//     updateLabReport,
+//     deleteLabReport,
+//     dashboardSummary
+
+// } = require("../controllers/labController");
+
+
+// // ===================== Patients =====================
+
+// router.get(
+
+//     "/patients",
+
+//     getAllPatients
+
+// );
+
+
+// // ===================== Upload PDF =====================
+
+// router.post(
+
+//     "/upload-report",
+
+//     upload.single("reportPdf"),
+
+//     uploadLabReport
+
+// );
+
+
+// // ===================== Patient Reports =====================
+
+// router.get(
+
+//     "/reports/:patientId",
+
+//     getPatientReports
+
+// );
+
+
+// // ===================== Update Report =====================
+
+// router.put(
+
+//     "/report/:id",
+
+//     updateLabReport
+
+// );
+
+
+// // ===================== Delete Report =====================
+
+// router.delete(
+
+//     "/report/:id",
+
+//     deleteLabReport
+
+// );
+
+
+// router.get(
+
+//     "/dashboard-summary",
+
+//     dashboardSummary
+
+// );
+
+// module.exports = router;
+
+
+
+
+
+
 const express = require("express");
 
 const router = express.Router();
 
-const upload = require("../middleware/upload");
 
-const {
+// ==========================================
+// Lab Routes
+// ==========================================
 
-    uploadLabReport,
-    getAllPatients,
-    getPatientReports,
-    updateLabReport,
-    deleteLabReport,
-    dashboardSummary
-
-} = require("../controllers/labController");
+module.exports = (uploadLab) => {
 
 
-// ===================== Patients =====================
+    const {
 
-router.get(
+        uploadLabReport,
+        getAllPatients,
+        getPatientReports,
+        updateLabReport,
+        deleteLabReport,
+        dashboardSummary
 
-    "/patients",
-
-    getAllPatients
-
-);
-
-
-// ===================== Upload PDF =====================
-
-router.post(
-
-    "/upload-report",
-
-    upload.single("reportPdf"),
-
-    uploadLabReport
-
-);
+    } = require("../controllers/labController");
 
 
-// ===================== Patient Reports =====================
+    // ==========================================
+    // Get All Patients
+    // ==========================================
 
-router.get(
+    router.get(
 
-    "/report/:patientId",
+        "/patients",
 
-    getPatientReports
+        getAllPatients
 
-);
-
-
-// ===================== Update Report =====================
-
-router.put(
-
-    "/report/:id",
-
-    updateLabReport
-
-);
+    );
 
 
-// ===================== Delete Report =====================
+    // ==========================================
+    // Upload Lab Report
+    // ==========================================
 
-router.delete(
+    router.post(
 
-    "/report/:id",
+        "/upload-report",
 
-    deleteLabReport
+        uploadLab.single("reportPdf"),
 
-);
+        uploadLabReport
+
+    );
 
 
-router.get(
+    // ==========================================
+    // Get Patient Reports
+    // ==========================================
 
-    "/dashboard-summary",
+    router.get(
 
-    dashboardSummary
+        "/reports/:patientId",
 
-);
+        getPatientReports
 
-module.exports = router;
+    );
+
+
+    // ==========================================
+    // Update Report
+    // ==========================================
+
+    router.put(
+
+        "/report/:id",
+
+        updateLabReport
+
+    );
+
+
+    // ==========================================
+    // Delete Report
+    // ==========================================
+
+    router.delete(
+
+        "/report/:id",
+
+        deleteLabReport
+
+    );
+
+
+    // ==========================================
+    // Dashboard Summary
+    // ==========================================
+
+    router.get(
+
+        "/dashboard-summary",
+
+        dashboardSummary
+
+    );
+
+
+    return router;
+
+};

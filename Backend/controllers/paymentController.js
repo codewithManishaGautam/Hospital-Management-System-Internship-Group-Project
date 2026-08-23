@@ -14,7 +14,7 @@ const payment = async (req, res) => {
     try {
 
         const data = await razorpay.orders.create({
-            amount: 50000,
+            amount: 500*100,
             currency: "INR",
             receipt: "RCP_ID_" + Date.now()
         });
@@ -38,34 +38,11 @@ const payment = async (req, res) => {
 };
 
 
-const createQR = async (req, res) => {
-    try {
-
-        const qr = await razorpay.qrCode.create({
-            type: "upi_qr",
-            name: "Shradha Hospital",
-            usage: "single_use",
-            fixed_amount: true,
-            payment_amount: 50000,
-            description: "Hospital Payment"
-        });
-
-        res.json(qr);
-
-    } catch (error) {
-
-        console.error(error);
-
-        res.status(500).json({
-            message: "QR creation failed",
-            error: error.message
-        });
-    }
-};
 
 
 
-module.exports = payment,createQR;
+module.exports = payment;
+
 
 
 

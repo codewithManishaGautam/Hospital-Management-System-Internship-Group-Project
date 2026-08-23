@@ -725,7 +725,10 @@ const generateConsentPdf = async () => {
                 </table>
 
             </div>
-            <Razorpay/>
+            <Razorpay patientName={patient.name} patientMob={patient.mobile}/>
+
+
+            <MergePdf />
 
         </div>
 
