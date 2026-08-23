@@ -93,232 +93,266 @@ function Dashboard({ setStep, setSelectedPatient, setMode }) {
 
     setStep("register");
   };
+return (
+  <div className="reception-dashboard-container">
 
-  return (
-    <div className="reception-dashboard-container">
-      {/* Header */}
-      <div className="reception-dashboard-header">
-        <h2>Reception Dashboard</h2>
-        <button
-          className="add-btn"
-          onClick={() => {
-            setMode("register"); // NEW
+    {/* Header */}
+    <div className="reception-dashboard-header">
+      <h2>Reception Dashboard</h2>
 
-            setSelectedPatient(null);
-            setStep("register");
-          }}
+      <button
+        className="reception-dashboard-add-btn"
+        onClick={() => {
+          setMode("register");
+          setSelectedPatient(null);
+          setStep("register");
+        }}
+      >
+        + New Registration
+      </button>
+    </div>
+
+    {/* Analytics Cards */}
+    <div className="reception-dashboard-cards">
+      {dashboardCards.map((card, index) => (
+        <div
+          className="reception-dashboard-card"
+          key={index}
         >
-          + New Registration
-        </button>
-
-        {/* <button
-          className="appointment-btn"
-          onClick={() => setStep("appointment")}
-        >
-          Book Appointment
-        </button> */}
-      </div>
-
-      {/* Analytics Cards */}
-      <div className="reception-dashboard-cards">
-        {dashboardCards.map((card, index) => (
-          <div className="reception-dashboard-card" key={index}>
-            <h3>{card.title}</h3>
-            <h1>{card.count}</h1>
-          </div>
-        ))}
-      </div>
-
-      {/* Patients Table Card */}
-      <div className="patient-table-card">
-        <div className="table-header">
-          <h3>Today's Appointment List</h3>
-
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Search by Name, UHID, Mobile..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+          <h3>{card.title}</h3>
+          <h1>{card.count}</h1>
         </div>
+      ))}
+    </div>
 
-        {/* NEW DIV */}
-        <div className="table-responsive">
-          <table className="patient-table">
-            <thead>
-              <tr>
-                <th>UHID</th>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Gender</th>
-                <th>Mobile</th>
-                <th>Address</th>
-                <th>Disease</th>
-                <th>Doctor</th>
-                <th>Appointment</th>
-                <th>Patient Type</th>
-                <th>Payment</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredPatients.length > 0 ? (
-                filteredPatients.map((patient) => (
-                  <tr key={patient._id}>
-                    <td>{patient.uhid}</td>
-                    <td>{patient.name}</td>
-                    <td>{patient.age}</td>
-                    <td>{patient.gender}</td>
-                    <td>{patient.mobile}</td>
-                    <td>{patient.address}</td>
-                    <td>{patient.disease}</td>
-                    <td>{patient.doctor}</td>
-                    <td>
-                      {patient.appointmentDate}
-                      <br />
-                      {patient.appointmentTime}
-                    </td>
-                    <td>{patient.role}</td>
-                    <td>
-                      <span
-                        className={
-                          patient.paymentStatus === "Paid" ? "paid" : "unpaid"
+    {/* Patients Table Card */}
+    <div className="reception-dashboard-patient-table-card">
+
+      <div className="reception-dashboard-table-header">
+        <h3>Today's Appointment List</h3>
+
+        <input
+          type="text"
+          className="reception-dashboard-search-input"
+          placeholder="Search by Name, UHID, Mobile..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+
+      <div className="reception-dashboard-table-responsive">
+        <table className="reception-dashboard-patient-table">
+          <thead>
+            <tr>
+              <th>UHID</th>
+              <th>Name</th>
+              <th>Age</th>
+              <th>Gender</th>
+              <th>Mobile</th>
+              <th>Address</th>
+              <th>Disease</th>
+              <th>Doctor</th>
+              <th>Appointment</th>
+              <th>Patient Type</th>
+              <th>Payment</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {filteredPatients.length > 0 ? (
+              filteredPatients.map((patient) => (
+                <tr key={patient._id}>
+
+                  <td>{patient.uhid}</td>
+                  <td>{patient.name}</td>
+                  <td>{patient.age}</td>
+                  <td>{patient.gender}</td>
+                  <td>{patient.mobile}</td>
+                  <td>{patient.address}</td>
+                  <td>{patient.disease}</td>
+                  <td>{patient.doctor}</td>
+
+                  <td>
+                    {patient.appointmentDate}
+                    <br />
+                    {patient.appointmentTime}
+                  </td>
+
+                  <td>{patient.role}</td>
+
+                  <td>
+                    <span
+                      className={
+                        patient.paymentStatus === "Paid"
+                          ? "reception-dashboard-paid"
+                          : "reception-dashboard-unpaid"
+                      }
+                    >
+                      {patient.paymentStatus || "Pending"}
+                    </span>
+                  </td>
+
+                  <td>{patient.status}</td>
+
+                  <td>
+                    <div className="reception-dashboard-action-btns">
+
+                      <button
+                        className="reception-dashboard-view-btn"
+                        onClick={() => handleViewPatient(patient)}
+                      >
+                        View
+                      </button>
+
+                      <button
+                        className="reception-dashboard-edit-btn"
+                        onClick={() => handleEdit(patient)}
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        className="reception-dashboard-delete-btn"
+                        onClick={() =>
+                          handleDeletePatient(patient._id)
                         }
                       >
-                        {patient.paymentStatus || "Pending"}
-                      </span>
-                    </td>
+                        Delete
+                      </button>
 
-                    <td>{patient.status}</td>
+                      <button
+                        className="reception-dashboard-payment-btn"
+                        onClick={() => {
+                          setSelectedPatient(patient);
+                          setStep("billing");
+                        }}
+                      >
+                        Payment
+                      </button>
 
-                    <td>
-                      <div className="action-btns">
-                        <button
-                          className="view-btn"
-                          onClick={() => handleViewPatient(patient)}
-                        >
-                          View
-                        </button>
+                      <button
+                        className="reception-dashboard-appointment-btn"
+                        onClick={() => {
+                          setMode("appointment");
 
-                        <button
-                          className="edit-btn"
-                          onClick={() => handleEdit(patient)}
-                        >
-                          Edit
-                        </button>
+                          setSelectedPatient({
+                            ...patient,
+                            isAppointment: true,
+                          });
 
-                        <button
-                          className="delete-btn"
-                          onClick={() => handleDeletePatient(patient._id)}
-                        >
-                          Delete
-                        </button>
+                          setStep("register");
+                        }}
+                      >
+                        Book Appointment
+                      </button>
 
-                        <button
-                          className="payment-btn"
-                          onClick={() => {
-                            setSelectedPatient(patient);
-                            setStep("billing");
-                          }}
-                        >
-                          Payment
-                        </button>
-
-                        <button
-                          className="appointment-btn"
-                          onClick={() => {
-                            setMode("appointment"); // NEW
-
-                            setSelectedPatient({
-                              ...patient,
-                              isAppointment: true,
-                            });
-
-                            setStep("register");
-                          }}
-                        >
-                          Book Appointment
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td
-                    colSpan="13"
-                    style={{ textAlign: "center", padding: "15px" }}
-                  >
-                    No patients found
+                    </div>
                   </td>
+
                 </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan="13"
+                  style={{
+                    textAlign: "center",
+                    padding: "15px",
+                  }}
+                >
+                  No patients found
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
-
-      {/* Patient Details Section */}
-      {viewPatient && (
-        <div className="patient-details-card">
-          <h3>Patient Details</h3>
-          <div className="details-grid">
-            <p>
-              <strong>UHID:</strong> {viewPatient.uhid}
-            </p>
-            <p>
-              <strong>Name:</strong> {viewPatient.name}
-            </p>
-            <p>
-              <strong>Age:</strong> {viewPatient.age}
-            </p>
-            <p>
-              <strong>Gender:</strong> {viewPatient.gender}
-            </p>
-            <p>
-              <strong>Mobile:</strong> {viewPatient.mobile}
-            </p>
-            <p>
-              <strong>Address:</strong> {viewPatient.address}
-            </p>
-
-            <p>
-              <strong>Diagnosis:</strong> {viewPatient.diagnosis || "Not Added"}
-            </p>
-
-            <p>
-              <strong>Prescription:</strong>{" "}
-              {viewPatient.prescription || "Not Added"}
-            </p>
-
-            <p>
-              <strong>Advice:</strong> {viewPatient.advice || "Not Added"}
-            </p>
-          </div>
-
-          <div className="action-buttons">
-            <button className="bill-btn" onClick={() => setStep("billing")}>
-              Generate Bill
-            </button>
-            <button
-              className="appointment-btn"
-              onClick={() => {
-                setSelectedPatient(viewPatient);
-                setStep("register");
-              }}
-            >
-              Book Appointment
-            </button>
-            <button className="ipd-btn" onClick={() => setStep("ipdAdmission")}>
-              IPD Admission
-            </button>
-          </div>
-        </div>
-      )}
     </div>
-  );
+
+    {/* Patient Details */}
+    {viewPatient && (
+      <div className="reception-dashboard-patient-details-card">
+
+        <h3>Patient Details</h3>
+
+        <div className="reception-dashboard-details-grid">
+
+          <p>
+            <strong>UHID:</strong> {viewPatient.uhid}
+          </p>
+
+          <p>
+            <strong>Name:</strong> {viewPatient.name}
+          </p>
+
+          <p>
+            <strong>Age:</strong> {viewPatient.age}
+          </p>
+
+          <p>
+            <strong>Gender:</strong> {viewPatient.gender}
+          </p>
+
+          <p>
+            <strong>Mobile:</strong> {viewPatient.mobile}
+          </p>
+
+          <p>
+            <strong>Address:</strong> {viewPatient.address}
+          </p>
+
+          <p>
+            <strong>Diagnosis:</strong>{" "}
+            {viewPatient.diagnosis || "Not Added"}
+          </p>
+
+          <p>
+            <strong>Prescription:</strong>{" "}
+            {viewPatient.prescription || "Not Added"}
+          </p>
+
+          <p>
+            <strong>Advice:</strong>{" "}
+            {viewPatient.advice || "Not Added"}
+          </p>
+
+        </div>
+
+        <div className="reception-dashboard-action-buttons">
+
+          <button
+            className="reception-dashboard-bill-btn"
+            onClick={() => setStep("billing")}
+          >
+            Generate Bill
+          </button>
+
+          <button
+            className="reception-dashboard-appointment-btn"
+            onClick={() => {
+              setSelectedPatient(viewPatient);
+              setStep("register");
+            }}
+          >
+            Book Appointment
+          </button>
+
+          <button
+            className="reception-dashboard-ipd-btn"
+            onClick={() => setStep("ipdAdmission")}
+          >
+            IPD Admission
+          </button>
+
+        </div>
+
+      </div>
+    )}
+
+  </div>
+);
 }
 
 export default Dashboard;

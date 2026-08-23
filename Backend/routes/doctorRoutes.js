@@ -10,13 +10,20 @@ const {
   updateDoctorProfile,
 } = require("../controllers/doctorController");
 
-router.get("/doctor/patients/:doctor", getDoctorPatients);
+const {
+  sendPrescription,
+} = require("../controllers/sentPrescriptionController");
 
-router.get("/doctor/today-patients/:doctor", getTodayPatients);
+router.get("/doctor/patients/:doctorId", getDoctorPatients);
 
-router.get("/doctor/history-patients/:doctor", getHistoryPatients);
+router.get("/doctor/today-patients/:doctorId", getTodayPatients);
 
-router.get("/doctor/profile/:name", getDoctorProfile);
+router.get("/doctor/history-patients/:doctorId", getHistoryPatients);
+
+router.get("/doctor/profile/:id", getDoctorProfile);
 
 router.put("/doctor/profile/:id", updateDoctorProfile);
+
+router.post("/doctor/send-prescription", sendPrescription);
+
 module.exports = router;

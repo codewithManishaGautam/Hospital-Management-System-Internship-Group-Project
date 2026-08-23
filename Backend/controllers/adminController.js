@@ -296,7 +296,10 @@ const addDoctor = async (req, res) => {
       });
     }
 
-    const existingDoctor = await Doctor.findOne({ mobile });
+    const existingDoctor = await Doctor.findOne({
+      mobile,
+      _id: { $ne: req.params.id },
+    });
 
     if (existingDoctor) {
       return res.status(400).json({
@@ -304,6 +307,8 @@ const addDoctor = async (req, res) => {
         message: "Mobile number already exists.",
       });
     }
+
+    // const oldDoctor = await Doctor.findById(req.params.id);
 
     const doctor = await Doctor.create(req.body);
 
@@ -412,10 +417,45 @@ const editDoctor = async (req, res) => {
       });
     }
 
+    const oldDoctor = await Doctor.findById(req.params.id);
+
+    if (!oldDoctor) {
+      return res.status(404).json({
+        success: false,
+        message: "Doctor not found",
+      });
+    }
+
     const doctor = await Doctor.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
 
+    await Staff.findOneAndUpdate(
+      {
+        role: "doctor",
+        mobile: oldDoctor.mobile,
+      },
+      {
+        $set: {
+          name: doctor.name,
+          mobile: doctor.mobile,
+        },
+      },
+      {
+        new: true,
+      },
+    );
+
+    await Patient.updateMany(
+      {
+        doctorId: doctor._id,
+      },
+      {
+        $set: {
+          doctor: `Dr. ${doctor.name}`,
+        },
+      },
+    );
     res.status(200).json({
       success: true,
       message: "Doctor Updated Successfully",
@@ -427,6 +467,17 @@ const editDoctor = async (req, res) => {
       message: error.message,
     });
   }
+
+  // await Patient.updateMany(
+  //   {
+  //     doctorId: doctor._id,
+  //   },
+  //   {
+  //     $set: {
+  //       doctor: `Dr. ${doctor.name}`,
+  //     },
+  //   },
+  // );
 };
 
 // GET ROOMS

@@ -1,29 +1,110 @@
 // const multer = require("multer");
 // const path = require("path");
+// // const multer = require("multer");
+// // const path = require("path");
 
-// // Storage Configuration
+// // // Storage Configuration
+
+// // const storage = multer.diskStorage({
+
+// //     destination: function (req, file, cb) {
+
+// //         cb(null, "uploads/reports");
+
+// //     },
+
+// //     filename: function (req, file, cb) {
+
+// //         const uniqueName =
+// //             Date.now() +
+// //             "-" +
+// //             Math.round(Math.random() * 1E9);
+
+// //         cb(
+
+// //             null,
+
+// //             uniqueName +
+// //             path.extname(file.originalname)
+
+// //         );
+
+// //     }
+
+// // });
+
+// // // File Filter
+
+// // const fileFilter = (req, file, cb) => {
+
+// //     if (file.mimetype === "application/pdf") {
+
+// //         cb(null, true);
+
+// //     }
+
+// //     else {
+
+// //         cb(
+
+// //             new Error("Only PDF files are allowed"),
+
+// //             false
+
+// //         );
+
+// //     }
+
+// // };
+
+// // const upload = multer({
+
+// //     storage,
+
+// //     fileFilter,
+
+// //     limits: {
+
+// //         fileSize: 20 * 1024 * 1024
+
+// //     }
+
+// // });
+
+// // module.exports = upload;
+
+
+
+
+
+// const fs = require("fs");
+// const path = require("path");
+// const multer = require("multer");
+
+// const uploadPath = path.join(__dirname, "../uploads/reports");
+
+if (!fs.existsSync(uploadPath)) {
+// if (!fs.existsSync(uploadPath)) {
+
+//     fs.mkdirSync(uploadPath, { recursive: true });
+
+// }
 
 // const storage = multer.diskStorage({
 
 //     destination: function (req, file, cb) {
 
-//         cb(null, "uploads/reports");
+//         cb(null, uploadPath);
 
 //     },
 
 //     filename: function (req, file, cb) {
 
-//         const uniqueName =
-//             Date.now() +
-//             "-" +
-//             Math.round(Math.random() * 1E9);
-
 //         cb(
 
 //             null,
 
-//             uniqueName +
-//             path.extname(file.originalname)
+//             Date.now() + "-" + file.originalname
 
 //         );
 
@@ -31,95 +112,24 @@
 
 // });
 
-// // File Filter
+// module.exports = multer({
 
-// const fileFilter = (req, file, cb) => {
-
-//     if (file.mimetype === "application/pdf") {
-
-//         cb(null, true);
-
-//     }
-
-//     else {
-
-//         cb(
-
-//             new Error("Only PDF files are allowed"),
-
-//             false
-
-//         );
-
-//     }
-
-// };
-
-// const upload = multer({
-
-//     storage,
-
-//     fileFilter,
-
-//     limits: {
-
-//         fileSize: 20 * 1024 * 1024
-
-//     }
-
-// });
-
-// module.exports = upload;
-
-
-
-
-
-const fs = require("fs");
-const path = require("path");
-const multer = require("multer");
-
-const uploadPath = path.join(__dirname, "../uploads/reports");
-
-if (!fs.existsSync(uploadPath)) {
-
-    fs.mkdirSync(uploadPath, { recursive: true });
-
-}
-
-const storage = multer.diskStorage({
-
-    destination: function (req, file, cb) {
-
-        cb(null, uploadPath);
-
-    },
-
-    filename: function (req, file, cb) {
-
-        cb(
-
-            null,
-
-            Date.now() + "-" + file.originalname
-
-        );
-
-    }
-
-});
-
-module.exports = multer({
-
-    storage
+//     storage
 
 });
 // const multer = require('multer');
 // const path = require('path');
 // const fs = require('fs');
+// });
+// =======
+
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 
 // Ensure upload directory exists
-const uploadDir = path.join(__dirname, '../uploads/insurance-docs');
+const uploadDir = path.join(__dirname, "../uploads/insurance-docs");
+
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
@@ -130,34 +140,45 @@ const storage2 = multer.diskStorage({
     cb(null, uploadDir);
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
-  }
+    const uniqueSuffix =
+      Date.now() + "-" + Math.round(Math.random() * 1e9);
+
+    cb(
+      null,
+      file.fieldname +
+        "-" +
+        uniqueSuffix +
+        path.extname(file.originalname)
+    );
+  },
 });
 
 // Check file type
 function checkFileType(file, cb) {
-  // Allowed ext
   const filetypes = /jpeg|jpg|png|pdf/;
-  // Check ext
-  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-  // Check mime
+
+  const extname = filetypes.test(
+    path.extname(file.originalname).toLowerCase()
+  );
+
   const mimetype = filetypes.test(file.mimetype);
 
   if (mimetype && extname) {
     return cb(null, true);
   } else {
-    cb('Error: Images and PDFs Only!');
+    cb(new Error("Images and PDFs Only!"));
   }
 }
 
-// Initialize upload variable
 const upload = multer({
   storage: storage2,
   limits: { fileSize: 5000000 }, // 5MB limit
+  storage,
+  limits: { fileSize: 5000000 }, // 5 MB
   fileFilter: function (req, file, cb) {
     checkFileType(file, cb);
-  }
+  },
 });
 
+module.exports = upload;
 module.exports = upload;

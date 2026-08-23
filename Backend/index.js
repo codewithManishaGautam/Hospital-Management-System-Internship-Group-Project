@@ -4,6 +4,8 @@ const connectDB = require("./config/db");
 const Patient = require("./models/Patient");
 // const Razorpay=require("razorpay");
 const paymentRoutes = require("./routes/paymentRoutes");
+const pharmacyRoutes = require("./routes/PharmacyRoutes");
+const sentPrescriptionRoutes = require("./routes/sentPrescriptionRoutes");
 
 console.log("ENV URL =", process.env.MONGO_URL);
 connectDB();
@@ -114,6 +116,8 @@ app.use("/api/admin", adminRoutes);
 
 const doctorRoutes = require("./routes/doctorRoutes");
 app.use("/api", doctorRoutes);
+
+app.use("/api", pharmacyRoutes);
 
 const insuranceRoutes = require("./routes/insurance/index");
 app.use("/api/insurance", insuranceRoutes);
@@ -613,6 +617,7 @@ app.post(
 
             }
 
+// labRoute Changes :
 
             // Merged PDF path
 
@@ -622,6 +627,8 @@ app.post(
                     `merged_${Date.now()}.pdf`
                 );
 
+// app.use(
+//   "/uploads",
 
             console.log(
                 "Merged Path:",
@@ -643,6 +650,8 @@ app.post(
 
 
             // Save Bill
+//   express.static(path.join(__dirname, "uploads")),
+// );
 
             const bill =
                 new Bill({
@@ -655,7 +664,13 @@ app.post(
                         mergedPath
 
                 });
+app.use(express.json());
 
+// app.use(
+//   express.urlencoded({
+//     extended: true,
+//   }),
+// );
 
             await bill.save();
 
@@ -760,6 +775,22 @@ app.post(
         }
 
     }
+// app.use(
+//   "/uploads",
+
+//   express.static(
+//     path.join(
+//       __dirname,
+
+//       "uploads",
+//     ),
+//   ),
+// );
+
+app.use(
+  "/consent",
+
+  consentRoutes,
 );
 
 // ======================
@@ -839,6 +870,13 @@ const labRoutes = require("./routes/labRoutes");
 
 
 // Lab report folder
+  "/upload",
+
+  uploadRoutes,
+);
+
+app.listen(
+  5000,
 
 const labUploadPath = path.join(
     __dirname,

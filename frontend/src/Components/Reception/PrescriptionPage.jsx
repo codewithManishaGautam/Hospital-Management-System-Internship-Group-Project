@@ -3,6 +3,7 @@ import SignatureCanvas from "react-signature-canvas";
 import { useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 import "../../styles/Reception/PrescriptionPage.css";
 // import "../../styles/Reception/PrescriptionPage";
 
@@ -10,10 +11,19 @@ function PrescriptionPage() {
   // console.log(SignatureCanvas);
 
   const { id } = useParams();
+
+  console.log("Patient ID =", id);
+
   const navigate = useNavigate();
+
+  const location = useLocation();
+
+  // const prescriptionId = location.state?.prescriptionId;
+  const fromPharmacy = location.state?.from === "pharmacy";
 
   const [patient, setPatient] = useState(null);
   const [history, setHistory] = useState([]);
+  const [prescriptionHistoryId, setPrescriptionHistoryId] = useState(null);
 
   const [editMode, setEditMode] = useState(false);
 
@@ -34,12 +44,26 @@ function PrescriptionPage() {
   const [prescription, setPrescription] = useState("");
   const [advice, setAdvice] = useState("");
   const [notes, setNotes] = useState("");
+const [medicineList, setMedicineList] = useState([
+  {
+    medicineName: "",
+    quantity: 1,
+  },
+]);
+
+  // const [medicineList, setMedicineList] = useState([
+  //   {
+  //     medicineName: "",
+  //     quantity: 1,
+  //   },
+  // ]);
 
   const [referralDoctorId, setReferralDoctorId] = useState("");
   const [referralDoctorName, setReferralDoctorName] = useState("");
   const [referralSpecialization, setReferralSpecialization] = useState("");
 
   const [doctorList, setDoctorList] = useState([]);
+  const [availableMedicines, setAvailableMedicines] = useState([]);
 
   const [diagnosisMode, setDiagnosisMode] = useState("type");
   const [prescriptionMode, setPrescriptionMode] = useState("type");
@@ -49,7 +73,7 @@ function PrescriptionPage() {
   useEffect(() => {
     loadPatient();
     loadDoctors();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    loadMedicines();
   }, []);
 
   const savePrescription = async () => {
@@ -131,6 +155,13 @@ function PrescriptionPage() {
 
       console.log("Sending PUT request...");
 
+     const medicines = medicineList
+  .filter((m) => m.medicineName.trim() !== "")
+  .map((m) => ({
+    medicineName: m.medicineName,
+    quantity: Number(m.quantity),
+  }));
+
       const payload = {
         uhid: patient.uhid,
         name: patient.name,
@@ -148,6 +179,8 @@ function PrescriptionPage() {
         notes: notesData,
         signature: signatureData,
 
+        medicines: medicines,
+
         referralDoctor: {
           id: referralDoctorId,
           name: referralDoctorName,
@@ -157,9 +190,68 @@ function PrescriptionPage() {
 
       console.log("PAYLOAD =", payload);
 
-      await axios.put(`http://localhost:5000/api/patient/${id}`, payload);
+      const patientUpdateRes = await axios.put(
+        `http://localhost:5000/api/patient/${id}`,
+        payload,
+      );
 
+      console.log("Patient updated =", patientUpdateRes.data);
+
+      const updatedPatient = patientUpdateRes.data.data;
+
+      const prescriptionHistory = updatedPatient.prescriptionHistory || [];
+
+      const latestPrescription =
+        prescriptionHistory[prescriptionHistory.length - 1];
+
+      const newPrescriptionHistoryId = latestPrescription?._id;
+
+      console.log("New Prescription History ID =", newPrescriptionHistoryId);
+
+      if (!newPrescriptionHistoryId) {
+        throw new Error("Prescription history ID was not generated.");
+      }
+
+      setPrescriptionHistoryId(newPrescriptionHistoryId);
+
+      // ===============================
+      // SEND PRESCRIPTION TO PHARMACY
+      // ===============================
+
+      const sendRes = await axios.post(
+        "http://localhost:5000/api/doctor/send-prescription",
+        {
+          target: "pharmacy",
+
+          prescription: {
+            patientId: patient._id,
+            patientUHID: patient.uhid,
+            patientName: patient.name,
+            doctor: patient.doctor,
+
+            diagnosis: diagnosisData,
+            prescription: prescriptionData,
+            advice: adviceData,
+            notes: notesData,
+            signature: signatureData,
+
+            medicines: medicines,
+          },
+
+          prescriptionHistoryId: newPrescriptionHistoryId,
+        },
+      );
+
+      console.log("Prescription sent to pharmacy =", sendRes.data);
+
+      console.log("Prescription sent to pharmacy =", sendRes.data);
+
+      console.log("Prescription saved in Patient prescriptionHistory");
+
+      console.log("Calling API:", `http://localhost:5000/api/patient/${id}`);
       const res = await axios.get(`http://localhost:5000/api/patient/${id}`);
+
+      console.log("API Response =", res.data);
 
       console.log("UPDATED PATIENT");
       console.log(res.data);
@@ -172,28 +264,6 @@ function PrescriptionPage() {
 
       alert("Prescription Saved Successfully");
 
-      // <button
-      //   className="edit-btn"
-      //   onClick={() => {
-      //     setDiagnosis("");
-      //     setPrescription("");
-      //     setAdvice("");
-      //     setNotes("");
-
-      //     setDiagnosisMode("type");
-      //     setPrescriptionMode("type");
-      //     setAdviceMode("type");
-      //     setNotesMode("type");
-
-      //     diagnosisPad.current?.clear();
-      //     prescriptionPad.current?.clear();
-      //     advicePad.current?.clear();
-      //     notesPad.current?.clear();
-      //     sigCanvas.current?.clear();
-
-      //     setEditMode(true);
-      //   }}
-      // ></button>;
       await loadPatient();
 
       setEditMode(false);
@@ -212,6 +282,41 @@ function PrescriptionPage() {
     }
   };
 
+  const sendToDepartment = async (target) => {
+    try {
+      if (!patient?._id) {
+        alert("Patient ID missing");
+        return;
+      }
+
+      if (!prescriptionHistoryId) {
+        alert("Please save prescription first");
+        return;
+      }
+
+      const response = await axios.post(
+        "http://localhost:5000/api/doctor/send-prescription",
+        {
+          target,
+
+          prescription: {
+            patientId: patient._id,
+          },
+
+          prescriptionHistoryId,
+        },
+      );
+
+      if (response.data.success) {
+        alert(`Prescription sent to ${target}`);
+      }
+    } catch (error) {
+      console.error("Send Prescription Error:", error.response?.data || error);
+
+      alert(error.response?.data?.message || "Failed to send prescription");
+    }
+  };
+
   const downloadPDF = () => {
     window.open(`http://localhost:5000/api/patient/${id}/pdf`);
   };
@@ -219,11 +324,44 @@ function PrescriptionPage() {
   const loadDoctors = async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/doctors");
+      console.log("Doctors =", res.data);
 
       setDoctorList(res.data.data);
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const loadMedicines = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/api/pharmacy/medicines",
+      );
+
+      console.log("Medicines =", res.data);
+
+      setAvailableMedicines(res.data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+const addMedicine = () => {
+  setMedicineList([
+    ...medicineList,
+    {
+      medicineName: "",
+      quantity: 1,
+    },
+  ]);
+};
+
+  const updateMedicine = (index, field, value) => {
+    const temp = [...medicineList];
+
+    temp[index][field] = value;
+
+    setMedicineList(temp);
   };
 
   const loadPatient = async () => {
@@ -234,11 +372,10 @@ function PrescriptionPage() {
 
       console.log("API Response =", res.data);
 
-      console.log("History =", res.data.prescriptionHistory);
-
-      console.log("Length =", res.data.prescriptionHistory.length);
-
       const history = res.data.prescriptionHistory || [];
+
+      console.log("History =", history);
+      console.log("Length =", history.length);
       setHistory(history);
 
       if (history.length > 0) {
@@ -726,6 +863,72 @@ function PrescriptionPage() {
                 <p>Not Added</p>
               )}
             </div>
+
+           <div className="section">
+  <h3>Medicines</h3>
+
+  {medicineList.map((med, index) => (
+    <div
+      key={index}
+      style={{
+        display: "flex",
+        gap: "10px",
+        marginBottom: "10px",
+        alignItems: "center",
+      }}
+    >
+      <select
+        value={med.medicineName}
+        onChange={(e) => {
+          const temp = [...medicineList];
+
+          temp[index].medicineName = e.target.value;
+
+          setMedicineList(temp);
+        }}
+      >
+        <option value="">Select Medicine</option>
+
+        {availableMedicines.map((medicine) => (
+          <option key={medicine._id} value={medicine.itemName}>
+            {medicine.itemName}
+          </option>
+        ))}
+      </select>
+
+      <input
+        type="number"
+        min="1"
+        value={med.quantity}
+        onChange={(e) => {
+          const temp = [...medicineList];
+
+          temp[index].quantity = Number(e.target.value);
+
+          setMedicineList(temp);
+        }}
+        placeholder="Quantity"
+      />
+
+      <button
+        type="button"
+        onClick={() => {
+          const temp = medicineList.filter(
+            (_, medicineIndex) => medicineIndex !== index
+          );
+
+          setMedicineList(temp);
+        }}
+      >
+        Remove
+      </button>
+    </div>
+  ))}
+
+  <button type="button" onClick={addMedicine}>
+    + Add Medicine
+  </button>
+</div>
 
             <div className="section">
               <h3>Refer To Doctor</h3>

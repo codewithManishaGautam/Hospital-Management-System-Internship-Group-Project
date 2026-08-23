@@ -110,6 +110,51 @@ const patientSchema = new mongoose.Schema(
           },
         },
 
+        visitDate: {
+          type: Date,
+          default: Date.now,
+        },
+
+        medicines: [
+          {
+            medicineName: {
+              type: String,
+              default: "",
+            },
+
+            quantity: {
+              type: Number,
+              default: 0,
+            },
+
+            price: {
+              type: Number,
+              default: 0,
+            },
+
+            amount: {
+              type: Number,
+              default: 0,
+            },
+          },
+        ],
+
+        billId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "PharmacyBill",
+          default: null,
+        },
+
+        paymentStatus: {
+          type: String,
+          default: "Pending",
+        },
+
+        paymentMode: {
+          type: String,
+          default: "",
+        },
+
         createdAt: {
           type: Date,
           default: Date.now,
@@ -124,10 +169,32 @@ const patientSchema = new mongoose.Schema(
     },
 
     // Pharmacy
-    medicinesIssued: [
+    medicineHistory: [
       {
-        name: String,
-        quantity: Number,
+        billId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "PharmacyBill",
+        },
+
+        medicines: [
+          {
+            medicineName: String,
+            quantity: Number,
+            price: Number,
+            amount: Number,
+          },
+        ],
+
+        totalAmount: Number,
+
+        paymentMode: String,
+
+        paymentStatus: String,
+
+        issuedAt: {
+          type: Date,
+          default: Date.now,
+        },
       },
     ],
 
@@ -358,5 +425,12 @@ const patientSchema = new mongoose.Schema(
     ]
   
   
+      },
+    ],
+  },
+  {
+    timestamps: true,
+  },
 );
+
 module.exports = mongoose.model("Patient", patientSchema);

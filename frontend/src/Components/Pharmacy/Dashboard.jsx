@@ -1,28 +1,48 @@
 import React, { useState } from "react";
+// import { useNavigate } from "react-router-dom";
 import "../../styles/Pharmacy/Pharmacy.css";
 
-function Dashboard({ prescriptions, setStep }) {
+function Dashboard({ prescriptions, setStep, setSelectedPrescription }) {
+  // const navigate = useNavigate();
   const [search, setSearch] = useState("");
 
   // Search by UHID or Patient Name
-  const filteredPrescriptions = prescriptions.filter((item) => {
-    const text = search.toLowerCase();
+  // Only today's pending prescriptions
+  const today = new Date();
+
+  const todayPrescriptions = prescriptions.filter((item) => {
+    if (item.status !== "Pending") {
+      return false;
+    }
+
+    if (!item.createdAt) {
+      return false;
+    }
+
+    const prescriptionDate = new Date(item.createdAt);
 
     return (
-      item.uhid?.toLowerCase().includes(text) ||
-      item.name?.toLowerCase().includes(text)
+      prescriptionDate.getDate() === today.getDate() &&
+      prescriptionDate.getMonth() === today.getMonth() &&
+      prescriptionDate.getFullYear() === today.getFullYear()
     );
   });
 
-  // Pending Prescription Count
-  const pendingCount = prescriptions.filter(
-    (item) => item.status === "Pending"
-  ).length;
+  // Search by UHID or Patient Name
+  const filteredPrescriptions = todayPrescriptions.filter((item) => {
+    const text = search.toLowerCase();
+
+    return (
+      item.prescription?.patientUHID?.toLowerCase().includes(text) ||
+      item.prescription?.patientName?.toLowerCase().includes(text)
+    );
+  });
+
+  // Today's pending prescription count
+  const pendingCount = todayPrescriptions.length;
 
   // Today's Bill Count
-  const todayBills = prescriptions.filter(
-    (item) => item.status === "Completed"
-  ).length;
+  const todayBills = 0;
 
   return (
     <>
@@ -40,14 +60,11 @@ function Dashboard({ prescriptions, setStep }) {
           onChange={(e) => setSearch(e.target.value)}
         />
 
-        <button className="btn-primary">
-          Search
-        </button>
+        <button className="btn-primary">Search</button>
       </div>
 
       {/* Dashboard Cards */}
       <div className="metrics-row">
-
         <div className="metric-card">
           <h2>{pendingCount}</h2>
           <p>Pending Prescriptions</p>
@@ -57,13 +74,11 @@ function Dashboard({ prescriptions, setStep }) {
           <h2>{todayBills}</h2>
           <p>Today's Bills</p>
         </div>
-
       </div>
 
       {/* Prescription Table */}
       <div className="table-container">
         <table className="data-table">
-
           <thead>
             <tr>
               <th>#</th>
@@ -77,68 +92,52 @@ function Dashboard({ prescriptions, setStep }) {
           </thead>
 
           <tbody>
-
             {filteredPrescriptions.length > 0 ? (
-
               filteredPrescriptions.map((item, index) => (
-
-                <tr key={item.id}>
-
+                <tr key={item._id}>
                   <td>{index + 1}</td>
 
-                  <td>{item.uhid}</td>
+                  <td>{item.prescription.patientUHID}</td>
 
-                  <td>{item.name}</td>
+                  <td>{item.prescription.patientName}</td>
 
-                  <td>{item.doctor}</td>
+                  <td>{item.prescription.doctor}</td>
 
-                  <td>{item.date}</td>
+                  <td>{new Date(item.createdAt).toLocaleDateString()}</td>
 
-                  <td>{item.status}</td>
+                  <td>Pending</td>
 
                   <td>
-
                     <button
                       className="btn-primary"
-                      onClick={() => setStep("prescription")}
+                      onClick={() => {
+                        setSelectedPrescription(item);
+                        setStep("prescription");
+                      }}
                     >
                       Open
                     </button>
-
                   </td>
-
                 </tr>
-
               ))
-
             ) : (
-
               <tr>
-
                 <td colSpan="7" style={{ textAlign: "center" }}>
                   No Prescription Found
                 </td>
-
               </tr>
-
             )}
-
           </tbody>
-
         </table>
       </div>
 
       {/* Bottom Buttons */}
       <div className="bottom-actions">
+        <button onClick={() => setStep("payments")}>Open Payments</button>
 
-        <button onClick={() => setStep("payments")}>
-          Open Payments
-        </button>
-
-        <button onClick={() => setStep("billpreview")}>
+        {/* <button onClick={() => setStep("billpreview")}>
           Open Bill Preview
-        </button>
-
+        </button> */}
       </div>
     </>
   );
