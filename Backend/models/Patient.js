@@ -279,6 +279,9 @@ const patientSchema = new mongoose.Schema(
     },
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
     createdAt: {
         type: Date,
         default: Date.now
@@ -373,8 +376,11 @@ const patientSchema = new mongoose.Schema(
 
 
 
+<<<<<<< HEAD
 =======
 >>>>>>> origin/main
+=======
+>>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
     currentDepartment: {
       type: String,
       default: "Reception",
@@ -385,6 +391,9 @@ const patientSchema = new mongoose.Schema(
       default: "Registered",
     },
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
   },
 
   {
@@ -394,10 +403,13 @@ const patientSchema = new mongoose.Schema(
 
 
     appointmentHistory[
+<<<<<<< HEAD
 =======
 
     appointmentHistory: [
 >>>>>>> origin/main
+=======
+>>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
       {
         appointmentDate: String,
         appointmentTime: String,
@@ -430,18 +442,27 @@ const patientSchema = new mongoose.Schema(
           default: Date.now,
         },
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
       }
     ]
   
   
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
       },
     ],
   },
   {
     timestamps: true,
   },
+<<<<<<< HEAD
 >>>>>>> origin/main
+=======
+>>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
 );
 
 patientSchema.index({

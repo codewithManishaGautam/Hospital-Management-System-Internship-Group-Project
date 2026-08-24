@@ -3,7 +3,8 @@ require("dotenv").config();
 const connectDB = require("./config/db");
 const Patient = require("./models/Patient");
 const paymentRoutes = require("./routes/paymentRoutes");
-
+const consentRoutes = require("./routes/consentRoutes");  
+const uploadRoutes = require("./routes/upload");
 console.log("ENV URL =", process.env.MONGO_URL);
 connectDB();
 
@@ -530,402 +531,581 @@ app.delete(
 // ======================
 
 
-app.post(
-    "/send-email",
+// app.post(
+//     "/send-email",
 
-    upload.array("pdfs", 10),
+//     upload.array("pdfs", 10),
 
-    async (req, res) => {
+//     async (req, res) => {
 
-        try {
+//         try {
 
-            console.log(
-                "========== SEND EMAIL =========="
-            );
+//             console.log(
+//                 "========== SEND EMAIL =========="
+//             );
 
-            console.log(
-                "BODY:",
-                req.body
-            );
+//             console.log(
+//                 "BODY:",
+//                 req.body
+//             );
 
-            console.log(
-                "FILES:",
-                req.files
-            );
-
-
-            // Check files
-
-            if (
-                !req.files ||
-                req.files.length === 0
-            ) {
-
-                return res.status(400).json({
-
-                    success: false,
-
-                    message:
-                        "No PDF files uploaded"
-
-                });
-
-            }
+//             console.log(
+//                 "FILES:",
+//                 req.files
+//             );
 
 
-            const {
-                patientName,
-                email
-            } = req.body;
+//             // Check files
 
-            const uploadedFiles =
-                req.files;
+//             if (
+//                 !req.files ||
+//                 req.files.length === 0
+//             ) {
 
+//                 return res.status(400).json({
 
-            console.log(
-                "Uploaded Files:",
-                uploadedFiles.length
-            );
+//                     success: false,
 
+//                     message:
+//                         "No PDF files uploaded"
 
-            // Generated folder
+//                 });
 
-            const generatedDir =
-                path.join(
-                    __dirname,
-                    "uploads"
-                );
+//             }
 
 
-            if (
-                !fs.existsSync(
-                    generatedDir
-                )
-            ) {
+//             const {
+//                 patientName,
+//                 email
+//             } = req.body;
 
-                fs.mkdirSync(
-                    generatedDir,
-                    {
-                        recursive: true
-                    }
-                );
-
-            }
+//             const uploadedFiles =
+//                 req.files;
 
 
-            // Merged PDF path
-
-            const mergedPath =
-                path.join(
-                    generatedDir,
-                    `merged_${Date.now()}.pdf`
-                );
+//             console.log(
+//                 "Uploaded Files:",
+//                 uploadedFiles.length
+//             );
 
 
-            console.log(
-                "Merged Path:",
-                mergedPath
-            );
+//             // Generated folder
+
+//             const generatedDir =
+//                 path.join(
+//                     __dirname,
+//                     "uploads"
+//                 );
 
 
-            // Merge PDFs
+//             if (
+//                 !fs.existsSync(
+//                     generatedDir
+//                 )
+//             ) {
 
-            await mergePDFs(
-                uploadedFiles,
-                mergedPath
-            );
+//                 fs.mkdirSync(
+//                     generatedDir,
+//                     {
+//                         recursive: true
+//                     }
+//                 );
+
+//             }
+
+// // labRoute Changes :
+
+//             // Merged PDF path
+
+//             const mergedPath =
+//                 path.join(
+//                     generatedDir,
+//                     `merged_${Date.now()}.pdf`
+//                 );
+
+// // app.use(
+// //   "/uploads",
+
+//             console.log(
+//                 "Merged Path:",
+//                 mergedPath
+//             );
 
 
-            console.log(
-                "PDF MERGED SUCCESSFULLY"
-            );
+//             // Merge PDFs
+
+//             await mergePDFs(
+//                 uploadedFiles,
+//                 mergedPath
+//             );
 
 
-            // Save Bill
-
-            const bill =
-                new Bill({
-
-                    patientName,
-
-                    email,
-
-                    pdfPath:
-                        mergedPath
-
-                });
+//             console.log(
+//                 "PDF MERGED SUCCESSFULLY"
+//             );
 
 
-            await bill.save();
+//             // Save Bill
+// //   express.static(path.join(__dirname, "uploads")),
+// // );
+
+//             const bill =
+//                 new Bill({
+
+//                     patientName,
+
+//                     email,
+
+//                     pdfPath:
+//                         mergedPath
+
+//                 });
+// app.use(express.json());
+
+// // app.use(
+// //   express.urlencoded({
+// //     extended: true,
+// //   }),
+// // );
+
+//             await bill.save();
 
 
-            // Email
+//             // Email
 
-            const mailOptions = {
+//             const mailOptions = {
 
-                from:
-                    process.env.EMAIL_USER,
+//                 from:
+//                     process.env.EMAIL_USER,
 
-                to:
-                    email,
+//                 to:
+//                     email,
 
-                subject:
-                    "Merged Hospital Documents",
+//                 subject:
+//                     "Merged Hospital Documents",
 
-                text:
-                    "Your merged hospital documents attached.",
+//                 text:
+//                     "Your merged hospital documents attached.",
 
-                attachments: [
+//                 attachments: [
 
-                    {
+//                     {
 
-                        filename:
-                            "Hospital_Report.pdf",
+//                         filename:
+//                             "Hospital_Report.pdf",
 
-                        path:
-                            mergedPath
+//                         path:
+//                             mergedPath
 
-                    }
+//                     }
 
-                ]
+//                 ]
 
-            };
+//             };
 
 
             // Send email
 
-            transporter.sendMail(
-
-                mailOptions,
-
-                (error, info) => {
-
-                    if (error) {
-
-                        console.error(
-                            "EMAIL ERROR:",
-                            error
-                        );
-
-                    } else {
-
-                        console.log(
-                            "EMAIL SENT:",
-                            info.response
-                        );
-
-                    }
-
-                }
-
-            );
 
 
-            res.json({
 
-                success: true,
+app.post(
+  "/send-email",
+  upload.array("pdfs", 10),
+  async (req, res) => {
+    try {
+      console.log("========== SEND EMAIL ==========");
+      console.log("BODY:", req.body);
+      console.log("FILES:", req.files);
 
-                message:
-                    "Merged PDF Sent",
+      if (!req.files || req.files.length === 0) {
+        return res.status(400).json({
+          success: false,
+          message: "No PDF files uploaded",
+        });
+      }
 
-                pdfUrl:
-                    `http://localhost:5000/uploads/${path.basename(
-                        mergedPath
-                    )}`
+      const { patientName, email } = req.body;
 
-            });
+      const uploadedFiles = req.files;
 
+      console.log("Uploaded Files:", uploadedFiles.length);
 
-        } catch (error) {
+      const generatedDir = path.join(__dirname, "uploads");
 
-            console.error(
-                "SEND EMAIL ERROR:",
-                error
-            );
+      if (!fs.existsSync(generatedDir)) {
+        fs.mkdirSync(generatedDir, {
+          recursive: true,
+        });
+      }
 
+      const mergedPath = path.join(
+        generatedDir,
+        `merged_${Date.now()}.pdf`
+      );
 
-            res.status(500).json({
+      console.log("Merged Path:", mergedPath);
 
-                success: false,
+      await mergePDFs(uploadedFiles, mergedPath);
 
-                message:
-                    error.message,
+      console.log("PDF MERGED SUCCESSFULLY");
 
-                error:
-                    error.stack
+      const bill = new Bill({
+        patientName,
+        email,
+        pdfPath: mergedPath,
+      });
 
-            });
+      await bill.save();
 
+      const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: email,
+        subject: "Merged Hospital Documents",
+        text: "Your merged hospital documents attached.",
+        attachments: [
+          {
+            filename: "Hospital_Report.pdf",
+            path: mergedPath,
+          },
+        ],
+      };
+
+      transporter.sendMail(
+        mailOptions,
+        (error, info) => {
+          if (error) {
+            console.error("EMAIL ERROR:", error);
+          } else {
+            console.log("EMAIL SENT:", info.response);
+          }
         }
+      );
 
+      res.json({
+        success: true,
+        message: "Merged PDF Sent",
+        pdfUrl: `http://localhost:5000/uploads/${path.basename(
+          mergedPath
+        )}`,
+      });
+
+    } catch (error) {
+      console.error("SEND EMAIL ERROR:", error);
+
+      res.status(500).json({
+        success: false,
+        message: error.message,
+        error: error.stack,
+      });
     }
-);
-
-// ======================
-// Server
-// ======================
-
-// labRoute Changes :
-
-
-
-
-app.use(
-  
-  "/uploads",
-  
-  express.static(
-    
-    path.join(__dirname, "uploads")
-    
-  )
-  
+  }
 );
 
 
+// ======================
+// Billing Consent
+// ======================
+
+app.use("/consent", consentRoutes);
+
+app.use("/upload", uploadRoutes);
+
+app.use("/api/payment", paymentRoutes);
 
 
-
-  // Billing Consent Form changes :
-  
-  const consentRoutes = require("./routes/consentRoutes");
-  
-  const uploadRoutes = require("./routes/upload");
-  
-  
-  app.use(express.json());
-  
-  
-  
-  app.use(express.urlencoded({
-    
-    extended: true
-    
-  }));
-  
-  
-  
-  app.use(
-    
-    "/consent",
-    
-    consentRoutes
-    
-  );
-  
-  app.use(
-    
-    "/upload",
-    
-    uploadRoutes
-    
-  );
-  
-  
-  
-  app.use("/api/payment", paymentRoutes);
-  
-  
-  
-  
+// ======================
 // LAB MODULE
 // ======================
 
 const labRoutes = require("./routes/labRoutes");
 
-
-// Lab report folder
-
 const labUploadPath = path.join(
-    __dirname,
-    "uploadLabReport",
-    "uploadLab"
+  __dirname,
+  "uploadLabReport",
+  "uploadLab"
 );
-
-
-// Create folder
 
 if (!fs.existsSync(labUploadPath)) {
-
-    fs.mkdirSync(
-        labUploadPath,
-        {
-            recursive: true
-        }
-    );
-
+  fs.mkdirSync(labUploadPath, {
+    recursive: true,
+  });
 }
 
-
-// Multer storage
-
 const storageLab = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, labUploadPath);
+  },
 
-    destination: (req, file, cb) => {
-
-        cb(
-            null,
-            labUploadPath
-        );
-
-    },
-
-    filename: (req, file, cb) => {
-
-        cb(
-            null,
-            Date.now() +
-            "-" +
-            file.originalname
-        );
-
-    }
-
+  filename: (req, file, cb) => {
+    cb(
+      null,
+      Date.now() + "-" + file.originalname
+    );
+  },
 });
-
-// app.use(
-//   express.urlencoded({
-//     extended: true,
-//   }),
-// );
 
 const uploadLab = multer({
-
-    storage: storageLab
-
+  storage: storageLab,
 });
 
-
-// Static folder
+app.use(
+  "/uploadLabReport",
+  express.static(
+    path.join(__dirname, "uploadLabReport")
+  )
+);
 
 app.use(
-    "/uploadLabReport",
-    express.static(
-        path.join(
-            __dirname,
-            "uploadLabReport"
-        )
-    )
+  "/lab",
+  labRoutes(uploadLab)
 );
 
 
-// Lab routes
+// ======================
+// SERVER
+// ======================
 
-app.use(
-    "/lab",
-    labRoutes(uploadLab)
+app.listen(
+  5000,
+  () => {
+    console.log("Server Running");
+  }
 );
+
+
+
+//             transporter.sendMail(
+
+//                 mailOptions,
+
+//                 (error, info) => {
+
+//                     if (error) {
+
+//                         console.error(
+//                             "EMAIL ERROR:",
+//                             error
+//                         );
+
+//                     } else {
+
+//                         console.log(
+//                             "EMAIL SENT:",
+//                             info.response
+//                         );
+
+//                     }
+
+//                 }
+
+//             );
+
+
+//             res.json({
+
+//                 success: true,
+
+//                 message:
+//                     "Merged PDF Sent",
+
+//                 pdfUrl:
+//                     `http://localhost:5000/uploads/${path.basename(
+//                         mergedPath
+//                     )}`
+
+//             });
+
+
+//         } catch (error) {
+
+//             console.error(
+//                 "SEND EMAIL ERROR:",
+//                 error
+//             );
+
+
+//             res.status(500).json({
+
+//                 success: false,
+
+//                 message:
+//                     error.message,
+
+//                 error:
+//                     error.stack
+
+//             });
+
+//         }
+
+//     }
+
+
+// // ======================
+// // Server
+// // ======================
+
+
+
+
+// // labRoute Changes :
+
+
+
+
+// // app.use(
   
+// //   "/uploads",
   
-  
-  
-  app.listen(
-    5000,
+// //   express.static(
     
-    () => {
-      console.log("Server Running");
-    },
-  );
+// //     path.join(__dirname, "uploads")
+    
+// //   )
+// // );
+
+
+
+
+
+//   // Billing Consent Form changes :
+  
+  
+  
+//   // app.use(express.json());
+  
+  
+  
+//   // app.use(express.urlencoded({
+    
+//   //   extended: true
+    
+//   // }));
+  
+  
+  
+//   app.use(
+    
+//     "/consent",
+    
+//     consentRoutes
+    
+//   );
+  
+//   app.use(
+    
+//     "/upload",
+    
+//     uploadRoutes
+    
+//   );
+  
+  
+  
+//   app.use("/api/payment", paymentRoutes);
+  
+  
+  
+  
+// // LAB MODULE
+// // ======================
+
+// const labRoutes = require("./routes/labRoutes");
+
+// app.use(
+// // Lab report folder
+//   "/upload",
+
+//   uploadRoutes,
+// );
+
+
+// const labUploadPath = path.join(
+//     __dirname,
+//     "uploadLabReport",
+//     "uploadLab"
+// );
+
+
+// // Create folder
+
+// if (!fs.existsSync(labUploadPath)) {
+
+//     fs.mkdirSync(
+//         labUploadPath,
+//         {
+//             recursive: true
+//         }
+//     );
+
+// }
+
+
+// // Multer storage
+
+// const storageLab = multer.diskStorage({
+
+//     destination: (req, file, cb) => {
+
+//         cb(
+//             null,
+//             labUploadPath
+//         );
+
+//     },
+
+//     filename: (req, file, cb) => {
+
+//         cb(
+//             null,
+//             Date.now() +
+//             "-" +
+//             file.originalname
+//         );
+
+//     }
+
+// });
+
+
+// const uploadLab = multer({
+
+//     storage: storageLab
+
+// });
+
+
+// // Static folder
+
+// app.use(
+//     "/uploadLabReport",
+//     express.static(
+//         path.join(
+//             __dirname,
+//             "uploadLabReport"
+//         )
+//     )
+// );
+
+
+// // Lab routes
+
+// app.use(
+//     "/lab",
+//     labRoutes(uploadLab)
+// );
+  
+  
+  
+  
+//   app.listen(
+//     5000,
+    
+//     () => {
+//       console.log("Server Running");
+//     },
+//   );
   
   
   
