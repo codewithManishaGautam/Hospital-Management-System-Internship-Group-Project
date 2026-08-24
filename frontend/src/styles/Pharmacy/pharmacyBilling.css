@@ -1,0 +1,484 @@
+/* =========================================
+   PHARMACY BILLING CONTAINER
+========================================= */
+
+.pharmacy-billing-container {
+  width: 100%;
+  padding: 0;
+  background: transparent;
+  overflow-x: hidden;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.pharmacy-billing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+}
+
+.pharmacy-billing-header h2 {
+  color: #1565c0;
+  font-size: 34px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.pharmacy-billing-header p {
+  color: #64748b;
+  margin: 0;
+}
+
+
+/* =========================================
+   MAIN BILL CARD
+========================================= */
+
+.pharmacy-billing-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 40px;
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   SECTION TITLE
+========================================= */
+
+.pharmacy-section-title {
+  color: #1565c0;
+
+  font-size: 18px;
+  font-weight: 600;
+
+  margin-top: 10px;
+  margin-bottom: 20px;
+
+  padding-bottom: 10px;
+
+  border-bottom: 2px solid #e3f2fd;
+}
+
+
+/* =========================================
+   FORM GRID
+========================================= */
+
+.pharmacy-billing-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(250px, 1fr));
+
+  gap: 20px;
+
+  margin-bottom: 35px;
+}
+
+
+/* =========================================
+   FORM GROUP
+========================================= */
+
+.pharmacy-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.pharmacy-form-group label {
+  margin-bottom: 8px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  color: #334155;
+}
+
+.pharmacy-form-group input,
+.pharmacy-form-group select {
+  width: 100%;
+
+  padding: 12px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+
+  font-size: 15px;
+
+  outline: none;
+
+  transition: 0.3s;
+
+  height: 45px;
+
+  box-sizing: border-box;
+
+  background: #fff;
+}
+
+.pharmacy-form-group input:focus,
+.pharmacy-form-group select:focus {
+  border-color: #1565c0;
+
+  box-shadow:
+    0 0 5px rgba(21, 101, 192, 0.25);
+}
+
+.pharmacy-form-group input[readonly] {
+  background: #f8fafc;
+  cursor: not-allowed;
+}
+
+
+/* =========================================
+   MEDICINE TABLE
+========================================= */
+
+.pharmacy-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+
+  margin-bottom: 35px;
+}
+
+.pharmacy-billing-table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  background: white;
+}
+
+.pharmacy-billing-table thead {
+  background: #e3f2fd;
+}
+
+.pharmacy-billing-table th {
+  padding: 15px;
+
+  text-align: left;
+
+  color: #0d47a1;
+
+  font-weight: 600;
+}
+
+.pharmacy-billing-table td {
+  padding: 15px;
+
+  border-top: 1px solid #e5e7eb;
+
+  color: #334155;
+}
+
+.pharmacy-billing-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.pharmacy-billing-table th:nth-child(1),
+.pharmacy-billing-table td:nth-child(1) {
+  width: 60px;
+  text-align: center;
+}
+
+.pharmacy-billing-table th:nth-child(3),
+.pharmacy-billing-table td:nth-child(3) {
+  text-align: center;
+}
+
+.pharmacy-billing-table th:nth-child(4),
+.pharmacy-billing-table td:nth-child(4),
+.pharmacy-billing-table th:nth-child(5),
+.pharmacy-billing-table td:nth-child(5) {
+  text-align: right;
+}
+
+.no-medicine {
+  text-align: center !important;
+  padding: 30px !important;
+  color: #64748b;
+}
+
+
+/* =========================================
+   BILL SUMMARY
+========================================= */
+
+.pharmacy-bill-summary {
+  width: 450px;
+  max-width: 100%;
+
+  margin: 0 auto 35px;
+
+  padding: 25px;
+
+  background: #f8fbff;
+
+  border: 1px solid #dbeafe;
+
+  border-radius: 15px;
+
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.06);
+
+  box-sizing: border-box;
+}
+
+.pharmacy-bill-summary h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+
+  color: #1565c0;
+}
+
+.pharmacy-summary-row {
+  display: flex;
+
+  justify-content: space-between;
+
+  padding: 10px 0;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.pharmacy-summary-row:last-child {
+  border-bottom: none;
+}
+
+.pharmacy-summary-row.pharmacy-total {
+  font-size: 18px;
+
+  font-weight: bold;
+
+  color: #0d47a1;
+}
+
+
+/* =========================================
+   BUTTON SECTION
+========================================= */
+.pharmacy-billing-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+.pharmacy-billing-buttons button {
+  min-width: 165px;
+  height: 48px;
+  padding: 0 22px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.pharmacy-generate-btn {
+  min-width: 190px !important;
+}
+
+.pharmacy-generate-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .pharmacy-billing-buttons {
+    flex-direction: column;
+  }
+
+  .pharmacy-billing-buttons button {
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
+
+/* =========================================
+   GENERATE BILL
+========================================= */
+
+.pharmacy-generate-btn {
+  background: #1565c0;
+
+  color: white;
+
+  border: none;
+
+  padding: 13px 22px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  transition: 0.3s;
+
+  width: 180px;
+
+  height: 48px;
+}
+
+.pharmacy-generate-btn:hover {
+  background: #0d47a1;
+}
+
+.pharmacy-generate-btn:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+
+/* =========================================
+   PRINT
+========================================= */
+
+.pharmacy-print-btn {
+  background: #7c3aed;
+
+  color: white;
+
+  border: none;
+
+  padding: 13px 22px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  transition: 0.3s;
+
+  width: 180px;
+
+  height: 48px;
+}
+
+.pharmacy-print-btn:hover {
+  background: #6d28d9;
+}
+
+
+/* =========================================
+   BACK BUTTON
+========================================= */
+
+.pharmacy-back-btn {
+  background: #64748b;
+
+  color: white;
+
+  border: none;
+
+  padding: 13px 22px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  transition: 0.3s;
+
+  width: 180px;
+
+  height: 48px;
+}
+
+.pharmacy-back-btn:hover {
+  background: #475569;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+
+  .pharmacy-billing-container {
+    padding: 12px;
+  }
+
+  .pharmacy-billing-card {
+    padding: 18px;
+  }
+
+  .pharmacy-billing-header {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 10px;
+  }
+
+  .pharmacy-billing-header h2 {
+    font-size: 24px;
+  }
+
+  .pharmacy-billing-grid {
+    grid-template-columns: 1fr;
+
+    gap: 24px;
+  }
+
+  .pharmacy-billing-buttons {
+    flex-direction: column;
+  }
+
+  .pharmacy-generate-btn,
+  .pharmacy-print-btn,
+  .pharmacy-back-btn {
+    width: 100%;
+  }
+
+  .pharmacy-bill-summary {
+    width: 100%;
+  }
+}
+
+
+/* =========================================
+   PRINT
+========================================= */
+
+@media print {
+
+  .pharmacy-billing-buttons {
+    display: none;
+  }
+
+  .pharmacy-billing-card {
+    box-shadow: none;
+  }
+
+  .pharmacy-billing-container {
+    padding: 0;
+  }
+}

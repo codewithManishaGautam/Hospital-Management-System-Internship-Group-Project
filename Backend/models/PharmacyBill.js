@@ -12,6 +12,16 @@ const PharmacyBillSchema = new mongoose.Schema(
       required: true,
     },
 
+    patientId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Patient",
+    },
+
+    prescriptionId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "SentPrescription",
+    },
+
     doctorName: String,
 
     medicines: [
@@ -34,10 +44,15 @@ const PharmacyBillSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
-module.exports = mongoose.model(
-  "PharmacyBill",
-  PharmacyBillSchema
-);
+PharmacyBillSchema.index({
+  createdAt: -1,
+});
+
+PharmacyBillSchema.index({
+  prescriptionId: 1,
+});
+
+module.exports = mongoose.model("PharmacyBill", PharmacyBillSchema);

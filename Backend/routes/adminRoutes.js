@@ -90,8 +90,6 @@ router.get("/analytics", getAnalytics);
 //ACTIVITIES
 router.get("/activities", getActivities);
 
-router.get("/activities", getActivities);
-
 // SENT PRESCRIPTIONS
 router.get("/sent-prescriptions", getSentPrescriptions);
 

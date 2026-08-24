@@ -112,6 +112,8 @@ app.use("/api/admin", adminRoutes);
 const doctorRoutes = require("./routes/doctorRoutes");
 app.use("/api", doctorRoutes);
 
+app.use("/api", pharmacyRoutes);
+
 const insuranceRoutes = require("./routes/insurance/index");
 app.use("/api/insurance", insuranceRoutes);
 
@@ -763,9 +765,6 @@ app.post(
 // Server
 // ======================
 
-
-
-
 // labRoute Changes :
 
 
@@ -884,6 +883,11 @@ const storageLab = multer.diskStorage({
 
 });
 
+// app.use(
+//   express.urlencoded({
+//     extended: true,
+//   }),
+// );
 
 const uploadLab = multer({
 

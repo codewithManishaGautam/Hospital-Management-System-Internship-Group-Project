@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-//import "./layout.css";
 import "../Reception/Layout.css";
+
 function Layout({ role, children, setStep, currentStep }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -17,23 +17,36 @@ function Layout({ role, children, setStep, currentStep }) {
   }, [sidebarOpen]);
 
   return (
-    <div className="layout-container">
-      {/* Sidebar */}
+    <div className="reception-layout-container">
 
-      <button className="menu-btn" onClick={() => setSidebarOpen(!sidebarOpen)}>
+      {/* Mobile Menu Button */}
+      <button
+        className="reception-menu-btn"
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+      >
         ☰
       </button>
 
+      {/* Mobile Overlay */}
       {sidebarOpen && (
-        <div className="overlay" onClick={() => setSidebarOpen(false)}></div>
+        <div
+          className="reception-overlay"
+          onClick={() => setSidebarOpen(false)}
+        ></div>
       )}
 
-      <div className={`sidebar ${sidebarOpen ? "active" : ""}`}>
-        <div className="sidebar-header">
+      {/* ================= SIDEBAR ================= */}
+      <aside
+        className={`reception-sidebar ${
+          sidebarOpen ? "reception-sidebar-active" : ""
+        }`}
+      >
+        <div className="reception-sidebar-header">
+
           <img
             src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
             alt="profile"
-            className="profile-image"
+            className="reception-profile-image"
           />
 
           <h2>{role}</h2>
@@ -42,11 +55,16 @@ function Layout({ role, children, setStep, currentStep }) {
         </div>
 
         {/* Receptionist Menu */}
-
         {role === "Receptionist" && (
-          <div className="menu-list">
+          <div className="reception-menu-list">
+
+            {/* Dashboard */}
             <button
-              className={currentStep === "dashboard" ? "active" : ""}
+              className={
+                currentStep === "dashboard"
+                  ? "reception-menu-btn-item reception-menu-active"
+                  : "reception-menu-btn-item"
+              }
               onClick={() => {
                 setStep("dashboard");
                 setSidebarOpen(false);
@@ -55,19 +73,13 @@ function Layout({ role, children, setStep, currentStep }) {
               📊 Dashboard
             </button>
 
-            {/* <button
-              className={currentStep === "register" ? "active" : ""}
-              onClick={() => {
-                setStep("register");
-                setSidebarOpen(false);
-              }}
-            >
-              {" "}
-              📝 Register Patient
-            </button> */}
-
+            {/* OPD Billing */}
             <button
-              className={currentStep === "billing" ? "active" : ""}
+              className={
+                currentStep === "billing"
+                  ? "reception-menu-btn-item reception-menu-active"
+                  : "reception-menu-btn-item"
+              }
               onClick={() => {
                 setStep("billing");
                 setSidebarOpen(false);
@@ -76,56 +88,28 @@ function Layout({ role, children, setStep, currentStep }) {
               💳 OPD Billing
             </button>
 
-            {/* <button
-              className={currentStep === "ipdAdmission" ? "active" : ""}
-              onClick={() => {
-                setStep("ipdAdmission");
-                setSidebarOpen(false);
-              }}
-            >
-              {" "}
-              🏥 IPD Admission
-            </button> */}
-
-            {/* <button
-              className={currentStep === "ipdPatients" ? "active" : ""}
-              onClick={() => {
-                setStep("ipdPatients");
-                setSidebarOpen(false);
-              }}
-            >
-              {" "}
-              🛏️ IPD Patient List
-            </button> */}
-
+            {/* Patient List */}
             <button
-              className={currentStep === "patientList" ? "active" : ""}
+              className={
+                currentStep === "patientList"
+                  ? "reception-menu-btn-item reception-menu-active"
+                  : "reception-menu-btn-item"
+              }
               onClick={() => {
                 setStep("patientList");
                 setSidebarOpen(false);
               }}
             >
-              {" "}
               👥 Patient List
             </button>
 
-            {/* <button
-              className={currentStep === "reports" ? "active" : ""}
-              onClick={() => {
-                setStep("reports");
-                setSidebarOpen(false);
-              }}
-            >
-              📈 Reports
-            </button> */}
           </div>
         )}
 
         {/* Logout */}
-
-        <div className="logout-section">
+        <div className="reception-logout-section">
           <button
-            className="logout-btn"
+            className="reception-logout-btn"
             onClick={() => {
               localStorage.removeItem("token");
               window.location.href = "/";
@@ -134,19 +118,23 @@ function Layout({ role, children, setStep, currentStep }) {
             🚪 Logout
           </button>
         </div>
-      </div>
+      </aside>
 
-      {/* Main Area */}
+      {/* ================= MAIN AREA ================= */}
+      <main className="reception-main-section">
 
-      <div className="main-section">
-        <div className="topbar">
+        {/* Topbar */}
+        <header className="reception-topbar">
           <h2>Reception Management Dashboard</h2>
-        </div>
+        </header>
 
-        <div className="page-content">
+        {/* Page Content */}
+        <div className="reception-page-content">
+
+          {/* Back Button */}
           {currentStep !== "dashboard" && (
             <button
-              className="back-btn"
+              className="reception-back-btn"
               onClick={() => {
                 setStep("dashboard");
                 setSidebarOpen(false);
@@ -156,9 +144,11 @@ function Layout({ role, children, setStep, currentStep }) {
             </button>
           )}
 
+          {/* Child Component */}
           {children}
+
         </div>
-      </div>
+      </main>
     </div>
   );
 }

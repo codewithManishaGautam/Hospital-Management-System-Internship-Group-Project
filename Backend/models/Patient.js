@@ -110,6 +110,51 @@ const patientSchema = new mongoose.Schema(
           },
         },
 
+        visitDate: {
+          type: Date,
+          default: Date.now,
+        },
+
+       medicines: [
+  {
+    medicineName: {
+      type: String,
+      default: "",
+    },
+
+    quantity: {
+      type: Number,
+      default: 0,
+    },
+
+    price: {
+      type: Number,
+      default: 0,
+    },
+
+    amount: {
+      type: Number,
+      default: 0,
+    },
+  },
+],
+
+        billId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "PharmacyBill",
+          default: null,
+        },
+
+        paymentStatus: {
+          type: String,
+          default: "Pending",
+        },
+
+        paymentMode: {
+          type: String,
+          default: "",
+        },
+
         createdAt: {
           type: Date,
           default: Date.now,
@@ -124,10 +169,32 @@ const patientSchema = new mongoose.Schema(
     },
 
     // Pharmacy
-    medicinesIssued: [
+    medicineHistory: [
       {
-        name: String,
-        quantity: Number,
+        billId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "PharmacyBill",
+        },
+
+        medicines: [
+          {
+            medicineName: String,
+            quantity: Number,
+            price: Number,
+            amount: Number,
+          },
+        ],
+
+        totalAmount: Number,
+
+        paymentMode: String,
+
+        paymentStatus: String,
+
+        issuedAt: {
+          type: Date,
+          default: Date.now,
+        },
       },
     ],
 
@@ -211,6 +278,7 @@ const patientSchema = new mongoose.Schema(
       default: "Waiting",
     },
 
+<<<<<<< HEAD
     createdAt: {
         type: Date,
         default: Date.now
@@ -305,6 +373,8 @@ const patientSchema = new mongoose.Schema(
 
 
 
+=======
+>>>>>>> origin/main
     currentDepartment: {
       type: String,
       default: "Reception",
@@ -314,6 +384,7 @@ const patientSchema = new mongoose.Schema(
       type: String,
       default: "Registered",
     },
+<<<<<<< HEAD
   },
 
   {
@@ -323,6 +394,10 @@ const patientSchema = new mongoose.Schema(
 
 
     appointmentHistory[
+=======
+
+    appointmentHistory: [
+>>>>>>> origin/main
       {
         appointmentDate: String,
         appointmentTime: String,
@@ -354,9 +429,28 @@ const patientSchema = new mongoose.Schema(
           type: Date,
           default: Date.now,
         },
+<<<<<<< HEAD
       }
     ]
   
   
+=======
+      },
+    ],
+  },
+  {
+    timestamps: true,
+  },
+>>>>>>> origin/main
 );
+
+patientSchema.index({
+  doctorId: 1,
+});
+
+patientSchema.index({
+  doctorId: 1,
+  appointmentDate: 1,
+});
+
 module.exports = mongoose.model("Patient", patientSchema);

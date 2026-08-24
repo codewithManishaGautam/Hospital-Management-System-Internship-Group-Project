@@ -1,29 +1,43 @@
-const express=require("express");
+const express = require("express");
 
-const router=express.Router();
+const router = express.Router();
 
-const{
+const {
+  getTodayPrescriptions,
 
-getTodayPrescriptions,
+  searchPatient,
 
-searchPatient,
+  getPrescriptionByUHID,
 
-getPrescriptionByUHID,
+  createBill,
 
-createBill,
+  updatePayment,
 
-updatePayment
+  updatePrescription,
 
-}=require("../controllers/pharmacyController");
+  getMedicines,
 
-router.get("/pharmacy/prescriptions",getTodayPrescriptions);
+  getPayments,
 
-router.get("/pharmacy/search",searchPatient);
+  getBills,
+} = require("../controllers/pharmacyController");
 
-router.get("/pharmacy/:uhid",getPrescriptionByUHID);
+router.get("/pharmacy/prescriptions", getTodayPrescriptions);
 
-router.post("/pharmacy/bill",createBill);
+router.get("/pharmacy/medicines", getMedicines);
 
-router.put("/pharmacy/payment/:id",updatePayment);
+router.get("/pharmacy/payments", getPayments);
 
-module.exports=router;
+router.get("/pharmacy/bills", getBills);
+
+router.get("/pharmacy/search", searchPatient);
+
+router.get("/pharmacy/:uhid", getPrescriptionByUHID);
+
+router.post("/pharmacy/bill", createBill);
+
+router.put("/pharmacy/payment/:id", updatePayment);
+
+router.put("/pharmacy/prescription/:id", updatePrescription);
+
+module.exports = router;

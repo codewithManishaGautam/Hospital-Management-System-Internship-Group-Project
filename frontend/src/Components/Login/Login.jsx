@@ -30,7 +30,18 @@ function Login() {
       if (res.data.success) {
         localStorage.setItem("token", res.data.token);
 
-        localStorage.setItem("user", JSON.stringify(res.data.user));
+        if (res.data.role.toLowerCase() === "doctor") {
+          localStorage.setItem(
+            "user",
+            JSON.stringify({
+              ...res.data.user,
+              doctorId: res.data.doctor?._id,
+              doctorName: res.data.doctor?.name,
+            }),
+          );
+        } else {
+          localStorage.setItem("user", JSON.stringify(res.data.user));
+        }
 
         switch (res.data.role.toLowerCase()) {
           case "receptionist":

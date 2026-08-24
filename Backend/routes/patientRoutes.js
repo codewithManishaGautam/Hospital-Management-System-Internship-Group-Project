@@ -8,6 +8,7 @@ const {
   updatePatient,
   deletePatient,
   generatePrescriptionPDF,
+  // updatePrescription,
 } = require("../controllers/patientController");
 
 router.post("/", addPatient);
@@ -21,5 +22,7 @@ router.get("/:id", getPatientById);
 router.put("/:id", updatePatient);
 
 router.delete("/:id", deletePatient);
+
+// router.put("/pharmacy/prescriptionac/:id", updatePrescription);
 
 module.exports = router;

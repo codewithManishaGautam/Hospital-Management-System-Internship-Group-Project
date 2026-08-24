@@ -1,13 +1,10 @@
 import React from "react";
-//import "./Layout.css";
 
 function Layout({ role, children, setStep }) {
-  return (
+    return (
     <div className="dashboard">
-
       {/* Sidebar */}
       <div className="sidebar">
-
         <div className="profile">
           <img
             src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
@@ -20,29 +17,11 @@ function Layout({ role, children, setStep }) {
         {/* Pharmacy Menu */}
         {role === "Pharmacy" && (
           <>
-            <button
-              onClick={() => setStep("dashboard")}
-            >
+            <button onClick={() => setStep("dashboard")}>
               Pharmacy Dashboard
             </button>
 
-            <button
-              onClick={() => setStep("prescription")}
-            >
-              Prescription
-            </button>
-
-            <button
-              onClick={() => setStep("billpreview")}
-            >
-              Bill Preview
-            </button>
-
-            <button
-              onClick={() => setStep("payments")}
-            >
-              Payments
-            </button>
+            <button onClick={() => setStep("payments")}>Payments</button>
           </>
         )}
 
@@ -56,22 +35,14 @@ function Layout({ role, children, setStep }) {
         >
           Logout
         </button>
-
       </div>
 
       {/* Main Content */}
       <div className="main">
+        <div className="topbar">{role} Panel</div>
 
-        <div className="topbar">
-          {role} Panel
-        </div>
-
-        <div className="content">
-          {children}
-        </div>
-
+        <div className="content">{children}</div>
       </div>
-
     </div>
   );
 }

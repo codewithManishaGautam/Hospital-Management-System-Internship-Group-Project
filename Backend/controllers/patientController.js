@@ -1,6 +1,8 @@
 const Patient = require("../models/Patient");
 const Bed = require("../models/Bed");
 const Room = require("../models/Room");
+const Doctor = require("../models/Doctor");
+const Staff = require("../models/Staff");
 
 const PDFDocument = require("pdfkit");
 const fs = require("fs");
@@ -106,6 +108,20 @@ const addPatient = async (req, res) => {
       });
     }
 
+    const doctorData = await Doctor.findOne({
+      name: doctor.replace(/^Dr\.\s*/i, "").trim(),
+    });
+
+    if (!doctorData) {
+      return res.status(400).json({
+        success: false,
+        message: "Doctor not found",
+      });
+    }
+
+    req.body.doctorId = doctorData._id;
+    req.body.doctor = `Dr. ${doctorData.name}`;
+
     const patient = new Patient(req.body);
 
     console.log(req.body.signature);
@@ -179,10 +195,6 @@ const updatePatient = async (req, res) => {
   try {
     const patient = await Patient.findById(req.params.id);
 
-    const oldRoom = patient.roomNo;
-    const oldBed = patient.bedNo;
-    const oldStatus = patient.status;
-
     if (!patient) {
       return res.status(404).json({
         success: false,
@@ -190,17 +202,12 @@ const updatePatient = async (req, res) => {
       });
     }
 
-    const {
-      uhid,
-      name,
-      age,
-      gender,
-      mobile,
-      address,
-      doctor,
-      disease,
-      role,
-    } = req.body;
+    const oldRoom = patient.roomNo;
+    const oldBed = patient.bedNo;
+    const oldStatus = patient.status;
+
+    const { uhid, name, age, gender, mobile, address, doctor, disease, role } =
+      req.body;
 
     const isPrescriptionUpdate =
       req.body.diagnosis !== undefined ||
@@ -304,6 +311,14 @@ const updatePatient = async (req, res) => {
       }
     }
 
+    if (doctor) {
+      req.body.doctor = doctor;
+
+      if (req.body.doctorId) {
+        req.body.doctorId = req.body.doctorId;
+      }
+    }
+
     Object.keys(req.body).forEach((key) => {
       patient[key] = req.body[key];
     });
@@ -322,11 +337,11 @@ const updatePatient = async (req, res) => {
     }
 
     if (
-      req.body.diagnosis ||
-      req.body.prescription ||
-      req.body.advice ||
-      req.body.notes ||
-      req.body.signature
+      req.body.diagnosis !== undefined ||
+      req.body.prescription !== undefined ||
+      req.body.advice !== undefined ||
+      req.body.notes !== undefined ||
+      req.body.signature !== undefined
     ) {
       patient.prescriptionHistory.push({
         diagnosis: req.body.diagnosis || "",
@@ -340,6 +355,16 @@ const updatePatient = async (req, res) => {
           name: "",
           specialization: "",
         },
+
+        visitDate: new Date(),
+
+        medicines: req.body.medicines || [],
+
+        paymentStatus: "Pending",
+        paymentMode: "",
+        billId: null,
+
+        createdAt: new Date(),
       });
     }
 
@@ -399,13 +424,15 @@ const updatePatient = async (req, res) => {
 
     console.log("After Save");
 
-    const updatedPatient = await Patient.findById(req.params.id);
+    const latestPrescription =
+      patient.prescriptionHistory[patient.prescriptionHistory.length - 1];
 
-    console.log(updatedPatient.prescriptionHistory);
+    console.log("Latest Prescription ID:", latestPrescription?._id);
 
     res.json({
       success: true,
       data: patient,
+      prescriptionHistoryId: latestPrescription?._id || null,
     });
   } catch (err) {
     res.status(500).json({
@@ -827,4 +854,5 @@ module.exports = {
   updatePatient,
   deletePatient,
   generatePrescriptionPDF,
+  // updatePrescription,
 };
