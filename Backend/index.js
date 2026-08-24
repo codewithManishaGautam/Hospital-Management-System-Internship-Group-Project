@@ -2,15 +2,12 @@ require("dotenv").config();
 
 const connectDB = require("./config/db");
 const Patient = require("./models/Patient");
-// const Razorpay=require("razorpay");
 const paymentRoutes = require("./routes/paymentRoutes");
 
 console.log("ENV URL =", process.env.MONGO_URL);
 connectDB();
 
-// mongoose.connection.once("open", () => {
-//   console.log("Connected DB:", mongoose.connection.db.databaseName);
-// });
+
 
 const express = require("express");
 
