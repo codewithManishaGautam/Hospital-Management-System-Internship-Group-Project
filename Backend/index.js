@@ -5,6 +5,7 @@ const Patient = require("./models/Patient");
 // const Razorpay=require("razorpay");
 const paymentRoutes = require("./routes/paymentRoutes");
 const pharmacyRoutes = require("./routes/PharmacyRoutes");
+const pharmacyRoutes = require("./routes/pharmacyRoutes");
 const sentPrescriptionRoutes = require("./routes/sentPrescriptionRoutes");
 
 console.log("ENV URL =", process.env.MONGO_URL);

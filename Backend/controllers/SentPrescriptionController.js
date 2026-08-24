@@ -35,6 +35,18 @@ const sendPrescription = async (req, res) => {
       });
     }
 
+    // Pharmacy ला prescription फक्त medicines असतील तरच पाठवायचे
+    if (target === "pharmacy") {
+      const medicines = prescriptionHistory.medicines || [];
+
+      if (!Array.isArray(medicines) || medicines.length === 0) {
+        return res.status(400).json({
+          success: false,
+          message: "No medicines selected. Prescription not sent to pharmacy.",
+        });
+      }
+    }
+
     const data = new SentPrescription({
       target,
       patientId: patient._id,

@@ -25,6 +25,22 @@ const getDoctorPatients = async (req, res) => {
   }
 };
 
+const getDoctors = async (req, res) => {
+  try {
+    const doctors = await Doctor.find().sort({ name: 1 });
+
+    res.json({
+      success: true,
+      doctors,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
 // Today's Patients
 const getTodayPatients = async (req, res) => {
   try {
@@ -156,6 +172,7 @@ const updateDoctorProfile = async (req, res) => {
 };
 
 module.exports = {
+  getDoctors,
   getDoctorPatients,
   getTodayPatients,
   getHistoryPatients,

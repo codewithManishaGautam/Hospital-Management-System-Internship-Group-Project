@@ -35,29 +35,29 @@ function Pharmacy() {
     }
   };
 
-  const openLatestPrescription = () => {
-    if (!prescriptions || prescriptions.length === 0) {
-      alert("No prescription available");
-      return;
-    }
+  // const openLatestPrescription = () => {
+  //   if (!prescriptions || prescriptions.length === 0) {
+  //     alert("No prescription available");
+  //     return;
+  //   }
 
-    const pendingPrescriptions = prescriptions.filter(
-      (item) => item.status === "Pending",
-    );
+  //   const pendingPrescriptions = prescriptions.filter(
+  //     (item) => item.status === "Pending",
+  //   );
 
-    if (pendingPrescriptions.length === 0) {
-      alert("No pending prescription available");
-      return;
-    }
+  //   if (pendingPrescriptions.length === 0) {
+  //     alert("No pending prescription available");
+  //     return;
+  //   }
 
-    // Latest prescription
-    const latestPrescription = pendingPrescriptions[0];
+  //   // Latest prescription
+  //   const latestPrescription = pendingPrescriptions[0];
 
-    console.log("OPENING PHARMACY PRESCRIPTION =", latestPrescription);
+  //   console.log("OPENING PHARMACY PRESCRIPTION =", latestPrescription);
 
-    setSelectedPrescription(latestPrescription);
-    setStep("prescription");
-  };
+  //   setSelectedPrescription(latestPrescription);
+  //   setStep("prescription");
+  // };
 
   const loadPayments = async () => {
     try {
@@ -71,10 +71,9 @@ function Pharmacy() {
 
   useEffect(() => {
     loadPrescriptions();
-    loadPayments();
   }, []);
 
-const medicines = selectedPrescription?.pharmacyMedicines || [];
+  const medicines = selectedPrescription?.pharmacyMedicines || [];
 
   const total = medicines.reduce(
     (sum, item) =>
@@ -86,11 +85,7 @@ const medicines = selectedPrescription?.pharmacyMedicines || [];
   );
 
   return (
-    <Layout
-      role="Pharmacy"
-      setStep={setStep}
-      selectedPrescription={selectedPrescription}
-    >
+    <Layout role="Pharmacy" setStep={setStep}>
       {step === "dashboard" && (
         <Dashboard
           prescriptions={prescriptions}
@@ -134,7 +129,11 @@ const medicines = selectedPrescription?.pharmacyMedicines || [];
       )}
 
       {step === "payments" && (
-        <Payments payments={payments} setStep={setStep} />
+        <Payments
+          payments={payments}
+          setStep={setStep}
+          loadPayments={loadPayments}
+        />
       )}
     </Layout>
   );

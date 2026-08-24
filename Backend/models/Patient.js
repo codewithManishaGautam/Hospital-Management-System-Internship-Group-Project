@@ -115,29 +115,29 @@ const patientSchema = new mongoose.Schema(
           default: Date.now,
         },
 
-        medicines: [
-          {
-            medicineName: {
-              type: String,
-              default: "",
-            },
+       medicines: [
+  {
+    medicineName: {
+      type: String,
+      default: "",
+    },
 
-            quantity: {
-              type: Number,
-              default: 0,
-            },
+    quantity: {
+      type: Number,
+      default: 0,
+    },
 
-            price: {
-              type: Number,
-              default: 0,
-            },
+    price: {
+      type: Number,
+      default: 0,
+    },
 
-            amount: {
-              type: Number,
-              default: 0,
-            },
-          },
-        ],
+    amount: {
+      type: Number,
+      default: 0,
+    },
+  },
+],
 
         billId: {
           type: mongoose.Schema.Types.ObjectId,
@@ -432,5 +432,14 @@ const patientSchema = new mongoose.Schema(
     timestamps: true,
   },
 );
+
+patientSchema.index({
+  doctorId: 1,
+});
+
+patientSchema.index({
+  doctorId: 1,
+  appointmentDate: 1,
+});
 
 module.exports = mongoose.model("Patient", patientSchema);

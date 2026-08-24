@@ -269,17 +269,46 @@
 /* =========================================
    BUTTON SECTION
 ========================================= */
-
 .pharmacy-billing-buttons {
   display: flex;
-
   justify-content: center;
-
   align-items: center;
-
-  gap: 20px;
-
+  gap: 18px;
+  flex-wrap: wrap;
   margin-top: 30px;
+}
+
+.pharmacy-billing-buttons button {
+  min-width: 165px;
+  height: 48px;
+  padding: 0 22px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.pharmacy-generate-btn {
+  min-width: 190px !important;
+}
+
+.pharmacy-generate-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .pharmacy-billing-buttons {
+    flex-direction: column;
+  }
+
+  .pharmacy-billing-buttons button {
+    width: 100%;
+    max-width: 280px;
+  }
 }
 
 

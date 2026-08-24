@@ -174,12 +174,12 @@ const createBill = async (req, res) => {
         });
       }
 
-    const inventoryItem = await Inventory.findOne({
-  itemName: {
-    $regex: `^${medicineName.trim()}$`,
-    $options: "i",
-  },
-});
+      const inventoryItem = await Inventory.findOne({
+        itemName: {
+          $regex: `^${medicineName.trim()}$`,
+          $options: "i",
+        },
+      });
 
       if (!inventoryItem) {
         return res.status(404).json({
@@ -197,30 +197,39 @@ const createBill = async (req, res) => {
     }
 
     // =========================
-    // REDUCE INVENTORY
+    // REDUCE INVENTORY STOCK
     // =========================
 
     for (const medicine of medicines) {
       const medicineName =
         medicine.medicineName || medicine.itemName || medicine.name;
+
       const requiredQuantity = Number(medicine.quantity);
 
-  await Inventory.findOneAndUpdate(
-  {
-    itemName: {
-      $regex: `^${medicineName.trim()}$`,
-      $options: "i",
-    },
-  },
-  {
-    $inc: {
-      quantity: -requiredQuantity,
-    },
-  },
-  {
-    new: true,
-  },
-);
+      const updatedInventory = await Inventory.findOneAndUpdate(
+        {
+          itemName: {
+            $regex: `^${medicineName.trim()}$`,
+            $options: "i",
+          },
+          quantity: { $gte: requiredQuantity },
+        },
+        {
+          $inc: {
+            quantity: -requiredQuantity,
+          },
+        },
+        {
+          new: true,
+        },
+      );
+
+      if (!updatedInventory) {
+        return res.status(400).json({
+          success: false,
+          message: `Unable to update stock for ${medicineName}. Stock may be insufficient.`,
+        });
+      }
     }
 
     // =========================
@@ -306,18 +315,18 @@ const createBill = async (req, res) => {
 
 const getMedicines = async (req, res) => {
   try {
- const medicines = await Inventory.find(
-  {
-    quantity: { $gt: 0 },
-  },
-  {
-    itemName: 1,
-    unitPrice: 1,
-    quantity: 1,
-    supplier: 1,
-    category: 1,
-  },
-).sort({ itemName: 1 });
+    const medicines = await Inventory.find(
+      {
+        quantity: { $gt: 0 },
+      },
+      {
+        itemName: 1,
+        unitPrice: 1,
+        quantity: 1,
+        supplier: 1,
+        category: 1,
+      },
+    ).sort({ itemName: 1 });
 
     console.log("PHARMACY MEDICINES =", medicines);
 
@@ -338,9 +347,23 @@ const getMedicines = async (req, res) => {
 // Get Pharmacy Bills / Payments
 const getPayments = async (req, res) => {
   try {
-    const bills = await PharmacyBill.find()
+    const bills = await PharmacyBill.find(
+      {},
+      {
+        patientUHID: 1,
+        patientName: 1,
+        patientId: 1,
+        doctorName: 1,
+        medicines: 1,
+        totalAmount: 1,
+        paymentMode: 1,
+        paymentStatus: 1,
+        createdAt: 1,
+      },
+    )
       .populate("patientId", "name mobile uhid")
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .lean();
 
     res.json({
       success: true,
@@ -359,9 +382,23 @@ const getPayments = async (req, res) => {
 // Get Pharmacy Bills / Payments
 const getBills = async (req, res) => {
   try {
-    const bills = await PharmacyBill.find()
+    const bills = await PharmacyBill.find(
+      {},
+      {
+        patientUHID: 1,
+        patientName: 1,
+        patientId: 1,
+        doctorName: 1,
+        medicines: 1,
+        totalAmount: 1,
+        paymentMode: 1,
+        paymentStatus: 1,
+        createdAt: 1,
+      },
+    )
       .populate("patientId", "name mobile uhid")
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .lean();
 
     res.status(200).json({
       success: true,
