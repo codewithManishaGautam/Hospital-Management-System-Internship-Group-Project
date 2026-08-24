@@ -23,6 +23,6 @@ router.put("/:id", updatePatient);
 
 router.delete("/:id", deletePatient);
 
-// router.put("/pharmacy/prescription/:id", updatePrescription);
+// router.put("/pharmacy/prescriptionac/:id", updatePrescription);
 
 module.exports = router;

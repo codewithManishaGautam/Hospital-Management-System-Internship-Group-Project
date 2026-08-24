@@ -1,7 +1,7 @@
 import React from "react";
 
-function Layout({ role, children, setStep, onPrescriptionClick }) {
-  return (
+function Layout({ role, children, setStep }) {
+    return (
     <div className="dashboard">
       {/* Sidebar */}
       <div className="sidebar">
@@ -20,10 +20,6 @@ function Layout({ role, children, setStep, onPrescriptionClick }) {
             <button onClick={() => setStep("dashboard")}>
               Pharmacy Dashboard
             </button>
-
-            <button onClick={onPrescriptionClick}>Prescription</button>
-
-            <button onClick={() => setStep("billpreview")}>Bill Preview</button>
 
             <button onClick={() => setStep("payments")}>Payments</button>
           </>
