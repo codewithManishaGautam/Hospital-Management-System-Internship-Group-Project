@@ -47,4 +47,12 @@ const PharmacyBillSchema = new mongoose.Schema(
   },
 );
 
+PharmacyBillSchema.index({
+  createdAt: -1,
+});
+
+PharmacyBillSchema.index({
+  prescriptionId: 1,
+});
+
 module.exports = mongoose.model("PharmacyBill", PharmacyBillSchema);

@@ -10,12 +10,12 @@ import ProfileDashboard from "../Components/Doctor/ProfileDashboard";
 
 function Doctor() {
   const user = JSON.parse(localStorage.getItem("user"));
-  
-const doctorId = user?.doctorId || "";
-const doctorName = user?.doctorName || "";
 
-console.log("User =", user);
-console.log("Doctor Name =", doctorName);
+  const doctorId = user?.doctorId || "";
+  const doctorName = user?.doctorName || "";
+
+  console.log("User =", user);
+  console.log("Doctor Name =", doctorName);
   const [step, setStep] = useState("dashboard");
 
   console.log("Doctor Name =", doctorName);
@@ -32,7 +32,7 @@ console.log("Doctor Name =", doctorName);
     fetchTodayPatients();
     fetchHistoryPatients();
     fetchAppointments();
-}, [doctorId]);
+  }, [doctorId]);
 
   const fetchTodayPatients = async () => {
     try {

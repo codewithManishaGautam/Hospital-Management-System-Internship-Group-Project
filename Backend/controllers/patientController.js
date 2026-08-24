@@ -312,13 +312,10 @@ const updatePatient = async (req, res) => {
     }
 
     if (doctor) {
-      const doctorData = await Doctor.findOne({
-        name: doctor.replace(/^Dr\.\s*/i, "").trim(),
-      });
+      req.body.doctor = doctor;
 
-      if (doctorData) {
-        req.body.doctorId = doctorData._id;
-        req.body.doctor = `Dr. ${doctorData.name}`;
+      if (req.body.doctorId) {
+        req.body.doctorId = req.body.doctorId;
       }
     }
 
@@ -427,22 +424,14 @@ const updatePatient = async (req, res) => {
 
     console.log("After Save");
 
-    const updatedPatient = await Patient.findById(req.params.id);
-
-    console.log("Updated Prescription History:");
-    console.log(updatedPatient.prescriptionHistory);
-
-    // Get latest prescription
     const latestPrescription =
-      updatedPatient.prescriptionHistory[
-        updatedPatient.prescriptionHistory.length - 1
-      ];
+      patient.prescriptionHistory[patient.prescriptionHistory.length - 1];
 
     console.log("Latest Prescription ID:", latestPrescription?._id);
 
     res.json({
       success: true,
-      data: updatedPatient,
+      data: patient,
       prescriptionHistoryId: latestPrescription?._id || null,
     });
   } catch (err) {

@@ -44,12 +44,12 @@ function PrescriptionPage() {
   const [prescription, setPrescription] = useState("");
   const [advice, setAdvice] = useState("");
   const [notes, setNotes] = useState("");
-const [medicineList, setMedicineList] = useState([
-  {
-    medicineName: "",
-    quantity: 1,
-  },
-]);
+  const [medicineList, setMedicineList] = useState([
+    {
+      medicineName: "",
+      quantity: 1,
+    },
+  ]);
 
   // const [medicineList, setMedicineList] = useState([
   //   {
@@ -155,12 +155,12 @@ const [medicineList, setMedicineList] = useState([
 
       console.log("Sending PUT request...");
 
-     const medicines = medicineList
-  .filter((m) => m.medicineName.trim() !== "")
-  .map((m) => ({
-    medicineName: m.medicineName,
-    quantity: Number(m.quantity),
-  }));
+      const medicines = medicineList
+        .filter((m) => m.medicineName.trim() !== "")
+        .map((m) => ({
+          medicineName: m.medicineName,
+          quantity: Number(m.quantity),
+        }));
 
       const payload = {
         uhid: patient.uhid,
@@ -169,7 +169,13 @@ const [medicineList, setMedicineList] = useState([
         gender: patient.gender,
         mobile: patient.mobile,
         address: patient.address,
-        doctor: patient.doctor,
+
+        // Doctor selected असेल तर नवीन doctor assign होईल.
+        // Doctor select नसेल तर existing doctor तसाच राहील.
+        doctor: referralDoctorId ? `Dr. ${referralDoctorName}` : patient.doctor,
+
+        doctorId: referralDoctorId ? referralDoctorId : patient.doctorId,
+
         disease: patient.disease,
         role: patient.role,
 
@@ -179,15 +185,18 @@ const [medicineList, setMedicineList] = useState([
         notes: notesData,
         signature: signatureData,
 
+        // Medicine optional आहे
         medicines: medicines,
 
-        referralDoctor: {
-          id: referralDoctorId,
-          name: referralDoctorName,
-          specialization: referralSpecialization,
-        },
+        // Doctor optional आहे
+        referralDoctor: referralDoctorId
+          ? {
+              id: referralDoctorId,
+              name: referralDoctorName,
+              specialization: referralSpecialization,
+            }
+          : null,
       };
-
       console.log("PAYLOAD =", payload);
 
       const patientUpdateRes = await axios.put(
@@ -214,59 +223,97 @@ const [medicineList, setMedicineList] = useState([
 
       setPrescriptionHistoryId(newPrescriptionHistoryId);
 
-      // ===============================
-      // SEND PRESCRIPTION TO PHARMACY
-      // ===============================
+      // ==========================================
+      // SEND PRESCRIPTION TO PHARMACY - OPTIONAL
+      // ==========================================
 
-      const sendRes = await axios.post(
-        "http://localhost:5000/api/doctor/send-prescription",
-        {
-          target: "pharmacy",
+      // Medicine selected असेल तरच Pharmacy ला prescription पाठवायची
+      if (medicines.length > 0) {
+        try {
+          console.log("Medicines found. Sending prescription to pharmacy...");
 
-          prescription: {
-            patientId: patient._id,
-            patientUHID: patient.uhid,
-            patientName: patient.name,
-            doctor: patient.doctor,
+          const sendRes = await axios.post(
+            "http://localhost:5000/api/doctor/send-prescription",
+            {
+              target: "pharmacy",
 
-            diagnosis: diagnosisData,
-            prescription: prescriptionData,
-            advice: adviceData,
-            notes: notesData,
-            signature: signatureData,
+              prescription: {
+                patientId: patient._id,
+                patientUHID: patient.uhid,
+                patientName: patient.name,
+                doctor: updatedPatient.doctor,
 
-            medicines: medicines,
-          },
+                diagnosis: diagnosisData,
+                prescription: prescriptionData,
+                advice: adviceData,
+                notes: notesData,
+                signature: signatureData,
 
-          prescriptionHistoryId: newPrescriptionHistoryId,
-        },
-      );
+                medicines: medicines,
+              },
 
-      console.log("Prescription sent to pharmacy =", sendRes.data);
+              prescriptionHistoryId: newPrescriptionHistoryId,
+            },
+          );
 
-      console.log("Prescription sent to pharmacy =", sendRes.data);
+          console.log("Prescription sent to pharmacy =", sendRes.data);
+        } catch (pharmacyError) {
+          console.error(
+            "Pharmacy send error =",
+            pharmacyError.response?.data || pharmacyError.message,
+          );
+
+          alert(
+            pharmacyError.response?.data?.message ||
+              "Prescription saved, but could not be sent to pharmacy.",
+          );
+        }
+      } else {
+        console.log(
+          "No medicines selected. Prescription saved without sending to pharmacy.",
+        );
+      }
 
       console.log("Prescription saved in Patient prescriptionHistory");
 
-      console.log("Calling API:", `http://localhost:5000/api/patient/${id}`);
-      const res = await axios.get(`http://localhost:5000/api/patient/${id}`);
+      // console.log("Calling API:", `http://localhost:5000/api/patient/${id}`);
+      // const res = await axios.get(`http://localhost:5000/api/patient/${id}`);
 
-      console.log("API Response =", res.data);
+      // console.log("API Response =", res.data);
 
-      console.log("UPDATED PATIENT");
-      console.log(res.data);
-      console.log(res.data.prescriptionHistory);
+      // console.log("UPDATED PATIENT");
+      // console.log(res.data);
+      // console.log(res.data.prescriptionHistory);
 
-      const latest =
-        res.data.prescriptionHistory[res.data.prescriptionHistory.length - 1];
+      // const updatedHistory = res.data.prescriptionHistory || [];
 
-      console.log("LATEST =", latest);
+      // const latest =
+      //   updatedHistory.length > 0
+      //     ? updatedHistory[updatedHistory.length - 1]
+      //     : null;
+
+      // console.log("LATEST =", latest);
+      // console.log("LATEST =", latest);
 
       alert("Prescription Saved Successfully");
 
-      await loadPatient();
+      setPatient(updatedPatient);
+      setHistory(updatedPatient.prescriptionHistory || []);
 
       setEditMode(false);
+
+      // =====================================
+      // REFERRED DOCTOR SELECTED
+      // =====================================
+      if (referralDoctorId) {
+        navigate("/doctor", {
+          state: {
+            doctorId: referralDoctorId,
+          },
+        });
+
+        return;
+      }
 
       diagnosisPad.current?.clear();
       prescriptionPad.current?.clear();
@@ -323,12 +370,19 @@ const [medicineList, setMedicineList] = useState([
 
   const loadDoctors = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/doctors");
-      console.log("Doctors =", res.data);
+      const res = await axios.get("http://localhost:5000/api/admin/doctors");
 
-      setDoctorList(res.data.data);
+      console.log("DOCTORS API RESPONSE =", res.data);
+
+      const doctors = Array.isArray(res.data) ? res.data : res.data.data || [];
+
+      console.log("DOCTORS LIST =", doctors);
+
+      setDoctorList(doctors);
     } catch (err) {
-      console.log(err);
+      console.error("LOAD DOCTORS ERROR =", err.response?.data || err.message);
+
+      setDoctorList([]);
     }
   };
 
@@ -338,23 +392,42 @@ const [medicineList, setMedicineList] = useState([
         "http://localhost:5000/api/pharmacy/medicines",
       );
 
-      console.log("Medicines =", res.data);
+      console.log("PHARMACY MEDICINES =", res.data);
 
-      setAvailableMedicines(res.data.data);
+      setAvailableMedicines(res.data.data || []);
     } catch (err) {
-      console.log(err);
+      console.error(
+        "LOAD MEDICINES ERROR =",
+        err.response?.data || err.message,
+      );
+
+      setAvailableMedicines([]);
     }
   };
 
-const addMedicine = () => {
-  setMedicineList([
-    ...medicineList,
-    {
-      medicineName: "",
-      quantity: 1,
-    },
-  ]);
-};
+  // const loadMedicines = async () => {
+  //   try {
+  //     const res = await axios.get(
+  //       "http://localhost:5000/api/pharmacy/medicines",
+  //     );
+
+  //     console.log("Medicines =", res.data);
+
+  //     setAvailableMedicines(res.data.data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
+  const addMedicine = () => {
+    setMedicineList([
+      ...medicineList,
+      {
+        medicineName: "",
+        quantity: 1,
+      },
+    ]);
+  };
 
   const updateMedicine = (index, field, value) => {
     const temp = [...medicineList];
@@ -381,10 +454,23 @@ const addMedicine = () => {
       if (history.length > 0) {
         const latest = history[history.length - 1];
 
+        setPrescriptionHistoryId(latest._id);
+
         console.log("Diagnosis =", latest.diagnosis);
         console.log("Prescription =", latest.prescription);
         console.log("Advice =", latest.advice);
         console.log("Notes =", latest.notes);
+
+        // Referral Doctor
+        if (latest.referralDoctor?.id) {
+          setReferralDoctorId(latest.referralDoctor.id);
+          setReferralDoctorName(latest.referralDoctor.name || "");
+          setReferralSpecialization(latest.referralDoctor.specialization || "");
+        } else {
+          setReferralDoctorId("");
+          setReferralDoctorName("");
+          setReferralSpecialization("");
+        }
 
         setDiagnosis(latest.diagnosis || "");
         setPrescription(latest.prescription || "");
@@ -442,6 +528,13 @@ const addMedicine = () => {
                 setPrescription("");
                 setAdvice("");
                 setNotes("");
+
+                setMedicineList([
+                  {
+                    medicineName: "",
+                    quantity: 1,
+                  },
+                ]);
 
                 setDiagnosisMode("type");
                 setPrescriptionMode("type");
@@ -864,71 +957,69 @@ const addMedicine = () => {
               )}
             </div>
 
-           <div className="section">
-  <h3>Medicines</h3>
+            <div className="section">
+              <h3>Medicines</h3>
 
-  {medicineList.map((med, index) => (
-    <div
-      key={index}
-      style={{
-        display: "flex",
-        gap: "10px",
-        marginBottom: "10px",
-        alignItems: "center",
-      }}
-    >
-      <select
-        value={med.medicineName}
-        onChange={(e) => {
-          const temp = [...medicineList];
+              {(Array.isArray(medicineList) ? medicineList : []).map(
+                (med, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      display: "flex",
+                      gap: "10px",
+                      marginBottom: "10px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <select
+                      value={med.medicineName}
+                      onChange={(e) =>
+                        updateMedicine(index, "medicineName", e.target.value)
+                      }
+                    >
+                      <option value="">Select Medicine</option>
 
-          temp[index].medicineName = e.target.value;
+                      {availableMedicines.map((medicine) => (
+                        <option key={medicine._id} value={medicine.itemName}>
+                          {medicine.itemName} - Stock: {medicine.quantity}
+                        </option>
+                      ))}
+                    </select>
 
-          setMedicineList(temp);
-        }}
-      >
-        <option value="">Select Medicine</option>
+                    <input
+                      type="number"
+                      min="1"
+                      value={med.quantity}
+                      onChange={(e) =>
+                        updateMedicine(
+                          index,
+                          "quantity",
+                          Number(e.target.value),
+                        )
+                      }
+                      placeholder="Quantity"
+                    />
 
-        {availableMedicines.map((medicine) => (
-          <option key={medicine._id} value={medicine.itemName}>
-            {medicine.itemName}
-          </option>
-        ))}
-      </select>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const temp = medicineList.filter(
+                          (_, medicineIndex) => medicineIndex !== index,
+                        );
 
-      <input
-        type="number"
-        min="1"
-        value={med.quantity}
-        onChange={(e) => {
-          const temp = [...medicineList];
+                        setMedicineList(temp);
+                      }}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ),
+              )}
 
-          temp[index].quantity = Number(e.target.value);
-
-          setMedicineList(temp);
-        }}
-        placeholder="Quantity"
-      />
-
-      <button
-        type="button"
-        onClick={() => {
-          const temp = medicineList.filter(
-            (_, medicineIndex) => medicineIndex !== index
-          );
-
-          setMedicineList(temp);
-        }}
-      >
-        Remove
-      </button>
-    </div>
-  ))}
-
-  <button type="button" onClick={addMedicine}>
-    + Add Medicine
-  </button>
-</div>
+              <button type="button" onClick={addMedicine}>
+                + Add Medicine
+              </button>
+            </div>
 
             <div className="section">
               <h3>Refer To Doctor</h3>
@@ -936,22 +1027,43 @@ const addMedicine = () => {
               <select
                 value={referralDoctorId}
                 onChange={(e) => {
+                  const selectedDoctorId = e.target.value;
+
+                  // Doctor select केला नाही
+                  if (!selectedDoctorId) {
+                    setReferralDoctorId("");
+                    setReferralDoctorName("");
+                    setReferralSpecialization("");
+                    return;
+                  }
+
                   const doctor = doctorList.find(
-                    (d) => d._id === e.target.value,
+                    (d) => String(d._id) === String(selectedDoctorId),
                   );
 
+                  if (!doctor) {
+                    console.log("Selected doctor not found:", selectedDoctorId);
+                    return;
+                  }
+
+                  console.log("SELECTED DOCTOR =", doctor);
+
                   setReferralDoctorId(doctor._id);
-                  setReferralDoctorName(doctor.name);
-                  setReferralSpecialization(doctor.specialization);
+                  setReferralDoctorName(doctor.name || "");
+                  setReferralSpecialization(doctor.specialization || "");
                 }}
               >
-                <option value="">Select Doctor</option>
+                <option value="">Select Doctor (Optional)</option>
 
-                {doctorList.map((doctor) => (
-                  <option key={doctor._id} value={doctor._id}>
-                    Dr. {doctor.name} - {doctor.specialization}
-                  </option>
-                ))}
+                {Array.isArray(doctorList) &&
+                  doctorList.map((doctor) => (
+                    <option key={doctor._id} value={doctor._id}>
+                      Dr. {doctor.name}
+                      {doctor.specialization
+                        ? ` - ${doctor.specialization}`
+                        : ""}
+                    </option>
+                  ))}
               </select>
             </div>
           </div>
