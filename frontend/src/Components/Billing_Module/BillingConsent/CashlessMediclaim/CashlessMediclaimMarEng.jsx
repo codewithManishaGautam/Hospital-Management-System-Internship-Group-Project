@@ -93,7 +93,7 @@ const CashlessMediclaimMarEng = forwardRef(
                     </h4>
 
 
-                    <div className="page-section">
+                    <div className="page-section" >
                         <Table_Form patient={patient} />
                     </div>
                 </div>

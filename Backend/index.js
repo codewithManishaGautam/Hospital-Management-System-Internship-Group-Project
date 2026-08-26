@@ -2,15 +2,11 @@ require("dotenv").config();
 
 const connectDB = require("./config/db");
 const Patient = require("./models/Patient");
-const pharmacyRoutes = require("./routes/pharmacyRoutes");
-const sentPrescriptionRoutes = require("./routes/sentPrescriptionRoutes");
-
+const paymentRoutes = require("./routes/paymentRoutes");
+const consentRoutes = require("./routes/consentRoutes");
+const uploadRoutes = require("./routes/upload");
 console.log("ENV URL =", process.env.MONGO_URL);
 connectDB();
-
-// mongoose.connection.once("open", () => {
-//   console.log("Connected DB:", mongoose.connection.db.databaseName);
-// });
 
 const express = require("express");
 
@@ -20,7 +16,7 @@ const cors = require("cors");
 
 const multer = require("multer");
 
-const storage = multer.diskStorage({
+const storage1 = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "uploads/");
   },
@@ -30,7 +26,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({
-  storage,
+  storage: storage1,
 });
 
 const nodemailer = require("nodemailer");
@@ -96,9 +92,6 @@ app.get("/api/doctor/upcoming-appointments", (req, res) => {
 const patientRoutes = require("./routes/patientRoutes");
 app.use("/api/patient", patientRoutes);
 
-const paymentRoutes = require("./routes/paymentRoutes");
-app.use("/api/payment", paymentRoutes);
-
 const roomRoutes = require("./routes/roomRoutes");
 const bedRoutes = require("./routes/bedRoutes");
 
@@ -111,11 +104,11 @@ app.use("/api/admin", adminRoutes);
 const doctorRoutes = require("./routes/doctorRoutes");
 app.use("/api", doctorRoutes);
 
+const pharmacyRoutes = require("./routes/pharmacyRoutes");
 app.use("/api", pharmacyRoutes);
 
 const insuranceRoutes = require("./routes/insurance/index");
 app.use("/api/insurance", insuranceRoutes);
-
 
 // ======================
 // Create Folders
@@ -145,6 +138,29 @@ app.use(
   express.static(path.join(__dirname, "generated")),
 );
 
+// ======================
+// Multer
+// ======================
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+
+  filename: (req, file, cb) => {
+    cb(
+      null,
+
+      Date.now() + "_" + file.originalname,
+    );
+  },
+});
+
+const upload1 = multer({ storage });
+
+// ======================
+// Nodemailer
+// ======================
 
 app.post("/add", async (req, res) => {
   try {
@@ -199,8 +215,6 @@ app.post("/add", async (req, res) => {
   }
 });
 
-
-
 app.get("/patients", async (req, res) => {
   try {
     const page = Number(req.query.page) || 1;
@@ -235,8 +249,6 @@ app.get("/patients", async (req, res) => {
     res.status(500).json(err);
   }
 });
-
-
 
 // ======================
 // Delete Patient
@@ -512,115 +524,497 @@ app.delete(
 // Merge PDFs
 // ======================
 
-app.post(
-  "/send-email",
+// app.post(
+//     "/send-email",
 
-  upload.array("pdfs", 10),
+//     upload.array("pdfs", 10),
 
-  async (req, res) => {
-    try {
-      const {
-        patientName,
+//     async (req, res) => {
 
-        email,
-      } = req.body;
+//         try {
 
-      const uploadedFiles = req.files.map((file) => file.path);
+//             console.log(
+//                 "========== SEND EMAIL =========="
+//             );
 
-      const mergedPath = `generated/merged_${Date.now()}.pdf`;
+//             console.log(
+//                 "BODY:",
+//                 req.body
+//             );
 
-      await mergePDFs(
-        uploadedFiles,
+//             console.log(
+//                 "FILES:",
+//                 req.files
+//             );
 
-        mergedPath,
-      );
+//             // Check files
 
-      const bill = new Bill({
-        patientName,
+//             if (
+//                 !req.files ||
+//                 req.files.length === 0
+//             ) {
 
-        email,
+//                 return res.status(400).json({
 
-        pdfPath: mergedPath,
+//                     success: false,
+
+//                     message:
+//                         "No PDF files uploaded"
+
+//                 });
+
+//             }
+
+//             const {
+//                 patientName,
+//                 email
+//             } = req.body;
+
+//             const uploadedFiles =
+//                 req.files;
+
+//             console.log(
+//                 "Uploaded Files:",
+//                 uploadedFiles.length
+//             );
+
+//             // Generated folder
+
+//             const generatedDir =
+//                 path.join(
+//                     __dirname,
+//                     "uploads"
+//                 );
+
+//             if (
+//                 !fs.existsSync(
+//                     generatedDir
+//                 )
+//             ) {
+
+//                 fs.mkdirSync(
+//                     generatedDir,
+//                     {
+//                         recursive: true
+//                     }
+//                 );
+
+//             }
+
+// // labRoute Changes :
+
+//             // Merged PDF path
+
+//             const mergedPath =
+//                 path.join(
+//                     generatedDir,
+//                     `merged_${Date.now()}.pdf`
+//                 );
+
+// // app.use(
+// //   "/uploads",
+
+//             console.log(
+//                 "Merged Path:",
+//                 mergedPath
+//             );
+
+//             // Merge PDFs
+
+//             await mergePDFs(
+//                 uploadedFiles,
+//                 mergedPath
+//             );
+
+//             console.log(
+//                 "PDF MERGED SUCCESSFULLY"
+//             );
+
+//             // Save Bill
+// //   express.static(path.join(__dirname, "uploads")),
+// // );
+
+//             const bill =
+//                 new Bill({
+
+//                     patientName,
+
+//                     email,
+
+//                     pdfPath:
+//                         mergedPath
+
+//                 });
+// app.use(express.json());
+
+// // app.use(
+// //   express.urlencoded({
+// //     extended: true,
+// //   }),
+// // );
+
+//             await bill.save();
+
+//             // Email
+
+//             const mailOptions = {
+
+//                 from:
+//                     process.env.EMAIL_USER,
+
+//                 to:
+//                     email,
+
+//                 subject:
+//                     "Merged Hospital Documents",
+
+//                 text:
+//                     "Your merged hospital documents attached.",
+
+//                 attachments: [
+
+//                     {
+
+//                         filename:
+//                             "Hospital_Report.pdf",
+
+//                         path:
+//                             mergedPath
+
+//                     }
+
+//                 ]
+
+//             };
+
+// Send email
+
+app.post("/send-email", upload.array("pdfs", 10), async (req, res) => {
+  try {
+    console.log("========== SEND EMAIL ==========");
+    console.log("BODY:", req.body);
+    console.log("FILES:", req.files);
+
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "No PDF files uploaded",
       });
-
-      await bill.save();
-
-      const mailOptions = {
-        from: process.env.EMAIL_USER,
-
-        to: email,
-
-        subject: "Merged Hospital Documents",
-
-        text: "Your merged hospital documents attached.",
-
-        attachments: [
-          {
-            filename: "Hospital_Report.pdf",
-
-            path: path.join(__dirname, mergedPath),
-          },
-        ],
-      };
-
-      transporter.sendMail(
-        mailOptions,
-
-        (error, info) => {
-          if (error) {
-            console.log(error);
-          } else {
-            console.log(info.response);
-          }
-        },
-      );
-
-      res.json({
-        success: true,
-
-        message: "Merged PDF Sent",
-
-        pdfUrl: `http://localhost:5000/${mergedPath}`,
-      });
-    } catch (error) {
-      console.log(error);
     }
-  },
-);
+
+    const { patientName, email } = req.body;
+
+    const uploadedFiles = req.files;
+
+    console.log("Uploaded Files:", uploadedFiles.length);
+
+    const generatedDir = path.join(__dirname, "uploads");
+
+    if (!fs.existsSync(generatedDir)) {
+      fs.mkdirSync(generatedDir, {
+        recursive: true,
+      });
+    }
+
+    const mergedPath = path.join(generatedDir, `merged_${Date.now()}.pdf`);
+
+    console.log("Merged Path:", mergedPath);
+
+    await mergePDFs(uploadedFiles, mergedPath);
+
+    console.log("PDF MERGED SUCCESSFULLY");
+
+    const bill = new Bill({
+      patientName,
+      email,
+      pdfPath: mergedPath,
+    });
+
+    await bill.save();
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Merged Hospital Documents",
+      text: "Your merged hospital documents attached.",
+      attachments: [
+        {
+          filename: "Hospital_Report.pdf",
+          path: mergedPath,
+        },
+      ],
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error("EMAIL ERROR:", error);
+      } else {
+        console.log("EMAIL SENT:", info.response);
+      }
+    });
+
+    res.json({
+      success: true,
+      message: "Merged PDF Sent",
+      pdfUrl: `http://localhost:5000/uploads/${path.basename(mergedPath)}`,
+    });
+  } catch (error) {
+    console.error("SEND EMAIL ERROR:", error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      error: error.stack,
+    });
+  }
+});
 
 // ======================
-// Server
+// Billing Consent
 // ======================
 
-// labRoute Changes :
+app.use("/consent", consentRoutes);
+
+app.use("/upload", uploadRoutes);
+
+app.use("/api/payment", paymentRoutes);
+
+// ======================
+// LAB MODULE
+// ======================
 
 const labRoutes = require("./routes/labRoutes");
 
-app.use("/lab", labRoutes);
+const labUploadPath = path.join(__dirname, "uploadLabReport", "uploadLab");
 
+if (!fs.existsSync(labUploadPath)) {
+  fs.mkdirSync(labUploadPath, {
+    recursive: true,
+  });
+}
 
-const consentRoutes = require("./routes/consentRoutes");
-
-const uploadRoutes = require("./routes/upload");
-
-app.use(express.json());
-
-app.use(
-  "/consent",
-
-  consentRoutes,
-);
-
-app.use(
-  "/upload",
-
-  uploadRoutes,
-);
-
-app.listen(
-  5000,
-
-  () => {
-    console.log("Server Running");
+const storageLab = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, labUploadPath);
   },
+
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+
+const uploadLab = multer({
+  storage: storageLab,
+});
+app.use(
+  "/uploadLabReport",
+  express.static(path.join(__dirname, "uploadLabReport")),
 );
+
+app.use("/lab", labRoutes(uploadLab));
+
+// ======================
+// SERVER
+// ======================
+
+app.listen(5000, () => {
+  console.log("Server Running");
+});
+
+//             transporter.sendMail(
+
+//                 mailOptions,
+
+//                 (error, info) => {
+
+//                     if (error) {
+
+//                         console.error(
+//                             "EMAIL ERROR:",
+//                             error
+//                         );
+
+//                     } else {
+
+//                         console.log(
+//                             "EMAIL SENT:",
+//                             info.response
+//                         );
+
+//                     }
+
+//                 }
+
+//             );
+
+//             res.json({
+
+//                 success: true,
+
+//                 message:
+//                     "Merged PDF Sent",
+
+//                 pdfUrl:
+//                     `http://localhost:5000/uploads/${path.basename(
+//                         mergedPath
+//                     )}`
+
+//             });
+
+//         } catch (error) {
+
+//             console.error(
+//                 "SEND EMAIL ERROR:",
+//                 error
+//             );
+
+//             res.status(500).json({
+
+//                 success: false,
+
+//                 message:
+//                     error.message,
+
+//                 error:
+//                     error.stack
+
+//             });
+
+//         }
+
+//     }
+
+// // ======================
+// // Server
+// // ======================
+
+// // labRoute Changes :
+
+// // app.use(
+
+// //   "/uploads",
+
+// //   express.static(
+
+// //     path.join(__dirname, "uploads")
+
+// //   )
+// // );
+
+//   // Billing Consent Form changes :
+
+//   // app.use(express.json());
+
+//   // app.use(express.urlencoded({
+
+//   //   extended: true
+
+//   // }));
+
+//   app.use(
+
+//     "/consent",
+
+//     consentRoutes
+
+//   );
+
+//   app.use(
+
+//     "/upload",
+
+//     uploadRoutes
+
+//   );
+
+//   app.use("/api/payment", paymentRoutes);
+
+// // LAB MODULE
+// // ======================
+
+// const labRoutes = require("./routes/labRoutes");
+
+// app.use(
+// // Lab report folder
+//   "/upload",
+
+//   uploadRoutes,
+// );
+
+// const labUploadPath = path.join(
+//     __dirname,
+//     "uploadLabReport",
+//     "uploadLab"
+// );
+
+// // Create folder
+
+// if (!fs.existsSync(labUploadPath)) {
+
+//     fs.mkdirSync(
+//         labUploadPath,
+//         {
+//             recursive: true
+//         }
+//     );
+
+// }
+
+// // Multer storage
+
+// const storageLab = multer.diskStorage({
+
+//     destination: (req, file, cb) => {
+
+//         cb(
+//             null,
+//             labUploadPath
+//         );
+
+//     },
+
+//     filename: (req, file, cb) => {
+
+//         cb(
+//             null,
+//             Date.now() +
+//             "-" +
+//             file.originalname
+//         );
+
+//     }
+
+// });
+
+// const uploadLab = multer({
+
+//     storage: storageLab
+
+// });
+
+// // Static folder
+
+// app.use(
+//     "/uploadLabReport",
+//     express.static(
+//         path.join(
+//             __dirname,
+//             "uploadLabReport"
+//         )
+//     )
+// );
+
+// // Lab routes
+
+// app.use(
+//     "/lab",
+//     labRoutes(uploadLab)
+// );
+
+//   app.listen(
+//     5000,
+
+//     () => {
+//       console.log("Server Running");
+//     },
+//   );
