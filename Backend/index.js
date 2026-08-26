@@ -116,41 +116,6 @@ app.use("/api", pharmacyRoutes);
 const insuranceRoutes = require("./routes/insurance/index");
 app.use("/api/insurance", insuranceRoutes);
 
-// app.use((req, res, next) => {
-//   if (req.path.startsWith("/doctor") && process.env.NODE_ENV !== "test") {
-//     try {
-//       const doctorRoutes = require("./routes/doctorRoutes");
-//       return doctorRoutes(req, res, next);
-//     } catch (e) {
-//       return next(e);
-//     }
-//   }
-//   return next();
-// });
-
-// ======================
-// MongoDB
-// ======================
-
-// connectDB();
-
-// ======================
-// Patient Schema
-// ======================
-
-// const PatientSchema = new mongoose.Schema({
-//   name: String,
-
-//   age: Number,
-
-//   gender: String,
-// });
-
-// const Patient = mongoose.model(
-//   "Patient",
-
-//   PatientSchema,
-// );
 
 // ======================
 // Create Folders
@@ -180,57 +145,6 @@ app.use(
   express.static(path.join(__dirname, "generated")),
 );
 
-// ======================
-// Nodemailer
-// ======================
-
-// const transporter = nodemailer.createTransport({
-//   service: "gmail",
-
-//   auth: {
-//     user: process.env.EMAIL_USER,
-
-//     pass: process.env.EMAIL_PASS,
-//   },
-// });
-
-// // ======================
-// // Verify Email
-// // ======================
-
-// transporter.verify((error, success) => {
-//   if (error) {
-//     console.log(error);
-//   } else {
-//     console.log("Email Server Ready");
-//   }
-// });
-
-// ======================
-// Add Patient
-// ======================
-
-// // Before Change Code :
-
-// app.post(
-//   "/add",
-
-//   async (req, res) => {
-//     try {
-//       const patient = new Patient(req.body);
-
-//       await patient.save();
-
-//       res.json({
-//         success: true,
-
-//         message: "Patient Added",
-//       });
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   },
-// );
 
 app.post("/add", async (req, res) => {
   try {
@@ -285,21 +199,7 @@ app.post("/add", async (req, res) => {
   }
 });
 
-// ======================
-// Get All Patients
-// ======================
 
-// // Before Change The Code :
-
-// app.get(
-//   "/patients",
-
-//   async (req, res) => {
-//     const data = await Patient.find();
-
-//     res.json(data);
-//   },
-// );
 
 app.get("/patients", async (req, res) => {
   try {
@@ -336,19 +236,7 @@ app.get("/patients", async (req, res) => {
   }
 });
 
-// ======================
-// Get Single Patient
-// ======================
 
-// app.get(
-//   "/patient/:id",
-
-//   async (req, res) => {
-//     const data = await Patient.findById(req.params.id);
-
-//     res.json(data);
-//   },
-// );
 
 // ======================
 // Delete Patient
@@ -710,37 +598,12 @@ const labRoutes = require("./routes/labRoutes");
 
 app.use("/lab", labRoutes);
 
-// app.use(
-//   "/uploads",
-
-//   express.static(path.join(__dirname, "uploads")),
-// );
-
-// Billing Consent Form changes :
 
 const consentRoutes = require("./routes/consentRoutes");
 
 const uploadRoutes = require("./routes/upload");
 
 app.use(express.json());
-
-// app.use(
-//   express.urlencoded({
-//     extended: true,
-//   }),
-// );
-
-// app.use(
-//   "/uploads",
-
-//   express.static(
-//     path.join(
-//       __dirname,
-
-//       "uploads",
-//     ),
-//   ),
-// );
 
 app.use(
   "/consent",
