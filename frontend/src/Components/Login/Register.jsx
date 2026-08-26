@@ -25,13 +25,17 @@ function Register() {
       return;
     }
 
+    
+
     try {
       const res = await sendRegistrationOtp({ email });
 
       alert(res.data.message);
       setOtpSent(true);
     } catch (err) {
+      console.log(err);
       alert(err.response?.data?.message || "Error sending OTP");
+      
     }
   };
 

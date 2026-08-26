@@ -25,6 +25,8 @@ import MergePdf from "./MergePdf";
 import PatientForm from "./PatientForm";
 
 import "./style/PatientDetail.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Razorpay from "../Razorpay";
 
 function PatientDetail() {
 
@@ -57,11 +59,13 @@ function PatientDetail() {
 
             const res = await axios.get(
 
-                `http://localhost:5000/patient/${id}`
+                `http://localhost:5000/api/patient/${id}`
 
             );
 
+            console.log("PATIENT API RESPONSE =", res.data);
             setPatient(res.data);
+            
 
         }
 
@@ -396,7 +400,7 @@ const generateConsentPdf = async () => {
             <h1>Patient Information</h1>
 
             <div className="patient-card p-3 mb-2 bg-transparent text-primary">
-
+                
                 <div className="patient-info">
 
                     <div className="row">
@@ -541,7 +545,7 @@ const generateConsentPdf = async () => {
 
                 />
 
-                <div className="mt-3">
+                <div className="mt-3" style={{display:"flex",flexDirection:"row",justifyContent:"space-around"}}>
 
                     <button
 
@@ -557,7 +561,7 @@ const generateConsentPdf = async () => {
 
                     <button
 
-                        className="btn btn-success"
+                        className="btn btn-secondary"
 
                         onClick={saveConsentPdf}
 
@@ -575,9 +579,12 @@ const generateConsentPdf = async () => {
                 Reports Table
             ============================ */}
 
+
+     
+
             <div className="table-responsive mt-4">
 
-                <table className="table table-bordered">
+                <table className="table table-bordered table-render-style">
 
                     <thead>
 
@@ -718,6 +725,10 @@ const generateConsentPdf = async () => {
                 </table>
 
             </div>
+            <Razorpay patientName={patient.name} patientMob={patient.mobile}/>
+
+
+            <MergePdf />
 
         </div>
 

@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./style/BillingDept.css";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import PdfCreate from "./PdfCreate";
-import { faBars, faBell } from "@fortawesome/free-solid-svg-icons";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { getTime, getDate } from "./GetDate_Time";
 import Profile from "./Profile";
 import TableForm from "./TableForm";
@@ -18,7 +17,7 @@ function BillingDept() {
     const fetchOPDBilling = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/billing/opd-revenue",
+          "http://localhost:5000/api/billing/opd-revenue"
         );
 
         if (res.data.success) {
@@ -36,8 +35,13 @@ function BillingDept() {
   return (
     <div className="billing-page">
       <h1>Billing Department</h1>
+
       <nav className="navbar">
-        <FontAwesomeIcon icon={faBars} style={{ margin: "5px 0 0 0" }} />
+        <FontAwesomeIcon
+          icon={faBars}
+          style={{ margin: "5px 0 0 0" }}
+        />
+
         <p className="DateTime">
           📅 {getDate()}
           <br />
@@ -45,6 +49,7 @@ function BillingDept() {
         </p>
 
         <b>Shradha Hospital daund</b>
+
         <input
           className="form-control"
           placeholder="Patient Name"
@@ -53,8 +58,9 @@ function BillingDept() {
           onChange={(e) => setSearch(e.target.value)}
         />
 
-        <Profile></Profile>
+        <Profile />
       </nav>
+
       <br />
 
       <div className="opd-billing-section">
@@ -98,7 +104,7 @@ function BillingDept() {
 
       <br />
 
-      <TableForm search={search}></TableForm>
+      <TableForm search={search} />
     </div>
   );
 }

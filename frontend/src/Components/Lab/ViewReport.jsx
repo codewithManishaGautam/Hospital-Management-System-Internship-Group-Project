@@ -1,9 +1,215 @@
-import React, { useEffect, useState } from "react";
+// import React, { useEffect, useState } from "react";
+// import axios from "axios";
+
+// function ViewReport({ patientId, isLab = true, isDiagnostic = true }) {
+
+//     const [reports, setReports] = useState([]);
+
+//     const getReports = async () => {
+
+//         try {
+
+//             const res = await axios.get(
+
+//                 `http://localhost:5000/lab/report/${patientId}`
+
+//             );
+
+//             setReports(res.data);
+
+//         }
+
+//         catch (err) {
+
+//             console.log(err);
+
+//         }
+
+//     };
+
+//     useEffect(() => {
+
+//         if (patientId) {
+
+//             getReports();
+
+//         }
+
+//     }, [patientId]);
+
+
+//     const labReports = reports.filter(
+
+//         (item) => item.department === "Lab"
+
+//     );
+
+//     const diagnosticReports = reports.filter(
+
+//         (item) => item.department === "Diagnostic"
+
+//     );
+
+//     // Delete Report
+
+//     const deleteReport = async (id) => {
+
+//         const confirmDelete = window.confirm(
+
+//             "Delete this report?"
+
+//         );
+
+//         if (!confirmDelete) return;
+
+//         try {
+
+//             await axios.delete(
+
+//                 `http://localhost:5000/lab/report/${id}`
+
+//             );
+
+//             alert("Report Deleted");
+
+//             getReports();
+
+//         }
+
+//         catch (err) {
+
+//             console.log(err);
+
+//         }
+
+//     };
+
+//     return (
+
+//       <div>
+
+//     {/* ================= LAB REPORTS ================= */}
+
+//     {
+//         isLab && (
+
+//             <div>
+//                 {
+
+//                     labReports.length === 0 ? (
+
+//                         <p style={{color:"red",fontFamily:"times and roman"}}>error</p>
+
+//                     ) : (
+
+//                         labReports.map((item) => (
+
+//                                 <button
+//                                     className="btn btn-outline-success"
+//                                     style={{fontSize:"14px",fontWeight:"bold"}}
+//                                     onClick={() => {
+
+//                                         window.open(
+//                                             `http://localhost:5000/${item.reportPdf}`,
+//                                             "_blank"
+//                                         );
+
+//                                     }}
+//                                 >
+
+//                                     Download
+
+//                                 </button>
+
+
+//                         ))
+
+//                     )
+
+//                 }
+
+//             </div>
+
+//         )
+
+//     }
+
+//     {/* ================= DIAGNOSTIC REPORTS ================= */}
+
+//     {
+//         isDiagnostic && (
+
+//             <div>
+//                 {
+
+//                     diagnosticReports.length === 0 ? (
+
+//                         <p style={{color:"red",fontFamily:"times and roman",textAlign:"center"}}>error</p>
+
+//                     ) : (
+
+//                         diagnosticReports.map((item) => (
+
+                            
+//                                 <button
+//                                     className="btn btn-outline-success text-align-center" 
+//                                     style={{fontSize:"14px" ,fontWeight:"bold"}}
+//                                     onClick={() => {
+
+//                                         window.open(
+//                                             `http://localhost:5000${item.reportPdf}`,
+//                                             "_blank"
+//                                         );
+
+//                                     }}
+//                                 >
+
+//                                     Download
+
+//                                 </button>
+//                         ))
+
+//                     )
+
+//                 }
+
+//             </div>
+
+//         )
+
+//     }
+
+// </div>
+
+
+
+//     );
+
+// }
+
+// export default ViewReport;
+
+
+import React, {
+    useEffect,
+    useState
+} from "react";
+
 import axios from "axios";
 
-function ViewReport({ patientId, isLab = true, isDiagnostic = true }) {
+
+function ViewReport({
+    patientId,
+    isLab = true,
+    isDiagnostic = true
+}) {
 
     const [reports, setReports] = useState([]);
+
+
+    // ==========================================
+    // Get Patient Reports
+    // ==========================================
 
     const getReports = async () => {
 
@@ -11,7 +217,7 @@ function ViewReport({ patientId, isLab = true, isDiagnostic = true }) {
 
             const res = await axios.get(
 
-                `http://localhost:5000/lab/report/${patientId}`
+                `http://localhost:5000/lab/reports/${patientId}`
 
             );
 
@@ -21,11 +227,15 @@ function ViewReport({ patientId, isLab = true, isDiagnostic = true }) {
 
         catch (err) {
 
-            console.log(err);
+            console.log(
+                "GET REPORT ERROR:",
+                err
+            );
 
         }
 
     };
+
 
     useEffect(() => {
 
@@ -38,29 +248,87 @@ function ViewReport({ patientId, isLab = true, isDiagnostic = true }) {
     }, [patientId]);
 
 
+    // ==========================================
+    // Separate Lab Reports
+    // ==========================================
+
     const labReports = reports.filter(
 
-        (item) => item.department === "Lab"
+        (item) =>
+
+            item.department === "Lab"
 
     );
+
+
+    // ==========================================
+    // Separate Diagnostic Reports
+    // ==========================================
 
     const diagnosticReports = reports.filter(
 
-        (item) => item.department === "Diagnostic"
+        (item) =>
+
+            item.department === "Diagnostic"
 
     );
 
+
+    // ==========================================
+    // Open PDF
+    // ==========================================
+
+    const openReport = (reportPdf) => {
+
+        if (!reportPdf) {
+
+            alert(
+                "Report PDF not available"
+            );
+
+            return;
+
+        }
+
+
+        const pdfUrl =
+
+            `http://localhost:5000${reportPdf}`;
+
+
+        console.log(
+            "PDF URL:",
+            pdfUrl
+        );
+
+
+        window.open(
+            pdfUrl,
+            "_blank"
+        );
+
+    };
+
+
+    // ==========================================
     // Delete Report
+    // ==========================================
 
     const deleteReport = async (id) => {
 
-        const confirmDelete = window.confirm(
+        const confirmDelete =
 
-            "Delete this report?"
+            window.confirm(
+                "Delete this report?"
+            );
 
-        );
 
-        if (!confirmDelete) return;
+        if (!confirmDelete) {
+
+            return;
+
+        }
+
 
         try {
 
@@ -70,7 +338,11 @@ function ViewReport({ patientId, isLab = true, isDiagnostic = true }) {
 
             );
 
-            alert("Report Deleted");
+
+            alert(
+                "Report Deleted"
+            );
+
 
             getReports();
 
@@ -78,282 +350,264 @@ function ViewReport({ patientId, isLab = true, isDiagnostic = true }) {
 
         catch (err) {
 
-            console.log(err);
+            console.log(
+                "DELETE REPORT ERROR:",
+                err
+            );
 
         }
 
     };
 
+
     return (
 
-      <div>
+        <div>
 
-    {/* ================= LAB REPORTS ================= */}
 
-    {
-        isLab && (
+            {/* =====================================
+                LAB REPORTS
+            ===================================== */}
 
-            <div>
-                {
+            {
 
-                    labReports.length === 0 ? (
+                isLab && (
 
-                        <p style={{color:"red",fontFamily:"times and roman"}}>error</p>
+                    <div>
 
-                    ) : (
+                        <h5>
+                            Lab Reports
+                        </h5>
 
-                        labReports.map((item) => (
 
-                                <button
-                                    className="btn btn-outline-success"
-                                    style={{fontSize:"14px",fontWeight:"bold"}}
-                                    onClick={() => {
+                        {
 
-                                        window.open(
-                                            `http://localhost:5000${item.reportPdf}`,
-                                            "_blank"
-                                        );
+                            labReports.length === 0 ? (
 
+                                <p
+                                    style={{
+                                        color: "red",
+                                        fontFamily:
+                                            "Times New Roman"
                                     }}
                                 >
+                                    No Lab Report Found
+                                </p>
 
-                                    Download
+                            ) : (
 
-                                </button>
+                                labReports.map(
+
+                                    (item) => (
+
+                                        <div
+                                            key={
+                                                item._id
+                                            }
+                                            style={{
+                                                marginBottom:
+                                                    "10px"
+                                            }}
+                                        >
+
+                                            <button
+
+                                                className=
+                                                    "btn btn-outline-success"
+
+                                                style={{
+                                                    fontSize:
+                                                        "14px",
+
+                                                    fontWeight:
+                                                        "bold",
+
+                                                    marginRight:
+                                                        "10px"
+                                                }}
+
+                                                onClick={() =>
+                                                    openReport(
+                                                        item.reportPdf
+                                                    )
+                                                }
+
+                                            >
+
+                                                Download
+
+                                            </button>
 
 
-                        ))
+                                            <button
 
-                    )
+                                                className=
+                                                    "btn btn-outline-danger"
 
-                }
+                                                style={{
+                                                    fontSize:
+                                                        "14px",
 
-            </div>
+                                                    fontWeight:
+                                                        "bold"
+                                                }}
 
-        )
+                                                onClick={() =>
+                                                    deleteReport(
+                                                        item._id
+                                                    )
+                                                }
 
-    }
+                                            >
 
-    {/* ================= DIAGNOSTIC REPORTS ================= */}
+                                                Delete
 
-    {
-        isDiagnostic && (
+                                            </button>
 
-            <div>
-                {
+                                        </div>
 
-                    diagnosticReports.length === 0 ? (
+                                    )
 
-                        <p style={{color:"red",fontFamily:"times and roman",textAlign:"center"}}>error</p>
+                                )
 
-                    ) : (
+                            )
 
-                        diagnosticReports.map((item) => (
+                        }
 
-                            
-                                <button
-                                    className="btn btn-outline-success text-align-center" 
-                                    style={{fontSize:"14px" ,fontWeight:"bold"}}
-                                    onClick={() => {
+                    </div>
 
-                                        window.open(
-                                            `http://localhost:5000${item.reportPdf}`,
-                                            "_blank"
-                                        );
+                )
 
+            }
+
+
+
+            {/* =====================================
+                DIAGNOSTIC REPORTS
+            ===================================== */}
+
+            {
+
+                isDiagnostic && (
+
+                    <div
+                        style={{
+                            marginTop:
+                                "20px"
+                        }}
+                    >
+
+                        <h5>
+                            Diagnostic Reports
+                        </h5>
+
+
+                        {
+
+                            diagnosticReports.length === 0 ? (
+
+                                <p
+                                    style={{
+                                        color: "red",
+                                        fontFamily:
+                                            "Times New Roman"
                                     }}
                                 >
+                                    No Diagnostic Report Found
+                                </p>
 
-                                    Download
+                            ) : (
 
-                                </button>
-                        ))
+                                diagnosticReports.map(
 
-                    )
+                                    (item) => (
 
-                }
+                                        <div
+                                            key={
+                                                item._id
+                                            }
+                                            style={{
+                                                marginBottom:
+                                                    "10px"
+                                            }}
+                                        >
 
-            </div>
+                                            <button
 
-        )
+                                                className=
+                                                    "btn btn-outline-success"
 
-    }
+                                                style={{
+                                                    fontSize:
+                                                        "14px",
 
-</div>
+                                                    fontWeight:
+                                                        "bold",
 
+                                                    marginRight:
+                                                        "10px"
+                                                }}
 
-        // <div className="card mt-4">
+                                                onClick={() =>
+                                                    openReport(
+                                                        item.reportPdf
+                                                    )
+                                                }
 
-        //     <div className="card-header bg-success text-white">
+                                            >
 
-        //         Uploaded Reports
+                                                Download
 
-        //     </div>
+                                            </button>
 
-        //     <div className="card-body">
 
-        //         <h4 className="text-primary">
+                                            <button
 
-        //             Lab Reports
+                                                className=
+                                                    "btn btn-outline-danger"
 
-        //         </h4>
+                                                style={{
+                                                    fontSize:
+                                                        "14px",
 
-        //         {
+                                                    fontWeight:
+                                                        "bold"
+                                                }}
 
-        //             labReports.length === 0 ?
+                                                onClick={() =>
+                                                    deleteReport(
+                                                        item._id
+                                                    )
+                                                }
 
-        //                 (
+                                            >
 
-        //                     <p>No Lab Reports</p>
+                                                Delete
 
-        //                 )
+                                            </button>
 
-        //                 :
+                                        </div>
 
-        //                 (
+                                    )
 
-        //                     labReports.map((item) => (
+                                )
 
-        //                         <div
+                            )
 
-        //                             key={item._id}
+                        }
 
-        //                             className="border rounded p-2 mb-2"
+                    </div>
 
-        //                         >
+                )
 
-        //                             <h6>
+            }
 
-        //                                 {item.testName}
 
-        //                             </h6>
-
-        //                             <p>
-
-        //                                 Category :
-
-        //                                 {" "}
-
-        //                                 {item.testCategory}
-
-        //                             </p>
-
-        //                             <button
-
-        //                                 className="btn btn-warning btn-sm"
-
-        //                                 onClick={() =>
-
-        //                                     window.open(
-
-        //                                         `http://localhost:5000${item.reportPdf}`,
-
-        //                                         "_blank"
-
-        //                                     )
-
-        //                                 }
-
-        //                             >
-
-        //                                 Download
-
-        //                             </button>
-
-        //                         </div>
-
-        //                     ))
-
-        //                 )
-
-        //         }
-
-        //         <hr />
-
-        //         <h4 className="text-danger">
-
-        //             Diagnostic Reports
-
-        //         </h4>
-
-        //         {
-
-        //             diagnosticReports.length === 0 ?
-
-        //                 (
-
-        //                     <p>No Diagnostic Reports</p>
-
-        //                 )
-
-        //                 :
-
-        //                 (
-
-        //                     diagnosticReports.map((item) => (
-
-        //                         <div
-
-        //                             key={item._id}
-
-        //                             className="border rounded p-2 mb-2"
-
-        //                         >
-
-        //                             <h6>
-
-        //                                 {item.testName}
-
-        //                             </h6>
-
-        //                             <p>
-
-        //                                 Category :
-
-        //                                 {" "}
-
-        //                                 {item.testCategory}
-
-        //                             </p>
-
-        //                             <button
-
-        //                                 className="btn btn-warning btn-sm"
-
-        //                                 onClick={() =>
-
-        //                                     window.open(
-
-        //                                         `http://localhost:5000${item.reportPdf}`,
-
-        //                                         "_blank"
-
-        //                                     )
-
-        //                                 }
-
-        //                             >
-
-        //                                 Download
-
-        //                             </button>
-
-        //                         </div>
-
-        //                     ))
-
-        //                 )
-
-        //         }
-
-        //     </div>
-
-        // </div>
-
-
+        </div>
 
     );
 
 }
+
 
 export default ViewReport;

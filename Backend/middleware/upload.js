@@ -1,172 +1,63 @@
-// // const multer = require("multer");
-// // const path = require("path");
-
-// // // Storage Configuration
-
-// // const storage = multer.diskStorage({
-
-// //     destination: function (req, file, cb) {
-
-// //         cb(null, "uploads/reports");
-
-// //     },
-
-// //     filename: function (req, file, cb) {
-
-// //         const uniqueName =
-// //             Date.now() +
-// //             "-" +
-// //             Math.round(Math.random() * 1E9);
-
-// //         cb(
-
-// //             null,
-
-// //             uniqueName +
-// //             path.extname(file.originalname)
-
-// //         );
-
-// //     }
-
-// // });
-
-// // // File Filter
-
-// // const fileFilter = (req, file, cb) => {
-
-// //     if (file.mimetype === "application/pdf") {
-
-// //         cb(null, true);
-
-// //     }
-
-// //     else {
-
-// //         cb(
-
-// //             new Error("Only PDF files are allowed"),
-
-// //             false
-
-// //         );
-
-// //     }
-
-// // };
-
-// // const upload = multer({
-
-// //     storage,
-
-// //     fileFilter,
-
-// //     limits: {
-
-// //         fileSize: 20 * 1024 * 1024
-
-// //     }
-
-// // });
-
-// // module.exports = upload;
-
-
-
-
-
-// const fs = require("fs");
-// const path = require("path");
-// const multer = require("multer");
-
-// const uploadPath = path.join(__dirname, "../uploads/reports");
-
-// // Folder नसल्यास तयार कर
-// if (!fs.existsSync(uploadPath)) {
-
-//     fs.mkdirSync(uploadPath, { recursive: true });
-
-// }
-
-// const storage = multer.diskStorage({
-
-//     destination: function (req, file, cb) {
-
-//         cb(null, uploadPath);
-
-//     },
-
-//     filename: function (req, file, cb) {
-
-//         cb(
-
-//             null,
-
-//             Date.now() + "-" + file.originalname
-
-//         );
-
-//     }
-
-// });
-
-// module.exports = multer({
-
-//     storage
-
-// });
-// =======
-
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 
-// Ensure upload directory exists
+// =====================================================
+// INSURANCE DOCUMENT UPLOAD
+// =====================================================
+
 const uploadDir = path.join(__dirname, "../uploads/insurance-docs");
 
+// Create insurance upload directory if it does not exist
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-// Set storage engine
+// Insurance storage
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, uploadDir);
   },
+
   filename: function (req, file, cb) {
-    const uniqueSuffix =
-      Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
 
     cb(
       null,
-      file.fieldname +
-        "-" +
-        uniqueSuffix +
-        path.extname(file.originalname)
+      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname),
     );
   },
 });
 
-// Check file type
+// =====================================================
+// FILE TYPE VALIDATION
+// =====================================================
+
 function checkFileType(file, cb) {
   const filetypes = /jpeg|jpg|png|pdf/;
 
-  const extname = filetypes.test(
-    path.extname(file.originalname).toLowerCase()
-  );
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
 
   const mimetype = filetypes.test(file.mimetype);
 
   if (mimetype && extname) {
     return cb(null, true);
-  } else {
-    cb(new Error("Images and PDFs Only!"));
   }
+
+  cb(new Error("Images and PDFs Only!"));
 }
 
+// =====================================================
+// MULTER CONFIGURATION
+// =====================================================
+
 const upload = multer({
-  storage,
-  limits: { fileSize: 5000000 }, // 5 MB
+  storage: storage,
+
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5 MB
+  },
+
   fileFilter: function (req, file, cb) {
     checkFileType(file, cb);
   },
