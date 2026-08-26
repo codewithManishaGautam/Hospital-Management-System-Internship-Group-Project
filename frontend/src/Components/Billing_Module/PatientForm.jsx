@@ -353,7 +353,7 @@
 import React from "react";
 
 import CashlessMediclaimMarEng from "./BillingConsent/CashlessMediclaim/CashlessMediclaimMarEng";
-import EstimateMarEng from "./BillingConsent/KharchConsent/EstimateMarEng"; 
+// import EstimateMarEng from "./BillingConsent/KharchConsent/EstimateMarEng"; 
 function PatientForm({
 
     patient,
@@ -403,19 +403,15 @@ function PatientForm({
                         Cashless Mediclaim
                     </option>
 
-                    <option value="KharchConsent">
+                    {/* <option value="KharchConsent">
                         Cost Consent Form
-                    </option>
+                    </option> */}
 
                 </select>
 
             </div>
             <br /><br /><br />
 
-
-            {/* ===========================
-                Consent Form
-            ============================ */}
 
             {
 
@@ -435,23 +431,23 @@ function PatientForm({
 
             }
 
-            {
+            {/* {
 
                 selectedConsent === "KharchConsent" && (
 
-    <EstimateMarEng
+                    <EstimateMarEng
 
-        ref={consentRef}
+                        ref={consentRef}
 
-        patient={patient}
+                        patient={patient}
 
-        onSave={saveConsent}
+                        onSave={saveConsent}
 
-    />
+                    />
 
-)
+                )
 
-            }
+            } */}
 
         </div>
 

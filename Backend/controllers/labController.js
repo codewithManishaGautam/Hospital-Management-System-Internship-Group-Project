@@ -1,9 +1,327 @@
+// // const Patient = require("../models/Patient");
+// // const LabReport = require("../models/LabReport");
+
+// // // ==========================================
+// // // Get All Patients
+// // // ==========================================
+// // const getAllPatients = async (req, res) => {
+
+// //     try {
+
+// //         const search = req.query.search || "";
+
+// //         const patients = await Patient.find({
+
+// //             name: {
+
+// //                 $regex: search,
+
+// //                 $options: "i"
+
+// //             }
+
+// //         }).sort({
+
+// //             createdAt: -1
+
+// //         });
+
+// //         res.status(200).json(patients);
+
+// //     }
+
+// //     catch (err) {
+
+// //         res.status(500).json({
+
+// //             message: err.message
+
+// //         });
+
+// //     }
+
+// // };
+
+// // // ==========================================
+// // // Upload Lab Report
+// // // ==========================================
+// // const uploadLabReport = async (req, res) => {
+
+// //     console.log("========== LAB UPLOAD ==========");
+// //     console.log("BODY =", req.body);
+// //     console.log("FILE =", req.file);
+
+// //     try {
+
+// //         if (!req.file) {
+
+// //             return res.status(400).json({
+
+// //                 message: "PDF file not received"
+
+// //             });
+
+// //         }
+
+// //         const {
+
+// //             patientId,
+// //             uhid,
+// //             patientName,
+// //             age,
+// //             gender,
+// //             mobile,
+// //             testCategory,
+// //             testName,
+// //             priority
+
+// //         } = req.body;
+
+// //         if (!testName) {
+
+// //             return res.status(400).json({
+
+// //                 message: "Test Name is Required"
+
+// //             });
+
+// //         }
+
+// //         const report = new LabReport({
+
+// //             patientId,
+
+// //             uhid,
+
+// //             patientName,
+
+// //             age,
+
+// //             gender,
+
+// //             mobile,
+
+// //             testCategory,
+
+// //             testName,
+
+// //             priority,
+
+// //             reportPdf: `/uploads/reports/${req.file.filename}`,
+
+            
+
+// //             reportStatus: "Uploaded"
+
+// //         });
+
+// //         await report.save();
+
+// //         res.status(201).json({
+
+// //             message: "Lab Report Uploaded Successfully",
+
+// //             report
+
+// //         });
+
+// //     }
+
+// //     catch (err) {
+
+// //         console.log(err);
+
+// //         res.status(500).json({
+
+// //             message: err.message
+
+// //         });
+
+// //     }
+
+// // };
+
+// // // ==========================================
+// // // Get Patient Reports
+// // // ==========================================
+// // const getPatientReports = async (req, res) => {
+
+// //     try {
+
+// //         const reports = await LabReport.find({
+
+// //             patientId: req.params.patientId
+
+// //         }).sort({
+
+// //             uploadedAt: -1
+
+// //         });
+
+// //         res.status(200).json(reports);
+
+// //     }
+
+// //     catch (err) {
+
+// //         res.status(500).json({
+
+// //             message: err.message
+
+// //         });
+
+// //     }
+
+// // };
+
+// // // ==========================================
+// // // Update Report
+// // // ==========================================
+// // const updateLabReport = async (req, res) => {
+
+// //     try {
+
+// //         const report = await LabReport.findByIdAndUpdate(
+
+// //             req.params.id,
+
+// //             req.body,
+
+// //             {
+
+// //                 new: true
+
+// //             }
+
+// //         );
+
+// //         res.status(200).json(report);
+
+// //     }
+
+// //     catch (err) {
+
+// //         res.status(500).json({
+
+// //             message: err.message
+
+// //         });
+
+// //     }
+
+// // };
+
+// // // ==========================================
+// // // Delete Report
+// // // ==========================================
+// // const deleteLabReport = async (req, res) => {
+
+// //     try {
+
+// //         await LabReport.findByIdAndDelete(
+
+// //             req.params.id
+
+// //         );
+
+// //         res.status(200).json({
+
+// //             message: "Report Deleted"
+
+// //         });
+
+// //     }
+
+// //     catch (err) {
+
+// //         res.status(500).json({
+
+// //             message: err.message
+
+// //         });
+
+// //     }
+
+// // };
+
+// // // ==========================================
+// // // Dashboard Summary
+// // // ==========================================
+// // const dashboardSummary = async (req, res) => {
+
+// //     try {
+
+// //         const totalPatients = await Patient.countDocuments();
+
+// //         const pendingReports = await LabReport.countDocuments({
+
+// //             reportStatus: "Pending"
+
+// //         });
+
+// //         const uploadedReports = await LabReport.countDocuments({
+
+// //             reportStatus: "Uploaded"
+
+// //         });
+
+// //         const emergencyReports = await LabReport.countDocuments({
+
+// //             priority: "Emergency"
+
+// //         });
+
+// //         res.json({
+
+// //             totalPatients,
+
+// //             pendingReports,
+
+// //             uploadedReports,
+
+// //             emergencyReports
+
+// //         });
+
+// //     }
+
+// //     catch (err) {
+
+// //         res.status(500).json({
+
+// //             message: err.message
+
+// //         });
+
+// //     }
+
+// // };
+
+// // module.exports = {
+
+// //     getAllPatients,
+
+// //     uploadLabReport,
+
+// //     getPatientReports,
+
+// //     updateLabReport,
+
+// //     deleteLabReport,
+
+// //     dashboardSummary
+
+// // };
+
+
+
 // const Patient = require("../models/Patient");
 // const LabReport = require("../models/LabReport");
 
 // // ==========================================
 // // Get All Patients
 // // ==========================================
+
 // const getAllPatients = async (req, res) => {
 
 //     try {
@@ -43,8 +361,9 @@
 // };
 
 // // ==========================================
-// // Upload Lab Report
+// // Upload Report (Lab + Diagnostic)
 // // ==========================================
+
 // const uploadLabReport = async (req, res) => {
 
 //     console.log("========== LAB UPLOAD ==========");
@@ -71,8 +390,15 @@
 //             age,
 //             gender,
 //             mobile,
+
+//             department,
+
 //             testCategory,
+
+//             machineType,
+
 //             testName,
+
 //             priority
 
 //         } = req.body;
@@ -101,15 +427,17 @@
 
 //             mobile,
 
+//             department,
+
 //             testCategory,
+
+//             machineType,
 
 //             testName,
 
 //             priority,
 
-//             reportPdf: `/uploads/reports/${req.file.filename}`,
-
-            
+//             reportPdf: `/uploadLabReport/uploadLab/${req.file.filename}`,
 
 //             reportStatus: "Uploaded"
 
@@ -119,7 +447,7 @@
 
 //         res.status(201).json({
 
-//             message: "Lab Report Uploaded Successfully",
+//             message: "Report Uploaded Successfully",
 
 //             report
 
@@ -144,6 +472,7 @@
 // // ==========================================
 // // Get Patient Reports
 // // ==========================================
+
 // const getPatientReports = async (req, res) => {
 
 //     try {
@@ -177,6 +506,7 @@
 // // ==========================================
 // // Update Report
 // // ==========================================
+
 // const updateLabReport = async (req, res) => {
 
 //     try {
@@ -214,6 +544,7 @@
 // // ==========================================
 // // Delete Report
 // // ==========================================
+
 // const deleteLabReport = async (req, res) => {
 
 //     try {
@@ -247,6 +578,7 @@
 // // ==========================================
 // // Dashboard Summary
 // // ==========================================
+
 // const dashboardSummary = async (req, res) => {
 
 //     try {
@@ -271,6 +603,18 @@
 
 //         });
 
+//         const labReports = await LabReport.countDocuments({
+
+//             department: "Lab"
+
+//         });
+
+//         const diagnosticReports = await LabReport.countDocuments({
+
+//             department: "Diagnostic"
+
+//         });
+
 //         res.json({
 
 //             totalPatients,
@@ -279,7 +623,11 @@
 
 //             uploadedReports,
 
-//             emergencyReports
+//             emergencyReports,
+
+//             labReports,
+
+//             diagnosticReports
 
 //         });
 
@@ -315,8 +663,10 @@
 
 
 
+
 const Patient = require("../models/Patient");
 const LabReport = require("../models/LabReport");
+
 
 // ==========================================
 // Get All Patients
@@ -350,6 +700,8 @@ const getAllPatients = async (req, res) => {
 
     catch (err) {
 
+        console.log(err);
+
         res.status(500).json({
 
             message: err.message
@@ -360,17 +712,23 @@ const getAllPatients = async (req, res) => {
 
 };
 
+
 // ==========================================
-// Upload Report (Lab + Diagnostic)
+// Upload Lab Report
 // ==========================================
 
 const uploadLabReport = async (req, res) => {
 
     console.log("========== LAB UPLOAD ==========");
+
     console.log("BODY =", req.body);
+
     console.log("FILE =", req.file);
 
+
     try {
+
+        // Check file
 
         if (!req.file) {
 
@@ -382,6 +740,7 @@ const uploadLabReport = async (req, res) => {
 
         }
 
+
         const {
 
             patientId,
@@ -390,18 +749,16 @@ const uploadLabReport = async (req, res) => {
             age,
             gender,
             mobile,
-
             department,
-
             testCategory,
-
             machineType,
-
             testName,
-
             priority
 
         } = req.body;
+
+
+        // Test name validation
 
         if (!testName) {
 
@@ -412,6 +769,25 @@ const uploadLabReport = async (req, res) => {
             });
 
         }
+
+
+        // ==========================================
+        // File URL
+        // ==========================================
+
+        const reportPdf =
+            `/uploadLabReport/uploadLab/${req.file.filename}`;
+
+
+        console.log(
+            "REPORT URL =",
+            reportPdf
+        );
+
+
+        // ==========================================
+        // Save Report
+        // ==========================================
 
         const report = new LabReport({
 
@@ -437,21 +813,70 @@ const uploadLabReport = async (req, res) => {
 
             priority,
 
-            reportPdf: `/uploads/reports/${req.file.filename}`,
+            reportPdf,
 
             reportStatus: "Uploaded"
 
         });
 
+
         await report.save();
+
+
+        // ==========================================
+        // Response
+        // ==========================================
 
         res.status(201).json({
 
-            message: "Report Uploaded Successfully",
+            message:
+                "Report Uploaded Successfully",
 
             report
 
         });
+
+    }
+
+    catch (err) {
+
+        console.log(
+            "LAB UPLOAD ERROR:",
+            err
+        );
+
+        res.status(500).json({
+
+            message: err.message
+
+        });
+
+    }
+
+};
+
+
+// ==========================================
+// Get Patient Reports
+// ==========================================
+
+const getPatientReports = async (req, res) => {
+
+    try {
+
+        const reports = await LabReport.find({
+
+            patientId:
+                req.params.patientId
+
+        }).sort({
+
+            uploadedAt: -1
+
+        });
+
+
+        res.status(200).json(reports);
 
     }
 
@@ -469,39 +894,6 @@ const uploadLabReport = async (req, res) => {
 
 };
 
-// ==========================================
-// Get Patient Reports
-// ==========================================
-
-const getPatientReports = async (req, res) => {
-
-    try {
-
-        const reports = await LabReport.find({
-
-            patientId: req.params.patientId
-
-        }).sort({
-
-            uploadedAt: -1
-
-        });
-
-        res.status(200).json(reports);
-
-    }
-
-    catch (err) {
-
-        res.status(500).json({
-
-            message: err.message
-
-        });
-
-    }
-
-};
 
 // ==========================================
 // Update Report
@@ -511,19 +903,19 @@ const updateLabReport = async (req, res) => {
 
     try {
 
-        const report = await LabReport.findByIdAndUpdate(
+        const report =
+            await LabReport.findByIdAndUpdate(
 
-            req.params.id,
+                req.params.id,
 
-            req.body,
+                req.body,
 
-            {
+                {
+                    new: true
+                }
 
-                new: true
+            );
 
-            }
-
-        );
 
         res.status(200).json(report);
 
@@ -541,6 +933,7 @@ const updateLabReport = async (req, res) => {
 
 };
 
+
 // ==========================================
 // Delete Report
 // ==========================================
@@ -555,9 +948,11 @@ const deleteLabReport = async (req, res) => {
 
         );
 
+
         res.status(200).json({
 
-            message: "Report Deleted"
+            message:
+                "Report Deleted"
 
         });
 
@@ -575,6 +970,7 @@ const deleteLabReport = async (req, res) => {
 
 };
 
+
 // ==========================================
 // Dashboard Summary
 // ==========================================
@@ -583,37 +979,49 @@ const dashboardSummary = async (req, res) => {
 
     try {
 
-        const totalPatients = await Patient.countDocuments();
+        const totalPatients =
+            await Patient.countDocuments();
 
-        const pendingReports = await LabReport.countDocuments({
 
-            reportStatus: "Pending"
+        const pendingReports =
+            await LabReport.countDocuments({
 
-        });
+                reportStatus: "Pending"
 
-        const uploadedReports = await LabReport.countDocuments({
+            });
 
-            reportStatus: "Uploaded"
 
-        });
+        const uploadedReports =
+            await LabReport.countDocuments({
 
-        const emergencyReports = await LabReport.countDocuments({
+                reportStatus: "Uploaded"
 
-            priority: "Emergency"
+            });
 
-        });
 
-        const labReports = await LabReport.countDocuments({
+        const emergencyReports =
+            await LabReport.countDocuments({
 
-            department: "Lab"
+                priority: "Emergency"
 
-        });
+            });
 
-        const diagnosticReports = await LabReport.countDocuments({
 
-            department: "Diagnostic"
+        const labReports =
+            await LabReport.countDocuments({
 
-        });
+                department: "Lab"
+
+            });
+
+
+        const diagnosticReports =
+            await LabReport.countDocuments({
+
+                department: "Diagnostic"
+
+            });
+
 
         res.json({
 
@@ -635,6 +1043,8 @@ const dashboardSummary = async (req, res) => {
 
     catch (err) {
 
+        console.log(err);
+
         res.status(500).json({
 
             message: err.message
@@ -644,6 +1054,11 @@ const dashboardSummary = async (req, res) => {
     }
 
 };
+
+
+// ==========================================
+// Export
+// ==========================================
 
 module.exports = {
 

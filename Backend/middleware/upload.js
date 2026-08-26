@@ -1,5 +1,10 @@
+// const multer = require("multer");
+// const path = require("path");
+<<<<<<< HEAD
+=======
 // // const multer = require("multer");
 // // const path = require("path");
+>>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
 
 // // // Storage Configuration
 
@@ -81,7 +86,7 @@
 
 // const uploadPath = path.join(__dirname, "../uploads/reports");
 
-// // Folder नसल्यास तयार कर
+if (!fs.existsSync(uploadPath)) {
 // if (!fs.existsSync(uploadPath)) {
 
 //     fs.mkdirSync(uploadPath, { recursive: true });
@@ -114,12 +119,61 @@
 
 //     storage
 
+<<<<<<< HEAD
+// });
+// =======
+
+const multer = require("multer");
+
+const uploadPath = path.join(__dirname, "../uploads/reports");
+
+if (!fs.existsSync(uploadPath)) {
+
+    fs.mkdirSync(uploadPath, { recursive: true });
+
+}
+
+const storage = multer.diskStorage({
+
+    destination: function (req, file, cb) {
+
+        cb(null, uploadPath);
+
+    },
+
+    filename: function (req, file, cb) {
+
+        cb(
+
+            null,
+
+            Date.now() + "-" + file.originalname
+
+        );
+
+    }
+
+});
+
+module.exports = multer({
+
+    storage
+
+=======
+>>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
+});
+// const multer = require('multer');
+// const path = require('path');
+// const fs = require('fs');
+<<<<<<< HEAD
+=======
 // });
 // =======
 
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
+>>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
 
 // Ensure upload directory exists
 const uploadDir = path.join(__dirname, "../uploads/insurance-docs");
@@ -129,7 +183,7 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 // Set storage engine
-const storage = multer.diskStorage({
+const storage2 = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, uploadDir);
   },
@@ -165,11 +219,20 @@ function checkFileType(file, cb) {
 }
 
 const upload = multer({
+  storage: storage2,
+  limits: { fileSize: 5000000 }, // 5MB limit
+<<<<<<< HEAD
+=======
   storage,
   limits: { fileSize: 5000000 }, // 5 MB
+>>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
   fileFilter: function (req, file, cb) {
     checkFileType(file, cb);
   },
 });
 
 module.exports = upload;
+<<<<<<< HEAD
+=======
+module.exports = upload;
+>>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da

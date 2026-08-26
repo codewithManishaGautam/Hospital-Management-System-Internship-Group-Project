@@ -17,7 +17,7 @@ function BillingDept() {
         <div className='billing-page'>
             <h1>Billing Department</h1>
             <nav className="navbar">
-                <FontAwesomeIcon icon={faBars} style={{ margin: "5px 0 0 0" }} />
+                {/* <FontAwesomeIcon icon={faBars} style={{ margin: "5px 0 0 0" }} /> */}
                 <p className='DateTime'>
                     📅 {getDate()}
                     <br />
@@ -29,6 +29,7 @@ function BillingDept() {
                     Shradha Hospital
                     daund
                 </b>
+
                 <input
                 className="form-control"
                 placeholder="Patient Name"
@@ -36,8 +37,14 @@ function BillingDept() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
             />
+                <div className="todayAmount">
+                    <p>
+                        Today Total Amount
+                    <b>90000</b>
+                    </p>
+                </div>
 
-                    <Profile ></Profile>
+                    {/* <Profile ></Profile> */}
             </nav>
             <br />
 

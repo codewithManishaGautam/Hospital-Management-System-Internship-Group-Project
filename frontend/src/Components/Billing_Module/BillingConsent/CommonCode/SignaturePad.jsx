@@ -12,6 +12,7 @@ function SignaturePad({
 
     height = 40,
     design = "line",
+    // width="auto",
     onSave
 
 }) {

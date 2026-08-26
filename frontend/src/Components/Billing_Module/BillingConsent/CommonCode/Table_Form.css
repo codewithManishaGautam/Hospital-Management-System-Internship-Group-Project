@@ -1,4 +1,4 @@
-.table-form-wrapper{
+/* .table-form-wrapper{
 
     width:100%;
     overflow-x:hidden;
@@ -108,4 +108,183 @@
     }
 
 }
+ */
+
+
+ .table-form-wrapper {
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+
+/* DATE */
+
+.table-form-wrapper .patient-form-date {
+    width: 90%;
+    margin: 0 auto 15px auto;
+
+    text-align: right;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+
+/* OUTER BORDER BOX */
+
+.table-form-wrapper .patient-form-border {
+    width: 90%;
+    margin: 0 auto;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+}
+
+
+/* TABLE */
+
+.table-form-wrapper .prajwal-patient-form-table {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    table-layout: fixed !important;
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+
+    box-sizing: border-box;
+}
+
+
+/* COLUMNS */
+
+.table-form-wrapper .prajwal-patient-form-table td {
+    width: 50% !important;
+    max-width: 50% !important;
+
+    padding: 28px !important;
+
+    box-sizing: border-box !important;
+
+    text-align: center !important;
+    vertical-align: middle !important;
+
+    border: 1px solid #d9e2ec !important;
+
+    overflow: hidden;
+}
+
+
+/* LABEL */
+
+.table-form-wrapper .prajwal-patient-form-table td b {
+    display: block;
+
+    margin-bottom: 12px;
+
+    text-align: center;
+
+    font-size: 18px;
+}
+
+
+/* INPUT */
+
+.table-form-wrapper .prajwal-patient-form-table .patient-form-input {
+    display: block;
+
+    width: 85% !important;
+    max-width: 85% !important;
+
+    height: 42px;
+
+    margin: 0 auto !important;
+
+    padding: 8px 18px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #d9dfe5;
+    border-radius: 8px;
+
+    font-size: 16px;
+}
+
+
+/* DOA */
+
+.table-form-wrapper .patient-form-value {
+    width: 30%;
+
+    margin-top: 10px;
+
+    text-align: center;
+
+    font-size: 18px;
+
+    overflow-wrap: break-word;
+}
+
+
+/* SIGNATURE */
+
+.table-form-wrapper .patient-form-signature {
+    width: 85%;
+
+    margin: 10px auto 0;
+
+    box-sizing: border-box;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+    .table-form-wrapper .patient-form-border {
+        width: 95%;
+    }
+
+    .table-form-wrapper .patient-form-date {
+        width: 95%;
+    }
+
+    .table-form-wrapper .prajwal-patient-form-table td {
+        padding: 15px 8px !important;
+    }
+
+    .table-form-wrapper .prajwal-patient-form-table td b {
+        font-size: 14px;
+    }
+
+    .table-form-wrapper .prajwal-patient-form-table .patient-form-input {
+        width: 95% !important;
+        max-width: 95% !important;
+    }
+}
+
+.table-form-wrapper .patient-form-border {
+    width: 95%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.table-form-wrapper .prajwal-patient-form-table {
+    width: 100% !important;
+    table-layout: fixed !important;
+    border-collapse: collapse !important;
+}
+
+.table-form-wrapper .prajwal-patient-form-table td {
+    width: 33% !important;
+    box-sizing: border-box;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #d9e2ec;
+}
+
 
