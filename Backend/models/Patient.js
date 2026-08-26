@@ -1,8 +1,11 @@
 const mongoose = require("mongoose");
 
-const appointmentHistory = [];
 const patientSchema = new mongoose.Schema(
   {
+    // ======================
+    // Basic Patient Details
+    // ======================
+
     uhid: {
       type: String,
       unique: true,
@@ -18,7 +21,10 @@ const patientSchema = new mongoose.Schema(
 
     address: String,
 
-    // Medical
+    // ======================
+    // Medical / Doctor
+    // ======================
+
     disease: String,
 
     doctorId: {
@@ -36,10 +42,12 @@ const patientSchema = new mongoose.Schema(
         type: String,
         default: "",
       },
+
       name: {
         type: String,
         default: "",
       },
+
       specialization: {
         type: String,
         default: "",
@@ -65,6 +73,10 @@ const patientSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+
+    // ======================
+    // Prescription History
+    // ======================
 
     prescriptionHistory: [
       {
@@ -115,29 +127,29 @@ const patientSchema = new mongoose.Schema(
           default: Date.now,
         },
 
-       medicines: [
-  {
-    medicineName: {
-      type: String,
-      default: "",
-    },
+        medicines: [
+          {
+            medicineName: {
+              type: String,
+              default: "",
+            },
 
-    quantity: {
-      type: Number,
-      default: 0,
-    },
+            quantity: {
+              type: Number,
+              default: 0,
+            },
 
-    price: {
-      type: Number,
-      default: 0,
-    },
+            price: {
+              type: Number,
+              default: 0,
+            },
 
-    amount: {
-      type: Number,
-      default: 0,
-    },
-  },
-],
+            amount: {
+              type: Number,
+              default: 0,
+            },
+          },
+        ],
 
         billId: {
           type: mongoose.Schema.Types.ObjectId,
@@ -162,13 +174,19 @@ const patientSchema = new mongoose.Schema(
       },
     ],
 
+    // ======================
     // Lab
+    // ======================
+
     labReport: {
       type: String,
       default: "",
     },
 
+    // ======================
     // Pharmacy
+    // ======================
+
     medicineHistory: [
       {
         billId: {
@@ -198,7 +216,10 @@ const patientSchema = new mongoose.Schema(
       },
     ],
 
+    // ======================
     // Nurse
+    // ======================
+
     nurseNotes: {
       type: String,
       default: "",
@@ -209,12 +230,19 @@ const patientSchema = new mongoose.Schema(
       default: "",
     },
 
+    // ======================
+    // Discharge
+    // ======================
+
     dischargeDate: {
       type: String,
       default: "",
     },
 
+    // ======================
     // Insurance
+    // ======================
+
     insuranceStatus: {
       type: String,
       default: "",
@@ -225,14 +253,21 @@ const patientSchema = new mongoose.Schema(
       default: "",
     },
 
+    // ======================
     // Appointment
+    // ======================
+
     appointmentDate: String,
 
     appointmentTime: String,
 
+    // ======================
     // OPD / IPD
+    // ======================
+
     role: {
       type: String,
+
       enum: [
         "OPD",
         "IPD",
@@ -242,10 +277,14 @@ const patientSchema = new mongoose.Schema(
         "Casualty",
         "Emergency",
       ],
+
       default: "OPD",
     },
 
+    // ======================
     // Billing
+    // ======================
+
     fee: {
       type: Number,
       default: 0,
@@ -261,7 +300,10 @@ const patientSchema = new mongoose.Schema(
       default: "Cash",
     },
 
+    // ======================
     // Admission
+    // ======================
+
     ipdNo: String,
 
     admissionDate: String,
@@ -272,115 +314,19 @@ const patientSchema = new mongoose.Schema(
 
     roomType: String,
 
+    // ======================
     // Patient Status
+    // ======================
+
     status: {
       type: String,
       default: "Waiting",
     },
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
+    // ======================
+    // Department Flow
+    // ======================
 
-        
-    prescriptionHistory: [
-      {
-        diagnosis: {
-          type: String,
-          default: "",
-        },
-
-        prescription: {
-          type: String,
-          default: "",
-        },
-
-        advice: {
-          type: String,
-          default: "",
-        },
-
-        notes: {
-          type: String,
-          default: "",
-        },
-
-        signature: {
-          type: String,
-          default: "",
-        },
-
-        createdAt: {
-          type: Date,
-          default: Date.now,
-        },
-      },
-    ],
-
-    // Lab
-    labReport: {
-      type: String,
-      default: "",
-    },
-
-    // Pharmacy
-    medicinesIssued: [
-      {
-        name: String,
-        quantity: Number,
-      },
-    ],
-
-    // Nurse
-    nurseNotes: {
-      type: String,
-      default: "",
-    },
-
-    vitals: {
-      type: String,
-      default: "",
-    },
-
-    // Insurance
-    insuranceStatus: {
-      type: String,
-      default: "",
-    },
-
-    claimNumber: {
-      type: String,
-      default: "",
-    },
-
-    // Appointment
-    appointmentDate: String,
-
-    appointmentTime: String,
-    
-    // Billing
-    fee: {
-      type: Number,
-      default: 0,
-    },
-
-    paymentStatus: {
-      type: String,
-      default: "Pending",
-    },
-
-
-
-<<<<<<< HEAD
-=======
->>>>>>> origin/main
-=======
->>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
     currentDepartment: {
       type: String,
       default: "Reception",
@@ -390,31 +336,19 @@ const patientSchema = new mongoose.Schema(
       type: String,
       default: "Registered",
     },
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
-  },
 
-  {
-    timestamps: true,
-  },
-
-
-
-    appointmentHistory[
-<<<<<<< HEAD
-=======
+    // ======================
+    // Appointment History
+    // ======================
 
     appointmentHistory: [
->>>>>>> origin/main
-=======
->>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
       {
         appointmentDate: String,
+
         appointmentTime: String,
 
         doctor: String,
+
         disease: String,
 
         fee: {
@@ -441,29 +375,18 @@ const patientSchema = new mongoose.Schema(
           type: Date,
           default: Date.now,
         },
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
-      }
-    ]
-  
-  
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
       },
     ],
   },
+
   {
     timestamps: true,
   },
-<<<<<<< HEAD
->>>>>>> origin/main
-=======
->>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
 );
+
+// ======================
+// Indexes
+// ======================
 
 patientSchema.index({
   doctorId: 1,
