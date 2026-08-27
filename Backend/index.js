@@ -148,7 +148,7 @@ app.use(
 // Multer
 // ======================
 
-const storage = multer.diskStorage({
+const mystorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "uploads/");
   },
@@ -162,7 +162,11 @@ const storage = multer.diskStorage({
   },
 });
 
+<<<<<<< Updated upstream
 const upload1 = multer({storage});
+=======
+//const upload = multer({ storage:mystorage });
+>>>>>>> Stashed changes
 
 // ======================
 // Nodemailer
