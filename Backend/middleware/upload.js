@@ -82,8 +82,8 @@ const fs = require("fs");
 
 
 
- const fs = require("fs");
-const path = require("path");
+// const fs = require("fs");
+//const path = require("path");
 // const multer = require("multer");
 
  const uploadPath = path.join(__dirname, "../uploads/reports");
@@ -128,7 +128,7 @@ if (!fs.existsSync(uploadPath)) {
 // });
 // =======
 
-const multer = require("multer");
+//const multer = require("multer");
 //const path = require("path");
  //const fs = require("fs");
 
@@ -182,9 +182,9 @@ function checkFileType(file, cb) {
 // =====================================================
 
 const upload = multer({
-  storage: storage2,
+  storage: storage,
   limits: { fileSize: 5000000 }, // 5MB limit
-  storage2,
+  storage,
   limits: { fileSize: 5000000 }, // 5 MB
   fileFilter: function (req, file, cb) {
     checkFileType(file, cb);
