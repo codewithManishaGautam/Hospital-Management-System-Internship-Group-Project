@@ -1,25 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/admin/table.css";
+import { insuranceService } from "../../services/insuranceService";
 
 function Insurance() {
-  const insuranceData = [
-    {
-      id: "INS001",
-      patient: "Rahul Patil",
-      company: "Star Health",
-      policyNo: "POL12345",
-      claimAmount: 25000,
-      status: "Pending",
-    },
-    {
-      id: "INS002",
-      patient: "Sneha Joshi",
-      company: "ICICI Lombard",
-      policyNo: "POL67890",
-      claimAmount: 40000,
-      status: "Approved",
-    },
-  ];
+  const [insuranceData, setInsuranceData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchInsurance();
+  }, []);
+
+  const fetchInsurance = async () => {
+    try {
+      setLoading(true);
+
+      const res = await insuranceService.getClaims();
+
+      console.log("Insurance Claims Response:", res.data);
+
+      const claims = res.data?.data || [];
+
+      setInsuranceData(claims);
+    } catch (err) {
+      console.error(
+        "Error fetching insurance claims:",
+        err.response?.data || err.message
+      );
+
+      setInsuranceData([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="table-container">
@@ -30,26 +42,53 @@ function Insurance() {
       <table>
         <thead>
           <tr>
-            <th>Claim ID</th>
+            <th>Claim No</th>
             <th>Patient</th>
-            <th>Insurance Company</th>
-            <th>Policy No</th>
-            <th>Claim Amount</th>
+            <th>Claim Type</th>
+            <th>Diagnosis</th>
+            <th>Total Bill</th>
+            <th>Approved Amount</th>
             <th>Status</th>
           </tr>
         </thead>
 
         <tbody>
-          {insuranceData.map((item) => (
-            <tr key={item.id}>
-              <td>{item.id}</td>
-              <td>{item.patient}</td>
-              <td>{item.company}</td>
-              <td>{item.policyNo}</td>
-              <td>₹{item.claimAmount}</td>
-              <td>{item.status}</td>
+          {loading ? (
+            <tr>
+              <td colSpan="7" style={{ textAlign: "center" }}>
+                Loading Insurance Records...
+              </td>
             </tr>
-          ))}
+          ) : insuranceData.length > 0 ? (
+            insuranceData.map((item) => (
+              <tr key={item._id}>
+                <td>{item.claimNumber || "-"}</td>
+
+                <td>
+                  {item.patientId?.name ||
+                    item.patientId?.uhid ||
+                    item.patientId?._id ||
+                    "-"}
+                </td>
+
+                <td>{item.claimType || "-"}</td>
+
+                <td>{item.diagnosis || "-"}</td>
+
+                <td>₹{item.totalBillAmount || 0}</td>
+
+                <td>₹{item.approvedAmount || 0}</td>
+
+                <td>{item.status || "-"}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="7" style={{ textAlign: "center" }}>
+                No Insurance Records Found
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

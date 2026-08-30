@@ -21,6 +21,8 @@ function PrescriptionPage() {
   // const prescriptionId = location.state?.prescriptionId;
   const fromPharmacy = location.state?.from === "pharmacy";
 
+  const onPrescriptionSaved = location.state?.onPrescriptionSaved;
+
   const [patient, setPatient] = useState(null);
   const [history, setHistory] = useState([]);
   const [prescriptionHistoryId, setPrescriptionHistoryId] = useState(null);
@@ -299,6 +301,10 @@ function PrescriptionPage() {
 
       setPatient(updatedPatient);
       setHistory(updatedPatient.prescriptionHistory || []);
+
+      if (onPrescriptionSaved) {
+        onPrescriptionSaved(patient._id);
+      }
 
       setEditMode(false);
 

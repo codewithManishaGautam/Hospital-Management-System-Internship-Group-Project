@@ -21,3 +21,5 @@ yarn-error.log*
 Backend/.env
 backend/.env
 frontend/.env
+backend/uploads/
+Backend/uploads/

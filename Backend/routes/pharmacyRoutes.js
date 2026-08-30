@@ -4,22 +4,16 @@ const router = express.Router();
 
 const {
   getTodayPrescriptions,
-
   searchPatient,
-
   getPrescriptionByUHID,
-
   createBill,
-
   updatePayment,
-
   updatePrescription,
-
   getMedicines,
-
   getPayments,
-
   getBills,
+  getPatientPharmacyBills,
+  getLatestPatientPharmacyBill,
 } = require("../controllers/pharmacyController");
 
 router.get("/pharmacy/prescriptions", getTodayPrescriptions);
@@ -29,6 +23,10 @@ router.get("/pharmacy/medicines", getMedicines);
 router.get("/pharmacy/payments", getPayments);
 
 router.get("/pharmacy/bills", getBills);
+
+router.get("/pharmacy/bills/patient/:patientId", getPatientPharmacyBills);
+
+router.get("/pharmacy/bill/latest/:patientId", getLatestPatientPharmacyBill);
 
 router.get("/pharmacy/search", searchPatient);
 
