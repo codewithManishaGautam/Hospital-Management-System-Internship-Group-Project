@@ -104,9 +104,6 @@ app.use("/api/admin", adminRoutes);
 const doctorRoutes = require("./routes/doctorRoutes");
 app.use("/api", doctorRoutes);
 
-const sentPrescriptionRoutes = require("./routes/sentPrescriptionRoutes");
-app.use("/api", sentPrescriptionRoutes);
-
 const pharmacyRoutes = require("./routes/pharmacyRoutes");
 app.use("/api", pharmacyRoutes);
 
@@ -191,15 +188,7 @@ const mystorage = multer.diskStorage({
   },
 });
 
-// <<<<<<< HEAD
-// <<<<<<< Updated upstream
-//const upload1 = multer({storage});
-// =======
 //const upload = multer({ storage:mystorage });
-// >>>>>>> Stashed changes
-// =======
-const upload1 = multer({ storage });
-// >>>>>>> origin/main
 
 // ======================
 // Nodemailer
