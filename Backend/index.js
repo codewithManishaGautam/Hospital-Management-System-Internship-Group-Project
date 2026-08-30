@@ -104,6 +104,9 @@ app.use("/api/admin", adminRoutes);
 const doctorRoutes = require("./routes/doctorRoutes");
 app.use("/api", doctorRoutes);
 
+const sentPrescriptionRoutes = require("./routes/sentPrescriptionRoutes");
+app.use("/api", sentPrescriptionRoutes);
+
 const pharmacyRoutes = require("./routes/pharmacyRoutes");
 app.use("/api", pharmacyRoutes);
 
@@ -490,26 +493,25 @@ app.post(
         ],
       };
 
-      transporter.sendMail(
-        mailOptions,
+      try {
+        const info = await transporter.sendMail(mailOptions);
 
-        (error, info) => {
-          if (error) {
-            console.log(error);
-          } else {
-            console.log(info.response);
-          }
-        },
-      );
+        console.log("EMAIL SENT:", info.response);
 
-      // Response
-      res.json({
-        success: true,
+        res.json({
+          success: true,
+          message: "Merged PDF Sent Successfully",
+          pdfUrl: `http://localhost:5000/uploads/${path.basename(mergedPath)}`,
+        });
+      } catch (emailError) {
+        console.error("EMAIL ERROR:", emailError);
 
-        message: "Diagnostic Added",
-
-        pdfUrl: `http://localhost:5000/${pdfPath}`,
-      });
+        res.status(500).json({
+          success: false,
+          message: "PDF merged but email sending failed",
+          error: emailError.message,
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -552,180 +554,18 @@ app.delete(
   },
 );
 
-// ======================
-// Merge PDFs
-// ======================
-
-// app.post(
-//     "/send-email",
-
-//     upload.array("pdfs", 10),
-
-//     async (req, res) => {
-
-//         try {
-
-//             console.log(
-//                 "========== SEND EMAIL =========="
-//             );
-
-//             console.log(
-//                 "BODY:",
-//                 req.body
-//             );
-
-//             console.log(
-//                 "FILES:",
-//                 req.files
-//             );
-
-//             // Check files
-
-//             if (
-//                 !req.files ||
-//                 req.files.length === 0
-//             ) {
-
-//                 return res.status(400).json({
-
-//                     success: false,
-
-//                     message:
-//                         "No PDF files uploaded"
-
-//                 });
-
-//             }
-
-//             const {
-//                 patientName,
-//                 email
-//             } = req.body;
-
-//             const uploadedFiles =
-//                 req.files;
-
-//             console.log(
-//                 "Uploaded Files:",
-//                 uploadedFiles.length
-//             );
-
-//             // Generated folder
-
-//             const generatedDir =
-//                 path.join(
-//                     __dirname,
-//                     "uploads"
-//                 );
-
-//             if (
-//                 !fs.existsSync(
-//                     generatedDir
-//                 )
-//             ) {
-
-//                 fs.mkdirSync(
-//                     generatedDir,
-//                     {
-//                         recursive: true
-//                     }
-//                 );
-
-//             }
-
-// // labRoute Changes :
-
-//             // Merged PDF path
-
-//             const mergedPath =
-//                 path.join(
-//                     generatedDir,
-//                     `merged_${Date.now()}.pdf`
-//                 );
-
-// // app.use(
-// //   "/uploads",
-
-//             console.log(
-//                 "Merged Path:",
-//                 mergedPath
-//             );
-
-//             // Merge PDFs
-
-//             await mergePDFs(
-//                 uploadedFiles,
-//                 mergedPath
-//             );
-
-//             console.log(
-//                 "PDF MERGED SUCCESSFULLY"
-//             );
-
-//             // Save Bill
-// //   express.static(path.join(__dirname, "uploads")),
-// // );
-
-//             const bill =
-//                 new Bill({
-
-//                     patientName,
-
-//                     email,
-
-//                     pdfPath:
-//                         mergedPath
-
-//                 });
-// app.use(express.json());
-
-// // app.use(
-// //   express.urlencoded({
-// //     extended: true,
-// //   }),
-// // );
-
-//             await bill.save();
-
-//             // Email
-
-//             const mailOptions = {
-
-//                 from:
-//                     process.env.EMAIL_USER,
-
-//                 to:
-//                     email,
-
-//                 subject:
-//                     "Merged Hospital Documents",
-
-//                 text:
-//                     "Your merged hospital documents attached.",
-
-//                 attachments: [
-
-//                     {
-
-//                         filename:
-//                             "Hospital_Report.pdf",
-
-//                         path:
-//                             mergedPath
-
-//                     }
-
-//                 ]
-
-//             };
-
 // Send email
-
 app.post("/send-email", upload.array("pdfs", 10), async (req, res) => {
   try {
     console.log("========== SEND EMAIL ==========");
+
     console.log("BODY:", req.body);
+
     console.log("FILES:", req.files);
+
+    // ==========================
+    // Check PDF files
+    // ==========================
 
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({
@@ -734,11 +574,30 @@ app.post("/send-email", upload.array("pdfs", 10), async (req, res) => {
       });
     }
 
+    // ==========================
+    // Patient details
+    // ==========================
+
     const { patientName, email } = req.body;
+
+    if (!patientName || !email) {
+      return res.status(400).json({
+        success: false,
+        message: "Patient name and email are required",
+      });
+    }
+
+    // ==========================
+    // Uploaded files
+    // ==========================
 
     const uploadedFiles = req.files;
 
     console.log("Uploaded Files:", uploadedFiles.length);
+
+    // ==========================
+    // Generated directory
+    // ==========================
 
     const generatedDir = path.join(__dirname, "uploads");
 
@@ -748,46 +607,77 @@ app.post("/send-email", upload.array("pdfs", 10), async (req, res) => {
       });
     }
 
+    // ==========================
+    // Merged PDF path
+    // ==========================
+
     const mergedPath = path.join(generatedDir, `merged_${Date.now()}.pdf`);
 
     console.log("Merged Path:", mergedPath);
+
+    // ==========================
+    // Merge PDFs
+    // ==========================
 
     await mergePDFs(uploadedFiles, mergedPath);
 
     console.log("PDF MERGED SUCCESSFULLY");
 
+    // ==========================
+    // Save Bill
+    // ==========================
+
     const bill = new Bill({
       patientName,
+
       email,
+
       pdfPath: mergedPath,
     });
 
     await bill.save();
 
+    console.log("Bill Saved Successfully");
+
+    // ==========================
+    // Email
+    // ==========================
+
     const mailOptions = {
       from: process.env.EMAIL_USER,
+
       to: email,
+
       subject: "Merged Hospital Documents",
-      text: "Your merged hospital documents attached.",
+
+      text: "Your merged hospital documents are attached.",
+
       attachments: [
         {
           filename: "Hospital_Report.pdf",
+
           path: mergedPath,
         },
       ],
     };
 
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.error("EMAIL ERROR:", error);
-      } else {
-        console.log("EMAIL SENT:", info.response);
-      }
-    });
+    // ==========================
+    // Send Email
+    // ==========================
+
+    const info = await transporter.sendMail(mailOptions);
+
+    console.log("EMAIL SENT:", info.response);
+
+    // ==========================
+    // Response
+    // ==========================
 
     res.json({
       success: true,
-      message: "Merged PDF Sent",
+
+      message: "Merged PDF Sent Successfully",
+
       pdfUrl: `http://localhost:5000/uploads/${path.basename(mergedPath)}`,
     });
   } catch (error) {
@@ -795,7 +685,9 @@ app.post("/send-email", upload.array("pdfs", 10), async (req, res) => {
 
     res.status(500).json({
       success: false,
+
       message: error.message,
+
       error: error.stack,
     });
   }

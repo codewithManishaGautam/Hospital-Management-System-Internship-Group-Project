@@ -19,6 +19,12 @@ const patientSchema = new mongoose.Schema(
 
     mobile: String,
 
+    email: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+
     address: String,
 
     // ======================
