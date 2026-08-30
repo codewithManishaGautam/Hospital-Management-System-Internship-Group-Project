@@ -414,6 +414,63 @@ const getBills = async (req, res) => {
   }
 };
 
+const getPatientPharmacyBills = async (req, res) => {
+  try {
+    const { patientId } = req.params;
+
+    const bills = await PharmacyBill.find({
+      patientId: patientId,
+    })
+      .populate("patientId", "name age gender mobile uhid")
+      .sort({ createdAt: -1 })
+      .lean();
+
+    res.status(200).json({
+      success: true,
+      data: bills,
+    });
+  } catch (err) {
+    console.log("Get Patient Pharmacy Bills Error:", err);
+
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
+const getLatestPatientPharmacyBill = async (req, res) => {
+  try {
+    const { patientId } = req.params;
+
+    const bill = await PharmacyBill.findOne({
+      patientId: patientId,
+    })
+      .populate("patientId", "name age gender mobile uhid address")
+      .sort({ createdAt: -1 })
+      .lean();
+
+    if (!bill) {
+      return res.status(404).json({
+        success: false,
+        message: "Pharmacy bill not found for this patient",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: bill,
+    });
+  } catch (err) {
+    console.log("Get Latest Pharmacy Bill Error:", err);
+
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
 const updatePrescription = async (req, res) => {
   try {
     const prescription = await SentPrescription.findByIdAndUpdate(
@@ -498,20 +555,14 @@ const updatePayment = async (req, res) => {
 // 7. Export
 module.exports = {
   getTodayPrescriptions,
-
   searchPatient,
-
   getPrescriptionByUHID,
-
   createBill,
-
   updatePayment,
-
   updatePrescription,
-
   getMedicines,
-
   getPayments,
-
   getBills,
+  getPatientPharmacyBills,
+  getLatestPatientPharmacyBill,
 };
