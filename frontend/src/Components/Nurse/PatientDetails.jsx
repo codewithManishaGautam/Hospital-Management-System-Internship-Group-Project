@@ -23,7 +23,7 @@ export default function PatientDetails({
 
 }) {
 
-  // १. क्लिनिकल समरी पीडीएफ जनरेट करने का फंक्शन
+  
   const generateClinicalPDF = () => {
     const doc = new jsPDF();
     doc.setFont("helvetica", "bold");
@@ -48,7 +48,7 @@ export default function PatientDetails({
     doc.save(`Clinical_Summary_${selectedPatient?.name || 'Patient'}.pdf`);
   }
 
-  // २. फार्मेसी ऑर्डर पीडीएफ जनरेट करने का फंक्शन
+  
   const generatePharmacyPDF = () => {
     const doc = new jsPDF();
     doc.setFont("helvetica", "bold");
@@ -64,14 +64,14 @@ export default function PatientDetails({
     doc.text("MEDICATION LIST:", 14, 52);
     doc.setFont("helvetica", "normal");
     
-    // अगर आपके पास मेडिसिन की लिस्ट एरे में है तो लूप चला सकते हैं, नहीं तो डमी टेक्स्ट:
+    
     doc.text("1. Paracetamol - 1 Tablet - Night", 14, 60);
     doc.text("2. Ceftriaxone - 1 Injection - Morning", 14, 67);
 
     doc.save(`Pharmacy_Order_${selectedPatient?.name || 'Patient'}.pdf`);
   };
 
-  // ३. बिलिंग पीडीएफ जनरेट करने का फंक्शन
+  
   const generateBillingPDF = () => {
     const doc = new jsPDF();
     doc.setFont("helvetica", "bold");
@@ -285,7 +285,7 @@ export default function PatientDetails({
         // sendBilling={sendBilling}
       />
 
-       {/* <ActivityChart /> खत्म होने के ठीक नीचे इसे पेस्ट करें */}
+       
       <div style={{ display: 'flex', gap: '20px', marginTop: '40px', justifyContent: 'center', marginBottom: '40px', width: '100%' }}>
         <button onClick={generateClinicalPDF} style={{ padding: '12px 24px', backgroundColor: '#002244', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}>
           1. Create PDF

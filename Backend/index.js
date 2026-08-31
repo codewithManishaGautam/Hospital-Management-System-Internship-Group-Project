@@ -104,9 +104,6 @@ app.use("/api/admin", adminRoutes);
 const doctorRoutes = require("./routes/doctorRoutes");
 app.use("/api", doctorRoutes);
 
-const sentPrescriptionRoutes = require("./routes/sentPrescriptionRoutes");
-app.use("/api", sentPrescriptionRoutes);
-
 const pharmacyRoutes = require("./routes/pharmacyRoutes");
 app.use("/api", pharmacyRoutes);
 
@@ -177,7 +174,7 @@ app.use(
 // Multer
 // ======================
 
-const storage = multer.diskStorage({
+const mystorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "uploads/");
   },
@@ -191,7 +188,7 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload1 = multer({ storage });
+//const upload = multer({ storage:mystorage });
 
 // ======================
 // Nodemailer
