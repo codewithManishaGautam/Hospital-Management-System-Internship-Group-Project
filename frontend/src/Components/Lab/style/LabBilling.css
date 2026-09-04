@@ -1,0 +1,115 @@
+.lab-billing-page {
+  min-height: 100vh;
+  padding: 35px;
+  background: #f4f7fb;
+  box-sizing: border-box;
+}
+
+.lab-billing-card {
+  max-width: 850px;
+  margin: auto;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.lab-billing-card h2 {
+  color: #17479e;
+  margin-bottom: 25px;
+}
+
+.patient-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.patient-details p {
+  background: #eef5ff;
+  padding: 12px;
+  border-radius: 7px;
+  margin: 0;
+}
+
+.lab-bill-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.lab-bill-table th {
+  background: #1976d2;
+  color: white;
+  padding: 13px;
+}
+
+.lab-bill-table td {
+  padding: 13px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.lab-bill-table tfoot th {
+  background: #eef5ff;
+  color: #17479e;
+  font-size: 16px;
+}
+
+.payment-section {
+  margin-top: 30px;
+}
+
+.payment-section label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.payment-section select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  margin-bottom: 20px;
+}
+
+.pay-btn {
+  width: 100%;
+  padding: 13px;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.pay-btn:hover {
+  background: #125ca5;
+}
+
+.pay-btn:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+.back-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  background: #ddd;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+@media (max-width: 700px) {
+  .patient-details {
+    grid-template-columns: 1fr;
+  }
+
+  .lab-billing-page {
+    padding: 15px;
+  }
+}

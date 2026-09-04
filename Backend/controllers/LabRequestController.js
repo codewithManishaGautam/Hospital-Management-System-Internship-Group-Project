@@ -1,345 +1,360 @@
 const LabRequest = require("../models/LabRequest");
-
+const Patient = require("../models/Patient");
 
 // ==========================================
 // Create Lab Request
 // ==========================================
 
 exports.createLabRequest = async (req, res) => {
+  try {
+    const {
+      patientId,
+      doctorId,
+      uhid,
+      patientName,
+      doctorName,
+      ward,
+      department,
+      testCategory,
+      testName,
+      tests,
+      priority,
+      clinicalNotes,
+    } = req.body;
 
-    try {
+    const request = new LabRequest({
+      patientId,
+      doctorId,
+      uhid,
+      patientName,
+      doctorName,
+      ward,
+      department,
+      testCategory,
+      testName,
+      tests: Array.isArray(tests) ? tests : [],
+      priority: priority || "Normal",
+      clinicalNotes: clinicalNotes || "",
+      status: "Pending",
+    });
 
-        const request = new LabRequest(req.body);
+    await request.save();
 
-        await request.save();
+    res.status(201).json({
+      success: true,
 
-        res.status(201).json({
+      message: "Lab Request Created Successfully",
 
-            success: true,
+      data: request,
+    });
+  } catch (error) {
+    console.log("Create Lab Request Error:", error);
 
-            message: "Lab Request Created Successfully",
+    res.status(500).json({
+      success: false,
 
-            data: request
-
-        });
-
-    }
-
-    catch (error) {
-
-        res.status(500).json({
-
-            success: false,
-
-            message: error.message
-
-        });
-
-    }
-
+      message: error.message,
+    });
+  }
 };
-
 
 // ==========================================
 // Get All Lab Requests
 // ==========================================
 
 exports.getAllLabRequests = async (req, res) => {
+  try {
+    const requests = await LabRequest.find()
 
-    try {
+      .sort({
+        requestedAt: -1,
+      });
 
-        const requests = await LabRequest.find()
+    res.status(200).json({
+      success: true,
 
-            .sort({
+      data: requests,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
 
-                requestedAt: -1
-
-            });
-
-        res.status(200).json({
-
-            success: true,
-
-            data: requests
-
-        });
-
-    }
-
-    catch (error) {
-
-        res.status(500).json({
-
-            success: false,
-
-            message: error.message
-
-        });
-
-    }
-
+      message: error.message,
+    });
+  }
 };
-
 
 // ==========================================
 // Get Pending Requests
 // ==========================================
 
 exports.getPendingRequests = async (req, res) => {
+  try {
+    const requests = await LabRequest.find({
+      status: "Pending",
+    });
 
-    try {
+    res.status(200).json({
+      success: true,
 
-        const requests = await LabRequest.find({
+      data: requests,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
 
-            status: "Pending"
-
-        });
-
-        res.status(200).json({
-
-            success: true,
-
-            data: requests
-
-        });
-
-    }
-
-    catch (error) {
-
-        res.status(500).json({
-
-            success: false,
-
-            message: error.message
-
-        });
-
-    }
-
+      message: error.message,
+    });
+  }
 };
-
 
 // ==========================================
 // Get Processing Requests
 // ==========================================
 
 exports.getProcessingRequests = async (req, res) => {
+  try {
+    const requests = await LabRequest.find({
+      status: "Processing",
+    });
 
-    try {
+    res.status(200).json({
+      success: true,
 
-        const requests = await LabRequest.find({
+      data: requests,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
 
-            status: "Processing"
-
-        });
-
-        res.status(200).json({
-
-            success: true,
-
-            data: requests
-
-        });
-
-    }
-
-    catch (error) {
-
-        res.status(500).json({
-
-            success: false,
-
-            message: error.message
-
-        });
-
-    }
-
+      message: error.message,
+    });
+  }
 };
-
 
 // ==========================================
 // Get Completed Requests
 // ==========================================
 
 exports.getCompletedRequests = async (req, res) => {
+  try {
+    const requests = await LabRequest.find({
+      status: "Completed",
+    });
 
-    try {
+    res.status(200).json({
+      success: true,
 
-        const requests = await LabRequest.find({
+      data: requests,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
 
-            status: "Completed"
-
-        });
-
-        res.status(200).json({
-
-            success: true,
-
-            data: requests
-
-        });
-
-    }
-
-    catch (error) {
-
-        res.status(500).json({
-
-            success: false,
-
-            message: error.message
-
-        });
-
-    }
-
+      message: error.message,
+    });
+  }
 };
-
 
 // ==========================================
 // Get Single Patient Request
 // ==========================================
 
 exports.getSingleRequest = async (req, res) => {
+  try {
+    const request = await LabRequest.findById(req.params.id);
 
-    try {
+    res.status(200).json({
+      success: true,
 
-        const request = await LabRequest.findById(
+      data: request,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
 
-            req.params.id
-
-        );
-
-        res.status(200).json({
-
-            success: true,
-
-            data: request
-
-        });
-
-    }
-
-    catch (error) {
-
-        res.status(500).json({
-
-            success: false,
-
-            message: error.message
-
-        });
-
-    }
-
+      message: error.message,
+    });
+  }
 };
-
 
 // ==========================================
 // Change Status
 // ==========================================
 
 exports.updateStatus = async (req, res) => {
+  try {
+    const request = await LabRequest.findByIdAndUpdate(
+      req.params.id,
 
-    try {
+      {
+        status: req.body.status,
+      },
 
-        const request = await LabRequest.findByIdAndUpdate(
+      {
+        new: true,
+      },
+    );
 
-            req.params.id,
+    res.status(200).json({
+      success: true,
 
-            {
+      message: "Status Updated",
 
-                status: req.body.status
+      data: request,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
 
-            },
-
-            {
-
-                new: true
-
-            }
-
-        );
-
-        res.status(200).json({
-
-            success: true,
-
-            message: "Status Updated",
-
-            data: request
-
-        });
-
-    }
-
-    catch (error) {
-
-        res.status(500).json({
-
-            success: false,
-
-            message: error.message
-
-        });
-
-    }
-
+      message: error.message,
+    });
+  }
 };
 
-
 // ==========================================
-// Upload PDF Path
+// Upload Multiple PDF Reports
 // ==========================================
 
 exports.uploadReport = async (req, res) => {
-
-    try {
-
-        const request = await LabRequest.findByIdAndUpdate(
-
-            req.params.id,
-
-            {
-
-                reportPdf: req.file.filename,
-
-                status: "Completed"
-
-            },
-
-            {
-
-                new: true
-
-            }
-
-        );
-
-        res.status(200).json({
-
-            success: true,
-
-            message: "Report Uploaded Successfully",
-
-            data: request
-
-        });
-
+  try {
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Please upload at least one PDF report",
+      });
     }
 
-    catch (error) {
+    const request = await LabRequest.findById(req.params.id);
 
-        res.status(500).json({
-
-            success: false,
-
-            message: error.message
-
-        });
-
+    if (!request) {
+      return res.status(404).json({
+        success: false,
+        message: "Lab Request not found",
+      });
     }
 
+    const uploadedReports = req.files.map((file, index) => ({
+      fileName: file.filename,
+      testName: request.tests[index] || request.testName,
+      uploadedAt: new Date(),
+    }));
+
+    request.reportPdfs.push(...uploadedReports);
+
+    // Report uploaded आहे, पण Doctor ने review केलेला नाही
+    request.status = "Processing";
+
+    await request.save();
+
+    const patient = await Patient.findById(request.patientId);
+
+    if (!patient) {
+      return res.status(404).json({
+        success: false,
+        message: "Patient not found",
+      });
+    }
+
+    if (!patient.labReportHistory) {
+      patient.labReportHistory = [];
+    }
+
+    uploadedReports.forEach((report) => {
+      patient.labReportHistory.push({
+        labRequestId: request._id,
+        testName: report.testName,
+        reportPdf: report.fileName,
+        reportDate: report.uploadedAt,
+      });
+    });
+
+    await patient.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Reports Uploaded Successfully",
+      data: request,
+    });
+  } catch (error) {
+    console.log("Upload Reports Error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// ==========================================
+// Complete Lab Payment
+// ==========================================
+
+exports.completeLabPayment = async (req, res) => {
+  try {
+    const { paymentMode, paymentId, orderId, totalAmount } = req.body;
+
+    const request = await LabRequest.findById(req.params.id);
+
+    if (!request) {
+      return res.status(404).json({
+        success: false,
+        message: "Lab Request not found",
+      });
+    }
+
+    request.billing = {
+      totalAmount: Number(totalAmount || 0),
+      paymentStatus: "Paid",
+      paymentMode: paymentMode || "",
+      billNumber: `LAB-${Date.now()}`,
+      paymentId: paymentId || "",
+      orderId: orderId || "",
+      billedAt: new Date(),
+    };
+
+    // Payment successful → request completed
+    request.status = "Completed";
+
+    await request.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Lab Payment Successful and Bill Generated",
+      data: request,
+    });
+  } catch (error) {
+    console.log("Complete Lab Payment Error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// ==========================================
+// Get Lab Payment History
+// ==========================================
+
+exports.getPaymentHistory = async (req, res) => {
+  try {
+    const payments = await LabRequest.find({
+      "billing.paymentStatus": "Paid",
+    }).sort({
+      "billing.billedAt": -1,
+    });
+
+    res.status(200).json({
+      success: true,
+      data: payments,
+    });
+  } catch (error) {
+    console.log("Get Lab Payment History Error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 };
