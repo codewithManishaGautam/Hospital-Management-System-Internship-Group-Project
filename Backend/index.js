@@ -701,32 +701,63 @@ app.use("/upload", uploadRoutes);
 app.use("/api/payment", paymentRoutes);
 
 // ======================
-// LAB MODULE
+// LAB REPORT UPLOAD
 // ======================
 
 const labRoutes = require("./routes/labRoutes");
 
 const labUploadPath = path.join(__dirname, "uploadLabReport", "uploadLab");
 
+// Create Lab Upload Folder
 if (!fs.existsSync(labUploadPath)) {
   fs.mkdirSync(labUploadPath, {
     recursive: true,
   });
 }
 
+// Lab Report Storage
 const storageLab = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, labUploadPath);
   },
 
   filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
+    const uniqueName =
+      Date.now() +
+      "-" +
+      Math.round(Math.random() * 1e9) +
+      path.extname(file.originalname);
+
+    cb(null, uniqueName);
   },
 });
 
+// Only PDF files
 const uploadLab = multer({
   storage: storageLab,
+
+  limits: {
+    fileSize: 20 * 1024 * 1024,
+  },
+
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype === "application/pdf") {
+      cb(null, true);
+    } else {
+      cb(new Error("Only PDF files are allowed"));
+    }
+  },
 });
+
+// Make Lab Reports accessible
+app.use(
+  "/uploadLabReport",
+  express.static(path.join(__dirname, "uploadLabReport")),
+);
+
+// Lab Routes
+app.use("/lab", labRoutes(uploadLab));
+
 app.use(
   "/uploadLabReport",
   express.static(path.join(__dirname, "uploadLabReport")),
