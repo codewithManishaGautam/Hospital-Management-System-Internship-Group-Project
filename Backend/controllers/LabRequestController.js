@@ -1,5 +1,6 @@
 const LabRequest = require("../models/LabRequest");
 const Patient = require("../models/Patient");
+const path = require("path");
 
 // ==========================================
 // Create Lab Request
@@ -133,24 +134,28 @@ exports.getProcessingRequests = async (req, res) => {
 };
 
 // ==========================================
-// Get Completed Requests
+// Get Lab History
+// Reports uploaded but payment is pending
 // ==========================================
 
 exports.getCompletedRequests = async (req, res) => {
   try {
     const requests = await LabRequest.find({
-      status: "Completed",
+      reportPdfs: { $exists: true, $not: { $size: 0 } },
+      "billing.paymentStatus": { $ne: "Paid" },
+    }).sort({
+      requestedAt: -1,
     });
 
     res.status(200).json({
       success: true,
-
       data: requests,
     });
   } catch (error) {
+    console.log("Get Lab History Error:", error);
+
     res.status(500).json({
       success: false,
-
       message: error.message,
     });
   }
@@ -234,15 +239,38 @@ exports.uploadReport = async (req, res) => {
       });
     }
 
-    const uploadedReports = req.files.map((file, index) => ({
-      fileName: file.filename,
-      testName: request.tests[index] || request.testName,
-      uploadedAt: new Date(),
-    }));
+    // ==========================================
+    // Prepare Uploaded PDF Reports
+    // ==========================================
 
+    console.log("LAB UPLOADED FILES:", req.files);
+
+    const uploadedReports = req.files.map((file, index) => {
+      const savedFileName =
+        file.filename ||
+        (file.path ? path.basename(file.path) : null) ||
+        file.originalname;
+
+      return {
+        fileName: savedFileName,
+        testName: request.tests[index] || request.testName,
+        uploadedAt: new Date(),
+      };
+    });
+
+    console.log("LAB REPORTS TO SAVE:", uploadedReports);
+
+    // Remove any old invalid report entries
+    request.reportPdfs = request.reportPdfs.filter((report) => report.fileName);
+
+    // Add newly uploaded reports
     request.reportPdfs.push(...uploadedReports);
 
-    // Report uploaded आहे, पण Doctor ने review केलेला नाही
+    // Report uploaded → Processing
+    request.status = "Processing";
+
+    await request.save();
+
     request.status = "Processing";
 
     await request.save();

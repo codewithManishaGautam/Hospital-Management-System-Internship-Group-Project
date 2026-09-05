@@ -7,7 +7,6 @@ import "./style/LabDashboard.css";
 function LabDashboard() {
   const [requests, setRequests] = useState([]);
 
-  // Dashboard किंवा History
   const [activeSection, setActiveSection] = useState("Dashboard");
 
   const [selectedRequest, setSelectedRequest] = useState(null);
@@ -35,12 +34,6 @@ function LabDashboard() {
         const processingRequests = processingRes.data.data || [];
 
         setRequests([...pendingRequests, ...processingRequests]);
-      } else if (activeSection === "History") {
-        const res = await axios.get(
-          "http://localhost:5000/lab/requests/completed",
-        );
-
-        setRequests(res.data.data || []);
       } else if (activeSection === "PaymentHistory") {
         const res = await axios.get(
           "http://localhost:5000/lab/requests/payment-history",
@@ -117,7 +110,7 @@ function LabDashboard() {
         request={billingRequest}
         onBack={() => {
           setBillingRequest(null);
-          setActiveSection("History");
+          setActiveSection("PaymentHistory");
           getRequests();
         }}
       />
@@ -174,21 +167,6 @@ function LabDashboard() {
           >
             📊 Dashboard
           </button>
-
-          {/* HISTORY */}
-          <button
-            className={
-              activeSection === "History"
-                ? "lab-menu-btn active"
-                : "lab-menu-btn"
-            }
-            onClick={() => {
-              setActiveSection("History");
-              setSearch("");
-            }}
-          >
-            📜 History
-          </button>
         </div>
 
         {/* PAYMENT HISTORY */}
@@ -222,9 +200,7 @@ function LabDashboard() {
           <h1>
             {activeSection === "Dashboard"
               ? "Lab Department Dashboard"
-              : activeSection === "History"
-                ? "Lab History"
-                : "Payment History"}
+              : "Payment History"}
           </h1>
         </div>
 
@@ -251,17 +227,17 @@ function LabDashboard() {
           </div>
         )}
 
-        {/* ======================================
+        {/* {/* ======================================
             HISTORY INFO
-        ====================================== */}
+        ====================================== *
 
         {activeSection === "History" && (
           <div className="lab-info">
-            <h2>Completed Lab Reports</h2>
+            <h2>Lab Report History</h2>
 
-            <p>Previously completed patient lab reports</p>
+            <p>Previously uploaded and completed laboratory reports</p>
           </div>
-        )}
+        )} */}
 
         {activeSection === "PaymentHistory" && (
           <div className="lab-info">
@@ -345,7 +321,7 @@ function LabDashboard() {
           </div>
         ) : (
           /* ======================================
-      DASHBOARD / HISTORY TABLE
+ DASHBOARD TABLE 
   ====================================== */
 
           <div className="lab-table-container">
@@ -419,11 +395,12 @@ function LabDashboard() {
                             </button>
                           )}
 
-                        {/* HISTORY */}
-                        {activeSection === "History" &&
-                          item.status === "Completed" && (
-                            <span className="history-completed">Completed</span>
-                          )}
+                        {/* HISTORY
+                        {activeSection === "History" && (
+                          <span className="history-pending">
+                            Payment Pending
+                          </span>
+                        )} */}
                       </td>
                     </tr>
                   ))
@@ -432,9 +409,7 @@ function LabDashboard() {
                     <td colSpan="9" className="no-data">
                       {activeSection === "Dashboard"
                         ? "No Lab Requests Found"
-                        : activeSection === "History"
-                          ? "No Lab History Found"
-                          : "No Payment History Found"}
+                        : "No Payment History Found"}
                     </td>
                   </tr>
                 )}

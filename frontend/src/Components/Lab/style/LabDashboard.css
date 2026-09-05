@@ -1,219 +1,448 @@
+/* ==========================================
+   LAB DASHBOARD - MAIN LAYOUT
+========================================== */
+
 .lab-layout {
   display: flex;
   min-height: 100vh;
-  background: #f4f7fb;
+  background: #f5f7fb;
+  color: #1f2937;
 }
 
+/* ==========================================
+   SIDEBAR
+========================================== */
+
 .lab-sidebar {
-  width: 225px;
+  width: 240px;
   min-height: 100vh;
   background: #111c35;
+
   display: flex;
   flex-direction: column;
-  padding: 20px 18px;
+
+  padding: 24px 16px;
   box-sizing: border-box;
+
   color: white;
+
+  position: sticky;
+  top: 0;
+  left: 0;
 }
+
+/* ==========================================
+   PROFILE
+========================================== */
 
 .lab-profile {
   text-align: center;
   padding-bottom: 25px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .lab-profile-icon {
-  width: 85px;
-  height: 85px;
+  width: 82px;
+  height: 82px;
+
   border-radius: 50%;
-  background: white;
+
+  background: #ffffff;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 42px;
-  margin: 0 auto 12px;
-  border: 5px solid #dce8ff;
+
+  font-size: 40px;
+
+  margin: 0 auto 14px;
+
+  border: 4px solid #dbe7ff;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .lab-profile h2 {
-  font-size: 21px;
+  font-size: 19px;
   margin: 8px 0 5px;
-  color: white;
+
+  color: #ffffff;
+
+  font-weight: 600;
 }
 
 .lab-profile p {
   font-size: 11px;
-  color: #d6def0;
+
+  color: #b9c5dc;
+
   margin: 0;
+
+  line-height: 1.5;
 }
+
+/* ==========================================
+   MENU
+========================================== */
 
 .lab-menu {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-top: 20px;
+
+  gap: 9px;
+
+  margin-top: 24px;
 }
 
 .lab-menu-btn {
   width: 100%;
+
   border: none;
-  background: #303b55;
-  color: white;
-  padding: 14px 12px;
-  border-radius: 10px;
+
+  background: transparent;
+
+  color: #dbe3f2;
+
+  padding: 13px 14px;
+
+  border-radius: 8px;
+
   text-align: left;
-  font-size: 15px;
+
+  font-size: 14px;
+
   font-weight: 600;
+
   cursor: pointer;
-  transition: 0.2s;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .lab-menu-btn:hover {
-  background: #2449a8;
+  background: #263552;
+
+  color: #ffffff;
+
+  transform: translateX(2px);
 }
 
 .lab-menu-btn.active {
-  background: #2196f3;
+  background: #2389e9;
+
+  color: #ffffff;
+
+  box-shadow: 0 4px 10px rgba(35, 137, 233, 0.25);
 }
+
+/* ==========================================
+   LOGOUT
+========================================== */
 
 .lab-logout-btn {
   margin-top: auto;
+
   width: 100%;
+
   border: none;
-  background: #173488;
+
+  background: #19398f;
+
   color: white;
-  padding: 14px 12px;
-  border-radius: 10px;
-  font-size: 15px;
+
+  padding: 13px 14px;
+
+  border-radius: 8px;
+
+  font-size: 14px;
+
   font-weight: 600;
+
   cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
 }
 
 .lab-logout-btn:hover {
-  background: #2449a8;
+  background: #244fb5;
+
+  transform: translateY(-1px);
 }
+
+/* ==========================================
+   MAIN CONTENT
+========================================== */
 
 .lab-main {
   flex: 1;
-  padding: 28px;
+
+  padding: 28px 32px;
+
   box-sizing: border-box;
+
   overflow-x: auto;
+
+  min-width: 0;
 }
 
+/* ==========================================
+   HEADER
+========================================== */
+
 .lab-header {
-  background: white;
-  padding: 20px 25px;
-  border-radius: 10px;
+  background: #ffffff;
+
+  padding: 21px 26px;
+
+  border-radius: 12px;
+
   margin-bottom: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  border: 1px solid #e7ebf2;
+
+  box-shadow: 0 3px 12px rgba(15, 23, 42, 0.06);
 }
 
 .lab-header h1 {
   margin: 0;
+
   color: #17479e;
-  font-size: 28px;
+
+  font-size: 26px;
+
+  font-weight: 600;
+
+  text-align: center;
+
+  letter-spacing: 0.2px;
 }
 
+/* ==========================================
+   SEARCH
+========================================== */
+
 .lab-search-section {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
+
+  display: flex;
+
+  align-items: center;
 }
 
 .lab-search {
-  width: 370px;
+  width: 400px;
+
   max-width: 100%;
-  padding: 12px 14px;
+
+  padding: 12px 15px;
+
   border: 1px solid #d6dce8;
+
   border-radius: 8px;
-  font-size: 14px;
+
+  background: #ffffff;
+
+  color: #1f2937;
+
+  font-size: 13px;
+
   outline: none;
+
   box-sizing: border-box;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.lab-search::placeholder {
+  color: #8a94a6;
 }
 
 .lab-search:focus {
-  border-color: #2776e8;
+  border-color: #2781e8;
+
+  box-shadow: 0 0 0 3px rgba(39, 129, 232, 0.1);
 }
 
+/* ==========================================
+   SECTION INFORMATION
+========================================== */
+
 .lab-info {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .lab-info h2 {
   margin: 0 0 5px;
+
   color: #17479e;
-  font-size: 21px;
+
+  font-size: 20px;
+
+  font-weight: 600;
 }
 
 .lab-info p {
   margin: 0;
-  color: #666;
-  font-size: 14px;
+
+  color: #697386;
+
+  font-size: 13px;
 }
 
+/* ==========================================
+   TABLE CONTAINER
+========================================== */
+
 .lab-table-container {
-  background: white;
+  background: #ffffff;
+
   border-radius: 12px;
+
   overflow-x: auto;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+
+  border: 1px solid #e4e8ef;
+
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
 }
+
+/* ==========================================
+   TABLE
+========================================== */
 
 .lab-table {
   width: 100%;
+
   border-collapse: collapse;
+
   min-width: 1000px;
 }
 
 .lab-table th {
   background: #1976d2;
-  color: white;
-  padding: 15px 10px;
+
+  color: #ffffff;
+
+  padding: 13px 11px;
+
   text-align: center;
-  font-size: 14px;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  white-space: nowrap;
 }
 
 .lab-table td {
-  padding: 14px 10px;
+  padding: 13px 11px;
+
   text-align: center;
-  border-bottom: 1px solid #e0e6ef;
-  font-size: 14px;
+
+  border-bottom: 1px solid #e8ecf2;
+
+  font-size: 13px;
+
+  color: #344054;
+
+  white-space: nowrap;
+}
+
+.lab-table tbody tr {
+  background: #ffffff;
+
+  transition: background 0.15s ease;
 }
 
 .lab-table tbody tr:hover {
-  background: #f7faff;
+  background: #f6faff;
 }
 
+.lab-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ==========================================
+   STATUS BADGES
+========================================== */
+
 .status {
-  display: inline-block;
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-size: 12px;
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 78px;
+
+  padding: 5px 10px;
+
+  border-radius: 20px;
+
+  font-size: 11px;
+
   font-weight: 600;
+
+  line-height: 1.4;
 }
 
 .status.pending {
-  background: #fff1c7;
-  color: #9a6b00;
+  background: #fff4d6;
+
+  color: #946200;
 }
 
 .status.processing {
-  background: #dcecff;
-  color: #1559a6;
+  background: #e2efff;
+
+  color: #145ca8;
 }
 
 .status.completed {
-  background: #d8f5df;
-  color: #17722d;
+  background: #dcf7e3;
+
+  color: #177235;
 }
+
+/* ==========================================
+   ACTION BUTTONS
+========================================== */
 
 .action-btn {
   border: none;
+
   padding: 8px 13px;
+
   border-radius: 6px;
-  color: white;
+
+  color: #ffffff;
+
   cursor: pointer;
-  font-size: 12px;
+
+  font-size: 11px;
+
   font-weight: 600;
+
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+
+  white-space: nowrap;
+}
+
+.action-btn:hover {
+  transform: translateY(-1px);
 }
 
 .process-btn {
   background: #f39c12;
+
+  box-shadow: 0 2px 5px rgba(243, 156, 18, 0.2);
 }
 
 .process-btn:hover {
@@ -222,58 +451,206 @@
 
 .upload-btn {
   background: #1976d2;
+
+  box-shadow: 0 2px 5px rgba(25, 118, 210, 0.2);
 }
 
 .upload-btn:hover {
   background: #125ca5;
 }
 
-.history-completed {
-  color: #16852c;
-  font-weight: 600;
-  font-size: 13px;
-}
-
-.no-data {
-  padding: 35px !important;
-  text-align: center;
-  color: #666;
-  font-size: 15px;
-}
-
-.lab-loading {
-  background: white;
-  padding: 30px;
-  text-align: center;
-  border-radius: 10px;
-  color: #555;
-}
-
-@media (max-width: 768px) {
-  .lab-sidebar {
-    width: 190px;
-  }
-
-  .lab-main {
-    padding: 18px;
-  }
-
-  .lab-header h1 {
-    font-size: 22px;
-  }
-}
-
-.payment-paid {
-  display: inline-block;
-  padding: 6px 10px;
-  border-radius: 6px;
-  background: #d8f5df;
-  color: #17722d;
-  font-size: 12px;
-  font-weight: 600;
-}
+/* ==========================================
+   PAYMENT HISTORY
+========================================== */
 
 .payment-history-table {
   min-width: 1200px;
 }
 
+.payment-paid {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 55px;
+
+  padding: 5px 11px;
+
+  border-radius: 20px;
+
+  background: #dcf7e3;
+
+  color: #177235;
+
+  font-size: 11px;
+
+  font-weight: 600;
+}
+
+/* ==========================================
+   PAYMENT PENDING
+========================================== */
+
+.payment-pending {
+  background: #fff3cd;
+
+  color: #856404;
+}
+
+.history-payment-pending {
+  display: inline-block;
+
+  padding: 6px 11px;
+
+  border-radius: 20px;
+
+  background: #fff3cd;
+
+  color: #856404;
+
+  font-size: 11px;
+
+  font-weight: 600;
+}
+
+/* ==========================================
+   NO DATA
+========================================== */
+
+.no-data {
+  padding: 42px 20px !important;
+
+  text-align: center;
+
+  color: #7b8494;
+
+  font-size: 14px;
+
+  background: #ffffff;
+}
+
+/* ==========================================
+   LOADING
+========================================== */
+
+.lab-loading {
+  background: #ffffff;
+
+  padding: 35px;
+
+  text-align: center;
+
+  border-radius: 12px;
+
+  color: #667085;
+
+  font-size: 14px;
+
+  border: 1px solid #e5e9f0;
+
+  box-shadow: 0 3px 10px rgba(15, 23, 42, 0.05);
+}
+
+/* ==========================================
+   SCROLLBAR
+========================================== */
+
+.lab-table-container::-webkit-scrollbar {
+  height: 7px;
+}
+
+.lab-table-container::-webkit-scrollbar-track {
+  background: #f1f3f6;
+}
+
+.lab-table-container::-webkit-scrollbar-thumb {
+  background: #b8c2d1;
+
+  border-radius: 10px;
+}
+
+.lab-table-container::-webkit-scrollbar-thumb:hover {
+  background: #929daf;
+}
+
+/* ==========================================
+   RESPONSIVE - TABLET
+========================================== */
+
+@media (max-width: 900px) {
+  .lab-sidebar {
+    width: 210px;
+  }
+
+  .lab-main {
+    padding: 22px;
+  }
+
+  .lab-header h1 {
+    font-size: 23px;
+  }
+
+  .lab-search {
+    width: 350px;
+  }
+}
+
+/* ==========================================
+   RESPONSIVE - MOBILE
+========================================== */
+
+@media (max-width: 650px) {
+  .lab-layout {
+    flex-direction: column;
+  }
+
+  .lab-sidebar {
+    width: 100%;
+
+    min-height: auto;
+
+    position: relative;
+
+    padding: 15px;
+  }
+
+  .lab-profile {
+    padding-bottom: 15px;
+  }
+
+  .lab-profile-icon {
+    width: 65px;
+    height: 65px;
+
+    font-size: 32px;
+  }
+
+  .lab-profile h2 {
+    font-size: 17px;
+  }
+
+  .lab-menu {
+    margin-top: 15px;
+  }
+
+  .lab-logout-btn {
+    margin-top: 12px;
+  }
+
+  .lab-main {
+    padding: 18px 14px;
+  }
+
+  .lab-header {
+    padding: 18px;
+  }
+
+  .lab-header h1 {
+    font-size: 20px;
+  }
+
+  .lab-search {
+    width: 100%;
+  }
+}
