@@ -1,102 +1,106 @@
-const patientsData = [ ];
-//   {
-//      id: "1001",
-//      name: "Ramesh Sharma",
-//     age: 45,
-//     gender: "Male",
-//     bed: "ICU Bed 1",
-//     ward: "ICU",
-//     disease: "Pneumonia",
-//     bloodGroup: "B+",
-//     allergies: "Penicillin",
-//     doctor: "Dr. Amit Patil",
+const patientsData = [ 
+  {
+     id: "1001",
+     name: "Ramesh Sharma",
+    age: 45,
+    gender: "Male",
+    bed: "ICU Bed 1",
+    ward: "ICU",
+    disease: "Pneumonia",
+    bloodGroup: "B+",
+    phone: "+91 9860517234",
+    address: "Flat 209, Shivneri Apartement,Pune",
+    allergies: "Penicillin",
+    doctor: "Dr. Amit Patil",
 
-//     admissionDate: "10/05/2026",
-//     dischargeDate: "18/05/2026",
+    admissionDate: "10/05/2026",
+    dischargeDate: "18/05/2026",
 
-//     tests: ["Blood Test", "X-Ray", "ECG"],
+    tests: ["Blood Test", "X-Ray", "ECG"],
 
-//     medicines: [
-//       {
-//         name: "Ceftriaxone",
-//         timing: "Morning",
-//         dose: "1 Injection",
-//         status: "Pending"
-//       },
-//       {
-//         name: "Paracetamol",
-//         timing: "Night",
-//         dose: "1 Tablet",
-//         status: "Given"
-//       }
-//     ],
+    medicines: [
+      {
+        name: "Ceftriaxone",
+        timing: "Morning",
+        dose: "1 Injection",
+        status: "Pending"
+      },
+      {
+        name: "Paracetamol",
+        timing: "Night",
+        dose: "1 Tablet",
+        status: "Given"
+      }
+    ],
 
-//     precautions: [
-//       "Drink warm water",
-//       "Complete bed rest",
-//       "Monitor oxygen level"
-//     ],
+    precautions: [
+      "Drink warm water",
+      "Complete bed rest",
+      "Monitor oxygen level"
+    ],
 
-//     nursingReports: [
-//       {
-//         day: "Day 1",
-//         bp: "120/80",
-//         pulse: "78",
-//         temp: "98.6 F",
-//         spo2: "97%",
-//         sugar: "140",
-//         intake: "1500ml",
-//         output: "1200ml",
-//         notes: "Patient stable today"
-//       }
-//     ]
-//    },
+    nursingReports: [
+      {
+        day: "Day 1",
+        bp: "120/80",
+        pulse: "78",
+        temp: "98.6 F",
+        spo2: "97%",
+        sugar: "140",
+        intake: "1500ml",
+        output: "1200ml",
+        notes: "Patient stable today"
+      }
+    ]
+   },
 
-//   {
-//     id: "1002",
-//     name: "Sunita Patil",
-//     age: 60,
-//     gender: "Female",
-//     bed: "Special 102",
-//     ward: "Special",
-//     disease: "Diabetes",
-//     bloodGroup: "A+",
-//     allergies: "None",
-//     doctor: "Dr. Kulkarni",
+  {
+    id: "1002",
+    name: "Sunita Patil",
+    age: 60,
+    gender: "Female",
+    bed: "Special 102",
+    ward: "Special",
+    disease: "Diabetes",
+    bloodGroup: "A+",
+    phone: "+91 8976543212",
+    address: "Flat 200, M.G road,Pune",
+    allergies: "None",
+    doctor: "Dr. Kulkarni",
 
-//     admissionDate: "11/05/2026",
-//     dischargeDate: "19/05/2026",
+    admissionDate: "11/05/2026",
+    dischargeDate: "19/05/2026",
 
-//     tests: ["Sugar Test", "ECG"],
+    tests: ["Sugar Test", "ECG"],
 
-//     medicines: [
-//       {
-//         name: "Insulin",
-//         timing: "Morning",
-//         dose: "5 Units",
-//         status: "Pending"
-//       }
-//     ],
+    medicines: [
+      {
+        name: "Insulin",
+        timing: "Morning",
+        dose: "5 Units",
+        status: "Pending"
+      }
+    ],
 
-//     precautions: [
-//       "Avoid sugar",
-//       "Check sugar level regularly"
-//     ],
+    precautions: [
+      "Avoid sugar",
+      "Check sugar level regularly"
+    ],
 
-//     nursingReports: [
-//       {
-//         day: "Day 1",
-//         bp: "130/90",
-//         pulse: "80",
-//         temp: "99 F",
-//         spo2: "98%",
-//         sugar: "220",
-//         intake: "2000ml",
-//         output: "1800ml",
-//         notes: "Sugar level high today"
-//       }
-//     ]
-//   },
+    nursingReports: [
+      {
+        day: "Day 1",
+        bp: "130/90",
+        pulse: "80",
+        temp: "99 F",
+        spo2: "98%",
+        sugar: "220",
+        intake: "2000ml",
+        output: "1800ml",
+        notes: "Sugar level high today"
+      }
+    ]
+  },
 
 //   {
 //     id: "1003",
@@ -189,6 +193,6 @@ const patientsData = [ ];
 //       }
 //     ]
 //   }
-// ];
+];
 
 export default patientsData;
