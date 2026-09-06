@@ -1,643 +1,220 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import Razorpay from "../Razorpay";
+import "./style/UploadReport.css";
 
-function UploadReport({ patient,onBack }) {
+function UploadReport({ request, onBack, onUploaded }) {
+  const [reportPdfs, setReportPdfs] = useState([]);
 
-    const [department, setDepartment] = useState("Lab");
+  const [uploading, setUploading] = useState(false);
 
-    const [testCategory, setTestCategory] = useState("Hematology");
+  // ==========================================
+  // UPLOAD REPORT
+  // ==========================================
 
-    const [testName, setTestName] = useState("");
-
-    const [priority, setPriority] = useState("Normal");
-
-    const [reportPdf, setReportPdf] = useState(null);
-
-    // ==========================
-    // Lab Categories
-    // ==========================
-
-    const labCategories = [
-
-        "Hematology",
-
-        "Biochemistry",
-
-        "Serology",
-
-        "Microbiology",
-
-        "Clinical Pathology",
-
-        "Hormone",
-
-        "Urine",
-
-        "Stool",
-
-        "Covid",
-
-        "Other"
-
-    ];
-
-    // ==========================
-    // Diagnostic Categories
-    // ==========================
-
-    const diagnosticCategories = [
-
-        "Radiology",
-
-        "Cardiology",
-
-        "Neurology",
-
-        "Pulmonology",
-
-        "Orthopedic"
-
-    ];
-
-    // ==========================
-    // Lab Tests
-    // ==========================
-
-    const labTests = {
-
-        Hematology: [
-
-            "CBC",
-
-            "ESR",
-
-            "Hemoglobin",
-
-            "Platelet Count"
-
-        ],
-
-        Biochemistry: [
-
-            "LFT",
-
-            "KFT",
-
-            "Sugar",
-
-            "Lipid Profile"
-
-        ],
-
-        Serology: [
-
-            "HIV",
-
-            "HBsAg",
-
-            "VDRL"
-
-        ],
-
-        Microbiology: [
-
-            "Culture",
-
-            "Sensitivity"
-
-        ],
-
-        "Clinical Pathology": [
-
-            "Urine Routine",
-
-            "Stool Routine"
-
-        ],
-
-        Hormone: [
-
-            "TSH",
-
-            "T3",
-
-            "T4"
-
-        ],
-
-        Urine: [
-
-            "Urine Routine",
-
-            "Urine Culture"
-
-        ],
-
-        Stool: [
-
-            "Stool Routine"
-
-        ],
-
-        Covid: [
-
-            "Covid RTPCR",
-
-            "Covid Antigen"
-
-        ],
-
-        Other: [
-
-            "Other"
-
-        ]
-
-    };
-
-    // ==========================
-    // Diagnostic Tests
-    // ==========================
-
-    const diagnosticTests = {
-
-        Radiology: [
-
-            "X-Ray",
-
-            "CT Scan",
-
-            "MRI",
-
-            "USG"
-
-        ],
-
-        Cardiology: [
-
-            "ECG",
-
-            "2D Echo",
-
-            "TMT"
-
-        ],
-
-        Neurology: [
-
-            "EEG",
-
-            "NCV"
-
-        ],
-
-        Pulmonology: [
-
-            "PFT"
-
-        ],
-
-        Orthopedic: [
-
-            "Bone Density"
-
-        ]
-
-    };
-
-    useEffect(() => {
-
-        if (department === "Lab") {
-
-            setTestCategory("Hematology");
-
-        }
-
-        else {
-
-            setTestCategory("Radiology");
-
-        }
-
-        setTestName("");
-
-    }, [department]);
-
-    // ==========================
-    // Upload
-    // ==========================
-
-    const uploadReport = async () => {
-
-        if (!reportPdf) {
-
-            alert("Please Select PDF");
-
-            return;
-
-        }
-
-        const formData = new FormData();
-
-        formData.append("patientId", patient._id);
-
-        formData.append("uhid", patient.uhid);
-
-        formData.append("patientName", patient.name);
-
-        formData.append("age", patient.age);
-
-        formData.append("gender", patient.gender);
-
-        formData.append("mobile", patient.mobile);
-
-        formData.append("department", department);
-
-        formData.append("testCategory", testCategory);
-
-        formData.append("testName", testName);
-
-        formData.append("priority", priority);
-
-        formData.append(
-
-            "machineType",
-
-            department === "Diagnostic"
-
-                ? testName
-
-                : ""
-
-        );
-
-        formData.append(
-
-            "reportPdf",
-
-            reportPdf
-
-        );
-
-        try {
-
-            const res = await axios.post(
-
-                "http://localhost:5000/lab/upload-report",
-
-                formData,
-
-                {
-
-                    headers: {
-
-                        "Content-Type": "multipart/form-data"
-
-                    }
-
-                }
-
-            );
-
-            alert(res.data.message);
-
-            setTestName("");
-
-            setReportPdf(null);
-
-        }
-
-        catch (err) {
-
-            console.log(err);
-
-            alert(
-
-                err.response?.data?.message ||
-
-                "Upload Failed"
-
-            );
-
-        };
+  const uploadReport = async () => {
+    if (reportPdfs.length === 0) {
+      alert("Please Select at least one PDF");
+      return;
     }
-    return (
-        <div >
-            <button
-                className="btn btn-secondary"
-                onClick={onBack}
-            >
-                ← Back
-            </button>
 
-
-            <div className="card-header bg-primary text-white">
-
-                Upload Report
-
-            </div>
-
-            <div className="card-body">
-
-                <h5>Patient Information</h5>
-
-                <p><b>UHID :</b> {patient.uhid}</p>
-
-                <p><b>Name :</b> {patient.name}</p>
-
-                <p><b>Age :</b> {patient.age}</p>
-
-                <p><b>Gender :</b> {patient.gender}</p>
-
-                <hr />
-
-                {/* Department */}
-
-                <div className="mb-3">
-
-                    <label>Department</label>
-
-                    <select
-
-                        className="form-control"
-
-                        value={department}
-
-                        onChange={(e) =>
-
-                            setDepartment(e.target.value)
-
-                        }
-
-                    >
-
-                        <option value="Lab">
-
-                            Lab
-
-                        </option>
-
-                        <option value="Diagnostic">
-
-                            Diagnostic
-
-                        </option>
-
-                    </select>
-
-                </div>
-
-                {/* Category */}
-
-                <div className="mb-3">
-
-                    <label>
-
-                        {
-
-                            department === "Lab"
-
-                                ? "Test Category"
-
-                                : "Diagnostic Category"
-
-                        }
-
-                    </label>
-
-                    <select
-
-                        className="form-control"
-
-                        value={testCategory}
-
-                        onChange={(e) => {
-
-                            setTestCategory(e.target.value);
-
-                            setTestName("");
-
-                        }}
-
-                    >
-
-                        {
-
-                            department === "Lab"
-
-                                ?
-
-                                labCategories.map((item) => (
-
-                                    <option
-
-                                        key={item}
-
-                                        value={item}
-
-                                    >
-
-                                        {item}
-
-                                    </option>
-
-                                ))
-
-                                :
-
-                                diagnosticCategories.map((item) => (
-
-                                    <option
-
-                                        key={item}
-
-                                        value={item}
-
-                                    >
-
-                                        {item}
-
-                                    </option>
-
-                                ))
-
-                        }
-
-                    </select>
-
-                </div>
-
-                {/* Test Name */}
-
-                <div className="mb-3">
-
-                    <label>
-
-                        {
-
-                            department === "Lab"
-
-                                ?
-
-                                "Lab Test"
-
-                                :
-
-                                "Diagnostic Test"
-
-                        }
-
-                    </label>
-
-                    <select
-
-                        className="form-control"
-
-                        value={testName}
-
-                        onChange={(e) =>
-
-                            setTestName(e.target.value)
-
-                        }
-
-                    >
-
-                        <option value="">
-
-                            Select Test
-
-                        </option>
-
-                        {
-
-                            (
-
-                                department === "Lab"
-
-                                    ?
-
-                                    labTests[testCategory]
-
-                                    :
-
-                                    diagnosticTests[testCategory]
-
-                            )?.map((item) => (
-
-                                <option
-
-                                    key={item}
-
-                                    value={item}
-
-                                >
-
-                                    {item}
-
-                                </option>
-
-                            ))
-
-                        }
-
-                    </select>
-
-                </div>
-
-                {/* Priority */}
-
-                <div className="mb-3">
-
-                    <label>Priority</label>
-
-                    <select
-
-                        className="form-control"
-
-                        value={priority}
-
-                        onChange={(e) =>
-
-                            setPriority(e.target.value)
-
-                        }
-
-                    >
-
-                        <option value="Normal">
-
-                            Normal
-
-                        </option>
-
-                        <option value="Urgent">
-
-                            Urgent
-
-                        </option>
-
-                        <option value="Emergency">
-
-                            Emergency
-
-                        </option>
-
-                    </select>
-
-                </div>
-
-                {/* PDF */}
-
-                <div className="mb-3">
-
-                    <label>Upload PDF</label>
-
-                    <input
-
-                        type="file"
-
-                        accept=".pdf"
-
-                        className="form-control"
-
-                        onChange={(e) =>
-
-                            setReportPdf(
-
-                                e.target.files[0]
-
-                            )
-
-                        }
-
-                    />
-
-                </div>
-
-                <button
-
-                    className="btn btn-success"
-
-                    onClick={uploadReport}
-
-                >
-
-                    Upload Report
-
-                </button>
-
-            </div>
-            <Razorpay patientName={patient.name} patientMob={patient.mobile}/>
-
+    const formData = new FormData();
+
+    reportPdfs.forEach((file) => {
+      formData.append("reportPdfs", file);
+    });
+
+    try {
+      setUploading(true);
+
+      const res = await axios.post(
+        `http://localhost:5000/lab/requests/${request._id}/report`,
+        formData,
+      );
+
+      alert(res.data.message || "Reports Uploaded Successfully");
+
+      setReportPdfs([]);
+
+      if (onUploaded) {
+        onUploaded(res.data.data);
+      } else {
+        onBack();
+      }
+    } catch (err) {
+      console.log("Upload Reports Error:", err);
+
+      alert(err.response?.data?.message || "Report Upload Failed");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  return (
+    <div className="lab-upload-page">
+      <div className="lab-upload-card">
+        {/* HEADER */}
+        <div className="lab-upload-header">
+          <button className="lab-upload-back-btn" onClick={onBack}>
+            ← Back
+          </button>
+
+          <div>
+            <h1>Upload Lab Report</h1>
+            <p>Upload completed laboratory test reports</p>
+          </div>
         </div>
 
-    );
+        {/* PATIENT INFORMATION */}
+        <section className="upload-section">
+          <div className="upload-section-title">
+            <span className="section-icon">👤</span>
 
+            <div>
+              <h2>Patient Information</h2>
+              <p>Patient and doctor details</p>
+            </div>
+          </div>
+
+          <div className="patient-info-grid">
+            <div className="patient-info-item">
+              <span>UHID</span>
+              <strong>{request.uhid}</strong>
+            </div>
+
+            <div className="patient-info-item">
+              <span>Patient Name</span>
+              <strong>{request.patientName}</strong>
+            </div>
+
+            <div className="patient-info-item">
+              <span>Doctor</span>
+              <strong>{request.doctorName}</strong>
+            </div>
+
+            <div className="patient-info-item">
+              <span>Ward</span>
+              <strong>{request.ward}</strong>
+            </div>
+
+            <div className="patient-info-item">
+              <span>Priority</span>
+              <strong className="priority-value">{request.priority}</strong>
+            </div>
+          </div>
+        </section>
+
+        {/* REQUESTED TESTS */}
+        <section className="upload-section">
+          <div className="upload-section-title">
+            <span className="section-icon">🧪</span>
+
+            <div>
+              <h2>Requested Tests</h2>
+              <p>Tests requested by the doctor</p>
+            </div>
+          </div>
+
+          {request.tests?.length > 0 ? (
+            <div className="requested-tests">
+              {request.tests.map((test, index) => (
+                <div className="test-badge" key={index}>
+                  <span>✓</span>
+                  {test}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="empty-message">No tests specified</p>
+          )}
+        </section>
+
+        {/* CLINICAL NOTES */}
+        {request.clinicalNotes && (
+          <section className="upload-section">
+            <div className="upload-section-title">
+              <span className="section-icon">📝</span>
+
+              <div>
+                <h2>Clinical Notes</h2>
+                <p>Additional information from doctor</p>
+              </div>
+            </div>
+
+            <div className="clinical-notes">{request.clinicalNotes}</div>
+          </section>
+        )}
+
+        {/* UPLOAD REPORT */}
+        <section className="upload-section">
+          <div className="upload-section-title">
+            <span className="section-icon">📄</span>
+
+            <div>
+              <h2>Upload Reports</h2>
+              <p>Select one or more PDF reports</p>
+            </div>
+          </div>
+
+          <label className="upload-drop-area">
+            <input
+              type="file"
+              accept=".pdf,application/pdf"
+              multiple
+              onChange={(e) => setReportPdfs(Array.from(e.target.files))}
+            />
+
+            <div className="upload-icon">📤</div>
+
+            <h3>Select PDF Reports</h3>
+
+            <p>Click here to choose PDF files</p>
+
+            <span>Only PDF files are allowed</span>
+          </label>
+
+          {/* SELECTED REPORTS */}
+          {reportPdfs.length > 0 && (
+            <div className="selected-reports">
+              <div className="selected-reports-header">
+                <h3>Selected Reports</h3>
+
+                <span>
+                  {reportPdfs.length} file
+                  {reportPdfs.length > 1 ? "s" : ""}
+                </span>
+              </div>
+
+              <div className="report-file-list">
+                {reportPdfs.map((file, index) => (
+                  <div className="report-file" key={index}>
+                    <div className="report-file-icon">PDF</div>
+
+                    <div className="report-file-name">{file.name}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* UPLOAD BUTTON */}
+          <button
+            className="upload-report-btn"
+            onClick={uploadReport}
+            disabled={uploading}
+          >
+            {uploading ? (
+              <>
+                <span className="upload-spinner"></span>
+                Uploading...
+              </>
+            ) : (
+              <>📤 Upload Reports</>
+            )}
+          </button>
+        </section>
+      </div>
+    </div>
+  );
 }
 
 export default UploadReport;
-
-
-

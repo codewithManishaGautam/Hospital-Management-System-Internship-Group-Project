@@ -23,3 +23,5 @@ backend/.env
 frontend/.env
 backend/uploads/
 Backend/uploads/
+
+Backend/uploadLabReport/uploadLab/

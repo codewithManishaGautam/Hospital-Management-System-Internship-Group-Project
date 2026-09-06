@@ -1,4 +1,8 @@
-.dashboard {
+/* ================================
+   MAIN LAYOUT
+================================ */
+
+.app-layout {
   display: flex;
   width: 100%;
   height: 100vh;
@@ -6,8 +10,14 @@
   background: #f8fafc;
 }
 
-.sidebar {
+/* ================================
+   SIDEBAR
+================================ */
+
+.app-sidebar {
   width: 280px;
+  min-width: 280px;
+  max-width: 280px;
   height: 100vh;
 
   position: sticky;
@@ -15,7 +25,8 @@
 
   flex-shrink: 0;
 
-  background: linear-gradient(180deg, #0f172a, #1e40af);
+  background: linear-gradient(180deg, #0f172a 0%, #172554 55%, #1e40af 100%);
+
   box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
 
   display: flex;
@@ -30,62 +41,152 @@
   overscroll-behavior: contain;
 }
 
-.sidebar button {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.08);
-  border: none;
+/* ================================
+   PROFILE
+================================ */
+
+.app-profile {
+  text-align: center;
+
+  margin-bottom: 35px;
+  padding-bottom: 20px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+
+  flex-shrink: 0;
+}
+
+.app-profile img {
+  width: 100px;
+  height: 100px;
+
+  border-radius: 50%;
+
+  border: 4px solid rgba(255, 255, 255, 0.25);
+
+  object-fit: cover;
+}
+
+.app-profile h3 {
   color: white;
+
+  font-size: 24px;
+  font-weight: 600;
+
+  margin: 10px 0 0;
+}
+
+/* ================================
+   SIDEBAR BUTTONS
+================================ */
+
+.app-sidebar button {
+  width: 100%;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  border: none;
+
+  color: white;
+
   padding: 14px 18px;
+
   text-align: left;
+
   cursor: pointer;
+
   border-radius: 12px;
+
   transition: all 0.3s ease;
+
   margin-bottom: 10px;
+
   font-weight: 500;
+
   font-size: 15px;
 
   display: flex;
+
   align-items: center;
+
   gap: 10px;
+
+  box-sizing: border-box;
 }
 
-.sidebar button:hover {
+.app-sidebar button:hover {
   background: rgba(255, 255, 255, 0.18);
+
   transform: translateX(5px);
 }
 
-.active-menu:hover {
-  transform: none;
-}
+/* ================================
+   ACTIVE MENU
+================================ */
 
-.active-menu {
+.app-sidebar .active-menu {
   background: #2563eb !important;
+
   color: white;
+
   font-weight: 700;
+
   border-left: 4px solid #facc15;
 }
 
-.main {
+.app-sidebar .active-menu:hover {
+  transform: none;
+}
+
+/* ================================
+   LOGOUT
+================================ */
+
+.app-logout {
+  margin-top: auto !important;
+
+  background: linear-gradient(135deg, #15803d, #16a34a) !important;
+}
+
+.app-logout:hover {
+  transform: scale(1.03) !important;
+}
+
+/* ================================
+   MAIN AREA
+================================ */
+
+.app-main {
   flex: 1;
 
   min-width: 0;
 
+  width: calc(100% - 280px);
+
   height: 100vh;
 
   overflow-y: auto;
-
   overflow-x: hidden;
 
   padding: 30px;
 
   background: #f8fafc;
+
+  box-sizing: border-box;
 }
 
-.topbar {
+/* ================================
+   TOP BAR
+================================ */
+
+.app-topbar {
   position: sticky;
+
   top: 0;
 
   z-index: 100;
+
+  width: 100%;
 
   background: white;
 
@@ -102,79 +203,113 @@
   font-weight: 700;
 
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+
+  box-sizing: border-box;
 }
 
-.content {
+/* ================================
+   CONTENT
+================================ */
+
+.app-content {
   width: 100%;
+
   min-width: 0;
+
+  box-sizing: border-box;
 }
 
-.profile {
-  text-align: center;
-  margin-bottom: 35px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.profile img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  border: 4px solid rgba(255, 255, 255, 0.25);
-  object-fit: cover;
-}
-
-.profile h3 {
-  color: white;
-  font-size: 24px;
-  font-weight: 600;
-  margin-top: 10px;
-}
-
-.logout {
-  margin-top: auto;
-  background: linear-gradient(135deg, #15803d, #15803d) !important;
-}
-
-.sidebar::-webkit-scrollbar {
-  width: 6px;
-}
-
-.sidebar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.35);
-  border-radius: 20px;
-}
-
-.sidebar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.logout:hover {
-  transform: scale(1.03);
-}
+/* ================================
+   MENU BUTTON
+================================ */
 
 .menu-btn {
   display: none;
+
   cursor: pointer;
+
   transition: 0.3s;
 }
 
-.menu-btn:hover {
-  background: #1d4ed8;
-  transform: scale(1.05);
-}
+/* ================================
+   OVERLAY
+================================ */
 
 .overlay {
   display: none;
 }
 
+/* ================================
+   SIDEBAR SCROLLBAR
+================================ */
+
+.app-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.app-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.35);
+
+  border-radius: 20px;
+}
+
+.app-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ================================
+   MAIN SCROLLBAR
+================================ */
+
+.app-main::-webkit-scrollbar {
+  width: 8px;
+}
+
+.app-main::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+
+  border-radius: 20px;
+}
+
+.app-main::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* ================================
+   TABLET
+================================ */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .app-sidebar {
+    width: 240px;
+    min-width: 240px;
+    max-width: 240px;
+  }
+
+  .app-main {
+    width: calc(100% - 240px);
+
+    padding: 20px;
+  }
+
+  .app-topbar {
+    font-size: 20px;
+  }
+}
+
+/* ================================
+   MOBILE
+================================ */
+
 @media (max-width: 768px) {
   .menu-btn {
     display: flex;
+
     justify-content: center;
     align-items: center;
 
     position: fixed;
+
     top: 15px;
     left: 15px;
 
@@ -182,12 +317,15 @@
     height: 45px;
 
     border: none;
+
     border-radius: 10px;
 
     background: #2563eb;
+
     color: white;
 
     font-size: 24px;
+
     font-weight: bold;
 
     z-index: 1001;
@@ -195,44 +333,58 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
   }
 
-  .sidebar {
+  .menu-btn:hover {
+    background: #1d4ed8;
+
+    transform: scale(1.05);
+  }
+
+  .app-sidebar {
     position: fixed;
+
     top: 0;
+    left: 0;
+
     width: 260px;
+    min-width: 260px;
+    max-width: 260px;
+
     height: 100vh;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+
     z-index: 1000;
-    left: 0;
+
     transform: translateX(-100%);
-    transition: 0.3s ease;
+
+    transition: transform 0.3s ease;
+
+    overflow-y: auto;
   }
 
-  .sidebar button {
-    font-size: 14px;
-    padding: 12px 15px;
-    margin-bottom: 8px;
-  }
-
-  .sidebar {
-    transform: translateX(-100%);
-    transition: 0.3s;
-  }
-
-  .sidebar.active {
+  .app-sidebar.active {
     transform: translateX(0);
-    left: 0;
+  }
+
+  .app-sidebar button {
+    font-size: 14px;
+
+    padding: 12px 15px;
+
+    margin-bottom: 8px;
   }
 
   .overlay {
     display: block;
+
     position: fixed;
+
     inset: 0;
+
     background: rgba(0, 0, 0, 0.45);
+
     z-index: 999;
   }
 
-  .main {
+  .app-main {
     width: 100%;
 
     height: 100vh;
@@ -242,22 +394,24 @@
     overflow-y: auto;
   }
 
-  .topbar {
+  .app-topbar {
     margin-top: 50px;
+
     padding: 14px 18px;
+
     font-size: 18px;
   }
 
-  .profile img {
+  .app-profile img {
     width: 70px;
     height: 70px;
   }
 
-  .profile h3 {
+  .app-profile h3 {
     font-size: 20px;
   }
 
-  .content {
+  .app-content {
     width: 100%;
 
     overflow-x: auto;
@@ -265,6 +419,10 @@
     padding-bottom: 20px;
   }
 }
+
+/* ================================
+   SMALL MOBILE
+================================ */
 
 @media (max-width: 480px) {
   .menu-btn {
@@ -274,58 +432,34 @@
     font-size: 22px;
   }
 
-  .sidebar {
+  .app-sidebar {
     width: 240px;
+    min-width: 240px;
+    max-width: 240px;
   }
 
-  .topbar {
+  .app-topbar {
     font-size: 17px;
 
     padding: 12px 15px;
   }
 
-  .main {
+  .app-main {
     padding: 10px;
   }
 
-  .profile img {
+  .app-profile img {
     width: 60px;
     height: 60px;
   }
 
-  .profile h3 {
+  .app-profile h3 {
     font-size: 18px;
   }
 
-  .sidebar button {
+  .app-sidebar button {
     font-size: 13px;
+
     padding: 10px 12px;
   }
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-  .sidebar {
-    width: 240px;
-  }
-
-  .main {
-    padding: 20px;
-  }
-
-  .topbar {
-    font-size: 20px;
-  }
-}
-
-.main::-webkit-scrollbar {
-  width: 8px;
-}
-
-.main::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 20px;
-}
-
-.main::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
 }

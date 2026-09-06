@@ -489,7 +489,7 @@ function PatientDetail() {
           </tr>
         </table>
       </div>
-      <Razorpay patientName={patient.name} patientMob={patient.mobile} />
+      {/* <Razorpay patientName={patient.name} patientMob={patient.mobile} /> */}
 
       <MergePdf />
     </div>
