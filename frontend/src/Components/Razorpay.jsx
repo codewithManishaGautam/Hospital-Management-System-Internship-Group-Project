@@ -1,327 +1,149 @@
-
-
-
-// import React from "react";
-// import hospitalImg from "../assets/shradha_Hospital.png";
-// import { useRazorpay } from "react-razorpay";
-
-// function Razorpay({patientName,patientMob}) {
-
-//     const { Razorpay } = useRazorpay();
-
-
-//     const payNow = async () => {
-//         try {
-
-//             console.log("Payment button clicked");
-
-//             const response = await fetch(
-//                 "http://localhost:5000/api/payment/order",
-//                 {
-//                     method: "POST",
-//                     headers: {
-//                         "Content-Type": "application/json"
-//                     }
-//                 }
-//             );
-
-//             console.log("Backend response:", response);
-
-//             if (!response.ok) {
-//                 throw new Error(`Server Error: ${response.status}`);
-//             }
-
-//             const data = await response.json();
-
-//             console.log("Order Data:", data);
-
-//             // <img
-//             //     src={data.image_url}
-//             //     alt="Payment QR"
-//             // />
-
-            
-
-
-//             const options = {
-//                 key: "rzp_test_TPwFQBogAo1Jhm",
-
-//                 amount: data.amount,
-
-//                 currency: "INR",
-
-//                 name: "Shradha Hospital",
-
-//                 description: "OPD or IPD or CASUALTY etc.",
-
-//                 image: "https://doctorlistingingestionpr.blob.core.windows.net/doctorprofilepic/1670557851136_HospitalProfileImage_Profile%20Pic.png",
-
-//                 order_id: data.id,
-
-//                 handler: (response) => {
-//                     console.log("Payment Response:", response);
-//                     alert(response.razorpay_payment_id)
-//                     alert("Payment Successfully Transferred!");
-//                 },
-
-//                 prefill: {
-                    
-//                     name: patientName,
-//                     contact: patientMob,
-//                 },
-
-//                 theme: {
-//                     color: "#f47cd6",
-//                 },
-//                 method: {
-//                     upi: true,
-//                     card: true,
-//                     netbanking: true,
-//                     wallet: true
-//                 },
-//             };
-
-//             const razorpay = new Razorpay(options);
-
-//             razorpay.on("payment.failed", function (response) {
-
-//                 console.log("Payment Failed:", response);
-
-//                 alert(
-//                     response.error?.description ||
-//                     "Payment Failed"
-//                 );
-//             });
-
-//             razorpay.open();
-
-//         } catch (error) {
-
-//             console.error("FULL PAYMENT ERROR:", error);
-
-//             alert(error.message);
-//         }
-//     };
-
-
-//     return (
-
-//         <div className="text-center">
-
-//             <div className="col text-primary rounded-5">
-//                 <br /><br />
-//                 <h1>
-//                     Online Payment Section
-//                 </h1>
-
-//                 <button onClick={payNow} className="btn btn-success">
-//                     Pay Now
-//                 </button>
-
-//             </div>
-//         </div>
-
-
-//     );
-// }
-
-// export default Razorpay;
-
-
-
-
 import React, { useState } from "react";
 import { useRazorpay } from "react-razorpay";
 
 function Razorpay({ patientName, patientMob }) {
+  const { Razorpay } = useRazorpay();
 
-    const { Razorpay } = useRazorpay();
+  const [amount, setAmount] = useState("");
 
-    const [amount, setAmount] = useState("");
+  const payNow = async (paymentMode) => {
+    try {
+      if (!amount || Number(amount) <= 0) {
+        alert("Please enter a valid amount");
+        return;
+      }
 
-    const payNow = async () => {
+      // CASH
+      if (paymentMode === "Cash") {
+        alert(`Cash Payment Selected\nAmount: ₹${amount}`);
+        return;
+      }
 
-        try {
+      // UPI / CARD
+      const response = await fetch("http://localhost:5000/api/payment/order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount: Number(amount),
+        }),
+      });
 
-            if (!amount || Number(amount) <= 0) {
-                alert("Please enter a valid amount");
-                return;
-            }
+      if (!response.ok) {
+        throw new Error(`Server Error: ${response.status}`);
+      }
 
-            console.log("Payment button clicked");
-            console.log("Amount =", amount);
+      const data = await response.json();
 
-            const response = await fetch(
-                "http://localhost:5000/api/payment/order",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        amount: Number(amount)
-                    })
-                }
-            );
+      console.log("Order Data:", data);
 
-            if (!response.ok) {
-                throw new Error(`Server Error: ${response.status}`);
-            }
+      const options = {
+        key: "rzp_test_TPwFQBogAo1Jhm",
 
-            const data = await response.json();
+        amount: data.amount,
 
-            console.log("Order Data:", data);
+        currency: "INR",
 
-            const options = {
+        name: "Shradha Hospital",
 
-                key: "rzp_test_TPwFQBogAo1Jhm",
+        description: `${paymentMode} Payment`,
 
-                amount: Number(amount) * 100,
+        order_id: data.orderId,
 
-                currency: "INR",
+        prefill: {
+          name: patientName,
+          contact: patientMob,
+        },
 
-                name: "Shradha Hospital",
+        method: {
+          upi: paymentMode === "UPI",
+          card: paymentMode === "Card",
+          netbanking: false,
+          wallet: false,
+        },
 
-                description: "OPD or IPD or CASUALTY etc.",
+        handler: (response) => {
+          console.log("Payment Response:", response);
 
-                image:
-                    "https://doctorlistingingestionpr.blob.core.windows.net/doctorprofilepic/1670557851136_HospitalProfileImage_Profile%20Pic.png",
+          alert(
+            `${paymentMode} Payment Successful!\nPayment ID: ${response.razorpay_payment_id}`,
+          );
+        },
 
-                order_id: data.id,
+        theme: {
+          color: "#f47cd6",
+        },
+      };
 
-                handler: (response) => {
+      const razorpay = new Razorpay(options);
 
-                    console.log(
-                        "Payment Response:",
-                        response
-                    );
+      razorpay.on("payment.failed", function (response) {
+        console.log("Payment Failed:", response);
 
-                    alert(
-                        response.razorpay_payment_id
-                    );
+        alert(response.error?.description || "Payment Failed");
+      });
 
-                    alert(
-                        "Payment Successfully Transferred!"
-                    );
-                },
+      razorpay.open();
+    } catch (error) {
+      console.error("PAYMENT ERROR:", error);
+      alert(error.message);
+    }
+  };
 
-                prefill: {
+  return (
+    <div className="text-center">
+      <div className="col text-primary rounded-5">
+        <br />
 
-                    name: patientName,
+        <h1>Payment Section</h1>
 
-                    contact: patientMob,
-
-                },
-
-                theme: {
-
-                    color: "#f47cd6",
-
-                },
-
-                method: {
-
-                    upi: true,
-
-                    card: true,
-
-                    netbanking: true,
-
-                    wallet: true
-
-                },
-
-            };
-
-            const razorpay = new Razorpay(options);
-
-            razorpay.on(
-                "payment.failed",
-                function (response) {
-
-                    console.log(
-                        "Payment Failed:",
-                        response
-                    );
-
-                    alert(
-                        response.error?.description ||
-                        "Payment Failed"
-                    );
-
-                }
-            );
-
-            razorpay.open();
-
-        }
-
-        catch (error) {
-
-            console.error(
-                "FULL PAYMENT ERROR:",
-                error
-            );
-
-            alert(error.message);
-
-        }
-
-    };
-
-
-    return (
-
-        <div className="text-center">
-
-            <div className="col text-primary rounded-5">
-
-                <br />
-
-                <h1>
-                    Online Payment Section
-                </h1>
-
-                {/* Amount + Pay Now */}
-
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        gap: "10px",
-                        marginTop: "30px"
-                    }}
-                >
-
-                    <input
-                        type="number"
-                        placeholder="Enter Amount"
-                        value={amount}
-                        onChange={(e) =>
-                            setAmount(e.target.value)
-                        }
-                        className="form-control"
-                        style={{
-                            width: "180px"
-                        }}
-                    />
-                    
-
-                    <button
-                        onClick={payNow}
-                        className="btn btn-success"
-                    >
-                        Pay Now
-                    </button>
-
-                </div>
-
-            </div>
-
+        {/* Amount */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "10px",
+            marginTop: "30px",
+          }}
+        >
+          <input
+            type="number"
+            placeholder="Enter Amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            className="form-control"
+            style={{
+              width: "180px",
+            }}
+          />
         </div>
 
-    );
+        {/* Payment Options */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "15px",
+            marginTop: "25px",
+          }}
+        >
+          <button className="btn btn-success" onClick={() => payNow("Cash")}>
+            Cash
+          </button>
+
+          <button className="btn btn-primary" onClick={() => payNow("UPI")}>
+            UPI
+          </button>
+
+          <button className="btn btn-warning" onClick={() => payNow("Card")}>
+            Card
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default Razorpay;
