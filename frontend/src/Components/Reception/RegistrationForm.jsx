@@ -11,6 +11,7 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
     age: "",
     gender: "",
     mobile: "",
+    email: "",
     address: "",
 
     role: "OPD",
@@ -70,6 +71,7 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
         age: "",
         gender: "",
         mobile: "",
+        email: "",
         address: "",
         role: "OPD",
         disease: "",
@@ -92,6 +94,7 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
       age: patient.age || "",
       gender: patient.gender || "",
       mobile: patient.mobile || "",
+      email: patient.email || "",
       address: patient.address || "",
       role: patient.role || "OPD",
       disease: patient.disease || "",
@@ -154,6 +157,17 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
       alert("Please enter a valid 10 digit mobile number.");
       return;
     }
+
+    // Email Validation
+    // Email Validation
+    if (
+      formData.role !== "OPD" &&
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
+    ) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
     // PATIENT NAME
     if (formData.name.trim().length < 3) {
       alert("Patient name must be at least 3 characters.");
@@ -231,6 +245,7 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
         age: Number(formData.age),
         gender: formData.gender,
         mobile: formData.mobile,
+        email: formData.role !== "OPD" ? formData.email : "",
         address: formData.address,
 
         role: formData.role,
@@ -464,6 +479,22 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
               required
             />
           </div>
+
+          {/* Email - Only for IPD */}
+          {formData.role !== "OPD" && (
+            <div className="form-group">
+              <label>Email Address</label>
+
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Enter Email Address"
+                required
+              />
+            </div>
+          )}
 
           {/* Address */}
           <div className="form-group full-width">

@@ -1,9 +1,4 @@
-
-import React, {
-    useState,
-    useEffect,
-    useRef
-} from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -11,13 +6,9 @@ import axios from "axios";
 // import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
-import {
-    useReactToPrint
-} from "react-to-print";
+import { useReactToPrint } from "react-to-print";
 
-import {
-    useParams
-} from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import html2pdf from "html2pdf.js";
 
@@ -31,7 +22,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Razorpay from "../Razorpay";
 
 function PatientDetail() {
+  const { id } = useParams();
 
+<<<<<<< ours
     const { id } = useParams();
 
     // ==========================
@@ -102,81 +95,99 @@ function PatientDetail() {
             console.log(err);
 
         }
+=======
+  // ==========================
+  // States
+  // ==========================
+>>>>>>> theirs
 
-    };
+  const [patient, setPatient] = useState({});
+  const [diagnostics, setDiagnostics] = useState([]);
 
-    // ==========================
-    // Load Consents
-    // ==========================
+  const [selectedConsent, setSelectedConsent] = useState("");
 
-    const getConsents = async () => {
+  const [consentData, setConsentData] = useState(null);
 
-        try {
+  const [consents, setConsents] = useState([]);
 
-            const res = await axios.get(
-                `http://localhost:5000/consent/patient/${id}`
-            );
+  // Consent Form Ref
 
-            console.log("CONSENTS =", res.data);
+  const consentRef = useRef(null);
 
-            setConsents(res.data);
+  // ==========================
+  // Load Patient
+  // ==========================
 
-            setConsents(res.data);
+  const getPatient = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/api/patient/${id}`);
 
-        }
+      console.log("PATIENT API RESPONSE =", res.data);
+      setPatient(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-        catch (err) {
+  // ==========================
+  // Load Diagnostics
+  // ==========================
 
-            console.log(err);
+  const getDiagnostics = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/diagnostics");
 
-        }
+      setDiagnostics(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-    };
+  // ==========================
+  // Load Consents
+  // ==========================
 
-    // ==========================
-    // Initial Load
-    // ==========================
+  const getConsents = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/consent/patient/${id}`,
+      );
 
-    useEffect(() => {
+      console.log("CONSENTS =", res.data);
 
-        getPatient();
+      setConsents(res.data);
 
-        getDiagnostics();
+      setConsents(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-        getConsents();
+  // ==========================
+  // Initial Load
+  // ==========================
 
-    }, []);
+  useEffect(() => {
+    getPatient();
 
-    // ==========================
-    // Date Format
-    // ==========================
+    getDiagnostics();
 
-    const date = new Date(patient.createdAt);
+    getConsents();
+  }, []);
 
-    const formatted = date.toLocaleString(
+  // ==========================
+  // Date Format
+  // ==========================
 
-        "en-IN",
+  const date = new Date(patient.createdAt);
 
-        {
+  const formatted = date.toLocaleString(
+    "en-IN",
 
-            timeZone: "Asia/Kolkata",
+    {
+      timeZone: "Asia/Kolkata",
 
-            day: "2-digit",
-
-            month: "short",
-
-            year: "numeric",
-
-            hour: "2-digit",
-
-            minute: "2-digit",
-
-            second: "2-digit",
-
-            hour12: true
-
-        }
-
+<<<<<<< ours
     );
 
 
@@ -202,24 +213,46 @@ function PatientDetail() {
     // ==========================
     // Print Consent
     // ==========================
+=======
+      day: "2-digit",
+>>>>>>> theirs
 
-    const printConsent = useReactToPrint({
+      month: "short",
 
-        contentRef: consentRef,
+      year: "numeric",
 
-        documentTitle: `${patient?.uhid}_${selectedConsent}`
+      hour: "2-digit",
 
-    });
+      minute: "2-digit",
 
+      second: "2-digit",
 
+      hour12: true,
+    },
+  );
+  // ==========================
+  // Print Consent
+  // ==========================
 
+<<<<<<< ours
     const latestConsent = consents
         .filter(item => item.consentType === selectedConsent)
         .at(1);
 
     const generateConsentPdf = async () => {
+=======
+  const printConsent = useReactToPrint({
+    contentRef: consentRef,
 
+    documentTitle: `${patient?.uhid}_${selectedConsent}`,
+  });
+>>>>>>> theirs
 
+  const latestConsent = consents
+    .filter((item) => item.consentType === selectedConsent)
+    .at(1);
+
+<<<<<<< ours
         if (!consentRef.current) {
 
             alert("Consent Form Not Found");
@@ -276,9 +309,55 @@ function PatientDetail() {
                 mode: ["css", "legacy"]
 
             }
+=======
+  const generateConsentPdf = async () => {
+    if (!consentRef.current) {
+      alert("Consent Form Not Found");
+
+      return null;
+    }
+
+    document.body.classList.add("print-mode");
+
+    const options = {
+      margin: 2,
+
+      filename: `${patient.uhid}_${selectedConsent}.pdf`,
+
+      image: {
+        type: "jpeg",
+
+        quality: 1,
+      },
+
+      html2canvas: {
+        scale: 4,
+        useCORS: true,
+        scrollX: 0,
+        scrollY: 0,
+        backgroundColor: "#fff",
+
+        windowWidth: consentRef.current.scrollWidth,
+        windowHeight: consentRef.current.scrollHeight,
+      },
+
+      jsPDF: {
+        unit: "mm",
+
+        format: "a3",
+
+        orientation: "portrait",
+      },
+
+      pagebreak: {
+        mode: ["css", "legacy"],
+      },
+    };
+>>>>>>> theirs
 
         };
 
+<<<<<<< ours
         document.body.classList.remove("print-mode");
 
         const worker = html2pdf()
@@ -430,133 +509,197 @@ function PatientDetail() {
             <div className="patient-card p-3 mb-2 bg-transparent text-primary">
 
                 <div className="patient-info">
+=======
+    const worker = html2pdf()
+      .set(options)
 
-                    <div className="row">
+      .from(consentRef.current);
 
-                        <div className="col-6">
+    return await worker.outputPdf("blob");
+  };
 
-                            <p>
+  // ==========================
+  // Save Consent
+  // ==========================
 
-                                <label>UHID :</label>
+  const saveConsentPdf = async () => {
+    if (!patient?._id) {
+      alert("Patient Data Not Loaded");
+>>>>>>> theirs
 
-                                {patient.uhid}
+      return;
+    }
 
-                            </p>
+    if (!selectedConsent) {
+      alert("Please Select Consent Form");
 
-                        </div>
+      return;
+    }
 
-                        <div className="col-6">
+    if (!consentData) {
+      alert("Please Fill Consent Form");
 
-                            <p>
+      return;
+    }
 
-                                <label>Name :</label>
+    try {
+      // Generate PDF
 
-                                {patient.name}
+      const pdfBlob = await generateConsentPdf();
 
-                            </p>
+      if (!pdfBlob) {
+        alert("PDF Generation Failed");
 
-                        </div>
+        return;
+      }
 
-                    </div>
+      // Upload PDF
 
-                    <br />
+      const formData = new FormData();
 
-                    <div className="row">
+      formData.append(
+        "file",
 
-                        <div className="col-6">
+        pdfBlob,
 
-                            <p>
+        `${patient.uhid}_${selectedConsent}.pdf`,
+      );
 
-                                <label>Age :</label>
+      const uploadRes = await axios.post(
+        "http://localhost:5000/upload",
 
-                                {patient.age}
+        formData,
 
-                            </p>
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
 
-                        </div>
+      const pdfPath = uploadRes.data.filePath;
 
-                        <div className="col-6">
+      // Save MongoDB
 
-                            <p>
+      await axios.post(
+        "http://localhost:5000/consent/save",
 
-                                <label>Gender :</label>
+        {
+          patientId: patient._id,
 
-                                {patient.gender}
+          patientName: patient.name,
 
-                            </p>
+          uhid: patient.uhid,
 
-                        </div>
+          consentType: selectedConsent,
 
-                    </div>
+          consentData,
 
-                    <br />
+          pdfPath,
+        },
+      );
 
-                    <div className="row">
+      alert("Consent Saved Successfully");
 
-                        <div className="col-6">
+      getConsents();
+    } catch (err) {
+      console.log(err);
 
-                            <p>
+      alert("Consent Save Failed");
+    }
+  };
 
-                                <label>Mobile :</label>
+  return (
+    <div className="patient-page">
+      <h1>Patient Information</h1>
 
-                                {patient.mobile}
+      <div className="patient-card p-3 mb-2 bg-transparent text-primary">
+        <div className="patient-info">
+          <div className="row">
+            <div className="col-6">
+              <p>
+                <label>UHID :</label>
 
-                            </p>
-
-                        </div>
-
-                        <div className="col-6">
-
-                            <p>
-
-                                <label>Address :</label>
-
-                                {patient.address}
-
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                    <br />
-
-                    <div className="row">
-
-                        <div className="col-6">
-
-                            <p>
-
-                                <label>Status :</label>
-
-                                {patient.status}
-
-                            </p>
-
-                        </div>
-
-                        <div className="col-6">
-
-                            <p>
-
-                                <label>Register Date :</label>
-
-                                {formatted}
-
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
+                {patient.uhid}
+              </p>
             </div>
 
-            {/* ===========================
+            <div className="col-6">
+              <p>
+                <label>Name :</label>
+
+                {patient.name}
+              </p>
+            </div>
+          </div>
+
+          <br />
+
+          <div className="row">
+            <div className="col-6">
+              <p>
+                <label>Age :</label>
+
+                {patient.age}
+              </p>
+            </div>
+
+            <div className="col-6">
+              <p>
+                <label>Gender :</label>
+
+                {patient.gender}
+              </p>
+            </div>
+          </div>
+
+          <br />
+
+          <div className="row">
+            <div className="col-6">
+              <p>
+                <label>Mobile :</label>
+
+                {patient.mobile}
+              </p>
+            </div>
+
+            <div className="col-6">
+              <p>
+                <label>Address :</label>
+
+                {patient.address}
+              </p>
+            </div>
+          </div>
+
+          <br />
+
+          <div className="row">
+            <div className="col-6">
+              <p>
+                <label>Status :</label>
+
+                {patient.status}
+              </p>
+            </div>
+
+            <div className="col-6">
+              <p>
+                <label>Register Date :</label>
+
+                {formatted}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ===========================
                 Consent Forms
             ============================ */}
 
+<<<<<<< ours
             <div className="mt-4">
 
                 <PatientForm
@@ -602,11 +745,40 @@ function PatientDetail() {
                 </div>
 
             </div>
+=======
+      <div className="mt-4">
+        <PatientForm
+          patient={patient}
+          selectedConsent={selectedConsent}
+          setSelectedConsent={setSelectedConsent}
+          onSave={setConsentData}
+          consentRef={consentRef}
+        />
 
-            {/* ===========================
+        <div
+          className="mt-3"
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-around",
+          }}
+        >
+          <button className="btn btn-success" onClick={printConsent}>
+            Print Consent
+          </button>
+
+          <button className="btn btn-secondary" onClick={saveConsentPdf}>
+            Save Consent
+          </button>
+        </div>
+      </div>
+>>>>>>> theirs
+
+      {/* ===========================
                 Reports Table
             ============================ */}
 
+<<<<<<< ours
 
 
 
@@ -762,6 +934,96 @@ function PatientDetail() {
 
     );
 
+=======
+      <div className="table-responsive mt-4">
+        <table className="table table-bordered table-render-style">
+          <thead>
+            <tr>
+              <th>Date</th>
+
+              <th>Lab Test</th>
+
+              <th>Diagnostic</th>
+
+              <th>Pharmacy</th>
+
+              <th>Nurse</th>
+
+              <th>Doctor</th>
+
+              <th>Insurance</th>
+
+              <th>Consent</th>
+            </tr>
+          </thead>
+
+          <tr>
+            <td>{formatted}</td>
+
+            <td>
+              <ViewReport
+                isLab={true}
+                isDiagnostic={false}
+                patientId={patient._id}
+              />
+            </td>
+
+            <td>
+              <ViewReport
+                isLab={false}
+                isDiagnostic={true}
+                patientId={patient._id}
+              />
+            </td>
+
+            <td>
+              <PdfCreate patient={patient} pdfname="Pharma" type="pharmacy" />
+            </td>
+
+            <td>
+              <PdfCreate patient={patient} pdfname="Nurse" type="nurse" />
+            </td>
+
+            <td>
+              <PdfCreate patient={patient} pdfname="Doctor" type="doctor" />
+            </td>
+
+            <td>
+              <PdfCreate
+                patient={patient}
+                pdfname="Insurance"
+                type="insurance"
+              />
+            </td>
+
+            <td>
+              {latestConsent && (
+                <button
+                  className="btn btn-outline-success"
+                  style={{
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                  }}
+                  onClick={() =>
+                    window.open(
+                      `http://localhost:5000${latestConsent.pdfPath}`,
+                      "_blank",
+                    )
+                  }
+                >
+                  Download
+                </button>
+              )}
+            </td>
+          </tr>
+        </table>
+      </div>
+      <Razorpay patientName={patient.name} patientMob={patient.mobile} />
+
+      <MergePdf />
+    </div>
+  );
+>>>>>>> theirs
 }
 
 export default PatientDetail;

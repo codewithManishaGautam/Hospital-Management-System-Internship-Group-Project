@@ -1,160 +1,38 @@
-// const fs =
-// require("fs");
-
-// const {
-//   PDFDocument
-// } = require("pdf-lib");
-
-// async function mergePDFs(
-
-//   pdfFiles,
-
-//   outputPath
-
-// ) {
-
-//   const mergedPdf =
-//   await PDFDocument.create();
-
-//   for (const file of pdfFiles) {
-
-//     const pdfBytes =
-//     fs.readFileSync(file);
-
-//     const pdf =
-//     await PDFDocument.load(
-//       pdfBytes
-//     );
-
-//     const copiedPages =
-
-//     await mergedPdf.copyPages(
-
-//       pdf,
-
-//       pdf.getPageIndices()
-
-//     );
-
-//     copiedPages.forEach(
-
-//       (page) => {
-
-//         mergedPdf.addPage(page);
-
-//       }
-
-//     );
-
-//   }
-
-//   const mergedPdfBytes =
-//   await mergedPdf.save();
-
-//   fs.writeFileSync(
-
-//     outputPath,
-
-//     mergedPdfBytes
-
-//   );
-
-// }
-
-// module.exports =
-// mergePDFs;
-
-
-
 const fs = require("fs");
+const { PDFDocument } = require("pdf-lib");
 
-const {
-    PDFDocument
-} = require("pdf-lib");
+async function mergePDFs(pdfFiles, outputPath) {
+  const mergedPdf = await PDFDocument.create();
 
+  for (const file of pdfFiles) {
+    console.log("Reading PDF:", file.path);
 
-async function mergePDFs(
-    pdfFiles,
-    outputPath
-) {
-
-    const mergedPdf =
-        await PDFDocument.create();
-
-
-    for (const file of pdfFiles) {
-
-        console.log(
-            "Reading PDF buffer..."
-        );
-
-
-        if (!file || !file.buffer) {
-
-            throw new Error(
-                "PDF buffer is undefined"
-            );
-
-        }
-
-
-        // PDF file buffer
-
-        const pdfBytes =
-            file.buffer;
-
-
-        // Load PDF
-
-        const pdf =
-            await PDFDocument.load(
-                pdfBytes
-            );
-
-
-        // Copy pages
-
-        const copiedPages =
-            await mergedPdf.copyPages(
-                pdf,
-                pdf.getPageIndices()
-            );
-
-
-        // Add pages
-
-        copiedPages.forEach(
-            (page) => {
-
-                mergedPdf.addPage(page);
-
-            }
-        );
-
+    if (!file || !file.path) {
+      throw new Error("Uploaded PDF path is undefined");
     }
 
+    // Read uploaded PDF from disk
+    const pdfBytes = fs.readFileSync(file.path);
 
-    // Save merged PDF
+    // Load PDF
+    const pdf = await PDFDocument.load(pdfBytes);
 
-    const mergedPdfBytes =
-        await mergedPdf.save();
+    // Copy all pages
+    const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
 
+    // Add pages to merged PDF
+    copiedPages.forEach((page) => {
+      mergedPdf.addPage(page);
+    });
+  }
 
-    // Write merged PDF
+  // Create merged PDF
+  const mergedPdfBytes = await mergedPdf.save();
 
-    fs.writeFileSync(
-        outputPath,
-        mergedPdfBytes
-    );
+  // Save merged PDF
+  fs.writeFileSync(outputPath, mergedPdfBytes);
 
-
-    console.log(
-        "Merged PDF created:",
-        outputPath
-    );
-
+  console.log("Merged PDF created:", outputPath);
 }
 
-
-module.exports =
-    mergePDFs;
+module.exports = mergePDFs;

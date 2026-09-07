@@ -35,7 +35,6 @@ const sendPrescription = async (req, res) => {
       });
     }
 
-    // Pharmacy ला prescription फक्त medicines असतील तरच पाठवायचे
     if (target === "pharmacy") {
       const medicines = prescriptionHistory.medicines || [];
 
@@ -91,6 +90,58 @@ const sendPrescription = async (req, res) => {
   }
 };
 
+const getLatestPatientPrescription = async (req, res) => {
+  try {
+    const { patientId } = req.params;
+
+    const patient = await Patient.findById(patientId).lean();
+
+    if (!patient) {
+      return res.status(404).json({
+        success: false,
+        message: "Patient not found",
+      });
+    }
+
+    if (
+      !patient.prescriptionHistory ||
+      patient.prescriptionHistory.length === 0
+    ) {
+      return res.status(404).json({
+        success: false,
+        message: "Prescription not found for this patient",
+      });
+    }
+
+    const latestPrescription =
+      patient.prescriptionHistory[patient.prescriptionHistory.length - 1];
+
+    res.status(200).json({
+      success: true,
+      data: {
+        patientId: patient._id,
+        patientUHID: patient.uhid,
+        patientName: patient.name,
+        age: patient.age,
+        gender: patient.gender,
+        mobile: patient.mobile,
+        address: patient.address,
+        doctor: patient.doctor,
+
+        ...latestPrescription,
+      },
+    });
+  } catch (error) {
+    console.log("Get Latest Prescription Error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   sendPrescription,
+  getLatestPatientPrescription,
 };

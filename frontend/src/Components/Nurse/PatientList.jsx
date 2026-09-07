@@ -1,4 +1,5 @@
-import React from "react";
+import React , {useState} from "react";
+import patientsData from'./PatientsData';
 import "../../styles/Nurse/PatientList.css";
 
 export default function PatientList({

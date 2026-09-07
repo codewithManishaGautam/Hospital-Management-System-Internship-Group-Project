@@ -1,14 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "../../styles/doctor/patientManagement.css";
 
-function PatientTable({ patients }) {
+function PatientTable({ patients, onPrescriptionSaved }) {
   const navigate = useNavigate();
+
+  const [search, setSearch] = useState("");
+
+  const filteredPatients = patients.filter((p) => {
+    const searchText = search.toLowerCase().trim();
+
+    if (!searchText) return true;
+
+    return (
+      String(p.uhid || "").toLowerCase().includes(searchText) ||
+      String(p.name || "").toLowerCase().includes(searchText) ||
+      String(p.mobile || "").toLowerCase().includes(searchText)
+    );
+  });
 
   return (
     <div className="patient-table">
-      <table classname="patients-table">
+
+      {/* SEARCH BOX */}
+      <div className="patient-search">
+        <input
+          type="text"
+          placeholder="Search by UHID, Name or Mobile"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
+
+      <table className="patients-table">
         <thead>
           <tr>
             <th>UHID</th>
@@ -28,7 +53,7 @@ function PatientTable({ patients }) {
         </thead>
 
         <tbody>
-          {patients.map((p) => (
+          {filteredPatients.map((p) => (
             <tr key={p._id}>
               <td>{p.uhid}</td>
               <td>{p.name}</td>
@@ -55,7 +80,11 @@ function PatientTable({ patients }) {
                 <button
                   className="patient-view-btn"
                   onClick={() =>
-                    navigate(`/prescription/${p._id}`)
+                    navigate(`/prescription/${p._id}`, {
+                      state: {
+                        onPrescriptionSaved,
+                      },
+                    })
                   }
                 >
                   View
@@ -63,6 +92,14 @@ function PatientTable({ patients }) {
               </td>
             </tr>
           ))}
+
+          {filteredPatients.length === 0 && (
+            <tr>
+              <td colSpan="13" style={{ textAlign: "center" }}>
+                No patients found
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
