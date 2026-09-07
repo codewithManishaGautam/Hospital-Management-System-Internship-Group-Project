@@ -5,6 +5,8 @@ import React, {
     useRef
 } from "react";
 
+import { useNavigate } from "react-router-dom";
+
 import axios from "axios";
 // import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
@@ -65,7 +67,7 @@ function PatientDetail() {
 
             console.log("PATIENT API RESPONSE =", res.data);
             setPatient(res.data);
-            
+
 
         }
 
@@ -176,6 +178,27 @@ function PatientDetail() {
         }
 
     );
+
+
+
+
+    const dateCurr = date.toLocaleString(
+
+        "en-IN",
+
+        {
+
+            day: "2-digit",
+
+            month: "short",
+
+            year: "numeric",
+
+        }
+
+    );
+
+
     // ==========================
     // Print Consent
     // ==========================
@@ -190,85 +213,85 @@ function PatientDetail() {
 
 
 
-const latestConsent = consents
+    const latestConsent = consents
         .filter(item => item.consentType === selectedConsent)
         .at(1);
 
-const generateConsentPdf = async () => {
+    const generateConsentPdf = async () => {
 
 
-    if (!consentRef.current) {
+        if (!consentRef.current) {
 
-        alert("Consent Form Not Found");
+            alert("Consent Form Not Found");
 
-        return null;
-
-    }
-
-
-    document.body.classList.add("print-mode");
-
-
-    const options = {
-
-        margin: 2,
-
-        filename: `${patient.uhid}_${selectedConsent}.pdf`,
-
-        image: {
-
-            type: "jpeg",
-
-            quality: 1
-
-        },
-
-        
-
-        html2canvas: {
-    scale: 4,
-    useCORS: true,
-    scrollX: 0,
-    scrollY: 0,
-    backgroundColor: "#fff",
-
-    windowWidth: consentRef.current.scrollWidth,
-    windowHeight: consentRef.current.scrollHeight,
-    
-},
-        
-
-        jsPDF: {
-
-            unit: "mm",
-
-            format: "a3",
-
-            orientation: "portrait"
-
-        },
-
-        pagebreak: {
-
-            mode: ["css", "legacy"]
+            return null;
 
         }
 
+
+        document.body.classList.add("print-mode");
+
+
+        const options = {
+
+            margin: 2,
+
+            filename: `${patient.uhid}_${selectedConsent}.pdf`,
+
+            image: {
+
+                type: "jpeg",
+
+                quality: 1
+
+            },
+
+
+
+            html2canvas: {
+                scale: 4,
+                useCORS: true,
+                scrollX: 0,
+                scrollY: 0,
+                backgroundColor: "#fff",
+
+                windowWidth: consentRef.current.scrollWidth,
+                windowHeight: consentRef.current.scrollHeight,
+
+            },
+
+
+            jsPDF: {
+
+                unit: "mm",
+
+                format: "a3",
+
+                orientation: "portrait"
+
+            },
+
+            pagebreak: {
+
+                mode: ["css", "legacy"]
+
+            }
+
+        };
+
+        document.body.classList.remove("print-mode");
+
+        const worker = html2pdf()
+
+            .set(options)
+
+            .from(consentRef.current);
+
+        return await worker.outputPdf("blob");
+
     };
 
-    document.body.classList.remove("print-mode");
 
-    const worker = html2pdf()
-
-        .set(options)
-
-        .from(consentRef.current);
-
-    return await worker.outputPdf("blob");
-
-};
-
-    
 
     // ==========================
     // Save Consent
@@ -392,15 +415,20 @@ const generateConsentPdf = async () => {
 
     };
 
-    
+    const navigate=useNavigate();
+
+
     return (
 
         <div className="patient-page">
 
+            <button onClick={() => navigate(-1)} className="btn btn-light">
+                🔙
+            </button>
             <h1>Patient Information</h1>
 
             <div className="patient-card p-3 mb-2 bg-transparent text-primary">
-                
+
                 <div className="patient-info">
 
                     <div className="row">
@@ -545,7 +573,7 @@ const generateConsentPdf = async () => {
 
                 />
 
-                <div className="mt-3" style={{display:"flex",flexDirection:"row",justifyContent:"space-around"}}>
+                <div className="mt-3" style={{ display: "flex", flexDirection: "row", justifyContent: "space-around" }}>
 
                     <button
 
@@ -580,11 +608,11 @@ const generateConsentPdf = async () => {
             ============================ */}
 
 
-     
 
-            <div className="table-responsive mt-4">
 
-                <table className="table table-bordered table-render-style">
+            <div className="table-responsive mt-4 table-container">
+
+                <table className="table table-bordered table-render-style table-bordered">
 
                     <thead>
 
@@ -604,7 +632,7 @@ const generateConsentPdf = async () => {
 
                             <th>Insurance</th>
 
-                            <th>Consent</th>
+                            <th className="consent-head">Consent</th>
 
                         </tr>
 
@@ -614,7 +642,7 @@ const generateConsentPdf = async () => {
 
                         <tr>
 
-                            <td>{formatted}</td>
+                            <td>{dateCurr}</td>
 
                             <td>
 
@@ -692,16 +720,16 @@ const generateConsentPdf = async () => {
 
                             </td>
 
-                            <td>
+                            <td className="content-col">
 
-                                
+
 
                                 {
                                     latestConsent && (
 
                                         <button
                                             className="btn btn-outline-success"
-                                            style={{fontSize:"14px",fontWeight:"bold"}}
+                                            style={{ fontSize: "8px", fontWeight: "bold" }}
                                             onClick={() =>
                                                 window.open(
                                                     `http://localhost:5000${latestConsent.pdfPath}`,
@@ -725,7 +753,7 @@ const generateConsentPdf = async () => {
                 </table>
 
             </div>
-            <Razorpay patientName={patient.name} patientMob={patient.mobile}/>
+            <Razorpay patientName={patient.name} patientMob={patient.mobile} />
 
 
             <MergePdf />

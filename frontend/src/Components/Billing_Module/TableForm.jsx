@@ -86,7 +86,7 @@ function TableForm({search}) {
                         <th style={{ backgroundColor: "#1976d2" }}>Age</th>
                         <th style={{ backgroundColor: "#1976d2" }}>Gender</th>
                         <th style={{ backgroundColor: "#1976d2" }}>Delete</th>
-                        <th style={{ backgroundColor: "#1976d2" }}>More INFO</th>
+                        <th style={{ backgroundColor: "#1976d2" }} className="upload-th">More INFO</th>
 
                     </tr>
 
@@ -117,7 +117,7 @@ function TableForm({search}) {
 
                                 </td>
 
-                                <td>
+                                <td className="td-detail">
 
                                     <Link to={`/patient/${item._id}`}>
                                         Detail

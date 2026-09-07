@@ -7,14 +7,23 @@ import { faBars, faBell } from "@fortawesome/free-solid-svg-icons";
 import { getTime, getDate } from "./GetDate_Time";
 import Profile from './Profile';
 import TableForm from './TableForm';
+import { useNavigate } from "react-router-dom";
+
 
 
 function BillingDept() {
         const [search, setSearch] = useState("");
 
+        const navigate=useNavigate();
+
 
     return (
         <div className='billing-page'>
+            
+
+            <button onClick={() => navigate(-1)} className="btn btn-light btnBack">
+                🔙
+            </button>
             <h1>Billing Department</h1>
             <nav className="navbar">
                 {/* <FontAwesomeIcon icon={faBars} style={{ margin: "5px 0 0 0" }} /> */}

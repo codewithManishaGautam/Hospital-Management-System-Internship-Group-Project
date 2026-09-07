@@ -27,8 +27,8 @@ function PdfCreate({patient,pdfname}) {
 
   return (
 
-    <button className="btn btn-outline-success" onClick={downloadPDF}   style={{fontSize:"14px"}}>
-    <b>{pdfname} PDF</b>
+    <button className="btn btn-outline-success" onClick={downloadPDF}   style={{fontSize:"8px", width:"50px"}}>
+    <b>Download</b>
     </button>
 
   );

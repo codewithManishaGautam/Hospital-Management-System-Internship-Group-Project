@@ -375,7 +375,7 @@ function ViewReport({
 
                     <div>
 
-                        <h5>
+                        <h5 style={{fontSize:"8px"}}>
                             Lab Reports
                         </h5>
 
@@ -391,7 +391,7 @@ function ViewReport({
                                             "Times New Roman"
                                     }}
                                 >
-                                    No Lab Report Found
+                                    No Lab <br /> Report Found
                                 </p>
 
                             ) : (
@@ -497,7 +497,7 @@ function ViewReport({
                         }}
                     >
 
-                        <h5>
+                        <h5  style={{fontSize:"8px"}}>
                             Diagnostic Reports
                         </h5>
 
@@ -513,7 +513,7 @@ function ViewReport({
                                             "Times New Roman"
                                     }}
                                 >
-                                    No Diagnostic Report Found
+                                    No Diagnostic <br /> Report Found
                                 </p>
 
                             ) : (

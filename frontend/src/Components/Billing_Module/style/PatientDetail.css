@@ -86,6 +86,17 @@ label
 }
 
 
+.btn-light{
+  width: 200px;
+  margin-bottom: 50px;
+  background-color: white;
+  font-size: 40px !important;
+}
+
+.btn-success,.btn-secondary{
+  width: 200px;
+  padding: 10px;
+}
 
 /* ================================
    PATIENT DOCUMENT TABLE ONLY
@@ -118,5 +129,92 @@ align-items:flex-start;
 margin-top:15px;
 
 }
+
+}
+
+
+
+@media (min-width: 560px) and (max-width: 768px) {
+
+    .table-container {
+        width: auto !important;
+        overflow-x: auto;
+    }
+
+    .table-bordered {
+        width: 100% !important;
+        min-width: 300px !important;
+        border-radius: 12px !important;
+    }
+
+    .table-bordered th,
+    .table-bordered td {
+        /* width: 100% !important; */
+        width: auto !important;
+        padding: 4px !important;
+        font-size: 8px !important;
+    }
+
+    .btn-primary {
+        background: #1976d2;
+        width: 70px !important;
+        border: none;
+    }
+
+    .content-col,.consent-head
+    {
+        display: flex;
+        justify-content: flex-start !important;
+    }
+    .content-col
+    {
+        margin-top: 20px;
+    }
+
+}
+
+@media (min-width: 240px) and (max-width: 560px) {
+
+    .table-container {
+        width: 100% !important;
+        overflow-x: auto;
+    }
+
+    .table-bordered {
+        width: 100% !important;
+        min-width: 70px !important;
+        border-radius: 12px !important;
+    }
+
+    .table-bordered th,
+    .table-bordered td {
+        width: auto !important;
+        padding: 3px !important;
+        font-size: 8px !important;
+        /* white-space: nowrap ; */
+    }
+
+    .btn-primary {
+        background: #1976d2;
+        width: 50px !important;
+        font-size: 8px !important;
+        margin-right: 70px !important;
+        text-align: center;
+        border: none;
+    }
+
+    .upload-th {
+        display: flex;
+        justify-content: flex-start !important;
+
+    }
+
+    
+
+    h2
+    {
+        font-size: 30px !important;
+    }
+
 
 }
