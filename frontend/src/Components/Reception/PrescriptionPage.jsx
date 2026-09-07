@@ -8,6 +8,8 @@ import "../../styles/Reception/PrescriptionPage.css";
 // import "../../styles/Reception/PrescriptionPage";
 
 function PrescriptionPage() {
+  // console.log(SignatureCanvas);
+
   const { id } = useParams();
 
   console.log("Patient ID =", id);
@@ -15,15 +17,24 @@ function PrescriptionPage() {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const onPrescriptionSaved = location.state?.onPrescriptionSaved;
 
+  // const prescriptionId = location.state?.prescriptionId;
   const fromPharmacy = location.state?.from === "pharmacy";
+
+  const onPrescriptionSaved = location.state?.onPrescriptionSaved;
 
   const [patient, setPatient] = useState(null);
   const [history, setHistory] = useState([]);
   const [prescriptionHistoryId, setPrescriptionHistoryId] = useState(null);
 
   const [editMode, setEditMode] = useState(false);
+
+  // const [formData, setFormData] = useState({
+  //   diagnosis: "",
+  //   prescription: "",
+  //   advice: "",
+  //   notes: "",
+  // });
 
   const sigCanvas = useRef(null);
   const diagnosisPad = useRef();
@@ -42,28 +53,12 @@ function PrescriptionPage() {
     },
   ]);
 
-  const [labReportHistory, setLabReportHistory] = useState([]);
-
-  // ==========================================
-  // LAB TESTS
-  // ==========================================
-
-  const labTestOptions = [
-    "CBC",
-    "Blood Sugar",
-    "LFT",
-    "KFT",
-    "Lipid Profile",
-    "Urine Routine",
-    "Thyroid Profile",
-    "HbA1c",
-    "CRP",
-    "ESR",
-  ];
-
-  const [selectedLabTests, setSelectedLabTests] = useState([]);
-  const [labPriority, setLabPriority] = useState("Normal");
-  const [labClinicalNotes, setLabClinicalNotes] = useState("");
+  // const [medicineList, setMedicineList] = useState([
+  //   {
+  //     medicineName: "",
+  //     quantity: 1,
+  //   },
+  // ]);
 
   const [referralDoctorId, setReferralDoctorId] = useState("");
   const [referralDoctorName, setReferralDoctorName] = useState("");
@@ -81,7 +76,7 @@ function PrescriptionPage() {
     loadPatient();
     loadDoctors();
     loadMedicines();
-  }, [id]);
+  }, []);
 
   const savePrescription = async () => {
     console.log("===== SAVE CLICKED =====");
@@ -102,6 +97,11 @@ function PrescriptionPage() {
       let adviceData = advice;
       let notesData = notes;
       let signatureData = "";
+
+      // console.log("Diagnosis Pad:", diagnosisPad.current);
+      // console.log("Prescription Pad:", prescriptionPad.current);
+      // console.log("Advice Pad:", advicePad.current);
+      // console.log("Notes Pad:", notesPad.current);
 
       if (
         diagnosisMode === "write" &&
@@ -172,6 +172,8 @@ function PrescriptionPage() {
         mobile: patient.mobile,
         address: patient.address,
 
+        // Doctor selected असेल तर नवीन doctor assign होईल.
+        // Doctor select नसेल तर existing doctor तसाच राहील.
         doctor: referralDoctorId ? `Dr. ${referralDoctorName}` : patient.doctor,
 
         doctorId: referralDoctorId ? referralDoctorId : patient.doctorId,
@@ -185,10 +187,10 @@ function PrescriptionPage() {
         notes: notesData,
         signature: signatureData,
 
-        // Medicine is optional
+        // Medicine optional आहे
         medicines: medicines,
 
-        // Doctor is optional
+        // Doctor optional आहे
         referralDoctor: referralDoctorId
           ? {
               id: referralDoctorId,
@@ -227,6 +229,7 @@ function PrescriptionPage() {
       // SEND PRESCRIPTION TO PHARMACY - OPTIONAL
       // ==========================================
 
+      // Medicine selected असेल तरच Pharmacy ला prescription पाठवायची
       if (medicines.length > 0) {
         try {
           console.log("Medicines found. Sending prescription to pharmacy...");
@@ -273,68 +276,26 @@ function PrescriptionPage() {
         );
       }
 
-      // ==========================================
-      // SEND LAB REQUEST - OPTIONAL
-      // ==========================================
-
-      if (selectedLabTests.length > 0) {
-        try {
-          console.log("Lab tests selected. Creating lab request...");
-
-          const labPayload = {
-            patientId: updatedPatient._id,
-            doctorId: updatedPatient.doctorId || patient.doctorId,
-
-            uhid: updatedPatient.uhid,
-            patientName: updatedPatient.name,
-
-            doctorName: updatedPatient.doctor || patient.doctor,
-
-            ward: updatedPatient.role || patient.role || "OPD",
-
-            department: "Lab",
-
-            testCategory: "Laboratory",
-
-            testName: selectedLabTests.join(", "),
-
-            tests: selectedLabTests,
-
-            priority: labPriority,
-
-            clinicalNotes: labClinicalNotes || notesData || "",
-          };
-
-          console.log("LAB REQUEST PAYLOAD =", labPayload);
-
-          const labResponse = await axios.post(
-            "http://localhost:5000/lab/requests",
-            labPayload,
-          );
-
-          console.log("Lab request created =", labResponse.data);
-
-          if (labResponse.data.success) {
-            console.log("Lab request sent successfully");
-          }
-        } catch (labError) {
-          console.error(
-            "Lab request error =",
-            labError.response?.data || labError.message,
-          );
-
-          alert(
-            labError.response?.data?.message ||
-              "Prescription saved, but Lab request could not be created.",
-          );
-        }
-      } else {
-        console.log(
-          "No lab tests selected. Prescription saved without sending to Lab.",
-        );
-      }
-
       console.log("Prescription saved in Patient prescriptionHistory");
+
+      // console.log("Calling API:", `http://localhost:5000/api/patient/${id}`);
+      // const res = await axios.get(`http://localhost:5000/api/patient/${id}`);
+
+      // console.log("API Response =", res.data);
+
+      // console.log("UPDATED PATIENT");
+      // console.log(res.data);
+      // console.log(res.data.prescriptionHistory);
+
+      // const updatedHistory = res.data.prescriptionHistory || [];
+
+      // const latest =
+      //   updatedHistory.length > 0
+      //     ? updatedHistory[updatedHistory.length - 1]
+      //     : null;
+
+      // console.log("LATEST =", latest);
+      // console.log("LATEST =", latest);
 
       alert("Prescription Saved Successfully");
 
@@ -366,7 +327,7 @@ function PrescriptionPage() {
       notesPad.current?.clear();
       sigCanvas.current?.clear();
 
-      // setEditMode(false);
+      setEditMode(false);
     } catch (err) {
       console.log(err);
       console.log(err.response);
@@ -374,40 +335,40 @@ function PrescriptionPage() {
     }
   };
 
-  // const sendToDepartment = async (target) => {
-  //   try {
-  //     if (!patient?._id) {
-  //       alert("Patient ID missing");
-  //       return;
-  //     }
+  const sendToDepartment = async (target) => {
+    try {
+      if (!patient?._id) {
+        alert("Patient ID missing");
+        return;
+      }
 
-  //     if (!prescriptionHistoryId) {
-  //       alert("Please save prescription first");
-  //       return;
-  //     }
+      if (!prescriptionHistoryId) {
+        alert("Please save prescription first");
+        return;
+      }
 
-  //     const response = await axios.post(
-  //       "http://localhost:5000/api/doctor/send-prescription",
-  //       {
-  //         target,
+      const response = await axios.post(
+        "http://localhost:5000/api/doctor/send-prescription",
+        {
+          target,
 
-  //         prescription: {
-  //           patientId: patient._id,
-  //         },
+          prescription: {
+            patientId: patient._id,
+          },
 
-  //         prescriptionHistoryId,
-  //       },
-  //     );
+          prescriptionHistoryId,
+        },
+      );
 
-  //     if (response.data.success) {
-  //       alert(`Prescription sent to ${target}`);
-  //     }
-  //   } catch (error) {
-  //     console.error("Send Prescription Error:", error.response?.data || error);
+      if (response.data.success) {
+        alert(`Prescription sent to ${target}`);
+      }
+    } catch (error) {
+      console.error("Send Prescription Error:", error.response?.data || error);
 
-  //     alert(error.response?.data?.message || "Failed to send prescription");
-  //   }
-  // };
+      alert(error.response?.data?.message || "Failed to send prescription");
+    }
+  };
 
   const downloadPDF = () => {
     window.open(`http://localhost:5000/api/patient/${id}/pdf`);
@@ -450,6 +411,20 @@ function PrescriptionPage() {
     }
   };
 
+  // const loadMedicines = async () => {
+  //   try {
+  //     const res = await axios.get(
+  //       "http://localhost:5000/api/pharmacy/medicines",
+  //     );
+
+  //     console.log("Medicines =", res.data);
+
+  //     setAvailableMedicines(res.data.data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
   const addMedicine = () => {
     setMedicineList([
       ...medicineList,
@@ -458,16 +433,6 @@ function PrescriptionPage() {
         quantity: 1,
       },
     ]);
-  };
-
-  const handleLabTestChange = (testName) => {
-    setSelectedLabTests((prev) => {
-      if (prev.includes(testName)) {
-        return prev.filter((test) => test !== testName);
-      }
-
-      return [...prev, testName];
-    });
   };
 
   const updateMedicine = (index, field, value) => {
@@ -484,15 +449,12 @@ function PrescriptionPage() {
 
       setPatient(res.data);
 
-      setLabReportHistory(res.data.labReportHistory || []);
-
       console.log("API Response =", res.data);
 
       const history = res.data.prescriptionHistory || [];
 
       console.log("History =", history);
       console.log("Length =", history.length);
-
       setHistory(history);
 
       if (history.length > 0) {
@@ -572,9 +534,6 @@ function PrescriptionPage() {
                 setPrescription("");
                 setAdvice("");
                 setNotes("");
-                setSelectedLabTests([]);
-                setLabPriority("Normal");
-                setLabClinicalNotes("");
 
                 setMedicineList([
                   {
@@ -662,36 +621,6 @@ function PrescriptionPage() {
             </p>
           </div>
         </div>
-
-        {labReportHistory.length > 0 && (
-          <div className="history-section">
-            <h2>Lab Report History</h2>
-
-            {labReportHistory
-              .slice()
-              .reverse()
-              .map((report, index) => (
-                <div className="history-card" key={report._id || index}>
-                  <h4>{report.testName}</h4>
-
-                  <p>
-                    <strong>Report Date:</strong>{" "}
-                    {report.reportDate
-                      ? new Date(report.reportDate).toLocaleString()
-                      : "-"}
-                  </p>
-
-                  <a
-                    href={`http://localhost:5000/uploadLabReport/uploadLab/${report.reportPdf}`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    View Lab Report
-                  </a>
-                </div>
-              ))}
-          </div>
-        )}
 
         {history.length > 0 && (
           <div className="history-section">
@@ -1098,74 +1027,6 @@ function PrescriptionPage() {
               </button>
             </div>
 
-            {/* ==========================================
-    LAB TESTS
-========================================== */}
-
-            <div className="prescription-section">
-              <h3>Lab Tests</h3>
-
-              <p>Select tests required for the patient:</p>
-
-              <div className="lab-test-list">
-                {labTestOptions.map((test) => (
-                  <label
-                    key={test}
-                    style={{ display: "block", marginBottom: "8px" }}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={selectedLabTests.includes(test)}
-                      onChange={() => handleLabTestChange(test)}
-                    />
-
-                    <span style={{ marginLeft: "8px" }}>{test}</span>
-                  </label>
-                ))}
-              </div>
-
-              <div style={{ marginTop: "15px" }}>
-                <label>
-                  <strong>Priority:</strong>
-                </label>
-
-                <select
-                  value={labPriority}
-                  onChange={(e) => setLabPriority(e.target.value)}
-                  style={{ marginLeft: "10px" }}
-                >
-                  <option value="Normal">Normal</option>
-                  <option value="Urgent">Urgent</option>
-                  <option value="Emergency">Emergency</option>
-                  <option value="STAT">STAT</option>
-                </select>
-              </div>
-
-              <div style={{ marginTop: "15px" }}>
-                <label>
-                  <strong>Clinical Notes:</strong>
-                </label>
-
-                <textarea
-                  value={labClinicalNotes}
-                  onChange={(e) => setLabClinicalNotes(e.target.value)}
-                  placeholder="Enter clinical notes for laboratory..."
-                  rows="3"
-                  style={{
-                    width: "100%",
-                    marginTop: "8px",
-                    padding: "8px",
-                  }}
-                />
-              </div>
-
-              {selectedLabTests.length > 0 && (
-                <p style={{ marginTop: "10px" }}>
-                  <strong>Selected Tests:</strong> {selectedLabTests.join(", ")}
-                </p>
-              )}
-            </div>
-
             <div className="section">
               <h3>Refer To Doctor</h3>
 
@@ -1174,6 +1035,7 @@ function PrescriptionPage() {
                 onChange={(e) => {
                   const selectedDoctorId = e.target.value;
 
+                  // Doctor select केला नाही
                   if (!selectedDoctorId) {
                     setReferralDoctorId("");
                     setReferralDoctorName("");
@@ -1212,16 +1074,6 @@ function PrescriptionPage() {
             </div>
           </div>
         )}
-
-        {/* {prescriptionHistoryId && (
-          <div className="department-section">
-            <h3>Send Prescription</h3>
-
-            <button type="button" onClick={() => sendToDepartment("lab")}>
-              Send to Lab
-            </button>
-          </div>
-        )} */}
 
         {editMode && (
           <div className="signature-section">
