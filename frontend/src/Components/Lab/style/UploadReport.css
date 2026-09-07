@@ -1,0 +1,580 @@
+/* ==========================================
+   UPLOAD REPORT PAGE
+========================================== */
+
+.lab-upload-page {
+  min-height: 100vh;
+
+  background: #f5f7fb;
+
+  padding: 30px;
+
+  box-sizing: border-box;
+}
+
+/* ==========================================
+   MAIN CARD
+========================================== */
+
+.lab-upload-card {
+  max-width: 1050px;
+
+  margin: 0 auto;
+
+  background: #ffffff;
+
+  border: 1px solid #e4e8ef;
+
+  border-radius: 14px;
+
+  box-shadow: 0 5px 18px rgba(15, 23, 42, 0.07);
+
+  overflow: hidden;
+}
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.lab-upload-header {
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+
+  padding: 22px 28px;
+
+  background: #ffffff;
+
+  border-bottom: 1px solid #e8ecf2;
+}
+
+.lab-upload-header h1 {
+  margin: 0;
+
+  color: #17479e;
+
+  font-size: 24px;
+
+  font-weight: 600;
+}
+
+.lab-upload-header p {
+  margin: 4px 0 0;
+
+  color: #7a8495;
+
+  font-size: 13px;
+}
+
+/* ==========================================
+   BACK BUTTON
+========================================== */
+
+.lab-upload-back-btn {
+  border: none;
+
+  background: #eef2f7;
+
+  color: #344054;
+
+  padding: 9px 14px;
+
+  border-radius: 7px;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.lab-upload-back-btn:hover {
+  background: #dfe5ed;
+
+  transform: translateX(-2px);
+}
+
+/* ==========================================
+   SECTION
+========================================== */
+
+.upload-section {
+  padding: 24px 28px;
+
+  border-bottom: 1px solid #edf0f4;
+}
+
+.upload-section:last-child {
+  border-bottom: none;
+}
+
+/* ==========================================
+   SECTION TITLE
+========================================== */
+
+.upload-section-title {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 18px;
+}
+
+.section-icon {
+  width: 38px;
+
+  height: 38px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: #eaf3ff;
+
+  border-radius: 9px;
+
+  font-size: 18px;
+}
+
+.upload-section-title h2 {
+  margin: 0;
+
+  color: #253858;
+
+  font-size: 17px;
+
+  font-weight: 600;
+}
+
+.upload-section-title p {
+  margin: 3px 0 0;
+
+  color: #8791a2;
+
+  font-size: 12px;
+}
+
+/* ==========================================
+   PATIENT INFORMATION
+========================================== */
+
+.patient-info-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 12px;
+}
+
+.patient-info-item {
+  padding: 13px 15px;
+
+  background: #f7faff;
+
+  border: 1px solid #e2ebf8;
+
+  border-radius: 8px;
+}
+
+.patient-info-item span {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #7a8495;
+
+  font-size: 11px;
+
+  font-weight: 500;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.3px;
+}
+
+.patient-info-item strong {
+  color: #26364d;
+
+  font-size: 13px;
+
+  font-weight: 600;
+}
+
+.priority-value {
+  color: #946200 !important;
+}
+
+/* ==========================================
+   REQUESTED TESTS
+========================================== */
+
+.requested-tests {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 10px;
+}
+
+.test-badge {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  padding: 8px 12px;
+
+  background: #eef6ff;
+
+  color: #145ca8;
+
+  border: 1px solid #d7e8fb;
+
+  border-radius: 20px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+.test-badge span {
+  font-size: 11px;
+}
+
+.empty-message {
+  margin: 0;
+
+  color: #8a94a6;
+
+  font-size: 13px;
+}
+
+/* ==========================================
+   CLINICAL NOTES
+========================================== */
+
+.clinical-notes {
+  padding: 14px 16px;
+
+  background: #fafbfc;
+
+  border-left: 3px solid #1976d2;
+
+  border-radius: 6px;
+
+  color: #4b5565;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+/* ==========================================
+   PDF UPLOAD AREA
+========================================== */
+
+.upload-drop-area {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-height: 180px;
+
+  padding: 25px;
+
+  border: 2px dashed #b9cce5;
+
+  border-radius: 12px;
+
+  background: #f8fbff;
+
+  cursor: pointer;
+
+  text-align: center;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.upload-drop-area:hover {
+  border-color: #1976d2;
+
+  background: #f2f8ff;
+}
+
+.upload-drop-area input {
+  display: none;
+}
+
+.upload-icon {
+  width: 48px;
+
+  height: 48px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: #e4f0ff;
+
+  border-radius: 50%;
+
+  font-size: 22px;
+
+  margin-bottom: 10px;
+}
+
+.upload-drop-area h3 {
+  margin: 0 0 5px;
+
+  color: #26364d;
+
+  font-size: 15px;
+
+  font-weight: 600;
+}
+
+.upload-drop-area p {
+  margin: 0 0 5px;
+
+  color: #6f7a8c;
+
+  font-size: 12px;
+}
+
+.upload-drop-area > span {
+  color: #9aa3b2;
+
+  font-size: 11px;
+}
+
+/* ==========================================
+   SELECTED REPORTS
+========================================== */
+
+.selected-reports {
+  margin-top: 18px;
+
+  padding: 16px;
+
+  background: #fafbfc;
+
+  border: 1px solid #e4e8ef;
+
+  border-radius: 9px;
+}
+
+.selected-reports-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-bottom: 12px;
+}
+
+.selected-reports-header h3 {
+  margin: 0;
+
+  color: #344054;
+
+  font-size: 13px;
+
+  font-weight: 600;
+}
+
+.selected-reports-header span {
+  padding: 4px 9px;
+
+  border-radius: 12px;
+
+  background: #eaf3ff;
+
+  color: #1765ad;
+
+  font-size: 10px;
+
+  font-weight: 600;
+}
+
+.report-file-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+.report-file {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 9px 11px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5e9f0;
+
+  border-radius: 7px;
+}
+
+.report-file-icon {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 32px;
+
+  height: 32px;
+
+  background: #fff0f0;
+
+  color: #d14343;
+
+  border-radius: 6px;
+
+  font-size: 9px;
+
+  font-weight: 700;
+}
+
+.report-file-name {
+  color: #475467;
+
+  font-size: 12px;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+/* ==========================================
+   UPLOAD BUTTON
+========================================== */
+
+.upload-report-btn {
+  width: 100%;
+
+  margin-top: 20px;
+
+  padding: 13px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background: #1976d2;
+
+  color: #ffffff;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.upload-report-btn:hover:not(:disabled) {
+  background: #125ca5;
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 4px 10px rgba(25, 118, 210, 0.2);
+}
+
+.upload-report-btn:disabled {
+  background: #9aa3b2;
+
+  cursor: not-allowed;
+}
+
+/* ==========================================
+   LOADING SPINNER
+========================================== */
+
+.upload-spinner {
+  display: inline-block;
+
+  width: 12px;
+
+  height: 12px;
+
+  margin-right: 7px;
+
+  border: 2px solid rgba(255, 255, 255, 0.4);
+
+  border-top-color: #ffffff;
+
+  border-radius: 50%;
+
+  animation: uploadSpin 0.8s linear infinite;
+}
+
+@keyframes uploadSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 700px) {
+  .lab-upload-page {
+    padding: 15px;
+  }
+
+  .lab-upload-header {
+    padding: 18px;
+
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .lab-upload-header h1 {
+    font-size: 21px;
+  }
+
+  .upload-section {
+    padding: 20px 18px;
+  }
+
+  .patient-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .upload-drop-area {
+    min-height: 160px;
+  }
+}

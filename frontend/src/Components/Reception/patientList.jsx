@@ -70,6 +70,8 @@ function PatientList() {
 
               <th>Date</th>
 
+              <th>Payment Status</th>
+
               <th>Action</th>
             </tr>
           </thead>
@@ -95,6 +97,18 @@ function PatientList() {
                   <td>{new Date(patient.createdAt).toLocaleDateString()}</td>
 
                   <td>
+                    <span
+                      style={{
+                        color:
+                          patient.paymentStatus === "Paid" ? "green" : "red",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {patient.paymentStatus || "Pending"}
+                    </span>
+                  </td>
+
+                  <td>
                     <button
                       className="view-btn"
                       onClick={() => handleViewPatient(patient)}
@@ -107,7 +121,7 @@ function PatientList() {
             ) : (
               <tr>
                 <td
-                  colSpan="9"
+                  colSpan="10"
                   style={{
                     textAlign: "center",
                   }}
@@ -119,54 +133,6 @@ function PatientList() {
           </tbody>
         </table>
       </div>
-
-      {/* {viewPatient && (
-        <div className="patient-details-card">
-          <h3>Patient Details</h3>
-
-          <div className="details-grid">
-            <p>
-              <strong>UHID:</strong> {viewPatient.uhid}
-            </p>
-
-            <p>
-              <strong>Name:</strong> {viewPatient.name}
-            </p>
-
-            <p>
-              <strong>Age:</strong> {viewPatient.age}
-            </p>
-
-            <p>
-              <strong>Gender:</strong> {viewPatient.gender}
-            </p>
-
-            <p>
-              <strong>Mobile:</strong> {viewPatient.mobile}
-            </p>
-
-            <p>
-              <strong>Address:</strong> {viewPatient.address}
-            </p>
-          </div>
-
-          <div className="action-buttons">
-            <button className="bill-btn" onClick={() => setStep("billing")}>
-              Generate Bill
-            </button>
-
-            <button
-              className="appointment-btn"
-              onClick={() => setStep("register")}
-            >
-              Book Appointment
-            </button>
-            <button className="ipd-btn" onClick={() => setStep("ipdAdmission")}>
-              IPD Admission
-            </button>
-          </div>
-        </div>
-      )} */}
     </div>
   );
 }

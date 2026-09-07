@@ -1,544 +1,425 @@
-// import React, { useEffect, useState } from "react";
-// import axios from "axios";
-// import UploadReport from "./UploadReport";
-// import ViewReport from "./ViewReport";
-// import "./style/LabDashboard.css";
-
-// function LabDashboard() {
-
-//   const [patients, setPatients] = useState([]);
-
-//   const [search, setSearch] = useState("");
-//   const [summary, setSummary] = useState({});
-
-//   const [selectedPatient, setSelectedPatient] = useState(null);
-
-//   const getPatients = async () => {
-
-//     try
-//     {
-
-//       const res = await axios.get(
-
-//         `http://localhost:5000/lab/patients?search=${search}`
-
-//       );
-
-//       setPatients(res.data);
-
-//     }
-
-//     catch (err) {
-
-//       console.log(err);
-
-//     }
-
-//   };
-
-//   useEffect(() => {
-
-//     getPatients();
-
-//   }, [search]);
-
-//   const getSummary = async () => {
-
-//     try {
-
-//       const res = await axios.get(
-
-//         "http://localhost:5000/lab/dashboard-summary"
-
-//       );
-
-//       setSummary(res.data);
-
-//     }
-
-//     catch (err) {
-
-//       console.log(err);
-
-//     }
-
-//   };
-
-//   useEffect(() => {
-
-//     getSummary();
-
-//   }, []);
-
-
-
-//   return (
-
-//     <div className="lab-dashboard">
-
-//       <h2>
-
-//         Lab Department
-
-//       </h2>
-
-//       <input
-
-//         type="text"
-
-//         className="form-control"
-
-//         placeholder="Search Patient Name..."
-
-//         value={search}
-
-//         onChange={(e) =>
-
-//           setSearch(e.target.value)
-
-//         }
-
-//       />
-
-
-//       <div className="dashboard-cards">
-
-//         <div className="dashboard-card">
-
-//           <h3>
-//             Total Patients
-//           </h3>
-
-//           <h1>
-//             {summary.totalPatients || 0}
-//           </h1>
-
-//         </div>
-
-//         <div className="dashboard-card">
-
-//           <h3>
-//             Pending Reports
-//           </h3>
-
-//           <h1>
-//             {summary.pendingReports || 0}
-//           </h1>
-
-//         </div>
-
-//         <div className="dashboard-card">
-
-//           <h3>
-//             Lab Reports
-//           </h3>
-
-//           <h1>
-//             {summary.labReports || 0}
-//           </h1>
-
-//         </div>
-
-//         <div className="dashboard-card">
-
-//           <h3>
-//             Diagnostic Reports
-//           </h3>
-
-//           <h1>
-//             {summary.diagnosticReports || 0}
-//           </h1>
-
-//         </div>
-
-//         <div className="dashboard-card">
-
-//           <h3>
-//             Emergency Tests
-//           </h3>
-
-//           <h1>
-//             {summary.emergencyReports || 0}
-//           </h1>
-
-//         </div>
-
-//       </div>
-
-//       <br />
-
-//       <table className="table table-bordered">
-
-//         <thead>
-
-//           <tr>
-
-//             <th>UHID</th>
-
-//             <th>Name</th>
-
-//             <th>Age</th>
-
-//             <th>Gender</th>
-
-//             <th>Role</th>
-
-//             <th>Upload Report</th>
-
-//           </tr>
-
-//         </thead>
-
-//         <tbody>
-
-//           {
-
-//             patients.map((item) => (
-
-//               <tr key={item._id}>
-
-//                 <td>{item.uhid}</td>
-
-//                 <td>{item.name}</td>
-
-//                 <td>{item.age}</td>
-
-//                 <td>{item.gender}</td>
-
-//                 <td>{item.role}</td>
-
-//                 <td>
-
-//                   <button
-
-//                     className="btn btn-primary"
-
-//                     onClick={() =>
-
-//                       setSelectedPatient(item)
-//                     }
-
-//                   >
-
-//                     Upload
-
-//                   </button>
-
-//                 </td>
-
-//               </tr>
-
-//             ))
-
-//           }
-
-//         </tbody>
-
-//       </table>
-
-//       {/* {
-
-//         selectedPatient && (
-
-//           <UploadReport
-
-//             patient={selectedPatient}
-
-//           />
-
-//         )
-
-//       } */}
-
-//     </div>
-
-//   );
-
-// }
-
-// export default LabDashboard;
-
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import UploadReport from "./UploadReport";
+import LabBilling from "./LabBilling";
 import "./style/LabDashboard.css";
 
 function LabDashboard() {
+  const [requests, setRequests] = useState([]);
 
-  const [patients, setPatients] = useState([]);
+  const [activeSection, setActiveSection] = useState("Dashboard");
+
+  const [selectedRequest, setSelectedRequest] = useState(null);
+  const [billingRequest, setBillingRequest] = useState(null);
+
+  const [loading, setLoading] = useState(false);
 
   const [search, setSearch] = useState("");
 
-  const [summary, setSummary] = useState({});
+  // ==========================================
+  // GET LAB REQUESTS
+  // ==========================================
 
-  const [selectedPatient, setSelectedPatient] = useState(null);
-
-
-  // ================= GET PATIENTS =================
-
-  const getPatients = async () => {
-
+  const getRequests = async () => {
     try {
+      setLoading(true);
 
-      const res = await axios.get(
-        `http://localhost:5000/lab/patients?search=${search}`
-      );
+      if (activeSection === "Dashboard") {
+        const [pendingRes, processingRes] = await Promise.all([
+          axios.get("http://localhost:5000/lab/requests/pending"),
+          axios.get("http://localhost:5000/lab/requests/processing"),
+        ]);
 
-      setPatients(res.data);
+        const pendingRequests = pendingRes.data.data || [];
+        const processingRequests = processingRes.data.data || [];
 
+        setRequests([...pendingRequests, ...processingRequests]);
+      } else if (activeSection === "PaymentHistory") {
+        const res = await axios.get(
+          "http://localhost:5000/lab/requests/payment-history",
+        );
+
+        setRequests(res.data.data || []);
+      }
     } catch (err) {
-
-      console.log(err);
-
+      console.log("Get Lab Requests Error:", err);
+    } finally {
+      setLoading(false);
     }
-
   };
 
+  // ==========================================
+  // LOAD REQUESTS
+  // ==========================================
 
   useEffect(() => {
+    getRequests();
+  }, [activeSection]);
 
-    getPatients();
+  // ==========================================
+  // CHANGE REQUEST STATUS TO PROCESSING
+  // ==========================================
 
-  }, [search]);
-
-
-  // ================= GET SUMMARY =================
-
-  const getSummary = async () => {
-
+  const processRequest = async (id) => {
     try {
+      await axios.put(`http://localhost:5000/lab/requests/${id}/status`, {
+        status: "Processing",
+      });
 
-      const res = await axios.get(
-        "http://localhost:5000/lab/dashboard-summary"
-      );
-
-      setSummary(res.data);
-
+      getRequests();
     } catch (err) {
+      console.log("Process Request Error:", err);
 
-      console.log(err);
-
+      alert(err.response?.data?.message || "Unable to process request");
     }
-
   };
 
+  // ==========================================
+  // LOGOUT
+  // ==========================================
 
-  useEffect(() => {
+  const handleLogout = () => {
+    localStorage.removeItem("token");
 
-    getSummary();
+    window.location.href = "/login";
+  };
 
-  }, []);
+  // ==========================================
+  // IF UPLOAD REPORT PAGE IS OPEN
+  // ==========================================
 
-
-  // =================================================
-  //                  UPLOAD REPORT PAGE
-  // =================================================
-
-  if (selectedPatient) {
-
+  if (selectedRequest) {
     return (
-
       <UploadReport
-
-        patient={selectedPatient}
-
-        onBack={() => setSelectedPatient(null)}
-
+        request={selectedRequest}
+        onBack={() => {
+          setSelectedRequest(null);
+          getRequests();
+        }}
+        onUploaded={(uploadedRequest) => {
+          setSelectedRequest(null);
+          setBillingRequest(uploadedRequest);
+        }}
       />
-
     );
-
   }
 
+  if (billingRequest) {
+    return (
+      <LabBilling
+        request={billingRequest}
+        onBack={() => {
+          setBillingRequest(null);
+          setActiveSection("PaymentHistory");
+          getRequests();
+        }}
+      />
+    );
+  }
 
-  // =================================================
-  //                  DASHBOARD
-  // =================================================
+  // ==========================================
+  // SEARCH REQUESTS
+  // ==========================================
+
+  const filteredRequests = requests.filter((item) => {
+    const text = search.toLowerCase();
+
+    return (
+      item.patientName?.toLowerCase().includes(text) ||
+      item.uhid?.toLowerCase().includes(text) ||
+      item.doctorName?.toLowerCase().includes(text)
+    );
+  });
+
+  // ==========================================
+  // DASHBOARD
+  // ==========================================
 
   return (
+    <div className="lab-layout">
+      {/* ======================================
+          SIDEBAR
+      ====================================== */}
 
-    <div className="lab-dashboard">
+      <aside className="lab-sidebar">
+        {/* PROFILE */}
+        <div className="lab-profile">
+          <div className="lab-profile-icon">👨‍🔬</div>
 
-      <h2>
-        Lab Department
-      </h2>
+          <h2>Lab Technician</h2>
 
-
-      {/* SEARCH */}
-
-      <input
-
-        type="text"
-
-        className="form-control"
-
-        placeholder="Search Patient Name..."
-
-        value={search}
-
-        onChange={(e) =>
-          setSearch(e.target.value)
-        }
-
-      />
-
-
-      {/* ================= CARDS ================= */}
-
-      <div className="dashboard-cards">
-
-        <div className="dashboard-card">
-
-          <h3>
-            Total Patients
-          </h3>
-
-          <h1>
-            {summary.totalPatients || 0}
-          </h1>
-
+          <p>Hospital Management System</p>
         </div>
 
-
-        <div className="dashboard-card">
-
-          <h3>
-            Pending Reports
-          </h3>
-
-          <h1>
-            {summary.pendingReports || 0}
-          </h1>
-
+        {/* MENU */}
+        <div className="lab-menu">
+          {/* DASHBOARD */}
+          <button
+            className={
+              activeSection === "Dashboard"
+                ? "lab-menu-btn active"
+                : "lab-menu-btn"
+            }
+            onClick={() => {
+              setActiveSection("Dashboard");
+              setSearch("");
+            }}
+          >
+            📊 Dashboard
+          </button>
         </div>
 
+        {/* PAYMENT HISTORY */}
+        <button
+          className={
+            activeSection === "PaymentHistory"
+              ? "lab-menu-btn active"
+              : "lab-menu-btn"
+          }
+          onClick={() => {
+            setActiveSection("PaymentHistory");
+            setSearch("");
+          }}
+        >
+          💳 Payment History
+        </button>
 
-        <div className="dashboard-card">
+        {/* LOGOUT */}
+        <button className="lab-logout-btn" onClick={handleLogout}>
+          🚪 Logout
+        </button>
+      </aside>
 
-          <h3>
-            Lab Reports
-          </h3>
+      {/* ======================================
+          MAIN CONTENT
+      ====================================== */}
 
+      <main className="lab-main">
+        {/* HEADER */}
+        <div className="lab-header">
           <h1>
-            {summary.labReports || 0}
+            {activeSection === "Dashboard"
+              ? "Lab Department Dashboard"
+              : "Payment History"}
           </h1>
-
         </div>
 
-
-        <div className="dashboard-card">
-
-          <h3>
-            Diagnostic Reports
-          </h3>
-
-          <h1>
-            {summary.diagnosticReports || 0}
-          </h1>
-
+        {/* SEARCH */}
+        <div className="lab-search-section">
+          <input
+            type="text"
+            className="lab-search"
+            placeholder="Search Patient Name or UHID..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </div>
 
+        {/* ======================================
+            DASHBOARD INFO
+        ====================================== */}
 
-        <div className="dashboard-card">
+        {activeSection === "Dashboard" && (
+          <div className="lab-info">
+            <h2>Doctor Lab Requests</h2>
 
-          <h3>
-            Emergency Tests
-          </h3>
+            <p>Pending and processing requests sent by doctors</p>
+          </div>
+        )}
 
-          <h1>
-            {summary.emergencyReports || 0}
-          </h1>
+        {/* {/* ======================================
+            HISTORY INFO
+        ====================================== *
 
-        </div>
+        {activeSection === "History" && (
+          <div className="lab-info">
+            <h2>Lab Report History</h2>
 
-      </div>
+            <p>Previously uploaded and completed laboratory reports</p>
+          </div>
+        )} */}
 
+        {activeSection === "PaymentHistory" && (
+          <div className="lab-info">
+            <h2>Lab Payment History</h2>
 
-      <br />
+            <p>Successfully paid lab bills and payment details</p>
+          </div>
+        )}
 
+        {/* ======================================
+            TABLE
+        ====================================== */}
 
-      {/* ================= PATIENT TABLE ================= */}
+        {/* ======================================
+    TABLE
+====================================== */}
 
-      <table className="table table-bordered">
+        {loading ? (
+          <div className="lab-loading">Loading...</div>
+        ) : activeSection === "PaymentHistory" ? (
+          /* ======================================
+      PAYMENT HISTORY TABLE
+  ====================================== */
 
-        <thead>
+          <div className="lab-table-container">
+            <table className="lab-table payment-history-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Bill Number</th>
+                  <th>UHID</th>
+                  <th>Patient Name</th>
+                  <th>Tests</th>
+                  <th>Total Amount</th>
+                  <th>Payment Mode</th>
+                  <th>Payment Status</th>
+                  <th>Payment Date</th>
+                </tr>
+              </thead>
 
-          <tr>
+              <tbody>
+                {filteredRequests.length > 0 ? (
+                  filteredRequests.map((item, index) => (
+                    <tr key={item._id}>
+                      <td>{index + 1}</td>
 
-            <th>UHID</th>
+                      <td>{item.billing?.billNumber || "-"}</td>
 
-            <th>Name</th>
+                      <td>{item.uhid}</td>
 
-            <th>Age</th>
+                      <td>{item.patientName}</td>
 
-            <th>Gender</th>
+                      <td>{item.tests?.join(", ") || item.testName || "-"}</td>
 
-            <th>Role</th>
+                      <td>₹{item.billing?.totalAmount || 0}</td>
 
-            <th>Upload Report</th>
+                      <td>{item.billing?.paymentMode || "-"}</td>
 
-          </tr>
+                      <td>
+                        <span className="payment-paid">
+                          {item.billing?.paymentStatus || "Paid"}
+                        </span>
+                      </td>
 
-        </thead>
+                      <td>
+                        {item.billing?.billedAt
+                          ? new Date(item.billing.billedAt).toLocaleString()
+                          : "-"}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="9" className="no-data">
+                      No Payment History Found
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          /* ======================================
+ DASHBOARD TABLE 
+  ====================================== */
 
+          <div className="lab-table-container">
+            <table className="lab-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>UHID</th>
+                  <th>Patient Name</th>
+                  <th>Doctor</th>
+                  <th>Ward</th>
+                  <th>Tests</th>
+                  <th>Priority</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
 
-        <tbody>
+              <tbody>
+                {filteredRequests.length > 0 ? (
+                  filteredRequests.map((item, index) => (
+                    <tr key={item._id}>
+                      <td>{index + 1}</td>
 
-          {patients.map((item) => (
+                      <td>{item.uhid}</td>
 
-            <tr key={item._id}>
+                      <td>{item.patientName}</td>
 
-              <td>
-                {item.uhid}
-              </td>
+                      <td>{item.doctorName}</td>
 
-              <td>
-                {item.name}
-              </td>
+                      <td>{item.ward}</td>
 
-              <td>
-                {item.age}
-              </td>
+                      <td>{item.tests?.join(", ")}</td>
 
-              <td>
-                {item.gender}
-              </td>
+                      <td>{item.priority}</td>
 
-              <td>
-                {item.role}
-              </td>
+                      <td>
+                        <span
+                          className={
+                            item.status === "Pending"
+                              ? "status pending"
+                              : item.status === "Processing"
+                                ? "status processing"
+                                : "status completed"
+                          }
+                        >
+                          {item.status}
+                        </span>
+                      </td>
 
-              <td>
+                      <td>
+                        {/* PENDING */}
+                        {activeSection === "Dashboard" &&
+                          item.status === "Pending" && (
+                            <button
+                              className="action-btn process-btn"
+                              onClick={() => processRequest(item._id)}
+                            >
+                              Process
+                            </button>
+                          )}
 
-                <button
+                        {/* PROCESSING */}
+                        {activeSection === "Dashboard" &&
+                          item.status === "Processing" && (
+                            <button
+                              className="action-btn upload-btn"
+                              onClick={() => setSelectedRequest(item)}
+                            >
+                              Upload Reports
+                            </button>
+                          )}
 
-                  className="btn btn-primary"
-
-                  onClick={() =>
-                    setSelectedPatient(item)
-                  }
-
-                >
-
-                  Upload
-
-                </button>
-
-              </td>
-
-            </tr>
-
-          ))}
-
-        </tbody>
-
-      </table>
-
+                        {/* HISTORY
+                        {activeSection === "History" && (
+                          <span className="history-pending">
+                            Payment Pending
+                          </span>
+                        )} */}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="9" className="no-data">
+                      {activeSection === "Dashboard"
+                        ? "No Lab Requests Found"
+                        : "No Payment History Found"}
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </main>
     </div>
-
   );
-
 }
 
 export default LabDashboard;

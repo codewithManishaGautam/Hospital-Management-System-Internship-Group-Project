@@ -189,6 +189,29 @@ const patientSchema = new mongoose.Schema(
       default: "",
     },
 
+    labReportHistory: [
+      {
+        labRequestId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "LabRequest",
+        },
+
+        testName: {
+          type: String,
+          default: "",
+        },
+
+        reportPdf: {
+          type: String,
+          default: "",
+        },
+
+        reportDate: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
     // ======================
     // Pharmacy
     // ======================
