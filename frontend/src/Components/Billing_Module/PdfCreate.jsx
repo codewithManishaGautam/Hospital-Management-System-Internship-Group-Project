@@ -258,7 +258,7 @@ function PdfCreate({ patient, pdfname, type }) {
 
       <p>
         <b>Claim Number:</b>
-        ${patient.claimNumber || "N/A"}
+        ${patient.claimNumber || "N/A"} 
       </p>
     `;
 
