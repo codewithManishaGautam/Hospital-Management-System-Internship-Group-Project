@@ -1,57 +1,196 @@
+// const express = require("express");
+
+// const router = express.Router();
+
+
+// const {
+
+//     uploadLabReport,
+//     getAllPatients,
+//     getPatientReports,
+//     updateLabReport,
+//     deleteLabReport,
+//     dashboardSummary
+
+// } = require("../controllers/labController");
+
+
+// // ===================== Patients =====================
+
+// router.get(
+
+//     "/patients",
+
+//     getAllPatients
+
+// );
+
+
+// // ===================== Upload PDF =====================
+
+// router.post(
+
+//     "/upload-report",
+
+//     upload.single("reportPdf"),
+
+//     uploadLabReport
+
+// );
+
+
+// // ===================== Patient Reports =====================
+
+// router.get(
+
+//     "/reports/:patientId",
+
+//     getPatientReports
+
+// );
+
+
+// // ===================== Update Report =====================
+
+// router.put(
+
+//     "/report/:id",
+
+//     updateLabReport
+
+// );
+
+
+// // ===================== Delete Report =====================
+
+// router.delete(
+
+//     "/report/:id",
+
+//     deleteLabReport
+
+// );
+
+
+// router.get(
+
+//     "/dashboard-summary",
+
+//     dashboardSummary
+
+// );
+
+// module.exports = router;
+
+
+
+
+
+
 const express = require("express");
 
 const router = express.Router();
 
+
+// ==========================================
+// Lab Routes
+// ==========================================
+
 module.exports = (uploadLab) => {
-  const {
-    createLabRequest,
-    getAllLabRequests,
-    getPendingRequests,
-    getProcessingRequests,
-    getCompletedRequests,
-    getSingleRequest,
-    updateStatus,
-    uploadReport,
-    completeLabPayment,
-    getPaymentHistory,
-  } = require("../controllers/labRequestController");
 
-  // ==============================
-  // LAB REQUESTS
-  // ==============================
 
-  // Create request from Doctor
-  router.post("/requests", createLabRequest);
+    const {
 
-  // Get all requests
-  router.get("/requests", getAllLabRequests);
+        uploadLabReport,
+        getAllPatients,
+        getPatientReports,
+        updateLabReport,
+        deleteLabReport,
+        dashboardSummary
 
-  // Pending requests
-  router.get("/requests/pending", getPendingRequests);
+    } = require("../controllers/labController");
 
-  // Processing requests
-  router.get("/requests/processing", getProcessingRequests);
 
-  // Completed requests
-  router.get("/requests/completed", getCompletedRequests);
+    // ==========================================
+    // Get All Patients
+    // ==========================================
 
-  // Payment History
-  router.get("/requests/payment-history", getPaymentHistory);
+    router.get(
 
-  // Single request
-  router.get("/requests/:id", getSingleRequest);
+        "/patients",
 
-  // Update status
-  router.put("/requests/:id/status", updateStatus);
+        getAllPatients
 
-  // Complete Lab Payment
-  router.put("/requests/:id/payment", completeLabPayment);
+    );
 
-  // Upload report
-  router.post(
-    "/requests/:id/report",
-    uploadLab.array("reportPdfs", 10),
-    uploadReport,
-  );
-  return router;
+
+    // ==========================================
+    // Upload Lab Report
+    // ==========================================
+
+    router.post(
+
+        "/upload-report",
+
+        uploadLab.single("reportPdf"),
+
+        uploadLabReport
+
+    );
+
+
+    // ==========================================
+    // Get Patient Reports
+    // ==========================================
+
+    router.get(
+
+        "/reports/:patientId",
+
+        getPatientReports
+
+    );
+
+
+    // ==========================================
+    // Update Report
+    // ==========================================
+
+    router.put(
+
+        "/report/:id",
+
+        updateLabReport
+
+    );
+
+
+    // ==========================================
+    // Delete Report
+    // ==========================================
+
+    router.delete(
+
+        "/report/:id",
+
+        deleteLabReport
+
+    );
+
+
+    // ==========================================
+    // Dashboard Summary
+    // ==========================================
+
+    router.get(
+
+        "/dashboard-summary",
+
+        dashboardSummary
+
+    );
+
+
+    return router;
+
 };
