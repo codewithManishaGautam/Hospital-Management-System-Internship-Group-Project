@@ -1,48 +1,143 @@
-.bedsContainer{
-  display:flex;
-  flex-direction: column;
+/* =========================================
+   NURSE BED MANAGEMENT
+========================================= */
+
+.bedsContainer {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 0 5px 30px;
+}
+
+/* =========================================
+   PAGE TITLE
+========================================= */
+
+.bedsContainer > h2 {
+  text-align: center;
+
+  color: #0b2447;
+
+  font-size: 28px;
+
+  margin: 10px 0 25px;
+}
+
+/* =========================================
+   BED CARD
+========================================= */
+
+.bedCard {
+  width: 100%;
+
+  max-width: 1150px;
+
+  margin: 0 auto 18px;
+
+  background: #ffffff;
+
+  border: 1px solid #dbe3ec;
+
+  border-left: 5px solid #0b2447;
+
+  border-radius: 14px;
+
+  padding: 22px 25px;
+
+  box-sizing: border-box;
+
+  display: grid;
+
+  grid-template-columns:
+    1.1fr
+    0.9fr
+    1fr
+    1fr
+    1.4fr;
+
+  gap: 18px;
+
   align-items: center;
-  justify-content:center;
-  gap:40px;
-  margin-top:30px;
-  width:100%;
+
+  box-shadow: 0 5px 18px rgba(11, 36, 71, 0.07);
+
+  transition: all 0.2s ease;
 }
 
-.bedCard{
-  width:95%;
-  max-width : 950px;
-  background:white;
-  padding:30px 45px;
-  border-radius:20px;
-  /* text-align:center; */
-  border:5px solid #0b2447;
+.bedCard:hover {
+  transform: translateY(-2px);
 
-  display : flex;
-  justify-content: space-between;
-  align-items :center;
+  box-shadow: 0 9px 24px rgba(11, 36, 71, 0.12);
 }
 
-.bedCard h2{
-  margin-bottom:0px;
-  font-size: 24px;
+/* =========================================
+   ROOM
+========================================= */
+
+.bedCard h2 {
+  margin: 0;
+
+  color: #0b2447;
+
+  font-size: 19px;
+
+  font-weight: 700;
 }
 
-.bedCard p{
-  display : flex;
-  flex-direction : row;
-  align-items : center;
-  justify-content :flex-start;
-   gap :15px;
-  font-size:18px;
-  width : auto;
-  margin:10px 0; 
+/* =========================================
+   BED INFORMATION
+========================================= */
+
+.bedCard p {
+  margin: 0;
+
+  color: #475569;
+
+  font-size: 14px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 5px;
 }
 
+.bedCard strong {
+  color: #0b2447;
+
+  font-weight: 700;
+}
+
+/* =========================================
+   BED STATUS LIST
+========================================= */
+
+.bedCard > div {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+.bedCard > div p {
+  font-size: 13px;
+
+  white-space: nowrap;
+}
+
+/* =========================================
+   OLD STYLES
+========================================= */
 
 .bed-input-group {
   display: flex;
-  flex-direction : row;
+
+  flex-direction: row;
+
   align-items: center;
+
   margin: 10px 0;
 }
 
@@ -52,44 +147,128 @@
 
 .bed-input-group input {
   width: 60px;
+
   padding: 5px;
-  border: 2px solid #002244; 
+
+  border: 2px solid #002244;
+
   border-radius: 5px;
+
   text-align: center;
+
   font-weight: bold;
+
   color: #002244;
 }
 
-
 .save-beds-btn {
-  grid-column: 1 / -1;
   margin-top: 20px;
+
   padding: 12px 25px;
-  background-color: #002244; 
+
+  background-color: #002244;
+
   color: white;
+
   border: none;
-  border-radius: 5px;
+
+  border-radius: 7px;
+
   font-size: 16px;
+
   cursor: pointer;
+
   font-weight: bold;
-  transition: background 0.3s;
 }
 
 .save-beds-btn:hover {
-  background-color: #003366; 
+  background-color: #003366;
 }
 
-.nurse-topbar{
-  width : 100%;
-  background-color : #0b2447;
-  color : #ffffff;
-  padding : 15px 35px;
-  font-size :24px;
-  font-weight:700;
-  text-align : left;
-  border-radius : 10px;
-  box-sizing : border-box;
-  margin-bottom : 40px;
-  margin-top : 0px;
-  box-shadow : 0 4px 112px rgba(0,0,0,0.1)
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+  .bedCard {
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 15px;
+
+    padding: 20px;
+  }
+
+  .bedCard > div {
+    grid-column: 1 / -1;
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 8px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+  .bedsContainer {
+    padding: 0 0 25px;
+  }
+
+  .bedsContainer > h2 {
+    font-size: 23px;
+
+    margin-bottom: 18px;
+  }
+
+  .bedCard {
+    grid-template-columns: 1fr;
+
+    padding: 18px;
+
+    gap: 11px;
+
+    border-left-width: 4px;
+  }
+
+  .bedCard h2 {
+    font-size: 18px;
+  }
+
+  .bedCard p {
+    font-size: 13px;
+  }
+
+  .bedCard > div {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+  }
+
+  .bedCard > div p {
+    white-space: normal;
+  }
+}
+
+/* =========================================
+   VERY SMALL MOBILE
+========================================= */
+
+@media (max-width: 400px) {
+  .bedCard {
+    padding: 15px;
+  }
+
+  .bedCard h2 {
+    font-size: 17px;
+  }
+
+  .bedCard p {
+    font-size: 12px;
+  }
 }

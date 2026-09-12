@@ -1,11 +1,12 @@
 import React from "react";
+import "../../styles/Pharmacy/layout.css";
 
 function Layout({ role, children, setStep }) {
-    return (
-    <div className="dashboard">
+  return (
+    <div className="pharmacy-layout">
       {/* Sidebar */}
-      <div className="sidebar">
-        <div className="profile">
+      <div className="pharmacy-sidebar">
+        <div className="pharmacy-profile">
           <img
             src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
             alt="profile"
@@ -27,7 +28,7 @@ function Layout({ role, children, setStep }) {
 
         {/* Logout */}
         <button
-          className="logout"
+          className="pharmacy-logout"
           onClick={() => {
             localStorage.removeItem("token");
             window.location.href = "/";
@@ -38,10 +39,10 @@ function Layout({ role, children, setStep }) {
       </div>
 
       {/* Main Content */}
-      <div className="main">
-        <div className="topbar">{role} Panel</div>
+      <div className="pharmacy-main">
+        <div className="pharmacy-topbar">{role} Panel</div>
 
-        <div className="content">{children}</div>
+        <div className="pharmacy-content">{children}</div>
       </div>
     </div>
   );

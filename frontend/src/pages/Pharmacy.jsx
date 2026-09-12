@@ -9,7 +9,7 @@ import axios from "axios";
 
 // import { medicines, payments } from "../Components/Pharmacy/PharmacyData";
 
-import "../styles/Pharmacy/Pharmacy.css";
+// import "../styles/Pharmacy/Phasrmacy.css";
 import "../styles/Pharmacy/dashboard.css";
 import "../styles/Pharmacy/billpreview.css";
 import "../styles/Pharmacy/payments.css";
@@ -71,6 +71,7 @@ function Pharmacy() {
 
   useEffect(() => {
     loadPrescriptions();
+    loadPayments();
   }, []);
 
   const medicines = selectedPrescription?.pharmacyMedicines || [];
@@ -103,13 +104,16 @@ function Pharmacy() {
       )}
 
       {step === "prescription" && !selectedPrescription && (
-        <div className="table-container">
+        <div className="pharmacy-no-prescription">
+          {" "}
           <h2>No Prescription Selected</h2>
           <p>
             Please go to Pharmacy Dashboard and click Open on a prescription.
           </p>
-
-          <button className="btn-primary" onClick={() => setStep("dashboard")}>
+          <button
+            className="pharmacy-no-prescription-btn"
+            onClick={() => setStep("dashboard")}
+          >
             Go to Dashboard
           </button>
         </div>

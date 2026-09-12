@@ -1,15 +1,19 @@
-/* ===========================
-   Prescription Page
-=========================== */
+/* =========================================
+   PHARMACY PRESCRIPTION PAGE
+========================================= */
 
-.dashboard-title {
+.pharmacy-prescription-title {
   font-size: 30px;
   font-weight: 700;
   color: #0f2d5c;
   margin-bottom: 25px;
 }
 
-.table-container {
+/* =========================================
+   MAIN CONTAINER
+========================================= */
+
+.pharmacy-prescription-container {
   background: #ffffff;
   border-radius: 12px;
   padding: 25px;
@@ -18,228 +22,32 @@
   border: 1px solid #d8e3f2;
 }
 
-.section-label {
-  font-size: 22px;
-  font-weight: 700;
+/* =========================================
+   PATIENT DETAILS
+========================================= */
+
+.pharmacy-prescription-container h2 {
   color: #0f2d5c;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
-/* ===========================
-   Patient Information
-=========================== */
-
-.patient-info {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 15px;
-}
-
-.patient-info p {
-  background: #f8fbff;
-  padding: 12px 15px;
-  border-radius: 8px;
-  border-left: 5px solid #0f2d5c;
-  font-size: 15px;
+.pharmacy-prescription-container p {
   color: #333;
+  line-height: 1.6;
 }
 
-.patient-info b {
-  color: #0f2d5c;
-}
+/* =========================================
+   DOCTOR PRESCRIPTION INFORMATION
+========================================= */
 
-/* ===========================
-   Billing Table
-=========================== */
-
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-.data-table thead {
-  background: #0f2d5c;
-}
-
-.data-table th {
-  color: white;
-  padding: 14px;
-  text-align: center;
-  font-size: 15px;
-}
-
-.data-table td {
-  padding: 14px;
-  text-align: center;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.data-table tbody tr:hover {
-  background: #f4f8fd;
-}
-
-/* ===========================
-   Total Amount
-=========================== */
-
-.total-section {
-  margin-top: 25px;
-  text-align: right;
-}
-
-.total-section h2 {
-  color: #0f2d5c;
-  font-size: 22px;
-}
-
-/* ===========================
-   Buttons
-=========================== */
-
-.bill-btns {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 30px;
-  flex-wrap: wrap;
-}
-
-.bill-btns button {
-  padding: 12px 25px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.3s;
-}
-
-.download-btn {
-  background: #0f2d5c;
-  color: white;
-}
-
-.download-btn:hover {
-  background: #163d7a;
-}
-
-.send-btn {
-  background: #1b4d9b;
-  color: white;
-}
-
-.send-btn:hover {
-  background: #2960b8;
-}
-
-.insurance-btn {
-  background: white;
-  border: 2px solid #0f2d5c !important;
-  color: #0f2d5c;
-}
-
-.insurance-btn:hover {
-  background: #0f2d5c;
-  color: white;
-}
-
-/* ===========================
-   Payment Section
-=========================== */
-
-.payment-section {
-  display: flex;
-  gap: 30px;
-  margin-top: 35px;
-  flex-wrap: wrap;
-}
-
-.payment-box {
-  flex: 1;
-  min-width: 250px;
-}
-
-.payment-box label {
-  display: block;
-  margin-bottom: 8px;
-  color: #0f2d5c;
-  font-weight: 600;
-}
-
-.payment-box select {
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #c8d6ea;
-  font-size: 15px;
-  background: white;
-}
-
-.payment-box select:focus {
-  outline: none;
-  border-color: #0f2d5c;
-}
-
-/* ===========================
-   Bottom Button
-=========================== */
-
-.bottom-actions {
-  text-align: center;
-  margin-top: 35px;
-}
-
-.btn-primary {
-  background: #0f2d5c;
-  color: white;
-  border: none;
-  padding: 13px 35px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 15px;
-  transition: 0.3s;
-}
-
-.btn-primary:hover {
-  background: #163d7a;
-}
-
-/* ===========================
-   Responsive
-=========================== */
-
-@media(max-width:768px){
-
-.bill-btns{
-flex-direction:column;
-}
-
-.payment-section{
-flex-direction:column;
-}
-
-.dashboard-title{
-font-size:24px;
-}
-
-.section-label{
-font-size:18px;
-}
-
-}
-
-/* ===========================
-   Doctor Prescription Information
-=========================== */
-
-.doctor-prescription-info {
+.pharmacy-prescription-info-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 18px;
   margin: 25px 0;
 }
 
-.prescription-info-card {
+.pharmacy-prescription-info-card {
   background: #f8fbff;
   border: 1px solid #d8e3f2;
   border-left: 5px solid #0f2d5c;
@@ -248,13 +56,13 @@ font-size:18px;
   min-height: 100px;
 }
 
-.prescription-info-card h3 {
+.pharmacy-prescription-info-card h3 {
   margin: 0 0 10px;
   color: #0f2d5c;
   font-size: 18px;
 }
 
-.prescription-info-card p {
+.pharmacy-prescription-info-card p {
   margin: 0;
   color: #333;
   font-size: 15px;
@@ -262,20 +70,55 @@ font-size:18px;
   white-space: pre-wrap;
 }
 
-/* ===========================
-   Pharmacy Medicine Entry
-=========================== */
+/* =========================================
+   DOCTOR MEDICINE TABLE
+========================================= */
 
-.pharmacy-medicine-row {
+.pharmacy-prescription-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.pharmacy-prescription-table thead {
+  background: #0f2d5c;
+}
+
+.pharmacy-prescription-table th {
+  color: white;
+  padding: 14px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.pharmacy-prescription-table td {
+  padding: 14px;
+  text-align: center;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.pharmacy-prescription-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.pharmacy-prescription-table tbody tr:hover {
+  background: #f4f8fd;
+}
+
+/* =========================================
+   PHARMACY MEDICINE ENTRY
+========================================= */
+
+.pharmacy-prescription-medicine-row {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr auto;
   gap: 12px;
   margin-bottom: 15px;
   align-items: center;
 }
 
-.pharmacy-medicine-row select,
-.pharmacy-medicine-row input {
+.pharmacy-prescription-medicine-row select,
+.pharmacy-prescription-medicine-row input {
   width: 100%;
   padding: 12px;
   border: 1px solid #c8d6ea;
@@ -285,29 +128,103 @@ font-size:18px;
   background: white;
 }
 
-.pharmacy-medicine-row select:focus,
-.pharmacy-medicine-row input:focus {
+.pharmacy-prescription-medicine-row select:focus,
+.pharmacy-prescription-medicine-row input:focus {
   outline: none;
   border-color: #1b4d9b;
 }
 
-/* ===========================
-   Responsive
-=========================== */
+/* Remove medicine button */
 
-@media (max-width: 768px) {
-
-  .doctor-prescription-info {
-    grid-template-columns: 1fr;
-  }
-
-  .pharmacy-medicine-row {
-    grid-template-columns: 1fr;
-  }
-
+.pharmacy-prescription-medicine-row button {
+  border: none;
+  background: #dc2626;
+  color: white;
+  padding: 11px 15px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: 600;
 }
 
-.prescription-handwritten-image {
+.pharmacy-prescription-medicine-row button:hover {
+  background: #b91c1c;
+}
+
+/* =========================================
+   ADD MEDICINE BUTTON
+========================================= */
+
+.pharmacy-prescription-add-btn {
+  background: #0f2d5c;
+  color: white;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.pharmacy-prescription-add-btn:hover {
+  background: #163d7a;
+}
+
+/* =========================================
+   TOTAL
+========================================= */
+
+.pharmacy-prescription-total {
+  margin-top: 25px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: right;
+  color: #0f2d5c;
+}
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.pharmacy-prescription-actions {
+  margin-top: 25px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.pharmacy-prescription-back-btn,
+.pharmacy-prescription-continue-btn {
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.pharmacy-prescription-back-btn {
+  background: #0f2d5c;
+  color: white;
+}
+
+.pharmacy-prescription-back-btn:hover {
+  background: #163d7a;
+}
+
+.pharmacy-prescription-continue-btn {
+  background: #1b4d9b;
+  color: white;
+}
+
+.pharmacy-prescription-continue-btn:hover {
+  background: #2960b8;
+}
+
+/* =========================================
+   PRESCRIPTION CONTENT
+========================================= */
+
+.pharmacy-prescription-handwritten-image {
   display: block;
   width: 500px;
   max-width: 100%;
@@ -320,9 +237,57 @@ font-size:18px;
   border-radius: 6px;
 }
 
-.prescription-typed-text {
+.pharmacy-prescription-typed-text {
   margin-top: 10px;
   white-space: pre-wrap;
   word-break: break-word;
   line-height: 1.6;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+  .pharmacy-prescription-medicine-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .pharmacy-prescription-title {
+    font-size: 24px;
+  }
+
+  .pharmacy-prescription-container {
+    padding: 18px;
+  }
+
+  .pharmacy-prescription-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pharmacy-prescription-medicine-row {
+    grid-template-columns: 1fr;
+  }
+
+  .pharmacy-prescription-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .pharmacy-prescription-actions {
+    flex-direction: column;
+  }
+
+  .pharmacy-prescription-back-btn,
+  .pharmacy-prescription-continue-btn,
+  .pharmacy-prescription-add-btn {
+    width: 100%;
+  }
+
+  .pharmacy-prescription-total {
+    text-align: left;
+  }
 }
