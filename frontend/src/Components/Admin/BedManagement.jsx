@@ -22,12 +22,12 @@ function BedManagement() {
   }, []);
 
   return (
-    <div className="table-container">
-      <div className="section-header">
+    <div className="admin-bed-container">
+      <div className="admin-bed-header">
         <h2>Bed Management</h2>
       </div>
 
-      <table>
+      <table className="admin-bed-table">
         <thead>
           <tr>
             <th>Room No</th>
@@ -43,10 +43,11 @@ function BedManagement() {
               <td>{bed.bedNo}</td>
               <td>
                 <span
-                  style={{
-                    color: bed.status === "Available" ? "green" : "red",
-                    fontWeight: "bold",
-                  }}
+                  className={
+                    bed.status === "Available"
+                      ? "admin-bed-status-available"
+                      : "admin-bed-status-occupied"
+                  }
                 >
                   {bed.status}
                 </span>

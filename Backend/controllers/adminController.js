@@ -728,31 +728,151 @@ const getFinanceStats = async (req, res) => {
 
 const getAnalytics = async (req, res) => {
   try {
-    const totalIncome = await Income.aggregate([
+    const year = Number(req.query.year);
+    const month = Number(req.query.month);
+
+    // If year/month are not provided, return overall totals
+    if (!year || !month) {
+      const totalIncome = await Income.aggregate([
+        {
+          $group: {
+            _id: null,
+            total: { $sum: "$amount" },
+          },
+        },
+      ]);
+
+      const totalExpense = await Expense.aggregate([
+        {
+          $group: {
+            _id: null,
+            total: { $sum: "$amount" },
+          },
+        },
+      ]);
+
+      const income = totalIncome[0]?.total || 0;
+      const expense = totalExpense[0]?.total || 0;
+
+      return res.json({
+        totalIncome: income,
+        totalExpense: expense,
+        profit: income - expense,
+        daily: [],
+      });
+    }
+
+    if (month < 1 || month > 12) {
+      return res.status(400).json({
+        message: "Month must be between 1 and 12.",
+      });
+    }
+
+    // Start and end of selected month
+    const startDate = new Date(year, month - 1, 1);
+    const endDate = new Date(year, month, 1);
+
+    // Get income day-wise
+    const incomeData = await Income.aggregate([
+      {
+        $match: {
+          date: {
+            $gte: startDate,
+            $lt: endDate,
+          },
+        },
+      },
       {
         $group: {
-          _id: null,
-          total: { $sum: "$amount" },
+          _id: {
+            $dayOfMonth: "$date",
+          },
+          total: {
+            $sum: "$amount",
+          },
+        },
+      },
+      {
+        $sort: {
+          _id: 1,
         },
       },
     ]);
 
-    const totalExpense = await Expense.aggregate([
+    // Get expense day-wise
+    const expenseData = await Expense.aggregate([
+      {
+        $match: {
+          date: {
+            $gte: startDate,
+            $lt: endDate,
+          },
+        },
+      },
       {
         $group: {
-          _id: null,
-          total: { $sum: "$amount" },
+          _id: {
+            $dayOfMonth: "$date",
+          },
+          total: {
+            $sum: "$amount",
+          },
+        },
+      },
+      {
+        $sort: {
+          _id: 1,
         },
       },
     ]);
 
-    const income = totalIncome[0]?.total || 0;
-    const expense = totalExpense[0]?.total || 0;
+    // Convert income data into an easy-to-use object
+    const incomeByDay = {};
+
+    incomeData.forEach((item) => {
+      incomeByDay[item._id] = item.total;
+    });
+
+    // Convert expense data into an easy-to-use object
+    const expenseByDay = {};
+
+    expenseData.forEach((item) => {
+      expenseByDay[item._id] = item.total;
+    });
+
+    // Number of days in selected month
+    const daysInMonth = new Date(year, month, 0).getDate();
+
+    const daily = [];
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const income = incomeByDay[day] || 0;
+      const expense = expenseByDay[day] || 0;
+
+      daily.push({
+        date: `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(
+          2,
+          "0",
+        )}`,
+        income,
+        expense,
+        profit: income - expense,
+      });
+    }
+
+    const totalIncome = daily.reduce((sum, item) => sum + item.income, 0);
+
+    const totalExpense = daily.reduce((sum, item) => sum + item.expense, 0);
+
+    const profit = totalIncome - totalExpense;
 
     res.json({
-      totalIncome: income,
-      totalExpense: expense,
-      profit: income - expense,
+      year,
+      month,
+      totalIncome,
+      totalExpense,
+      profit,
+      daily,
     });
   } catch (error) {
     res.status(500).json({

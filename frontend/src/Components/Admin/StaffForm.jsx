@@ -1,4 +1,5 @@
 import React from "react";
+import "../../styles/admin/staff.css";
 
 // import { StaffForm } from "../../api/admin/adminApi";
 
@@ -12,8 +13,8 @@ function StaffForm({
   if (!showStaffForm) return null;
 
   return (
-    <div className="staff-form-popup">
-      <div className="staff-form">
+    <div className="admin-staff-form-popup">
+      <div className="admin-staff-form">
         <h2>Add Staff</h2>
 
         <input
@@ -63,7 +64,7 @@ function StaffForm({
           onChange={(e) =>
             setNewStaff({
               ...newStaff,
-email: e.target.value,
+              email: e.target.value,
             })
           }
         />
@@ -137,20 +138,20 @@ email: e.target.value,
           }
         />
 
-        <div className="form-buttons">
+        <div className="admin-staff-form-buttons">
           <button
-            className="save-btn"
+            className="admin-staff-save-btn"
             onClick={() => {
-if (
-  !newStaff.name ||
-  !newStaff.aadhaar ||
-  !newStaff.mobile ||
-  !newStaff.email ||
-  !newStaff.role ||
-  !newStaff.salary ||
-  !newStaff.status ||
-  !newStaff.joining
-) {
+              if (
+                !newStaff.name ||
+                !newStaff.aadhaar ||
+                !newStaff.mobile ||
+                !newStaff.email ||
+                !newStaff.role ||
+                !newStaff.salary ||
+                !newStaff.status ||
+                !newStaff.joining
+              ) {
                 alert("Please fill all fields");
                 return;
               }
@@ -172,7 +173,7 @@ if (
           </button>
 
           <button
-            className="cancel-btn"
+            className="admin-staff-cancel-btn"
             onClick={() => setShowStaffForm(false)}
           >
             Cancel

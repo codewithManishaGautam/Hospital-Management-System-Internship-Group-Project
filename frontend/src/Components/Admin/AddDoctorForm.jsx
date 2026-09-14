@@ -11,8 +11,8 @@ function AddDoctorForm({
   if (!showDoctorForm) return null;
 
   return (
-    <div className="staff-form-popup">
-      <div className="staff-form">
+<div className="admin-doctor-form-popup">
+  <div className="admin-doctor-form">
         <h2>Add Doctor</h2>
 
         <input
@@ -77,9 +77,9 @@ function AddDoctorForm({
           }
         />
 
-        <div className="form-buttons">
+        <div className="admin-doctor-form-buttons">
           <button
-            className="save-btn"
+            className="admin-doctor-save-btn"
             onClick={() => {
               if (
                 !newDoctor.name ||
@@ -131,7 +131,7 @@ function AddDoctorForm({
           </button>
 
           <button
-            className="cancel-btn"
+            className="admin-doctor-cancel-btn"
             onClick={() => setShowDoctorForm(false)}
           >
             Cancel

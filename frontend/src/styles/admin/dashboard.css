@@ -1,165 +1,300 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
-.dashboard-container {
+/* =========================================================
+   ADMIN DASHBOARD
+   ========================================================= */
+.admin-dashboard-container {
   width: 100%;
   max-width: 100%;
+  min-width: 0;
+  margin: 0;
   padding: 20px;
   box-sizing: border-box;
   overflow-x: hidden;
 }
 
-.dashboard-title {
+.admin-dashboard-title {
   font-size: 34px;
   font-weight: 700;
   color: #0f172a;
-  margin-bottom: 30px;
+  margin: 0 0 30px;
   letter-spacing: 0.5px;
 }
 
-.stats-grid {
+/* =========================================================
+   STATISTICS
+   ========================================================= */
+
+.admin-dashboard-stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 20px;
   width: 100%;
+  min-width: 0;
 }
 
-.stats-card {
+.admin-dashboard-stats-card {
   position: relative;
   overflow: hidden;
+
   background: linear-gradient(135deg, #1e293b, #2563eb);
+
   padding: 28px;
   border-radius: 22px;
-  color: white;
+
+  color: #ffffff;
+
   box-shadow: 0 10px 25px rgba(37, 99, 235, 0.25);
-  transition: all 0.35s ease;
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+
   min-width: 0;
   box-sizing: border-box;
 }
 
-.stats-card:hover {
-  transform: translateY(-8px) scale(1.02);
+.admin-dashboard-stats-card:hover {
+  transform: translateY(-6px) scale(1.01);
+
+  box-shadow: 0 15px 30px rgba(37, 99, 235, 0.3);
 }
 
-.stats-card h3 {
+.admin-dashboard-stats-card h3 {
   font-size: 18px;
   font-weight: 500;
-  margin-bottom: 12px;
+
+  margin: 0 0 12px;
+
+  color: #ffffff;
 }
 
-.stats-card p {
+.admin-dashboard-stats-card p {
+  margin: 0;
+
   font-size: 38px;
   font-weight: 700;
+
+  color: #ffffff;
 }
 
-.stats-card::after {
+.admin-dashboard-stats-card::after {
   content: "";
+
   position: absolute;
   right: -20px;
   top: -20px;
+
   width: 90px;
   height: 90px;
+
   background: rgba(255, 255, 255, 0.1);
+
   border-radius: 50%;
 }
 
-.finance-chart-card {
+/* =========================================================
+   FINANCE CHART
+   ========================================================= */
+
+.admin-dashboard-finance-card {
   margin-top: 30px;
-  background: white;
+
+  background: #ffffff;
+
   border-radius: 20px;
+
   padding: 25px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+
+  box-shadow: 0 5px 20px rgba(15, 23, 42, 0.08);
+
   width: 100%;
+
   box-sizing: border-box;
+
   overflow: hidden;
 }
 
-.finance-chart-card h3 {
+.admin-dashboard-finance-card h3 {
   font-size: 22px;
-  margin-bottom: 20px;
+  font-weight: 600;
+
+  margin: 0 0 20px;
+
   color: #0f172a;
 }
 
-.dashboard-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
-}
-
-.dashboard-card {
-  background: linear-gradient(135deg, #1e293b, #2563eb);
-  color: white;
-  padding: 25px;
-  border-radius: 20px;
+.admin-dashboard-profit {
   text-align: center;
-  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+
+  font-size: 24px;
+  font-weight: 700;
+
+  margin-top: 10px;
+
+  color: #15803d;
 }
 
-.dashboard-card h3 {
-  margin-bottom: 10px;
-}
+/* =========================================================
+   RECENT ACTIVITIES
+   ========================================================= */
 
-.dashboard-card h2 {
-  font-size: 32px;
-}
-
-.activity-card {
+.admin-dashboard-activity-card {
   margin-top: 25px;
-  background: white;
+
+  background: #ffffff;
+
   padding: 20px;
+
   border-radius: 20px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+
+  box-shadow: 0 5px 15px rgba(15, 23, 42, 0.08);
+
   width: 100%;
+
   box-sizing: border-box;
 }
 
-.activity-card h3 {
-  margin-bottom: 15px;
+.admin-dashboard-activity-card h3 {
+  margin: 0 0 15px;
+
+  color: #0f172a;
+
+  font-size: 20px;
+  font-weight: 600;
 }
 
-.activity-card p {
+.admin-dashboard-activity-card p {
+  margin: 0;
+
   padding: 10px 0;
-  border-bottom: 1px solid #eee;
+
+  color: #334155;
+
+  border-bottom: 1px solid #e2e8f0;
 }
+
+.admin-dashboard-activity-card p:last-child {
+  border-bottom: none;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
 
 @media (max-width: 768px) {
-  .dashboard-container {
+  .admin-dashboard-container {
     padding: 10px;
   }
 
-  .dashboard-title {
+  .admin-dashboard-title {
     font-size: 24px;
     text-align: center;
+
+    margin-bottom: 22px;
   }
 
-  .stats-grid {
+  .admin-dashboard-stats-grid {
     grid-template-columns: 1fr;
     gap: 15px;
   }
 
-  .stats-card {
+  .admin-dashboard-stats-card {
     padding: 20px;
+    border-radius: 18px;
   }
 
-  .stats-card h3 {
+  .admin-dashboard-stats-card h3 {
     font-size: 16px;
   }
 
-  .stats-card p {
+  .admin-dashboard-stats-card p {
     font-size: 28px;
   }
 
-  .finance-chart-card {
+  .admin-dashboard-finance-card {
     padding: 15px;
+    border-radius: 16px;
   }
 
-  .activity-card {
+  .admin-dashboard-finance-card h3 {
+    font-size: 19px;
+  }
+
+  .admin-dashboard-profit {
+    font-size: 21px;
+  }
+
+  .admin-dashboard-activity-card {
     padding: 15px;
+    border-radius: 16px;
   }
 }
 
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+  .admin-dashboard-container {
+    padding: 8px;
+  }
+
+  .admin-dashboard-title {
+    font-size: 21px;
+    margin-bottom: 18px;
+  }
+
+  .admin-dashboard-stats-grid {
+    gap: 10px;
+  }
+
+  .admin-dashboard-stats-card {
+    padding: 17px;
+    border-radius: 16px;
+  }
+
+  .admin-dashboard-stats-card h3 {
+    font-size: 14px;
+  }
+
+  .admin-dashboard-stats-card p {
+    font-size: 25px;
+  }
+
+  .admin-dashboard-finance-card {
+    padding: 12px;
+    margin-top: 20px;
+  }
+
+  .admin-dashboard-finance-card h3 {
+    font-size: 18px;
+  }
+
+  .admin-dashboard-profit {
+    font-size: 19px;
+  }
+
+  .admin-dashboard-activity-card {
+    padding: 13px;
+    margin-top: 18px;
+  }
+
+  .admin-dashboard-activity-card h3 {
+    font-size: 18px;
+  }
+
+  .admin-dashboard-activity-card p {
+    font-size: 13px;
+  }
+}
+
+/* =========================================================
+   LARGE DESKTOP
+   ========================================================= */
+
 @media (min-width: 1400px) {
-  .stats-grid {
+  .admin-dashboard-stats-grid {
     grid-template-columns: repeat(4, 1fr);
   }
 }
