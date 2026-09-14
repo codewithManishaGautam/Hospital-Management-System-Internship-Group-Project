@@ -1,48 +1,28 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 
-import Sidebar from "../Components/Nurse/sidebar";
+import Layout from "../Components/Nurse/Layout";
 import Dashboard from "../Components/Nurse/Dashboard";
 import Beds from "../Components/Nurse/Beds";
 import PatientList from "../Components/Nurse/PatientList";
 import PatientDetails from "../Components/Nurse/PatientDetails";
 
-// import patientsData from "../Components/Nurse/PatientsData";
-
-//import "../Components/styles/Nurse/Nurse.css";
+import patientsData from "../Components/Nurse/PatientsData";
 
 export default function Nurse() {
-  const [patients, setPatients] = useState([]);
-  const [loadingPatients, setLoadingPatients] = useState(false);
+
+  const [patients, setPatients] = useState(patientsData);
 
   const [page, setPage] = useState("dashboard");
-
-  useEffect(() => {
-    fetchNursePatients();
-  }, []);
-
-  const fetchNursePatients = async () => {
-    try {
-      setLoadingPatients(true);
-
-      const response = await axios.get(
-        "http://localhost:5000/api/patient/nurse/patients",
-      );
-
-      setPatients(response.data.data || []);
-    } catch (error) {
-      console.error("Error fetching Nurse patients:", error);
-      alert("Failed to load patients");
-    } finally {
-      setLoadingPatients(false);
-    }
-  };
 
   const [searchUHID, setSearchUHID] = useState("");
 
   const [selectedPatient, setSelectedPatient] = useState(null);
 
-  const [days, setDays] = useState(["Day 1", "Day 2", "Day 3"]);
+  const [days, setDays] = useState([
+    "Day 1",
+    "Day 2",
+    "Day 3"
+  ]);
 
   const [newReport, setNewReport] = useState({
     bp: "",
@@ -52,88 +32,76 @@ export default function Nurse() {
     sugar: "",
     intake: "",
     output: "",
-    notes: "",
+    notes: ""
   });
 
   const handleSearch = () => {
-    const searchValue = searchUHID.trim();
 
-    if (!searchValue) {
-      alert("Please enter UHID");
-      return;
-    }
-
-    const found = patients.find((p) => String(p.uhid) === searchValue);
+    const found = patients.find(
+      (p) => p.id === searchUHID
+    );
 
     if (found) {
+
       setSelectedPatient(found);
       setPage("details");
+
     } else {
+
       alert("Patient Not Found");
+
     }
   };
 
   const addDay = () => {
+
     const next = `Day ${days.length + 1}`;
 
     setDays([...days, next]);
   };
-  const saveDailyReport = async () => {
-    if (!selectedPatient?._id) {
-      alert("Patient not selected");
-      return;
-    }
 
-    try {
-      const response = await axios.post(
-        `http://localhost:5000/api/patient/${selectedPatient._id}/nursing-report`,
-        {
-          bp: newReport.bp,
-          pulse: newReport.pulse,
-          temperature: newReport.temp,
-          spo2: newReport.spo2,
-          sugar: newReport.sugar,
-          intake: newReport.intake,
-          output: newReport.output,
-          notes: newReport.notes,
-        },
-      );
+  const saveDailyReport = () => {
 
-      const savedReport = response.data.data;
+    const updatedPatients = patients.map((p) => {
 
-      const updatedPatient = {
-        ...selectedPatient,
-        nursingReports: [
-          ...(selectedPatient.nursingReports || []),
-          savedReport,
-        ],
-      };
+      if (p.id === selectedPatient.id) {
 
-      setSelectedPatient(updatedPatient);
+        const updated = {
 
-      setPatients((prevPatients) =>
-        prevPatients.map((patient) =>
-          patient._id === selectedPatient._id ? updatedPatient : patient,
-        ),
-      );
+          ...p,
 
-      setNewReport({
-        bp: "",
-        pulse: "",
-        temp: "",
-        spo2: "",
-        sugar: "",
-        intake: "",
-        output: "",
-        notes: "",
-      });
+          nursingReports: [
+            ...p.nursingReports,
+            {
+              day: `Day ${p.nursingReports.length + 1}`,
+              ...newReport
+            }
+          ]
 
-      alert("Daily Report Saved Successfully");
-    } catch (error) {
-      console.error("Error saving nursing report:", error);
+        };
 
-      alert(error.response?.data?.message || "Failed to save Daily Report");
-    }
+        setSelectedPatient(updated);
+
+        return updated;
+      }
+
+      return p;
+    });
+
+    setPatients(updatedPatients);
+
+    setNewReport({
+      bp: "",
+      pulse: "",
+      temp: "",
+      spo2: "",
+      sugar: "",
+      intake: "",
+      output: "",
+      notes: ""
+    });
+
+    alert("Daily Report Saved");
   };
 
   const createPDF = () => {
@@ -149,48 +117,53 @@ export default function Nurse() {
   };
 
   const logout = () => {
+
     alert("Logout Successful");
 
     window.location.reload();
   };
 
   return (
-    <div className="nurse-container">
-      <Sidebar setPage={setPage} logout={logout} />
-      <div className="nurse-main">
-        {page === "dashboard" && <Dashboard />}
 
-        {page === "beds" && <Beds />}
+    <Layout setPage={setPage}>
 
-        {page === "patients" && (
-          <PatientList
-            patients={patients}
-            searchUHID={searchUHID}
-            setSearchUHID={setSearchUHID}
-            handleSearch={handleSearch}
-            loading={loadingPatients}
-            onSelectPatient={(patient) => {
-              setSelectedPatient(patient);
-              setPage("details");
-            }}
-          />
-        )}
+      {page === "dashboard" && (
+        <Dashboard />
+      )}
 
-        {page === "details" && selectedPatient && (
-          <PatientDetails
-            selectedPatient={selectedPatient}
-            setSelectedPatient={setSelectedPatient}
-            newReport={newReport}
-            setNewReport={setNewReport}
-            saveDailyReport={saveDailyReport}
-            days={days}
-            addDay={addDay}
-            createPDF={createPDF}
-            sendPharmacy={sendPharmacy}
-            sendBilling={sendBilling}
-          />
-        )}
-      </div>
-    </div>
+      {page === "beds" && (
+        <Beds />
+      )}
+
+      {page === "patients" && (
+
+        <PatientList
+          patients={patients}
+          searchUHID={searchUHID}
+          setSearchUHID={setSearchUHID}
+          handleSearch={handleSearch}
+        />
+
+      )}
+
+      {page === "details" && selectedPatient && (
+
+        <PatientDetails
+          selectedPatient={selectedPatient}
+          setSelectedPatient={setSelectedPatient}
+          newReport={newReport}
+          setNewReport={setNewReport}
+          saveDailyReport={saveDailyReport}
+          days={days}
+          addDay={addDay}
+          createPDF={createPDF}
+          sendPharmacy={sendPharmacy}
+          sendBilling={sendBilling}
+        />
+
+      )}
+
+    </Layout>
+
   );
 }
