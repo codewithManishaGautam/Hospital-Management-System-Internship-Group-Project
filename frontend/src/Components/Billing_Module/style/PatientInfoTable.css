@@ -1,0 +1,307 @@
+/* .insurance-main-row {
+    display: flex !important;
+    width: 100% !important;
+    align-items: center;
+}
+
+.insurance-main-row .col-6 {
+    width: 50%;
+    flex: 0 0 50%;
+}
+
+.insurance-options {
+    display: flex !important;
+    width: 100%;
+}
+
+.insurance-options > .col-4 {
+    width: 33.333333%;
+    flex: 0 0 33.333333%;
+}
+
+.table-responsive{
+    overflow-x:auto;
+}
+
+.table{
+    background:white;
+}
+
+.table th{
+    text-align:center;
+    vertical-align:middle;
+}
+
+.table td{
+    text-align:center;
+    vertical-align:middle;
+}
+
+.btn{
+    margin:3px;
+}
+
+
+.table-render-style{
+ 
+    width: 100%;
+}
+
+
+@media (min-width: 560px) and (max-width: 768px) {
+
+    .table-container {
+        width: auto !important;
+        overflow-x: auto;
+    }
+
+    .table-bordered {
+        width: 100% !important;
+        min-width: 300px !important;
+        border-radius: 12px !important;
+    }
+
+    .table-bordered th,
+    .table-bordered td {
+        width: auto !important;
+        padding: 4px !important;
+        font-size: 8px !important;
+    }
+
+    .content-col,.consent-head
+    {
+        display: flex;
+        justify-content: flex-start !important;
+    }
+    .content-col
+    {
+        margin-top: 20px;
+    }
+
+}
+
+@media (min-width: 240px) and (max-width: 560px) {
+
+    .table-container {
+        width: 100% !important;
+        overflow-x: auto;
+    }
+
+    .table-bordered {
+        width: 100% !important;
+        min-width: 70px !important;
+        border-radius: 12px !important;
+    }
+
+    .table-bordered th,
+    .table-bordered td {
+        width: auto !important;
+        padding: 3px !important;
+        font-size: 8px !important;
+    }
+
+
+} */
+
+
+
+*
+{
+    margin: 0px;
+    padding: 0px;
+}
+
+/* =========================================
+   Patient Information Table
+   ========================================= */
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 10px;
+}
+
+/* Main Table */
+.table-render-style {
+  width: 100%;
+  min-width: 900px;
+  margin-bottom: 0;
+  table-layout: fixed;
+  vertical-align: middle;
+  background-color: #ffffff;
+}
+
+/* =========================================
+   Table Header
+   ========================================= */
+
+.table-render-style thead th {
+  background-color: #0d6efd;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  vertical-align: middle;
+  padding: 12px 8px;
+  white-space: nowrap;
+}
+
+/* =========================================
+   Table Body
+   ========================================= */
+
+.table-render-style tbody td {
+  font-size: 13px;
+  text-align: center;
+  vertical-align: middle;
+  padding: 10px 8px;
+  height: 55px;
+  white-space: nowrap;
+}
+
+/* Row hover */
+.table-render-style tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* =========================================
+   Column Widths
+   ========================================= */
+
+.table-render-style th:nth-child(1),
+.table-render-style td:nth-child(1) {
+  width: 10%;
+}
+
+.table-render-style th:nth-child(2),
+.table-render-style td:nth-child(2) {
+  width: 13%;
+}
+
+.table-render-style th:nth-child(3),
+.table-render-style td:nth-child(3) {
+  width: 13%;
+}
+
+.table-render-style th:nth-child(4),
+.table-render-style td:nth-child(4) {
+  width: 13%;
+}
+
+.table-render-style th:nth-child(5),
+.table-render-style td:nth-child(5) {
+  width: 13%;
+}
+
+.table-render-style th:nth-child(6),
+.table-render-style td:nth-child(6) {
+  width: 13%;
+}
+
+.table-render-style th:nth-child(7),
+.table-render-style td:nth-child(7) {
+  width: 13%;
+}
+
+.table-render-style th:nth-child(8),
+.table-render-style td:nth-child(8) {
+  width: 12%;
+}
+
+/* =========================================
+   Action Buttons
+   ========================================= */
+
+.table-render-style .btn {
+  min-width: 38px;
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+/* Download button hover */
+.table-render-style .btn-outline-success:hover {
+  transform: translateY(-1px);
+}
+
+/* =========================================
+   Consent Icon
+   ========================================= */
+
+.content-col {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.content-col svg {
+  font-size: 20px;
+}
+
+/* File icon when consent is not available */
+.content-col svg[style*="red"] {
+  opacity: 0.75;
+}
+
+/* =========================================
+   Responsive
+   ========================================= */
+
+/* @media (max-width: 992px) {
+  .table-render-style thead th {
+    font-size: 13px;
+  }
+
+  .table-render-style tbody td {
+    font-size: 12px;
+  }
+} */    
+@media (min-width: 480px) and (max-width: 779) {
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .table-render-style {
+    min-width: 100px !important;
+    table-layout: fixed;
+    font-size: 8px;
+  }
+
+  th,td
+  {
+    width: 20px !important;
+  }
+}
+
+
+@media (min-width: 780px) and (max-width: 1028px) {
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .table-render-style {
+    min-width: 100px;
+    table-layout: fixed;
+  }
+
+  th,td
+  {
+    width: auto !important;
+  }
+}
+
+
+
+/* @media (max-width: 576px) {
+  .table-container {
+    margin-top: 15px;
+  }
+
+  .table-render-style {
+    min-width: 850px;
+  }
+} */

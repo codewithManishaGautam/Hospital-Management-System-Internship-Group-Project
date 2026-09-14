@@ -1,4 +1,5 @@
 const Patient = require("../models/Patient");
+
 const Bed = require("../models/Bed");
 const Room = require("../models/Room");
 const Doctor = require("../models/Doctor");
@@ -821,7 +822,7 @@ Specialization : ${latest.referralDoctor.specialization}`,
 
     stream.on("finish", () => {
       res.download(pdfPath, () => {
-        fs.unlink(pdfPath, () => {});
+        fs.unlink(pdfPath, () => { });
       });
     });
   } catch (err) {
@@ -847,6 +848,43 @@ const updateRoomStatus = async (roomNumber) => {
   );
 };
 
+
+
+const updateInsuranceConfirm = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { insuranceYesOrNot } = req.body;
+
+        const patient = await Patient.findByIdAndUpdate(
+            id,
+            { insuranceYesOrNot },
+            { new: true }
+        );
+
+        console.log(patient.insuranceYesOrNot)
+        if (!patient) {
+            return res.status(404).json({
+                message: "Patient not found"
+            });
+        }
+
+        res.status(200).json({
+            message: "Insurance status updated successfully",
+            patient
+        });
+
+    } catch (error) {
+        console.error("Insurance update error:", error);
+
+        res.status(500).json({
+            message: "Failed to update insurance status",
+            error: error.message
+        });
+    }
+};
+
+
+
 module.exports = {
   addPatient,
   getPatients,
@@ -855,4 +893,5 @@ module.exports = {
   deletePatient,
   generatePrescriptionPDF,
   // updatePrescription,
+  updateInsuranceConfirm,
 };

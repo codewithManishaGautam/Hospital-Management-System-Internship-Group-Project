@@ -6,8 +6,7 @@ const router = express.Router();
 const billingController =
   require("../controllers/billingController");
 
-// PDF files memory मध्ये ठेवण्यासाठी
-// कारण mergePdf.js ला file.buffer लागतो
+
 const upload = multer({
   storage: multer.memoryStorage(),
 

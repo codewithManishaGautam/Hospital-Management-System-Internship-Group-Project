@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import "./style/TableForm.css";
-import DeletePatientInTable from "./DeletePatientInTable";
-
-function TableForm({search}) {
+import "../Billing_Module/style/TableForm.css";
+import DeletePatientInTable from "../Billing_Module/DeletePatientInTable";
+function InsuranceTable({search}) {
 
     const [patients, setPatients] = useState([]);
     const [page, setPage] = useState(1);
@@ -120,7 +119,7 @@ function TableForm({search}) {
 
                                 <td className="td-detail">
 
-                                    <Link to={`/patient/${item._id}`}>
+                                    <Link to={`/insurance/${item._id}`}>
                                         Detail
                                     </Link>
 
@@ -159,7 +158,7 @@ function TableForm({search}) {
     );
 }
 
-export default TableForm;
+export default InsuranceTable;
 
 
 

@@ -1,0 +1,245 @@
+.insurance-form-container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+.insurance-form-container h2 {
+    text-align: center;
+    margin-bottom: 5px;
+    color: #222;
+}
+
+.sample-text {
+    text-align: center;
+    color: #777;
+    margin-bottom: 25px;
+}
+
+.insurance-form-container h3 {
+    margin-top: 25px;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #f5f5f5;
+    border-left: 5px solid #e67e22;
+    font-size: 18px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label,
+.signature-grid label {
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea,
+.signature-grid input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #e67e22;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.documents {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.documents label {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.documents input {
+    margin-right: 8px;
+}
+
+.declaration {
+    line-height: 1.6;
+    color: #555;
+}
+
+.signature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.signature-grid div {
+    display: flex;
+    flex-direction: column;
+}
+
+.submit-btn {
+    display: block;
+    margin: 30px auto 10px;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 7px;
+    background: #198754;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background: #157347;
+}
+
+.hospital-signature-area {
+    width: 100%;
+    display: flex;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 25px;
+    align-items: start;
+}
+
+
+
+/* =========================================
+   COMMON BOX
+========================================= */
+
+.seal-box,
+.doctor-signature-box {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   LABEL
+========================================= */
+
+.seal-box label,
+.doctor-signature-box label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #222;
+}
+
+
+/* =========================================
+   HOSPITAL SEAL
+========================================= */
+
+.seal-box {
+    border: 1px solid #cfd6df;
+    border-radius: 6px;
+    padding: 15px;
+    min-height: 130px;
+    box-sizing: border-box;
+    background: #fafafa;
+}
+
+.seal-box input[type="file"] {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    font-size: 13px;
+}
+
+.doctor-signature-box {
+    border: 1px solid #cfd6df;
+    border-radius: 6px;
+    padding: 5px;
+    min-height: 130px;
+    box-sizing: border-box;
+    background: #fafafa;
+}
+
+
+.doctor-signature-box .signature-main {
+    width: 100%;
+}
+
+
+/* Signature line */
+
+.doctor-signature-box .line {
+    width: 100%;
+    height: 80px;
+    box-sizing: border-box;
+}
+
+
+
+@media (max-width: 768px) {
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .documents {
+        grid-template-columns: 1fr;
+    }
+
+    .signature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full-width {
+        grid-column: auto;
+    }
+
+    .hospital-signature-area {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 450px) {
+
+    .hospital-signature-area {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .seal-box,
+    .doctor-signature-box {
+        padding: 12px;
+    }
+
+    .seal-box label,
+    .doctor-signature-box label {
+        font-size: 13px;
+    }
+
+}

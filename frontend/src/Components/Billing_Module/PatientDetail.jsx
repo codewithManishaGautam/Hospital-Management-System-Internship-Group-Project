@@ -1036,17 +1036,19 @@ import axios from "axios";
 import { useReactToPrint } from "react-to-print";
 import html2pdf from "html2pdf.js";
 
-import ViewReport from "../Lab/ViewReport";
-import PdfCreate from "./PdfCreate";
-
-
-
 import MergePdf from "./MergePdf";
 import PatientForm from "./PatientForm";
 
 import "./style/PatientDetail.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Razorpay from "../Razorpay";
+import InsuranceBtnAndCheck from "./InsuranceBtnAndCheck";
+
+import PatientInfoTable from "./PatientInfoTable";
+
+// import Billing from "../../pages/Billing";
+// import BajajAllianzClaimForm from "../Insurance/forms/BajajAllianzClaimForm";
+
 
 function PatientDetail() {
   const { id } = useParams();
@@ -1165,7 +1167,7 @@ function PatientDetail() {
 
   const latestConsent = consents
     .filter((item) => item.consentType === selectedConsent)
-    .at(-1);
+    .at(1);
 
   // ==========================
   // Generate Consent PDF
@@ -1283,6 +1285,8 @@ function PatientDetail() {
     }
   };
 
+
+  console.log(patient);
   // ==========================
   // JSX
   // ==========================
@@ -1381,6 +1385,13 @@ function PatientDetail() {
         </div>
       </div>
 
+      <br />
+
+      <InsuranceBtnAndCheck patientId={id} />
+
+      {/* <Billing/> */}
+
+      {/* <BajajAllianzClaimForm/> */}
       {/* ==========================
           Consent Forms
       =========================== */}
@@ -1421,121 +1432,13 @@ function PatientDetail() {
         </div>
       </div>
 
-      {/* ==========================
-          Reports Table
-      =========================== */}
 
-      <div className="table-responsive mt-4 table-container">
-
-        <table className="table table-bordered table-render-style">
-
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Lab Test</th>
-              <th>Diagnostic</th>
-              <th>Pharmacy</th>
-              <th>Nurse</th>
-              <th>Doctor</th>
-              <th>Insurance</th>
-              <th className="consent-head">Consent</th>
-            </tr>
-          </thead>
-
-          <tbody>
-
-            <tr>
-
-              <td>{dateCurr}</td>
-
-              {/* Lab */}
-              <td>
-                <ViewReport
-                  isLab={true}
-                  isDiagnostic={false}
-                  patientId={patient._id}
-                />
-              </td>
-
-              {/* Diagnostic */}
-              <td>
-                <ViewReport
-                  isLab={false}
-                  isDiagnostic={true}
-                  patientId={patient._id}
-                />
-              </td>
-
-              {/* Pharmacy */}
-              <td>
-                <PdfCreate
-                  patient={patient}
-                  pdfname="Pharma"
-                  type="pharmacy"
-                />
-              </td>
-
-              {/* Nurse */}
-              <td>
-                <PdfCreate
-                  patient={patient}
-                  pdfname="Nurse"
-                  type="nurse"
-                />
-              </td>
-
-              {/* Doctor */}
-              <td>
-                <PdfCreate
-                  patient={patient}
-                  pdfname="Doctor"
-                  type="doctor"
-                />
-              </td>
-
-              {/* Insurance */}
-              <td>
-                <PdfCreate
-                  patient={patient}
-                  pdfname="Insurance"
-                  type="insurance"
-                />
-              </td>
-
-              {/* Consent */}
-              <td className="content-col">
-
-                {latestConsent && (
-                  <button
-                    className="btn btn-outline-success"
-                    style={{
-                      fontSize: "10px",
-                      fontWeight: "bold",
-                    }}
-                    onClick={() =>
-                      window.open(
-                        `http://localhost:5000${latestConsent.pdfPath}`,
-                        "_blank"
-                      )
-                    }
-                  >
-                    Download
-                  </button>
-                )}
-
-              </td>
-
-            </tr>
-
-          </tbody>
-
-        </table>
-      </div>
+     <PatientInfoTable patient={patient} latestConsent={latestConsent} dateCurr={dateCurr}/>
 
       {/* ==========================
           Razorpay
       =========================== */}
-
+      
       <Razorpay
         patientName={patient.name}
         patientMob={patient.mobile}

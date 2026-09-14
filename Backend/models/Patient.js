@@ -821,6 +821,11 @@ const patientSchema = new mongoose.Schema(
     // Insurance
     // ======================
 
+    insuranceYesOrNot: {
+      type: Boolean,
+      default: false,
+    },
+
     insuranceStatus: {
       type: String,
       default: "",

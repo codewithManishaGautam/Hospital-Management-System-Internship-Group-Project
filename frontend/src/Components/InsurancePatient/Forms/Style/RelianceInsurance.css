@@ -1,0 +1,786 @@
+* RelianceInsuranceClaim.css */
+
+.reliance-page {
+    min-height: 100vh;
+    background: #eef2f7;
+    padding: 25px 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #16418f;
+}
+
+.reliance-form {
+    width: 95%;
+    max-width: 1100px;
+    margin: auto;
+    background: #fff;
+    padding: 20px 25px 35px;
+    box-sizing: border-box;
+    box-shadow: 0 3px 15px rgba(0,0,0,.12);
+}
+
+.reliance-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 5px 10px 12px;
+    border-bottom: 1px solid #9eb8e8;
+}
+
+.reliance-logo {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.reliance-logo-text {
+    background: #294b96;
+    color: #fff;
+    padding: 11px 20px;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.reliance-logo-sub {
+    font-size: 21px;
+    line-height: 1.05;
+    font-weight: 700;
+    color: #0094c9;
+}
+
+.reliance-logo small {
+    position: absolute;
+    margin: 55px 0 0 185px;
+    font-size: 9px;
+    color: #0094c9;
+}
+
+.reliance-contact {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 13px;
+    color: #0094c9;
+}
+
+.reliance-contact strong {
+    font-size: 21px;
+}
+
+.form-title {
+    text-align: center;
+    color: #e72b2b;
+    font-size: 21px;
+    margin: 10px 0 5px;
+}
+
+.portal-note {
+    color: #e72b2b;
+    font-size: 12px;
+    margin: 0 0 5px;
+}
+
+.pdf-section {
+    display: grid;
+    grid-template-columns: 62px minmax(0, 1fr);
+    border: 1px solid #9eb8e8;
+    margin-bottom: 7px;
+}
+
+.side-title {
+    background: #294b96;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    padding: 8px;
+    font-size: 11px;
+    line-height: 1.2;
+}
+
+.section-body {
+    padding: 7px 10px;
+    min-width: 0;
+}
+
+.grid-2,
+.grid-3 {
+    display: grid;
+    gap: 5px 10px;
+}
+
+.grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.field {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+.field label,
+.form-row > label:first-child {
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.field input,
+.field select {
+    width: 100%;
+    min-width: 0;
+    height: 22px;
+    border: 0;
+    border-bottom: 1px solid #9eb8e8;
+    outline: none;
+    padding: 1px 4px;
+    color: #16418f;
+    background: transparent;
+    box-sizing: border-box;
+}
+
+.field input:focus,
+.field select:focus {
+    border-bottom-color: #294b96;
+}
+
+.form-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    margin: 4px 0;
+    font-size: 11px;
+}
+
+.check-inline {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 3px;
+    white-space: nowrap;
+    font-size: 10px !important;
+}
+
+.check-inline input {
+    margin: 0;
+}
+
+.checkbox-row {
+    padding: 2px 0;
+}
+
+.provider-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 4px;
+}
+
+.provider-columns > div {
+    padding: 4px 10px;
+}
+
+.provider-columns > div + div {
+    border-left: 1px solid #9eb8e8;
+}
+
+.provider-columns h4 {
+    margin: -4px -10px 6px;
+    padding: 4px 10px;
+    text-align: center;
+    background: #294b96;
+    color: #fff;
+    font-size: 11px;
+}
+
+.doctor-case-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, .95fr);
+    gap: 12px;
+    margin-top: 5px;
+}
+
+.sub-block {
+    border-top: 1px solid #9eb8e8;
+    padding-top: 4px;
+    margin-top: 5px;
+}
+
+.sub-block strong {
+    font-size: 11px;
+}
+
+.medical-history {
+    border-left: 1px solid #9eb8e8;
+    padding-left: 8px;
+}
+
+.medical-history-head,
+.history-row {
+    display: grid;
+    grid-template-columns: minmax(100px, 1fr) 25px 25px minmax(90px, 1fr);
+    align-items: center;
+    gap: 4px;
+    font-size: 9px;
+}
+
+.medical-history-head {
+    font-weight: 700;
+    padding-bottom: 3px;
+}
+
+.history-row {
+    min-height: 20px;
+}
+
+.history-row input[type="text"] {
+    width: 100%;
+    height: 19px;
+    border: 0;
+    border-bottom: 1px solid #9eb8e8;
+    box-sizing: border-box;
+    color: #16418f;
+}
+
+.billing-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 10px;
+}
+
+.billing-grid > div + div {
+    border-left: 1px solid #9eb8e8;
+    padding-left: 10px;
+}
+
+.important-note {
+    font-size: 9px;
+    line-height: 1.35;
+    color: #16418f;
+    margin: 8px 0;
+    padding: 3px 0;
+}
+
+.signature-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px 40px;
+    margin-top: 10px;
+}
+
+.signature-box {
+    min-width: 0;
+}
+
+.signature-box > label {
+    display: block;
+    font-size: 11px;
+}
+
+.signature-box .signature-main {
+    width: 100% !important;
+}
+
+.signature-box .line {
+    width: 100%;
+    height: 55px;
+}
+
+.signature-box input {
+    width: 100%;
+    height: 24px;
+    border: 0;
+    border-bottom: 1px solid #9eb8e8;
+}
+
+.hospital-stamp-line {
+    height: 55px;
+    border-bottom: 1px solid #9eb8e8;
+}
+
+.declaration-section {
+    display: grid;
+    grid-template-columns: 62px minmax(0, 1fr);
+    border: 1px solid #9eb8e8;
+    margin-top: 12px;
+}
+
+.declaration-body {
+    position: relative;
+    padding: 8px 12px 12px;
+    min-width: 0;
+    font-size: 10px;
+    line-height: 1.35;
+}
+
+.declaration-body p {
+    margin: 0 0 7px;
+    
+}
+
+.p-data
+{
+   margin-bottom: 80px;
+}
+.declaration-fields {
+    width: 45%;
+}
+
+.claimant-signature {
+    position: absolute;
+    right: 15px;
+    bottom: 10px;
+    width: 180px;
+}
+
+.claimant-signature > label {
+    display: block;
+    text-align: center;
+    font-size: 10px;
+}
+
+.claimant-signature .signature-main {
+    width: 100% !important;
+}
+
+.important-information {
+    padding-top: 15px;
+    font-size: 11px;
+    line-height: 1.35;
+}
+
+.important-information h2 {
+    text-align: center;
+    color: #e72b2b;
+    font-size: 17px;
+}
+
+.important-information ol {
+    margin-top: 5px;
+    padding-left: 25px;
+}
+
+.important-information li {
+    margin-bottom: 7px;
+}
+
+.footer-contact {
+    margin-top: 15px;
+}
+
+.reliance-submit {
+    display: block;
+    margin: 25px auto 0;
+    padding: 11px 28px;
+    border: 0;
+    border-radius: 5px;
+    background: #198754;
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.reliance-submit:hover {
+    background: #157347;
+}
+
+
+.seal-box,
+.doctor-signature-box {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   LABEL
+========================================= */
+
+.seal-box label,
+.doctor-signature-box label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #222;
+}
+
+
+/* =========================================
+   HOSPITAL SEAL
+========================================= */
+
+.seal-box {
+    border: 1px solid #cfd6df;
+    border-radius: 6px;
+    padding: 15px;
+    min-height: 100px;
+    box-sizing: border-box;
+    background: #fafafa;
+}
+
+.seal-box input[type="file"] {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    font-size: 13px;
+}
+
+.doctor-signature-box {
+    border: 1px solid #cfd6df;
+    border-radius: 6px;
+    padding: 5px;
+    min-height: 130px;
+    box-sizing: border-box;
+    background: #fafafa;
+}
+
+
+.doctor-signature-box .signature-main {
+    width: 100%;
+}
+
+
+/* Signature line */
+
+.doctor-signature-box .line {
+    width: 100%;
+    height: 80px;
+    box-sizing: border-box;
+}
+
+@media (max-width: 800px) {
+    .reliance-form {
+        width: 98%;
+        padding: 12px;
+    }
+
+    .reliance-header {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .reliance-contact {
+        align-items: flex-start;
+    }
+
+    .grid-2,
+    .grid-3,
+    .provider-columns,
+    .doctor-case-grid,
+    .billing-grid,
+    .signature-section {
+        grid-template-columns: 1fr;
+    }
+
+    .billing-grid > div + div,
+    .provider-columns > div + div,
+    .medical-history {
+        border-left: 0;
+        border-top: 1px solid #9eb8e8;
+        padding: 8px 0 0;
+        margin-top: 8px;
+    }
+
+    .claimant-signature {
+        position: static;
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    .declaration-fields {
+        width: 100%;
+    }
+}
+
+
+@media (max-width: 450px) {
+
+    .reliance-page {
+        padding: 10px 0;
+    }
+
+    .reliance-form {
+        width: 96%;
+        padding: 15px 12px 25px;
+    }
+
+    /* Header */
+    .reliance-header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 8px 5px 15px;
+    }
+
+    .reliance-logo {
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .reliance-logo-text {
+        font-size: 18px;
+        padding: 9px 12px;
+    }
+
+    .reliance-logo-sub {
+        font-size: 16px;
+    }
+
+    .reliance-logo small {
+        position: static;
+        margin: 0;
+        width: 100%;
+        font-size: 8px;
+    }
+
+    .reliance-contact {
+        align-items: flex-start;
+        width: 100%;
+        font-size: 11px;
+    }
+
+    .reliance-contact strong {
+        font-size: 16px;
+    }
+
+
+    /* Title */
+    .form-title {
+        font-size: 17px;
+        line-height: 1.3;
+        margin: 12px 0 8px;
+    }
+
+    .portal-note {
+        font-size: 10px;
+        line-height: 1.4;
+        word-break: break-word;
+    }
+
+
+    /* Sections */
+    .pdf-section {
+        grid-template-columns: 45px minmax(0, 1fr);
+    }
+
+    .side-title {
+        font-size: 9px;
+        padding: 5px;
+    }
+
+    .section-body {
+        padding: 10px 8px;
+    }
+
+
+    /* IMPORTANT:
+       Inputs full available width */
+    .grid-2,
+    .grid-3,
+    .provider-columns,
+    .doctor-case-grid,
+    .billing-grid,
+    .signature-section {
+        grid-template-columns: 1fr;
+        width: 100%;
+    }
+
+
+    /* Input fields */
+    .field {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4px;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .field.full {
+        grid-column: auto;
+    }
+
+    .field label {
+        font-size: 11px;
+        white-space: normal;
+        width: 100%;
+    }
+
+    .field input,
+    .field select {
+        width: 100%;
+        height: 34px;
+        min-height: 34px;
+        padding: 5px 7px;
+        font-size: 12px;
+        box-sizing: border-box;
+    }
+
+
+    /* Textarea-like long fields if needed */
+    .field input[name="address"],
+    .field input[name="hospitalAddress"],
+    .field input[name="presentingComplaint"],
+    .field input[name="pastIllnessHistory"],
+    .field input[name="clinicalFindings"],
+    .field input[name="investigationFindings"],
+    .field input[name="billingRemarks"] {
+        height: 42px;
+    }
+
+
+    /* Radio / Checkbox */
+    .form-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 7px;
+        margin: 9px 0;
+    }
+
+    .form-row > label:first-child {
+        font-weight: 600;
+    }
+
+    .check-inline {
+        font-size: 11px !important;
+        min-height: 22px;
+    }
+
+    .check-inline input {
+        width: 15px;
+        height: 15px;
+    }
+
+
+    /* Provider */
+    .provider-columns > div + div {
+        border-left: 0;
+        border-top: 1px solid #9eb8e8;
+        padding: 12px 0 0;
+        margin-top: 12px;
+    }
+
+
+    /* Medical History */
+    .medical-history {
+        border-left: 0;
+        border-top: 1px solid #9eb8e8;
+        padding: 12px 0 0;
+        margin-top: 12px;
+        overflow-x: auto;
+    }
+
+    .medical-history-head,
+    .history-row {
+        min-width: 320px;
+    }
+
+    .history-row {
+        min-height: 32px;
+    }
+
+    .history-row input[type="text"] {
+        height: 28px;
+    }
+
+
+    /* Billing */
+    .billing-grid > div + div {
+        border-left: 0;
+        border-top: 1px solid #9eb8e8;
+        padding: 12px 0 0;
+        margin-top: 12px;
+    }
+
+
+    /* Signature */
+    .signature-section {
+        gap: 20px;
+    }
+
+    .signature-box {
+        width: 100%;
+    }
+
+    .signature-box .signature-main {
+        width: 100% !important;
+    }
+
+    .signature-box .line {
+        height: 70px;
+    }
+
+    .hospital-stamp-line {
+        height: 70px;
+    }
+
+
+    /* Declaration */
+    .declaration-section {
+        grid-template-columns: 45px minmax(0, 1fr);
+    }
+
+    .declaration-body {
+        padding: 10px;
+        font-size: 10px;
+        line-height: 1.5;
+    }
+
+    .declaration-fields {
+        width: 100%;
+    }
+
+    .claimant-signature {
+        position: static;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .claimant-signature .signature-main {
+        width: 100% !important;
+    }
+
+
+    /* Important information */
+    .important-information {
+        font-size: 10px;
+        line-height: 1.5;
+    }
+
+    .important-information h2 {
+        font-size: 15px;
+        line-height: 1.3;
+    }
+
+    .important-information ol {
+        padding-left: 20px;
+    }
+
+    .important-information li {
+        margin-bottom: 8px;
+    }
+
+
+    /* Submit */
+    .reliance-submit {
+        width: 100%;
+        min-height: 45px;
+        font-size: 14px;
+        margin-top: 25px;
+    }
+} 
+
+

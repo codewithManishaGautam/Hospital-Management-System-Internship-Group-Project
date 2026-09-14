@@ -1,0 +1,773 @@
+/* =========================================================
+   HDFC ERGO INSURANCE CLAIM FORM
+========================================================= */
+
+.hdfc-page {
+    width: 100%;
+    min-height: 100vh;
+    background: #eef3f8;
+    padding: 30px 15px;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #222;
+}
+
+
+/* =========================================================
+   MAIN FORM
+========================================================= */
+
+.hdfc-form {
+    width: 100%;
+    max-width: 1100px;
+    margin: auto;
+    background: #fff;
+    border: 1px solid #c9d3df;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =========================================================
+   PAGE SECTION
+========================================================= */
+
+.hdfc-page-section {
+    padding: 28px 35px;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.hdfc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+    padding-bottom: 20px;
+    border-bottom: 3px solid #1d4f91;
+    margin-bottom: 20px;
+}
+
+.hdfc-company {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.hdfc-logo {
+    width: 65px;
+    height: 65px;
+    border-radius: 8px;
+    background: #1d4f91;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.hdfc-company h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #1d4f91;
+}
+
+.hdfc-company p {
+    margin: 3px 0 0;
+    font-size: 13px;
+    color: #555;
+}
+
+.hdfc-document-title {
+    text-align: right;
+}
+
+.hdfc-document-title h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #1d4f91;
+}
+
+.hdfc-document-title p {
+    margin: 5px 0;
+    font-size: 13px;
+}
+
+.hdfc-document-title small {
+    color: #c62828;
+    font-weight: bold;
+}
+
+
+/* =========================================================
+   SECTION TITLE
+========================================================= */
+
+.hdfc-section-title {
+    margin-top: 22px;
+    margin-bottom: 15px;
+    padding: 9px 12px;
+    background: #e8f0fa;
+    border-left: 5px solid #1d4f91;
+    color: #163f73;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.hdfc-sub-title {
+    margin-top: 18px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+.mandatory-text {
+    margin: 5px 0 15px;
+    font-size: 12px;
+    color: #777;
+    font-style: italic;
+}
+
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.hdfc-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 20px;
+}
+
+.full-field {
+    grid-column: 1 / -1;
+}
+
+
+/* =========================================================
+   INPUT FIELD
+========================================================= */
+
+.hdfc-field {
+    width: 100%;
+    min-width: 0;
+}
+
+.hdfc-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+}
+
+.hdfc-field input {
+    width: 100%;
+    height: 38px;
+    padding: 7px 10px;
+    box-sizing: border-box;
+    border: 1px solid #aebdce;
+    border-radius: 4px;
+    outline: none;
+    font-size: 14px;
+    background: #fff;
+}
+
+.hdfc-field input:focus {
+    border-color: #1d4f91;
+    box-shadow: 0 0 0 2px rgba(29, 79, 145, 0.1);
+}
+
+
+/* =========================================================
+   RADIO
+========================================================= */
+
+.hdfc-radio-field {
+    width: 100%;
+}
+
+.radio-title {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+}
+
+.radio-options {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    min-height: 38px;
+}
+
+.radio-options label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.radio-options input {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   AGE
+========================================================= */
+
+.age-row {
+    display: flex;
+    gap: 8px;
+}
+
+.age-row input {
+    flex: 1;
+}
+
+
+/* =========================================================
+   INLINE INPUT
+========================================================= */
+
+.inline-input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.inline-input input {
+    width: 130px;
+}
+
+.inline-input span {
+    font-size: 13px;
+    color: #555;
+}
+
+
+/* =========================================================
+   TREATMENT CHECKBOX
+========================================================= */
+
+.treatment-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.treatment-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 38px;
+    padding: 7px 10px;
+    border: 1px solid #c8d4e2;
+    border-radius: 4px;
+    background: #fafcff;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.treatment-checkbox input {
+    width: 16px;
+    height: 16px;
+}
+
+
+/* =========================================================
+   ACCIDENT
+========================================================= */
+
+.accident-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 20px;
+}
+
+
+/* =========================================================
+   CHRONIC ILLNESS
+========================================================= */
+
+.chronic-heading {
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 15px;
+    margin-top: 18px;
+    padding: 10px;
+    background: #f2f5f8;
+    border: 1px solid #ccd6e0;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.chronic-row {
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 15px;
+    align-items: center;
+    padding: 8px 10px;
+    border: 1px solid #d8e0e8;
+    border-top: 0;
+}
+
+.chronic-row span {
+    font-size: 13px;
+}
+
+.chronic-row input {
+    width: 100%;
+    height: 34px;
+    padding: 6px 9px;
+    box-sizing: border-box;
+    border: 1px solid #aebdce;
+    border-radius: 4px;
+    outline: none;
+}
+
+
+/* =========================================================
+   COST TABLE
+========================================================= */
+
+.cost-table {
+    width: 100%;
+    margin-top: 18px;
+    border: 1px solid #b9c7d5;
+}
+
+.cost-row {
+    display: grid;
+    grid-template-columns: 1fr 180px;
+    min-height: 45px;
+    border-bottom: 1px solid #d2dbe4;
+}
+
+.cost-row:last-child {
+    border-bottom: 0;
+}
+
+.cost-row > span {
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+    font-size: 13px;
+}
+
+.rupee-input {
+    display: flex;
+    align-items: center;
+    border-left: 1px solid #d2dbe4;
+}
+
+.rupee-input span {
+    padding-left: 8px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.rupee-input input {
+    width: 100%;
+    height: 35px;
+    border: 0;
+    outline: none;
+    padding: 5px;
+    font-size: 13px;
+    text-align: right;
+}
+
+.total-cost-row {
+    background: #eef5fc;
+    font-weight: bold;
+}
+
+
+/* =========================================================
+   DECLARATION
+========================================================= */
+
+.declaration-warning {
+    padding: 10px 12px;
+    margin: 10px 0;
+    background: #fff7e6;
+    border-left: 4px solid #f0a500;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.declaration-text {
+    font-size: 13px;
+    line-height: 1.7;
+    text-align: justify;
+    margin: 10px 0;
+}
+
+.declaration-list {
+    margin-top: 10px;
+}
+
+.declaration-list p {
+    font-size: 13px;
+    line-height: 1.65;
+    text-align: justify;
+    margin: 8px 0;
+}
+
+
+/* =========================================================
+   HOSPITAL SEAL + SIGNATURE
+========================================================= */
+
+.hospital-signature-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin-top: 22px;
+    align-items: start;
+}
+
+.seal-box,
+.patient-signature-box,
+.signature-box {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.seal-box {
+    min-height: 150px;
+    padding: 15px;
+    border: 1px dashed #8ea1b5;
+    border-radius: 5px;
+    background: #fafcff;
+}
+
+.seal-box label,
+.patient-signature-box > label,
+.signature-box > label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #333;
+}
+
+.seal-box input[type="file"] {
+    width: 100%;
+    font-size: 13px;
+}
+
+.selected-file {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #1d4f91;
+    word-break: break-word;
+}
+
+
+/* =========================================================
+   SIGNATURE COMPONENT
+========================================================= */
+
+.signature-box .signature-main,
+.patient-signature-box .signature-main {
+    width: 100%;
+}
+
+.signature-box .line,
+.patient-signature-box .line {
+    width: 100%;
+    height: 55px;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PATIENT DECLARATION DETAILS
+========================================================= */
+
+.patient-declaration-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.patient-declaration-details .signature-box {
+    grid-column: 1 / -1;
+}
+
+
+/* =========================================================
+   DOCUMENT LIST
+========================================================= */
+
+.document-list {
+    padding: 5px 0;
+}
+
+.document-list p {
+    font-size: 13px;
+    line-height: 1.6;
+    margin: 8px 0;
+}
+
+.kyc-documents {
+    margin-left: 25px !important;
+    font-style: italic;
+}
+
+
+/* =========================================================
+   PAGE BREAK
+========================================================= */
+
+.hdfc-page-break {
+    height: 1px;
+    margin: 10px 0;
+    border-top: 2px dashed #aaa;
+}
+
+
+/* =========================================================
+   SUBMIT BUTTON
+========================================================= */
+
+.hdfc-submit-btn {
+    display: block;
+    width: 300px;
+    max-width: 100%;
+    height: 48px;
+    margin: 35px auto 10px;
+    border: none;
+    border-radius: 5px;
+    background: #198754;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.hdfc-submit-btn:hover {
+    background: #157347;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .hdfc-page {
+        padding: 15px 8px;
+    }
+
+    .hdfc-page-section {
+        padding: 20px 18px;
+    }
+
+    .hdfc-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .hdfc-document-title {
+        text-align: left;
+    }
+
+    .hdfc-grid,
+    .accident-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full-field {
+        grid-column: auto;
+    }
+
+    .treatment-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .hospital-signature-area {
+        grid-template-columns: 1fr;
+    }
+
+    .patient-declaration-details {
+        grid-template-columns: 1fr;
+    }
+
+    .patient-declaration-details .signature-box {
+        grid-column: auto;
+    }
+
+    .chronic-heading,
+    .chronic-row {
+        grid-template-columns: 1fr 180px;
+    }
+
+    .cost-row {
+        grid-template-columns: 1fr 150px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 450px) {
+
+    .hdfc-page {
+        padding: 5px;
+    }
+
+    .hdfc-form {
+        width: 100%;
+    }
+
+    .hdfc-page-section {
+        padding: 15px 10px;
+    }
+
+    .hdfc-header {
+        gap: 15px;
+    }
+
+    .hdfc-company h2 {
+        font-size: 20px;
+    }
+
+    .hdfc-logo {
+        width: 55px;
+        height: 55px;
+        font-size: 15px;
+    }
+
+    .hdfc-document-title h2 {
+        font-size: 15px;
+    }
+
+    .hdfc-section-title {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .hdfc-grid,
+    .accident-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .hdfc-field input {
+        height: 40px;
+        font-size: 14px;
+    }
+
+    .treatment-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .radio-options {
+        gap: 15px;
+    }
+
+    .chronic-heading {
+        grid-template-columns: 1fr;
+        gap: 5px;
+    }
+
+    .chronic-row {
+        grid-template-columns: 1fr;
+        gap: 7px;
+    }
+
+    .chronic-row input {
+        width: 100%;
+    }
+
+    .cost-row {
+        grid-template-columns: 1fr;
+    }
+
+    .cost-row > span {
+        min-height: 40px;
+    }
+
+    .rupee-input {
+        border-left: 0;
+        border-top: 1px solid #d2dbe4;
+    }
+
+    .rupee-input input {
+        height: 38px;
+    }
+
+    .hospital-signature-area {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .seal-box {
+        min-height: 130px;
+    }
+
+    .patient-declaration-details {
+        grid-template-columns: 1fr;
+    }
+
+    .hdfc-submit-btn {
+        width: 100%;
+        font-size: 14px;
+    }
+
+}
+
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+@media print {
+
+    .hdfc-page {
+        background: #fff;
+        padding: 0;
+    }
+
+    .hdfc-form {
+        max-width: none;
+        border: none;
+        box-shadow: none;
+    }
+
+    .hdfc-page-section {
+        padding: 15mm;
+    }
+
+    .hdfc-page-break {
+        page-break-after: always;
+        border: none;
+        height: 0;
+    }
+
+    .hdfc-submit-btn {
+        display: none;
+    }
+
+}

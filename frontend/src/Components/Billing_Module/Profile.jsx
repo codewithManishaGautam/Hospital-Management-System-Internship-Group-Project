@@ -41,7 +41,7 @@ function Profile() {
           // src={`https://img.icons8.com/color/1200/administrator-male.jpg`}
           alt="profile"
           width="55"
-          height="55"
+          height="40"
           onClick={handleImageClick}
           className="
             rounded-circle

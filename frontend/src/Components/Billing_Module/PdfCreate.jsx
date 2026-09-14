@@ -1,5 +1,8 @@
 import axios from "axios";
 import html2pdf from "html2pdf.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFile } from "@fortawesome/free-solid-svg-icons";
+
 
 function PdfCreate({ patient, pdfname, type }) {
   // =====================================================
@@ -382,7 +385,8 @@ function PdfCreate({ patient, pdfname, type }) {
     // NURSE
     // =========================
 
-    if (type === "nurse") {
+    if (type === "nurse") 
+    {
       downloadNursePDF();
       return;
     }
@@ -402,7 +406,7 @@ function PdfCreate({ patient, pdfname, type }) {
   return (
 
     <button className="btn btn-outline-success" onClick={downloadPDF}   style={{fontSize:"8px", width:"50px"}}>
-    <b>Download</b>
+      <FontAwesomeIcon icon={faFile} />
     </button>
   );
 }

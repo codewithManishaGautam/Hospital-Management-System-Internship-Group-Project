@@ -240,8 +240,8 @@ function BillingDept() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-
-        <Profile />
+    
+        {/* <Profile /> */}
       </nav>
 
       <br />
