@@ -1,45 +1,271 @@
+/* =========================================
+   PATIENT LIST PAGE
+========================================= */
+
 .searchBox,
-.patientListBox{
-  background:white;
-  padding:25px;
-  border-radius:20px;
-  margin-bottom:20px;
+.patientListBox {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 14px;
+
+  padding: 24px;
+
+  margin-bottom: 22px;
+
+  box-shadow: 0 5px 18px rgba(11, 36, 71, 0.06);
 }
 
-.searchRow{
-  display:flex;
-  gap:15px;
+/* =========================================
+   HEADINGS
+========================================= */
+
+.searchBox h2,
+.patientListBox h2 {
+  margin: 0 0 18px;
+
+  color: #0b2447;
+
+  font-size: 22px;
+
+  font-weight: 700;
 }
 
-.searchRow input{
-  padding:14px;
-  width:280px;
-  border-radius:10px;
-  border:1px solid #ccc;
+/* =========================================
+   SEARCH
+========================================= */
+
+.searchRow {
+  width: 100%;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
 }
 
-.searchRow button{
-  padding:14px 20px;
-  background:#0b2447;
-  color:white;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
+.searchRow input {
+  width: 300px;
+
+  max-width: 100%;
+
+  padding: 12px 14px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #cbd5e1;
+
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  color: #1e293b;
+
+  font-size: 14px;
+
+  outline: none;
+
+  transition: all 0.2s ease;
 }
 
-.listTable{
-  width:100%;
-  border-collapse:collapse;
+.searchRow input:focus {
+  border-color: #0b2447;
+
+  box-shadow: 0 0 0 3px rgba(11, 36, 71, 0.08);
 }
 
-.listTable th{
-  background:#0b2447;
-  color:white;
-  padding:14px;
+.searchRow button {
+  min-width: 95px;
+
+  padding: 12px 20px;
+
+  background: #0b2447;
+
+  color: white;
+
+  border: none;
+
+  border-radius: 8px;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
 }
 
-.listTable td{
-  border:1px solid #ddd;
-  padding:12px;
-  text-align:center;
+.searchRow button:hover {
+  background: #163b6d;
+
+  transform: translateY(-1px);
+}
+
+.searchRow button:active {
+  transform: translateY(0);
+}
+
+/* =========================================
+   TABLE CONTAINER
+========================================= */
+
+.patientListBox {
+  overflow: hidden;
+}
+
+.tableWrapper {
+  width: 100%;
+
+  overflow-x: auto;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 10px;
+
+  scrollbar-width: thin;
+}
+
+/* =========================================
+   TABLE
+========================================= */
+
+.listTable {
+  width: 100%;
+
+  min-width: 760px;
+
+  border-collapse: collapse;
+
+  background: white;
+}
+
+/* =========================================
+   TABLE HEADER
+========================================= */
+
+.listTable th {
+  background: #0b2447;
+
+  color: white;
+
+  padding: 14px 12px;
+
+  text-align: center;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+/* =========================================
+   TABLE BODY
+========================================= */
+
+.listTable td {
+  padding: 13px 12px;
+
+  border-bottom: 1px solid #e2e8f0;
+
+  text-align: center;
+
+  color: #334155;
+
+  font-size: 13px;
+
+  white-space: nowrap;
+}
+
+.listTable tbody tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+.listTable tbody tr:hover {
+  background: #eef4fb;
+}
+
+.listTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+  .searchBox,
+  .patientListBox {
+    padding: 18px;
+
+    border-radius: 12px;
+  }
+
+  .searchBox h2,
+  .patientListBox h2 {
+    font-size: 19px;
+  }
+
+  .searchRow {
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 10px;
+  }
+
+  .searchRow input {
+    width: 100%;
+  }
+
+  .searchRow button {
+    width: 100%;
+  }
+
+  .tableWrapper {
+    border-radius: 8px;
+  }
+
+  .listTable {
+    min-width: 700px;
+  }
+
+  .listTable th {
+    padding: 12px 9px;
+
+    font-size: 12px;
+  }
+
+  .listTable td {
+    padding: 11px 9px;
+
+    font-size: 12px;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 400px) {
+  .searchBox,
+  .patientListBox {
+    padding: 14px;
+  }
+
+  .searchBox h2,
+  .patientListBox h2 {
+    font-size: 18px;
+  }
+
+  .listTable {
+    min-width: 680px;
+  }
 }

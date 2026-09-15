@@ -154,6 +154,22 @@ const patientSchema = new mongoose.Schema(
               type: Number,
               default: 0,
             },
+
+            timing: {
+              type: String,
+              default: "",
+            },
+
+            dose: {
+              type: String,
+              default: "",
+            },
+
+            status: {
+              type: String,
+              enum: ["Pending", "Given"],
+              default: "Pending",
+            },
           },
         ],
 
@@ -235,6 +251,69 @@ const patientSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+
+    nursingReports: [
+      {
+        bp: {
+          type: String,
+          default: "",
+        },
+
+        pulse: {
+          type: String,
+          default: "",
+        },
+
+        temperature: {
+          type: String,
+          default: "",
+        },
+
+        spo2: {
+          type: String,
+          default: "",
+        },
+
+        sugar: {
+          type: String,
+          default: "",
+        },
+
+        intake: {
+          type: String,
+          default: "",
+        },
+
+        output: {
+          type: String,
+          default: "",
+        },
+
+        notes: {
+          type: String,
+          default: "",
+        },
+
+        createdAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
+
+    handoverNotes: [
+      {
+        text: {
+          type: String,
+          required: true,
+        },
+
+        createdAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
 
     // ======================
     // Discharge
@@ -329,16 +408,15 @@ const patientSchema = new mongoose.Schema(
       default: "Waiting",
     },
 
-// <<<<<<< HEAD
-// <<<<<<< HEAD
-// =======
-// >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
+    // <<<<<<< HEAD
+    // <<<<<<< HEAD
+    // =======
+    // >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
     createdAt: {
-        type: Date,
-        default: Date.now
+      type: Date,
+      default: Date.now,
     },
 
-        
     prescriptionHistory: [
       {
         diagnosis: {
@@ -413,7 +491,7 @@ const patientSchema = new mongoose.Schema(
     appointmentDate: String,
 
     appointmentTime: String,
-    
+
     // Billing
     fee: {
       type: Number,
@@ -425,13 +503,11 @@ const patientSchema = new mongoose.Schema(
       default: "Pending",
     },
 
-
-
-// <<<<<<< HEAD
-// =======
-// >>>>>>> origin/main
-// =======
-// >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
+    // <<<<<<< HEAD
+    // =======
+    // >>>>>>> origin/main
+    // =======
+    // >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
     currentDepartment: {
       type: String,
       default: "Reception",
@@ -441,82 +517,79 @@ const patientSchema = new mongoose.Schema(
       type: String,
       default: "Registered",
     },
-// <<<<<<< HEAD
-// <<<<<<< HEAD
-// =======
-// >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
+    // <<<<<<< HEAD
+    // <<<<<<< HEAD
+    // =======
+    // >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
   },
 
   {
     timestamps: true,
   },
 
+  //     appointmentHistory[
+  // <<<<<<< HEAD
+  // =======
 
+  //     appointmentHistory: [
+  // >>>>>>> origin/main
+  // =======
+  // >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
+  {
+    appointmentDate: String,
 
-//     appointmentHistory[
-// <<<<<<< HEAD
-// =======
+    appointmentTime: String,
 
-//     appointmentHistory: [
-// >>>>>>> origin/main
-// =======
-// >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
-      {
-        appointmentDate: String,
+    doctor: String,
 
-        appointmentTime: String,
+    disease: String,
 
-        doctor: String,
+    fee: {
+      type: Number,
+      default: 500,
+    },
 
-        disease: String,
+    paymentStatus: {
+      type: String,
+      default: "Pending",
+    },
 
-        fee: {
-          type: Number,
-          default: 500,
-        },
+    paymentMode: {
+      type: String,
+      default: "Cash",
+    },
 
-        paymentStatus: {
-          type: String,
-          default: "Pending",
-        },
+    status: {
+      type: String,
+      default: "Waiting Doctor",
+    },
 
-        paymentMode: {
-          type: String,
-          default: "Cash",
-        },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    // <<<<<<< HEAD
+    // <<<<<<< HEAD
+    // =======
+    // >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
+  },
+  //     ]
 
-        status: {
-          type: String,
-          default: "Waiting Doctor",
-        },
-
-        createdAt: {
-          type: Date,
-          default: Date.now,
-        },
-// <<<<<<< HEAD
-// <<<<<<< HEAD
-// =======
-// >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
-      }
-//     ]
-  
-  
-// <<<<<<< HEAD
-// =======
-// =======
-// >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
-//       },
-//     ],
-//   },
-//   {
-//     timestamps: true,
-//   },
-// <<<<<<< HEAD
-// >>>>>>> origin/main
-// =======
-// >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
- );
+  // <<<<<<< HEAD
+  // =======
+  // =======
+  // >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     timestamps: true,
+  //   },
+  // <<<<<<< HEAD
+  // >>>>>>> origin/main
+  // =======
+  // >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
+);
 
 // ======================
 // Indexes

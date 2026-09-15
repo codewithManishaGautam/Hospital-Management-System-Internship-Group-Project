@@ -1,0 +1,257 @@
+/* =========================================
+   PHARMACY MAIN LAYOUT
+========================================= */
+
+.pharmacy-layout {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background: #f4f7fc;
+  overflow-x: hidden;
+}
+
+/* =========================================
+   PHARMACY SIDEBAR
+========================================= */
+
+.pharmacy-sidebar {
+  width: 250px;
+  min-width: 250px;
+  min-height: 100vh;
+
+  background: #0b2265;
+  color: #ffffff;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 25px 15px;
+
+  box-sizing: border-box;
+}
+
+/* =========================================
+   PHARMACY PROFILE
+========================================= */
+
+.pharmacy-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding-bottom: 25px;
+  margin-bottom: 20px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.pharmacy-profile img {
+  width: 75px;
+  height: 75px;
+
+  border-radius: 50%;
+
+  object-fit: cover;
+
+  background: #ffffff;
+
+  margin-bottom: 12px;
+}
+
+.pharmacy-profile h3 {
+  margin: 0;
+
+  font-size: 18px;
+  font-weight: 600;
+
+  color: #ffffff;
+}
+
+/* =========================================
+   PHARMACY SIDEBAR BUTTONS
+========================================= */
+
+.pharmacy-sidebar button {
+  width: 100%;
+
+  padding: 13px 15px;
+
+  margin-bottom: 10px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: transparent;
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition: background 0.2s ease;
+}
+
+.pharmacy-sidebar button:hover {
+  background: #163691;
+}
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+.pharmacy-sidebar .pharmacy-logout {
+  margin-top: auto;
+
+  background: #dc2626;
+
+  text-align: center;
+}
+
+.pharmacy-sidebar .pharmacy-logout:hover {
+  background: #b91c1c;
+}
+
+/* =========================================
+   PHARMACY MAIN
+========================================= */
+
+.pharmacy-main {
+  flex: 1;
+
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  background: #f4f7fc;
+}
+
+/* =========================================
+   TOPBAR
+========================================= */
+
+.pharmacy-topbar {
+  width: 100%;
+
+  min-height: 65px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 30px;
+
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  border-bottom: 1px solid #e2e8f0;
+
+  color: #0b2265;
+
+  font-size: 20px;
+  font-weight: 700;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.pharmacy-content {
+  flex: 1;
+
+  width: 100%;
+
+  padding: 30px;
+
+  box-sizing: border-box;
+
+  overflow-x: hidden;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+  .pharmacy-sidebar {
+    width: 210px;
+    min-width: 210px;
+  }
+
+  .pharmacy-content {
+    padding: 20px;
+  }
+
+  .pharmacy-topbar {
+    padding: 0 20px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+  .pharmacy-layout {
+    flex-direction: column;
+  }
+
+  .pharmacy-sidebar {
+    width: 100%;
+    min-width: 100%;
+
+    min-height: auto;
+
+    padding: 15px;
+  }
+
+  .pharmacy-profile {
+    flex-direction: row;
+    justify-content: flex-start;
+
+    gap: 12px;
+
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+  }
+
+  .pharmacy-profile img {
+    width: 50px;
+    height: 50px;
+
+    margin-bottom: 0;
+  }
+
+  .pharmacy-profile h3 {
+    font-size: 16px;
+  }
+
+  .pharmacy-sidebar button {
+    text-align: center;
+
+    padding: 11px;
+  }
+
+  .pharmacy-sidebar .pharmacy-logout {
+    margin-top: 5px;
+  }
+
+  .pharmacy-topbar {
+    min-height: 55px;
+
+    justify-content: center;
+
+    padding: 0 15px;
+
+    font-size: 18px;
+  }
+
+  .pharmacy-content {
+    padding: 15px;
+  }
+}

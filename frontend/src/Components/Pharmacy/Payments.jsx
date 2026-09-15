@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../../styles/Pharmacy/payments.css";
 
 function Payments({ payments, setStep }) {
   const [search, setSearch] = useState("");
@@ -25,26 +26,27 @@ function Payments({ payments, setStep }) {
 
   return (
     <>
-      <h1 className="dashboard-title">Payments</h1>
+      <h1 className="pharmacy-payments-title">Payments</h1>
 
       {/* 🔍 SEARCH SECTION */}
-      <div className="search-section">
-        <h3>Search Patient Payment</h3>
-
+      <div className="pharmacy-payment-search-section">
+        <h3 className="pharmacy-payment-search-title">
+          Search Patient Payment
+        </h3>
         <input
           type="text"
           placeholder="Search by Name / UHID / Mobile"
-          className="search-input"
+          className="pharmacy-payment-search-input"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
 
-        <button className="btn-primary">Search</button>
+        <button className="pharmacy-payment-btn-primary">Search</button>
       </div>
 
       {/* TABLE */}
-      <div className="table-container">
-        <table className="data-table">
+      <div className="pharmacy-payment-table-container">
+        <table className="pharmacy-payment-table">
           <thead>
             <tr>
               <th>ID</th>
@@ -79,10 +81,10 @@ function Payments({ payments, setStep }) {
 
                   <td>
                     <span
-                      className={`badge ${
+                      className={`pharmacy-payment-badge ${
                         p.paymentStatus === "Completed"
-                          ? "completed"
-                          : "pending"
+                          ? "pharmacy-payment-completed"
+                          : "pharmacy-payment-pending"
                       }`}
                     >
                       {p.paymentStatus}
@@ -102,31 +104,34 @@ function Payments({ payments, setStep }) {
       </div>
 
       {/* PAYMENT SUMMARY CARDS */}
-      <div className="metrics-row">
-        <div className="metric-card">
-          <div className="metric-icon-box">💰</div>
+      <div className="pharmacy-payment-summary">
+        <div className="pharmacy-payment-card">
+          <div className="pharmacy-payment-icon">💰</div>
 
-          <div className="metric-info">
-            <div className="metric-number">₹ {totalPaid}</div>
+          <div className="pharmacy-payment-info">
+            <div className="pharmacy-payment-number">₹ {totalPaid}</div>
 
-            <div className="metric-label">Total Paid</div>
+            <div className="pharmacy-payment-label">Total Paid</div>
           </div>
         </div>
 
-        <div className="metric-card">
-          <div className="metric-icon-box">⏳</div>
+        <div className="pharmacy-payment-card">
+          <div className="pharmacy-payment-icon">⏳</div>
 
-          <div className="metric-info">
-            <div className="metric-number">₹ {totalPending}</div>
+          <div className="pharmacy-payment-info">
+            <div className="pharmacy-payment-number">₹ {totalPending}</div>
 
-            <div className="metric-label">Pending Payments</div>
+            <div className="pharmacy-payment-label">Pending Payments</div>
           </div>
         </div>
       </div>
 
       {/* BUTTON */}
-      <div className="bottom-actions">
-        <button className="btn-primary" onClick={() => setStep("dashboard")}>
+      <div className="pharmacy-payment-actions">
+        <button
+          className="pharmacy-payment-btn-primary"
+          onClick={() => setStep("dashboard")}
+        >
           Back to Dashboard
         </button>
       </div>

@@ -4,7 +4,7 @@ import PatientTable from "./PatientTable";
 
 import "../../styles/doctor/doctorDashboard.css";
 
-function Dashboard({ doctorName, patients }) {
+function Dashboard({ doctorName, doctorId, patients }) {
   console.log("Dashboard Loaded");
   console.log("Patients =", patients);
 
@@ -21,7 +21,7 @@ function Dashboard({ doctorName, patients }) {
       <DashboardCards patients={patients} />
 
       <div className="doctor-table-section">
-        <PatientTable patients={patients} />
+        <PatientTable patients={patients} doctorId={doctorId} />
       </div>
     </div>
   );

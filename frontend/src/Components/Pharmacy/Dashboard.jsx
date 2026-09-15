@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 // import { useNavigate } from "react-router-dom";
-import "../../styles/Pharmacy/Pharmacy.css";
+import "../../styles/Pharmacy/dashboard.css";
 
 function Dashboard({ prescriptions, setStep, setSelectedPrescription }) {
   // const navigate = useNavigate();
@@ -45,40 +45,40 @@ function Dashboard({ prescriptions, setStep, setSelectedPrescription }) {
   const todayBills = 0;
 
   return (
-    <>
-      <h1 className="dashboard-title">Pharmacy Dashboard</h1>
+    <div className="pharmacy-dashboard-root">
+      <h1 className="pharmacy-dashboard-title">Pharmacy Dashboard</h1>
 
       {/* Search Section */}
-      <div className="search-section">
-        <h3>Search Patient</h3>
+      <div className="pharmacy-search-section">
+        <h3 className="pharmacy-search-title">Search Patient</h3>
 
         <input
           type="text"
           placeholder="Search by UHID or Patient Name"
-          className="search-input"
+          className="pharmacy-search-input"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
 
-        <button className="btn-primary">Search</button>
+        <button className="pharmacy-btn-primary">Search</button>
       </div>
 
       {/* Dashboard Cards */}
-      <div className="metrics-row">
-        <div className="metric-card">
+      <div className="pharmacy-metrics-row">
+        <div className="pharmacy-metric-card">
           <h2>{pendingCount}</h2>
           <p>Pending Prescriptions</p>
         </div>
 
-        <div className="metric-card">
+        <div className="pharmacy-metric-card">
           <h2>{todayBills}</h2>
           <p>Today's Bills</p>
         </div>
       </div>
 
       {/* Prescription Table */}
-      <div className="table-container">
-        <table className="data-table">
+      <div className="pharmacy-table-container">
+        <table className="pharmacy-data-table">
           <thead>
             <tr>
               <th>#</th>
@@ -109,7 +109,7 @@ function Dashboard({ prescriptions, setStep, setSelectedPrescription }) {
 
                   <td>
                     <button
-                      className="btn-primary"
+                      className="pharmacy-btn-primary"
                       onClick={() => {
                         setSelectedPrescription(item);
                         setStep("prescription");
@@ -132,14 +132,14 @@ function Dashboard({ prescriptions, setStep, setSelectedPrescription }) {
       </div>
 
       {/* Bottom Buttons */}
-      <div className="bottom-actions">
+      <div className="pharmacy-bottom-actions">
         <button onClick={() => setStep("payments")}>Open Payments</button>
 
         {/* <button onClick={() => setStep("billpreview")}>
           Open Bill Preview
         </button> */}
       </div>
-    </>
+    </div>
   );
 }
 

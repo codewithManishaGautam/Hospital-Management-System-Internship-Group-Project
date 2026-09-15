@@ -1,0 +1,407 @@
+/* =========================================================
+   NURSE LAYOUT
+   ========================================================= */
+
+.nurse-layout {
+  display: flex;
+  flex-direction: row;
+
+  width: 100%;
+  min-height: 100vh;
+
+  margin: 0;
+  padding: 0;
+
+  background: #f8fafc;
+
+  box-sizing: border-box;
+
+  overflow: hidden;
+}
+
+/* =========================================================
+   NURSE SIDEBAR
+   ========================================================= */
+
+.nurse-sidebar {
+  width: 280px;
+  height: 100vh;
+
+  flex: 0 0 280px;
+  flex-shrink: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 20px 15px;
+
+  box-sizing: border-box;
+
+  background: linear-gradient(
+    180deg,
+    #0f172a,
+    #1e40af
+  );
+
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+
+  overflow-y: auto;
+}
+
+/* =========================================================
+   PROFILE
+   ========================================================= */
+
+.nurse-profile {
+  text-align: center;
+
+  margin-bottom: 35px;
+  padding-bottom: 20px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.nurse-profile img {
+  width: 100px;
+  height: 100px;
+
+  border-radius: 50%;
+
+  border: 4px solid rgba(255, 255, 255, 0.25);
+
+  object-fit: cover;
+}
+
+.nurse-profile h3 {
+  margin: 10px 0 0;
+
+  color: #ffffff;
+
+  font-size: 24px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   MENU
+   ========================================================= */
+
+.nurse-menu {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+.nurse-menu-button {
+  width: 100%;
+
+  padding: 14px 18px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  color: #ffffff;
+
+  font-size: 15px;
+  font-weight: 500;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.nurse-menu-button:hover {
+  background: rgba(255, 255, 255, 0.18);
+
+  transform: translateX(5px);
+}
+
+/* =========================================================
+   LOGOUT
+   ========================================================= */
+
+.nurse-logout-button {
+  width: 100%;
+
+  margin-top: auto;
+
+  padding: 14px 18px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: linear-gradient(
+    135deg,
+    #15803d,
+    #16a34a
+  );
+
+  color: #ffffff;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.nurse-logout-button:hover {
+  background: #166534;
+
+  transform: translateX(3px);
+}
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+.nurse-main {
+  flex: 1 1 0;
+
+  min-width: 0;
+  width: auto;
+
+  height: 100vh;
+
+  padding: 30px;
+
+  box-sizing: border-box;
+
+  background: #f8fafc;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* =========================================================
+   TOPBAR
+   ========================================================= */
+
+.nurse-topbar {
+  width: 100%;
+
+  margin-bottom: 30px;
+
+  padding: 18px 28px;
+
+  box-sizing: border-box;
+
+  background: linear-gradient(
+    135deg,
+    #0f172a,
+    #1e3a8a
+  );
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 8px 20px rgba(15, 23, 42, 0.12);
+}
+
+.nurse-topbar h2 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 24px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.nurse-content {
+  width: 100%;
+  max-width: 100%;
+
+  min-width: 0;
+
+  box-sizing: border-box;
+
+  overflow-x: hidden;
+}
+
+/* =========================================================
+   SCROLLBARS
+   ========================================================= */
+
+.nurse-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.nurse-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.35);
+
+  border-radius: 20px;
+}
+
+.nurse-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.nurse-main::-webkit-scrollbar {
+  width: 8px;
+}
+
+.nurse-main::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+
+  border-radius: 20px;
+}
+
+.nurse-main::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.nurse-main::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+
+  .nurse-sidebar {
+    width: 240px;
+    flex-basis: 240px;
+  }
+
+  .nurse-main {
+    padding: 20px;
+  }
+
+  .nurse-profile img {
+    width: 85px;
+    height: 85px;
+  }
+
+  .nurse-profile h3 {
+    font-size: 21px;
+  }
+
+  .nurse-menu-button,
+  .nurse-logout-button {
+    font-size: 14px;
+    padding: 12px 15px;
+  }
+
+  .nurse-topbar {
+    padding: 16px 22px;
+  }
+
+  .nurse-topbar h2 {
+    font-size: 21px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  .nurse-layout {
+    display: block;
+  }
+
+  .nurse-sidebar {
+    width: 240px;
+    height: 100vh;
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    z-index: 1000;
+  }
+
+  .nurse-main {
+    width: 100%;
+    height: 100vh;
+
+    padding: 15px;
+  }
+
+  .nurse-topbar {
+    margin-bottom: 20px;
+
+    padding: 14px 18px;
+  }
+
+  .nurse-topbar h2 {
+    font-size: 19px;
+  }
+
+  .nurse-profile img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .nurse-profile h3 {
+    font-size: 20px;
+  }
+
+  .nurse-menu-button,
+  .nurse-logout-button {
+    font-size: 14px;
+    padding: 12px 15px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+  .nurse-sidebar {
+    width: 220px;
+  }
+
+  .nurse-main {
+    padding: 10px;
+  }
+
+  .nurse-topbar {
+    padding: 12px 15px;
+
+    border-radius: 12px;
+  }
+
+  .nurse-topbar h2 {
+    font-size: 17px;
+  }
+
+  .nurse-profile img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .nurse-profile h3 {
+    font-size: 18px;
+  }
+
+  .nurse-menu-button,
+  .nurse-logout-button {
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+}
