@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "../../styles/admin/inventory.css";
 
 function Inventory() {
   const [items, setItems] = useState([]);
@@ -13,18 +14,13 @@ function Inventory() {
   });
 
   const fetchInventory = async () => {
-    const res = await axios.get(
-      "http://localhost:5000/api/admin/inventory"
-    );
+    const res = await axios.get("http://localhost:5000/api/admin/inventory");
 
     setItems(res.data);
   };
 
   const addItem = async () => {
-    await axios.post(
-      "http://localhost:5000/api/admin/inventory/add",
-      newItem
-    );
+    await axios.post("http://localhost:5000/api/admin/inventory/add", newItem);
 
     fetchInventory();
 
@@ -39,7 +35,7 @@ function Inventory() {
 
   const deleteItem = async (id) => {
     await axios.delete(
-      `http://localhost:5000/api/admin/inventory/delete/${id}`
+      `http://localhost:5000/api/admin/inventory/delete/${id}`,
     );
 
     fetchInventory();
@@ -50,12 +46,12 @@ function Inventory() {
   }, []);
 
   return (
-    <div className="table-container">
-      <div className="section-header">
+    <div className="admin-inventory-container">
+      <div className="admin-inventory-header">
         <h2>Inventory Management</h2>
       </div>
 
-      <div className="staff-form">
+      <div className="admin-inventory-form">
         <input
           placeholder="Item Name"
           value={newItem.itemName}
@@ -111,15 +107,12 @@ function Inventory() {
           }
         />
 
-        <button
-          className="add-btn"
-          onClick={addItem}
-        >
+        <button className="admin-inventory-add-btn" onClick={addItem}>
           Add Item
         </button>
       </div>
 
-      <table>
+      <table className="admin-inventory-table">
         <thead>
           <tr>
             <th>Item</th>
@@ -142,10 +135,8 @@ function Inventory() {
 
               <td>
                 <button
-                  className="delete-btn"
-                  onClick={() =>
-                    deleteItem(item._id)
-                  }
+                  className="admin-inventory-delete-btn"
+                  onClick={() => deleteItem(item._id)}
                 >
                   Delete
                 </button>

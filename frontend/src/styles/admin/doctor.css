@@ -1,67 +1,240 @@
-.doctor-section {
+/* =========================================================
+   ADMIN DOCTOR MANAGEMENT
+   ========================================================= */
+
+.admin-doctor-section {
   width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
-.doctor-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+.admin-doctor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   gap: 20px;
-  align-items: stretch;
+  margin-bottom: 28px;
 }
 
-.doctor-card {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 24px;
-  padding: 30px 25px;
-  text-align: center;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
-  transition: 0.3s ease;
-}
-
-.doctor-card:hover {
-  transform: translateY(-10px);
-}
-
-/* .doctor-card img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-} */
-
-.doctor-card h3 {
-  font-size: 22px;
+.admin-doctor-header h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 32px;
   font-weight: 700;
 }
 
-.doctor-card p {
-  color: #64748b;
+/* Add Doctor Button */
+.admin-doctor-add-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #0ea5e9, #2563eb);
+  color: #ffffff;
   font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.doctor-actions {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
+.admin-doctor-add-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(37, 99, 235, 0.22);
 }
 
-.doctor-avatar {
-  width: 100px;
-  height: 100px;
+.admin-doctor-add-btn:active {
+  transform: translateY(0);
+}
+
+/* Doctor Grid */
+.admin-doctor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px;
+  align-items: stretch;
+}
+
+/* Doctor Card */
+.admin-doctor-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 28px 24px;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.07);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.admin-doctor-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.11);
+}
+
+/* Doctor Image */
+.admin-doctor-avatar {
+  width: 92px;
+  height: 92px;
   border-radius: 50%;
   object-fit: cover;
   margin-bottom: 15px;
+  border: 4px solid #dbeafe;
 }
 
+/* Doctor Name */
+.admin-doctor-card h3 {
+  margin: 0 0 12px;
+  color: #0f172a;
+  font-size: 21px;
+  font-weight: 700;
+  word-break: break-word;
+}
+
+/* Doctor Information */
+.admin-doctor-card p {
+  margin: 7px 0;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+/* Edit Inputs */
+.admin-doctor-card input {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  padding: 11px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  background: #f8fafc;
+  color: #0f172a;
+  font-size: 14px;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.admin-doctor-card input:focus {
+  border-color: #2563eb;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Doctor Action Buttons */
+.admin-doctor-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.admin-doctor-edit-btn,
+.admin-doctor-delete-btn {
+  flex: 1;
+  min-width: 90px;
+  border: none;
+  border-radius: 9px;
+  padding: 10px 14px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Edit / Save */
+.admin-doctor-edit-btn {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+}
+
+/* Delete */
+.admin-doctor-delete-btn {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.admin-doctor-edit-btn:hover,
+.admin-doctor-delete-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 12px rgba(15, 23, 42, 0.15);
+}
+
+.admin-doctor-edit-btn:active,
+.admin-doctor-delete-btn:active {
+  transform: translateY(0);
+}
+
+/* =========================================================
+   TABLET RESPONSIVE
+   ========================================================= */
+
 @media (max-width: 768px) {
-  .doctor-grid {
-    grid-template-columns: 1fr;
+  .admin-doctor-header {
+    margin-bottom: 20px;
   }
 
-  .doctor-card {
-    padding: 20px;
+  .admin-doctor-header h2 {
+    font-size: 26px;
   }
 
-  .doctor-actions {
+  .admin-doctor-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+  }
+
+  .admin-doctor-card {
+    padding: 22px 18px;
+  }
+
+  .admin-doctor-avatar {
+    width: 82px;
+    height: 82px;
+  }
+}
+
+/* =========================================================
+   MOBILE RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 520px) {
+  .admin-doctor-header {
     flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .admin-doctor-header h2 {
+    font-size: 22px;
+  }
+
+  .admin-doctor-add-btn {
+    width: 100%;
+  }
+
+  .admin-doctor-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .admin-doctor-card {
+    padding: 20px 16px;
+  }
+
+  .admin-doctor-actions {
+    flex-direction: column;
+  }
+
+  .admin-doctor-edit-btn,
+  .admin-doctor-delete-btn {
+    width: 100%;
   }
 }

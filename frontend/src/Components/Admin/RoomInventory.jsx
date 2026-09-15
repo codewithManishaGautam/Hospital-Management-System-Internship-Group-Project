@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getRooms, deleteRoom } from "../../api/admin/adminApi";
+import "../../styles/admin/roomInventory.css";
 
 function RoomInventory() {
   const [rooms, setRooms] = useState([]);
@@ -25,12 +26,12 @@ function RoomInventory() {
   }, []);
 
   return (
-    <div className="table-container">
-      <div className="section-header">
+    <div className="admin-room-inventory-container">
+      <div className="admin-room-inventory-header">
         <h2>Room Inventory</h2>
       </div>
 
-      <table>
+      <table className="admin-room-inventory-table">
         <thead>
           <tr>
             <th>Room No</th>
@@ -54,8 +55,8 @@ function RoomInventory() {
                 <span
                   className={
                     room.status === "Available"
-                      ? "status-active"
-                      : "status-leave"
+                      ? "admin-room-inventory-status-available"
+                      : "admin-room-inventory-status-unavailable"
                   }
                 >
                   {room.status}
@@ -64,7 +65,7 @@ function RoomInventory() {
 
               <td>
                 <button
-                  className="delete-btn"
+                  className="admin-room-inventory-delete-btn"
                   onClick={() => handleDeleteRoom(room._id)}
                 >
                   Delete

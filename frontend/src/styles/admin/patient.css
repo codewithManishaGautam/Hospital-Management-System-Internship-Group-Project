@@ -1,21 +1,382 @@
-.status-admitted {
-  background: #dcfce7;
-  color: #15803d;
-  padding: 8px 16px;
-  border-radius: 10px;
+/* =========================================================
+   ADMIN PATIENT MANAGEMENT
+   ========================================================= */
+
+.admin-patient-container {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto 30px;
+
+  background: #ffffff;
+
+  padding: 32px;
+
+  border-radius: 20px;
+
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
+
+  box-sizing: border-box;
+
+  overflow-x: auto;
 }
 
-.status-discharged {
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.admin-patient-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 22px;
+}
+
+.admin-patient-header h2 {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: 32px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+.admin-patient-search-input {
+  width: 100%;
+  max-width: 420px;
+
+  padding: 12px 15px;
+
+  margin-bottom: 22px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #cbd5e1;
+
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  color: #0f172a;
+
+  font-size: 14px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.admin-patient-search-input::placeholder {
+  color: #94a3b8;
+}
+
+.admin-patient-search-input:focus {
+  border-color: #2563eb;
+
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* =========================================================
+   PATIENT TABLE
+   ========================================================= */
+
+.admin-patient-table {
+  width: 100%;
+
+  min-width: 1200px;
+
+  border-collapse: separate;
+
+  border-spacing: 0;
+
+  background: #ffffff;
+
+  border-radius: 14px;
+
+  overflow: hidden;
+
+  white-space: nowrap;
+}
+
+.admin-patient-table thead tr {
+  background: linear-gradient(135deg, #09338f, #1d4ed8);
+}
+
+.admin-patient-table th {
+  color: #ffffff;
+
+  padding: 18px 15px;
+
+  text-align: center;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+.admin-patient-table td {
+  padding: 17px 14px;
+
+  text-align: center;
+
+  color: #1e293b;
+
+  font-size: 14px;
+
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.admin-patient-table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.admin-patient-table tbody tr:hover {
+  background: #eff6ff;
+}
+
+.admin-patient-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.admin-patient-status-waiting,
+.admin-patient-status-admitted,
+.admin-patient-status-discharged,
+.admin-patient-status-default {
+  display: inline-block;
+
+  padding: 7px 13px;
+
+  border-radius: 20px;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+.admin-patient-status-waiting {
   background: #fef3c7;
-  color: #b45309;
-  padding: 8px 16px;
-  border-radius: 10px;
+
+  color: #d97706;
 }
 
-.view-btn {
-  background: linear-gradient(135deg, #0ea5e9, #2563eb);
-  color: white;
+.admin-patient-status-admitted {
+  background: #dcfce7;
+
+  color: #15803d;
+}
+
+.admin-patient-status-discharged {
+  background: #fee2e2;
+
+  color: #dc2626;
+}
+
+.admin-patient-status-default {
+  background: #f1f5f9;
+
+  color: #475569;
+}
+
+/* =========================================================
+   PRESCRIPTION VIEW BUTTON
+   ========================================================= */
+
+.admin-patient-view-btn {
   border: none;
-  padding: 10px 18px;
-  border-radius: 10px;
+
+  padding: 9px 16px;
+
+  border-radius: 9px;
+
+  background: linear-gradient(135deg, #0ea5e9, #2563eb);
+
+  color: #ffffff;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.admin-patient-view-btn:hover {
+  transform: translateY(-1px);
+
+  box-shadow: 0 5px 12px rgba(37, 99, 235, 0.2);
+}
+
+.admin-patient-view-btn:active {
+  transform: translateY(0);
+}
+
+/* =========================================================
+   ACTION CELL
+   ========================================================= */
+
+.admin-patient-action-cell {
+  white-space: nowrap;
+}
+
+/* =========================================================
+   DELETE BUTTON
+   ========================================================= */
+
+.admin-patient-delete-btn {
+  min-width: 80px;
+
+  border: none;
+
+  padding: 9px 15px;
+
+  border-radius: 9px;
+
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+
+  color: #ffffff;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.admin-patient-delete-btn:hover {
+  transform: translateY(-1px);
+
+  box-shadow: 0 5px 12px rgba(220, 38, 38, 0.2);
+}
+
+.admin-patient-delete-btn:active {
+  transform: translateY(0);
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .admin-patient-container {
+    padding: 22px;
+
+    border-radius: 16px;
+  }
+
+  .admin-patient-header {
+    margin-bottom: 18px;
+  }
+
+  .admin-patient-header h2 {
+    font-size: 26px;
+  }
+
+  .admin-patient-search-input {
+    max-width: 100%;
+
+    margin-bottom: 18px;
+  }
+
+  .admin-patient-table {
+    min-width: 1150px;
+  }
+
+  .admin-patient-table th,
+  .admin-patient-table td {
+    padding: 13px 11px;
+
+    font-size: 13px;
+  }
+
+  .admin-patient-status-waiting,
+  .admin-patient-status-admitted,
+  .admin-patient-status-discharged,
+  .admin-patient-status-default {
+    padding: 6px 10px;
+
+    font-size: 11px;
+  }
+
+  .admin-patient-view-btn,
+  .admin-patient-delete-btn {
+    padding: 8px 12px;
+
+    font-size: 12px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+  .admin-patient-container {
+    padding: 15px;
+
+    margin-bottom: 20px;
+
+    border-radius: 14px;
+  }
+
+  .admin-patient-header h2 {
+    font-size: 22px;
+  }
+
+  .admin-patient-search-input {
+    padding: 11px 12px;
+
+    font-size: 13px;
+  }
+
+  .admin-patient-table {
+    min-width: 1050px;
+  }
+
+  .admin-patient-table th,
+  .admin-patient-table td {
+    padding: 11px 9px;
+
+    font-size: 12px;
+  }
+
+  .admin-patient-status-waiting,
+  .admin-patient-status-admitted,
+  .admin-patient-status-discharged,
+  .admin-patient-status-default {
+    padding: 5px 8px;
+
+    font-size: 10px;
+  }
+
+  .admin-patient-view-btn,
+  .admin-patient-delete-btn {
+    padding: 7px 10px;
+
+    font-size: 11px;
+  }
+
+  .admin-patient-delete-btn {
+    min-width: 70px;
+  }
 }

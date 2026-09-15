@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "../../styles/admin/table.css";
 
 function Charges() {
   const [charges, setCharges] = useState([]);
@@ -41,12 +42,12 @@ function Charges() {
   }, []);
 
   return (
-    <div className="table-container">
-      <div className="section-header">
+    <div className="admin-charges-container">
+      <div className="admin-charges-header">
         <h2>Charges Management</h2>
       </div>
 
-      <div className="staff-form">
+      <div className="admin-charges-form">
         <input
           placeholder="Charge Name"
           value={newCharge.chargeName}
@@ -91,12 +92,12 @@ function Charges() {
           }
         />
 
-        <button className="add-btn" onClick={addCharge}>
+        <button className="admin-charges-add-btn" onClick={addCharge}>
           Add Charge
         </button>
       </div>
 
-      <table>
+      <table className="admin-charges-table">
         <thead>
           <tr>
             <th>Charge Name</th>
@@ -117,7 +118,7 @@ function Charges() {
 
               <td>
                 <button
-                  className="delete-btn"
+                  className="admin-charges-delete-btn"
                   onClick={() => deleteCharge(charge._id)}
                 >
                   Delete
