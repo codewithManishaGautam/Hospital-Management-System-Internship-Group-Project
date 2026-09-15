@@ -1,11 +1,6 @@
 import React from "react";
-// import AddPatientForm from "./AddPatientForm";
-// import PrescriptionModal from "./prescriptionModal";
-// import PrescriptionPage from "./PrescriptionPage";
 import { useNavigate } from "react-router-dom";
 import "../../styles/admin/patient.css";
-import "../../styles/admin/table.css";
-import "../../styles/admin/modal.css";
 
 // import { PatientManagement } from "../../api/admin/adminApi";
 
@@ -18,8 +13,8 @@ function PatientManagement({
   const navigate = useNavigate();
 
   return (
-    <div className="table-container">
-      <div className="section-header">
+    <div className="admin-patient-container">
+      <div className="admin-patient-header">
         <h2>Patients</h2>
 
         {/* <button className="add-btn" onClick={() => setShowPatientForm(true)}>
@@ -40,10 +35,10 @@ function PatientManagement({
         placeholder="Search by Name or Phone"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="search-input"
+        className="admin-patient-search-input"
       />
 
-      <table>
+      <table className="admin-patient-table">
         <thead>
           <tr>
             <th>UHID</th>
@@ -100,12 +95,12 @@ function PatientManagement({
                   <span
                     className={
                       p.status === "Admitted"
-                        ? "status-admitted"
+                        ? "admin-patient-status-admitted"
                         : p.status === "Waiting Doctor"
-                          ? "status-waiting"
+                          ? "admin-patient-status-waiting"
                           : p.status === "Discharged"
-                            ? "status-discharged"
-                            : "status-default"
+                            ? "admin-patient-status-discharged"
+                            : "admin-patient-status-default"
                     }
                   >
                     {p.status}
@@ -114,7 +109,7 @@ function PatientManagement({
 
                 <td>
                   <button
-                    className="view-btn"
+                    className="admin-patient-view-btn"
                     onClick={() => {
                       navigate(`/prescription/${p._id}`);
                     }}
@@ -123,9 +118,9 @@ function PatientManagement({
                   </button>
                 </td>
 
-                <td className="action-cell">
+                <td className="admin-patient-action-cell">
                   <button
-                    className="delete-btn"
+                    className="admin-patient-delete-btn"
                     onClick={() => deletePatient(p._id)}
                   >
                     Delete

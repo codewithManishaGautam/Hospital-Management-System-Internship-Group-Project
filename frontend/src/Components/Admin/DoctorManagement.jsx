@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import AddDoctorForm from "./AddDoctorForm";
 import "../../styles/admin/doctor.css";
-import "../../styles/admin/table.css";
+// import "../../styles/admin/table.css";
 
 import { ForgotPassword } from "../../api/admin/adminApi";
 
@@ -140,12 +140,15 @@ function DoctorManagement({ doctors, fetchDoctors }) {
   };
 
   return (
-    <div className="doctor-section">
-      <div className="section-header">
-        <h2>Doctors</h2>
+<div className="admin-doctor-section">
+<div className="admin-doctor-header">
+          <h2>Doctors</h2>
 
-        <button className="add-btn" onClick={() => setShowDoctorForm(true)}>
-          + Add Doctor
+<button
+  className="admin-doctor-add-btn"
+  onClick={() => setShowDoctorForm(true)}
+>
+            + Add Doctor
         </button>
       </div>
 
@@ -157,11 +160,11 @@ function DoctorManagement({ doctors, fetchDoctors }) {
         addDoctor={addDoctor}
       />
 
-      <div className="doctor-grid">
-        {doctors.map((d) => (
-          <div className="doctor-card" key={d._id}>
-            <img
-              className="doctor-avatar"
+<div className="admin-doctor-grid">
+          {doctors.map((d) => (
+<div className="admin-doctor-card" key={d._id}>
+              <img
+className="admin-doctor-avatar"
               src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
               alt="doctor"
             />
@@ -240,17 +243,17 @@ function DoctorManagement({ doctors, fetchDoctors }) {
               </>
             )}
 
-            <div className="doctor-actions">
-              {editingDoctorId === d._id ? (
+<div className="admin-doctor-actions">
+                {editingDoctorId === d._id ? (
                 <button
-                  className="edit-btn"
+                  className="admin-doctor-edit-btn"
                   onClick={() => saveDoctorEdit(d._id)}
                 >
                   Save
                 </button>
               ) : (
                 <button
-                  className="edit-btn"
+                  className="admin-doctor-edit-btn"
                   onClick={() => {
                     setEditingDoctorId(d._id);
 
@@ -268,7 +271,7 @@ function DoctorManagement({ doctors, fetchDoctors }) {
               )}
 
               <button
-                className="delete-btn"
+className="admin-doctor-delete-btn"
                 onClick={() => deleteDoctor(d._id)}
               >
                 Delete

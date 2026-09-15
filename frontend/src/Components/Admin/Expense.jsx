@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "../../styles/admin/expense.css";
 
 function Expenses() {
   const [expenses, setExpenses] = useState([]);
 
-const [newExpense, setNewExpense] = useState({
-  expenseName: "",
-  category: "",
-  amount: "",
-  description: "",
-});
+  const [newExpense, setNewExpense] = useState({
+    expenseName: "",
+    category: "",
+    amount: "",
+    date: "",
+    description: "",
+  });
 
   const fetchExpenses = async () => {
     const res = await axios.get("http://localhost:5000/api/admin/expenses");
@@ -20,12 +22,13 @@ const [newExpense, setNewExpense] = useState({
   const addExpense = async () => {
     await axios.post("http://localhost:5000/api/admin/expense/add", newExpense);
 
-setNewExpense({
-  expenseName: "",
-  category: "",
-  amount: "",
-  description: "",
-});
+    setNewExpense({
+      expenseName: "",
+      category: "",
+      amount: "",
+      date: "",
+      description: "",
+    });
 
     fetchExpenses();
   };
@@ -41,12 +44,12 @@ setNewExpense({
   }, []);
 
   return (
-    <div className="table-container">
-      <div className="section-header">
+    <div className="admin-expense-container">
+      <div className="admin-expense-header">
         <h2>Expenses Management</h2>
       </div>
 
-      <div className="staff-form">
+      <div className="admin-expense-form">
         <input
           placeholder="Expense Name"
           value={newExpense.expenseName}
@@ -58,16 +61,16 @@ setNewExpense({
           }
         />
 
-<input
-  placeholder="Category"
-  value={newExpense.category}
-  onChange={(e) =>
-    setNewExpense({
-      ...newExpense,
-      category: e.target.value,
-    })
-  }
-/>
+        <input
+          placeholder="Category"
+          value={newExpense.category}
+          onChange={(e) =>
+            setNewExpense({
+              ...newExpense,
+              category: e.target.value,
+            })
+          }
+        />
 
         <input
           placeholder="Amount"
@@ -76,6 +79,17 @@ setNewExpense({
             setNewExpense({
               ...newExpense,
               amount: e.target.value,
+            })
+          }
+        />
+
+        <input
+          type="date"
+          value={newExpense.date}
+          onChange={(e) =>
+            setNewExpense({
+              ...newExpense,
+              date: e.target.value,
             })
           }
         />
@@ -91,17 +105,18 @@ setNewExpense({
           }
         />
 
-        <button className="add-btn" onClick={addExpense}>
+        <button className="admin-expense-add-btn" onClick={addExpense}>
           Add Expense
         </button>
       </div>
 
-      <table>
+      <table className="admin-expense-table">
         <thead>
           <tr>
             <th>Expense Name</th>
             <th>Amount</th>
             <th>Category</th>
+            <th>Date</th>
             <th>Description</th>
             <th>Action</th>
           </tr>
@@ -113,11 +128,16 @@ setNewExpense({
               <td>{expense.expenseName}</td>
               <td>₹{expense.amount}</td>
               <td>{expense.category}</td>
+              <td>
+                {expense.date
+                  ? new Date(expense.date).toLocaleDateString("en-IN")
+                  : "-"}
+              </td>
               <td>{expense.description}</td>
 
               <td>
                 <button
-                  className="delete-btn"
+                  className="admin-expense-delete-btn"
                   onClick={() => deleteExpense(expense._id)}
                 >
                   Delete
