@@ -1,12 +1,38 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import "../../styles/doctor/patientManagement.css";
 
-function PatientTable({ patients, onPrescriptionSaved }) {
+function PatientTable({ patients, doctorId, onPrescriptionSaved }) {
   const navigate = useNavigate();
 
   const [search, setSearch] = useState("");
+
+  const [selectedReportPatient, setSelectedReportPatient] = useState(null);
+  const [nurseReports, setNurseReports] = useState([]);
+  const [handoverNotes, setHandoverNotes] = useState([]);
+  const [loadingReports, setLoadingReports] = useState(false);
+
+  const handleViewNurseReports = async (patient) => {
+    try {
+      setLoadingReports(true);
+
+      const response = await axios.get(
+        `http://localhost:5000/api/doctor/${doctorId}/patient/${patient._id}/nursing-reports`,
+      );
+
+      setSelectedReportPatient(patient);
+      setNurseReports(response.data.nursingReports || []);
+      setHandoverNotes(response.data.handoverNotes || []);
+    } catch (error) {
+      console.error("Error fetching nurse reports:", error);
+
+      alert(error.response?.data?.message || "Failed to load Nurse Reports.");
+    } finally {
+      setLoadingReports(false);
+    }
+  };
 
   const filteredPatients = patients.filter((p) => {
     const searchText = search.toLowerCase().trim();
@@ -14,15 +40,20 @@ function PatientTable({ patients, onPrescriptionSaved }) {
     if (!searchText) return true;
 
     return (
-      String(p.uhid || "").toLowerCase().includes(searchText) ||
-      String(p.name || "").toLowerCase().includes(searchText) ||
-      String(p.mobile || "").toLowerCase().includes(searchText)
+      String(p.uhid || "")
+        .toLowerCase()
+        .includes(searchText) ||
+      String(p.name || "")
+        .toLowerCase()
+        .includes(searchText) ||
+      String(p.mobile || "")
+        .toLowerCase()
+        .includes(searchText)
     );
   });
 
   return (
     <div className="patient-table">
-
       {/* SEARCH BOX */}
       <div className="patient-search">
         <input
@@ -89,6 +120,13 @@ function PatientTable({ patients, onPrescriptionSaved }) {
                 >
                   View
                 </button>
+
+                <button
+                  className="nurse-report-btn"
+                  onClick={() => handleViewNurseReports(p)}
+                >
+                  Nurse Reports
+                </button>
               </td>
             </tr>
           ))}
@@ -102,6 +140,119 @@ function PatientTable({ patients, onPrescriptionSaved }) {
           )}
         </tbody>
       </table>
+
+      {selectedReportPatient && (
+        <div className="nurse-report-panel">
+          <div className="nurse-report-header">
+            <div>
+              <h2>Nurse Reports</h2>
+
+              <p>
+                <strong>Patient:</strong> {selectedReportPatient.name}
+              </p>
+
+              <p>
+                <strong>UHID:</strong> {selectedReportPatient.uhid}
+              </p>
+            </div>
+
+            <button
+              className="close-report-btn"
+              onClick={() => {
+                setSelectedReportPatient(null);
+                setNurseReports([]);
+                setHandoverNotes([]);
+              }}
+            >
+              Close
+            </button>
+          </div>
+
+          {loadingReports ? (
+            <p>Loading Nurse Reports...</p>
+          ) : (
+            <>
+              <div className="nursing-report-section">
+                <h3>Daily Nursing Reports</h3>
+
+                {nurseReports.length === 0 ? (
+                  <p>No nursing reports available.</p>
+                ) : (
+                  nurseReports.map((report, index) => (
+                    <div
+                      className="nursing-report-card"
+                      key={report._id || index}
+                    >
+                      <h4>
+                        Report{" "}
+                        {report.createdAt
+                          ? new Date(report.createdAt).toLocaleString()
+                          : index + 1}
+                      </h4>
+
+                      <p>
+                        <strong>BP:</strong> {report.bp || "-"}
+                      </p>
+
+                      <p>
+                        <strong>Pulse:</strong> {report.pulse || "-"}
+                      </p>
+
+                      <p>
+                        <strong>Temperature:</strong>{" "}
+                        {report.temperature || "-"}
+                      </p>
+
+                      <p>
+                        <strong>SpO2:</strong> {report.spo2 || "-"}
+                      </p>
+
+                      <p>
+                        <strong>Sugar:</strong> {report.sugar || "-"}
+                      </p>
+
+                      <p>
+                        <strong>Intake:</strong> {report.intake || "-"}
+                      </p>
+
+                      <p>
+                        <strong>Output:</strong> {report.output || "-"}
+                      </p>
+
+                      <p>
+                        <strong>Nursing Notes:</strong> {report.notes || "-"}
+                      </p>
+                    </div>
+                  ))
+                )}
+              </div>
+
+              <div className="handover-report-section">
+                <h3>Shift Handover Notes</h3>
+
+                {handoverNotes.length === 0 ? (
+                  <p>No handover notes available.</p>
+                ) : (
+                  handoverNotes.map((note, index) => (
+                    <div
+                      className="handover-report-card"
+                      key={note._id || index}
+                    >
+                      <small>
+                        {note.createdAt
+                          ? new Date(note.createdAt).toLocaleString()
+                          : "-"}
+                      </small>
+
+                      <p>{note.text}</p>
+                    </div>
+                  ))
+                )}
+              </div>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 }

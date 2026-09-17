@@ -171,6 +171,152 @@ const getPatients = async (req, res) => {
   }
 };
 
+// Get Nurse Patients
+const getNursePatients = async (req, res) => {
+  try {
+    const patients = await Patient.find({
+      role: { $ne: "OPD" },
+      status: { $ne: "Discharged" },
+    })
+      .sort({ createdAt: -1 })
+      .lean();
+
+    res.status(200).json({
+      success: true,
+      data: patients,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// Add Nursing Report
+const addNursingReport = async (req, res) => {
+  try {
+    const patient = await Patient.findById(req.params.id);
+
+    if (!patient) {
+      return res.status(404).json({
+        success: false,
+        message: "Patient not found",
+      });
+    }
+
+    patient.nursingReports.push({
+      bp: req.body.bp || "",
+      pulse: req.body.pulse || "",
+      temperature: req.body.temperature || "",
+      spo2: req.body.spo2 || "",
+      sugar: req.body.sugar || "",
+      intake: req.body.intake || "",
+      output: req.body.output || "",
+      notes: req.body.notes || "",
+    });
+
+    await patient.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Daily nursing report saved successfully",
+      data: patient.nursingReports[patient.nursingReports.length - 1],
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// Add Nurse Handover Note
+const addHandoverNote = async (req, res) => {
+  try {
+    const patient = await Patient.findById(req.params.id);
+
+    if (!patient) {
+      return res.status(404).json({
+        success: false,
+        message: "Patient not found",
+      });
+    }
+
+    if (!req.body.text || !req.body.text.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "Handover note is required",
+      });
+    }
+
+    patient.handoverNotes.unshift({
+      text: req.body.text.trim(),
+    });
+
+    await patient.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Handover note saved successfully",
+      data: patient.handoverNotes[0],
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// Update Nurse Medicine Status
+const updateNurseMedicineStatus = async (req, res) => {
+  try {
+    const patient = await Patient.findById(req.params.patientId);
+
+    if (!patient) {
+      return res.status(404).json({
+        success: false,
+        message: "Patient not found",
+      });
+    }
+
+    const prescription =
+      patient.prescriptionHistory[patient.prescriptionHistory.length - 1];
+
+    if (!prescription) {
+      return res.status(404).json({
+        success: false,
+        message: "Prescription not found",
+      });
+    }
+
+    const medicine = prescription.medicines.id(req.params.medicineId);
+
+    if (!medicine) {
+      return res.status(404).json({
+        success: false,
+        message: "Medicine not found",
+      });
+    }
+
+    medicine.status = req.body.status;
+
+    await patient.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Medicine status updated successfully",
+      data: medicine,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 // Get Single Patient
 const getPatientById = async (req, res) => {
   try {
@@ -989,9 +1135,14 @@ const updateRoomStatus = async (roomNumber) => {
 module.exports = {
   addPatient,
   getPatients,
+  getNursePatients,
   getPatientById,
   updatePatient,
   deletePatient,
+  addNursingReport,
+  addHandoverNote,
+  updateNurseMedicineStatus,
+  generatePrescriptionPDF,
   generatePrescriptionPDF,
   getFinalHospitalBill,
 };

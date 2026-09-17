@@ -35,13 +35,13 @@ function PharmacyPrescription({
         <img
           src={value}
           alt="Handwritten Prescription"
-          className="prescription-handwritten-image"
+          className="pharmacy-prescription-handwritten-image"
         />
       );
     }
 
     // Typed content
-    return <p className="prescription-typed-text">{value}</p>;
+    return <p className="pharmacy-prescription-typed-text">{value}</p>;
   };
 
   console.log("===== PHARMACY DATA CHECK =====");
@@ -162,10 +162,10 @@ function PharmacyPrescription({
 
   return (
     <>
-      <h1 className="dashboard-title">Pharmacy Prescription</h1>
+      <h1 className="pharmacy-prescription-title">Pharmacy Prescription</h1>
 
-      <div className="table-container">
-        <div style={{ padding: "25px" }}>
+      <div className="pharmacy-prescription-container">
+        <div>
           <h2>Patient Details</h2>
 
           <p>
@@ -180,23 +180,23 @@ function PharmacyPrescription({
             <strong>Doctor:</strong> {patient?.doctor || "-"}
           </p>
 
-          <div className="doctor-prescription-info">
-            <div className="prescription-info-card">
+          <div className="pharmacy-prescription-info-grid">
+            <div className="pharmacy-prescription-info-card">
               <h3>Diagnosis</h3>
               {renderPrescriptionContent(patient?.diagnosis)}
             </div>
 
-            <div className="prescription-info-card">
+            <div className="pharmacy-prescription-info-card">
               <h3>Prescription / Instructions</h3>
               {renderPrescriptionContent(patient?.prescription)}
             </div>
 
-            <div className="prescription-info-card">
+            <div className="pharmacy-prescription-info-card">
               <h3>Advice</h3>
               {renderPrescriptionContent(patient?.advice)}
             </div>
 
-            <div className="prescription-info-card">
+            <div className="pharmacy-prescription-info-card">
               <h3>Notes</h3>
               {renderPrescriptionContent(patient?.notes)}
             </div>
@@ -207,7 +207,7 @@ function PharmacyPrescription({
           <h2>Doctor Prescribed Medicines</h2>
 
           {doctorMedicines.length > 0 ? (
-            <table className="data-table">
+            <table className="pharmacy-prescription-table">
               <thead>
                 <tr>
                   <th>#</th>
@@ -234,95 +234,86 @@ function PharmacyPrescription({
 
           <h2>Pharmacy Medicine Entry</h2>
 
-         {pharmacyMedicines.map((medicine, index) => (
-  <div
-    key={index}
-    className="pharmacy-medicine-row"
-  >
-    <select
-      value={medicine.medicineName}
-      onChange={(e) =>
-        updateMedicine(index, "medicineName", e.target.value)
-      }
-    >
-      <option value="">Select Medicine</option>
+          {pharmacyMedicines.map((medicine, index) => (
+            <div key={index} className="pharmacy-prescription-medicine-row">
+              <select
+                value={medicine.medicineName}
+                onChange={(e) =>
+                  updateMedicine(index, "medicineName", e.target.value)
+                }
+              >
+                <option value="">Select Medicine</option>
 
-      {availableMedicines.map((item) => (
-        <option key={item._id} value={item.itemName}>
-          {item.itemName} - ₹{item.unitPrice}
-        </option>
-      ))}
-    </select>
+                {availableMedicines.map((item) => (
+                  <option key={item._id} value={item.itemName}>
+                    {item.itemName} - ₹{item.unitPrice}
+                  </option>
+                ))}
+              </select>
 
-    <input
-      type="number"
-      min="1"
-      value={medicine.quantity}
-      onChange={(e) =>
-        updateMedicine(index, "quantity", e.target.value)
-      }
-      placeholder="Quantity"
-    />
+              <input
+                type="number"
+                min="1"
+                value={medicine.quantity}
+                onChange={(e) =>
+                  updateMedicine(index, "quantity", e.target.value)
+                }
+                placeholder="Quantity"
+              />
 
-    <input
-      type="number"
-      value={medicine.price}
-      readOnly
-      placeholder="Price"
-    />
+              <input
+                type="number"
+                value={medicine.price}
+                readOnly
+                placeholder="Price"
+              />
 
-    <input
-      type="number"
-      value={medicine.amount}
-      readOnly
-      placeholder="Amount"
-    />
+              <input
+                type="number"
+                value={medicine.amount}
+                readOnly
+                placeholder="Amount"
+              />
 
-    <button
-      type="button"
-      onClick={() => {
-        setPharmacyMedicines(
-          pharmacyMedicines.filter(
-            (_, medicineIndex) => medicineIndex !== index
-          )
-        );
-      }}
-    >
-      Remove
-    </button>
-  </div>
-))}
+              <button
+                type="button"
+                onClick={() => {
+                  setPharmacyMedicines(
+                    pharmacyMedicines.filter(
+                      (_, medicineIndex) => medicineIndex !== index,
+                    ),
+                  );
+                }}
+              >
+                Remove
+              </button>
+            </div>
+          ))}
 
-          <button type="button" className="btn-primary" onClick={addMedicine}>
+          <button
+            type="button"
+            className="pharmacy-prescription-add-btn"
+            onClick={addMedicine}
+          >
             + Add Medicine
           </button>
 
-          <div
-            style={{
-              marginTop: "25px",
-              fontSize: "20px",
-              fontWeight: "bold",
-              textAlign: "right",
-            }}
-          >
+          <div className="pharmacy-prescription-total">
             Total: ₹ {total.toFixed(2)}
           </div>
 
-          <div
-            style={{
-              marginTop: "25px",
-              display: "flex",
-              gap: "10px",
-            }}
-          >
+          <div className="pharmacy-prescription-actions">
             <button
-              className="download-btn"
+              className="pharmacy-prescription-back-btn"
               onClick={() => setStep("dashboard")}
             >
               Back
             </button>
 
-            <button className="send-btn" onClick={openBillPreview}>
+            <button
+              className="pharmacy-prescription-continue-btn"
+              onClick={openBillPreview}
+            >
               Continue to Bill
             </button>
           </div>
