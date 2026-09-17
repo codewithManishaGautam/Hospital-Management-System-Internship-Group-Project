@@ -8,7 +8,7 @@ const {
   updatePatient,
   deletePatient,
   generatePrescriptionPDF,
-  // updatePrescription,
+  getFinalHospitalBill,
 } = require("../controllers/patientController");
 
 router.post("/", addPatient);
@@ -16,6 +16,8 @@ router.post("/", addPatient);
 router.get("/", getPatients);
 
 router.get("/:id/pdf", generatePrescriptionPDF);
+
+router.get("/:id/final-bill", getFinalHospitalBill);
 
 router.get("/:id", getPatientById);
 

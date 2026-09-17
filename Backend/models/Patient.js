@@ -301,6 +301,11 @@ const patientSchema = new mongoose.Schema(
       default: "Pending",
     },
 
+    paidAt: {
+      type: Date,
+      default: null,
+    },
+
     paymentMode: {
       type: String,
       default: "Cash",
@@ -329,16 +334,16 @@ const patientSchema = new mongoose.Schema(
       default: "Waiting",
     },
 
-// <<<<<<< HEAD
-// <<<<<<< HEAD
-// =======
-// >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
+    // <<<<<<< HEAD
+    // <<<<<<< HEAD
+    // =======
+    // >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
     createdAt: {
-        type: Date,
-        default: Date.now
+      type: Date,
+      default: Date.now
     },
 
-        
+
     prescriptionHistory: [
       {
         diagnosis: {
@@ -413,7 +418,7 @@ const patientSchema = new mongoose.Schema(
     appointmentDate: String,
 
     appointmentTime: String,
-    
+
     // Billing
     fee: {
       type: Number,
@@ -427,11 +432,11 @@ const patientSchema = new mongoose.Schema(
 
 
 
-// <<<<<<< HEAD
-// =======
-// >>>>>>> origin/main
-// =======
-// >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
+    // <<<<<<< HEAD
+    // =======
+    // >>>>>>> origin/main
+    // =======
+    // >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
     currentDepartment: {
       type: String,
       default: "Reception",
@@ -441,10 +446,10 @@ const patientSchema = new mongoose.Schema(
       type: String,
       default: "Registered",
     },
-// <<<<<<< HEAD
-// <<<<<<< HEAD
-// =======
-// >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
+    // <<<<<<< HEAD
+    // <<<<<<< HEAD
+    // =======
+    // >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
   },
 
   {
@@ -453,70 +458,70 @@ const patientSchema = new mongoose.Schema(
 
 
 
-//     appointmentHistory[
-// <<<<<<< HEAD
-// =======
+  //     appointmentHistory[
+  // <<<<<<< HEAD
+  // =======
 
-//     appointmentHistory: [
-// >>>>>>> origin/main
-// =======
-// >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
-      {
-        appointmentDate: String,
+  //     appointmentHistory: [
+  // >>>>>>> origin/main
+  // =======
+  // >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
+  {
+    appointmentDate: String,
 
-        appointmentTime: String,
+    appointmentTime: String,
 
-        doctor: String,
+    doctor: String,
 
-        disease: String,
+    disease: String,
 
-        fee: {
-          type: Number,
-          default: 500,
-        },
+    fee: {
+      type: Number,
+      default: 500,
+    },
 
-        paymentStatus: {
-          type: String,
-          default: "Pending",
-        },
+    paymentStatus: {
+      type: String,
+      default: "Pending",
+    },
 
-        paymentMode: {
-          type: String,
-          default: "Cash",
-        },
+    paymentMode: {
+      type: String,
+      default: "Cash",
+    },
 
-        status: {
-          type: String,
-          default: "Waiting Doctor",
-        },
+    status: {
+      type: String,
+      default: "Waiting Doctor",
+    },
 
-        createdAt: {
-          type: Date,
-          default: Date.now,
-        },
-// <<<<<<< HEAD
-// <<<<<<< HEAD
-// =======
-// >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
-      }
-//     ]
-  
-  
-// <<<<<<< HEAD
-// =======
-// =======
-// >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
-//       },
-//     ],
-//   },
-//   {
-//     timestamps: true,
-//   },
-// <<<<<<< HEAD
-// >>>>>>> origin/main
-// =======
-// >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
- );
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    // <<<<<<< HEAD
+    // <<<<<<< HEAD
+    // =======
+    // >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
+  }
+  //     ]
+
+
+  // <<<<<<< HEAD
+  // =======
+  // =======
+  // >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     timestamps: true,
+  //   },
+  // <<<<<<< HEAD
+  // >>>>>>> origin/main
+  // =======
+  // >>>>>>> 735352d1e14ce85733f6606b8df0a31a0f07b6da
+);
 
 // ======================
 // Indexes

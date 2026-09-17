@@ -28,6 +28,24 @@ const getAvailableBeds = async (req, res) => {
   }
 };
 
+// Get Available Beds By Room
+const getAvailableBedsByRoom = async (req, res) => {
+  try {
+    const { roomNumber } = req.params;
+
+    const beds = await Bed.find({
+      roomNumber: roomNumber,
+      status: "Available",
+    });
+
+    res.status(200).json(beds);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 // Add Bed
 const addBed = async (req, res) => {
   try {
@@ -80,6 +98,7 @@ const deleteBed = async (req, res) => {
 module.exports = {
   getAllBeds,
   getAvailableBeds,
+  getAvailableBedsByRoom,
   addBed,
   updateBed,
   deleteBed,

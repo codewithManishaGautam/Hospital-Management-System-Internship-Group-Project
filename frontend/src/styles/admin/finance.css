@@ -1,0 +1,163 @@
+/* =========================================================
+   ADMIN FINANCE DASHBOARD
+   ========================================================= */
+
+.admin-finance-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* ================= HEADER ================= */
+
+.admin-finance-header {
+  margin-bottom: 28px;
+}
+
+.admin-finance-header h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+/* ================= FINANCE CARDS ================= */
+
+.admin-finance-cards {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+/* ================= CARD ================= */
+
+.admin-finance-card {
+  min-width: 0;
+  padding: 28px 24px;
+  box-sizing: border-box;
+  border-radius: 18px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.07);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.admin-finance-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.12);
+}
+
+.admin-finance-card h3 {
+  margin: 0 0 12px;
+  color: #475569;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.admin-finance-card h2 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+/* ================= CARD TYPES ================= */
+
+.admin-finance-income-card {
+  border-left: 5px solid #22c55e;
+}
+
+.admin-finance-income-card h2 {
+  color: #16a34a;
+}
+
+.admin-finance-expense-card {
+  border-left: 5px solid #ef4444;
+}
+
+.admin-finance-expense-card h2 {
+  color: #dc2626;
+}
+
+.admin-finance-profit-card {
+  border-left: 5px solid #2563eb;
+}
+
+.admin-finance-profit-card h2 {
+  color: #2563eb;
+}
+
+/* ================= TABLET ================= */
+
+@media (max-width: 900px) {
+  .admin-finance-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .admin-finance-card:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 600px) {
+  .admin-finance-container {
+    padding: 16px;
+  }
+
+  .admin-finance-header {
+    margin-bottom: 20px;
+  }
+
+  .admin-finance-header h2 {
+    font-size: 25px;
+  }
+
+  .admin-finance-cards {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .admin-finance-card:last-child {
+    grid-column: auto;
+  }
+
+  .admin-finance-card {
+    padding: 22px 18px;
+  }
+
+  .admin-finance-card h3 {
+    font-size: 15px;
+  }
+
+  .admin-finance-card h2 {
+    font-size: 26px;
+  }
+}
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 360px) {
+  .admin-finance-container {
+    padding: 12px;
+  }
+
+  .admin-finance-header h2 {
+    font-size: 22px;
+  }
+
+  .admin-finance-card {
+    padding: 19px 15px;
+  }
+
+  .admin-finance-card h2 {
+    font-size: 23px;
+  }
+}

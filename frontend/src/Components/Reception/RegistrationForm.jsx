@@ -110,19 +110,30 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
     });
   }, [patient]);
 
-  useEffect(() => {
-    const loadBeds = async () => {
-      try {
-        const res = await axios.get("http://localhost:5000/api/beds/available");
+useEffect(() => {
+  const loadBeds = async () => {
+    if (!formData.roomNo) {
+      setBeds([]);
+      return;
+    }
 
-        setBeds(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/api/beds/available/room/${formData.roomNo}`
+      );
 
-    loadBeds();
-  }, [formData.roomNo]);
+      setBeds(res.data);
+
+      console.log("Selected Room:", formData.roomNo);
+      console.log("Available Beds:", res.data);
+    } catch (err) {
+      console.log("Bed Fetch Error:", err);
+      setBeds([]);
+    }
+  };
+
+  loadBeds();
+}, [formData.roomNo]);
 
   const handleChange = (e) => {
     setFormData((prev) => ({

@@ -691,3 +691,55 @@
     font-size: 11px;
   }
 }
+
+/* =========================================================
+   EXTRA SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 360px) {
+  .admin-staff-form-popup {
+    padding: 7px;
+  }
+
+  .admin-staff-form {
+    max-height: 96vh;
+    padding: 15px;
+    border-radius: 12px;
+  }
+
+  .admin-staff-form h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  .admin-staff-form input,
+  .admin-staff-form select {
+    padding: 9px 10px;
+    margin-bottom: 9px;
+    font-size: 12px;
+  }
+
+  .admin-staff-save-btn,
+  .admin-staff-cancel-btn {
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  .admin-staff-container {
+    padding: 12px;
+  }
+
+  .admin-staff-header h2 {
+    font-size: 20px;
+  }
+
+  .admin-staff-table {
+    min-width: 900px;
+  }
+
+  .admin-staff-table th,
+  .admin-staff-table td {
+    padding: 9px 8px;
+    font-size: 11px;
+  }
+}

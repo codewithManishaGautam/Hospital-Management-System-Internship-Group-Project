@@ -832,6 +832,145 @@ Specialization : ${latest.referralDoctor.specialization}`,
   }
 };
 
+// ==============================
+// Get Final Hospital Bill
+// ==============================
+
+const getFinalHospitalBill = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Get patient
+    const patient = await Patient.findById(id).lean();
+
+    if (!patient) {
+      return res.status(404).json({
+        success: false,
+        message: "Patient not found",
+      });
+    }
+
+    // Admission date required
+    if (!patient.admissionDate) {
+      return res.status(400).json({
+        success: false,
+        message: "Admission date not found",
+      });
+    }
+
+    // Discharge date required
+    if (!patient.dischargeDate) {
+      return res.status(400).json({
+        success: false,
+        message: "Discharge date not found",
+      });
+    }
+
+    // Room required
+    if (!patient.roomNo) {
+      return res.status(400).json({
+        success: false,
+        message: "Room number not found",
+      });
+    }
+
+    // Find assigned room
+    const room = await Room.findOne({
+      roomNumber: patient.roomNo,
+    }).lean();
+
+    if (!room) {
+      return res.status(404).json({
+        success: false,
+        message: "Assigned room not found",
+      });
+    }
+
+    // Convert dates
+    const admissionDate = new Date(patient.admissionDate);
+    const dischargeDate = new Date(patient.dischargeDate);
+
+    if (
+      Number.isNaN(admissionDate.getTime()) ||
+      Number.isNaN(dischargeDate.getTime())
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid admission or discharge date",
+      });
+    }
+
+    if (dischargeDate < admissionDate) {
+      return res.status(400).json({
+        success: false,
+        message: "Discharge date cannot be before admission date",
+      });
+    }
+
+    // Calculate stay days
+    const millisecondsPerDay = 1000 * 60 * 60 * 24;
+
+    const differenceInDays =
+      Math.ceil(
+        (dischargeDate.getTime() - admissionDate.getTime()) /
+          millisecondsPerDay,
+      );
+
+    // Minimum 1 day charge
+    const stayDays = Math.max(1, differenceInDays);
+
+    // Room charge from database
+    const roomChargesPerDay = Number(room.chargesPerDay || 0);
+
+    const roomTotal = stayDays * roomChargesPerDay;
+
+    // Other hospital charges
+    // For now, Patient.fee is kept separately.
+    // We will integrate actual Billing charges in the next step.
+    const otherCharges = 0;
+
+    const finalAmount = roomTotal + otherCharges;
+
+    res.json({
+      success: true,
+
+      patient: {
+        id: patient._id,
+        uhid: patient.uhid,
+        name: patient.name,
+        role: patient.role,
+        roomNo: patient.roomNo,
+        bedNo: patient.bedNo,
+        roomType: patient.roomType,
+      },
+
+      admissionDate: patient.admissionDate,
+      dischargeDate: patient.dischargeDate,
+
+      stayDays,
+
+      room: {
+        roomNumber: room.roomNumber,
+        roomType: room.roomType,
+        chargesPerDay: roomChargesPerDay,
+      },
+
+      roomTotal,
+
+      otherCharges,
+
+      finalAmount,
+    });
+  } catch (error) {
+    console.error("Final Hospital Bill Error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 const updateRoomStatus = async (roomNumber) => {
   if (!roomNumber) return;
 
@@ -854,5 +993,5 @@ module.exports = {
   updatePatient,
   deletePatient,
   generatePrescriptionPDF,
-  // updatePrescription,
+  getFinalHospitalBill,
 };

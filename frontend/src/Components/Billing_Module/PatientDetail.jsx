@@ -29,6 +29,9 @@ function PatientDetail() {
   const [patient, setPatient] = useState({});
   const [diagnostics, setDiagnostics] = useState([]);
 
+  const [finalBill, setFinalBill] = useState(null);
+const [billLoading, setBillLoading] = useState(false);
+
   const [selectedConsent, setSelectedConsent] = useState("");
 
   const [consentData, setConsentData] = useState(null);
@@ -53,6 +56,26 @@ function PatientDetail() {
       console.log(err);
     }
   };
+
+  const getFinalBill = async () => {
+  try {
+    setBillLoading(true);
+
+    const res = await axios.get(
+      `http://localhost:5000/api/patient/${id}/final-bill`,
+    );
+
+    console.log("FINAL BILL RESPONSE =", res.data);
+
+    setFinalBill(res.data);
+  } catch (err) {
+    console.log("Final Bill Error:", err);
+
+    setFinalBill(null);
+  } finally {
+    setBillLoading(false);
+  }
+};
 
   // ==========================
   // Load Diagnostics
@@ -92,13 +115,15 @@ function PatientDetail() {
   // Initial Load
   // ==========================
 
-  useEffect(() => {
-    getPatient();
+ useEffect(() => {
+  getPatient();
 
-    getDiagnostics();
+  getDiagnostics();
 
-    getConsents();
-  }, []);
+  getConsents();
+
+  getFinalBill();
+}, []);
 
   // ==========================
   // Date Format
@@ -489,7 +514,132 @@ function PatientDetail() {
           </tr>
         </table>
       </div>
-      <Razorpay patientName={patient.name} patientMob={patient.mobile} />
+
+     {/* ===========================
+          Final Hospital Bill
+      ============================ */}
+
+<div
+  className="card mt-4 p-4"
+  style={{
+    border: "1px solid #ddd",
+    borderRadius: "10px",
+  }}
+>
+  <h2 className="text-primary">Final Hospital Bill</h2>
+
+  {billLoading ? (
+    <p>Calculating final bill...</p>
+  ) : finalBill ? (
+    <>
+      <div className="row mt-3">
+        <div className="col-md-6">
+          <p>
+            <strong>UHID:</strong> {finalBill.patient?.uhid || "N/A"}
+          </p>
+
+          <p>
+            <strong>Patient Name:</strong>{" "}
+            {finalBill.patient?.name || "N/A"}
+          </p>
+
+          <p>
+            <strong>Patient Type:</strong>{" "}
+            {finalBill.patient?.role || "N/A"}
+          </p>
+        </div>
+
+        <div className="col-md-6">
+          <p>
+            <strong>Room No:</strong>{" "}
+            {finalBill.patient?.roomNo || "N/A"}
+          </p>
+
+          <p>
+            <strong>Bed No:</strong>{" "}
+            {finalBill.patient?.bedNo || "N/A"}
+          </p>
+
+          <p>
+            <strong>Room Type:</strong>{" "}
+            {finalBill.patient?.roomType || "N/A"}
+          </p>
+        </div>
+      </div>
+
+      <hr />
+
+      <div className="row">
+        <div className="col-md-6">
+          <p>
+            <strong>Admission Date:</strong>{" "}
+            {finalBill.admissionDate || "N/A"}
+          </p>
+        </div>
+
+        <div className="col-md-6">
+          <p>
+            <strong>Discharge Date:</strong>{" "}
+            {finalBill.dischargeDate || "N/A"}
+          </p>
+        </div>
+      </div>
+
+      <hr />
+
+      <h4>Room Charges</h4>
+
+      <table className="table table-bordered">
+        <tbody>
+          <tr>
+            <td>Stay Days</td>
+            <td>{finalBill.stayDays}</td>
+          </tr>
+
+          <tr>
+            <td>Room Charges / Day</td>
+            <td>₹{finalBill.room?.chargesPerDay || 0}</td>
+          </tr>
+
+          <tr>
+            <td>
+              <strong>Room Total</strong>
+            </td>
+            <td>
+              <strong>₹{finalBill.roomTotal || 0}</strong>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Other Hospital Charges</td>
+            <td>₹{finalBill.otherCharges || 0}</td>
+          </tr>
+
+          <tr>
+            <td>
+              <strong>FINAL AMOUNT</strong>
+            </td>
+
+            <td>
+              <strong style={{ fontSize: "20px" }}>
+                ₹{finalBill.finalAmount || 0}
+              </strong>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </>
+  ) : (
+    <p>No final billing information available.</p>
+  )}
+</div>
+ 
+      <Razorpay
+  patientName={patient.name}
+  patientMob={patient.mobile}
+  patientId={patient._id}
+  source="Billing"
+/>
 
       <MergePdf />
     </div>

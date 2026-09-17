@@ -1,0 +1,208 @@
+/* =========================================================
+   ADMIN ROOM INVENTORY
+   ========================================================= */
+
+.admin-room-inventory-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* ================= HEADER ================= */
+
+.admin-room-inventory-header {
+  margin-bottom: 25px;
+}
+
+.admin-room-inventory-header h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+/* ================= TABLE ================= */
+
+.admin-room-inventory-table {
+  width: 100%;
+  min-width: 750px;
+  border-collapse: collapse;
+  background: #ffffff;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+}
+
+.admin-room-inventory-table th,
+.admin-room-inventory-table td {
+  padding: 13px 14px;
+  border: 1px solid #e2e8f0;
+  text-align: left;
+  font-size: 14px;
+}
+
+.admin-room-inventory-table th {
+  background: #f1f5f9;
+  color: #0f172a;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.admin-room-inventory-table td {
+  color: #475569;
+  vertical-align: middle;
+}
+
+.admin-room-inventory-table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.admin-room-inventory-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+/* ================= ROOM STATUS ================= */
+
+.admin-room-inventory-status-available,
+.admin-room-inventory-status-unavailable {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.admin-room-inventory-status-available {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.admin-room-inventory-status-unavailable {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* ================= DELETE BUTTON ================= */
+
+.admin-room-inventory-delete-btn {
+  min-width: 75px;
+  padding: 8px 13px;
+  border: none;
+  border-radius: 7px;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.admin-room-inventory-delete-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 12px rgba(220, 38, 38, 0.2);
+}
+
+.admin-room-inventory-delete-btn:active {
+  transform: translateY(0);
+}
+
+/* ================= TABLET ================= */
+
+@media (max-width: 768px) {
+  .admin-room-inventory-container {
+    padding: 16px;
+  }
+
+  .admin-room-inventory-header h2 {
+    font-size: 26px;
+  }
+
+  .admin-room-inventory-table {
+    min-width: 700px;
+  }
+
+  .admin-room-inventory-table th,
+  .admin-room-inventory-table td {
+    padding: 11px 12px;
+    font-size: 13px;
+  }
+
+  .admin-room-inventory-status-available,
+  .admin-room-inventory-status-unavailable {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+
+  .admin-room-inventory-delete-btn {
+    padding: 7px 11px;
+    font-size: 12px;
+  }
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 520px) {
+  .admin-room-inventory-container {
+    padding: 12px;
+  }
+
+  .admin-room-inventory-header {
+    margin-bottom: 18px;
+  }
+
+  .admin-room-inventory-header h2 {
+    font-size: 22px;
+  }
+
+  /*
+    Room table has 6 columns.
+    Horizontal scrolling keeps the table readable on mobile.
+  */
+  .admin-room-inventory-table {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .admin-room-inventory-table th,
+  .admin-room-inventory-table td {
+    padding: 9px 11px;
+    font-size: 12px;
+  }
+
+  .admin-room-inventory-status-available,
+  .admin-room-inventory-status-unavailable {
+    padding: 5px 9px;
+    font-size: 10px;
+  }
+
+  .admin-room-inventory-delete-btn {
+    padding: 7px 10px;
+    font-size: 11px;
+  }
+}
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 360px) {
+  .admin-room-inventory-container {
+    padding: 10px;
+  }
+
+  .admin-room-inventory-header h2 {
+    font-size: 20px;
+  }
+
+  .admin-room-inventory-table th,
+  .admin-room-inventory-table td {
+    padding: 8px 9px;
+    font-size: 11px;
+  }
+}

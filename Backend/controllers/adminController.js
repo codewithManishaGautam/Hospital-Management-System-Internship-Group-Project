@@ -751,8 +751,28 @@ const getAnalytics = async (req, res) => {
         },
       ]);
 
-      const income = totalIncome[0]?.total || 0;
+      // OPD Billing total
+      const billingIncome = await Patient.aggregate([
+        {
+          $match: {
+            role: "OPD",
+            paymentStatus: "Paid",
+            paidAt: { $ne: null },
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            total: { $sum: "$fee" },
+          },
+        },
+      ]);
+
+      const manualIncome = totalIncome[0]?.total || 0;
+      const billingTotal = billingIncome[0]?.total || 0;
       const expense = totalExpense[0]?.total || 0;
+
+      const income = manualIncome + billingTotal;
 
       return res.json({
         totalIncome: income,
@@ -772,7 +792,9 @@ const getAnalytics = async (req, res) => {
     const startDate = new Date(year, month - 1, 1);
     const endDate = new Date(year, month, 1);
 
-    // Get income day-wise
+    // -----------------------------------------
+    // 1. MANUAL INCOME - DAY WISE
+    // -----------------------------------------
     const incomeData = await Income.aggregate([
       {
         $match: {
@@ -794,12 +816,45 @@ const getAnalytics = async (req, res) => {
       },
       {
         $sort: {
-          _id: 1,
+          "_id": 1,
         },
       },
     ]);
 
-    // Get expense day-wise
+    // -----------------------------------------
+    // 2. OPD BILLING INCOME - DAY WISE
+    // -----------------------------------------
+    const billingData = await Patient.aggregate([
+      {
+        $match: {
+          role: "OPD",
+          paymentStatus: "Paid",
+          paidAt: {
+            $gte: startDate,
+            $lt: endDate,
+          },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            $dayOfMonth: "$paidAt",
+          },
+          total: {
+            $sum: "$fee",
+          },
+        },
+      },
+      {
+        $sort: {
+          "_id": 1,
+        },
+      },
+    ]);
+
+    // -----------------------------------------
+    // 3. EXPENSE - DAY WISE
+    // -----------------------------------------
     const expenseData = await Expense.aggregate([
       {
         $match: {
@@ -821,51 +876,87 @@ const getAnalytics = async (req, res) => {
       },
       {
         $sort: {
-          _id: 1,
+          "_id": 1,
         },
       },
     ]);
 
-    // Convert income data into an easy-to-use object
+    // -----------------------------------------
+    // 4. CONVERT MANUAL INCOME INTO OBJECT
+    // -----------------------------------------
     const incomeByDay = {};
 
     incomeData.forEach((item) => {
       incomeByDay[item._id] = item.total;
     });
 
-    // Convert expense data into an easy-to-use object
+    // -----------------------------------------
+    // 5. CONVERT BILLING INCOME INTO OBJECT
+    // -----------------------------------------
+    const billingByDay = {};
+
+    billingData.forEach((item) => {
+      billingByDay[item._id] = item.total;
+    });
+
+    // -----------------------------------------
+    // 6. CONVERT EXPENSE INTO OBJECT
+    // -----------------------------------------
     const expenseByDay = {};
 
     expenseData.forEach((item) => {
       expenseByDay[item._id] = item.total;
     });
 
-    // Number of days in selected month
+    // -----------------------------------------
+    // 7. CREATE DAY-WISE DATA
+    // -----------------------------------------
     const daysInMonth = new Date(year, month, 0).getDate();
 
     const daily = [];
 
     for (let day = 1; day <= daysInMonth; day++) {
-      const income = incomeByDay[day] || 0;
+      const manualIncome = incomeByDay[day] || 0;
+
+      const billingIncome = billingByDay[day] || 0;
+
+      const income = manualIncome + billingIncome;
+
       const expense = expenseByDay[day] || 0;
 
+      const profit = income - expense;
+
       daily.push({
-        date: `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(
-          2,
-          "0",
-        )}`,
+        date: `${year}-${String(month).padStart(2, "0")}-${String(
+          day,
+        ).padStart(2, "0")}`,
+
         income,
+
         expense,
-        profit: income - expense,
+
+        profit,
       });
     }
 
-    const totalIncome = daily.reduce((sum, item) => sum + item.income, 0);
+    // -----------------------------------------
+    // 8. MONTHLY TOTAL
+    // -----------------------------------------
+    const totalIncome = daily.reduce(
+      (sum, item) => sum + item.income,
+      0,
+    );
 
-    const totalExpense = daily.reduce((sum, item) => sum + item.expense, 0);
+    const totalExpense = daily.reduce(
+      (sum, item) => sum + item.expense,
+      0,
+    );
 
     const profit = totalIncome - totalExpense;
 
+    // -----------------------------------------
+    // 9. SEND RESPONSE
+    // -----------------------------------------
     res.json({
       year,
       month,
@@ -875,6 +966,8 @@ const getAnalytics = async (req, res) => {
       daily,
     });
   } catch (error) {
+    console.error("Analytics Error:", error);
+
     res.status(500).json({
       message: error.message,
     });

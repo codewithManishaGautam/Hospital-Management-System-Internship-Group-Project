@@ -8,7 +8,6 @@
   margin: 0 auto 30px;
 
   background: #ffffff;
-
   padding: 32px;
 
   border-radius: 20px;
@@ -117,6 +116,7 @@
   transform: translateY(0);
 }
 
+
 /* =========================================================
    ADMIN ADD ROOM - TABLET
    ========================================================= */
@@ -145,6 +145,7 @@
     padding: 12px;
   }
 }
+
 
 /* =========================================================
    ADMIN ADD ROOM - MOBILE
@@ -185,6 +186,7 @@
   }
 }
 
+
 /* =========================================================
    ADMIN ANALYTICS
    ========================================================= */
@@ -222,6 +224,7 @@
   font-size: 32px;
   font-weight: 700;
 }
+
 
 /* =========================================================
    YEAR / MONTH FILTERS
@@ -277,6 +280,7 @@
 
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
+
 
 /* =========================================================
    ANALYTICS SUMMARY CARDS
@@ -338,6 +342,7 @@
   font-weight: 700;
 }
 
+
 /* =========================================================
    DAILY ANALYTICS
    ========================================================= */
@@ -367,6 +372,7 @@
 
   font-weight: 700;
 }
+
 
 /* =========================================================
    ANALYTICS TABLE
@@ -438,8 +444,9 @@
   border-top: 2px solid #cbd5e1;
 }
 
+
 /* =========================================================
-   TABLET
+   ANALYTICS - TABLET
    ========================================================= */
 
 @media (max-width: 768px) {
@@ -496,8 +503,9 @@
   }
 }
 
+
 /* =========================================================
-   MOBILE
+   ANALYTICS - MOBILE
    ========================================================= */
 
 @media (max-width: 480px) {
@@ -567,6 +575,7 @@
   }
 }
 
+
 /* =========================================================
    ADMIN BED MANAGEMENT
    ========================================================= */
@@ -606,6 +615,7 @@
   font-size: 32px;
   font-weight: 700;
 }
+
 
 /* =========================================================
    BED TABLE
@@ -668,6 +678,7 @@
   border-bottom: none;
 }
 
+
 /* =========================================================
    BED STATUS
    ========================================================= */
@@ -708,8 +719,9 @@
   font-weight: 700;
 }
 
+
 /* =========================================================
-   TABLET
+   BED - TABLET
    ========================================================= */
 
 @media (max-width: 768px) {
@@ -739,8 +751,9 @@
   }
 }
 
+
 /* =========================================================
-   MOBILE
+   BED - MOBILE
    ========================================================= */
 
 @media (max-width: 480px) {
@@ -784,15 +797,19 @@
 .admin-charges-container {
   width: 100%;
   max-width: 1200px;
+
   margin: 0 auto 30px;
 
   background: #ffffff;
+
   padding: 32px;
 
   border-radius: 20px;
+
   box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
 
   box-sizing: border-box;
+
   overflow-x: auto;
 }
 
@@ -808,22 +825,34 @@
   margin: 0;
 
   color: #0f172a;
+
   font-size: 32px;
+
   font-weight: 700;
 }
+
+
+/* =========================================================
+   CHARGES FORM
+   ========================================================= */
 
 .admin-charges-form {
   width: 100%;
 
   display: grid;
+
   grid-template-columns: repeat(2, 1fr);
+
   gap: 15px;
 
   margin-bottom: 30px;
+
   padding: 22px;
 
   background: #f8fafc;
+
   border: 1px solid #e2e8f0;
+
   border-radius: 16px;
 
   box-sizing: border-box;
@@ -831,22 +860,27 @@
 
 .admin-charges-form input {
   width: 100%;
+
   box-sizing: border-box;
 
   padding: 13px 14px;
 
   border: 1px solid #cbd5e1;
+
   border-radius: 10px;
 
   background: #ffffff;
+
   color: #0f172a;
 
   font-size: 14px;
+
   outline: none;
 
   transition:
     border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 }
 
 .admin-charges-form input::placeholder {
@@ -856,8 +890,15 @@
 .admin-charges-form input:focus {
   border-color: #2563eb;
 
+  background: #ffffff;
+
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
+
+
+/* =========================================================
+   ADD CHARGE BUTTON
+   ========================================================= */
 
 .admin-charges-add-btn {
   width: 100%;
@@ -865,6 +906,7 @@
   grid-column: 1 / -1;
 
   border: none;
+
   border-radius: 10px;
 
   padding: 13px 18px;
@@ -874,6 +916,7 @@
   color: #ffffff;
 
   font-size: 14px;
+
   font-weight: 600;
 
   cursor: pointer;
@@ -893,18 +936,24 @@
   transform: translateY(0);
 }
 
-/* TABLE */
+
+/* =========================================================
+   CHARGES TABLE
+   ========================================================= */
 
 .admin-charges-table {
   width: 100%;
+
   min-width: 850px;
 
   border-collapse: separate;
+
   border-spacing: 0;
 
   background: #ffffff;
 
   border-radius: 14px;
+
   overflow: hidden;
 
   white-space: nowrap;
@@ -922,6 +971,7 @@
   text-align: center;
 
   font-size: 14px;
+
   font-weight: 600;
 }
 
@@ -949,12 +999,16 @@
   border-bottom: none;
 }
 
-/* DELETE BUTTON */
+
+/* =========================================================
+   DELETE BUTTON
+   ========================================================= */
 
 .admin-charges-delete-btn {
   min-width: 80px;
 
   border: none;
+
   border-radius: 9px;
 
   padding: 9px 15px;
@@ -964,6 +1018,7 @@
   color: #ffffff;
 
   font-size: 13px;
+
   font-weight: 600;
 
   cursor: pointer;
@@ -983,13 +1038,15 @@
   transform: translateY(0);
 }
 
+
 /* =========================================================
-   TABLET
+   CHARGES - TABLET
    ========================================================= */
 
 @media (max-width: 768px) {
   .admin-charges-container {
     padding: 22px;
+
     border-radius: 16px;
   }
 
@@ -1003,6 +1060,7 @@
 
   .admin-charges-form {
     padding: 17px;
+
     gap: 12px;
   }
 
@@ -1017,19 +1075,27 @@
   .admin-charges-table th,
   .admin-charges-table td {
     padding: 13px 11px;
+
     font-size: 13px;
   }
 }
 
+
 /* =========================================================
-   MOBILE
+   CHARGES - MOBILE
    ========================================================= */
 
 @media (max-width: 480px) {
   .admin-charges-container {
     padding: 15px;
+
     margin-bottom: 20px;
+
     border-radius: 14px;
+  }
+
+  .admin-charges-header {
+    margin-bottom: 18px;
   }
 
   .admin-charges-header h2 {
@@ -1040,6 +1106,7 @@
     grid-template-columns: 1fr;
 
     padding: 13px;
+
     gap: 10px;
 
     margin-bottom: 20px;
@@ -1047,6 +1114,7 @@
 
   .admin-charges-form input {
     padding: 11px 12px;
+
     font-size: 13px;
   }
 
@@ -1054,6 +1122,7 @@
     grid-column: auto;
 
     padding: 12px;
+
     font-size: 13px;
   }
 
@@ -1064,12 +1133,15 @@
   .admin-charges-table th,
   .admin-charges-table td {
     padding: 11px 9px;
+
     font-size: 12px;
   }
 
   .admin-charges-delete-btn {
     min-width: 70px;
+
     padding: 7px 10px;
+
     font-size: 11px;
   }
 }

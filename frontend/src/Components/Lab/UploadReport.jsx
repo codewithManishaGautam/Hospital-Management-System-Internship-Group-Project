@@ -629,7 +629,12 @@ function UploadReport({ patient,onBack }) {
                 </button>
 
             </div>
-            <Razorpay patientName={patient.name} patientMob={patient.mobile}/>
+            <Razorpay
+  patientName={patient.name}
+  patientMob={patient.mobile}
+  patientId={patient._id}
+  source="Lab"
+/>
 
         </div>
 

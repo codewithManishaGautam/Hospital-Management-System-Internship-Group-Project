@@ -184,18 +184,19 @@ function OPDBilling({ patient }) {
         fee: Number(billingData.consultationFee),
         paymentMode: billingData.paymentMode,
         paymentStatus: "Paid",
+        paidAt: new Date(),
         appointmentHistory:
           patient.appointmentHistory?.length > 0
             ? patient.appointmentHistory.map((a, index) =>
-                index === patient.appointmentHistory.length - 1
-                  ? {
-                      ...a,
-                      paymentStatus: "Paid",
-                      paymentMode: billingData.paymentMode,
-                      fee: Number(billingData.consultationFee),
-                    }
-                  : a,
-              )
+              index === patient.appointmentHistory.length - 1
+                ? {
+                  ...a,
+                  paymentStatus: "Paid",
+                  paymentMode: billingData.paymentMode,
+                  fee: Number(billingData.consultationFee),
+                }
+                : a,
+            )
             : [],
         status: "Completed",
       });
