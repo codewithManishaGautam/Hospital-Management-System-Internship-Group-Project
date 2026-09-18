@@ -1,78 +1,4 @@
-// import "../Billing_Module/style/InsuranceBtnAndCheck.css"
 
-// export default function InsuranceBtnAndCheck() {
-//     return (
-//         <div className="main border border-warning rounded-3">
-//             <h3 className="text-info text-center">
-//                 Insurance Information
-//             </h3>
-//             <br />
-
-//             <div className="d-flex align-items-center w-100">
-
-
-
-//                 {/* Left side - 50% */}
-//                 <div className="w-50">
-//                     <button className="btn btn-success">
-//                         Go to Insurance
-//                     </button>
-//                 </div>
-
-//                 {/* Right side - 50% */}
-//                 <div className="w-50">
-//                     <div className="d-flex align-items-center w-100">
-
-//                         {/* Insurance */}
-//                         <div className="w-50">
-//                             Insurance Confirmation
-//                         </div>
-
-//                         {/* Yes */}
-//                         <div className="w-25">
-//                             <div className="form-check">
-//                                 <input
-//                                     className="form-check-input"
-//                                     type="radio"
-//                                     name="insurance"
-//                                     id="insuranceYes"
-//                                     value="yes"
-//                                 />
-//                                 <label
-//                                     className="form-check-label"
-//                                     htmlFor="insuranceYes"
-//                                 >
-//                                     Yes
-//                                 </label>
-//                             </div>
-//                         </div>
-
-//                         {/* No */}
-//                         <div className="w-25">
-//                             <div className="form-check">
-//                                 <input
-//                                     className="form-check-input"
-//                                     type="radio"
-//                                     name="insurance"
-//                                     id="insuranceNo"
-//                                     value="no"
-//                                 />
-//                                 <label
-//                                     className="form-check-label"
-//                                     htmlFor="insuranceNo"
-//                                 >
-//                                     No
-//                                 </label>
-//                             </div>
-//                         </div>
-
-//                     </div>
-//                 </div>
-
-//             </div>
-//         </div>
-//     );
-// }
 
 
 import axios from "axios";
@@ -117,35 +43,17 @@ export default function InsuranceBtnAndCheck({ patientId }) {
 
             <br/>
 
-            <div className="d-flex align-items-center w-100">
-
-                {/* =========================
-                    Left Side
-                ========================== */}
-
-                <div className="w-50">
-
-                    <button className="btn btn-success">
-                        Go to Insurance
-                    </button>
-
-                </div>
+            <div className="d-flex align-items-center ">
 
 
-                {/* =========================
-                    Right Side
-                ========================== */}
-
-
-
-                <div className="w-50">
+                <div className="w-100">
 
                     <div className="d-flex align-items-center w-100">
 
                         {/* Insurance Confirmation */}
 
                         <div className="w-50 confirm">
-                            Insurance&nbsp;Confirmation
+                           &nbsp; Insurance&nbsp;Confirmation
                         </div>
 
 
@@ -154,9 +62,9 @@ export default function InsuranceBtnAndCheck({ patientId }) {
                             ================== */}
 
 
-                        <div className="radio-btn">
+                        <div className="radio-btn d-flex justify-content-space-between">
 
-                            <div className="w-25">
+                            <div className="w-50">
 
                                 <div className="form-check">
 
@@ -180,12 +88,14 @@ export default function InsuranceBtnAndCheck({ patientId }) {
 
                             </div>
 
+                            &nbsp;&nbsp;
+
 
                             {/* =================
                             NO
                         ================== */}
 
-                            <div className="w-25">
+                            <div className="w-50">
 
                                 <div className="form-check">
 

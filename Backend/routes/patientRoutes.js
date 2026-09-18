@@ -4,9 +4,13 @@ const router = express.Router();
 const {
   addPatient,
   getPatients,
+  getNursePatients,
   getPatientById,
   updatePatient,
   deletePatient,
+  addNursingReport,
+  addHandoverNote,
+  updateNurseMedicineStatus,
   generatePrescriptionPDF,
   updateInsuranceConfirm,
   // updatePrescription,
@@ -17,6 +21,17 @@ router.post("/", addPatient);
 
 router.get("/", getPatients);
 
+// Nurse
+router.get("/nurse/patients", getNursePatients);
+
+router.post("/:id/nursing-report", addNursingReport);
+
+router.post("/:id/handover", addHandoverNote);
+
+router.put(
+  "/:patientId/medicine/:medicineId/status",
+  updateNurseMedicineStatus,
+);
 
 router.get("/:id/pdf", generatePrescriptionPDF);
 

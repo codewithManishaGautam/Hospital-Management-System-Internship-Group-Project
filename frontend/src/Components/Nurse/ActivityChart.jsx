@@ -8,61 +8,41 @@ export default function ActivityChart({
   // sendPharmacy,
   // sendBilling
 }) {
-
   const renderRows = (items) => {
-
     return items.map((item, i) => (
-
       <tr key={i}>
-
         <td>{item}</td>
 
         {days.map((d, j) => (
-          <td key={j}>
-            <input type="checkbox" />
+          <td key={`${item}-${d}`}>
+            <input type="checkbox" aria-label={`${item} - ${d}`} />
           </td>
         ))}
-
       </tr>
-
     ));
   };
 
   return (
     <>
-      <button
-        className="addDayBtn"
-        onClick={addDay}
-      >
+      <button className="addDayBtn" onClick={addDay}>
         + Add Day
       </button>
 
       <div className="chartContainer">
-
         <table className="activityTable">
-
           <thead>
-
             <tr>
-
-              <th>
-                DATE / CHARGES ITEMS
-              </th>
+              <th>DATE / CHARGES ITEMS</th>
 
               {days.map((d, i) => (
                 <th key={i}>{d}</th>
               ))}
-
             </tr>
-
           </thead>
 
           <tbody>
-
             <tr className="section">
-              <td colSpan={days.length + 1}>
-                GENERAL
-              </td>
+              <td colSpan={days.length + 1}>GENERAL</td>
             </tr>
 
             {renderRows([
@@ -70,13 +50,11 @@ export default function ActivityChart({
               "Visiting Dr. 1",
               "Visiting Dr. 2",
               "Visiting Dr. 3",
-              "Visiting Dr. 4"
+              "Visiting Dr. 4",
             ])}
 
             <tr className="section">
-              <td colSpan={days.length + 1}>
-                SURGERY / PROCEDURE FEES
-              </td>
+              <td colSpan={days.length + 1}>SURGERY / PROCEDURE FEES</td>
             </tr>
 
             {renderRows([
@@ -84,13 +62,11 @@ export default function ActivityChart({
               "2 Dr.",
               "3 Dr.",
               "Anaesthetist Dr.",
-              "OT Charges"
+              "OT Charges",
             ])}
 
             <tr className="section">
-              <td colSpan={days.length + 1}>
-                VENTILATOR / RESPIRATORY
-              </td>
+              <td colSpan={days.length + 1}>VENTILATOR / RESPIRATORY</td>
             </tr>
 
             {renderRows([
@@ -99,25 +75,21 @@ export default function ActivityChart({
               "Monitor",
               "Pulse Oximeter",
               "Oxygen",
-              "Nebulisation"
+              "Nebulisation",
             ])}
 
             <tr className="section">
-              <td colSpan={days.length + 1}>
-                EQUIPMENT / MONITORING
-              </td>
+              <td colSpan={days.length + 1}>EQUIPMENT / MONITORING</td>
             </tr>
 
             {renderRows([
               "Syringe Pump / Infusion Pump",
               "Alpha Bed Charges",
-              "Glucometer"
+              "Glucometer",
             ])}
 
             <tr className="section">
-              <td colSpan={days.length + 1}>
-                LAB & DIAGNOSTICS
-              </td>
+              <td colSpan={days.length + 1}>LAB & DIAGNOSTICS</td>
             </tr>
 
             {renderRows([
@@ -126,13 +98,11 @@ export default function ActivityChart({
               "X-Ray",
               "USG",
               "ECHO / Doppler",
-              "ECG"
+              "ECG",
             ])}
 
             <tr className="section">
-              <td colSpan={days.length + 1}>
-                PROCEDURES
-              </td>
+              <td colSpan={days.length + 1}>PROCEDURES</td>
             </tr>
 
             {renderRows([
@@ -144,13 +114,11 @@ export default function ActivityChart({
               "f) CVP Line",
               "g) Intubation",
               "h) Dialysis",
-              "i) Others"
+              "i) Others",
             ])}
 
             <tr className="section">
-              <td colSpan={days.length + 1}>
-                SUPPORTIVE CARE
-              </td>
+              <td colSpan={days.length + 1}>SUPPORTIVE CARE</td>
             </tr>
 
             {renderRows([
@@ -158,15 +126,12 @@ export default function ActivityChart({
               "Physiotherapy",
               "Dietician / Food",
               "Ambulance",
-              "RMO Charges"
+              "RMO Charges",
             ])}
-
           </tbody>
-
         </table>
-
       </div>
-{/* 
+      {/* 
       <div className="btns">
 
         <button

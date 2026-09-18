@@ -104,14 +104,20 @@ function Doctor() {
   return (
     <Layout role="Doctor" step={step} setStep={setStep}>
       {step === "dashboard" && (
-        <Dashboard doctorName={doctorName} patients={todayPatients} />
+        <Dashboard
+          doctorName={doctorName}
+          doctorId={doctorId}
+          patients={todayPatients}
+        />
       )}
 
       {step === "profile-dashboard" && (
         <ProfileDashboard doctorName={doctorName} />
       )}
 
-      {step === "patients" && <PatientsDashboard patients={historyPatients} />}
+      {step === "patients" && (
+        <PatientsDashboard patients={historyPatients} doctorId={doctorId} />
+      )}
     </Layout>
   );
 }

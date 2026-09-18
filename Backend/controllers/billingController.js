@@ -1,4 +1,5 @@
 
+
 const fs = require("fs");
 const path = require("path");
 const nodemailer = require("nodemailer");
@@ -19,12 +20,13 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-
 // =====================================================
 // SEND MERGED BILL
 // =====================================================
 
 exports.sendMergedBill = async (req, res) => {
+  let mergedPath = null;
+
   try {
     console.log("\n=================================");
     console.log("BILLING EMAIL REQUEST");
@@ -39,10 +41,9 @@ exports.sendMergedBill = async (req, res) => {
     console.log("BODY:", req.body);
     console.log("FILES:", req.files);
 
-
-    // ---------------------------------------------
+    // =================================================
     // CHECK FILES
-    // ---------------------------------------------
+    // =================================================
 
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({
@@ -51,16 +52,31 @@ exports.sendMergedBill = async (req, res) => {
       });
     }
 
+    // =================================================
+    // CHECK PDF FILES
+    // =================================================
 
-    // ---------------------------------------------
+    const invalidFile = req.files.find(
+      (file) =>
+        file.mimetype !== "application/pdf" ||
+        !file.buffer
+    );
+
+    if (invalidFile) {
+      return res.status(400).json({
+        success: false,
+        message: `Invalid PDF file: ${invalidFile.originalname}`,
+      });
+    }
+
+    // =================================================
     // GET PATIENT DATA
-    // ---------------------------------------------
+    // =================================================
 
     const {
       patientName,
       email,
     } = req.body;
-
 
     if (!patientName) {
       return res.status(400).json({
@@ -69,7 +85,6 @@ exports.sendMergedBill = async (req, res) => {
       });
     }
 
-
     if (!email) {
       return res.status(400).json({
         success: false,
@@ -77,16 +92,14 @@ exports.sendMergedBill = async (req, res) => {
       });
     }
 
-
-    // ---------------------------------------------
+    // =================================================
     // UPLOAD DIRECTORY
-    // ---------------------------------------------
+    // =================================================
 
     const uploadDir = path.join(
       __dirname,
       "../uploads"
     );
-
 
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, {
@@ -94,46 +107,39 @@ exports.sendMergedBill = async (req, res) => {
       });
     }
 
-
-    // ---------------------------------------------
-    // MERGED PDF
-    // ---------------------------------------------
+    // =================================================
+    // MERGED PDF PATH
+    // =================================================
 
     const mergedFileName =
       `merged_${Date.now()}.pdf`;
 
-
-    const mergedPath =
-      path.join(
-        uploadDir,
-        mergedFileName
-      );
-
+    mergedPath = path.join(
+      uploadDir,
+      mergedFileName
+    );
 
     console.log(
       "Merged PDF Path:",
       mergedPath
     );
 
-
-    // ---------------------------------------------
+    // =================================================
     // MERGE PDFs
-    // ---------------------------------------------
+    // =================================================
 
     await mergePDFs(
       req.files,
       mergedPath
     );
 
-
     console.log(
       "PDF MERGED SUCCESSFULLY"
     );
 
-
-    // ---------------------------------------------
+    // =================================================
     // CHECK MERGED PDF
-    // ---------------------------------------------
+    // =================================================
 
     if (!fs.existsSync(mergedPath)) {
       throw new Error(
@@ -141,16 +147,23 @@ exports.sendMergedBill = async (req, res) => {
       );
     }
 
+    const mergedFileStats =
+      fs.statSync(mergedPath);
 
     console.log(
       "PDF EXISTS:",
       true
     );
 
+    console.log(
+      "MERGED PDF SIZE:",
+      mergedFileStats.size,
+      "bytes"
+    );
 
-    // ---------------------------------------------
+    // =================================================
     // SAVE BILL TO MONGODB
-    // ---------------------------------------------
+    // =================================================
 
     const bill = new Bill({
       patientName,
@@ -158,21 +171,17 @@ exports.sendMergedBill = async (req, res) => {
       pdfPath: mergedPath,
     });
 
-
     await bill.save();
-
 
     console.log(
       "BILL SAVED TO DATABASE"
     );
 
-
-    // ---------------------------------------------
+    // =================================================
     // EMAIL
-    // ---------------------------------------------
+    // =================================================
 
     const mailOptions = {
-
       from: `"Shradha Hospital" <${process.env.EMAIL_USER}>`,
 
       to: email,
@@ -190,31 +199,25 @@ Shradha Hospital`,
 
       attachments: [
         {
-          filename:
-            "Hospital_Bill.pdf",
-
-          path:
-            mergedPath,
+          filename: "Hospital_Bill.pdf",
+          path: mergedPath,
         },
       ],
     };
-
 
     console.log(
       "Sending email to:",
       email
     );
 
-
-    // ---------------------------------------------
+    // =================================================
     // SEND EMAIL
-    // ---------------------------------------------
+    // =================================================
 
     const info =
       await transporter.sendMail(
         mailOptions
       );
-
 
     console.log(
       "================================="
@@ -238,13 +241,11 @@ Shradha Hospital`,
       "================================="
     );
 
-
-    // ---------------------------------------------
+    // =================================================
     // RESPONSE
-    // ---------------------------------------------
+    // =================================================
 
     return res.status(200).json({
-
       success: true,
 
       message:
@@ -256,10 +257,8 @@ Shradha Hospital`,
         info.messageId,
 
       pdfUrl:
-        `http://localhost:5000/uploads/${mergedFileName}`,
-
+        `/uploads/${mergedFileName}`,
     });
-
 
   } catch (error) {
 
@@ -290,9 +289,29 @@ Shradha Hospital`,
       error
     );
 
+    // =================================================
+    // DELETE MERGED PDF IF EMAIL/SAVE FAILED
+    // =================================================
+
+    if (
+      mergedPath &&
+      fs.existsSync(mergedPath)
+    ) {
+      try {
+        fs.unlinkSync(mergedPath);
+
+        console.log(
+          "Temporary merged PDF deleted"
+        );
+      } catch (deleteError) {
+        console.error(
+          "Failed to delete merged PDF:",
+          deleteError.message
+        );
+      }
+    }
 
     return res.status(500).json({
-
       success: false,
 
       message:
@@ -303,19 +322,15 @@ Shradha Hospital`,
 
       code:
         error.code,
-
     });
-
   }
 };
-
 
 // =====================================================
 // GET ALL BILLS
 // =====================================================
 
 exports.getAllBills = async (req, res) => {
-
   try {
 
     const bills =
@@ -324,13 +339,9 @@ exports.getAllBills = async (req, res) => {
           createdAt: -1,
         });
 
-
     return res.status(200).json({
-
       success: true,
-
       bills,
-
     });
 
   } catch (error) {
@@ -340,9 +351,7 @@ exports.getAllBills = async (req, res) => {
       error
     );
 
-
     return res.status(500).json({
-
       success: false,
 
       message:
@@ -350,19 +359,15 @@ exports.getAllBills = async (req, res) => {
 
       error:
         error.message,
-
     });
-
   }
 };
-
 
 // =====================================================
 // GET BILL BY ID
 // =====================================================
 
 exports.getBillById = async (req, res) => {
-
   try {
 
     const bill =
@@ -370,27 +375,16 @@ exports.getBillById = async (req, res) => {
         req.params.id
       );
 
-
     if (!bill) {
-
       return res.status(404).json({
-
         success: false,
-
-        message:
-          "Bill not found",
-
+        message: "Bill not found",
       });
-
     }
 
-
     return res.status(200).json({
-
       success: true,
-
       bill,
-
     });
 
   } catch (error) {
@@ -400,9 +394,7 @@ exports.getBillById = async (req, res) => {
       error
     );
 
-
     return res.status(500).json({
-
       success: false,
 
       message:
@@ -410,19 +402,15 @@ exports.getBillById = async (req, res) => {
 
       error:
         error.message,
-
     });
-
   }
 };
-
 
 // =====================================================
 // DELETE BILL
 // =====================================================
 
 exports.deleteBill = async (req, res) => {
-
   try {
 
     const bill =
@@ -430,51 +418,44 @@ exports.deleteBill = async (req, res) => {
         req.params.id
       );
 
-
     if (!bill) {
-
       return res.status(404).json({
-
         success: false,
-
-        message:
-          "Bill not found",
-
+        message: "Bill not found",
       });
-
     }
 
-
+    // ---------------------------------------------
     // Delete PDF from filesystem
+    // ---------------------------------------------
 
     if (
       bill.pdfPath &&
-      fs.existsSync(
-        bill.pdfPath
-      )
+      fs.existsSync(bill.pdfPath)
     ) {
-
       fs.unlinkSync(
         bill.pdfPath
       );
 
+      console.log(
+        "PDF deleted:",
+        bill.pdfPath
+      );
     }
 
-
+    // ---------------------------------------------
     // Delete database record
+    // ---------------------------------------------
 
     await Bill.findByIdAndDelete(
       req.params.id
     );
 
-
     return res.status(200).json({
-
       success: true,
 
       message:
         "Bill deleted successfully",
-
     });
 
   } catch (error) {
@@ -484,9 +465,7 @@ exports.deleteBill = async (req, res) => {
       error
     );
 
-
     return res.status(500).json({
-
       success: false,
 
       message:
@@ -494,10 +473,6 @@ exports.deleteBill = async (req, res) => {
 
       error:
         error.message,
-
     });
-
   }
-
 };
-

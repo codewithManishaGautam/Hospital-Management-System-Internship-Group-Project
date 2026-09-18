@@ -1,11 +1,12 @@
 import React from "react";
+import "../../styles/Pharmacy/Layout.css";
 
 function Layout({ role, children, setStep }) {
-    return (
-    <div className="dashboard">
+  return (
+    <div className="pharmacy-layout">
       {/* Sidebar */}
-      <div className="sidebar">
-        <div className="profile">
+      <aside className="pharmacy-sidebar">
+        <div className="pharmacy-profile">
           <img
             src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
             alt="profile"
@@ -16,33 +17,41 @@ function Layout({ role, children, setStep }) {
 
         {/* Pharmacy Menu */}
         {role === "Pharmacy" && (
-          <>
-            <button onClick={() => setStep("dashboard")}>
-              Pharmacy Dashboard
+          <div className="pharmacy-menu">
+            <button
+              className="pharmacy-menu-button"
+              onClick={() => setStep("dashboard")}
+            >
+              💊 Pharmacy Dashboard
             </button>
 
-            <button onClick={() => setStep("payments")}>Payments</button>
-          </>
+            <button
+              className="pharmacy-menu-button"
+              onClick={() => setStep("payments")}
+            >
+              💳 Payments
+            </button>
+          </div>
         )}
 
         {/* Logout */}
         <button
-          className="logout"
+          className="pharmacy-logout-button"
           onClick={() => {
             localStorage.removeItem("token");
             window.location.href = "/";
           }}
         >
-          Logout
+          🚪 Logout
         </button>
-      </div>
+      </aside>
 
       {/* Main Content */}
-      <div className="main">
-        <div className="topbar">{role} Panel</div>
+      <main className="pharmacy-main">
+        <div className="pharmacy-topbar">{role} Panel</div>
 
-        <div className="content">{children}</div>
-      </div>
+        <div className="pharmacy-content">{children}</div>
+      </main>
     </div>
   );
 }

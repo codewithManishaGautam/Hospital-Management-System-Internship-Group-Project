@@ -11,7 +11,7 @@ import React from "react";
 
 import "../../styles/admin/dashboard.css";
 
-function Dashboard({ dashboard, finance, activities, rooms, beds }) {
+function Dashboard({ dashboard, finance, activities, rooms, beds, insurance }) {
   const chartData = [
     {
       name: `Income ₹${finance.totalIncome || 0}`,
@@ -42,88 +42,87 @@ function Dashboard({ dashboard, finance, activities, rooms, beds }) {
   ).length;
 
   return (
-    <div className="dashboard-container">
-      <h2 className="dashboard-title">Welcome Administrator</h2>
+    <div className="admin-dashboard-container">
+      <h2 className="admin-dashboard-title">Welcome Administrator</h2>
 
-      <div className="stats-grid">
-        <div className="stats-card">
+      <div className="admin-dashboard-stats-grid">
+        <div className="admin-dashboard-stats-card">
           <h3>Total Doctors</h3>
           <p>{dashboard.totalDoctors || 0}</p>
         </div>
 
-        <div className="stats-card">
+        <div className="admin-dashboard-stats-card">
           <h3>Total Staff</h3>
           <p>{dashboard.totalStaff}</p>
         </div>
 
-        <div className="stats-card">
+        <div className="admin-dashboard-stats-card">
           <h3>Total Patients</h3>
           <p>{dashboard.totalPatients || 0}</p>
-
         </div>
 
-        <div className="stats-card">
+        <div className="admin-dashboard-stats-card">
           <h3>Admitted Patients</h3>
           <p>{dashboard.admittedPatients || 0}</p>
         </div>
 
-        <div className="stats-card">
+        <div className="admin-dashboard-stats-card">
           <h3>Discharged Patients</h3>
           <p>{dashboard.dischargedPatients || 0}</p>
         </div>
 
-        <div className="stats-card">
+        <div className="admin-dashboard-stats-card">
           <h3>Total Income</h3>
           <p>₹{finance.totalIncome || 0}</p>
         </div>
 
-        <div className="stats-card">
+        <div className="admin-dashboard-stats-card">
           <h3>Total Expense</h3>
           <p>₹{finance.totalExpense || 0}</p>
         </div>
 
-        <div className="stats-card">
+        <div className="admin-dashboard-stats-card">
           <h3>Net Profit</h3>
           <p>₹{finance.profit || 0}</p>
         </div>
 
-        <div className="stats-card">
+        <div className="admin-dashboard-stats-card">
           <h3>Total Rooms</h3>
           <p>{rooms?.length || 0}</p>
         </div>
 
-        <div className="stats-card">
+        <div className="admin-dashboard-stats-card">
           <h3>Available Rooms</h3>
           <p>{availableRooms}</p>
         </div>
 
-        <div className="stats-card">
+        <div className="admin-dashboard-stats-card">
           <h3>Maintenance Rooms</h3>
           <p>{maintenanceRooms}</p>
         </div>
 
-        <div className="stats-card">
+        <div className="admin-dashboard-stats-card">
           <h3>Available Beds</h3>
           <p>{availableBeds}</p>
         </div>
 
-        <div className="stats-card">
+        <div className="admin-dashboard-stats-card">
           <h3>Occupied Beds</h3>
           <p>{occupiedBeds}</p>
         </div>
 
-        <div className="stats-card">
+        <div className="admin-dashboard-stats-card">
           <h3>Insurance Claims</h3>
-          <p>12</p>
+          <p>{insurance?.totalClaims || 0}</p>
         </div>
 
-        <div className="stats-card">
+        <div className="admin-dashboard-stats-card">
           <h3>Approved Claims</h3>
-          <p>8</p>
+          <p>{insurance?.approvedClaims || 0}</p>
         </div>
       </div>
 
-      <div className="finance-chart-card">
+      <div className="admin-dashboard-finance-card">
         <h3>Finance Overview</h3>
 
         <ResponsiveContainer width="99%" height={350}>
@@ -139,19 +138,12 @@ function Dashboard({ dashboard, finance, activities, rooms, beds }) {
           </PieChart>
         </ResponsiveContainer>
 
-        <div
-          style={{
-            textAlign: "center",
-            fontSize: "24px",
-            fontWeight: "bold",
-            marginTop: "10px",
-          }}
-        >
+        <div className="admin-dashboard-profit">
           Net Profit: ₹{finance.profit || 0}
         </div>
       </div>
 
-      <div className="activity-card">
+      <div className="admin-dashboard-activity-card">
         <h3>Recent Activities</h3>
 
         {activities?.map((a) => (

@@ -1,136 +1,4 @@
-// import ViewReport from "../Lab/ViewReport";
-// import PdfCreate from "./PdfCreate";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faFile } from "@fortawesome/free-solid-svg-icons";
-// import { faCircleArrowDown } from "@fortawesome/free-solid-svg-icons";
-// import "../Billing_Module/style/PatientInfoTable.css"
-// export default function PatientInfoTable({patient,latestConsent,dateCurr})
-// {
-//     return(
-//  <div className="table-responsive mt-4 table-container">
 
-//         <table className="table table-bordered table-render-style">
-
-//           <thead>
-//             <tr>
-//               <th>Date</th>
-//               <th>Lab Test</th>
-//               <th>Diagnostic</th>
-//               <th>Pharmacy</th>
-//               <th>Nurse</th>
-//               <th>Doctor</th>
-//               <th>Insurance</th>
-//               <th className="consent-head">Consent</th>
-//             </tr>
-//           </thead>
-
-//           <tbody>
-
-//             <tr>
-
-//               <td>{dateCurr}</td>
-
-//               {/* Lab */}
-//               <td>
-//                 <ViewReport
-//                   isLab={true}
-//                   isDiagnostic={false}
-//                   patientId={patient._id}
-//                 />
-//               </td>
-
-//               {/* Diagnostic */}
-//               <td>
-//                 <ViewReport
-//                   isLab={false}
-//                   isDiagnostic={true}
-//                   patientId={patient._id}
-//                 />
-//               </td>
-
-//               {/* Pharmacy */}
-//               <td>
-//                 <PdfCreate
-//                   patient={patient}
-//                   pdfname="Pharma"
-//                   type="pharmacy"
-//                 />
-//               </td>
-
-//               {/* Nurse */}
-//               <td>
-//                 <PdfCreate
-//                   patient={patient}
-//                   pdfname="Nurse"
-//                   type="nurse"
-//                 />
-//               </td>
-
-//               {/* Doctor */}
-//               <td>
-//                 <PdfCreate
-//                   patient={patient}
-//                   pdfname="Doctor"
-//                   type="doctor"
-//                 />
-//               </td>
-
-//               {/* Insurance */}
-//               <td>
-//                 {latestConsent ? (
-//                   <button
-//                     className="btn btn-outline-success"
-//                     style={{
-//                       fontSize: "14px",
-//                       fontWeight: "bold",
-//                     }}
-//                     onClick={() =>
-//                       window.open(
-//                         `http://localhost:5000${latestConsent.pdfPath}`,
-//                         "_blank"
-//                       )
-//                     }
-//                   >
-//                     <FontAwesomeIcon icon={faCircleArrowDown} />
-//                   </button>
-//                 ) : (
-//                   <FontAwesomeIcon icon={faFile}  style={{color:"red"}}/>
-//                 )}
-//               </td>
-
-//               {/* Consent */}
-//               <td className="content-col">
-
-//                 {latestConsent ? (
-//                   <button
-//                     className="btn btn-outline-success"
-//                     style={{
-//                       fontSize: "14px",
-//                       fontWeight: "bold",
-//                     }}
-//                     onClick={() =>
-//                       window.open(
-//                         `http://localhost:5000${latestConsent.pdfPath}`,
-//                         "_blank"
-//                       )
-//                     }
-//                   >
-//                     <FontAwesomeIcon icon={faCircleArrowDown} />
-//                   </button>
-//                 ) : (
-//                   <FontAwesomeIcon icon={faFile}  style={{color:"red"}}/>
-//                 )}
-//               </td>
-
-//             </tr>
-
-//           </tbody>
-
-//         </table>
-//       </div>
-
-//     )
-// }
 
 
 import React, { useEffect, useState } from "react";
@@ -171,7 +39,6 @@ export default function PatientInfoTable({
 
             try {
 
-                // Patient ID available आहे का?
                 if (!patient?._id) {
                     return;
                 }
@@ -198,7 +65,6 @@ export default function PatientInfoTable({
 
             } catch (error) {
 
-                // Insurance record नसेल तर red file icon दाखवायचा
                 if (error.response?.status === 404) {
 
                     console.log(
