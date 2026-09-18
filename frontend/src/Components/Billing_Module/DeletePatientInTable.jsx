@@ -50,7 +50,7 @@ function DeletePatientInTable({
     >
 
       <FontAwesomeIcon
-        icon={faTrash}
+        icon={faTrash} style={{fontSize:"10px",border:"none"}}
       />
 
     </button>

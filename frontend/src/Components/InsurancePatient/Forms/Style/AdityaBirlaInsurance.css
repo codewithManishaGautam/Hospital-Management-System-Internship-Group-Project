@@ -1,0 +1,960 @@
+/* =========================================================
+   ADITYA BIRLA INSURANCE CLAIM FORM
+========================================================= */
+
+.aditya-page {
+    width: 100%;
+    min-height: 100vh;
+    padding: 25px 15px;
+    background: #eef2f6;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #222;
+}
+
+.aditya-form {
+    width: 100%;
+    max-width: 1100px;
+    margin: auto;
+    background: #fff;
+    border: 1px solid #ccd5df;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =========================================================
+   PAGE SECTION
+========================================================= */
+
+.aditya-page-section {
+    padding: 30px 35px;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.aditya-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+
+    padding-bottom: 18px;
+    margin-bottom: 20px;
+
+    border-bottom: 3px solid #7b1fa2;
+}
+
+.aditya-logo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.aditya-logo {
+    width: 70px;
+    height: 70px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #7b1fa2;
+    color: white;
+
+    border-radius: 6px;
+
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.aditya-logo-area h2 {
+    margin: 0;
+
+    font-size: 23px;
+    color: #7b1fa2;
+}
+
+.aditya-logo-area p {
+    margin: 3px 0;
+
+    font-size: 14px;
+    color: #555;
+}
+
+.aditya-title {
+    text-align: right;
+}
+
+.aditya-title h2 {
+    margin: 0;
+
+    font-size: 20px;
+    color: #333;
+}
+
+.aditya-title p {
+    margin: 5px 0;
+
+    font-size: 14px;
+    color: #555;
+}
+
+.aditya-title small {
+    font-size: 12px;
+    color: #777;
+}
+
+
+/* =========================================================
+   SECTION TITLE
+========================================================= */
+
+.aditya-section-title {
+    margin-top: 22px;
+    margin-bottom: 15px;
+
+    padding: 10px 13px;
+
+    background: #f1e7f5;
+    border-left: 5px solid #7b1fa2;
+
+    color: #5b176f;
+
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.aditya-subtitle {
+    margin-top: 18px;
+    margin-bottom: 10px;
+
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+.aditya-note {
+    margin: 5px 0 15px;
+
+    font-size: 12px;
+    color: #777;
+
+    font-style: italic;
+}
+
+.reverse-note {
+    margin: 20px 0;
+
+    font-size: 11px;
+    color: #777;
+
+    text-align: center;
+    font-style: italic;
+}
+
+
+/* =========================================================
+   MAIN GRID
+========================================================= */
+
+.aditya-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 14px 20px;
+
+    width: 100%;
+}
+
+.full-field {
+    grid-column: 1 / -1;
+}
+
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+.aditya-field {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.aditya-field label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    color: #333;
+}
+
+.aditya-field input {
+    width: 100%;
+    height: 38px;
+
+    padding: 7px 10px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #b8c3ce;
+    border-radius: 4px;
+
+    outline: none;
+
+    background: #fff;
+
+    font-size: 14px;
+}
+
+.aditya-field input:focus {
+    border-color: #7b1fa2;
+
+    box-shadow:
+        0 0 0 2px rgba(123, 31, 162, 0.10);
+}
+
+
+/* =========================================================
+   RADIO
+========================================================= */
+
+.aditya-radio-field {
+    width: 100%;
+    min-width: 0;
+}
+
+.radio-title {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    color: #333;
+}
+
+.radio-options {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 18px;
+
+    min-height: 38px;
+}
+
+.radio-options label {
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    font-size: 13px;
+    font-weight: normal;
+
+    cursor: pointer;
+}
+
+.radio-options input {
+    width: 16px;
+    height: 16px;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   AGE
+========================================================= */
+
+.age-group {
+    display: flex;
+    gap: 8px;
+}
+
+.age-group input {
+    flex: 1;
+    min-width: 0;
+}
+
+
+/* =========================================================
+   INLINE INPUT
+========================================================= */
+
+.inline-input {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+}
+
+.inline-input input {
+    width: 140px;
+}
+
+.inline-input span {
+    font-size: 13px;
+    color: #555;
+}
+
+
+/* =========================================================
+   TREATMENT CHECKBOX
+========================================================= */
+
+.treatment-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 10px;
+
+    margin-bottom: 15px;
+}
+
+.treatment-checkbox {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    min-height: 40px;
+
+    padding: 7px 10px;
+
+    border: 1px solid #ccd5df;
+    border-radius: 4px;
+
+    background: #fafafa;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    box-sizing: border-box;
+}
+
+.treatment-checkbox input {
+    width: 16px;
+    height: 16px;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   MATERNITY
+========================================================= */
+
+.maternity-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, minmax(0, 1fr));
+
+    gap: 12px;
+}
+
+
+/* =========================================================
+   COST TABLE
+========================================================= */
+
+.cost-table {
+    width: 100%;
+
+    border: 1px solid #bdc8d3;
+
+    box-sizing: border-box;
+}
+
+.cost-row {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr) 180px;
+
+    min-height: 45px;
+
+    border-bottom: 1px solid #d5dde5;
+}
+
+.cost-row:last-child {
+    border-bottom: none;
+}
+
+.cost-row > span {
+    display: flex;
+    align-items: center;
+
+    padding: 8px 10px;
+
+    font-size: 13px;
+}
+
+.rupee-input {
+    display: flex;
+    align-items: center;
+
+    border-left: 1px solid #d5dde5;
+}
+
+.rupee-input span {
+    padding-left: 8px;
+
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.rupee-input input {
+    width: 100%;
+    height: 38px;
+
+    padding: 5px 8px;
+
+    border: none;
+    outline: none;
+
+    text-align: right;
+
+    font-size: 13px;
+}
+
+.total-cost {
+    background: #f1e7f5;
+    font-weight: bold;
+}
+
+
+/* =========================================================
+   CHRONIC ILLNESS
+========================================================= */
+
+.chronic-header {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr) 230px;
+
+    gap: 15px;
+
+    padding: 10px;
+
+    background: #f4f5f7;
+
+    border: 1px solid #cbd4de;
+
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.chronic-row {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr) 230px;
+
+    gap: 15px;
+
+    align-items: center;
+
+    padding: 8px 10px;
+
+    border: 1px solid #d7dee6;
+    border-top: none;
+}
+
+.chronic-row span {
+    font-size: 13px;
+}
+
+.chronic-row input {
+    width: 100%;
+    height: 35px;
+
+    padding: 6px 9px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #b8c3ce;
+    border-radius: 4px;
+
+    outline: none;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   DECLARATION
+========================================================= */
+
+.declaration-intro {
+    margin: 10px 0 18px;
+
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.declaration-list {
+    margin-top: 10px;
+}
+
+.declaration-list p {
+    margin: 9px 0;
+
+    font-size: 13px;
+    line-height: 1.65;
+
+    text-align: justify;
+}
+
+
+/* =========================================================
+   PATIENT DECLARATION
+========================================================= */
+
+.patient-declaration-details {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 18px 20px;
+
+    margin-top: 22px;
+}
+
+
+/* =========================================================
+   HOSPITAL SEAL + SIGNATURE
+========================================================= */
+
+.hospital-signature-area {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 25px;
+
+    margin-top: 25px;
+
+    align-items: start;
+}
+
+.seal-box,
+.signature-box {
+    width: 100%;
+    min-width: 0;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   SEAL BOX
+========================================================= */
+
+.seal-box {
+    min-height: 145px;
+
+    padding: 15px;
+
+    border: 1px dashed #9baaba;
+    border-radius: 5px;
+
+    background: #fafcff;
+}
+
+.seal-box label,
+.signature-box > label {
+    display: block;
+
+    margin-bottom: 10px;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    color: #333;
+}
+
+.seal-box input[type="file"] {
+    width: 100%;
+
+    font-size: 13px;
+}
+
+.selected-file {
+    margin-top: 10px;
+
+    font-size: 12px;
+
+    color: #7b1fa2;
+
+    word-break: break-word;
+}
+
+
+/* =========================================================
+   SIGNATURE COMPONENT
+========================================================= */
+
+.signature-box .signature-main {
+    width: 100%;
+}
+
+.signature-box .line {
+    width: 100%;
+    height: 55px;
+}
+
+
+/* =========================================================
+   DOCUMENT LIST
+========================================================= */
+
+.document-list {
+    padding: 5px 0;
+}
+
+.document-list p {
+    margin: 9px 0;
+
+    font-size: 13px;
+    line-height: 1.65;
+
+    text-align: justify;
+}
+
+
+/* =========================================================
+   PAGE BREAK
+========================================================= */
+
+.aditya-page-break {
+    height: 1px;
+
+    margin: 15px 0;
+
+    border-top: 2px dashed #aaa;
+}
+
+
+/* =========================================================
+   SUBMIT BUTTON
+========================================================= */
+
+.aditya-submit {
+    display: block;
+
+    width: 320px;
+    max-width: 100%;
+
+    height: 48px;
+
+    margin: 35px auto 5px;
+
+    border: none;
+    border-radius: 5px;
+
+    background: #198754;
+
+    color: white;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.aditya-submit:hover {
+    background: #157347;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .aditya-page {
+        padding: 15px 8px;
+    }
+
+    .aditya-page-section {
+        padding: 22px 18px;
+    }
+
+    .aditya-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .aditya-title {
+        text-align: left;
+    }
+
+    .aditya-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full-field {
+        grid-column: auto;
+    }
+
+    .treatment-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .maternity-grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+
+    .hospital-signature-area {
+        grid-template-columns: 1fr;
+    }
+
+    .patient-declaration-details {
+        grid-template-columns: 1fr;
+    }
+
+    .chronic-header,
+    .chronic-row {
+        grid-template-columns:
+            minmax(0, 1fr) 180px;
+    }
+
+    .cost-row {
+        grid-template-columns:
+            minmax(0, 1fr) 150px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE 450px
+========================================================= */
+
+@media (max-width: 450px) {
+
+    .aditya-page {
+        padding: 5px;
+    }
+
+    .aditya-page-section {
+        padding: 15px 10px;
+    }
+
+    .aditya-form {
+        width: 100%;
+    }
+
+
+    /* HEADER */
+
+    .aditya-logo-area {
+        width: 100%;
+    }
+
+    .aditya-logo {
+        width: 55px;
+        height: 55px;
+
+        flex-shrink: 0;
+    }
+
+    .aditya-logo-area h2 {
+        font-size: 19px;
+    }
+
+    .aditya-title h2 {
+        font-size: 16px;
+    }
+
+
+    /* SECTION */
+
+    .aditya-section-title {
+        font-size: 13px;
+        padding: 8px 9px;
+    }
+
+
+    /* GRID */
+
+    .aditya-grid {
+        grid-template-columns: 1fr;
+
+        gap: 10px;
+    }
+
+
+    /* INPUT */
+
+    .aditya-field input {
+        width: 100%;
+        height: 40px;
+
+        font-size: 14px;
+    }
+
+
+    /* RADIO */
+
+    .radio-options {
+        gap: 14px;
+    }
+
+
+    /* TREATMENT */
+
+    .treatment-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    /* MATERNITY */
+
+    .maternity-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+
+    /* CHRONIC */
+
+    .chronic-header {
+        grid-template-columns: 1fr;
+        gap: 5px;
+    }
+
+    .chronic-row {
+        grid-template-columns: 1fr;
+        gap: 7px;
+    }
+
+    .chronic-row input {
+        width: 100%;
+    }
+
+
+    /* COST */
+
+    .cost-row {
+        grid-template-columns: 1fr;
+    }
+
+    .cost-row > span {
+        min-height: 40px;
+    }
+
+    .rupee-input {
+        border-left: none;
+
+        border-top: 1px solid #d5dde5;
+    }
+
+
+    /* SIGNATURE */
+
+    .hospital-signature-area {
+        grid-template-columns: 1fr;
+
+        gap: 15px;
+    }
+
+    .seal-box {
+        min-height: 125px;
+    }
+
+
+    /* BUTTON */
+
+    .aditya-submit {
+        width: 100%;
+
+        height: 46px;
+
+        font-size: 14px;
+    }
+
+}
+
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+@media print {
+
+    .aditya-page {
+        background: white;
+        padding: 0;
+    }
+
+    .aditya-form {
+        max-width: none;
+
+        border: none;
+        box-shadow: none;
+    }
+
+    .aditya-page-section {
+        padding: 12mm;
+    }
+
+    .aditya-page-break {
+        page-break-after: always;
+
+        height: 0;
+
+        border: none;
+    }
+
+    .aditya-submit {
+        display: none;
+    }
+
+}
+
+
+.insurance-action-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 25px 0;
+}
+
+.insurance-action-buttons button {
+    min-width: 180px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.aditya-pdf-capture .insurance-action-buttons {
+    display: none !important;
+}
