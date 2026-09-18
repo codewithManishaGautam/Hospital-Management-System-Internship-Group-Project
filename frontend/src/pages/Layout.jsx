@@ -10,7 +10,7 @@ function Layout({ role, children, step, setStep }) {
   };
 
   return (
-    <div className="dashboard">
+    <div className="app-layout">
       {sidebarOpen && (
         <div className="overlay" onClick={() => setSidebarOpen(false)}></div>
       )}
@@ -20,8 +20,8 @@ function Layout({ role, children, step, setStep }) {
       </button>
 
       {/* SIDEBAR */}
-      <div className={`sidebar ${sidebarOpen ? "active" : ""}`}>
-        <div className="profile">
+      <div className={`app-sidebar ${sidebarOpen ? "active" : ""}`}>
+        <div className="app-profile">
           <img
             src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
             alt="profile"
@@ -88,13 +88,23 @@ function Layout({ role, children, step, setStep }) {
           <>
             <button onClick={() => setStep("dashboard")}>Overview</button>
             <button onClick={() => setStep("cases")}>Insurance Cases</button>
-            <button onClick={() => setStep("admission-wizard")}>New Admission Workflow</button>
-            <button onClick={() => setStep("register-policy")}>Register Policy</button>
-            <button onClick={() => setStep("enroll-scheme")}>Enroll Scheme</button>
-            <button onClick={() => setStep("pre-auth")}>Pre-Auth Requests</button>
+            <button onClick={() => setStep("admission-wizard")}>
+              New Admission Workflow
+            </button>
+            <button onClick={() => setStep("register-policy")}>
+              Register Policy
+            </button>
+            <button onClick={() => setStep("enroll-scheme")}>
+              Enroll Scheme
+            </button>
+            <button onClick={() => setStep("pre-auth")}>
+              Pre-Auth Requests
+            </button>
             <button onClick={() => setStep("claims")}>All Claims</button>
             <button onClick={() => setStep("documents")}>Documents</button>
-            <button onClick={() => setStep("official-forms")}>Official Provider Forms</button>
+            <button onClick={() => setStep("official-forms")}>
+              Official Provider Forms
+            </button>
           </>
         )}
 
@@ -177,7 +187,7 @@ function Layout({ role, children, step, setStep }) {
         )}
 
         <button
-          className="logout"
+          className="app-logout"
           onClick={() => {
             localStorage.removeItem("token");
             window.location.href = "/";
@@ -188,10 +198,10 @@ function Layout({ role, children, step, setStep }) {
       </div>
 
       {/* MAIN */}
-      <div className="main">
-        <div className="topbar">{role} Panel</div>
+      <div className="app-main">
+        <div className="app-topbar">{role} Panel</div>
 
-        <div className="content">{children}</div>
+        <div className="app-content">{children}</div>
       </div>
     </div>
   );

@@ -1,8 +1,16 @@
-import React, { useState } from "react";
+
+import React, { useRef, useState } from "react";
+import axios from "axios";
+import html2pdf from "html2pdf.js";
+import { useReactToPrint } from "react-to-print";
+
 import Signature from "./CommonCode/SignaturePad";
 import "./Style/HDFCErgoInsurance.css";
 
+
 function HDFCErgoInsurance({ patientId }) {
+
+    const insuranceRef = useRef(null);
 
     const [formData, setFormData] = useState({
 
@@ -125,12 +133,11 @@ function HDFCErgoInsurance({ patientId }) {
         patientNameDeclaration: "",
         patientContactDeclaration: "",
 
-        hospitalSeal: "",
+        hospitalSeal: null,
 
         // Signature images
         patientSignature: "",
         hospitalSignature: ""
-
     });
 
 
@@ -146,7 +153,6 @@ function HDFCErgoInsurance({ patientId }) {
             ...prev,
             [name]: value
         }));
-
     };
 
 
@@ -167,9 +173,7 @@ function HDFCErgoInsurance({ patientId }) {
                 : prev.treatmentPlan.filter(
                     (item) => item !== value
                 )
-
         }));
-
     };
 
 
@@ -181,15 +185,275 @@ function HDFCErgoInsurance({ patientId }) {
 
         const file = e.target.files[0];
 
-        if (file) {
+        if (!file) return;
+
+        const reader = new FileReader();
+
+        reader.onload = () => {
 
             setFormData((prev) => ({
                 ...prev,
-                hospitalSeal: file
+                hospitalSeal: {
+                    name: file.name,
+                    image: reader.result
+                }
             }));
 
+        };
+
+        reader.readAsDataURL(file);
+    };
+
+
+    // =========================================
+    // PRINT
+    // =========================================
+
+    const printInsurance = useReactToPrint({
+        contentRef: insuranceRef,
+        documentTitle:
+            `${patientId || "Patient"}_HDFC_ERGO_Insurance`
+    });
+
+
+    // =========================================
+    // GENERATE PDF
+    // =========================================
+
+    const generateInsurancePdf = async () => {
+
+        if (!insuranceRef.current) {
+
+            alert("HDFC ERGO Insurance form not found.");
+
+            return null;
         }
 
+        try {
+
+            const element = insuranceRef.current;
+
+            document.body.classList.add(
+                "hdfc-pdf-capture"
+            );
+
+            // Wait for CSS / DOM rendering
+            await new Promise((resolve) => {
+
+                requestAnimationFrame(() => {
+
+                    requestAnimationFrame(resolve);
+
+                });
+
+            });
+
+
+            const options = {
+
+                margin: 5,
+
+                filename:
+                    `${patientId || "Patient"}_HDFC_ERGO_Insurance.pdf`,
+
+                image: {
+                    type: "jpeg",
+                    quality: 1
+                },
+
+                html2canvas: {
+
+                    scale: 2,
+
+                    useCORS: true,
+
+                    allowTaint: false,
+
+                    backgroundColor: "#ffffff",
+
+                    scrollX: 0,
+
+                    scrollY: 0,
+
+                    width: element.scrollWidth,
+
+                    height: element.scrollHeight
+                },
+
+                jsPDF: {
+
+                    unit: "mm",
+
+                    format: "a3",
+
+                    orientation: "portrait"
+                },
+
+                pagebreak: {
+
+                    mode: [
+                        "css",
+                        "legacy"
+                    ]
+                }
+            };
+
+
+            const pdfBlob = await html2pdf()
+                .set(options)
+                .from(element)
+                .outputPdf("blob");
+
+
+            return pdfBlob;
+
+        }
+        catch (error) {
+
+            console.error(
+                "HDFC ERGO PDF Error:",
+                error
+            );
+
+            alert(
+                "HDFC ERGO PDF generation failed."
+            );
+
+            return null;
+
+        }
+        finally {
+
+            document.body.classList.remove(
+                "hdfc-pdf-capture"
+            );
+
+        }
+    };
+
+
+    // =========================================
+    // SAVE PDF + DATABASE
+    // =========================================
+
+    const saveInsurancePdf = async () => {
+
+        try {
+
+            if (!patientId) {
+
+                alert("Patient ID not found.");
+
+                return;
+            }
+
+
+            const pdfBlob =
+                await generateInsurancePdf();
+
+
+            if (!pdfBlob) return;
+
+
+            // =====================================
+            // UPLOAD PDF
+            // =====================================
+
+            const uploadData = new FormData();
+
+            uploadData.append(
+                "file",
+                pdfBlob,
+                `${patientId}_HDFC_ERGO_Insurance.pdf`
+            );
+
+
+            const uploadResponse = await axios.post(
+
+                "http://localhost:5000/upload",
+
+                uploadData,
+
+                {
+                    headers: {
+                        "Content-Type":
+                            "multipart/form-data"
+                    }
+                }
+
+            );
+
+
+            const pdfPath =
+                uploadResponse.data.filePath;
+
+
+            if (!pdfPath) {
+
+                throw new Error(
+                    "PDF path not received from server"
+                );
+
+            }
+
+
+            // =====================================
+            // SAVE INSURANCE DATA
+            // =====================================
+
+            await axios.post(
+
+                "http://localhost:5000/insurance/save",
+
+                {
+
+                    patientId: patientId,
+
+                    insuranceCompany:
+                        "HDFC ERGO General Insurance",
+
+                    insuranceData: {
+
+                        ...formData,
+
+                        // File object database मध्ये
+                        // direct save करण्याऐवजी
+                        // image name/path save करणे better आहे.
+
+                        hospitalSeal:
+                            formData.hospitalSeal
+                                ? formData.hospitalSeal.name
+                                : ""
+                    },
+
+                    pdfPath: pdfPath
+
+                }
+
+            );
+
+
+            alert(
+                "HDFC ERGO Insurance Form saved successfully."
+            );
+
+        }
+        catch (error) {
+
+            console.error(
+                "HDFC ERGO Save Error:",
+                error
+            );
+
+            console.error(
+                "Backend Response:",
+                error.response?.data
+            );
+
+            alert(
+                "HDFC ERGO Insurance Form save failed."
+            );
+        }
     };
 
 
@@ -197,20 +461,11 @@ function HDFCErgoInsurance({ patientId }) {
     // SUBMIT
     // =========================================
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
 
         e.preventDefault();
 
-        console.log("Patient ID:", patientId);
-
-        console.log(
-            "HDFC ERGO Insurance Claim:",
-            formData
-        );
-
-        alert(
-            "HDFC ERGO Insurance Claim submitted successfully."
-        );
+        await saveInsurancePdf();
 
     };
 
@@ -220,6 +475,7 @@ function HDFCErgoInsurance({ patientId }) {
         <div className="hdfc-page">
 
             <form
+                ref={insuranceRef}
                 className="hdfc-form"
                 onSubmit={handleSubmit}
             >
@@ -232,9 +488,7 @@ function HDFCErgoInsurance({ patientId }) {
                 <div className="hdfc-page-section">
 
 
-                    {/* =========================================
-                        HEADER
-                    ========================================= */}
+                    {/* HEADER */}
 
                     <div className="hdfc-header">
 
@@ -263,6 +517,7 @@ function HDFCErgoInsurance({ patientId }) {
 
                             <h2>
                                 REQUEST FOR CASHLESS
+                                <br />
                                 HOSPITALISATION
                             </h2>
 
@@ -279,9 +534,7 @@ function HDFCErgoInsurance({ patientId }) {
                     </div>
 
 
-                    {/* =========================================
-                        TPA DETAILS
-                    ========================================= */}
+                    {/* TPA DETAILS */}
 
                     <div className="hdfc-section-title">
 
@@ -301,7 +554,6 @@ function HDFCErgoInsurance({ patientId }) {
 
                     <div className="hdfc-grid">
 
-
                         <Input
                             label="a) Name of the TPA / Insurance Company"
                             name="tpaInsuranceCompany"
@@ -310,14 +562,12 @@ function HDFCErgoInsurance({ patientId }) {
                             full
                         />
 
-
                         <Input
                             label="b) Toll free phone no."
                             name="tpaPhone"
                             value={formData.tpaPhone}
                             onChange={handleChange}
                         />
-
 
                         <Input
                             label="c) Toll free FAX"
@@ -329,9 +579,7 @@ function HDFCErgoInsurance({ patientId }) {
                     </div>
 
 
-                    {/* =========================================
-                        INSURED / PATIENT
-                    ========================================= */}
+                    {/* INSURED / PATIENT */}
 
                     <div className="hdfc-section-title">
 
@@ -342,14 +590,12 @@ function HDFCErgoInsurance({ patientId }) {
 
                     <div className="hdfc-grid">
 
-
                         <Input
                             label="a) Name of the Patient - First Name"
                             name="patientFirstName"
                             value={formData.patientFirstName}
                             onChange={handleChange}
                         />
-
 
                         <Input
                             label="Middle Name"
@@ -358,14 +604,12 @@ function HDFCErgoInsurance({ patientId }) {
                             onChange={handleChange}
                         />
 
-
                         <Input
                             label="Last Name"
                             name="patientLastName"
                             value={formData.patientLastName}
                             onChange={handleChange}
                         />
-
 
                         <Radio
                             label="b) Gender"
@@ -416,14 +660,12 @@ function HDFCErgoInsurance({ patientId }) {
                             onChange={handleChange}
                         />
 
-
                         <Input
                             label="e) Contact Number"
                             name="contactNumber"
                             value={formData.contactNumber}
                             onChange={handleChange}
                         />
-
 
                         <Input
                             label="f) Contact number of attending relative"
@@ -432,14 +674,12 @@ function HDFCErgoInsurance({ patientId }) {
                             onChange={handleChange}
                         />
 
-
                         <Input
                             label="g) Insured Member ID card No."
                             name="insuredMemberId"
                             value={formData.insuredMemberId}
                             onChange={handleChange}
                         />
-
 
                         <Input
                             label="h) Policy No. / Corporate Name"
@@ -448,7 +688,6 @@ function HDFCErgoInsurance({ patientId }) {
                             onChange={handleChange}
                         />
 
-
                         <Input
                             label="Corporate Name"
                             name="corporateName"
@@ -456,14 +695,12 @@ function HDFCErgoInsurance({ patientId }) {
                             onChange={handleChange}
                         />
 
-
                         <Input
                             label="i) Employee ID"
                             name="employeeId"
                             value={formData.employeeId}
                             onChange={handleChange}
                         />
-
 
                         <Radio
                             label="j) Currently do you have any Mediclaim / Health Insurance?"
@@ -477,7 +714,6 @@ function HDFCErgoInsurance({ patientId }) {
                             full
                         />
 
-
                         <Input
                             label="k) Company Name"
                             name="otherInsuranceCompany"
@@ -485,14 +721,12 @@ function HDFCErgoInsurance({ patientId }) {
                             onChange={handleChange}
                         />
 
-
                         <Input
                             label="l) Give details"
                             name="otherInsuranceDetails"
                             value={formData.otherInsuranceDetails}
                             onChange={handleChange}
                         />
-
 
                         <Radio
                             label="m) Do you have a family physician?"
@@ -505,14 +739,12 @@ function HDFCErgoInsurance({ patientId }) {
                             ]}
                         />
 
-
                         <Input
                             label="n) Name of the family physician"
                             name="familyPhysicianName"
                             value={formData.familyPhysicianName}
                             onChange={handleChange}
                         />
-
 
                         <Input
                             label="o) Contact No, if any"
@@ -532,9 +764,7 @@ function HDFCErgoInsurance({ patientId }) {
                     </p>
 
 
-                    {/* =========================================
-                        TREATING DOCTOR / HOSPITAL
-                    ========================================= */}
+                    {/* TREATING DOCTOR */}
 
                     <div className="hdfc-section-title">
 
@@ -546,7 +776,6 @@ function HDFCErgoInsurance({ patientId }) {
 
                     <div className="hdfc-grid">
 
-
                         <Input
                             label="a) Name of the Treating Doctor"
                             name="treatingDoctor"
@@ -555,14 +784,12 @@ function HDFCErgoInsurance({ patientId }) {
                             full
                         />
 
-
                         <Input
                             label="b) Contact Number"
                             name="doctorContact"
                             value={formData.doctorContact}
                             onChange={handleChange}
                         />
-
 
                         <Input
                             label="c) Nature of illness / Disease with presenting complaints"
@@ -572,7 +799,6 @@ function HDFCErgoInsurance({ patientId }) {
                             full
                         />
 
-
                         <Input
                             label="d) Relevant clinical findings"
                             name="clinicalFindings"
@@ -580,7 +806,6 @@ function HDFCErgoInsurance({ patientId }) {
                             onChange={handleChange}
                             full
                         />
-
 
                         <div className="hdfc-field">
 
@@ -614,7 +839,6 @@ function HDFCErgoInsurance({ patientId }) {
                             onChange={handleChange}
                         />
 
-
                         <Input
                             label="g) Past history of present ailment, if any"
                             name="pastHistory"
@@ -623,14 +847,12 @@ function HDFCErgoInsurance({ patientId }) {
                             full
                         />
 
-
                         <Input
                             label="h) Provisional Diagnosis"
                             name="provisionalDiagnosis"
                             value={formData.provisionalDiagnosis}
                             onChange={handleChange}
                         />
-
 
                         <Input
                             label="i) ICD Code"
@@ -642,9 +864,7 @@ function HDFCErgoInsurance({ patientId }) {
                     </div>
 
 
-                    {/* =========================================
-                        PROPOSED TREATMENT
-                    ========================================= */}
+                    {/* TREATMENT */}
 
                     <div className="hdfc-sub-title">
 
@@ -664,7 +884,6 @@ function HDFCErgoInsurance({ patientId }) {
                             onChange={handleTreatmentChange}
                         />
 
-
                         <CheckBox
                             label="Surgical Management"
                             value="Surgical Management"
@@ -673,7 +892,6 @@ function HDFCErgoInsurance({ patientId }) {
                             )}
                             onChange={handleTreatmentChange}
                         />
-
 
                         <CheckBox
                             label="Intensive Care Unit"
@@ -684,7 +902,6 @@ function HDFCErgoInsurance({ patientId }) {
                             onChange={handleTreatmentChange}
                         />
 
-
                         <CheckBox
                             label="Investigation"
                             value="Investigation"
@@ -693,7 +910,6 @@ function HDFCErgoInsurance({ patientId }) {
                             )}
                             onChange={handleTreatmentChange}
                         />
-
 
                         <CheckBox
                             label="Non allopathic treatment"
@@ -709,7 +925,6 @@ function HDFCErgoInsurance({ patientId }) {
 
                     <div className="hdfc-grid">
 
-
                         <Input
                             label="k) Investigational & / or Medical Management - provide details"
                             name="medicalManagementDetails"
@@ -718,14 +933,12 @@ function HDFCErgoInsurance({ patientId }) {
                             full
                         />
 
-
                         <Input
                             label="m) Route of drug administration"
                             name="drugRoute"
                             value={formData.drugRoute}
                             onChange={handleChange}
                         />
-
 
                         <Input
                             label="n) If surgical, name of surgery"
@@ -734,14 +947,12 @@ function HDFCErgoInsurance({ patientId }) {
                             onChange={handleChange}
                         />
 
-
                         <Input
                             label="o) ICD 10 PCS code"
                             name="icd10PCSCode"
                             value={formData.icd10PCSCode}
                             onChange={handleChange}
                         />
-
 
                         <Input
                             label="p) If other treatment provide details"
@@ -754,16 +965,11 @@ function HDFCErgoInsurance({ patientId }) {
                     </div>
 
 
-                    {/* =========================================
-                        ACCIDENT
-                    ========================================= */}
+                    {/* ACCIDENT */}
 
                     <div className="hdfc-sub-title">
-
                         q) How did injury occur
-
                     </div>
-
 
                     <Input
                         name="injuryCause"
@@ -774,14 +980,11 @@ function HDFCErgoInsurance({ patientId }) {
 
 
                     <div className="hdfc-sub-title">
-
                         r) In case of Accident
-
                     </div>
 
 
                     <div className="accident-grid">
-
 
                         <Radio
                             label="i. Is RTA"
@@ -794,7 +997,6 @@ function HDFCErgoInsurance({ patientId }) {
                             ]}
                         />
 
-
                         <Input
                             label="ii. Date of injury"
                             name="injuryDate"
@@ -802,7 +1004,6 @@ function HDFCErgoInsurance({ patientId }) {
                             value={formData.injuryDate}
                             onChange={handleChange}
                         />
-
 
                         <Radio
                             label="iii. Reported to police"
@@ -815,14 +1016,12 @@ function HDFCErgoInsurance({ patientId }) {
                             ]}
                         />
 
-
                         <Input
                             label="iv. FIR No."
                             name="firNo"
                             value={formData.firNo}
                             onChange={handleChange}
                         />
-
 
                         <Radio
                             label="v. Injury / Disease caused due to substance abuse / alcohol consumption"
@@ -834,7 +1033,6 @@ function HDFCErgoInsurance({ patientId }) {
                                 "No"
                             ]}
                         />
-
 
                         <Radio
                             label="vi. Test conducted to establish this"
@@ -850,9 +1048,7 @@ function HDFCErgoInsurance({ patientId }) {
                     </div>
 
 
-                    {/* =========================================
-                        DETAILS OF PATIENT ADMITTED
-                    ========================================= */}
+                    {/* ADMISSION */}
 
                     <div className="hdfc-section-title">
 
@@ -863,7 +1059,6 @@ function HDFCErgoInsurance({ patientId }) {
 
                     <div className="hdfc-grid">
 
-
                         <Input
                             label="a) Date of admission"
                             name="admissionDate"
@@ -872,7 +1067,6 @@ function HDFCErgoInsurance({ patientId }) {
                             onChange={handleChange}
                         />
 
-
                         <Input
                             label="b) Time"
                             name="admissionTime"
@@ -880,7 +1074,6 @@ function HDFCErgoInsurance({ patientId }) {
                             value={formData.admissionTime}
                             onChange={handleChange}
                         />
-
 
                         <Radio
                             label="c) Is this a emergency / a planned hospitalisation event?"
@@ -897,9 +1090,7 @@ function HDFCErgoInsurance({ patientId }) {
                     </div>
 
 
-                    {/* =========================================
-                        CHRONIC ILLNESS
-                    ========================================= */}
+                    {/* CHRONIC ILLNESS */}
 
                     <div className="chronic-heading">
 
@@ -921,14 +1112,12 @@ function HDFCErgoInsurance({ patientId }) {
                         onChange={handleChange}
                     />
 
-
                     <ChronicRow
                         label="Osteoarthritis"
                         name="osteoarthritis"
                         value={formData.osteoarthritis}
                         onChange={handleChange}
                     />
-
 
                     <ChronicRow
                         label="Heart Disease"
@@ -937,14 +1126,12 @@ function HDFCErgoInsurance({ patientId }) {
                         onChange={handleChange}
                     />
 
-
                     <ChronicRow
                         label="Asthma / COPD / Bronchitis"
                         name="asthmaCOPDBronchitis"
                         value={formData.asthmaCOPDBronchitis}
                         onChange={handleChange}
                     />
-
 
                     <ChronicRow
                         label="Hypertension"
@@ -953,14 +1140,12 @@ function HDFCErgoInsurance({ patientId }) {
                         onChange={handleChange}
                     />
 
-
                     <ChronicRow
                         label="Cancer"
                         name="cancer"
                         value={formData.cancer}
                         onChange={handleChange}
                     />
-
 
                     <ChronicRow
                         label="Any HIV or STD / Related ailments"
@@ -969,7 +1154,6 @@ function HDFCErgoInsurance({ patientId }) {
                         onChange={handleChange}
                     />
 
-
                     <ChronicRow
                         label="Hyperlipidemias"
                         name="hyperlipidemias"
@@ -977,14 +1161,12 @@ function HDFCErgoInsurance({ patientId }) {
                         onChange={handleChange}
                     />
 
-
                     <ChronicRow
                         label="Alcohol or drug abuse"
                         name="alcoholDrugAbuse"
                         value={formData.alcoholDrugAbuse}
                         onChange={handleChange}
                     />
-
 
                     <Input
                         label="Any other Ailment - give details"
@@ -995,12 +1177,9 @@ function HDFCErgoInsurance({ patientId }) {
                     />
 
 
-                    {/* =========================================
-                        EXPECTED STAY
-                    ========================================= */}
+                    {/* EXPECTED STAY */}
 
                     <div className="hdfc-grid">
-
 
                         <div className="hdfc-field">
 
@@ -1025,7 +1204,6 @@ function HDFCErgoInsurance({ patientId }) {
 
                         </div>
 
-
                         <Input
                             label="e) Room Type"
                             name="roomType"
@@ -1036,9 +1214,7 @@ function HDFCErgoInsurance({ patientId }) {
                     </div>
 
 
-                    {/* =========================================
-                        EXPECTED HOSPITALIZATION COST
-                    ========================================= */}
+                    {/* COST */}
 
                     <div className="cost-table">
 
@@ -1049,14 +1225,12 @@ function HDFCErgoInsurance({ patientId }) {
                             onChange={handleChange}
                         />
 
-
                         <CostRow
                             label="g) Expected cost for investigation + diagnostics"
                             name="investigationCost"
                             value={formData.investigationCost}
                             onChange={handleChange}
                         />
-
 
                         <CostRow
                             label="h) ICU Charges"
@@ -1065,14 +1239,12 @@ function HDFCErgoInsurance({ patientId }) {
                             onChange={handleChange}
                         />
 
-
                         <CostRow
                             label="i) OT Charges"
                             name="otCharges"
                             value={formData.otCharges}
                             onChange={handleChange}
                         />
-
 
                         <CostRow
                             label="j) Professional fees - Surgeon + Anesthetist Fees + Consultation Charges"
@@ -1081,14 +1253,12 @@ function HDFCErgoInsurance({ patientId }) {
                             onChange={handleChange}
                         />
 
-
                         <CostRow
                             label="k) Medicines + Consumables + Cost of Implants"
                             name="medicinesConsumables"
                             value={formData.medicinesConsumables}
                             onChange={handleChange}
                         />
-
 
                         <CostRow
                             label="Other hospital expenses if any"
@@ -1097,14 +1267,12 @@ function HDFCErgoInsurance({ patientId }) {
                             onChange={handleChange}
                         />
 
-
                         <CostRow
                             label="l) All inclusive package charges if any applicable"
                             name="packageCharges"
                             value={formData.packageCharges}
                             onChange={handleChange}
                         />
-
 
                         <CostRow
                             label="m) Sum Total expected cost of hospitalization"
@@ -1133,14 +1301,10 @@ function HDFCErgoInsurance({ patientId }) {
                 <div className="hdfc-page-section">
 
 
-                    {/* =========================================
-                        DECLARATION
-                    ========================================= */}
+                    {/* DECLARATION */}
 
                     <div className="hdfc-section-title">
-
                         DECLARATION
-
                     </div>
 
 
@@ -1175,12 +1339,9 @@ function HDFCErgoInsurance({ patientId }) {
                     </p>
 
 
-                    {/* =========================================
-                        DOCTOR DETAILS
-                    ========================================= */}
+                    {/* DOCTOR DETAILS */}
 
                     <div className="hdfc-grid">
-
 
                         <Input
                             label="a) Name of the treating doctor"
@@ -1190,7 +1351,6 @@ function HDFCErgoInsurance({ patientId }) {
                             full
                         />
 
-
                         <Input
                             label="b) Qualification"
                             name="doctorQualification"
@@ -1198,7 +1358,6 @@ function HDFCErgoInsurance({ patientId }) {
                             onChange={handleChange}
                             full
                         />
-
 
                         <Input
                             label="c) Registration No. with state code"
@@ -1211,14 +1370,10 @@ function HDFCErgoInsurance({ patientId }) {
                     </div>
 
 
-                    {/* =========================================
-                        HOSPITAL SEAL + PATIENT SIGNATURE
-                    ========================================= */}
+                    {/* HOSPITAL SEAL + PATIENT SIGNATURE */}
 
                     <div className="hospital-signature-area">
 
-
-                        {/* HOSPITAL SEAL */}
 
                         <div className="seal-box">
 
@@ -1227,7 +1382,6 @@ function HDFCErgoInsurance({ patientId }) {
                                 <br />
                                 (Must include Hospital ID)
                             </label>
-
 
                             <input
                                 type="file"
@@ -1238,18 +1392,27 @@ function HDFCErgoInsurance({ patientId }) {
 
                             {formData.hospitalSeal && (
 
-                                <p className="selected-file">
+                                <>
 
-                                    {formData.hospitalSeal.name}
+                                    <p className="selected-file">
 
-                                </p>
+                                        {formData.hospitalSeal.name}
+
+                                    </p>
+
+
+                                    <img
+                                        src={formData.hospitalSeal.image}
+                                        alt="Hospital Seal"
+                                        className="seal-preview"
+                                    />
+
+                                </>
 
                             )}
 
                         </div>
 
-
-                        {/* PATIENT SIGNATURE */}
 
                         <div className="patient-signature-box">
 
@@ -1261,7 +1424,9 @@ function HDFCErgoInsurance({ patientId }) {
                             <Input
                                 label=""
                                 name="patientNameDeclaration"
-                                value={formData.patientNameDeclaration}
+                                value={
+                                    formData.patientNameDeclaration
+                                }
                                 onChange={handleChange}
                             />
 
@@ -1284,9 +1449,7 @@ function HDFCErgoInsurance({ patientId }) {
                     </div>
 
 
-                    {/* =========================================
-                        PATIENT / REPRESENTATIVE DECLARATION
-                    ========================================= */}
+                    {/* PATIENT DECLARATION */}
 
                     <div className="hdfc-section-title">
 
@@ -1304,7 +1467,6 @@ function HDFCErgoInsurance({ patientId }) {
                             after the discharge.
                         </p>
 
-
                         <p>
                             <b>2.</b> Payment to hospital is subject
                             to fulfilment of the terms and conditions
@@ -1314,7 +1476,6 @@ function HDFCErgoInsurance({ patientId }) {
                             terms and conditions of the policy.
                         </p>
 
-
                         <p>
                             <b>3.</b> All non-medical expenses and
                             expenses not relevant to current
@@ -1322,7 +1483,6 @@ function HDFCErgoInsurance({ patientId }) {
                             above the limit authorized by the Insurer /
                             TPA will be paid by me.
                         </p>
-
 
                         <p>
                             <b>4.</b> I hereby declare to abide by
@@ -1332,23 +1492,20 @@ function HDFCErgoInsurance({ patientId }) {
                             forfeit my claim.
                         </p>
 
-
                         <p>
                             <b>5.</b> I agree and understand that TPA
-                            is in no way warranting the service of
-                            the hospital and that the Insurer / TPA
+                            is in no way warranting the service of the
+                            hospital and that the Insurer / TPA
                             is in no way guaranteeing that the services
                             provided by the hospital will be of a
                             particular quality or standard.
                         </p>
-
 
                         <p>
                             <b>6.</b> I understand and declare that
                             the information, declaration & statements
                             provided by me is true in all aspects.
                         </p>
-
 
                         <p>
                             <b>7.</b> I agree to make payment to the
@@ -1360,28 +1517,27 @@ function HDFCErgoInsurance({ patientId }) {
                     </div>
 
 
-                    {/* =========================================
-                        PATIENT SIGNATURE DETAILS
-                    ========================================= */}
+                    {/* PATIENT DETAILS */}
 
                     <div className="patient-declaration-details">
-
 
                         <Input
                             label="Patient's / Insured's Name"
                             name="patientNameDeclaration"
-                            value={formData.patientNameDeclaration}
+                            value={
+                                formData.patientNameDeclaration
+                            }
                             onChange={handleChange}
                         />
-
 
                         <Input
                             label="Contact No."
                             name="patientContactDeclaration"
-                            value={formData.patientContactDeclaration}
+                            value={
+                                formData.patientContactDeclaration
+                            }
                             onChange={handleChange}
                         />
-
 
                         <div className="signature-box">
 
@@ -1408,9 +1564,7 @@ function HDFCErgoInsurance({ patientId }) {
                     </div>
 
 
-                    {/* =========================================
-                        HOSPITAL DECLARATION
-                    ========================================= */}
+                    {/* HOSPITAL DECLARATION */}
 
                     <div className="hdfc-section-title">
 
@@ -1428,7 +1582,6 @@ function HDFCErgoInsurance({ patientId }) {
                             pertaining to hospitalization.
                         </p>
 
-
                         <p>
                             <b>2.</b> All valid original documents duly
                             countersigned by the insured / patient as
@@ -1436,7 +1589,6 @@ function HDFCErgoInsurance({ patientId }) {
                             form will be sent to TPA / Insurance Company
                             within 7 days of the patient's discharge.
                         </p>
-
 
                         <p>
                             <b>3.</b> All non-medical expenses OR
@@ -1446,7 +1598,6 @@ function HDFCErgoInsurance({ patientId }) {
                             Co. will be collected from the patient.
                         </p>
 
-
                         <p>
                             <b>4.</b> We agree that TPA / Insurance
                             Company will not be liable to make the
@@ -1455,20 +1606,17 @@ function HDFCErgoInsurance({ patientId }) {
                             summary or other documents.
                         </p>
 
-
                         <p>
                             <b>5.</b> The patient declaration has been
                             signed by the patient or by his representative
                             in our presence.
                         </p>
 
-
                         <p>
                             <b>6.</b> We agree to provide clarifications
                             for the queries raised regarding this
                             hospitalization.
                         </p>
-
 
                         <p>
                             <b>7.</b> We will abide by the terms and
@@ -1478,12 +1626,9 @@ function HDFCErgoInsurance({ patientId }) {
                     </div>
 
 
-                    {/* =========================================
-                        HOSPITAL SIGNATURE / SEAL
-                    ========================================= */}
+                    {/* HOSPITAL SIGNATURE */}
 
                     <div className="hospital-signature-area">
-
 
                         <div className="seal-box">
 
@@ -1493,12 +1638,24 @@ function HDFCErgoInsurance({ patientId }) {
                                 (Must include Hospital ID)
                             </label>
 
-
                             <input
                                 type="file"
                                 accept="image/png,image/jpeg"
                                 onChange={handleHospitalSeal}
                             />
+
+
+                            {formData.hospitalSeal && (
+
+                                <img
+                                    src={
+                                        formData.hospitalSeal.image
+                                    }
+                                    alt="Hospital Seal"
+                                    className="seal-preview"
+                                />
+
+                            )}
 
                         </div>
 
@@ -1528,9 +1685,7 @@ function HDFCErgoInsurance({ patientId }) {
                     </div>
 
 
-                    {/* =========================================
-                        SUPPORTING DOCUMENTS
-                    ========================================= */}
+                    {/* DOCUMENTS */}
 
                     <div className="hdfc-section-title">
 
@@ -1548,13 +1703,11 @@ function HDFCErgoInsurance({ patientId }) {
                             the hospital.
                         </p>
 
-
                         <p>
                             <b>2.</b> Original copy of cash Memos
                             from the Hospitals / Chemists supported
                             by prescription.
                         </p>
-
 
                         <p>
                             <b>3.</b> Original copy of receipts,
@@ -1564,13 +1717,11 @@ function HDFCErgoInsurance({ patientId }) {
                             such investigations.
                         </p>
 
-
                         <p>
                             <b>4.</b> Original copy of surgeon's
                             Certificate stating nature of operation
                             performed and Surgeon's Bill and Receipt.
                         </p>
-
 
                         <p>
                             <b>5.</b> Pre-authorization is approved
@@ -1578,12 +1729,10 @@ function HDFCErgoInsurance({ patientId }) {
                             documents.
                         </p>
 
-
                         <p>
                             <b>6.</b> Please provide any one of the
                             following documents to fulfill KYC norms.
                         </p>
-
 
                         <p className="kyc-documents">
 
@@ -1599,17 +1748,29 @@ function HDFCErgoInsurance({ patientId }) {
 
 
                     {/* =========================================
-                        SUBMIT
+                        PRINT + SAVE PDF
                     ========================================= */}
 
-                    <button
-                        type="submit"
-                        className="hdfc-submit-btn"
-                    >
+                    <div className="insurance-action-buttons">
 
-                        Submit HDFC ERGO Insurance Claim
+                        <button
+                            type="button"
+                            className="print-insurance-btn"
+                            onClick={printInsurance}
+                        >
+                            🖨️ Print Insurance Form
+                        </button>
 
-                    </button>
+
+                        <button
+                            type="button"
+                            className="save-insurance-btn"
+                            onClick={saveInsurancePdf}
+                        >
+                            📄 Save Insurance PDF
+                        </button>
+
+                    </div>
 
                 </div>
 
@@ -1636,15 +1797,15 @@ function Input({
     return (
 
         <div
-            className={`hdfc-field ${full ? "full-field" : ""}`}
+            className={`hdfc-field ${
+                full ? "full-field" : ""
+            }`}
         >
 
             {label && (
-
                 <label>
                     {label}
                 </label>
-
             )}
 
             <input
@@ -1660,7 +1821,7 @@ function Input({
 
 
 /* =============================================================
-   RADIO COMPONENT
+   RADIO
 ============================================================= */
 
 function Radio({
@@ -1681,9 +1842,7 @@ function Radio({
         >
 
             <label className="radio-title">
-
                 {label}
-
             </label>
 
 
@@ -1697,7 +1856,9 @@ function Radio({
                             type="radio"
                             name={name}
                             value={option}
-                            checked={value === option}
+                            checked={
+                                value === option
+                            }
                             onChange={onChange}
                         />
 

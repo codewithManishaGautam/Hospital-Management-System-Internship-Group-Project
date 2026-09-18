@@ -1,786 +1,715 @@
-* RelianceInsuranceClaim.css */
+
 
 .reliance-page {
+    width: 100%;
     min-height: 100vh;
-    background: #eef2f7;
-    padding: 25px 0;
+    background: #f1f3f6;
+    padding: 25px;
+    box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
-    color: #16418f;
+    color: #111;
 }
 
 .reliance-form {
-    width: 95%;
-    max-width: 1100px;
-    margin: auto;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
     background: #fff;
-    padding: 20px 25px 35px;
+    padding: 25px;
     box-sizing: border-box;
-    box-shadow: 0 3px 15px rgba(0,0,0,.12);
+    border: 1px solid #bbb;
 }
+
+
+/* =====================================================
+   HEADER
+===================================================== */
 
 .reliance-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    padding: 5px 10px 12px;
-    border-bottom: 1px solid #9eb8e8;
+    align-items: center;
+    border-bottom: 3px solid #222;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
 }
 
 .reliance-logo {
     display: flex;
-    align-items: flex-start;
-    gap: 15px;
+    align-items: center;
+    gap: 12px;
 }
 
 .reliance-logo-text {
-    background: #294b96;
-    color: #fff;
-    padding: 11px 20px;
-    font-size: 25px;
-    font-weight: 700;
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: 1px;
 }
 
 .reliance-logo-sub {
-    font-size: 21px;
-    line-height: 1.05;
+    font-size: 14px;
     font-weight: 700;
-    color: #0094c9;
+    line-height: 1.1;
 }
 
 .reliance-logo small {
-    position: absolute;
-    margin: 55px 0 0 185px;
     font-size: 9px;
-    color: #0094c9;
+    display: block;
+    margin-left: 10px;
 }
 
 .reliance-contact {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    font-size: 13px;
-    color: #0094c9;
+    text-align: right;
+    gap: 3px;
+    font-size: 12px;
 }
 
 .reliance-contact strong {
-    font-size: 21px;
+    font-size: 14px;
 }
+
+
+/* =====================================================
+   TITLE
+===================================================== */
 
 .form-title {
     text-align: center;
-    color: #e72b2b;
-    font-size: 21px;
-    margin: 10px 0 5px;
+    font-size: 22px;
+    margin: 10px 0;
+    font-weight: 800;
 }
 
 .portal-note {
-    color: #e72b2b;
-    font-size: 12px;
-    margin: 0 0 5px;
+    text-align: center;
+    font-size: 11px;
+    margin: 8px 0 20px;
+    word-break: break-word;
 }
+
+
+/* =====================================================
+   PDF SECTIONS
+===================================================== */
 
 .pdf-section {
     display: grid;
-    grid-template-columns: 62px minmax(0, 1fr);
-    border: 1px solid #9eb8e8;
-    margin-bottom: 7px;
+    grid-template-columns: 180px 1fr;
+    border: 1px solid #222;
+    margin-bottom: 15px;
+    break-inside: avoid;
+    page-break-inside: avoid;
 }
 
 .side-title {
-    background: #294b96;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    padding: 8px;
-    font-size: 11px;
-    line-height: 1.2;
+    background: #eeeeee;
+    border-right: 1px solid #222;
+    padding: 12px;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1.4;
 }
 
 .section-body {
-    padding: 7px 10px;
+    padding: 12px;
     min-width: 0;
 }
 
-.grid-2,
-.grid-3 {
-    display: grid;
-    gap: 5px 10px;
-}
+
+/* =====================================================
+   GRID
+===================================================== */
 
 .grid-2 {
+    display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
 }
 
 .grid-3 {
+    display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
 }
 
 .field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 10px;
     min-width: 0;
-    display: grid;
-    grid-template-columns: max-content minmax(0, 1fr);
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 4px;
 }
 
 .field.full {
     grid-column: 1 / -1;
 }
 
-.field label,
-.form-row > label:first-child {
+.field label {
     font-size: 11px;
-    white-space: nowrap;
+    font-weight: 700;
 }
 
 .field input,
-.field select {
+.field select,
+.signature-box input {
     width: 100%;
-    min-width: 0;
-    height: 22px;
-    border: 0;
-    border-bottom: 1px solid #9eb8e8;
-    outline: none;
-    padding: 1px 4px;
-    color: #16418f;
-    background: transparent;
+    min-height: 32px;
+    border: 1px solid #777;
+    padding: 6px 8px;
     box-sizing: border-box;
+    border-radius: 2px;
+    font-size: 12px;
+    background: #fff;
 }
 
 .field input:focus,
-.field select:focus {
-    border-bottom-color: #294b96;
+.field select:focus,
+.signature-box input:focus {
+    outline: none;
+    border-color: #222;
 }
+
+
+/* =====================================================
+   FORM ROW
+===================================================== */
 
 .form-row {
     display: flex;
-    align-items: center;
     flex-wrap: wrap;
-    gap: 4px 10px;
-    margin: 4px 0;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.form-row > label:first-child {
+    font-weight: 700;
     font-size: 11px;
 }
 
 .check-inline {
-    display: inline-flex !important;
+    display: inline-flex;
     align-items: center;
-    gap: 3px;
-    white-space: nowrap;
-    font-size: 10px !important;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 400 !important;
 }
 
 .check-inline input {
     margin: 0;
 }
 
-.checkbox-row {
-    padding: 2px 0;
+.check-inline-group {
+    display: flex;
+    gap: 15px;
+    align-items: center;
 }
+
+.checkbox-row {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 8px 0;
+}
+
+
+/* =====================================================
+   PROVIDER DETAILS
+===================================================== */
 
 .provider-columns {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    margin-top: 4px;
+    gap: 15px;
+    margin-top: 15px;
 }
 
 .provider-columns > div {
-    padding: 4px 10px;
-}
-
-.provider-columns > div + div {
-    border-left: 1px solid #9eb8e8;
+    border: 1px solid #aaa;
+    padding: 10px;
 }
 
 .provider-columns h4 {
-    margin: -4px -10px 6px;
-    padding: 4px 10px;
-    text-align: center;
-    background: #294b96;
-    color: #fff;
-    font-size: 11px;
+    margin: 0 0 10px;
+    font-size: 13px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
 }
+
+
+/* =====================================================
+   DOCTOR CASE
+===================================================== */
 
 .doctor-case-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(300px, .95fr);
-    gap: 12px;
-    margin-top: 5px;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 15px;
 }
 
 .sub-block {
-    border-top: 1px solid #9eb8e8;
-    padding-top: 4px;
-    margin-top: 5px;
+    border: 1px solid #aaa;
+    padding: 10px;
+    margin-top: 10px;
 }
 
-.sub-block strong {
-    font-size: 11px;
+.sub-block > strong {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
 }
+
+
+/* =====================================================
+   MEDICAL HISTORY
+===================================================== */
 
 .medical-history {
-    border-left: 1px solid #9eb8e8;
-    padding-left: 8px;
-}
-
-.medical-history-head,
-.history-row {
-    display: grid;
-    grid-template-columns: minmax(100px, 1fr) 25px 25px minmax(90px, 1fr);
-    align-items: center;
-    gap: 4px;
-    font-size: 9px;
+    border: 1px solid #aaa;
 }
 
 .medical-history-head {
+    display: grid;
+    grid-template-columns: 1fr 120px;
+    background: #eeeeee;
+    border-bottom: 1px solid #aaa;
+    padding: 7px;
     font-weight: 700;
-    padding-bottom: 3px;
+    font-size: 11px;
 }
 
 .history-row {
-    min-height: 20px;
+    display: grid;
+    grid-template-columns: 1fr 35px 35px 120px;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 7px;
+    border-bottom: 1px solid #ddd;
+    font-size: 10px;
+}
+
+.history-row:last-child {
+    border-bottom: none;
 }
 
 .history-row input[type="text"] {
     width: 100%;
-    height: 19px;
-    border: 0;
-    border-bottom: 1px solid #9eb8e8;
+    min-height: 25px;
+    border: 1px solid #888;
     box-sizing: border-box;
-    color: #16418f;
 }
+
+
+/* =====================================================
+   BILLING
+===================================================== */
 
 .billing-grid {
     display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 10px;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
 }
 
-.billing-grid > div + div {
-    border-left: 1px solid #9eb8e8;
-    padding-left: 10px;
+.billing-grid > div {
+    min-width: 0;
 }
+
+.billing-grid > div:nth-child(2) {
+    border-left: 1px solid #ccc;
+    padding-left: 15px;
+}
+
+
+/* =====================================================
+   IMPORTANT NOTE
+===================================================== */
 
 .important-note {
-    font-size: 9px;
-    line-height: 1.35;
-    color: #16418f;
-    margin: 8px 0;
-    padding: 3px 0;
+    border: 1px solid #888;
+    padding: 12px;
+    margin: 15px 0;
+    font-size: 11px;
+    line-height: 1.5;
+    background: #fafafa;
 }
+
+.important-note strong {
+    font-weight: 800;
+}
+
+
+/* =====================================================
+   SIGNATURE SECTION
+===================================================== */
 
 .signature-section {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px 40px;
-    margin-top: 10px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 15px;
+    border: 1px solid #222;
+    padding: 15px;
+    margin-top: 15px;
+    break-inside: avoid;
+    page-break-inside: avoid;
 }
 
 .signature-box {
     min-width: 0;
+    border: 1px solid #aaa;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 .signature-box > label {
     display: block;
     font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 8px;
 }
 
-.signature-box .signature-main {
-    width: 100% !important;
+.signature-box canvas {
+    max-width: 100%;
 }
 
-.signature-box .line {
-    width: 100%;
-    height: 55px;
+.seal-box {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
 }
 
-.signature-box input {
-    width: 100%;
-    height: 24px;
-    border: 0;
-    border-bottom: 1px solid #9eb8e8;
+.seal-box label {
+    font-size: 11px;
+    font-weight: 700;
 }
 
-.hospital-stamp-line {
-    height: 55px;
-    border-bottom: 1px solid #9eb8e8;
+.selected-file {
+    font-size: 9px;
+    margin: 0;
+    word-break: break-all;
 }
+
+.hospital-seal-preview {
+    display: block;
+    max-width: 160px;
+    max-height: 90px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    margin-top: 5px;
+}
+
+
+/* =====================================================
+   DECLARATION
+===================================================== */
 
 .declaration-section {
     display: grid;
-    grid-template-columns: 62px minmax(0, 1fr);
-    border: 1px solid #9eb8e8;
-    margin-top: 12px;
+    grid-template-columns: 180px 1fr;
+    border: 1px solid #222;
+    margin-top: 15px;
+    break-inside: avoid;
+    page-break-inside: avoid;
 }
 
 .declaration-body {
-    position: relative;
-    padding: 8px 12px 12px;
-    min-width: 0;
-    font-size: 10px;
-    line-height: 1.35;
+    padding: 15px;
 }
 
-.declaration-body p {
-    margin: 0 0 7px;
-    
+.p-data p {
+    font-size: 11px;
+    line-height: 1.5;
+    text-align: justify;
+    margin: 0 0 10px;
 }
 
-.p-data
-{
-   margin-bottom: 80px;
-}
 .declaration-fields {
-    width: 45%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 10px;
 }
 
 .claimant-signature {
-    position: absolute;
-    right: 15px;
-    bottom: 10px;
-    width: 180px;
+    width: 250px;
+    margin-left: auto;
+    margin-top: 15px;
+    text-align: center;
 }
 
 .claimant-signature > label {
     display: block;
-    text-align: center;
-    font-size: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 5px;
 }
 
-.claimant-signature .signature-main {
-    width: 100% !important;
-}
+
+/* =====================================================
+   IMPORTANT INFORMATION
+===================================================== */
 
 .important-information {
-    padding-top: 15px;
-    font-size: 11px;
-    line-height: 1.35;
+    border: 1px solid #222;
+    padding: 15px;
+    margin-top: 15px;
+    break-inside: avoid;
+    page-break-inside: avoid;
 }
 
 .important-information h2 {
     text-align: center;
-    color: #e72b2b;
-    font-size: 17px;
+    font-size: 16px;
+    margin: 0 0 10px;
+    border-bottom: 1px solid #222;
+    padding-bottom: 8px;
 }
 
 .important-information ol {
-    margin-top: 5px;
     padding-left: 25px;
+    margin: 0;
 }
 
 .important-information li {
-    margin-bottom: 7px;
+    font-size: 10px;
+    line-height: 1.5;
+    margin-bottom: 6px;
 }
 
 .footer-contact {
-    margin-top: 15px;
+    border-top: 1px solid #aaa;
+    margin-top: 12px;
+    padding-top: 8px;
+    font-size: 10px;
+    line-height: 1.5;
 }
+
+.important-information p {
+    font-size: 9px;
+    margin: 5px 0;
+}
+
+
+/* =====================================================
+   ACTION BUTTONS
+===================================================== */
+
+.reliance-action-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin: 25px 0 12px;
+}
+
+.reliance-print-btn,
+.reliance-save-btn {
+    border: none;
+    padding: 12px 22px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    transition: 0.2s ease;
+}
+
+.reliance-print-btn {
+    background: #333;
+    color: #fff;
+}
+
+.reliance-save-btn {
+    background: #555;
+    color: #fff;
+}
+
+.reliance-print-btn:hover,
+.reliance-save-btn:hover {
+    transform: translateY(-1px);
+    opacity: 0.9;
+}
+
+
+/* =====================================================
+   SUBMIT BUTTON
+===================================================== */
 
 .reliance-submit {
     display: block;
-    margin: 25px auto 0;
-    padding: 11px 28px;
-    border: 0;
+    margin: 15px auto 0;
+    padding: 13px 30px;
+    border: none;
     border-radius: 5px;
-    background: #198754;
-    color: #fff;
-    font-size: 15px;
     cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    background: #222;
+    color: #fff;
 }
 
 .reliance-submit:hover {
-    background: #157347;
+    opacity: 0.9;
 }
 
 
-.seal-box,
-.doctor-signature-box {
-    width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
+/* =====================================================
+   PDF CAPTURE
+===================================================== */
+
+/*
+   These elements should NOT appear
+   inside generated PDF.
+*/
+
+.reliance-pdf-capture .reliance-action-buttons,
+.reliance-pdf-capture .reliance-submit {
+    display: none !important;
 }
 
 
-/* =========================================
-   LABEL
-========================================= */
+/* =====================================================
+   PRINT
+===================================================== */
 
-.seal-box label,
-.doctor-signature-box label {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    color: #222;
-}
+@media print {
 
-
-/* =========================================
-   HOSPITAL SEAL
-========================================= */
-
-.seal-box {
-    border: 1px solid #cfd6df;
-    border-radius: 6px;
-    padding: 15px;
-    min-height: 100px;
-    box-sizing: border-box;
-    background: #fafafa;
-}
-
-.seal-box input[type="file"] {
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    font-size: 13px;
-}
-
-.doctor-signature-box {
-    border: 1px solid #cfd6df;
-    border-radius: 6px;
-    padding: 5px;
-    min-height: 130px;
-    box-sizing: border-box;
-    background: #fafafa;
-}
-
-
-.doctor-signature-box .signature-main {
-    width: 100%;
-}
-
-
-/* Signature line */
-
-.doctor-signature-box .line {
-    width: 100%;
-    height: 80px;
-    box-sizing: border-box;
-}
-
-@media (max-width: 800px) {
-    .reliance-form {
-        width: 98%;
-        padding: 12px;
+    @page {
+        size: A3 portrait;
+        margin: 5mm;
     }
 
-    .reliance-header {
-        flex-direction: column;
-        gap: 12px;
+    body {
+        background: #fff !important;
+        margin: 0;
+        padding: 0;
     }
-
-    .reliance-contact {
-        align-items: flex-start;
-    }
-
-    .grid-2,
-    .grid-3,
-    .provider-columns,
-    .doctor-case-grid,
-    .billing-grid,
-    .signature-section {
-        grid-template-columns: 1fr;
-    }
-
-    .billing-grid > div + div,
-    .provider-columns > div + div,
-    .medical-history {
-        border-left: 0;
-        border-top: 1px solid #9eb8e8;
-        padding: 8px 0 0;
-        margin-top: 8px;
-    }
-
-    .claimant-signature {
-        position: static;
-        width: 100%;
-        margin-top: 15px;
-    }
-
-    .declaration-fields {
-        width: 100%;
-    }
-}
-
-
-@media (max-width: 450px) {
 
     .reliance-page {
-        padding: 10px 0;
+        background: #fff !important;
+        padding: 0 !important;
     }
 
     .reliance-form {
-        width: 96%;
-        padding: 15px 12px 25px;
-    }
-
-    /* Header */
-    .reliance-header {
-        flex-direction: column;
-        gap: 15px;
-        padding: 8px 5px 15px;
-    }
-
-    .reliance-logo {
-        gap: 8px;
-        flex-wrap: wrap;
-    }
-
-    .reliance-logo-text {
-        font-size: 18px;
-        padding: 9px 12px;
-    }
-
-    .reliance-logo-sub {
-        font-size: 16px;
-    }
-
-    .reliance-logo small {
-        position: static;
+        width: 100%;
+        max-width: none;
+        border: none;
+        padding: 0;
         margin: 0;
-        width: 100%;
-        font-size: 8px;
     }
 
-    .reliance-contact {
-        align-items: flex-start;
-        width: 100%;
-        font-size: 11px;
+    .reliance-action-buttons,
+    .reliance-submit {
+        display: none !important;
     }
 
-    .reliance-contact strong {
-        font-size: 16px;
+    .pdf-section,
+    .declaration-section,
+    .signature-section,
+    .important-information {
+        break-inside: avoid;
+        page-break-inside: avoid;
     }
 
+    input,
+    select {
+        color: #000 !important;
+        background: #fff !important;
+    }
+}
 
-    /* Title */
-    .form-title {
-        font-size: 17px;
-        line-height: 1.3;
-        margin: 12px 0 8px;
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 900px) {
+
+    .reliance-page {
+        padding: 10px;
     }
 
-    .portal-note {
-        font-size: 10px;
-        line-height: 1.4;
-        word-break: break-word;
+    .reliance-form {
+        padding: 15px;
     }
 
-
-    /* Sections */
-    .pdf-section {
-        grid-template-columns: 45px minmax(0, 1fr);
+    .pdf-section,
+    .declaration-section {
+        grid-template-columns: 1fr;
     }
 
     .side-title {
-        font-size: 9px;
-        padding: 5px;
+        border-right: none;
+        border-bottom: 1px solid #222;
     }
 
-    .section-body {
-        padding: 10px 8px;
-    }
-
-
-    /* IMPORTANT:
-       Inputs full available width */
     .grid-2,
     .grid-3,
     .provider-columns,
     .doctor-case-grid,
-    .billing-grid,
+    .billing-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .billing-grid > div:nth-child(2) {
+        border-left: none;
+        border-top: 1px solid #ccc;
+        padding-left: 0;
+        padding-top: 15px;
+    }
+
+    .signature-section {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .reliance-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .reliance-contact {
+        text-align: left;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .reliance-form {
+        padding: 10px;
+    }
+
+    .form-title {
+        font-size: 17px;
+    }
+
     .signature-section {
         grid-template-columns: 1fr;
-        width: 100%;
-    }
-
-
-    /* Input fields */
-    .field {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 4px;
-        width: 100%;
-        margin-bottom: 10px;
-    }
-
-    .field.full {
-        grid-column: auto;
-    }
-
-    .field label {
-        font-size: 11px;
-        white-space: normal;
-        width: 100%;
-    }
-
-    .field input,
-    .field select {
-        width: 100%;
-        height: 34px;
-        min-height: 34px;
-        padding: 5px 7px;
-        font-size: 12px;
-        box-sizing: border-box;
-    }
-
-
-    /* Textarea-like long fields if needed */
-    .field input[name="address"],
-    .field input[name="hospitalAddress"],
-    .field input[name="presentingComplaint"],
-    .field input[name="pastIllnessHistory"],
-    .field input[name="clinicalFindings"],
-    .field input[name="investigationFindings"],
-    .field input[name="billingRemarks"] {
-        height: 42px;
-    }
-
-
-    /* Radio / Checkbox */
-    .form-row {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 7px;
-        margin: 9px 0;
-    }
-
-    .form-row > label:first-child {
-        font-weight: 600;
-    }
-
-    .check-inline {
-        font-size: 11px !important;
-        min-height: 22px;
-    }
-
-    .check-inline input {
-        width: 15px;
-        height: 15px;
-    }
-
-
-    /* Provider */
-    .provider-columns > div + div {
-        border-left: 0;
-        border-top: 1px solid #9eb8e8;
-        padding: 12px 0 0;
-        margin-top: 12px;
-    }
-
-
-    /* Medical History */
-    .medical-history {
-        border-left: 0;
-        border-top: 1px solid #9eb8e8;
-        padding: 12px 0 0;
-        margin-top: 12px;
-        overflow-x: auto;
-    }
-
-    .medical-history-head,
-    .history-row {
-        min-width: 320px;
-    }
-
-    .history-row {
-        min-height: 32px;
-    }
-
-    .history-row input[type="text"] {
-        height: 28px;
-    }
-
-
-    /* Billing */
-    .billing-grid > div + div {
-        border-left: 0;
-        border-top: 1px solid #9eb8e8;
-        padding: 12px 0 0;
-        margin-top: 12px;
-    }
-
-
-    /* Signature */
-    .signature-section {
-        gap: 20px;
-    }
-
-    .signature-box {
-        width: 100%;
-    }
-
-    .signature-box .signature-main {
-        width: 100% !important;
-    }
-
-    .signature-box .line {
-        height: 70px;
-    }
-
-    .hospital-stamp-line {
-        height: 70px;
-    }
-
-
-    /* Declaration */
-    .declaration-section {
-        grid-template-columns: 45px minmax(0, 1fr);
-    }
-
-    .declaration-body {
-        padding: 10px;
-        font-size: 10px;
-        line-height: 1.5;
     }
 
     .declaration-fields {
-        width: 100%;
+        grid-template-columns: 1fr;
     }
 
     .claimant-signature {
-        position: static;
         width: 100%;
-        margin-top: 20px;
+        margin-left: 0;
     }
 
-    .claimant-signature .signature-main {
-        width: 100% !important;
+    .reliance-action-buttons {
+        flex-direction: column;
     }
 
-
-    /* Important information */
-    .important-information {
-        font-size: 10px;
-        line-height: 1.5;
-    }
-
-    .important-information h2 {
-        font-size: 15px;
-        line-height: 1.3;
-    }
-
-    .important-information ol {
-        padding-left: 20px;
-    }
-
-    .important-information li {
-        margin-bottom: 8px;
-    }
-
-
-    /* Submit */
-    .reliance-submit {
+    .reliance-print-btn,
+    .reliance-save-btn {
         width: 100%;
-        min-height: 45px;
-        font-size: 14px;
-        margin-top: 25px;
     }
-} 
 
-
+    .history-row {
+        grid-template-columns: 1fr 30px 30px 1fr;
+    }
+}

@@ -17,6 +17,7 @@ router.post("/", addPatient);
 
 router.get("/", getPatients);
 
+
 router.get("/:id/pdf", generatePrescriptionPDF);
 
 router.get("/:id", getPatientById);

@@ -1,8 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import axios from "axios";
 import Signature from "./CommonCode/SignaturePad";
+import { useReactToPrint } from "react-to-print";
+import html2pdf from "html2pdf.js";
 import "./Style/AdityaBirlaInsurance.css";
 
 function AdityaBirlaInsurance({ patientId }) {
+
+    // =====================================================
+    // PDF / PRINT REF
+    // =====================================================
+
+    const insuranceRef = useRef(null);
+
+
+    // =====================================================
+    // FORM DATA
+    // =====================================================
 
     const [formData, setFormData] = useState({
 
@@ -142,7 +156,7 @@ function AdityaBirlaInsurance({ patientId }) {
         // FILE / SIGNATURE
         // ================================
 
-        hospitalSeal: null,
+        hospitalSeal: "",
         patientSignature: "",
         doctorSignature: ""
 
@@ -210,14 +224,273 @@ function AdityaBirlaInsurance({ patientId }) {
 
     const handleHospitalSeal = (e) => {
 
-        const file = e.target.files[0];
+        const file = e.target.files?.[0];
 
         if (!file) return;
 
-        setFormData((prev) => ({
-            ...prev,
-            hospitalSeal: file
-        }));
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+
+            setFormData((prev) => ({
+                ...prev,
+                hospitalSeal: reader.result
+            }));
+
+        };
+
+        reader.readAsDataURL(file);
+
+    };
+
+
+    // =====================================================
+    // PRINT
+    // =====================================================
+
+    const printInsurance = useReactToPrint({
+
+        contentRef: insuranceRef,
+
+        documentTitle:
+            `${patientId || "Patient"}_Aditya_Birla_Insurance`
+
+    });
+
+
+    // =====================================================
+    // GENERATE PDF
+    // =====================================================
+
+    const generateInsurancePdf = async () => {
+
+        if (!insuranceRef.current) {
+
+            alert("Insurance Form Not Found");
+
+            return null;
+
+        }
+
+        try {
+
+            const element = insuranceRef.current;
+
+
+            // Hide buttons while creating PDF
+            document.body.classList.add(
+                "aditya-pdf-capture"
+            );
+
+
+            // Wait for DOM rendering
+            await new Promise((resolve) =>
+                requestAnimationFrame(() =>
+                    requestAnimationFrame(resolve)
+                )
+            );
+
+
+            const options = {
+
+                margin: 5,
+
+                filename:
+                    `${patientId || "Patient"}_Aditya_Birla_Insurance.pdf`,
+
+                image: {
+                    type: "jpeg",
+                    quality: 1
+                },
+
+                html2canvas: {
+
+                    scale: 2,
+
+                    useCORS: true,
+
+                    allowTaint: false,
+
+                    backgroundColor: "#ffffff",
+
+                    scrollX: 0,
+
+                    scrollY: 0,
+
+                    width: element.scrollWidth,
+
+                    height: element.scrollHeight
+
+                },
+
+                jsPDF: {
+
+                    unit: "mm",
+
+                    format: "a3",
+
+                    orientation: "portrait"
+
+                },
+
+                pagebreak: {
+
+                    mode: [
+                        "css",
+                        "legacy"
+                    ]
+
+                }
+
+            };
+
+
+            const pdfBlob =
+                await html2pdf()
+                    .set(options)
+                    .from(element)
+                    .outputPdf("blob");
+
+
+            return pdfBlob;
+
+        }
+        catch (error) {
+
+            console.error(
+                "Aditya Birla PDF Error:",
+                error
+            );
+
+            alert(
+                "PDF generate करताना error आला."
+            );
+
+            return null;
+
+        }
+        finally {
+
+            document.body.classList.remove(
+                "aditya-pdf-capture"
+            );
+
+        }
+
+    };
+
+
+    // =====================================================
+    // SAVE PDF
+    // =====================================================
+
+    const saveInsurancePdf = async () => {
+
+        try {
+
+            if (!patientId) {
+
+                alert("Patient ID Not Found");
+
+                return;
+
+            }
+
+
+            // Generate PDF
+            const pdfBlob =
+                await generateInsurancePdf();
+
+
+            if (!pdfBlob) return;
+
+
+            // =================================================
+            // UPLOAD PDF
+            // =================================================
+
+            const uploadData =
+                new FormData();
+
+
+            uploadData.append(
+                "file",
+                pdfBlob,
+                `${patientId}_Aditya_Birla_Insurance.pdf`
+            );
+
+
+            const uploadResponse =
+                await axios.post(
+                    "http://localhost:5000/upload",
+                    uploadData,
+                    {
+                        headers: {
+                            "Content-Type":
+                                "multipart/form-data"
+                        }
+                    }
+                );
+
+
+            const pdfPath =
+                uploadResponse.data.filePath;
+
+
+            if (!pdfPath) {
+
+                throw new Error(
+                    "PDF path not received from server"
+                );
+
+            }
+
+
+            // =================================================
+            // SAVE INSURANCE DATA
+            // =================================================
+
+            await axios.post(
+                "http://localhost:5000/insurance/save",
+                {
+
+                    patientId: patientId,
+
+                    insuranceCompany:
+                        "Aditya Birla Health Insurance",
+
+                    insuranceData:
+                        formData,
+
+                    pdfPath:
+                        pdfPath
+
+                }
+            );
+
+
+            alert(
+                "Aditya Birla Insurance PDF saved successfully."
+            );
+
+        }
+        catch (error) {
+
+            console.error(
+                "Save Insurance PDF Error:",
+                error
+            );
+
+            console.error(
+                "Backend Response:",
+                error.response?.data
+            );
+
+            alert(
+                "Aditya Birla Insurance PDF save failed."
+            );
+
+        }
 
     };
 
@@ -226,7 +499,7 @@ function AdityaBirlaInsurance({ patientId }) {
     // SUBMIT
     // =====================================================
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
 
         e.preventDefault();
 
@@ -240,18 +513,22 @@ function AdityaBirlaInsurance({ patientId }) {
             formData
         );
 
-        alert(
-            "Aditya Birla Insurance Form submitted successfully."
-        );
+
+        await saveInsurancePdf();
 
     };
 
+
+    // =====================================================
+    // RETURN
+    // =====================================================
 
     return (
 
         <div className="aditya-page">
 
             <form
+                ref={insuranceRef}
                 className="aditya-form"
                 onSubmit={handleSubmit}
             >
@@ -322,7 +599,6 @@ function AdityaBirlaInsurance({ patientId }) {
 
                     <div className="aditya-grid">
 
-
                         <Input
                             label="a. Name of TPA / Insurance Company"
                             name="tpaInsuranceCompany"
@@ -331,14 +607,12 @@ function AdityaBirlaInsurance({ patientId }) {
                             full
                         />
 
-
                         <Input
                             label="b. Toll free phone number"
                             name="tpaPhone"
                             value={formData.tpaPhone}
                             onChange={handleChange}
                         />
-
 
                         <Input
                             label="c. Toll free FAX"
@@ -358,7 +632,6 @@ function AdityaBirlaInsurance({ patientId }) {
 
 
                     <div className="aditya-grid">
-
 
                         <Input
                             label="a. Name of the Patient"
@@ -541,7 +814,6 @@ function AdityaBirlaInsurance({ patientId }) {
 
                     <div className="aditya-grid">
 
-
                         <Input
                             label="a. Name of the treating doctor"
                             name="treatingDoctor"
@@ -641,14 +913,11 @@ function AdityaBirlaInsurance({ patientId }) {
                     {/* ================= TREATMENT ================= */}
 
                     <div className="aditya-subtitle">
-
                         h. Proposed line of treatment
-
                     </div>
 
 
                     <div className="treatment-grid">
-
 
                         <CheckBox
                             label="Medical Management"
@@ -703,7 +972,6 @@ function AdityaBirlaInsurance({ patientId }) {
 
 
                     <div className="aditya-grid">
-
 
                         <Input
                             label="i. Investigation / Medical Management details"
@@ -761,14 +1029,11 @@ function AdityaBirlaInsurance({ patientId }) {
                     {/* ================= ACCIDENT ================= */}
 
                     <div className="aditya-subtitle">
-
                         o. In case of accident
-
                     </div>
 
 
                     <div className="aditya-grid">
-
 
                         <Radio
                             label="i. Is RTA"
@@ -842,14 +1107,11 @@ function AdityaBirlaInsurance({ patientId }) {
                     {/* ================= MATERNITY ================= */}
 
                     <div className="aditya-subtitle">
-
                         q. In case of Maternity
-
                     </div>
 
 
                     <div className="maternity-grid">
-
 
                         <Input
                             label="G"
@@ -905,16 +1167,12 @@ function AdityaBirlaInsurance({ patientId }) {
 
                 <div className="aditya-page-section">
 
-
-                    {/* ================= PATIENT ADMITTED ================= */}
-
                     <SectionTitle>
                         DETAILS OF THE PATIENT ADMITTED
                     </SectionTitle>
 
 
                     <div className="aditya-grid">
-
 
                         <Input
                             label="a. Date of admission"
@@ -965,15 +1223,12 @@ function AdityaBirlaInsurance({ patientId }) {
                     </div>
 
 
-                    {/* ================= COST ================= */}
-
                     <SectionTitle>
                         EXPECTED HOSPITALISATION EXPENSES
                     </SectionTitle>
 
 
                     <div className="cost-table">
-
 
                         <CostRow
                             label="f. Per Day Room Rent + Nursing & Service Charges + Patient's Diet"
@@ -1050,8 +1305,6 @@ function AdityaBirlaInsurance({ patientId }) {
                     </div>
 
 
-                    {/* ================= CHRONIC ================= */}
-
                     <SectionTitle>
                         MANDATORY: PAST HISTORY OF ANY CHRONIC ILLNESS
                     </SectionTitle>
@@ -1104,7 +1357,7 @@ function AdityaBirlaInsurance({ patientId }) {
 
                     <ChronicRow
                         label="Osteoarthritis"
-                        name="osteoarthritis"
+                        name="osteoporosis"
                         value={formData.osteoarthritis}
                         onChange={handleChange}
                     />
@@ -1168,7 +1421,6 @@ function AdityaBirlaInsurance({ patientId }) {
 
                     <div className="aditya-grid">
 
-
                         <Input
                             label="a. Name of the treating doctor"
                             name="treatingDoctor"
@@ -1200,7 +1452,6 @@ function AdityaBirlaInsurance({ patientId }) {
 
                     <div className="hospital-signature-area">
 
-
                         <div className="seal-box">
 
                             <label>
@@ -1219,9 +1470,11 @@ function AdityaBirlaInsurance({ patientId }) {
 
                             {formData.hospitalSeal && (
 
-                                <p className="selected-file">
-                                    {formData.hospitalSeal.name}
-                                </p>
+                                <img
+                                    src={formData.hospitalSeal}
+                                    alt="Hospital Seal"
+                                    className="hospital-seal-preview"
+                                />
 
                             )}
 
@@ -1271,7 +1524,6 @@ function AdityaBirlaInsurance({ patientId }) {
 
 
                 <div className="aditya-page-section">
-
 
                     <SectionTitle>
                         DECLARATION BY THE PATIENT / REPRESENTATIVE
@@ -1345,7 +1597,6 @@ function AdityaBirlaInsurance({ patientId }) {
 
 
                     <div className="patient-declaration-details">
-
 
                         <Input
                             label="Patient's / Insured's Name"
@@ -1456,7 +1707,6 @@ function AdityaBirlaInsurance({ patientId }) {
 
                     <div className="hospital-signature-area">
 
-
                         <div className="seal-box">
 
                             <label>
@@ -1469,6 +1719,17 @@ function AdityaBirlaInsurance({ patientId }) {
                                 accept="image/png,image/jpeg"
                                 onChange={handleHospitalSeal}
                             />
+
+
+                            {formData.hospitalSeal && (
+
+                                <img
+                                    src={formData.hospitalSeal}
+                                    alt="Hospital Seal"
+                                    className="hospital-seal-preview"
+                                />
+
+                            )}
 
                         </div>
 
@@ -1508,7 +1769,6 @@ function AdityaBirlaInsurance({ patientId }) {
 
 
                 <div className="aditya-page-section">
-
 
                     <SectionTitle>
                         DOCUMENTS TO BE PROVIDED BY THE HOSPITAL
@@ -1555,16 +1815,30 @@ function AdityaBirlaInsurance({ patientId }) {
                     </div>
 
 
-                    {/* ================= SUBMIT ================= */}
+                    {/* ==================================================
+                        PDF ACTION BUTTONS
+                    ================================================== */}
 
-                    <button
-                        type="submit"
-                        className="aditya-submit"
-                    >
+                    <div className="insurance-action-buttons">
 
-                        Submit Aditya Birla Insurance Claim
+                        <button
+                            type="button"
+                            className="insurance-print-btn"
+                            onClick={printInsurance}
+                        >
+                            🖨️ Print
+                        </button>
 
-                    </button>
+
+                        <button
+                            type="button"
+                            className="insurance-pdf-btn"
+                            onClick={saveInsurancePdf}
+                        >
+                            📄 Save PDF
+                        </button>
+
+                    </div>
 
                 </div>
 
@@ -1573,27 +1847,32 @@ function AdityaBirlaInsurance({ patientId }) {
         </div>
 
     );
+
 }
 
 
-/* =============================================================
-   SECTION TITLE
-============================================================= */
+// =============================================================
+// SECTION TITLE
+// =============================================================
 
 function SectionTitle({ children }) {
 
     return (
+
         <div className="aditya-section-title">
+
             {children}
+
         </div>
+
     );
 
 }
 
 
-/* =============================================================
-   INPUT
-============================================================= */
+// =============================================================
+// INPUT
+// =============================================================
 
 function Input({
     label,
@@ -1613,10 +1892,13 @@ function Input({
         >
 
             {label && (
+
                 <label>
                     {label}
                 </label>
+
             )}
+
 
             <input
                 type={type}
@@ -1632,9 +1914,9 @@ function Input({
 }
 
 
-/* =============================================================
-   RADIO
-============================================================= */
+// =============================================================
+// RADIO
+// =============================================================
 
 function Radio({
     label,
@@ -1687,9 +1969,9 @@ function Radio({
 }
 
 
-/* =============================================================
-   CHECKBOX
-============================================================= */
+// =============================================================
+// CHECKBOX
+// =============================================================
 
 function CheckBox({
     label,
@@ -1720,9 +2002,9 @@ function CheckBox({
 }
 
 
-/* =============================================================
-   CHRONIC ROW
-============================================================= */
+// =============================================================
+// CHRONIC ROW
+// =============================================================
 
 function ChronicRow({
     label,
@@ -1755,9 +2037,9 @@ function ChronicRow({
 }
 
 
-/* =============================================================
-   COST ROW
-============================================================= */
+// =============================================================
+// COST ROW
+// =============================================================
 
 function CostRow({
     label,
@@ -1785,6 +2067,7 @@ function CostRow({
                 <span>
                     Rs.
                 </span>
+
 
                 <input
                     type="number"

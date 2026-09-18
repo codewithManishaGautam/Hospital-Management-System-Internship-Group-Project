@@ -1,3602 +1,9 @@
-// // import React, { useState } from "react";
-// // import Signature from "./CommonCode/SignaturePad";
-// // import "./Style/SBIInsurance.css";
-
-// // function SBIInsurance({ patientId }) {
-
-// //     const [formData, setFormData] = useState({
-
-// //         // =========================
-// //         // SECTION A
-// //         // =========================
-// //         hospitalName: "",
-// //         hospitalAddress: "",
-// //         rohiniId: "",
-// //         hospitalEmail: "",
-
-// //         // =========================
-// //         // INSURED / PATIENT
-// //         // =========================
-// //         patientName: "",
-// //         gender: "",
-// //         ageYears: "",
-// //         ageMonths: "",
-// //         dob: "",
-// //         contactNumber: "",
-// //         attendingRelativeContact: "",
-// //         insuredCardId: "",
-// //         policyNumber: "",
-// //         corporateName: "",
-// //         employeeId: "",
-
-// //         otherInsurance: "",
-// //         otherInsuranceCompany: "",
-// //         otherInsuranceDetails: "",
-
-// //         familyPhysician: "",
-// //         familyPhysicianName: "",
-// //         familyPhysicianContact: "",
-
-// //         // =========================
-// //         // DOCTOR / HOSPITAL
-// //         // =========================
-// //         treatingDoctorName: "",
-// //         doctorContact: "",
-
-// //         natureOfIllness: "",
-// //         criticalFindings: "",
-// //         ailmentDuration: "",
-// //         firstConsultation: "",
-// //         pastHistory: "",
-// //         provisionalDiagnosis: "",
-// //         icd10Code: "",
-
-// //         treatmentPlan: [],
-
-// //         medicalTreatmentDetails: "",
-// //         drugRoute: "",
-// //         surgeryName: "",
-// //         icd10PCSCode: "",
-// //         otherTreatmentDetails: "",
-
-// //         // Accident
-// //         injuryCause: "",
-// //         isRTA: "",
-// //         injuryDate: "",
-// //         policeReport: "",
-// //         firNo: "",
-// //         substanceAbuse: "",
-// //         substanceTest: "",
-
-// //         // Maternity
-// //         maternityG: "",
-// //         maternityP: "",
-// //         maternityL: "",
-// //         maternityA: "",
-// //         expectedDeliveryDate: "",
-
-// //         // =========================
-// //         // PATIENT ADMITTED
-// //         // =========================
-// //         admissionDate: "",
-// //         admissionTime: "",
-// //         hospitalizationType: "",
-
-// //         diabetes: "",
-// //         heartDisease: "",
-// //         hypertension: "",
-// //         hyperlipidemias: "",
-// //         osteoarthritis: "",
-// //         asthmaCOPD: "",
-// //         cancer: "",
-// //         alcoholDrugAbuse: "",
-// //         hivStd: "",
-// //         otherAilment: "",
-
-// //         expectedStayDays: "",
-// //         icuDays: "",
-// //         roomType: "",
-
-// //         roomRent: "",
-// //         investigationCost: "",
-// //         icuCharges: "",
-// //         otCharges: "",
-// //         professionalFees: "",
-// //         medicinesConsumables: "",
-// //         otherHospitalExpenses: "",
-// //         packageCharges: "",
-// //         totalExpectedCost: "",
-
-// //         // =========================
-// //         // DECLARATION
-// //         // =========================
-// //         doctorQualification: "",
-// //         doctorRegistration: "",
-
-// //         patientDeclarationName: "",
-// //         patientDeclarationContact: "",
-// //         patientDeclarationEmail: "",
-// //         declarationDate: "",
-
-// //         patientSignature: "",
-// //         doctorSignature: ""
-// //     });
-
-
-// //     // ==========================================
-// //     // INPUT CHANGE
-// //     // ==========================================
-
-// //     const handleChange = (e) => {
-
-// //         const { name, value } = e.target;
-
-// //         setFormData((prev) => ({
-// //             ...prev,
-// //             [name]: value
-// //         }));
-// //     };
-
-
-// //     // ==========================================
-// //     // TREATMENT CHECKBOX
-// //     // ==========================================
-
-// //     const handleTreatment = (e) => {
-
-// //         const { value, checked } = e.target;
-
-// //         setFormData((prev) => ({
-
-// //             ...prev,
-
-// //             treatmentPlan: checked
-// //                 ? [...prev.treatmentPlan, value]
-// //                 : prev.treatmentPlan.filter(
-// //                     (item) => item !== value
-// //                 )
-
-// //         }));
-// //     };
-
-
-// //     // ==========================================
-// //     // SUBMIT
-// //     // ==========================================
-
-// //     const handleSubmit = (e) => {
-
-// //         e.preventDefault();
-
-// //         console.log("Patient ID:", patientId);
-
-// //         console.log(
-// //             "SBI Insurance Claim Data:",
-// //             formData
-// //         );
-
-// //         alert(
-// //             "SBI General Insurance Claim submitted successfully."
-// //         );
-// //     };
-
-
-// //     return (
-
-// //         <div className="sbi-page">
-
-// //             <form
-// //                 className="sbi-form"
-// //                 onSubmit={handleSubmit}
-// //             >
-
-// //                 {/* ==================================================
-// //                     HEADER
-// //                 ================================================== */}
-
-// //                 <div className="sbi-header">
-
-// //                     <div className="sbi-logo-box">
-
-// //                         <div className="sbi-logo">
-// //                             SBI
-// //                         </div>
-
-// //                         <div>
-// //                             <h3>SBI General</h3>
-// //                             <span>Insurance</span>
-// //                         </div>
-
-// //                     </div>
-
-
-// //                     <div className="sbi-title">
-
-// //                         <h2>
-// //                             REQUEST FOR CASHLESS
-// //                             HOSPITALISATION
-// //                         </h2>
-
-// //                         <h3>
-// //                             FOR HEALTH INSURANCE POLICY
-// //                         </h3>
-
-// //                         <p>
-// //                             (TO BE FILLED IN BLOCK LETTERS)
-// //                         </p>
-
-// //                     </div>
-
-// //                 </div>
-
-
-// //                 {/* ==================================================
-// //                     SECTION A
-// //                 ================================================== */}
-
-// //                 <SectionTitle
-// //                     title="DETAILS OF THE THIRD PARTY ADMINISTRATOR / INSURER / HOSPITAL"
-// //                 />
-
-// //                 <div className="sbi-info">
-
-// //                     <div className="static-row">
-// //                         <b>
-// //                             a. Name of TPA / Insurance company:
-// //                         </b>
-
-// //                         <span>
-// //                             PARAMOUNT HEALTH SERVICES &
-// //                             INSURANCE TPA PVT. LTD.
-// //                         </span>
-// //                     </div>
-
-
-// //                     <div className="static-row">
-
-// //                         <b>
-// //                             IRDA Licence No:
-// //                         </b>
-
-// //                         <span>
-// //                             006
-// //                         </span>
-
-// //                     </div>
-
-
-// //                     <div className="static-row">
-
-// //                         <b>
-// //                             Cashless Request E-mail Id:
-// //                         </b>
-
-// //                         <span>
-// //                             al.request@paramounttpa.com
-// //                         </span>
-
-// //                     </div>
-
-
-// //                     <div className="static-row">
-
-// //                         <b>
-// //                             b. Toll free phone number:
-// //                         </b>
-
-// //                         <span>
-// //                             1800-22-66 55
-// //                         </span>
-
-// //                     </div>
-
-
-// //                     <div className="static-row">
-
-// //                         <b>
-// //                             c. Toll free fax:
-// //                         </b>
-
-// //                         <span>
-// //                             022-66444754 /
-// //                             66444755 /
-// //                             66444709
-// //                         </span>
-
-// //                     </div>
-
-// //                 </div>
-
-
-// //                 <div className="sbi-grid">
-
-// //                     <Input
-// //                         label="d. Name of Hospital"
-// //                         name="hospitalName"
-// //                         value={formData.hospitalName}
-// //                         onChange={handleChange}
-// //                         full
-// //                     />
-
-// //                     <Input
-// //                         label="i. Address"
-// //                         name="hospitalAddress"
-// //                         value={formData.hospitalAddress}
-// //                         onChange={handleChange}
-// //                         full
-// //                     />
-
-// //                     <Input
-// //                         label="ii. Rohini ID"
-// //                         name="rohiniId"
-// //                         value={formData.rohiniId}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                     <Input
-// //                         label="iii. E-mail ID"
-// //                         name="hospitalEmail"
-// //                         value={formData.hospitalEmail}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                 </div>
-
-
-// //                 {/* ==================================================
-// //                     INSURED / PATIENT
-// //                 ================================================== */}
-
-// //                 <SectionTitle
-// //                     title="TO BE FILLED BY INSURED / PATIENT"
-// //                 />
-
-// //                 <div className="sbi-grid">
-
-// //                     <Input
-// //                         label="A. Name of the Patient"
-// //                         name="patientName"
-// //                         value={formData.patientName}
-// //                         onChange={handleChange}
-// //                         full
-// //                     />
-
-
-// //                     <Radio
-// //                         label="B. Gender"
-// //                         name="gender"
-// //                         value={formData.gender}
-// //                         options={[
-// //                             "Male",
-// //                             "Female",
-// //                             "Third Gender"
-// //                         ]}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <div className="field">
-
-// //                         <label>C. Age</label>
-
-// //                         <div className="age-row">
-
-// //                             <input
-// //                                 name="ageYears"
-// //                                 value={formData.ageYears}
-// //                                 onChange={handleChange}
-// //                                 placeholder="Years"
-// //                             />
-
-// //                             <input
-// //                                 name="ageMonths"
-// //                                 value={formData.ageMonths}
-// //                                 onChange={handleChange}
-// //                                 placeholder="Months"
-// //                             />
-
-// //                         </div>
-
-// //                     </div>
-
-
-// //                     <Input
-// //                         label="D. Date of Birth"
-// //                         name="dob"
-// //                         type="date"
-// //                         value={formData.dob}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Input
-// //                         label="E. Contact Number"
-// //                         name="contactNumber"
-// //                         value={formData.contactNumber}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Input
-// //                         label="F. Contact Number of Attending Relative"
-// //                         name="attendingRelativeContact"
-// //                         value={formData.attendingRelativeContact}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Input
-// //                         label="G. Insured Card ID Number"
-// //                         name="insuredCardId"
-// //                         value={formData.insuredCardId}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Input
-// //                         label="H. Policy Number / Name of Corporate"
-// //                         name="policyNumber"
-// //                         value={formData.policyNumber}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Input
-// //                         label="Corporate Name"
-// //                         name="corporateName"
-// //                         value={formData.corporateName}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Input
-// //                         label="I. Employee ID"
-// //                         name="employeeId"
-// //                         value={formData.employeeId}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Radio
-// //                         label="J. Currently do you have any other Mediclaim / Health Insurance?"
-// //                         name="otherInsurance"
-// //                         value={formData.otherInsurance}
-// //                         options={[
-// //                             "Yes",
-// //                             "No"
-// //                         ]}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Input
-// //                         label="i. Company Name"
-// //                         name="otherInsuranceCompany"
-// //                         value={formData.otherInsuranceCompany}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Input
-// //                         label="ii. Give Details"
-// //                         name="otherInsuranceDetails"
-// //                         value={formData.otherInsuranceDetails}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Radio
-// //                         label="K. Do you have a Family Physician?"
-// //                         name="familyPhysician"
-// //                         value={formData.familyPhysician}
-// //                         options={[
-// //                             "Yes",
-// //                             "No"
-// //                         ]}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Input
-// //                         label="L. Name of the Family Physician"
-// //                         name="familyPhysicianName"
-// //                         value={formData.familyPhysicianName}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Input
-// //                         label="M. Contact Number, if any"
-// //                         name="familyPhysicianContact"
-// //                         value={formData.familyPhysicianContact}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                 </div>
-
-
-// //                 <p className="red-note">
-// //                     (PLEASE COMPLETE DECLARATION OF THIS FORM)
-// //                 </p>
-
-
-// //                 {/* ==================================================
-// //                     TREATING DOCTOR
-// //                 ================================================== */}
-
-// //                 <SectionTitle
-// //                     title="TO BE FILLED BY TREATING DOCTOR / HOSPITAL"
-// //                 />
-
-
-// //                 <div className="sbi-grid">
-
-// //                     <Input
-// //                         label="A. Name of the treating Doctor"
-// //                         name="treatingDoctorName"
-// //                         value={formData.treatingDoctorName}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Input
-// //                         label="B. Contact Number"
-// //                         name="doctorContact"
-// //                         value={formData.doctorContact}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Input
-// //                         label="C. Nature of Illness / Disease with presenting complaint"
-// //                         name="natureOfIllness"
-// //                         value={formData.natureOfIllness}
-// //                         onChange={handleChange}
-// //                         full
-// //                     />
-
-
-// //                     <Input
-// //                         label="D. Relevant Critical Findings"
-// //                         name="criticalFindings"
-// //                         value={formData.criticalFindings}
-// //                         onChange={handleChange}
-// //                         full
-// //                     />
-
-
-// //                     <Input
-// //                         label="E. Duration of the present ailment"
-// //                         name="ailmentDuration"
-// //                         value={formData.ailmentDuration}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Input
-// //                         label="i. Date of First Consultation"
-// //                         name="firstConsultation"
-// //                         type="date"
-// //                         value={formData.firstConsultation}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Input
-// //                         label="ii. Past history of present ailment, if any"
-// //                         name="pastHistory"
-// //                         value={formData.pastHistory}
-// //                         onChange={handleChange}
-// //                         full
-// //                     />
-
-
-// //                     <Input
-// //                         label="F. Provisional Diagnosis"
-// //                         name="provisionalDiagnosis"
-// //                         value={formData.provisionalDiagnosis}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Input
-// //                         label="i. ICD 10 Code"
-// //                         name="icd10Code"
-// //                         value={formData.icd10Code}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                 </div>
-
-
-// //                 {/* TREATMENT */}
-
-// //                 <div className="sub-title">
-// //                     G. Proposed line of treatment
-// //                 </div>
-
-
-// //                 <div className="checkbox-grid">
-
-// //                     {[
-// //                         "Medical Management",
-// //                         "Surgical Management",
-// //                         "Intensive care",
-// //                         "Investigation",
-// //                         "Non-allopathic treatment"
-// //                     ].map((item) => (
-
-// //                         <label key={item}>
-
-// //                             <input
-// //                                 type="checkbox"
-// //                                 value={item}
-// //                                 checked={formData.treatmentPlan.includes(item)}
-// //                                 onChange={handleTreatment}
-// //                             />
-
-// //                             {item}
-
-// //                         </label>
-
-// //                     ))}
-
-// //                 </div>
-
-
-// //                 <div className="sbi-grid">
-
-// //                     <Input
-// //                         label="H. If investigation and / or Medical Management, provide details"
-// //                         name="medicalTreatmentDetails"
-// //                         value={formData.medicalTreatmentDetails}
-// //                         onChange={handleChange}
-// //                         full
-// //                     />
-
-
-// //                     <Input
-// //                         label="i. Route of Drug Administration"
-// //                         name="drugRoute"
-// //                         value={formData.drugRoute}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Input
-// //                         label="I. If surgical, name of surgery"
-// //                         name="surgeryName"
-// //                         value={formData.surgeryName}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Input
-// //                         label="i. ICD 10 PCS Code"
-// //                         name="icd10PCSCode"
-// //                         value={formData.icd10PCSCode}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Input
-// //                         label="J. If other treatment, provide details"
-// //                         name="otherTreatmentDetails"
-// //                         value={formData.otherTreatmentDetails}
-// //                         onChange={handleChange}
-// //                         full
-// //                     />
-
-// //                 </div>
-
-
-// //                 {/* ==================================================
-// //                     ACCIDENT
-// //                 ================================================== */}
-
-// //                 <div className="sub-title">
-// //                     K. How did injury occur
-// //                 </div>
-
-// //                 <Input
-// //                     label=""
-// //                     name="injuryCause"
-// //                     value={formData.injuryCause}
-// //                     onChange={handleChange}
-// //                     full
-// //                 />
-
-
-// //                 <div className="sbi-grid">
-
-// //                     <Radio
-// //                         label="L.i. Is it RTA"
-// //                         name="isRTA"
-// //                         value={formData.isRTA}
-// //                         options={["Yes", "No"]}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Input
-// //                         label="ii. Date of Injury"
-// //                         name="injuryDate"
-// //                         type="date"
-// //                         value={formData.injuryDate}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Radio
-// //                         label="iii. Report to Police"
-// //                         name="policeReport"
-// //                         value={formData.policeReport}
-// //                         options={["Yes", "No"]}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Input
-// //                         label="iv. FIR NO."
-// //                         name="firNo"
-// //                         value={formData.firNo}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Radio
-// //                         label="v. Injury / Disease caused due to substance abuse / alcohol consumption"
-// //                         name="substanceAbuse"
-// //                         value={formData.substanceAbuse}
-// //                         options={["Yes", "No"]}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Radio
-// //                         label="vi. Test conducted to establish this"
-// //                         name="substanceTest"
-// //                         value={formData.substanceTest}
-// //                         options={["Yes", "No"]}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                 </div>
-
-
-// //                 {/* MATERNITY */}
-
-// //                 <div className="sub-title">
-// //                     M. In case of Maternity
-// //                 </div>
-
-
-// //                 <div className="maternity-row">
-
-// //                     <Input
-// //                         label="G"
-// //                         name="maternityG"
-// //                         value={formData.maternityG}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                     <Input
-// //                         label="P"
-// //                         name="maternityP"
-// //                         value={formData.maternityP}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                     <Input
-// //                         label="L"
-// //                         name="maternityL"
-// //                         value={formData.maternityL}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                     <Input
-// //                         label="A"
-// //                         name="maternityA"
-// //                         value={formData.maternityA}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                 </div>
-
-
-// //                 <Input
-// //                     label="Expected Date of Delivery"
-// //                     name="expectedDeliveryDate"
-// //                     type="date"
-// //                     value={formData.expectedDeliveryDate}
-// //                     onChange={handleChange}
-// //                 />
-
-
-// //                 {/* ==================================================
-// //                     DETAILS OF PATIENT ADMITTED
-// //                 ================================================== */}
-
-// //                 <SectionTitle
-// //                     title="DETAILS OF PATIENT ADMITTED"
-// //                 />
-
-
-// //                 <div className="sbi-grid">
-
-// //                     <Input
-// //                         label="A. Date of Admission"
-// //                         name="admissionDate"
-// //                         type="date"
-// //                         value={formData.admissionDate}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Input
-// //                         label="B. Time of Admission"
-// //                         name="admissionTime"
-// //                         type="time"
-// //                         value={formData.admissionTime}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Radio
-// //                         label="C. Emergency / Planned Hospitalization"
-// //                         name="hospitalizationType"
-// //                         value={formData.hospitalizationType}
-// //                         options={[
-// //                             "Emergency",
-// //                             "Planned"
-// //                         ]}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                 </div>
-
-
-// //                 {/* CHRONIC ILLNESS */}
-
-// //                 <div className="chronic-table">
-
-// //                     <div className="chronic-header">
-
-// //                         <span>
-// //                             D. Mandatory Past History of any chronic illness
-// //                         </span>
-
-// //                         <span>
-// //                             Since month/year
-// //                         </span>
-
-// //                     </div>
-
-
-// //                     <ChronicRow
-// //                         label="i. Diabetes"
-// //                         name="diabetes"
-// //                         value={formData.diabetes}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                     <ChronicRow
-// //                         label="ii. Heart disease"
-// //                         name="heartDisease"
-// //                         value={formData.heartDisease}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                     <ChronicRow
-// //                         label="iii. Hypertension"
-// //                         name="hypertension"
-// //                         value={formData.hypertension}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                     <ChronicRow
-// //                         label="iv. Hyperlipidemias"
-// //                         name="hyperlipidemias"
-// //                         value={formData.hyperlipidemias}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                     <ChronicRow
-// //                         label="v. Osteoarthritis"
-// //                         name="osteoarthritis"
-// //                         value={formData.osteoarthritis}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                     <ChronicRow
-// //                         label="vi. Asthma / COPD / Bronchitis"
-// //                         name="asthmaCOPD"
-// //                         value={formData.asthmaCOPD}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                     <ChronicRow
-// //                         label="vii. Cancer"
-// //                         name="cancer"
-// //                         value={formData.cancer}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                     <ChronicRow
-// //                         label="viii. Alcohol / Drug abuse"
-// //                         name="alcoholDrugAbuse"
-// //                         value={formData.alcoholDrugAbuse}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                     <ChronicRow
-// //                         label="ix. Any HIV / STD Related ailment"
-// //                         name="hivStd"
-// //                         value={formData.hivStd}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                     <Input
-// //                         label="x. Any other ailment, give details"
-// //                         name="otherAilment"
-// //                         value={formData.otherAilment}
-// //                         onChange={handleChange}
-// //                         full
-// //                     />
-
-// //                 </div>
-
-
-// //                 {/* ==================================================
-// //                     COST
-// //                 ================================================== */}
-
-// //                 <div className="sbi-grid">
-
-// //                     <Input
-// //                         label="E. Expected number of Days / stay in hospital"
-// //                         name="expectedStayDays"
-// //                         type="number"
-// //                         value={formData.expectedStayDays}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                     <Input
-// //                         label="F. Days in ICU"
-// //                         name="icuDays"
-// //                         type="number"
-// //                         value={formData.icuDays}
-// //                         onChange={handleChange}
-// //                     />
-
-
-// //                     <Input
-// //                         label="G. Room Type"
-// //                         name="roomType"
-// //                         value={formData.roomType}
-// //                         onChange={handleChange}
-// //                         full
-// //                     />
-
-// //                 </div>
-
-
-// //                 <div className="cost-table">
-
-// //                     <CostRow
-// //                         label="H. Per day room rent + nursing and service charges + patients diet"
-// //                         name="roomRent"
-// //                         value={formData.roomRent}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                     <CostRow
-// //                         label="I. Expected cost of investigation + diagnostic"
-// //                         name="investigationCost"
-// //                         value={formData.investigationCost}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                     <CostRow
-// //                         label="J. ICU charges"
-// //                         name="icuCharges"
-// //                         value={formData.icuCharges}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                     <CostRow
-// //                         label="K. OT charges"
-// //                         name="otCharges"
-// //                         value={formData.otCharges}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                     <CostRow
-// //                         label="L. Professional fees Surgeon + Anesthetist Fees + Consultation Charges"
-// //                         name="professionalFees"
-// //                         value={formData.professionalFees}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                     <CostRow
-// //                         label="M. Medicines + Consumables + Cost of Implants"
-// //                         name="medicinesConsumables"
-// //                         value={formData.medicinesConsumables}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                     <CostRow
-// //                         label="N. Other hospital expenses if any"
-// //                         name="otherHospitalExpenses"
-// //                         value={formData.otherHospitalExpenses}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                     <CostRow
-// //                         label="O. All-inclusive package charges if any applicable"
-// //                         name="packageCharges"
-// //                         value={formData.packageCharges}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                     <CostRow
-// //                         label="P. Sum Total expected cost of hospitalization"
-// //                         name="totalExpectedCost"
-// //                         value={formData.totalExpectedCost}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                 </div>
-
-
-// //                 {/* ==================================================
-// //                     DECLARATION
-// //                 ================================================== */}
-
-// //                 <SectionTitle
-// //                     title="DECLARATION"
-// //                 />
-
-
-// //                 <p className="declaration-note">
-// //                     (Please read very carefully)
-// //                 </p>
-
-
-// //                 <p className="declaration-text">
-
-// //                     We confirm having read understood and agreed
-// //                     to the Declarations of this form.
-
-// //                 </p>
-
-
-// //                 <div className="sbi-grid">
-
-// //                     <Input
-// //                         label="a. Name of the treating doctor"
-// //                         name="treatingDoctorName"
-// //                         value={formData.treatingDoctorName}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                     <Input
-// //                         label="b. Qualification"
-// //                         name="doctorQualification"
-// //                         value={formData.doctorQualification}
-// //                         onChange={handleChange}
-// //                     />
-
-// //                     <Input
-// //                         label="c. Registration number with State code"
-// //                         name="doctorRegistration"
-// //                         value={formData.doctorRegistration}
-// //                         onChange={handleChange}
-// //                         full
-// //                     />
-
-// //                 </div>
-
-
-// //                 {/* CONSENT */}
-
-// //                 <div className="consent-box">
-
-// //                     I provide my explicit consent to the undersign
-// //                     hospital to collect, store, process, transfer,
-// //                     archive my KYC documents for the Purpose of
-// //                     availing cashless claim facility.
-
-// //                 </div>
-
-
-// //                 {/* ==================================================
-// //                     SIGNATURES
-// //                 ================================================== */}
-
-// //                 <div className="signature-section">
-
-// //                     {/* HOSPITAL SEAL */}
-
-// //                     <div className="signature-box">
-
-// //                         <label>
-// //                             Hospital Seal
-// //                         </label>
-
-// //                         <div className="hospital-seal" style={{marginBottom:"10px"}}>
-
-
-// //                             <div className="field">
-// //                                 <label>Hospital Seal</label>
-
-// //                                 <input
-// //                                     type="file"
-// //                                     accept="image/png,image/jpeg"
-// //                                     onChange={(e) => {
-// //                                         const file = e.target.files[0];
-
-// //                                         if (file) {
-// //                                             setFormData((prev) => ({
-// //                                                 ...prev,
-// //                                                 hospitalSeal: file
-// //                                             }));
-// //                                         }
-// //                                     }}
-// //                                 />
-// //                             </div>
-
-// //                         </div>
-
-// //                         <mark >Must include Hospital ID</mark>
-
-// //                     </div>
-
-
-// //                     {/* PATIENT SIGNATURE */}
-
-// //                     <div className="signature-box">
-
-// //                         <label>
-// //                             Patient / Insured Name and Sign
-// //                         </label>
-
-// //                         <Signature
-// //                             height={70}
-// //                             design="line"
-// //                             onSave={(image) => {
-
-// //                                 setFormData((prev) => ({
-// //                                     ...prev,
-// //                                     patientSignature: image
-// //                                 }));
-
-// //                             }}
-// //                         />
-
-// //                     </div>
-
-// //                 </div>
-
-
-// //                 {/* ==================================================
-// //                     SUBMIT
-// //                 ================================================== */}
-
-// //                 <button
-// //                     type="submit"
-// //                     className="submit-btn"
-// //                 >
-// //                     Submit Insurance Claim
-// //                 </button>
-
-// //             </form>
-
-// //         </div>
-// //     );
-// // }
-
-
-// // /* ============================================================
-// //    REUSABLE INPUT
-// // ============================================================ */
-
-// // function Input({
-// //     label,
-// //     name,
-// //     value,
-// //     onChange,
-// //     type = "text",
-// //     full = false
-// // }) {
-
-// //     return (
-
-// //         <div className={`field ${full ? "full" : ""}`}>
-
-// //             {label && (
-// //                 <label>
-// //                     {label}
-// //                 </label>
-// //             )}
-
-// //             <input
-// //                 type={type}
-// //                 name={name}
-// //                 value={value}
-// //                 onChange={onChange}
-// //             />
-
-// //         </div>
-// //     );
-// // }
-
-
-// // /* ============================================================
-// //    RADIO
-// // ============================================================ */
-
-// // function Radio({
-// //     label,
-// //     name,
-// //     value,
-// //     options,
-// //     onChange
-// // }) {
-
-// //     return (
-
-// //         <div className="radio-field">
-
-// //             <span>
-// //                 {label}
-// //             </span>
-
-// //             <div className="radio-options">
-
-// //                 {options.map((option) => (
-
-// //                     <label key={option}>
-
-// //                         <input
-// //                             type="radio"
-// //                             name={name}
-// //                             value={option}
-// //                             checked={value === option}
-// //                             onChange={onChange}
-// //                         />
-
-// //                         {option}
-
-// //                     </label>
-
-// //                 ))}
-
-// //             </div>
-
-// //         </div>
-// //     );
-// // }
-
-
-// // /* ============================================================
-// //    SECTION TITLE
-// // ============================================================ */
-
-// // function SectionTitle({ title }) {
-
-// //     return (
-
-// //         <div className="section-title">
-
-// //             {title}
-
-// //         </div>
-// //     );
-// // }
-
-
-// // /* ============================================================
-// //    CHRONIC ROW
-// // ============================================================ */
-
-// // function ChronicRow({
-// //     label,
-// //     name,
-// //     value,
-// //     onChange
-// // }) {
-
-// //     return (
-
-// //         <div className="chronic-row">
-
-// //             <span>
-// //                 {label}
-// //             </span>
-
-// //             <input
-// //                 type="text"
-// //                 name={name}
-// //                 value={value}
-// //                 onChange={onChange}
-// //                 placeholder="Month / Year"
-// //             />
-
-// //         </div>
-// //     );
-// // }
-
-
-// // /* ============================================================
-// //    COST ROW
-// // ============================================================ */
-
-// // function CostRow({
-// //     label,
-// //     name,
-// //     value,
-// //     onChange
-// // }) {
-
-// //     return (
-
-// //         <div className="cost-row">
-
-// //             <span>
-// //                 {label}
-// //             </span>
-
-// //             <input
-// //                 type="number"
-// //                 name={name}
-// //                 value={value}
-// //                 onChange={onChange}
-// //             />
-
-// //         </div>
-// //     );
-// // }
-
-
-// // export default SBIInsurance;
-
-
-
-
-// import React, { useState, useRef } from "react";
-// import axios from "axios";
-// import { useReactToPrint } from "react-to-print";
-// import html2pdf from "html2pdf.js";
-
-// import Signature from "./CommonCode/SignaturePad";
-// import "./Style/SBIInsurance.css";
-
-// function SBIInsurance({ patientId }) {
-
-//     // =========================================================
-//     // INSURANCE FORM REF
-//     // =========================================================
-
-//     const insuranceRef = useRef(null);
-
-
-//     // =========================================================
-//     // FORM DATA
-//     // =========================================================
-
-//     const [formData, setFormData] = useState({
-
-//         // =========================
-//         // SECTION A
-//         // =========================
-
-//         hospitalName: "",
-//         hospitalAddress: "",
-//         rohiniId: "",
-//         hospitalEmail: "",
-
-
-//         // =========================
-//         // INSURED / PATIENT
-//         // =========================
-
-//         patientName: "",
-//         gender: "",
-//         ageYears: "",
-//         ageMonths: "",
-//         dob: "",
-//         contactNumber: "",
-//         attendingRelativeContact: "",
-//         insuredCardId: "",
-//         policyNumber: "",
-//         corporateName: "",
-//         employeeId: "",
-
-//         otherInsurance: "",
-//         otherInsuranceCompany: "",
-//         otherInsuranceDetails: "",
-
-//         familyPhysician: "",
-//         familyPhysicianName: "",
-//         familyPhysicianContact: "",
-
-
-//         // =========================
-//         // DOCTOR / HOSPITAL
-//         // =========================
-
-//         treatingDoctorName: "",
-//         doctorContact: "",
-
-//         natureOfIllness: "",
-//         criticalFindings: "",
-//         ailmentDuration: "",
-//         firstConsultation: "",
-//         pastHistory: "",
-//         provisionalDiagnosis: "",
-//         icd10Code: "",
-
-//         treatmentPlan: [],
-
-//         medicalTreatmentDetails: "",
-//         drugRoute: "",
-//         surgeryName: "",
-//         icd10PCSCode: "",
-//         otherTreatmentDetails: "",
-
-
-//         // =========================
-//         // ACCIDENT
-//         // =========================
-
-//         injuryCause: "",
-//         isRTA: "",
-//         injuryDate: "",
-//         policeReport: "",
-//         firNo: "",
-//         substanceAbuse: "",
-//         substanceTest: "",
-
-
-//         // =========================
-//         // MATERNITY
-//         // =========================
-
-//         maternityG: "",
-//         maternityP: "",
-//         maternityL: "",
-//         maternityA: "",
-//         expectedDeliveryDate: "",
-
-
-//         // =========================
-//         // PATIENT ADMITTED
-//         // =========================
-
-//         admissionDate: "",
-//         admissionTime: "",
-//         hospitalizationType: "",
-
-//         diabetes: "",
-//         heartDisease: "",
-//         hypertension: "",
-//         hyperlipidemias: "",
-//         osteoarthritis: "",
-//         asthmaCOPD: "",
-//         cancer: "",
-//         alcoholDrugAbuse: "",
-//         hivStd: "",
-//         otherAilment: "",
-
-//         expectedStayDays: "",
-//         icuDays: "",
-//         roomType: "",
-
-//         roomRent: "",
-//         investigationCost: "",
-//         icuCharges: "",
-//         otCharges: "",
-//         professionalFees: "",
-//         medicinesConsumables: "",
-//         otherHospitalExpenses: "",
-//         packageCharges: "",
-//         totalExpectedCost: "",
-
-
-//         // =========================
-//         // DECLARATION
-//         // =========================
-
-//         doctorQualification: "",
-//         doctorRegistration: "",
-
-//         patientDeclarationName: "",
-//         patientDeclarationContact: "",
-//         patientDeclarationEmail: "",
-//         declarationDate: "",
-
-//         patientSignature: "",
-//         doctorSignature: "",
-
-//         hospitalSeal: ""
-//     });
-
-
-//     // =========================================================
-//     // INPUT CHANGE
-//     // =========================================================
-
-//     const handleChange = (e) => {
-
-//         const { name, value } = e.target;
-
-//         setFormData((prev) => ({
-//             ...prev,
-//             [name]: value
-//         }));
-//     };
-
-
-//     // =========================================================
-//     // TREATMENT CHECKBOX
-//     // =========================================================
-
-//     const handleTreatment = (e) => {
-
-//         const { value, checked } = e.target;
-
-//         setFormData((prev) => ({
-
-//             ...prev,
-
-//             treatmentPlan: checked
-//                 ? [...prev.treatmentPlan, value]
-//                 : prev.treatmentPlan.filter(
-//                     (item) => item !== value
-//                 )
-
-//         }));
-//     };
-
-
-//     // =========================================================
-//     // PRINT INSURANCE FORM
-//     // =========================================================
-
-//     const printInsurance = useReactToPrint({
-
-//         contentRef: insuranceRef,
-
-//         documentTitle: `${patientId}_SBI_Insurance`
-
-//     });
-
-
-//     // =========================================================
-//     // GENERATE PDF
-//     // =========================================================
-
-//     // const generateInsurancePdf = async () => {
-
-//     //     if (!insuranceRef.current) {
-
-//     //         alert("Insurance Form Not Found");
-
-//     //         return null;
-//     //     }
-
-
-//     //     const options = {
-
-//     //         margin: 2,
-
-//     //         filename:
-//     //             `${patientId}_SBI_Insurance.pdf`,
-
-//     //         image: {
-
-//     //             type: "jpeg",
-
-//     //             quality: 1
-
-//     //         },
-
-//     //         html2canvas: {
-
-//     //             scale: 4,
-
-//     //             useCORS: true,
-
-//     //             scrollX: 0,
-
-//     //             scrollY: 0,
-
-//     //             backgroundColor: "#fff",
-
-//     //             windowWidth:
-//     //                 insuranceRef.current.scrollWidth,
-
-//     //             windowHeight:
-//     //                 insuranceRef.current.scrollHeight
-
-//     //         },
-
-//     //         jsPDF: {
-
-//     //             unit: "mm",
-
-//     //             format: "a3",
-
-//     //             orientation: "portrait"
-
-//     //         },
-
-//     //         pagebreak: {
-
-//     //             mode: ["css", "legacy"]
-
-//     //         }
-
-//     //     };
-
-
-//     //     const worker = html2pdf()
-
-//     //         .set(options)
-
-//     //         .from(insuranceRef.current);
-
-
-//     //     return await worker.outputPdf("blob");
-//     // };
-
-// const generateInsurancePdf = async () => {
-
-//     if (!insuranceRef.current) {
-//         alert("Insurance form not found");
-//         return null;
-//     }
-
-//     const original = insuranceRef.current;
-
-//     try {
-
-//         // =====================================================
-//         // CREATE PDF COPY
-//         // =====================================================
-
-//         const clone = original.cloneNode(true);
-
-//         // =====================================================
-//         // COPY ALL COMPUTED STYLES
-//         // This keeps EXACT current alignment
-//         // =====================================================
-
-//         const originalElements =
-//             original.querySelectorAll("*");
-
-//         const cloneElements =
-//             clone.querySelectorAll("*");
-
-//         originalElements.forEach((originalElement, index) => {
-
-//             const cloneElement =
-//                 cloneElements[index];
-
-//             if (!cloneElement) return;
-
-//             const computed =
-//                 window.getComputedStyle(
-//                     originalElement
-//                 );
-
-//             // Important layout properties
-//             cloneElement.style.display =
-//                 computed.display;
-
-//             cloneElement.style.position =
-//                 computed.position;
-
-//             cloneElement.style.width =
-//                 computed.width;
-
-//             cloneElement.style.height =
-//                 computed.height;
-
-//             cloneElement.style.minWidth =
-//                 computed.minWidth;
-
-//             cloneElement.style.maxWidth =
-//                 computed.maxWidth;
-
-//             cloneElement.style.minHeight =
-//                 computed.minHeight;
-
-//             cloneElement.style.maxHeight =
-//                 computed.maxHeight;
-
-//             cloneElement.style.margin =
-//                 computed.margin;
-
-//             cloneElement.style.padding =
-//                 computed.padding;
-
-//             cloneElement.style.boxSizing =
-//                 computed.boxSizing;
-
-//             // Grid
-//             cloneElement.style.gridTemplateColumns =
-//                 computed.gridTemplateColumns;
-
-//             cloneElement.style.gridTemplateRows =
-//                 computed.gridTemplateRows;
-
-//             cloneElement.style.gridColumn =
-//                 computed.gridColumn;
-
-//             cloneElement.style.gridRow =
-//                 computed.gridRow;
-
-//             cloneElement.style.columnGap =
-//                 computed.columnGap;
-
-//             cloneElement.style.rowGap =
-//                 computed.rowGap;
-
-//             // Flex
-//             cloneElement.style.flex =
-//                 computed.flex;
-
-//             cloneElement.style.flexDirection =
-//                 computed.flexDirection;
-
-//             cloneElement.style.alignItems =
-//                 computed.alignItems;
-
-//             cloneElement.style.justifyContent =
-//                 computed.justifyContent;
-
-//             // Font
-//             cloneElement.style.fontFamily =
-//                 computed.fontFamily;
-
-//             cloneElement.style.fontSize =
-//                 computed.fontSize;
-
-//             cloneElement.style.fontWeight =
-//                 computed.fontWeight;
-
-//             cloneElement.style.lineHeight =
-//                 computed.lineHeight;
-
-//             cloneElement.style.letterSpacing =
-//                 computed.letterSpacing;
-
-//             cloneElement.style.textAlign =
-//                 computed.textAlign;
-
-//             // Text
-//             cloneElement.style.whiteSpace =
-//                 computed.whiteSpace;
-
-//             cloneElement.style.wordBreak =
-//                 computed.wordBreak;
-
-//             cloneElement.style.overflowWrap =
-//                 computed.overflowWrap;
-
-//             // Border
-//             cloneElement.style.border =
-//                 computed.border;
-
-//             cloneElement.style.borderTop =
-//                 computed.borderTop;
-
-//             cloneElement.style.borderRight =
-//                 computed.borderRight;
-
-//             cloneElement.style.borderBottom =
-//                 computed.borderBottom;
-
-//             cloneElement.style.borderLeft =
-//                 computed.borderLeft;
-
-//             cloneElement.style.borderRadius =
-//                 computed.borderRadius;
-
-//             // Background
-//             cloneElement.style.background =
-//                 computed.background;
-
-//             cloneElement.style.backgroundColor =
-//                 computed.backgroundColor;
-
-//             // Color
-//             cloneElement.style.color =
-//                 computed.color;
-//         });
-
-
-//         // =====================================================
-//         // COPY INPUT VALUES
-//         // =====================================================
-
-//         const originalInputs =
-//             original.querySelectorAll("input");
-
-//         const cloneInputs =
-//             clone.querySelectorAll("input");
-
-
-//         originalInputs.forEach(
-//             (originalInput, index) => {
-
-//                 const cloneInput =
-//                     cloneInputs[index];
-
-//                 if (!cloneInput) return;
-
-
-//                 // Normal input
-//                 if (
-//                     originalInput.type !== "radio" &&
-//                     originalInput.type !== "checkbox" &&
-//                     originalInput.type !== "file"
-//                 ) {
-
-//                     cloneInput.value =
-//                         originalInput.value;
-
-//                     cloneInput.setAttribute(
-//                         "value",
-//                         originalInput.value
-//                     );
-//                 }
-
-
-//                 // Radio
-//                 if (
-//                     originalInput.type === "radio"
-//                 ) {
-
-//                     cloneInput.checked =
-//                         originalInput.checked;
-
-//                     if (
-//                         originalInput.checked
-//                     ) {
-
-//                         cloneInput.setAttribute(
-//                             "checked",
-//                             "checked"
-//                         );
-
-//                     } else {
-
-//                         cloneInput.removeAttribute(
-//                             "checked"
-//                         );
-//                     }
-//                 }
-
-
-//                 // Checkbox
-//                 if (
-//                     originalInput.type === "checkbox"
-//                 ) {
-
-//                     cloneInput.checked =
-//                         originalInput.checked;
-
-//                     if (
-//                         originalInput.checked
-//                     ) {
-
-//                         cloneInput.setAttribute(
-//                             "checked",
-//                             "checked"
-//                         );
-
-//                     } else {
-
-//                         cloneInput.removeAttribute(
-//                             "checked"
-//                         );
-//                     }
-//                 }
-//             }
-//         );
-
-
-//         // =====================================================
-//         // COPY TEXTAREA
-//         // =====================================================
-
-//         const originalTextareas =
-//             original.querySelectorAll(
-//                 "textarea"
-//             );
-
-//         const cloneTextareas =
-//             clone.querySelectorAll(
-//                 "textarea"
-//             );
-
-
-//         originalTextareas.forEach(
-//             (originalTextarea, index) => {
-
-//                 const cloneTextarea =
-//                     cloneTextareas[index];
-
-//                 if (!cloneTextarea) return;
-
-//                 cloneTextarea.value =
-//                     originalTextarea.value;
-
-//                 cloneTextarea.textContent =
-//                     originalTextarea.value;
-//             }
-//         );
-
-
-//         // =====================================================
-//         // COPY SELECT
-//         // =====================================================
-
-//         const originalSelects =
-//             original.querySelectorAll(
-//                 "select"
-//             );
-
-//         const cloneSelects =
-//             clone.querySelectorAll(
-//                 "select"
-//             );
-
-
-//         originalSelects.forEach(
-//             (originalSelect, index) => {
-
-//                 const cloneSelect =
-//                     cloneSelects[index];
-
-//                 if (!cloneSelect) return;
-
-//                 cloneSelect.value =
-//                     originalSelect.value;
-
-//                 cloneSelect.selectedIndex =
-//                     originalSelect.selectedIndex;
-//             }
-//         );
-
-
-//         // =====================================================
-//         // COPY SIGNATURE
-//         // =====================================================
-
-//         const originalCanvas =
-//             original.querySelectorAll(
-//                 "canvas"
-//             );
-
-//         const cloneCanvas =
-//             clone.querySelectorAll(
-//                 "canvas"
-//             );
-
-
-//         originalCanvas.forEach(
-//             (canvas, index) => {
-
-//                 const cloned =
-//                     cloneCanvas[index];
-
-//                 if (!cloned) return;
-
-//                 try {
-
-//                     const img =
-//                         document.createElement(
-//                             "img"
-//                         );
-
-//                     img.src =
-//                         canvas.toDataURL(
-//                             "image/png"
-//                         );
-
-//                     img.style.width =
-//                         `${canvas.width}px`;
-
-//                     img.style.height =
-//                         `${canvas.height}px`;
-
-//                     img.style.display =
-//                         "block";
-
-//                     cloned.replaceWith(img);
-
-//                 } catch (error) {
-
-//                     console.error(
-//                         "Signature error:",
-//                         error
-//                     );
-//                 }
-//             }
-//         );
-
-
-//         // =====================================================
-//         // IMPORTANT:
-//         // DO NOT CHANGE WIDTH / GRID / BACKGROUND
-//         // =====================================================
-
-//         const container =
-//             document.createElement("div");
-
-//         container.style.position =
-//             "absolute";
-
-//         container.style.left =
-//             "-10000px";
-
-//         container.style.top =
-//             "0";
-
-//         container.style.margin =
-//             "0";
-
-//         container.style.padding =
-//             "0";
-
-//         container.style.background =
-//             "transparent";
-
-
-//         container.appendChild(clone);
-
-//         document.body.appendChild(
-//             container
-//         );
-
-
-//         // =====================================================
-//         // WAIT FOR RENDER
-//         // =====================================================
-
-//         await new Promise((resolve) => {
-
-//             requestAnimationFrame(() => {
-
-//                 requestAnimationFrame(resolve);
-
-//             });
-
-//         });
-
-
-//         // =====================================================
-//         // PDF
-//         // =====================================================
-
-//         const pdfBlob =
-//             await html2pdf()
-//                 .set({
-
-//                     margin: 0,
-
-//                     filename:
-//                         `${patientId}_SBI_Insurance.pdf`,
-
-//                     image: {
-//                         type: "jpeg",
-//                         quality: 1
-//                     },
-
-//                     html2canvas: {
-
-//                         scale: 2,
-
-//                         useCORS: true,
-
-//                         allowTaint: false,
-
-//                         backgroundColor:
-//                             "#ffffff",
-
-//                         scrollX: 0,
-
-//                         scrollY: 0,
-
-//                         logging: false
-//                     },
-
-//                     jsPDF: {
-
-//                         unit: "mm",
-
-//                         format: "a3",
-
-//                         orientation:
-//                             "portrait"
-//                     },
-
-//                     pagebreak: {
-
-//                         mode: [
-//                             "css",
-//                             "legacy"
-//                         ]
-//                     }
-
-//                 })
-//                 .from(clone)
-//                 .outputPdf("blob");
-
-
-//         // =====================================================
-//         // REMOVE PDF COPY
-//         // =====================================================
-
-//         document.body.removeChild(
-//             container
-//         );
-
-
-//         return pdfBlob;
-
-
-//     } catch (error) {
-
-//         console.error(
-//             "Insurance PDF Error:",
-//             error
-//         );
-
-//         alert(
-//             "PDF generation failed"
-//         );
-
-//         return null;
-//     }
-// };
-
-//     // =========================================================
-//     // SAVE INSURANCE PDF + DATABASE
-//     // =========================================================
-
-//     const saveInsurancePdf = async () => {
-
-//         try {
-
-//             // -----------------------------------------
-//             // Check Form
-//             // -----------------------------------------
-
-//             if (!insuranceRef.current) {
-
-//                 alert("Insurance Form Not Found");
-
-//                 return;
-//             }
-
-
-//             // -----------------------------------------
-//             // Generate PDF
-//             // -----------------------------------------
-
-//             const pdfBlob =
-//                 await generateInsurancePdf();
-
-
-//             if (!pdfBlob) {
-
-//                 alert("PDF Generation Failed");
-
-//                 return;
-//             }
-
-
-//             // -----------------------------------------
-//             // Upload PDF
-//             // -----------------------------------------
-
-//             const uploadData = new FormData();
-
-//             uploadData.append(
-//                 "file",
-//                 pdfBlob,
-//                 `${patientId}_SBI_Insurance.pdf`
-//             );
-
-//             console.log("Uploading Insurance PDF...");
-
-//             // const uploadResponse = await axios.post(
-//             //     "http://localhost:5000/upload",
-//             //     uploadData,
-//             //     {
-//             //         headers: {
-//             //             "Content-Type": "multipart/form-data"
-//             //         }
-//             //     }
-//             // );
-
-//             const uploadResponse =
-//             await axios.post(
-//                 "http://localhost:5000/upload",
-//                 uploadData
-//             );
-
-
-
-            
-
-//             console.log("Upload Response:", uploadResponse.data);
-
-//             const pdfPath = uploadResponse.data.filePath;
-
-//             console.log("PDF Path:", pdfPath);
-
-//             // -----------------------------------------
-//             // Save Form Data + PDF Path
-//             // -----------------------------------------
-
-//             const saveResponse = await axios.post(
-//                 "http://localhost:5000/insurance/save",
-//                 {
-//                     patientId: patientId,
-//                     insuranceCompany: "SBI General Insurance",
-//                     insuranceData: formData,
-//                     pdfPath: pdfPath
-//                 }
-//             );
-
-//             console.log("Insurance DB Response:", saveResponse.data);
-
-
-//             console.log(
-//                 "Insurance DB Response:",
-//                 saveResponse.data
-//             );
-
-//             console.log(
-//                 "Insurance DB Response:",
-//                 saveResponse.data
-//             );
-
-
-//             // -----------------------------------------
-//             // SUCCESS
-//             // -----------------------------------------
-
-//             alert(
-//                 "SBI Insurance Form Saved Successfully"
-//             );
-
-
-//         } catch (error) {
-
-//             console.error(
-//                 "Insurance Save Error:",
-//                 error
-//             );
-
-//             console.error("========== INSURANCE SAVE ERROR ==========");
-//             console.error("Error:", error);
-//             console.error("Message:", error.message);
-//             console.error("Response:", error.response?.data);
-//             console.error("Status:", error.response?.status);
-
-
-//             alert(
-//                 "Insurance Form Save Failed"
-//             );
-//         }
-//     };
-
-
-//     // =========================================================
-//     // SUBMIT
-//     // =========================================================
-
-//     const handleSubmit = (e) => {
-
-//         e.preventDefault();
-
-//         saveInsurancePdf();
-//     };
-
-
-//     return (
-
-//         <div className="sbi-page">
-
-//             {/* ==================================================
-//                 THIS WHOLE AREA WILL BE PRINTED / PDF
-//             ================================================== */}
-
-//             <form
-//                 ref={insuranceRef}
-//                 className="sbi-form"
-//                 onSubmit={handleSubmit}
-//             >
-
-//                 {/* ==================================================
-//                     HEADER
-//                 ================================================== */}
-
-//                 <div className="sbi-header">
-
-//                     <div className="sbi-logo-box">
-
-//                         <div className="sbi-logo">
-//                             SBI
-//                         </div>
-
-//                         <div>
-
-//                             <h3>
-//                                 SBI General
-//                             </h3>
-
-//                             <span>
-//                                 Insurance
-//                             </span>
-
-//                         </div>
-
-//                     </div>
-
-
-//                     <div className="sbi-title">
-
-//                         <h2>
-//                             REQUEST FOR CASHLESS
-//                             HOSPITALISATION
-//                         </h2>
-
-//                         <h3>
-//                             FOR HEALTH INSURANCE POLICY
-//                         </h3>
-
-//                         <p>
-//                             (TO BE FILLED IN BLOCK LETTERS)
-//                         </p>
-
-//                     </div>
-
-//                 </div>
-
-
-//                 {/* ==================================================
-//                     SECTION A
-//                 ================================================== */}
-
-//                 <SectionTitle
-//                     title="DETAILS OF THE THIRD PARTY ADMINISTRATOR / INSURER / HOSPITAL"
-//                 />
-
-
-//                 <div className="sbi-info">
-
-//                     <div className="static-row">
-
-//                         <b>
-//                             a. Name of TPA / Insurance company:
-//                         </b>
-
-//                         <span>
-//                             PARAMOUNT HEALTH SERVICES &
-//                             INSURANCE TPA PVT. LTD.
-//                         </span>
-
-//                     </div>
-
-
-//                     <div className="static-row">
-
-//                         <b>
-//                             IRDA Licence No:
-//                         </b>
-
-//                         <span>
-//                             006
-//                         </span>
-
-//                     </div>
-
-
-//                     <div className="static-row">
-
-//                         <b>
-//                             Cashless Request E-mail Id:
-//                         </b>
-
-//                         <span>
-//                             al.request@paramounttpa.com
-//                         </span>
-
-//                     </div>
-
-
-//                     <div className="static-row">
-
-//                         <b>
-//                             b. Toll free phone number:
-//                         </b>
-
-//                         <span>
-//                             1800-22-66 55
-//                         </span>
-
-//                     </div>
-
-
-//                     <div className="static-row">
-
-//                         <b>
-//                             c. Toll free fax:
-//                         </b>
-
-//                         <span>
-//                             022-66444754 /
-//                             66444755 /
-//                             66444709
-//                         </span>
-
-//                     </div>
-
-//                 </div>
-
-
-//                 <div className="sbi-grid">
-
-//                     <Input
-//                         label="d. Name of Hospital"
-//                         name="hospitalName"
-//                         value={formData.hospitalName}
-//                         onChange={handleChange}
-//                         full
-//                     />
-
-//                     <Input
-//                         label="i. Address"
-//                         name="hospitalAddress"
-//                         value={formData.hospitalAddress}
-//                         onChange={handleChange}
-//                         full
-//                     />
-
-//                     <Input
-//                         label="ii. Rohini ID"
-//                         name="rohiniId"
-//                         value={formData.rohiniId}
-//                         onChange={handleChange}
-//                     />
-
-//                     <Input
-//                         label="iii. E-mail ID"
-//                         name="hospitalEmail"
-//                         value={formData.hospitalEmail}
-//                         onChange={handleChange}
-//                     />
-
-//                 </div>
-
-
-//                 {/* ==================================================
-//                     INSURED / PATIENT
-//                 ================================================== */}
-
-//                 <SectionTitle
-//                     title="TO BE FILLED BY INSURED / PATIENT"
-//                 />
-
-
-//                 <div className="sbi-grid">
-
-//                     <Input
-//                         label="A. Name of the Patient"
-//                         name="patientName"
-//                         value={formData.patientName}
-//                         onChange={handleChange}
-//                         full
-//                     />
-
-
-//                     <Radio
-//                         label="B. Gender"
-//                         name="gender"
-//                         value={formData.gender}
-//                         options={[
-//                             "Male",
-//                             "Female",
-//                             "Third Gender"
-//                         ]}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <div className="field">
-
-//                         <label>
-//                             C. Age
-//                         </label>
-
-//                         <div className="age-row">
-
-//                             <input
-//                                 name="ageYears"
-//                                 value={formData.ageYears}
-//                                 onChange={handleChange}
-//                                 placeholder="Years"
-//                             />
-
-//                             <input
-//                                 name="ageMonths"
-//                                 value={formData.ageMonths}
-//                                 onChange={handleChange}
-//                                 placeholder="Months"
-//                             />
-
-//                         </div>
-
-//                     </div>
-
-
-//                     <Input
-//                         label="D. Date of Birth"
-//                         name="dob"
-//                         type="date"
-//                         value={formData.dob}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Input
-//                         label="E. Contact Number"
-//                         name="contactNumber"
-//                         value={formData.contactNumber}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Input
-//                         label="F. Contact Number of Attending Relative"
-//                         name="attendingRelativeContact"
-//                         value={formData.attendingRelativeContact}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Input
-//                         label="G. Insured Card ID Number"
-//                         name="insuredCardId"
-//                         value={formData.insuredCardId}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Input
-//                         label="H. Policy Number / Name of Corporate"
-//                         name="policyNumber"
-//                         value={formData.policyNumber}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Input
-//                         label="Corporate Name"
-//                         name="corporateName"
-//                         value={formData.corporateName}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Input
-//                         label="I. Employee ID"
-//                         name="employeeId"
-//                         value={formData.employeeId}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Radio
-//                         label="J. Currently do you have any other Mediclaim / Health Insurance?"
-//                         name="otherInsurance"
-//                         value={formData.otherInsurance}
-//                         options={[
-//                             "Yes",
-//                             "No"
-//                         ]}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Input
-//                         label="i. Company Name"
-//                         name="otherInsuranceCompany"
-//                         value={formData.otherInsuranceCompany}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Input
-//                         label="ii. Give Details"
-//                         name="otherInsuranceDetails"
-//                         value={formData.otherInsuranceDetails}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Radio
-//                         label="K. Do you have a Family Physician?"
-//                         name="familyPhysician"
-//                         value={formData.familyPhysician}
-//                         options={[
-//                             "Yes",
-//                             "No"
-//                         ]}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Input
-//                         label="L. Name of the Family Physician"
-//                         name="familyPhysicianName"
-//                         value={formData.familyPhysicianName}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Input
-//                         label="M. Contact Number, if any"
-//                         name="familyPhysicianContact"
-//                         value={formData.familyPhysicianContact}
-//                         onChange={handleChange}
-//                     />
-
-//                 </div>
-
-
-//                 <p className="red-note">
-//                     (PLEASE COMPLETE DECLARATION OF THIS FORM)
-//                 </p>
-
-
-//                 {/* ==================================================
-//                     TREATING DOCTOR
-//                 ================================================== */}
-
-//                 <SectionTitle
-//                     title="TO BE FILLED BY TREATING DOCTOR / HOSPITAL"
-//                 />
-
-
-//                 <div className="sbi-grid">
-
-//                     <Input
-//                         label="A. Name of the treating Doctor"
-//                         name="treatingDoctorName"
-//                         value={formData.treatingDoctorName}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Input
-//                         label="B. Contact Number"
-//                         name="doctorContact"
-//                         value={formData.doctorContact}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Input
-//                         label="C. Nature of Illness / Disease with presenting complaint"
-//                         name="natureOfIllness"
-//                         value={formData.natureOfIllness}
-//                         onChange={handleChange}
-//                         full
-//                     />
-
-
-//                     <Input
-//                         label="D. Relevant Critical Findings"
-//                         name="criticalFindings"
-//                         value={formData.criticalFindings}
-//                         onChange={handleChange}
-//                         full
-//                     />
-
-
-//                     <Input
-//                         label="E. Duration of the present ailment"
-//                         name="ailmentDuration"
-//                         value={formData.ailmentDuration}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Input
-//                         label="i. Date of First Consultation"
-//                         name="firstConsultation"
-//                         type="date"
-//                         value={formData.firstConsultation}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Input
-//                         label="ii. Past history of present ailment, if any"
-//                         name="pastHistory"
-//                         value={formData.pastHistory}
-//                         onChange={handleChange}
-//                         full
-//                     />
-
-
-//                     <Input
-//                         label="F. Provisional Diagnosis"
-//                         name="provisionalDiagnosis"
-//                         value={formData.provisionalDiagnosis}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Input
-//                         label="i. ICD 10 Code"
-//                         name="icd10Code"
-//                         value={formData.icd10Code}
-//                         onChange={handleChange}
-//                     />
-
-//                 </div>
-
-
-//                 {/* ==================================================
-//                     TREATMENT
-//                 ================================================== */}
-
-//                 <div className="sub-title">
-//                     G. Proposed line of treatment
-//                 </div>
-
-
-//                 <div className="checkbox-grid">
-
-//                     {[
-//                         "Medical Management",
-//                         "Surgical Management",
-//                         "Intensive care",
-//                         "Investigation",
-//                         "Non-allopathic treatment"
-//                     ].map((item) => (
-
-//                         <label key={item}>
-
-//                             <input
-//                                 type="checkbox"
-//                                 value={item}
-//                                 checked={
-//                                     formData.treatmentPlan.includes(item)
-//                                 }
-//                                 onChange={handleTreatment}
-//                             />
-
-//                             {item}
-
-//                         </label>
-
-//                     ))}
-
-//                 </div>
-
-
-//                 <div className="sbi-grid">
-
-//                     <Input
-//                         label="H. If investigation and / or Medical Management, provide details"
-//                         name="medicalTreatmentDetails"
-//                         value={formData.medicalTreatmentDetails}
-//                         onChange={handleChange}
-//                         full
-//                     />
-
-
-//                     <Input
-//                         label="i. Route of Drug Administration"
-//                         name="drugRoute"
-//                         value={formData.drugRoute}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Input
-//                         label="I. If surgical, name of surgery"
-//                         name="surgeryName"
-//                         value={formData.surgeryName}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Input
-//                         label="i. ICD 10 PCS Code"
-//                         name="icd10PCSCode"
-//                         value={formData.icd10PCSCode}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Input
-//                         label="J. If other treatment, provide details"
-//                         name="otherTreatmentDetails"
-//                         value={formData.otherTreatmentDetails}
-//                         onChange={handleChange}
-//                         full
-//                     />
-
-//                 </div>
-
-
-//                 {/* ==================================================
-//                     ACCIDENT
-//                 ================================================== */}
-
-//                 <div className="sub-title">
-//                     K. How did injury occur
-//                 </div>
-
-
-//                 <Input
-//                     label=""
-//                     name="injuryCause"
-//                     value={formData.injuryCause}
-//                     onChange={handleChange}
-//                     full
-//                 />
-
-
-//                 <div className="sbi-grid">
-
-//                     <Radio
-//                         label="L.i. Is it RTA"
-//                         name="isRTA"
-//                         value={formData.isRTA}
-//                         options={["Yes", "No"]}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Input
-//                         label="ii. Date of Injury"
-//                         name="injuryDate"
-//                         type="date"
-//                         value={formData.injuryDate}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Radio
-//                         label="iii. Report to Police"
-//                         name="policeReport"
-//                         value={formData.policeReport}
-//                         options={["Yes", "No"]}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Input
-//                         label="iv. FIR NO."
-//                         name="firNo"
-//                         value={formData.firNo}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Radio
-//                         label="v. Injury / Disease caused due to substance abuse / alcohol consumption"
-//                         name="substanceAbuse"
-//                         value={formData.substanceAbuse}
-//                         options={["Yes", "No"]}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Radio
-//                         label="vi. Test conducted to establish this"
-//                         name="substanceTest"
-//                         value={formData.substanceTest}
-//                         options={["Yes", "No"]}
-//                         onChange={handleChange}
-//                     />
-
-//                 </div>
-
-
-//                 {/* ==================================================
-//                     MATERNITY
-//                 ================================================== */}
-
-//                 <div className="sub-title">
-//                     M. In case of Maternity
-//                 </div>
-
-
-//                 <div className="maternity-row">
-
-//                     <Input
-//                         label="G"
-//                         name="maternityG"
-//                         value={formData.maternityG}
-//                         onChange={handleChange}
-//                     />
-
-//                     <Input
-//                         label="P"
-//                         name="maternityP"
-//                         value={formData.maternityP}
-//                         onChange={handleChange}
-//                     />
-
-//                     <Input
-//                         label="L"
-//                         name="maternityL"
-//                         value={formData.maternityL}
-//                         onChange={handleChange}
-//                     />
-
-//                     <Input
-//                         label="A"
-//                         name="maternityA"
-//                         value={formData.maternityA}
-//                         onChange={handleChange}
-//                     />
-
-//                 </div>
-
-
-//                 <Input
-//                     label="Expected Date of Delivery"
-//                     name="expectedDeliveryDate"
-//                     type="date"
-//                     value={formData.expectedDeliveryDate}
-//                     onChange={handleChange}
-//                 />
-
-
-//                 {/* ==================================================
-//                     DETAILS OF PATIENT ADMITTED
-//                 ================================================== */}
-
-//                 <SectionTitle
-//                     title="DETAILS OF PATIENT ADMITTED"
-//                 />
-
-
-//                 <div className="sbi-grid">
-
-//                     <Input
-//                         label="A. Date of Admission"
-//                         name="admissionDate"
-//                         type="date"
-//                         value={formData.admissionDate}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Input
-//                         label="B. Time of Admission"
-//                         name="admissionTime"
-//                         type="time"
-//                         value={formData.admissionTime}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Radio
-//                         label="C. Emergency / Planned Hospitalization"
-//                         name="hospitalizationType"
-//                         value={formData.hospitalizationType}
-//                         options={[
-//                             "Emergency",
-//                             "Planned"
-//                         ]}
-//                         onChange={handleChange}
-//                     />
-
-//                 </div>
-
-
-//                 {/* ==================================================
-//                     CHRONIC ILLNESS
-//                 ================================================== */}
-
-//                 <div className="chronic-table">
-
-//                     <div className="chronic-header">
-
-//                         <span>
-//                             D. Mandatory Past History of any chronic illness
-//                         </span>
-
-//                         <span>
-//                             Since month/year
-//                         </span>
-
-//                     </div>
-
-
-//                     <ChronicRow
-//                         label="i. Diabetes"
-//                         name="diabetes"
-//                         value={formData.diabetes}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <ChronicRow
-//                         label="ii. Heart disease"
-//                         name="heartDisease"
-//                         value={formData.heartDisease}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <ChronicRow
-//                         label="iii. Hypertension"
-//                         name="hypertension"
-//                         value={formData.hypertension}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <ChronicRow
-//                         label="iv. Hyperlipidemias"
-//                         name="hyperlipidemias"
-//                         value={formData.hyperlipidemias}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <ChronicRow
-//                         label="v. Osteoarthritis"
-//                         name="osteoarthritis"
-//                         value={formData.osteoarthritis}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <ChronicRow
-//                         label="vi. Asthma / COPD / Bronchitis"
-//                         name="asthmaCOPD"
-//                         value={formData.asthmaCOPD}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <ChronicRow
-//                         label="vii. Cancer"
-//                         name="cancer"
-//                         value={formData.cancer}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <ChronicRow
-//                         label="viii. Alcohol / Drug abuse"
-//                         name="alcoholDrugAbuse"
-//                         value={formData.alcoholDrugAbuse}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <ChronicRow
-//                         label="ix. Any HIV / STD Related ailment"
-//                         name="hivStd"
-//                         value={formData.hivStd}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Input
-//                         label="x. Any other ailment, give details"
-//                         name="otherAilment"
-//                         value={formData.otherAilment}
-//                         onChange={handleChange}
-//                         full
-//                     />
-
-//                 </div>
-
-
-//                 {/* ==================================================
-//                     COST
-//                 ================================================== */}
-
-//                 <div className="sbi-grid">
-
-//                     <Input
-//                         label="E. Expected number of Days / stay in hospital"
-//                         name="expectedStayDays"
-//                         type="number"
-//                         value={formData.expectedStayDays}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Input
-//                         label="F. Days in ICU"
-//                         name="icuDays"
-//                         type="number"
-//                         value={formData.icuDays}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Input
-//                         label="G. Room Type"
-//                         name="roomType"
-//                         value={formData.roomType}
-//                         onChange={handleChange}
-//                         full
-//                     />
-
-//                 </div>
-
-
-//                 <div className="cost-table">
-
-//                     <CostRow
-//                         label="H. Per day room rent + nursing and service charges + patients diet"
-//                         name="roomRent"
-//                         value={formData.roomRent}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <CostRow
-//                         label="I. Expected cost of investigation + diagnostic"
-//                         name="investigationCost"
-//                         value={formData.investigationCost}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <CostRow
-//                         label="J. ICU charges"
-//                         name="icuCharges"
-//                         value={formData.icuCharges}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <CostRow
-//                         label="K. OT charges"
-//                         name="otCharges"
-//                         value={formData.otCharges}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <CostRow
-//                         label="L. Professional fees Surgeon + Anesthetist Fees + Consultation Charges"
-//                         name="professionalFees"
-//                         value={formData.professionalFees}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <CostRow
-//                         label="M. Medicines + Consumables + Cost of Implants"
-//                         name="medicinesConsumables"
-//                         value={formData.medicinesConsumables}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <CostRow
-//                         label="N. Other hospital expenses if any"
-//                         name="otherHospitalExpenses"
-//                         value={formData.otherHospitalExpenses}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <CostRow
-//                         label="O. All-inclusive package charges if any applicable"
-//                         name="packageCharges"
-//                         value={formData.packageCharges}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <CostRow
-//                         label="P. Sum Total expected cost of hospitalization"
-//                         name="totalExpectedCost"
-//                         value={formData.totalExpectedCost}
-//                         onChange={handleChange}
-//                     />
-
-//                 </div>
-
-
-//                 {/* ==================================================
-//                     DECLARATION
-//                 ================================================== */}
-
-//                 <SectionTitle
-//                     title="DECLARATION"
-//                 />
-
-
-//                 <p className="declaration-note">
-//                     (Please read very carefully)
-//                 </p>
-
-
-//                 <p className="declaration-text">
-
-//                     We confirm having read understood and agreed
-//                     to the Declarations of this form.
-
-//                 </p>
-
-
-//                 <div className="sbi-grid">
-
-//                     <Input
-//                         label="a. Name of the treating doctor"
-//                         name="treatingDoctorName"
-//                         value={formData.treatingDoctorName}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Input
-//                         label="b. Qualification"
-//                         name="doctorQualification"
-//                         value={formData.doctorQualification}
-//                         onChange={handleChange}
-//                     />
-
-
-//                     <Input
-//                         label="c. Registration number with State code"
-//                         name="doctorRegistration"
-//                         value={formData.doctorRegistration}
-//                         onChange={handleChange}
-//                         full
-//                     />
-
-//                 </div>
-
-
-//                 {/* ==================================================
-//                     CONSENT
-//                 ================================================== */}
-
-//                 <div className="consent-box">
-
-//                     I provide my explicit consent to the undersign
-//                     hospital to collect, store, process, transfer,
-//                     archive my KYC documents for the Purpose of
-//                     availing cashless claim facility.
-
-//                 </div>
-
-
-//                 {/* ==================================================
-//                     SIGNATURES
-//                 ================================================== */}
-
-//                 <div className="signature-section">
-
-
-//                     {/* HOSPITAL SEAL */}
-
-//                     <div className="signature-box">
-
-//                         <label>
-//                             Hospital Seal
-//                         </label>
-
-
-//                         <div className="hospital-seal">
-
-//                             <div className="field">
-
-//                                 <label>
-//                                     Hospital Seal
-//                                 </label>
-
-
-//                                 <input
-//                                     type="file"
-//                                     accept="image/png,image/jpeg"
-//                                     onChange={(e) => {
-
-//                                         const file =
-//                                             e.target.files[0];
-
-
-//                                         if (file) {
-
-//                                             setFormData(
-//                                                 (prev) => ({
-
-//                                                     ...prev,
-
-//                                                     hospitalSeal:
-//                                                         file
-
-//                                                 })
-//                                             );
-
-//                                         }
-
-//                                     }}
-//                                 />
-
-//                             </div>
-
-//                         </div>
-
-
-//                         <mark>
-//                             Must include Hospital ID
-//                         </mark>
-
-//                     </div>
-
-
-//                     {/* PATIENT SIGNATURE */}
-
-//                     <div className="signature-box">
-
-//                         <label>
-//                             Patient / Insured Name and Sign
-//                         </label>
-
-
-//                         <Signature
-//                             height={70}
-//                             design="line"
-//                             onSave={(image) => {
-
-//                                 setFormData(
-//                                     (prev) => ({
-
-//                                         ...prev,
-
-//                                         patientSignature:
-//                                             image
-
-//                                     })
-//                                 );
-
-//                             }}
-//                         />
-
-//                     </div>
-
-//                 </div>
-
-//             </form>
-
-
-//             {/* ==================================================
-//                 ACTION BUTTONS
-//                 THESE WILL NOT BE PART OF PDF
-//             ================================================== */}
-
-//             <div className="insurance-action-buttons">
-
-//                 <button
-//                     type="button"
-//                     className="btn btn-success"
-//                     onClick={printInsurance}
-//                 >
-//                     Print Insurance
-//                 </button>
-
-
-//                 <button
-//                     type="button"
-//                     className="btn btn-secondary"
-//                     onClick={saveInsurancePdf}
-//                 >
-//                     Save Insurance
-//                 </button>
-
-//             </div>
-
-//         </div>
-//     );
-// }
-
-
-// /* ============================================================
-//    REUSABLE INPUT
-// ============================================================ */
-
-// function Input({
-//     label,
-//     name,
-//     value,
-//     onChange,
-//     type = "text",
-//     full = false
-// }) {
-
-//     return (
-
-//         <div
-//             className={`field ${full ? "full" : ""}`}
-//         >
-
-//             {label && (
-//                 <label>
-//                     {label}
-//                 </label>
-//             )}
-
-
-//             <input
-//                 type={type}
-//                 name={name}
-//                 value={value}
-//                 onChange={onChange}
-//             />
-
-//         </div>
-//     );
-// }
-
-
-// /* ============================================================
-//    RADIO
-// ============================================================ */
-
-// function Radio({
-//     label,
-//     name,
-//     value,
-//     options,
-//     onChange
-// }) {
-
-//     return (
-
-//         <div className="radio-field">
-
-//             <span>
-//                 {label}
-//             </span>
-
-
-//             <div className="radio-options">
-
-//                 {options.map((option) => (
-
-//                     <label key={option}>
-
-//                         <input
-//                             type="radio"
-//                             name={name}
-//                             value={option}
-//                             checked={value === option}
-//                             onChange={onChange}
-//                         />
-
-//                         {option}
-
-//                     </label>
-
-//                 ))}
-
-//             </div>
-
-//         </div>
-//     );
-// }
-
-
-// /* ============================================================
-//    SECTION TITLE
-// ============================================================ */
-
-// function SectionTitle({ title }) {
-
-//     return (
-
-//         <div className="section-title">
-
-//             {title}
-
-//         </div>
-//     );
-// }
-
-
-// /* ============================================================
-//    CHRONIC ROW
-// ============================================================ */
-
-// function ChronicRow({
-//     label,
-//     name,
-//     value,
-//     onChange
-// }) {
-
-//     return (
-
-//         <div className="chronic-row">
-
-//             <span>
-//                 {label}
-//             </span>
-
-
-//             <input
-//                 type="text"
-//                 name={name}
-//                 value={value}
-//                 onChange={onChange}
-//                 placeholder="Month / Year"
-//             />
-
-//         </div>
-//     );
-// }
-
-
-// /* ============================================================
-//    COST ROW
-// ============================================================ */
-
-// function CostRow({
-//     label,
-//     name,
-//     value,
-//     onChange
-// }) {
-
-//     return (
-
-//         <div className="cost-row">
-
-//             <span>
-//                 {label}
-//             </span>
-
-
-//             <input
-//                 type="number"
-//                 name={name}
-//                 value={value}
-//                 onChange={onChange}
-//             />
-
-//         </div>
-//     );
-// }
-
-
-// export default SBIInsurance;
-
 
 
 import React, { useState, useRef } from "react";
 import axios from "axios";
 import { useReactToPrint } from "react-to-print";
-import jsPDF from "jspdf";
 import html2pdf from "html2pdf.js";
-import html2canvas from "html2canvas";
 
 import Signature from "./CommonCode/SignaturePad";
 import "./Style/SBIInsurance.css";
@@ -3625,7 +32,6 @@ function SBIInsurance({ patientId }) {
         rohiniId: "",
         hospitalEmail: "",
 
-
         // =========================
         // INSURED / PATIENT
         // =========================
@@ -3650,7 +56,6 @@ function SBIInsurance({ patientId }) {
         familyPhysicianName: "",
         familyPhysicianContact: "",
 
-
         // =========================
         // DOCTOR / HOSPITAL
         // =========================
@@ -3674,7 +79,6 @@ function SBIInsurance({ patientId }) {
         icd10PCSCode: "",
         otherTreatmentDetails: "",
 
-
         // =========================
         // ACCIDENT
         // =========================
@@ -3687,7 +91,6 @@ function SBIInsurance({ patientId }) {
         substanceAbuse: "",
         substanceTest: "",
 
-
         // =========================
         // MATERNITY
         // =========================
@@ -3697,7 +100,6 @@ function SBIInsurance({ patientId }) {
         maternityL: "",
         maternityA: "",
         expectedDeliveryDate: "",
-
 
         // =========================
         // PATIENT ADMITTED
@@ -3731,7 +133,6 @@ function SBIInsurance({ patientId }) {
         otherHospitalExpenses: "",
         packageCharges: "",
         totalExpectedCost: "",
-
 
         // =========================
         // DECLARATION
@@ -3776,7 +177,6 @@ function SBIInsurance({ patientId }) {
         const { value, checked } = e.target;
 
         setFormData((prev) => ({
-
             ...prev,
 
             treatmentPlan: checked
@@ -3784,7 +184,23 @@ function SBIInsurance({ patientId }) {
                 : prev.treatmentPlan.filter(
                     (item) => item !== value
                 )
+        }));
+    };
 
+
+    // =========================================================
+    // HOSPITAL SEAL
+    // =========================================================
+
+    const handleHospitalSeal = (e) => {
+
+        const file = e.target.files[0];
+
+        if (!file) return;
+
+        setFormData((prev) => ({
+            ...prev,
+            hospitalSeal: file
         }));
     };
 
@@ -3797,842 +213,955 @@ function SBIInsurance({ patientId }) {
 
         contentRef: insuranceRef,
 
-        documentTitle: `${patientId}_SBI_Insurance`
+        documentTitle:
+            `${patientId || "Patient"}_SBI_Insurance`
 
     });
 
 
     // =========================================================
-    // GENERATE PDF
+    // GENERATE INSURANCE PDF
     // =========================================================
 
-    // =========================================================
-// GENERATE INSURANCE PDF
-// PRINT LOOK + ACTUAL FORM DATA
-// =========================================================
+    const generateInsurancePdf = async () => {
 
-const generateInsurancePdf = async () => {
+        if (!insuranceRef.current) {
 
-    if (!insuranceRef.current) {
-        alert("Insurance form not found");
-        return null;
-    }
+            alert("Insurance form not found.");
 
-    const original = insuranceRef.current;
-
-    // =====================================================
-    // 1. CLONE FORM
-    // =====================================================
-
-    const clone = original.cloneNode(true);
-
-    clone.classList.add("insurance-pdf");
-
-    clone.style.width = "1100px";
-    clone.style.maxWidth = "1100px";
-    clone.style.margin = "0";
-    clone.style.padding = "30px";
-    clone.style.background = "#ffffff";
-    clone.style.boxSizing = "border-box";
-
-    // =====================================================
-    // 2. COPY ALL FORM DATA INTO VISIBLE PDF ELEMENTS
-    // =====================================================
-
-    // ---------- INPUTS ----------
-    const originalInputs = original.querySelectorAll("input");
-    const cloneInputs = clone.querySelectorAll("input");
-
-    originalInputs.forEach((originalInput, index) => {
-
-        const cloneInput = cloneInputs[index];
-
-        if (!cloneInput) return;
-
-        // ---------------------------------------------
-        // RADIO / CHECKBOX
-        // ---------------------------------------------
-
-        if (
-            originalInput.type === "radio" ||
-            originalInput.type === "checkbox"
-        ) {
-
-            const mark = document.createElement("span");
-
-            mark.className = "pdf-check-mark";
-
-            mark.textContent =
-                originalInput.checked
-                    ? "☑"
-                    : "☐";
-
-            mark.style.display = "inline-block";
-            mark.style.width = "18px";
-            mark.style.height = "18px";
-            mark.style.fontSize = "14px";
-            mark.style.lineHeight = "18px";
-            mark.style.verticalAlign = "middle";
-            mark.style.marginRight = "4px";
-            mark.style.fontFamily = "Arial, sans-serif";
-
-            cloneInput.parentNode.replaceChild(
-                mark,
-                cloneInput
-            );
-
-            return;
+            return null;
         }
 
-        // ---------------------------------------------
-        // FILE INPUT
-        // ---------------------------------------------
+        const original = insuranceRef.current;
 
-        if (originalInput.type === "file") {
+        // =====================================================
+        // 1. CLONE FORM
+        // =====================================================
 
-            const fileBox = document.createElement("div");
+        const clone = original.cloneNode(true);
 
-            fileBox.className = "pdf-file-box";
+        clone.classList.add("insurance-pdf");
 
-            fileBox.textContent =
-                originalInput.files &&
-                originalInput.files.length > 0
-                    ? originalInput.files[0].name
-                    : "";
+        clone.style.width = "1100px";
+        clone.style.maxWidth = "1100px";
+        clone.style.margin = "0";
+        clone.style.padding = "30px";
+        clone.style.background = "#ffffff";
+        clone.style.boxSizing = "border-box";
 
-            fileBox.style.width = "100%";
-            fileBox.style.minHeight = "40px";
-            fileBox.style.border = "1px solid #999";
-            fileBox.style.padding = "8px 10px";
-            fileBox.style.boxSizing = "border-box";
-            fileBox.style.fontFamily =
-                "Arial, Helvetica, sans-serif";
-            fileBox.style.fontSize = "14px";
 
-            cloneInput.parentNode.replaceChild(
-                fileBox,
-                cloneInput
-            );
+        // =====================================================
+        // 2. COPY INPUT VALUES
+        // =====================================================
 
-            return;
-        }
+        const originalInputs =
+            original.querySelectorAll("input");
 
-        // ---------------------------------------------
-        // NORMAL TEXT / DATE / NUMBER / EMAIL / TIME
-        // ---------------------------------------------
+        const cloneInputs =
+            clone.querySelectorAll("input");
 
-        const valueBox = document.createElement("div");
 
-        valueBox.className = "pdf-input-value";
+        originalInputs.forEach(
+            (originalInput, index) => {
 
-        valueBox.textContent = originalInput.value || "";
+                const cloneInput =
+                    cloneInputs[index];
 
-        valueBox.style.width = "100%";
-        valueBox.style.minHeight = "40px";
-        valueBox.style.height = "40px";
+                if (!cloneInput) return;
 
-        valueBox.style.border =
-            "1px solid #999";
 
-        valueBox.style.borderRadius = "4px";
+                // =================================================
+                // RADIO / CHECKBOX
+                // =================================================
 
-        valueBox.style.padding =
-            "8px 10px";
+                if (
+                    originalInput.type === "radio" ||
+                    originalInput.type === "checkbox"
+                ) {
 
-        valueBox.style.boxSizing =
-            "border-box";
+                    const mark =
+                        document.createElement("span");
 
-        valueBox.style.background =
-            "#ffffff";
+                    mark.className =
+                        "pdf-check-mark";
 
-        valueBox.style.color =
-            "#222";
+                    mark.textContent =
+                        originalInput.checked
+                            ? "☑"
+                            : "☐";
 
-        valueBox.style.fontFamily =
-            "Arial, Helvetica, sans-serif";
+                    mark.style.display =
+                        "inline-block";
 
-        valueBox.style.fontSize =
-            "14px";
+                    mark.style.width =
+                        "18px";
 
-        valueBox.style.fontWeight =
-            "400";
+                    mark.style.height =
+                        "18px";
 
-        valueBox.style.lineHeight =
-            "22px";
+                    mark.style.fontSize =
+                        "15px";
 
-        valueBox.style.whiteSpace =
-            "normal";
+                    mark.style.lineHeight =
+                        "18px";
 
-        valueBox.style.wordBreak =
-            "normal";
+                    mark.style.verticalAlign =
+                        "middle";
 
-        valueBox.style.overflowWrap =
-            "break-word";
+                    mark.style.marginRight =
+                        "4px";
 
-        cloneInput.parentNode.replaceChild(
-            valueBox,
-            cloneInput
-        );
-    });
+                    mark.style.fontFamily =
+                        "Arial, sans-serif";
 
 
-    // =====================================================
-    // 3. TEXTAREA
-    // =====================================================
-
-    const originalTextareas =
-        original.querySelectorAll("textarea");
-
-    const cloneTextareas =
-        clone.querySelectorAll("textarea");
-
-    originalTextareas.forEach(
-        (originalTextarea, index) => {
-
-            const cloneTextarea =
-                cloneTextareas[index];
-
-            if (!cloneTextarea) return;
-
-            const valueBox =
-                document.createElement("div");
-
-            valueBox.className =
-                "pdf-textarea-value";
-
-            valueBox.textContent =
-                originalTextarea.value || "";
-
-            valueBox.style.width = "100%";
-            valueBox.style.minHeight = "60px";
-            valueBox.style.border =
-                "1px solid #999";
-
-            valueBox.style.borderRadius =
-                "4px";
-
-            valueBox.style.padding =
-                "8px 10px";
-
-            valueBox.style.boxSizing =
-                "border-box";
-
-            valueBox.style.fontFamily =
-                "Arial, Helvetica, sans-serif";
-
-            valueBox.style.fontSize =
-                "14px";
-
-            valueBox.style.lineHeight =
-                "22px";
-
-            valueBox.style.whiteSpace =
-                "normal";
-
-            valueBox.style.wordBreak =
-                "normal";
-
-            valueBox.style.overflowWrap =
-                "break-word";
-
-            cloneTextarea.parentNode.replaceChild(
-                valueBox,
-                cloneTextarea
-            );
-        }
-    );
-
-
-    // =====================================================
-    // 4. SELECT
-    // =====================================================
-
-    const originalSelects =
-        original.querySelectorAll("select");
-
-    const cloneSelects =
-        clone.querySelectorAll("select");
-
-    originalSelects.forEach(
-        (originalSelect, index) => {
-
-            const cloneSelect =
-                cloneSelects[index];
-
-            if (!cloneSelect) return;
-
-            const valueBox =
-                document.createElement("div");
-
-            valueBox.className =
-                "pdf-select-value";
-
-            valueBox.textContent =
-                originalSelect.options[
-                    originalSelect.selectedIndex
-                ]?.text || "";
-
-            valueBox.style.width = "100%";
-            valueBox.style.minHeight = "40px";
-            valueBox.style.border =
-                "1px solid #999";
-
-            valueBox.style.padding =
-                "8px 10px";
-
-            valueBox.style.boxSizing =
-                "border-box";
-
-            valueBox.style.fontFamily =
-                "Arial, Helvetica, sans-serif";
-
-            valueBox.style.fontSize =
-                "14px";
-
-            cloneSelect.parentNode.replaceChild(
-                valueBox,
-                cloneSelect
-            );
-        }
-    );
-
-
-    // =====================================================
-    // 5. COPY SIGNATURE
-    // =====================================================
-
-    const originalCanvases =
-        original.querySelectorAll("canvas");
-
-    const cloneCanvases =
-        clone.querySelectorAll("canvas");
-
-    originalCanvases.forEach(
-        (originalCanvas, index) => {
-
-            const cloneCanvas =
-                cloneCanvases[index];
-
-            if (!cloneCanvas) return;
-
-            try {
-
-                const img =
-                    document.createElement("img");
-
-                img.src =
-                    originalCanvas.toDataURL(
-                        "image/png"
+                    cloneInput.parentNode.replaceChild(
+                        mark,
+                        cloneInput
                     );
 
-                img.style.width =
-                    originalCanvas.clientWidth + "px";
+                    return;
+                }
 
-                img.style.height =
-                    originalCanvas.clientHeight + "px";
 
-                img.style.maxWidth =
+                // =================================================
+                // FILE INPUT
+                // =================================================
+
+                if (
+                    originalInput.type === "file"
+                ) {
+
+                    const fileBox =
+                        document.createElement("div");
+
+                    fileBox.className =
+                        "pdf-file-box";
+
+                    fileBox.textContent =
+                        originalInput.files &&
+                        originalInput.files.length > 0
+                            ? originalInput.files[0].name
+                            : "No file selected";
+
+                    fileBox.style.width =
+                        "100%";
+
+                    fileBox.style.minHeight =
+                        "40px";
+
+                    fileBox.style.border =
+                        "1px solid #999";
+
+                    fileBox.style.padding =
+                        "8px 10px";
+
+                    fileBox.style.boxSizing =
+                        "border-box";
+
+                    fileBox.style.fontFamily =
+                        "Arial, Helvetica, sans-serif";
+
+                    fileBox.style.fontSize =
+                        "14px";
+
+                    fileBox.style.background =
+                        "#ffffff";
+
+
+                    cloneInput.parentNode.replaceChild(
+                        fileBox,
+                        cloneInput
+                    );
+
+                    return;
+                }
+
+
+                // =================================================
+                // NORMAL INPUT
+                // =================================================
+
+                const valueBox =
+                    document.createElement("div");
+
+                valueBox.className =
+                    "pdf-input-value";
+
+                valueBox.textContent =
+                    originalInput.value || "";
+
+                valueBox.style.width =
                     "100%";
 
-                img.style.display =
-                    "block";
+                valueBox.style.minHeight =
+                    "40px";
 
-                cloneCanvas.parentNode.replaceChild(
-                    img,
-                    cloneCanvas
-                );
+                valueBox.style.height =
+                    "40px";
 
-            } catch (error) {
+                valueBox.style.border =
+                    "1px solid #999";
 
-                console.error(
-                    "Signature PDF error:",
-                    error
+                valueBox.style.borderRadius =
+                    "4px";
+
+                valueBox.style.padding =
+                    "8px 10px";
+
+                valueBox.style.boxSizing =
+                    "border-box";
+
+                valueBox.style.background =
+                    "#ffffff";
+
+                valueBox.style.color =
+                    "#222";
+
+                valueBox.style.fontFamily =
+                    "Arial, Helvetica, sans-serif";
+
+                valueBox.style.fontSize =
+                    "14px";
+
+                valueBox.style.lineHeight =
+                    "22px";
+
+                valueBox.style.whiteSpace =
+                    "normal";
+
+                valueBox.style.wordBreak =
+                    "normal";
+
+                valueBox.style.overflowWrap =
+                    "break-word";
+
+
+                cloneInput.parentNode.replaceChild(
+                    valueBox,
+                    cloneInput
                 );
             }
-        }
-    );
+        );
 
 
-    // =====================================================
-    // 6. PDF CONTAINER
-    // =====================================================
+        // =====================================================
+        // 3. COPY TEXTAREAS
+        // =====================================================
 
-    const container =
-        document.createElement("div");
+        const originalTextareas =
+            original.querySelectorAll("textarea");
 
-    container.style.position =
-        "absolute";
+        const cloneTextareas =
+            clone.querySelectorAll("textarea");
 
-    container.style.left =
-        "-20000px";
 
-    container.style.top =
-        "0";
+        originalTextareas.forEach(
+            (originalTextarea, index) => {
 
-    container.style.width =
-        "1100px";
+                const cloneTextarea =
+                    cloneTextareas[index];
 
-    container.style.background =
-        "#ffffff";
+                if (!cloneTextarea) return;
 
-    container.style.padding =
-        "0";
 
-    container.style.margin =
-        "0";
+                const valueBox =
+                    document.createElement("div");
 
-    container.style.boxSizing =
-        "border-box";
+                valueBox.className =
+                    "pdf-textarea-value";
 
+                valueBox.textContent =
+                    originalTextarea.value || "";
 
-    // =====================================================
-    // 7. PDF CSS
-    // =====================================================
+                valueBox.style.width =
+                    "100%";
 
-    const pdfStyle =
-        document.createElement("style");
+                valueBox.style.minHeight =
+                    "60px";
 
-    pdfStyle.innerHTML = `
+                valueBox.style.border =
+                    "1px solid #999";
 
-        .insurance-pdf,
-        .insurance-pdf * {
+                valueBox.style.borderRadius =
+                    "4px";
 
-            box-sizing: border-box !important;
+                valueBox.style.padding =
+                    "8px 10px";
 
-        }
+                valueBox.style.boxSizing =
+                    "border-box";
 
+                valueBox.style.fontFamily =
+                    "Arial, Helvetica, sans-serif";
 
-        .insurance-pdf {
+                valueBox.style.fontSize =
+                    "14px";
 
-            width: 1100px !important;
+                valueBox.style.lineHeight =
+                    "22px";
 
-            max-width: 1100px !important;
+                valueBox.style.whiteSpace =
+                    "normal";
 
-            margin: 0 !important;
+                valueBox.style.wordBreak =
+                    "normal";
 
-            padding: 30px !important;
+                valueBox.style.overflowWrap =
+                    "break-word";
 
-            background: #ffffff !important;
 
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif !important;
+                cloneTextarea.parentNode.replaceChild(
+                    valueBox,
+                    cloneTextarea
+                );
+            }
+        );
 
-            color: #222 !important;
 
-            transform: none !important;
+        // =====================================================
+        // 4. COPY SELECT VALUES
+        // =====================================================
 
-            zoom: 1 !important;
+        const originalSelects =
+            original.querySelectorAll("select");
 
-        }
+        const cloneSelects =
+            clone.querySelectorAll("select");
 
 
-        /* ---------------------------------------------
-           TEXT
-        --------------------------------------------- */
+        originalSelects.forEach(
+            (originalSelect, index) => {
 
-        .insurance-pdf
-        p,
-        .insurance-pdf
-        span,
-        .insurance-pdf
-        label,
-        .insurance-pdf
-        b,
-        .insurance-pdf
-        strong {
+                const cloneSelect =
+                    cloneSelects[index];
 
-            white-space: normal !important;
+                if (!cloneSelect) return;
 
-            word-break: normal !important;
 
-            overflow-wrap: break-word !important;
+                const valueBox =
+                    document.createElement("div");
 
-            letter-spacing: normal !important;
+                valueBox.className =
+                    "pdf-select-value";
 
-        }
+                valueBox.textContent =
+                    originalSelect.options[
+                        originalSelect.selectedIndex
+                    ]?.text || "";
 
 
-        /* ---------------------------------------------
-           GRID
-        --------------------------------------------- */
+                valueBox.style.width =
+                    "100%";
 
-        .insurance-pdf .sbi-grid {
+                valueBox.style.minHeight =
+                    "40px";
 
-            display: grid !important;
+                valueBox.style.border =
+                    "1px solid #999";
 
-            grid-template-columns:
-                repeat(2, minmax(0, 1fr)) !important;
+                valueBox.style.padding =
+                    "8px 10px";
 
-            gap: 15px 20px !important;
+                valueBox.style.boxSizing =
+                    "border-box";
 
-            width: 100% !important;
+                valueBox.style.fontFamily =
+                    "Arial, Helvetica, sans-serif";
 
-        }
+                valueBox.style.fontSize =
+                    "14px";
 
 
-        .insurance-pdf
-        .checkbox-grid {
+                cloneSelect.parentNode.replaceChild(
+                    valueBox,
+                    cloneSelect
+                );
+            }
+        );
 
-            display: grid !important;
 
-            grid-template-columns:
-                repeat(2, minmax(0, 1fr)) !important;
+        // =====================================================
+        // 5. COPY SIGNATURE CANVAS
+        // =====================================================
 
-            gap: 10px !important;
+        const originalCanvases =
+            original.querySelectorAll("canvas");
 
-        }
+        const cloneCanvases =
+            clone.querySelectorAll("canvas");
 
 
-        .insurance-pdf
-        .signature-section {
+        originalCanvases.forEach(
+            (originalCanvas, index) => {
 
-            display: grid !important;
+                const cloneCanvas =
+                    cloneCanvases[index];
 
-            grid-template-columns:
-                1fr 1fr !important;
+                if (!cloneCanvas) return;
 
-            gap: 35px !important;
 
-        }
+                try {
 
+                    const img =
+                        document.createElement("img");
 
-        .insurance-pdf
-        .static-row {
+                    img.src =
+                        originalCanvas.toDataURL(
+                            "image/png"
+                        );
 
-            display: grid !important;
+                    img.style.width =
+                        `${originalCanvas.clientWidth}px`;
 
-            grid-template-columns:
-                300px minmax(0, 1fr) !important;
+                    img.style.height =
+                        `${originalCanvas.clientHeight}px`;
 
-            gap: 15px !important;
+                    img.style.maxWidth =
+                        "100%";
 
-        }
+                    img.style.display =
+                        "block";
 
 
-        .insurance-pdf
-        .chronic-header,
+                    cloneCanvas.parentNode.replaceChild(
+                        img,
+                        cloneCanvas
+                    );
 
-        .insurance-pdf
-        .chronic-row {
+                } catch (error) {
 
-            display: grid !important;
+                    console.error(
+                        "Signature PDF error:",
+                        error
+                    );
+                }
+            }
+        );
 
-            grid-template-columns:
-                minmax(0, 1fr) 220px !important;
 
-            gap: 10px !important;
+        // =====================================================
+        // 6. CREATE PDF CONTAINER
+        // =====================================================
 
-        }
+        const container =
+            document.createElement("div");
 
+        container.style.position =
+            "absolute";
 
-        .insurance-pdf
-        .cost-row {
+        container.style.left =
+            "-20000px";
 
-            display: grid !important;
+        container.style.top =
+            "0";
 
-            grid-template-columns:
-                minmax(0, 1fr) 200px !important;
+        container.style.width =
+            "1100px";
 
-            gap: 15px !important;
+        container.style.background =
+            "#ffffff";
 
-        }
+        container.style.padding =
+            "0";
 
+        container.style.margin =
+            "0";
 
-        /* ---------------------------------------------
-           FIELD
-        --------------------------------------------- */
+        container.style.boxSizing =
+            "border-box";
 
-        .insurance-pdf .field {
 
-            min-width: 0 !important;
+        // =====================================================
+        // 7. PDF CSS
+        // =====================================================
 
-            width: 100% !important;
+        const pdfStyle =
+            document.createElement("style");
 
-        }
 
+        pdfStyle.innerHTML = `
 
-        .insurance-pdf .field.full {
+            .insurance-pdf,
+            .insurance-pdf * {
+                box-sizing: border-box !important;
+            }
 
-            grid-column: 1 / -1 !important;
+            .insurance-pdf {
+                width: 1100px !important;
+                max-width: 1100px !important;
+                margin: 0 !important;
+                padding: 30px !important;
+                background: #ffffff !important;
 
-        }
+                font-family:
+                    Arial,
+                    Helvetica,
+                    sans-serif !important;
 
+                color: #222 !important;
 
-        /* ---------------------------------------------
-           INPUT VALUE
-        --------------------------------------------- */
+                transform: none !important;
+                zoom: 1 !important;
+            }
 
-        .insurance-pdf .pdf-input-value {
 
-            display: block !important;
+            /* ===============================
+               TEXT
+            =============================== */
 
-            width: 100% !important;
+            .insurance-pdf p,
+            .insurance-pdf span,
+            .insurance-pdf label,
+            .insurance-pdf b,
+            .insurance-pdf strong {
 
-            min-height: 40px !important;
+                white-space:
+                    normal !important;
 
-            height: 40px !important;
+                word-break:
+                    normal !important;
 
-            padding: 8px 10px !important;
+                overflow-wrap:
+                    break-word !important;
 
-            border: 1px solid #999 !important;
+                letter-spacing:
+                    normal !important;
+            }
 
-            border-radius: 4px !important;
 
-            background: #fff !important;
+            /* ===============================
+               GRID
+            =============================== */
 
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif !important;
+            .insurance-pdf .sbi-grid {
 
-            font-size: 14px !important;
+                display: grid !important;
 
-            font-weight: 400 !important;
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr)) !important;
 
-            line-height: 22px !important;
+                gap:
+                    15px 20px !important;
 
-            color: #222 !important;
+                width: 100% !important;
+            }
 
-            white-space: normal !important;
 
-            overflow-wrap: break-word !important;
+            /* ===============================
+               CHECKBOX
+            =============================== */
 
-            word-break: normal !important;
+            .insurance-pdf .checkbox-grid {
 
-        }
+                display: grid !important;
 
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr)) !important;
 
-        /* ---------------------------------------------
-           RADIO / CHECKBOX
-        --------------------------------------------- */
+                gap: 10px !important;
+            }
 
-        .insurance-pdf
-        .pdf-check-mark {
 
-            font-family:
-                Arial,
-                sans-serif !important;
+            /* ===============================
+               SIGNATURE
+            =============================== */
 
-            font-size: 14px !important;
+            .insurance-pdf .signature-section {
 
-            line-height: 18px !important;
+                display: grid !important;
 
-        }
+                grid-template-columns:
+                    1fr 1fr !important;
 
+                gap: 35px !important;
+            }
 
-        /* ---------------------------------------------
-           PAGE BREAK
-        --------------------------------------------- */
 
-        .insurance-pdf
-        .section-title {
+            /* ===============================
+               STATIC ROW
+            =============================== */
 
-            break-inside: avoid !important;
+            .insurance-pdf .static-row {
 
-            page-break-inside: avoid !important;
+                display: grid !important;
 
-        }
+                grid-template-columns:
+                    300px minmax(0, 1fr) !important;
 
+                gap: 15px !important;
+            }
 
-        .insurance-pdf
-        .field {
 
-            break-inside: avoid !important;
+            /* ===============================
+               CHRONIC
+            =============================== */
 
-            page-break-inside: avoid !important;
+            .insurance-pdf .chronic-header,
+            .insurance-pdf .chronic-row {
 
-        }
+                display: grid !important;
 
+                grid-template-columns:
+                    minmax(0, 1fr) 220px !important;
 
-        .insurance-pdf
-        .static-row {
+                gap: 10px !important;
+            }
 
-            break-inside: avoid !important;
 
-            page-break-inside: avoid !important;
+            /* ===============================
+               COST
+            =============================== */
 
-        }
+            .insurance-pdf .cost-row {
 
+                display: grid !important;
 
-        .insurance-pdf
-        .chronic-row {
+                grid-template-columns:
+                    minmax(0, 1fr) 200px !important;
 
-            break-inside: avoid !important;
+                gap: 15px !important;
+            }
 
-            page-break-inside: avoid !important;
 
-        }
+            /* ===============================
+               FIELD
+            =============================== */
 
+            .insurance-pdf .field {
 
-        .insurance-pdf
-        .cost-row {
+                min-width: 0 !important;
+                width: 100% !important;
+            }
 
-            break-inside: avoid !important;
 
-            page-break-inside: avoid !important;
+            .insurance-pdf .field.full {
 
-        }
+                grid-column:
+                    1 / -1 !important;
+            }
 
-    `;
 
+            /* ===============================
+               INPUT VALUE
+            =============================== */
 
-    container.appendChild(pdfStyle);
+            .insurance-pdf .pdf-input-value {
 
-    container.appendChild(clone);
+                display: block !important;
 
-    document.body.appendChild(container);
+                width: 100% !important;
 
+                min-height: 40px !important;
 
-    // =====================================================
-    // 8. WAIT FOR BROWSER LAYOUT
-    // =====================================================
+                height: 40px !important;
 
-    await new Promise((resolve) => {
+                padding: 8px 10px !important;
 
-        requestAnimationFrame(() => {
+                border:
+                    1px solid #999 !important;
+
+                border-radius:
+                    4px !important;
+
+                background:
+                    #ffffff !important;
+
+                font-family:
+                    Arial,
+                    Helvetica,
+                    sans-serif !important;
+
+                font-size:
+                    14px !important;
+
+                line-height:
+                    22px !important;
+
+                color:
+                    #222 !important;
+
+                white-space:
+                    normal !important;
+
+                overflow-wrap:
+                    break-word !important;
+
+                word-break:
+                    normal !important;
+            }
+
+
+            /* ===============================
+               CHECK MARK
+            =============================== */
+
+            .insurance-pdf .pdf-check-mark {
+
+                font-family:
+                    Arial,
+                    sans-serif !important;
+
+                font-size:
+                    15px !important;
+
+                line-height:
+                    18px !important;
+            }
+
+
+            /* ===============================
+               FILE BOX
+            =============================== */
+
+            .insurance-pdf .pdf-file-box {
+
+                width:
+                    100% !important;
+
+                min-height:
+                    40px !important;
+
+                padding:
+                    8px 10px !important;
+
+                border:
+                    1px solid #999 !important;
+
+                background:
+                    #ffffff !important;
+            }
+
+
+            /* ===============================
+               TEXTAREA
+            =============================== */
+
+            .insurance-pdf .pdf-textarea-value {
+
+                width:
+                    100% !important;
+
+                min-height:
+                    60px !important;
+
+                padding:
+                    8px 10px !important;
+
+                border:
+                    1px solid #999 !important;
+
+                border-radius:
+                    4px !important;
+
+                white-space:
+                    normal !important;
+
+                overflow-wrap:
+                    break-word !important;
+            }
+
+
+            /* ===============================
+               PAGE BREAK
+            =============================== */
+
+            .insurance-pdf .section-title,
+            .insurance-pdf .field,
+            .insurance-pdf .static-row,
+            .insurance-pdf .chronic-row,
+            .insurance-pdf .cost-row,
+            .insurance-pdf .signature-box {
+
+                break-inside:
+                    avoid !important;
+
+                page-break-inside:
+                    avoid !important;
+            }
+
+
+            /* ===============================
+               BUTTONS
+            =============================== */
+
+            .insurance-pdf .insurance-action-buttons {
+
+                display:
+                    none !important;
+            }
+
+            .insurance-pdf .submit-btn {
+
+                display:
+                    none !important;
+            }
+
+        `;
+
+
+        container.appendChild(pdfStyle);
+
+        container.appendChild(clone);
+
+        document.body.appendChild(container);
+
+
+        // =====================================================
+        // 8. WAIT FOR LAYOUT
+        // =====================================================
+
+        await new Promise((resolve) => {
 
             requestAnimationFrame(() => {
 
-                resolve();
+                requestAnimationFrame(() => {
+
+                    resolve();
+
+                });
 
             });
 
         });
 
-    });
+
+        // =====================================================
+        // 9. PDF OPTIONS
+        // =====================================================
+
+        const options = {
+
+            margin: 5,
+
+            filename:
+                `${patientId || "Patient"}_SBI_Insurance.pdf`,
+
+            image: {
+
+                type: "jpeg",
+
+                quality: 0.98
+            },
+
+            html2canvas: {
+
+                scale: 2,
+
+                useCORS: true,
+
+                allowTaint: false,
+
+                backgroundColor:
+                    "#ffffff",
+
+                scrollX: 0,
+
+                scrollY: 0,
+
+                width: 1100,
+
+                windowWidth: 1100,
+
+                logging: false
+            },
+
+            jsPDF: {
+
+                unit: "mm",
+
+                format: "a3",
+
+                orientation: "portrait",
+
+                compress: true
+            },
+
+            pagebreak: {
+
+                mode: [
+                    "css",
+                    "legacy"
+                ]
+            }
+        };
 
 
-    // =====================================================
-    // 9. GENERATE PDF
-    // =====================================================
+        // =====================================================
+        // 10. GENERATE PDF
+        // =====================================================
 
-    const options = {
+        try {
 
-        margin: 5,
+            const pdfBlob =
+                await html2pdf()
+                    .set(options)
+                    .from(clone)
+                    .outputPdf("blob");
 
-        filename:
-            `${patientId}_SBI_Insurance.pdf`,
 
-        image: {
+            return pdfBlob;
 
-            type: "jpeg",
+        } catch (error) {
 
-            quality: 0.98
+            console.error(
+                "Insurance PDF generation error:",
+                error
+            );
 
-        },
+            alert(
+                "PDF generation failed."
+            );
 
-        html2canvas: {
+            return null;
 
-            scale: 2,
+        } finally {
 
-            useCORS: true,
+            if (
+                document.body.contains(
+                    container
+                )
+            ) {
 
-            allowTaint: false,
-
-            backgroundColor: "#ffffff",
-
-            scrollX: 0,
-
-            scrollY: 0,
-
-            width: 1100,
-
-            windowWidth: 1100,
-
-            logging: false
-
-        },
-
-        jsPDF: {
-
-            unit: "mm",
-
-            format: "a3",
-
-            orientation: "portrait",
-
-            compress: true
-
-        },
-
-        pagebreak: {
-
-            mode: [
-                "css",
-                "legacy"
-            ]
-
+                document.body.removeChild(
+                    container
+                );
+            }
         }
-
     };
 
 
-    // =====================================================
-    // 10. CREATE PDF
-    // =====================================================
-
-    try {
-
-        const pdfBlob =
-            await html2pdf()
-                .set(options)
-                .from(clone)
-                .outputPdf("blob");
-
-        return pdfBlob;
-
-    } catch (error) {
-
-        console.error(
-            "Insurance PDF generation error:",
-            error
-        );
-
-        alert(
-            "PDF generation failed"
-        );
-
-        return null;
-
-    } finally {
-
-        if (
-            document.body.contains(container)
-        ) {
-
-            document.body.removeChild(
-                container
-            );
-
-        }
-
-    }
-};
     // =========================================================
-    // SAVE INSURANCE PDF + DATABASE
+    // SAVE PDF + DATABASE
     // =========================================================
 
     const saveInsurancePdf = async () => {
 
         try {
 
-            // -----------------------------------------
-            // Check Form
-            // -----------------------------------------
+            if (!patientId) {
 
-            if (!insuranceRef.current) {
-
-                alert("Insurance Form Not Found");
+                alert(
+                    "Patient ID not found."
+                );
 
                 return;
             }
 
 
-            // -----------------------------------------
-            // Generate PDF
-            // -----------------------------------------
+            if (!insuranceRef.current) {
+
+                alert(
+                    "Insurance Form Not Found."
+                );
+
+                return;
+            }
+
+
+            // =================================================
+            // GENERATE PDF
+            // =================================================
 
             const pdfBlob =
                 await generateInsurancePdf();
@@ -4640,17 +1169,21 @@ const generateInsurancePdf = async () => {
 
             if (!pdfBlob) {
 
-                alert("PDF Generation Failed");
+                alert(
+                    "PDF Generation Failed."
+                );
 
                 return;
             }
 
 
-            // -----------------------------------------
-            // Upload PDF
-            // -----------------------------------------
+            // =================================================
+            // UPLOAD PDF
+            // =================================================
 
-            const uploadData = new FormData();
+            const uploadData =
+                new FormData();
+
 
             uploadData.append(
                 "file",
@@ -4658,49 +1191,63 @@ const generateInsurancePdf = async () => {
                 `${patientId}_SBI_Insurance.pdf`
             );
 
-            console.log("Uploading Insurance PDF...");
 
-            // const uploadResponse = await axios.post(
-            //     "http://localhost:5000/upload",
-            //     uploadData,
-            //     {
-            //         headers: {
-            //             "Content-Type": "multipart/form-data"
-            //         }
-            //     }
-            // );
+            console.log(
+                "Uploading SBI Insurance PDF..."
+            );
+
 
             const uploadResponse =
-            await axios.post(
-                "http://localhost:5000/upload",
-                uploadData
+                await axios.post(
+                    "http://localhost:5000/upload",
+                    uploadData
+                );
+
+
+            console.log(
+                "Upload Response:",
+                uploadResponse.data
             );
 
 
+            const pdfPath =
+                uploadResponse.data?.filePath;
 
-            
 
-            console.log("Upload Response:", uploadResponse.data);
+            if (!pdfPath) {
 
-            const pdfPath = uploadResponse.data.filePath;
+                throw new Error(
+                    "PDF path was not returned by server."
+                );
+            }
 
-            console.log("PDF Path:", pdfPath);
 
-            // -----------------------------------------
-            // Save Form Data + PDF Path
-            // -----------------------------------------
-
-            const saveResponse = await axios.post(
-                "http://localhost:5000/insurance/save",
-                {
-                    patientId: patientId,
-                    insuranceCompany: "SBI General Insurance",
-                    insuranceData: formData,
-                    pdfPath: pdfPath
-                }
+            console.log(
+                "PDF Path:",
+                pdfPath
             );
 
-            console.log("Insurance DB Response:", saveResponse.data);
+
+            // =================================================
+            // SAVE FORM DATA
+            // =================================================
+
+            const saveResponse =
+                await axios.post(
+                    "http://localhost:5000/insurance/save",
+                    {
+                        patientId: patientId,
+
+                        insuranceCompany:
+                            "SBI General Insurance",
+
+                        insuranceData:
+                            formData,
+
+                        pdfPath:
+                            pdfPath
+                    }
+                );
 
 
             console.log(
@@ -4708,37 +1255,44 @@ const generateInsurancePdf = async () => {
                 saveResponse.data
             );
 
-            console.log(
-                "Insurance DB Response:",
-                saveResponse.data
-            );
 
-
-            // -----------------------------------------
+            // =================================================
             // SUCCESS
-            // -----------------------------------------
+            // =================================================
 
             alert(
-                "SBI Insurance Form Saved Successfully"
+                "SBI Insurance Form Saved Successfully."
             );
-
 
         } catch (error) {
 
             console.error(
-                "Insurance Save Error:",
+                "========== SBI INSURANCE SAVE ERROR =========="
+            );
+
+            console.error(
+                "Error:",
                 error
             );
 
-            console.error("========== INSURANCE SAVE ERROR ==========");
-            console.error("Error:", error);
-            console.error("Message:", error.message);
-            console.error("Response:", error.response?.data);
-            console.error("Status:", error.response?.status);
+            console.error(
+                "Message:",
+                error.message
+            );
+
+            console.error(
+                "Response:",
+                error.response?.data
+            );
+
+            console.error(
+                "Status:",
+                error.response?.status
+            );
 
 
             alert(
-                "Insurance Form Save Failed"
+                "SBI Insurance Form Save Failed."
             );
         }
     };
@@ -4748,20 +1302,24 @@ const generateInsurancePdf = async () => {
     // SUBMIT
     // =========================================================
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
 
         e.preventDefault();
 
-        saveInsurancePdf();
+        await saveInsurancePdf();
     };
 
+
+    // =========================================================
+    // JSX
+    // =========================================================
 
     return (
 
         <div className="sbi-page">
 
             {/* ==================================================
-                THIS WHOLE AREA WILL BE PRINTED / PDF
+                COMPLETE FORM
             ================================================== */}
 
             <form
@@ -4908,6 +1466,7 @@ const generateInsurancePdf = async () => {
                         full
                     />
 
+
                     <Input
                         label="i. Address"
                         name="hospitalAddress"
@@ -4916,12 +1475,14 @@ const generateInsurancePdf = async () => {
                         full
                     />
 
+
                     <Input
                         label="ii. Rohini ID"
                         name="rohiniId"
                         value={formData.rohiniId}
                         onChange={handleChange}
                     />
+
 
                     <Input
                         label="iii. E-mail ID"
@@ -5311,7 +1872,10 @@ const generateInsurancePdf = async () => {
                         label="L.i. Is it RTA"
                         name="isRTA"
                         value={formData.isRTA}
-                        options={["Yes", "No"]}
+                        options={[
+                            "Yes",
+                            "No"
+                        ]}
                         onChange={handleChange}
                     />
 
@@ -5329,7 +1893,10 @@ const generateInsurancePdf = async () => {
                         label="iii. Report to Police"
                         name="policeReport"
                         value={formData.policeReport}
-                        options={["Yes", "No"]}
+                        options={[
+                            "Yes",
+                            "No"
+                        ]}
                         onChange={handleChange}
                     />
 
@@ -5346,7 +1913,10 @@ const generateInsurancePdf = async () => {
                         label="v. Injury / Disease caused due to substance abuse / alcohol consumption"
                         name="substanceAbuse"
                         value={formData.substanceAbuse}
-                        options={["Yes", "No"]}
+                        options={[
+                            "Yes",
+                            "No"
+                        ]}
                         onChange={handleChange}
                     />
 
@@ -5355,7 +1925,10 @@ const generateInsurancePdf = async () => {
                         label="vi. Test conducted to establish this"
                         name="substanceTest"
                         value={formData.substanceTest}
-                        options={["Yes", "No"]}
+                        options={[
+                            "Yes",
+                            "No"
+                        ]}
                         onChange={handleChange}
                     />
 
@@ -5414,7 +1987,7 @@ const generateInsurancePdf = async () => {
 
 
                 {/* ==================================================
-                    DETAILS OF PATIENT ADMITTED
+                    PATIENT ADMITTED
                 ================================================== */}
 
                 <SectionTitle
@@ -5740,7 +2313,6 @@ const generateInsurancePdf = async () => {
 
                 <div className="signature-section">
 
-
                     {/* HOSPITAL SEAL */}
 
                     <div className="signature-box">
@@ -5762,28 +2334,7 @@ const generateInsurancePdf = async () => {
                                 <input
                                     type="file"
                                     accept="image/png,image/jpeg"
-                                    onChange={(e) => {
-
-                                        const file =
-                                            e.target.files[0];
-
-
-                                        if (file) {
-
-                                            setFormData(
-                                                (prev) => ({
-
-                                                    ...prev,
-
-                                                    hospitalSeal:
-                                                        file
-
-                                                })
-                                            );
-
-                                        }
-
-                                    }}
+                                    onChange={handleHospitalSeal}
                                 />
 
                             </div>
@@ -5814,12 +2365,9 @@ const generateInsurancePdf = async () => {
 
                                 setFormData(
                                     (prev) => ({
-
                                         ...prev,
-
                                         patientSignature:
                                             image
-
                                     })
                                 );
 
@@ -5835,7 +2383,6 @@ const generateInsurancePdf = async () => {
 
             {/* ==================================================
                 ACTION BUTTONS
-                THESE WILL NOT BE PART OF PDF
             ================================================== */}
 
             <div className="insurance-action-buttons">
@@ -5845,7 +2392,7 @@ const generateInsurancePdf = async () => {
                     className="btn btn-success"
                     onClick={printInsurance}
                 >
-                    Print Insurance
+                    🖨️ Print Insurance
                 </button>
 
 
@@ -5854,7 +2401,7 @@ const generateInsurancePdf = async () => {
                     className="btn btn-secondary"
                     onClick={saveInsurancePdf}
                 >
-                    Save Insurance
+                    📄 Save Insurance
                 </button>
 
             </div>
@@ -5893,7 +2440,7 @@ function Input({
             <input
                 type={type}
                 name={name}
-                value={value}
+                value={value || ""}
                 onChange={onChange}
             />
 
@@ -5990,7 +2537,7 @@ function ChronicRow({
             <input
                 type="text"
                 name={name}
-                value={value}
+                value={value || ""}
                 onChange={onChange}
                 placeholder="Month / Year"
             />
@@ -6023,7 +2570,7 @@ function CostRow({
             <input
                 type="number"
                 name={name}
-                value={value}
+                value={value || ""}
                 onChange={onChange}
             />
 

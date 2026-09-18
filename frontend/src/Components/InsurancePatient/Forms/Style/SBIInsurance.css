@@ -1,780 +1,44 @@
-/* 
-
 .sbi-page {
     width: 100%;
     min-height: 100vh;
-    background: #eef2f7;
-    padding: 25px 15px;
-    box-sizing: border-box;
+    padding: 25px;
+    background: #f3f5f7;
     font-family: Arial, Helvetica, sans-serif;
     color: #222;
 }
 
 
-.sbi-form {
-    width: min(1100px, 100%);
-    margin: 0 auto;
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.10);
-    box-sizing: border-box;
-}
-
-
-
-
-.sbi-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 25px;
-    border-bottom: 2px solid #1c4f91;
-    padding-bottom: 18px;
-    margin-bottom: 20px;
-}
-
-.sbi-logo-box {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.sbi-logo {
-    width: 70px;
-    height: 70px;
-    background: #1d4f91;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 22px;
-    font-weight: bold;
-    border-radius: 5px;
-}
-
-.sbi-logo-box h3 {
-    margin: 0;
-    font-size: 22px;
-    color: #1d4f91;
-}
-
-.sbi-logo-box span {
-    font-size: 14px;
-    color: #555;
-}
-
-.sbi-title {
-    text-align: right;
-}
-
-.sbi-title h2 {
-    margin: 0;
-    font-size: 21px;
-    color: #1d4f91;
-    line-height: 1.4;
-}
-
-.sbi-title h3 {
-    margin: 5px 0;
-    font-size: 16px;
-}
-
-.sbi-title p {
-    margin: 5px 0 0;
-    font-size: 12px;
-}
-
-
-
-
-.section-title {
-    width: 100%;
-    background: #e8eef7;
-    border-left: 5px solid #1d4f91;
-    padding: 10px 14px;
-    margin: 25px 0 18px;
-    font-size: 17px;
-    font-weight: bold;
-    color: #1d4f91;
-    box-sizing: border-box;
-}
-
-
-
-
-.sbi-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 15px 20px;
-    width: 100%;
-}
-
-.field.full {
-    grid-column: 1 / -1;
-}
-
-
-
-.field {
-    width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
-}
-
-.field label {
-    display: block;
-    margin-bottom: 6px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #333;
-    line-height: 1.4;
-}
-
-.field input {
-    width: 100%;
-    height: 40px;
-    padding: 7px 10px;
-    border: 1px solid #b8c2ce;
-    border-radius: 4px;
-    outline: none;
-    font-size: 14px;
-    box-sizing: border-box;
-    background: #fff;
-}
-
-.field input:focus {
-    border-color: #1d4f91;
-    box-shadow: 0 0 0 2px rgba(29, 79, 145, 0.10);
-}
-
-
-
-.radio-field {
-    width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
-}
-
-.radio-field > span {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 8px;
-    line-height: 1.4;
-}
-
-.radio-options {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 18px;
-    min-height: 40px;
-}
-
-.radio-options label {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-.radio-options input {
-    width: 16px;
-    height: 16px;
-    margin: 0;
-}
-
-
-
-
-.age-row {
-    display: flex;
-    gap: 10px;
-}
-
-.age-row input {
-    width: 50%;
-    height: 40px;
-    padding: 7px 10px;
-    border: 1px solid #b8c2ce;
-    border-radius: 4px;
-    box-sizing: border-box;
-    outline: none;
-}
-
-.age-row input:focus {
-    border-color: #1d4f91;
-}
-
-
-
-.sbi-info {
-    width: 100%;
-    border: 1px solid #d2d8df;
-    border-radius: 5px;
-    overflow: hidden;
-    margin-bottom: 18px;
-}
-
-.static-row {
-    display: grid;
-    grid-template-columns: 300px 1fr;
-    gap: 15px;
-    padding: 10px 12px;
-    border-bottom: 1px solid #d2d8df;
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-.static-row:last-child {
-    border-bottom: none;
-}
-
-.static-row b {
-    color: #333;
-}
-
-.static-row span {
-    color: #444;
-}
-
-
-
-
-.red-note {
-    margin: 18px 0;
-    color: #c62828;
-    font-size: 13px;
-    font-weight: bold;
-}
-
-
-
-
-.sub-title {
-    margin-top: 20px;
-    margin-bottom: 10px;
-    font-size: 15px;
-    font-weight: bold;
-    color: #333;
-}
-
-
-
-
-.checkbox-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-    padding: 12px;
-    border: 1px solid #d2d8df;
-    border-radius: 5px;
-    margin-bottom: 18px;
-}
-
-.checkbox-grid label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-}
-
-.checkbox-grid input {
-    width: 16px;
-    height: 16px;
-}
-
-
-
-
-.maternity-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-bottom: 15px;
-}
-
-
-
-
-.chronic-table {
-    width: 100%;
-    border: 1px solid #c7ced7;
-    border-radius: 5px;
-    overflow: hidden;
-    margin: 18px 0;
-}
-
-.chronic-header {
-    display: grid;
-    grid-template-columns: 1fr 220px;
-    background: #e8eef7;
-    font-weight: bold;
-    color: #1d4f91;
-}
-
-.chronic-header span {
-    padding: 10px;
-    border-right: 1px solid #c7ced7;
-}
-
-.chronic-header span:last-child {
-    border-right: none;
-}
-
-.chronic-row {
-    display: grid;
-    grid-template-columns: 1fr 220px;
-    align-items: center;
-    border-top: 1px solid #d4d9df;
-}
-
-.chronic-row span {
-    padding: 9px 10px;
-    font-size: 14px;
-}
-
-.chronic-row input {
-    width: calc(100% - 15px);
-    height: 34px;
-    margin: 5px;
-    padding: 5px 8px;
-    border: 1px solid #b8c2ce;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-
-
-
-.cost-table {
-    width: 100%;
-    border: 1px solid #c7ced7;
-    border-radius: 5px;
-    overflow: hidden;
-    margin-top: 18px;
-}
-
-.cost-row {
-    display: grid;
-    grid-template-columns: 1fr 200px;
-    align-items: center;
-    border-bottom: 1px solid #d4d9df;
-}
-
-.cost-row:last-child {
-    border-bottom: none;
-    background: #f2f5f9;
-    font-weight: bold;
-}
-
-.cost-row span {
-    padding: 10px;
-    font-size: 14px;
-    line-height: 1.4;
-}
-
-.cost-row input {
-    width: calc(100% - 15px);
-    height: 36px;
-    margin: 5px;
-    padding: 6px 9px;
-    border: 1px solid #b8c2ce;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-
-
-.declaration-note {
-    font-size: 13px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.declaration-text {
-    font-size: 14px;
-    line-height: 1.7;
-    margin-bottom: 18px;
-}
-
-.consent-box {
-    background: #f7f9fb;
-    border: 1px solid #cdd5de;
-    border-radius: 5px;
-    padding: 15px;
-    font-size: 14px;
-    line-height: 1.7;
-    margin-top: 18px;
-}
-
-
-.signature-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 35px;
-    margin-top: 30px;
-}
-
-.signature-box {
-    min-width: 0;
-}
-
-.signature-box > label {
-    display: block;
-    font-weight: bold;
-    font-size: 14px;
-    margin-bottom: 10px;
-}
-
-.hospital-seal {
-    height: 95px;
-    border: 1px dashed #888;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #777;
-    font-size: 13px;
-    border-radius: 4px;
-}
-
-
-
-
-.signature-box .signature-main {
-    width: 100%;
-}
-
-
-
-.submit-btn {
-    display: block;
-    margin: 35px auto 5px;
-    min-width: 260px;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 5px;
-    background: #198754;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-
-.submit-btn:hover {
-    background: #157347;
-}
-
-.submit-btn:active {
-    transform: scale(0.98);
-}
-
-
-
-@media (max-width: 800px) {
-
-    .sbi-page {
-        padding: 15px 8px;
-    }
-
-    .sbi-form {
-        width: 98%;
-        padding: 18px;
-    }
-
-    .sbi-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-
-    .sbi-title {
-        text-align: left;
-        width: 100%;
-    }
-
-    .sbi-title h2 {
-        font-size: 18px;
-    }
-
-    .sbi-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .field.full {
-        grid-column: auto;
-    }
-
-    .checkbox-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .signature-section {
-        grid-template-columns: 1fr;
-        gap: 25px;
-    }
-
-    .static-row {
-        grid-template-columns: 1fr;
-        gap: 5px;
-    }
-
-    .chronic-header,
-    .chronic-row {
-        grid-template-columns: 1fr;
-    }
-
-    .chronic-header span:last-child {
-        display: none;
-    }
-
-    .cost-row {
-        grid-template-columns: 1fr;
-    }
-
-    .cost-row input {
-        width: calc(100% - 20px);
-        margin: 0 10px 10px;
-    }
-
-}
-
-
-
-
-@media (max-width: 450px) {
-
-    .sbi-page {
-        padding: 8px 3px;
-    }
-
-    .sbi-form {
-        width: 100%;
-        padding: 12px;
-        border-radius: 5px;
-    }
-
-
-
-    .sbi-logo {
-        width: 55px;
-        height: 55px;
-        font-size: 18px;
-    }
-
-    .sbi-logo-box h3 {
-        font-size: 18px;
-    }
-
-    .sbi-title h2 {
-        font-size: 16px;
-    }
-
-    .sbi-title h3 {
-        font-size: 14px;
-    }
-
-
-
-    .section-title {
-        padding: 9px 10px;
-        font-size: 15px;
-        margin-top: 18px;
-    }
-
-
-
-    .field label {
-        font-size: 13px;
-    }
-
-    .field input {
-        width: 100%;
-        height: 42px;
-        font-size: 14px;
-    }
-
-
-
-    .radio-options {
-        gap: 12px;
-    }
-
-    .radio-options label {
-        font-size: 13px;
-    }
-
-
-
-    .age-row {
-        gap: 7px;
-    }
-
-    .age-row input {
-        width: 50%;
-        height: 42px;
-    }
-
-
-
-    .static-row {
-        padding: 9px;
-        font-size: 13px;
-    }
-
-
-
-    .checkbox-grid {
-        padding: 10px;
-        gap: 9px;
-    }
-
-    .checkbox-grid label {
-        font-size: 13px;
-    }
-
-
-
-    .maternity-row {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-    }
-
-
-
-    .chronic-row {
-        padding: 5px;
-    }
-
-    .chronic-row span {
-        padding: 5px;
-        font-size: 13px;
-    }
-
-    .chronic-row input {
-        width: calc(100% - 10px);
-        margin: 5px;
-    }
-
-
-
-    .cost-row span {
-        padding: 9px;
-        font-size: 13px;
-    }
-
-    .cost-row input {
-        width: calc(100% - 18px);
-        margin: 0 9px 9px;
-        height: 40px;
-    }
-
-
-
-    .signature-section {
-        gap: 25px;
-    }
-
-    .hospital-seal {
-        height: 85px;
-    }
-
-
-    
-
-    .signature-box .signature-main {
-        width: 100%;
-    }
-
-    .signature-box .line {
-        height: 45px;
-    }
-
-
-
-    .submit-btn {
-        width: 100%;
-        min-width: 0;
-        margin-top: 25px;
-        padding: 12px 15px;
-        font-size: 15px;
-    }
-
-}
-
-
-
-
-@media (max-width: 320px) {
-
-    .sbi-form {
-        padding: 9px;
-    }
-
-    .section-title {
-        font-size: 14px;
-    }
-
-    .field input {
-        font-size: 13px;
-    }
-
-    .radio-options {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-    }
-
-} */
-
-
-
-/* =========================================================
-   MAIN PAGE
-========================================================= */
-
-.sbi-page {
-    width: 100%;
-    min-height: 100vh;
-    background: #eef2f7;
-    padding: 25px 15px;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
-    color: #222;
-}
-
-
-/* =========================================================
-   FORM
-========================================================= */
+/* ============================================================
+   MAIN FORM
+============================================================ */
 
 .sbi-form {
-    width: min(1100px, 100%);
+    width: 100%;
+    max-width: 1100px;
     margin: 0 auto;
-    background: #ffffff;
     padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.10);
+    background: #ffffff;
+    border: 1px solid #d5d5d5;
     box-sizing: border-box;
 }
 
 
-/* =========================================================
+/* ============================================================
    HEADER
-========================================================= */
+============================================================ */
 
 .sbi-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 300px 1fr;
     gap: 25px;
-    border-bottom: 2px solid #1c4f91;
-    padding-bottom: 18px;
+    align-items: center;
+
+    padding-bottom: 20px;
     margin-bottom: 20px;
+
+    border-bottom: 3px solid #222;
 }
+
 
 .sbi-logo-box {
     display: flex;
@@ -782,950 +46,1000 @@
     gap: 12px;
 }
 
+
 .sbi-logo {
-    width: 70px;
-    height: 70px;
-    background: #1d4f91;
-    color: white;
+    width: 75px;
+    height: 75px;
+
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+
+    background: #1f4e79;
+    color: #ffffff;
+
     font-size: 22px;
-    font-weight: bold;
-    border-radius: 5px;
+    font-weight: 800;
+
+    border-radius: 8px;
 }
+
 
 .sbi-logo-box h3 {
     margin: 0;
-    font-size: 22px;
-    color: #1d4f91;
+    font-size: 23px;
 }
 
+
 .sbi-logo-box span {
-    font-size: 14px;
+    font-size: 15px;
     color: #555;
 }
 
+
 .sbi-title {
-    text-align: right;
+    text-align: center;
 }
+
 
 .sbi-title h2 {
     margin: 0;
-    font-size: 21px;
-    color: #1d4f91;
-    line-height: 1.4;
+
+    font-size: 23px;
+    line-height: 1.3;
+
+    font-weight: 800;
 }
+
 
 .sbi-title h3 {
-    margin: 5px 0;
-    font-size: 16px;
+    margin: 8px 0;
+
+    font-size: 17px;
 }
+
 
 .sbi-title p {
-    margin: 5px 0 0;
-    font-size: 12px;
+    margin: 5px 0;
+
+    font-size: 13px;
+    font-weight: 600;
 }
 
 
-/* =========================================================
+/* ============================================================
    SECTION TITLE
-========================================================= */
+============================================================ */
 
 .section-title {
     width: 100%;
-    background: #e8eef7;
-    border-left: 5px solid #1d4f91;
-    padding: 10px 14px;
-    margin: 25px 0 18px;
-    font-size: 17px;
-    font-weight: bold;
-    color: #1d4f91;
+
+    margin-top: 22px;
+    margin-bottom: 15px;
+
+    padding: 10px 12px;
+
+    background: #e9eef3;
+
+    border-left: 5px solid #1f4e79;
+    border-top: 1px solid #c7c7c7;
+    border-bottom: 1px solid #c7c7c7;
+
+    font-size: 15px;
+    font-weight: 800;
+
     box-sizing: border-box;
 }
 
 
-/* =========================================================
+/* ============================================================
+   STATIC INFORMATION
+============================================================ */
+
+.sbi-info {
+    width: 100%;
+    margin-bottom: 18px;
+}
+
+
+.static-row {
+    display: grid;
+
+    grid-template-columns:
+        300px minmax(0, 1fr);
+
+    gap: 15px;
+
+    padding: 8px 0;
+
+    border-bottom: 1px solid #e0e0e0;
+
+    line-height: 1.5;
+}
+
+
+.static-row b {
+    font-size: 13px;
+}
+
+
+.static-row span {
+    font-size: 13px;
+    word-break: break-word;
+}
+
+
+/* ============================================================
    GRID
-========================================================= */
+============================================================ */
 
 .sbi-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
     gap: 15px 20px;
+
     width: 100%;
 }
+
+
+/* ============================================================
+   FIELD
+============================================================ */
+
+.field {
+    min-width: 0;
+    width: 100%;
+}
+
 
 .field.full {
     grid-column: 1 / -1;
 }
 
 
-/* =========================================================
-   INPUT FIELD
-========================================================= */
-
-.field {
-    width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
-}
-
 .field label {
     display: block;
+
     margin-bottom: 6px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #333;
+
+    font-size: 13px;
+    font-weight: 700;
+
     line-height: 1.4;
 }
+
 
 .field input {
     width: 100%;
-    height: 40px;
-    padding: 7px 10px;
-    border: 1px solid #b8c2ce;
+
+    min-height: 40px;
+
+    padding: 8px 10px;
+
+    border: 1px solid #999;
     border-radius: 4px;
-    outline: none;
+
+    background: #ffffff;
+
     font-size: 14px;
+
     box-sizing: border-box;
-    background: #fff;
 }
+
 
 .field input:focus {
-    border-color: #1d4f91;
-    box-shadow: 0 0 0 2px rgba(29, 79, 145, 0.10);
+    outline: none;
+
+    border-color: #1f4e79;
+
+    box-shadow:
+        0 0 0 2px rgba(31, 78, 121, 0.12);
 }
 
 
-/* =========================================================
-   RADIO
-========================================================= */
+/* ============================================================
+   AGE
+============================================================ */
 
-.radio-field {
+.age-row {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 8px;
+}
+
+
+.age-row input {
     width: 100%;
-    min-width: 0;
+
+    min-height: 40px;
+
+    padding: 8px 10px;
+
+    border: 1px solid #999;
+    border-radius: 4px;
+
     box-sizing: border-box;
 }
+
+
+/* ============================================================
+   RADIO
+============================================================ */
+
+.radio-field {
+    min-width: 0;
+
+    padding: 10px;
+
+    border: 1px solid #d0d0d0;
+
+    border-radius: 4px;
+
+    background: #fafafa;
+}
+
 
 .radio-field > span {
     display: block;
-    font-size: 14px;
-    font-weight: 600;
+
     margin-bottom: 8px;
+
+    font-size: 13px;
+    font-weight: 700;
+
     line-height: 1.4;
 }
 
+
 .radio-options {
     display: flex;
-    align-items: center;
+
     flex-wrap: wrap;
-    gap: 18px;
-    min-height: 40px;
+
+    gap: 15px;
 }
+
 
 .radio-options label {
     display: flex;
+
     align-items: center;
-    gap: 6px;
-    font-size: 14px;
+
+    gap: 5px;
+
+    font-size: 13px;
+
     cursor: pointer;
 }
 
+
 .radio-options input {
-    width: 16px;
-    height: 16px;
     margin: 0;
 }
 
 
-/* =========================================================
-   AGE
-========================================================= */
-
-.age-row {
-    display: flex;
-    gap: 10px;
-}
-
-.age-row input {
-    width: 50%;
-    height: 40px;
-    padding: 7px 10px;
-    border: 1px solid #b8c2ce;
-    border-radius: 4px;
-    box-sizing: border-box;
-    outline: none;
-}
-
-.age-row input:focus {
-    border-color: #1d4f91;
-}
-
-
-/* =========================================================
-   STATIC INFORMATION
-========================================================= */
-
-.sbi-info {
-    width: 100%;
-    border: 1px solid #d2d8df;
-    border-radius: 5px;
-    overflow: hidden;
-    margin-bottom: 18px;
-}
-
-.static-row {
-    display: grid;
-    grid-template-columns: 300px 1fr;
-    gap: 15px;
-    padding: 10px 12px;
-    border-bottom: 1px solid #d2d8df;
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-.static-row:last-child {
-    border-bottom: none;
-}
-
-.static-row b {
-    color: #333;
-}
-
-.static-row span {
-    color: #444;
-}
-
-
-/* =========================================================
+/* ============================================================
    RED NOTE
-========================================================= */
+============================================================ */
 
 .red-note {
-    margin: 18px 0;
-    color: #c62828;
-    font-size: 13px;
-    font-weight: bold;
+    margin: 15px 0;
+
+    color: #b00020;
+
+    font-size: 12px;
+    font-weight: 700;
 }
 
 
-/* =========================================================
+/* ============================================================
    SUB TITLE
-========================================================= */
+============================================================ */
 
 .sub-title {
     margin-top: 20px;
     margin-bottom: 10px;
-    font-size: 15px;
-    font-weight: bold;
-    color: #333;
+
+    padding: 8px 10px;
+
+    background: #f1f3f5;
+
+    border-left: 4px solid #555;
+
+    font-size: 14px;
+    font-weight: 800;
 }
 
 
-/* =========================================================
+/* ============================================================
    CHECKBOX GRID
-========================================================= */
+============================================================ */
 
 .checkbox-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
     gap: 10px;
-    padding: 12px;
-    border: 1px solid #d2d8df;
-    border-radius: 5px;
-    margin-bottom: 18px;
-}
 
-.checkbox-grid label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-}
-
-.checkbox-grid input {
-    width: 16px;
-    height: 16px;
-}
-
-
-/* =========================================================
-   MATERNITY
-========================================================= */
-
-.maternity-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
     margin-bottom: 15px;
 }
 
 
-/* =========================================================
+.checkbox-grid label {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    min-height: 35px;
+
+    padding: 7px 10px;
+
+    border: 1px solid #d4d4d4;
+
+    border-radius: 4px;
+
+    background: #fafafa;
+
+    font-size: 13px;
+
+    cursor: pointer;
+}
+
+
+.checkbox-grid input {
+    margin: 0;
+}
+
+
+/* ============================================================
+   MATERNITY
+============================================================ */
+
+.maternity-row {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 15px;
+
+    margin-bottom: 15px;
+}
+
+
+/* ============================================================
    CHRONIC TABLE
-========================================================= */
+============================================================ */
 
 .chronic-table {
     width: 100%;
-    border: 1px solid #c7ced7;
-    border-radius: 5px;
-    overflow: hidden;
-    margin: 18px 0;
+
+    margin-top: 20px;
+
+    border: 1px solid #cfcfcf;
 }
+
 
 .chronic-header {
     display: grid;
-    grid-template-columns: 1fr 220px;
-    background: #e8eef7;
-    font-weight: bold;
-    color: #1d4f91;
-}
 
-.chronic-header span {
+    grid-template-columns:
+        minmax(0, 1fr) 220px;
+
+    gap: 10px;
+
     padding: 10px;
-    border-right: 1px solid #c7ced7;
+
+    background: #e9eef3;
+
+    border-bottom: 1px solid #cfcfcf;
+
+    font-size: 13px;
+    font-weight: 800;
 }
 
-.chronic-header span:last-child {
-    border-right: none;
-}
 
 .chronic-row {
     display: grid;
-    grid-template-columns: 1fr 220px;
+
+    grid-template-columns:
+        minmax(0, 1fr) 220px;
+
+    gap: 10px;
+
+    padding: 8px 10px;
+
+    border-bottom: 1px solid #e0e0e0;
+
     align-items: center;
-    border-top: 1px solid #d4d9df;
 }
+
+
+.chronic-row:last-child {
+    border-bottom: none;
+}
+
 
 .chronic-row span {
-    padding: 9px 10px;
-    font-size: 14px;
+    font-size: 13px;
 }
 
+
 .chronic-row input {
-    width: calc(100% - 15px);
-    height: 34px;
-    margin: 5px;
-    padding: 5px 8px;
-    border: 1px solid #b8c2ce;
+    width: 100%;
+
+    min-height: 38px;
+
+    padding: 7px 9px;
+
+    border: 1px solid #999;
     border-radius: 4px;
+
     box-sizing: border-box;
 }
 
 
-/* =========================================================
+/* ============================================================
    COST TABLE
-========================================================= */
+============================================================ */
 
 .cost-table {
     width: 100%;
-    border: 1px solid #c7ced7;
-    border-radius: 5px;
-    overflow: hidden;
-    margin-top: 18px;
+
+    margin-top: 20px;
+
+    border: 1px solid #cfcfcf;
 }
+
 
 .cost-row {
     display: grid;
-    grid-template-columns: 1fr 200px;
+
+    grid-template-columns:
+        minmax(0, 1fr) 200px;
+
+    gap: 15px;
+
     align-items: center;
-    border-bottom: 1px solid #d4d9df;
+
+    padding: 10px;
+
+    border-bottom: 1px solid #dedede;
 }
+
 
 .cost-row:last-child {
     border-bottom: none;
-    background: #f2f5f9;
-    font-weight: bold;
 }
 
-.cost-row span {
-    padding: 10px;
-    font-size: 14px;
-    line-height: 1.4;
+
+.cost-row > span {
+    font-size: 13px;
+    line-height: 1.45;
 }
+
 
 .cost-row input {
-    width: calc(100% - 15px);
-    height: 36px;
-    margin: 5px;
-    padding: 6px 9px;
-    border: 1px solid #b8c2ce;
+    width: 100%;
+
+    min-height: 38px;
+
+    padding: 7px 9px;
+
+    border: 1px solid #999;
     border-radius: 4px;
+
+    box-sizing: border-box;
+
+    text-align: right;
+}
+
+
+.cost-row:last-child {
+    background: #f0f4f8;
+}
+
+
+.cost-row:last-child > span {
+    font-weight: 800;
+}
+
+
+/* ============================================================
+   DECLARATION
+============================================================ */
+
+.declaration-note {
+    margin: 8px 0;
+
+    color: #b00020;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+
+.declaration-text {
+    margin: 10px 0 15px;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+    text-align: justify;
+}
+
+
+/* ============================================================
+   CONSENT
+============================================================ */
+
+.consent-box {
+    margin-top: 20px;
+
+    padding: 15px;
+
+    border: 1px solid #999;
+
+    background: #f8f8f8;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+    text-align: justify;
+}
+
+
+/* ============================================================
+   SIGNATURE SECTION
+============================================================ */
+
+.signature-section {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 35px;
+
+    margin-top: 25px;
+}
+
+
+.signature-box {
+    min-width: 0;
+
+    padding: 15px;
+
+    border: 1px solid #bbb;
+
+    background: #ffffff;
+
     box-sizing: border-box;
 }
 
 
-/* =========================================================
-   DECLARATION
-========================================================= */
-
-.declaration-note {
-    font-size: 13px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.declaration-text {
-    font-size: 14px;
-    line-height: 1.7;
-    margin-bottom: 18px;
-}
-
-.consent-box {
-    background: #f7f9fb;
-    border: 1px solid #cdd5de;
-    border-radius: 5px;
-    padding: 15px;
-    font-size: 14px;
-    line-height: 1.7;
-    margin-top: 18px;
-}
-
-
-/* =========================================================
-   SIGNATURE SECTION
-========================================================= */
-
-.signature-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 35px;
-    margin-top: 30px;
-}
-
-.signature-box {
-    min-width: 0;
-}
-
 .signature-box > label {
     display: block;
-    font-weight: bold;
-    font-size: 14px;
+
     margin-bottom: 10px;
+
+    font-size: 13px;
+    font-weight: 800;
 }
+
+
+/* ============================================================
+   HOSPITAL SEAL
+============================================================ */
 
 .hospital-seal {
-    height: 95px;
-    border: 1px dashed #888;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #777;
-    font-size: 13px;
-    border-radius: 4px;
-}
-
-
-/*
-   IMPORTANT:
-   Signature.jsx मधील .signature-main ला
-   full available width मिळण्यासाठी
-*/
-
-.signature-box .signature-main {
     width: 100%;
 }
 
 
-/* =========================================================
-   SUBMIT BUTTON
-========================================================= */
-
-.submit-btn {
-    display: block;
-    margin: 35px auto 5px;
-    min-width: 260px;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 5px;
-    background: #198754;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-
-.submit-btn:hover {
-    background: #157347;
-}
-
-.submit-btn:active {
-    transform: scale(0.98);
+.hospital-seal .field label {
+    font-size: 12px;
 }
 
 
-/* =========================================================
-   TABLET
-========================================================= */
+.hospital-seal input[type="file"] {
+    width: 100%;
 
-@media (max-width: 800px) {
+    padding: 8px;
 
-    .sbi-page {
-        padding: 15px 8px;
-    }
+    border: 1px dashed #999;
 
-    .sbi-form {
-        width: 98%;
-        padding: 18px;
-    }
+    background: #fafafa;
 
-    .sbi-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-
-    .sbi-title {
-        text-align: left;
-        width: 100%;
-    }
-
-    .sbi-title h2 {
-        font-size: 18px;
-    }
-
-    .sbi-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .field.full {
-        grid-column: auto;
-    }
-
-    .checkbox-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .signature-section {
-        grid-template-columns: 1fr;
-        gap: 25px;
-    }
-
-    .static-row {
-        grid-template-columns: 1fr;
-        gap: 5px;
-    }
-
-    .chronic-header,
-    .chronic-row {
-        grid-template-columns: 1fr;
-    }
-
-    .chronic-header span:last-child {
-        display: none;
-    }
-
-    .cost-row {
-        grid-template-columns: 1fr;
-    }
-
-    .cost-row input {
-        width: calc(100% - 20px);
-        margin: 0 10px 10px;
-    }
-
-}
-
-
-/* =========================================================
-   MOBILE - 450px
-========================================================= */
-
-@media (max-width: 450px) {
-
-    .sbi-page {
-        padding: 8px 3px;
-    }
-
-    .sbi-form {
-        width: 100%;
-        padding: 12px;
-        border-radius: 5px;
-    }
-
-
-    /* HEADER */
-
-    .sbi-logo {
-        width: 55px;
-        height: 55px;
-        font-size: 18px;
-    }
-
-    .sbi-logo-box h3 {
-        font-size: 18px;
-    }
-
-    .sbi-title h2 {
-        font-size: 16px;
-    }
-
-    .sbi-title h3 {
-        font-size: 14px;
-    }
-
-
-    /* SECTION */
-
-    .section-title {
-        padding: 9px 10px;
-        font-size: 15px;
-        margin-top: 18px;
-    }
-
-
-    /* INPUT */
-
-    .field label {
-        font-size: 13px;
-    }
-
-    .field input {
-        width: 100%;
-        height: 42px;
-        font-size: 14px;
-    }
-
-
-    /* RADIO */
-
-    .radio-options {
-        gap: 12px;
-    }
-
-    .radio-options label {
-        font-size: 13px;
-    }
-
-
-    /* AGE */
-
-    .age-row {
-        gap: 7px;
-    }
-
-    .age-row input {
-        width: 50%;
-        height: 42px;
-    }
-
-
-    /* STATIC DATA */
-
-    .static-row {
-        padding: 9px;
-        font-size: 13px;
-    }
-
-
-    /* CHECKBOX */
-
-    .checkbox-grid {
-        padding: 10px;
-        gap: 9px;
-    }
-
-    .checkbox-grid label {
-        font-size: 13px;
-    }
-
-
-    /* MATERNITY */
-
-    .maternity-row {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-    }
-
-
-    /* CHRONIC */
-
-    .chronic-row {
-        padding: 5px;
-    }
-
-    .chronic-row span {
-        padding: 5px;
-        font-size: 13px;
-    }
-
-    .chronic-row input {
-        width: calc(100% - 10px);
-        margin: 5px;
-    }
-
-
-    /* COST */
-
-    .cost-row span {
-        padding: 9px;
-        font-size: 13px;
-    }
-
-    .cost-row input {
-        width: calc(100% - 18px);
-        margin: 0 9px 9px;
-        height: 40px;
-    }
-
-
-    /* SIGNATURE */
-
-    .signature-section {
-        gap: 25px;
-    }
-
-    .hospital-seal {
-        height: 85px;
-    }
-
-
-    /*
-       Signature.jsx च्या canvas ला
-       mobile width
-    */
-
-    .signature-box .signature-main {
-        width: 100%;
-    }
-
-    .signature-box .line {
-        height: 45px;
-    }
-
-
-    /* BUTTON */
-
-    .submit-btn {
-        width: 100%;
-        min-width: 0;
-        margin-top: 25px;
-        padding: 12px 15px;
-        font-size: 15px;
-    }
-
-}
-
-
-/* =========================================================
-   VERY SMALL MOBILE
-========================================================= */
-
-@media (max-width: 320px) {
-
-    .sbi-form {
-        padding: 9px;
-    }
-
-    .section-title {
-        font-size: 14px;
-    }
-
-    .field input {
-        font-size: 13px;
-    }
-
-    .radio-options {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-    }
-
-}
-
-/* =========================================================
-   PDF CAPTURE FIX
-   ---------------------------------------------------------
-   This block is used ONLY while Save Insurance is creating
-   the PDF. Normal screen/mobile design is unchanged.
-========================================================= */
-
-.sbi-pdf-capture .sbi-form {
-    width: 1100px !important;
-    max-width: 1100px !important;
-    margin: 0 auto !important;
-    box-sizing: border-box !important;
-}
-
-.sbi-pdf-capture .sbi-grid {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 15px 20px !important;
-    width: 100% !important;
-}
-
-.sbi-pdf-capture .field {
-    min-width: 0 !important;
-    box-sizing: border-box !important;
-}
-
-.sbi-pdf-capture .field.full {
-    grid-column: 1 / -1 !important;
-}
-
-.sbi-pdf-capture .radio-field {
-    min-width: 0 !important;
-}
-
-.sbi-pdf-capture .radio-options {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    flex-wrap: wrap !important;
-    gap: 18px !important;
-}
-
-.sbi-pdf-capture .static-row {
-    display: grid !important;
-    grid-template-columns: 300px minmax(0, 1fr) !important;
-    gap: 15px !important;
-    box-sizing: border-box !important;
-}
-
-.sbi-pdf-capture .checkbox-grid {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 10px !important;
-}
-
-.sbi-pdf-capture .maternity-row {
-    display: grid !important;
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-    gap: 12px !important;
-}
-
-.sbi-pdf-capture .chronic-header,
-.sbi-pdf-capture .chronic-row {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) 220px !important;
-}
-
-.sbi-pdf-capture .cost-row {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) 200px !important;
-}
-
-.sbi-pdf-capture .signature-section {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: 35px !important;
-}
-
-.sbi-pdf-capture .signature-box {
-    min-width: 0 !important;
-}
-
-.sbi-pdf-capture .age-row {
-    display: flex !important;
-    flex-direction: row !important;
-    gap: 10px !important;
-}
-
-.sbi-pdf-capture input,
-.sbi-pdf-capture select,
-.sbi-pdf-capture textarea {
-    box-sizing: border-box !important;
-    font-family: Arial, Helvetica, sans-serif !important;
-}
-
-.sbi-pdf-capture label,
-.sbi-pdf-capture span,
-.sbi-pdf-capture p,
-.sbi-pdf-capture b,
-.sbi-pdf-capture .section-title,
-.sbi-pdf-capture .sub-title,
-.sbi-pdf-capture .declaration-text,
-.sbi-pdf-capture .consent-box {
-    white-space: normal !important;
-    word-break: normal !important;
-    overflow-wrap: break-word !important;
-    letter-spacing: normal !important;
-}
-
-.sbi-pdf-capture .field input {
-    width: 100% !important;
-}
-
-.sbi-pdf-capture .signature-box .signature-main {
-    width: 100% !important;
-}
-
-
-/* =========================================================
-   INSURANCE PDF FIX
-   ========================================================= */
-
-.insurance-pdf,
-.insurance-pdf * {
     box-sizing: border-box;
+
+    font-size: 12px;
 }
+
+
+.signature-box mark {
+    display: inline-block;
+
+    margin-top: 10px;
+
+    padding: 4px 7px;
+
+    background: #fff3cd;
+
+    color: #664d03;
+
+    font-size: 11px;
+}
+
+
+/* ============================================================
+   SIGNATURE CANVAS
+============================================================ */
+
+.signature-box canvas {
+    max-width: 100%;
+
+    border: 1px solid #999;
+
+    background: #ffffff;
+}
+
+
+/* ============================================================
+   ACTION BUTTONS
+============================================================ */
+
+.insurance-action-buttons {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    max-width: 1100px;
+
+    margin: 20px auto 0;
+
+    padding: 15px;
+
+    background: #ffffff;
+
+    border: 1px solid #d5d5d5;
+}
+
+
+.insurance-action-buttons .btn {
+    min-width: 180px;
+
+    padding: 11px 20px;
+
+    border: none;
+
+    border-radius: 5px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        opacity 0.15s ease;
+}
+
+
+.insurance-action-buttons .btn:hover {
+    opacity: 0.9;
+
+    transform: translateY(-1px);
+}
+
+
+.btn-success {
+    background: #198754;
+
+    color: #ffffff;
+}
+
+
+.btn-secondary {
+    background: #495057;
+
+    color: #ffffff;
+}
+
+
+/* ============================================================
+   PDF CLONE
+============================================================ */
 
 .insurance-pdf {
     width: 1100px !important;
+
     max-width: 1100px !important;
-    margin: 0 !important;
-    padding: 30px !important;
-    background: #fff !important;
-    font-family: Arial, Helvetica, sans-serif !important;
+
+    background: #ffffff !important;
+
     color: #222 !important;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif !important;
 }
 
-.insurance-pdf .sbi-grid {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 15px 20px !important;
+
+.insurance-pdf .insurance-action-buttons {
+    display: none !important;
 }
 
-.insurance-pdf .checkbox-grid {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 10px !important;
+
+/* ============================================================
+   PDF INPUT VALUE
+============================================================ */
+
+.pdf-input-value {
+    width: 100%;
+
+    min-height: 40px;
+
+    padding: 8px 10px;
+
+    border: 1px solid #999;
+
+    border-radius: 4px;
+
+    background: #ffffff;
+
+    font-size: 14px;
+
+    line-height: 22px;
+
+    box-sizing: border-box;
+
+    overflow-wrap: break-word;
 }
 
-.insurance-pdf .signature-section {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: 35px !important;
+
+.pdf-file-box {
+    width: 100%;
+
+    min-height: 40px;
+
+    padding: 8px 10px;
+
+    border: 1px solid #999;
+
+    background: #ffffff;
+
+    box-sizing: border-box;
+
+    font-size: 14px;
 }
 
-.insurance-pdf .static-row {
-    display: grid !important;
-    grid-template-columns: 300px minmax(0, 1fr) !important;
-    gap: 15px !important;
+
+.pdf-textarea-value {
+    width: 100%;
+
+    min-height: 60px;
+
+    padding: 8px 10px;
+
+    border: 1px solid #999;
+
+    border-radius: 4px;
+
+    box-sizing: border-box;
+
+    white-space: normal;
+
+    overflow-wrap: break-word;
 }
 
-.insurance-pdf .chronic-header,
-.insurance-pdf .chronic-row {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) 220px !important;
+.signature-box
+{
+    height: 200px;
 }
 
-.insurance-pdf .cost-row {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) 200px !important;
+/* ============================================================
+   PRINT
+============================================================ */
+
+@media print {
+
+    @page {
+        size: A3 portrait;
+
+        margin: 5mm;
+    }
+
+
+    body {
+        margin: 0;
+
+        background: #ffffff !important;
+    }
+
+
+    .sbi-page {
+        padding: 0;
+
+        background: #ffffff;
+    }
+
+
+    .sbi-form {
+        width: 100%;
+
+        max-width: none;
+
+        margin: 0;
+
+        padding: 0;
+
+        border: none;
+    }
+
+
+    .insurance-action-buttons {
+        display: none !important;
+    }
+
+
+    .sbi-form input {
+        border: 1px solid #999;
+    }
+
+
+    .section-title,
+    .field,
+    .static-row,
+    .chronic-row,
+    .cost-row,
+    .signature-box {
+        break-inside: avoid;
+
+        page-break-inside: avoid;
+    }
+
+
+    .section-title {
+        break-after: avoid;
+
+        page-break-after: avoid;
+    }
 }
 
-.insurance-pdf .field {
-    min-width: 0 !important;
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media (max-width: 900px) {
+
+    .sbi-page {
+        padding: 10px;
+    }
+
+
+    .sbi-form {
+        padding: 18px;
+    }
+
+
+    .sbi-header {
+        grid-template-columns: 1fr;
+
+        text-align: center;
+    }
+
+
+    .sbi-logo-box {
+        justify-content: center;
+    }
+
+
+    .sbi-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .field.full {
+        grid-column: auto;
+    }
+
+
+    .checkbox-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .maternity-row {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+
+    .static-row {
+        grid-template-columns: 1fr;
+
+        gap: 5px;
+    }
+
+
+    .chronic-header,
+    .chronic-row {
+        grid-template-columns: 1fr;
+    }
+
+
+    .cost-row {
+        grid-template-columns: 1fr;
+    }
+
+
+    .signature-section {
+        grid-template-columns: 1fr;
+    }
+
+
+    .insurance-action-buttons {
+        flex-direction: column;
+    }
+
+
+    .insurance-action-buttons .btn {
+        width: 100%;
+    }
 }
 
-.insurance-pdf p,
-.insurance-pdf span,
-.insurance-pdf label,
-.insurance-pdf b {
-    white-space: normal !important;
-    word-break: normal !important;
-    overflow-wrap: break-word !important;
-    letter-spacing: normal !important;
-}
 
-.insurance-pdf .section-title,
-.insurance-pdf .field,
-.insurance-pdf .static-row,
-.insurance-pdf .chronic-row,
-.insurance-pdf .cost-row {
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
+/* ============================================================
+   SMALL MOBILE
+============================================================ */
+
+@media (max-width: 500px) {
+
+    .sbi-form {
+        padding: 12px;
+    }
+
+
+    .sbi-logo {
+        width: 60px;
+        height: 60px;
+
+        font-size: 18px;
+    }
+
+
+    .sbi-title h2 {
+        font-size: 18px;
+    }
+
+
+    .sbi-title h3 {
+        font-size: 14px;
+    }
+
+
+    .maternity-row {
+        grid-template-columns: 1fr;
+    }
+
+
+    .age-row {
+        grid-template-columns: 1fr;
+    }
 }

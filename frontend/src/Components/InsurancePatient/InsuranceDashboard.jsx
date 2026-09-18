@@ -43,7 +43,7 @@ function InsuranceDashboard() {
         🔙
       </button>
 
-      <h1>Billing Department</h1>
+      <h1>Insurance Department</h1>
 
       <nav className="navbar">
         <FontAwesomeIcon
@@ -69,47 +69,6 @@ function InsuranceDashboard() {
     
         {/* <Profile /> */}
       </nav>
-
-      <br />
-
-      <div className="opd-billing-section">
-        <h2>OPD Billing</h2>
-
-        <div className="opd-revenue-card">
-          <h3>Total OPD Revenue</h3>
-          <p>₹{opdRevenue}</p>
-        </div>
-
-        <div className="opd-count">
-          <strong>Paid OPD Bills:</strong> {opdBills.length}
-        </div>
-
-        <table className="opd-billing-table">
-          <thead>
-            <tr>
-              <th>UHID</th>
-              <th>Patient Name</th>
-              <th>Doctor</th>
-              <th>Amount</th>
-              <th>Payment Mode</th>
-              <th>Payment Status</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {opdBills.map((bill) => (
-              <tr key={bill._id}>
-                <td>{bill.uhid}</td>
-                <td>{bill.name}</td>
-                <td>{bill.doctor}</td>
-                <td>₹{bill.fee || 0}</td>
-                <td>{bill.paymentMode}</td>
-                <td>{bill.paymentStatus}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
 
       <br />
 

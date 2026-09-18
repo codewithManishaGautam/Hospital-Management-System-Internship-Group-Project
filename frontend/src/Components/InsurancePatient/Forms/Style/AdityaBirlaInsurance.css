@@ -936,3 +936,25 @@
     }
 
 }
+
+
+.insurance-action-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 25px 0;
+}
+
+.insurance-action-buttons button {
+    min-width: 180px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.aditya-pdf-capture .insurance-action-buttons {
+    display: none !important;
+}
