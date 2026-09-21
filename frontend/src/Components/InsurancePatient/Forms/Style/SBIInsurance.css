@@ -1,0 +1,1045 @@
+.sbi-page {
+    width: 100%;
+    min-height: 100vh;
+    padding: 25px;
+    background: #f3f5f7;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #222;
+}
+
+
+/* ============================================================
+   MAIN FORM
+============================================================ */
+
+.sbi-form {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px;
+    background: #ffffff;
+    border: 1px solid #d5d5d5;
+    box-sizing: border-box;
+}
+
+
+/* ============================================================
+   HEADER
+============================================================ */
+
+.sbi-header {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 25px;
+    align-items: center;
+
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+
+    border-bottom: 3px solid #222;
+}
+
+
+.sbi-logo-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+
+.sbi-logo {
+    width: 75px;
+    height: 75px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #1f4e79;
+    color: #ffffff;
+
+    font-size: 22px;
+    font-weight: 800;
+
+    border-radius: 8px;
+}
+
+
+.sbi-logo-box h3 {
+    margin: 0;
+    font-size: 23px;
+}
+
+
+.sbi-logo-box span {
+    font-size: 15px;
+    color: #555;
+}
+
+
+.sbi-title {
+    text-align: center;
+}
+
+
+.sbi-title h2 {
+    margin: 0;
+
+    font-size: 23px;
+    line-height: 1.3;
+
+    font-weight: 800;
+}
+
+
+.sbi-title h3 {
+    margin: 8px 0;
+
+    font-size: 17px;
+}
+
+
+.sbi-title p {
+    margin: 5px 0;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+/* ============================================================
+   SECTION TITLE
+============================================================ */
+
+.section-title {
+    width: 100%;
+
+    margin-top: 22px;
+    margin-bottom: 15px;
+
+    padding: 10px 12px;
+
+    background: #e9eef3;
+
+    border-left: 5px solid #1f4e79;
+    border-top: 1px solid #c7c7c7;
+    border-bottom: 1px solid #c7c7c7;
+
+    font-size: 15px;
+    font-weight: 800;
+
+    box-sizing: border-box;
+}
+
+
+/* ============================================================
+   STATIC INFORMATION
+============================================================ */
+
+.sbi-info {
+    width: 100%;
+    margin-bottom: 18px;
+}
+
+
+.static-row {
+    display: grid;
+
+    grid-template-columns:
+        300px minmax(0, 1fr);
+
+    gap: 15px;
+
+    padding: 8px 0;
+
+    border-bottom: 1px solid #e0e0e0;
+
+    line-height: 1.5;
+}
+
+
+.static-row b {
+    font-size: 13px;
+}
+
+
+.static-row span {
+    font-size: 13px;
+    word-break: break-word;
+}
+
+
+/* ============================================================
+   GRID
+============================================================ */
+
+.sbi-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 15px 20px;
+
+    width: 100%;
+}
+
+
+/* ============================================================
+   FIELD
+============================================================ */
+
+.field {
+    min-width: 0;
+    width: 100%;
+}
+
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+
+.field label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    line-height: 1.4;
+}
+
+
+.field input {
+    width: 100%;
+
+    min-height: 40px;
+
+    padding: 8px 10px;
+
+    border: 1px solid #999;
+    border-radius: 4px;
+
+    background: #ffffff;
+
+    font-size: 14px;
+
+    box-sizing: border-box;
+}
+
+
+.field input:focus {
+    outline: none;
+
+    border-color: #1f4e79;
+
+    box-shadow:
+        0 0 0 2px rgba(31, 78, 121, 0.12);
+}
+
+
+/* ============================================================
+   AGE
+============================================================ */
+
+.age-row {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 8px;
+}
+
+
+.age-row input {
+    width: 100%;
+
+    min-height: 40px;
+
+    padding: 8px 10px;
+
+    border: 1px solid #999;
+    border-radius: 4px;
+
+    box-sizing: border-box;
+}
+
+
+/* ============================================================
+   RADIO
+============================================================ */
+
+.radio-field {
+    min-width: 0;
+
+    padding: 10px;
+
+    border: 1px solid #d0d0d0;
+
+    border-radius: 4px;
+
+    background: #fafafa;
+}
+
+
+.radio-field > span {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    line-height: 1.4;
+}
+
+
+.radio-options {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 15px;
+}
+
+
+.radio-options label {
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    font-size: 13px;
+
+    cursor: pointer;
+}
+
+
+.radio-options input {
+    margin: 0;
+}
+
+
+/* ============================================================
+   RED NOTE
+============================================================ */
+
+.red-note {
+    margin: 15px 0;
+
+    color: #b00020;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+
+/* ============================================================
+   SUB TITLE
+============================================================ */
+
+.sub-title {
+    margin-top: 20px;
+    margin-bottom: 10px;
+
+    padding: 8px 10px;
+
+    background: #f1f3f5;
+
+    border-left: 4px solid #555;
+
+    font-size: 14px;
+    font-weight: 800;
+}
+
+
+/* ============================================================
+   CHECKBOX GRID
+============================================================ */
+
+.checkbox-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
+
+    margin-bottom: 15px;
+}
+
+
+.checkbox-grid label {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    min-height: 35px;
+
+    padding: 7px 10px;
+
+    border: 1px solid #d4d4d4;
+
+    border-radius: 4px;
+
+    background: #fafafa;
+
+    font-size: 13px;
+
+    cursor: pointer;
+}
+
+
+.checkbox-grid input {
+    margin: 0;
+}
+
+
+/* ============================================================
+   MATERNITY
+============================================================ */
+
+.maternity-row {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 15px;
+
+    margin-bottom: 15px;
+}
+
+
+/* ============================================================
+   CHRONIC TABLE
+============================================================ */
+
+.chronic-table {
+    width: 100%;
+
+    margin-top: 20px;
+
+    border: 1px solid #cfcfcf;
+}
+
+
+.chronic-header {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr) 220px;
+
+    gap: 10px;
+
+    padding: 10px;
+
+    background: #e9eef3;
+
+    border-bottom: 1px solid #cfcfcf;
+
+    font-size: 13px;
+    font-weight: 800;
+}
+
+
+.chronic-row {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr) 220px;
+
+    gap: 10px;
+
+    padding: 8px 10px;
+
+    border-bottom: 1px solid #e0e0e0;
+
+    align-items: center;
+}
+
+
+.chronic-row:last-child {
+    border-bottom: none;
+}
+
+
+.chronic-row span {
+    font-size: 13px;
+}
+
+
+.chronic-row input {
+    width: 100%;
+
+    min-height: 38px;
+
+    padding: 7px 9px;
+
+    border: 1px solid #999;
+    border-radius: 4px;
+
+    box-sizing: border-box;
+}
+
+
+/* ============================================================
+   COST TABLE
+============================================================ */
+
+.cost-table {
+    width: 100%;
+
+    margin-top: 20px;
+
+    border: 1px solid #cfcfcf;
+}
+
+
+.cost-row {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr) 200px;
+
+    gap: 15px;
+
+    align-items: center;
+
+    padding: 10px;
+
+    border-bottom: 1px solid #dedede;
+}
+
+
+.cost-row:last-child {
+    border-bottom: none;
+}
+
+
+.cost-row > span {
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+
+.cost-row input {
+    width: 100%;
+
+    min-height: 38px;
+
+    padding: 7px 9px;
+
+    border: 1px solid #999;
+    border-radius: 4px;
+
+    box-sizing: border-box;
+
+    text-align: right;
+}
+
+
+.cost-row:last-child {
+    background: #f0f4f8;
+}
+
+
+.cost-row:last-child > span {
+    font-weight: 800;
+}
+
+
+/* ============================================================
+   DECLARATION
+============================================================ */
+
+.declaration-note {
+    margin: 8px 0;
+
+    color: #b00020;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+
+.declaration-text {
+    margin: 10px 0 15px;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+    text-align: justify;
+}
+
+
+/* ============================================================
+   CONSENT
+============================================================ */
+
+.consent-box {
+    margin-top: 20px;
+
+    padding: 15px;
+
+    border: 1px solid #999;
+
+    background: #f8f8f8;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+    text-align: justify;
+}
+
+
+/* ============================================================
+   SIGNATURE SECTION
+============================================================ */
+
+.signature-section {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 35px;
+
+    margin-top: 25px;
+}
+
+
+.signature-box {
+    min-width: 0;
+
+    padding: 15px;
+
+    border: 1px solid #bbb;
+
+    background: #ffffff;
+
+    box-sizing: border-box;
+}
+
+
+.signature-box > label {
+    display: block;
+
+    margin-bottom: 10px;
+
+    font-size: 13px;
+    font-weight: 800;
+}
+
+
+/* ============================================================
+   HOSPITAL SEAL
+============================================================ */
+
+.hospital-seal {
+    width: 100%;
+}
+
+
+.hospital-seal .field label {
+    font-size: 12px;
+}
+
+
+.hospital-seal input[type="file"] {
+    width: 100%;
+
+    padding: 8px;
+
+    border: 1px dashed #999;
+
+    background: #fafafa;
+
+    box-sizing: border-box;
+
+    font-size: 12px;
+}
+
+
+.signature-box mark {
+    display: inline-block;
+
+    margin-top: 10px;
+
+    padding: 4px 7px;
+
+    background: #fff3cd;
+
+    color: #664d03;
+
+    font-size: 11px;
+}
+
+
+/* ============================================================
+   SIGNATURE CANVAS
+============================================================ */
+
+.signature-box canvas {
+    max-width: 100%;
+
+    border: 1px solid #999;
+
+    background: #ffffff;
+}
+
+
+/* ============================================================
+   ACTION BUTTONS
+============================================================ */
+
+.insurance-action-buttons {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    max-width: 1100px;
+
+    margin: 20px auto 0;
+
+    padding: 15px;
+
+    background: #ffffff;
+
+    border: 1px solid #d5d5d5;
+}
+
+
+.insurance-action-buttons .btn {
+    min-width: 180px;
+
+    padding: 11px 20px;
+
+    border: none;
+
+    border-radius: 5px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        opacity 0.15s ease;
+}
+
+
+.insurance-action-buttons .btn:hover {
+    opacity: 0.9;
+
+    transform: translateY(-1px);
+}
+
+
+.btn-success {
+    background: #198754;
+
+    color: #ffffff;
+}
+
+
+.btn-secondary {
+    background: #495057;
+
+    color: #ffffff;
+}
+
+
+/* ============================================================
+   PDF CLONE
+============================================================ */
+
+.insurance-pdf {
+    width: 1100px !important;
+
+    max-width: 1100px !important;
+
+    background: #ffffff !important;
+
+    color: #222 !important;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif !important;
+}
+
+
+.insurance-pdf .insurance-action-buttons {
+    display: none !important;
+}
+
+
+/* ============================================================
+   PDF INPUT VALUE
+============================================================ */
+
+.pdf-input-value {
+    width: 100%;
+
+    min-height: 40px;
+
+    padding: 8px 10px;
+
+    border: 1px solid #999;
+
+    border-radius: 4px;
+
+    background: #ffffff;
+
+    font-size: 14px;
+
+    line-height: 22px;
+
+    box-sizing: border-box;
+
+    overflow-wrap: break-word;
+}
+
+
+.pdf-file-box {
+    width: 100%;
+
+    min-height: 40px;
+
+    padding: 8px 10px;
+
+    border: 1px solid #999;
+
+    background: #ffffff;
+
+    box-sizing: border-box;
+
+    font-size: 14px;
+}
+
+
+.pdf-textarea-value {
+    width: 100%;
+
+    min-height: 60px;
+
+    padding: 8px 10px;
+
+    border: 1px solid #999;
+
+    border-radius: 4px;
+
+    box-sizing: border-box;
+
+    white-space: normal;
+
+    overflow-wrap: break-word;
+}
+
+.signature-box
+{
+    height: 200px;
+}
+
+/* ============================================================
+   PRINT
+============================================================ */
+
+@media print {
+
+    @page {
+        size: A3 portrait;
+
+        margin: 5mm;
+    }
+
+
+    body {
+        margin: 0;
+
+        background: #ffffff !important;
+    }
+
+
+    .sbi-page {
+        padding: 0;
+
+        background: #ffffff;
+    }
+
+
+    .sbi-form {
+        width: 100%;
+
+        max-width: none;
+
+        margin: 0;
+
+        padding: 0;
+
+        border: none;
+    }
+
+
+    .insurance-action-buttons {
+        display: none !important;
+    }
+
+
+    .sbi-form input {
+        border: 1px solid #999;
+    }
+
+
+    .section-title,
+    .field,
+    .static-row,
+    .chronic-row,
+    .cost-row,
+    .signature-box {
+        break-inside: avoid;
+
+        page-break-inside: avoid;
+    }
+
+
+    .section-title {
+        break-after: avoid;
+
+        page-break-after: avoid;
+    }
+}
+
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media (max-width: 900px) {
+
+    .sbi-page {
+        padding: 10px;
+    }
+
+
+    .sbi-form {
+        padding: 18px;
+    }
+
+
+    .sbi-header {
+        grid-template-columns: 1fr;
+
+        text-align: center;
+    }
+
+
+    .sbi-logo-box {
+        justify-content: center;
+    }
+
+
+    .sbi-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .field.full {
+        grid-column: auto;
+    }
+
+
+    .checkbox-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .maternity-row {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+
+    .static-row {
+        grid-template-columns: 1fr;
+
+        gap: 5px;
+    }
+
+
+    .chronic-header,
+    .chronic-row {
+        grid-template-columns: 1fr;
+    }
+
+
+    .cost-row {
+        grid-template-columns: 1fr;
+    }
+
+
+    .signature-section {
+        grid-template-columns: 1fr;
+    }
+
+
+    .insurance-action-buttons {
+        flex-direction: column;
+    }
+
+
+    .insurance-action-buttons .btn {
+        width: 100%;
+    }
+}
+
+
+/* ============================================================
+   SMALL MOBILE
+============================================================ */
+
+@media (max-width: 500px) {
+
+    .sbi-form {
+        padding: 12px;
+    }
+
+
+    .sbi-logo {
+        width: 60px;
+        height: 60px;
+
+        font-size: 18px;
+    }
+
+
+    .sbi-title h2 {
+        font-size: 18px;
+    }
+
+
+    .sbi-title h3 {
+        font-size: 14px;
+    }
+
+
+    .maternity-row {
+        grid-template-columns: 1fr;
+    }
+
+
+    .age-row {
+        grid-template-columns: 1fr;
+    }
+}

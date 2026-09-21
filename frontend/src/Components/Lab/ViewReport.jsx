@@ -150,7 +150,7 @@
 
 //                         diagnosticReports.map((item) => (
 
-                            
+
 //                                 <button
 //                                     className="btn btn-outline-success text-align-center" 
 //                                     style={{fontSize:"14px" ,fontWeight:"bold"}}
@@ -196,6 +196,11 @@ import React, {
 } from "react";
 
 import axios from "axios";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleArrowDown } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faFile } from "@fortawesome/free-solid-svg-icons";
 
 
 function ViewReport({
@@ -373,11 +378,13 @@ function ViewReport({
 
                 isLab && (
 
-                    <div>
-
-                        <h5>
-                            Lab Reports
-                        </h5>
+                    <div
+                        style={{
+                            marginTop:
+                                "20px"
+                        }}
+                    >
+                        
 
 
                         {
@@ -391,7 +398,7 @@ function ViewReport({
                                             "Times New Roman"
                                     }}
                                 >
-                                    No Lab Report Found
+                                    <FontAwesomeIcon icon={faFile} />
                                 </p>
 
                             ) : (
@@ -413,17 +420,18 @@ function ViewReport({
                                             <button
 
                                                 className=
-                                                    "btn btn-outline-success"
+                                                "btn btn-outline-success"
 
                                                 style={{
                                                     fontSize:
-                                                        "14px",
+                                                        "12px",
 
                                                     fontWeight:
                                                         "bold",
 
-                                                    marginRight:
-                                                        "10px"
+                                                    marginBottom:
+                                                        "10px",
+                                                    
                                                 }}
 
                                                 onClick={() =>
@@ -434,19 +442,21 @@ function ViewReport({
 
                                             >
 
-                                                Download
+                                                <FontAwesomeIcon icon={faCircleArrowDown} />
+                                                {/* Download */}
 
                                             </button>
+                                            <br />
 
 
                                             <button
 
                                                 className=
-                                                    "btn btn-outline-danger"
+                                                "btn btn-outline-danger"
 
                                                 style={{
                                                     fontSize:
-                                                        "14px",
+                                                        "12px",
 
                                                     fontWeight:
                                                         "bold"
@@ -460,7 +470,8 @@ function ViewReport({
 
                                             >
 
-                                                Delete
+                                                {/* Delete */}
+                                                <FontAwesomeIcon icon={faTrash} />
 
                                             </button>
 
@@ -497,9 +508,6 @@ function ViewReport({
                         }}
                     >
 
-                        <h5>
-                            Diagnostic Reports
-                        </h5>
 
 
                         {
@@ -513,7 +521,7 @@ function ViewReport({
                                             "Times New Roman"
                                     }}
                                 >
-                                    No Diagnostic Report Found
+                                    <FontAwesomeIcon icon={faFile} />
                                 </p>
 
                             ) : (
@@ -535,17 +543,17 @@ function ViewReport({
                                             <button
 
                                                 className=
-                                                    "btn btn-outline-success"
+                                                "btn btn-outline-success"
 
                                                 style={{
                                                     fontSize:
-                                                        "14px",
+                                                        "12px",
 
                                                     fontWeight:
                                                         "bold",
 
-                                                    marginRight:
-                                                        "10px"
+                                                    marginBottom:
+                                                        "10px",
                                                 }}
 
                                                 onClick={() =>
@@ -556,19 +564,21 @@ function ViewReport({
 
                                             >
 
-                                                Download
+                                                <FontAwesomeIcon icon={faCircleArrowDown} />
+
 
                                             </button>
+                                            <br />
 
 
                                             <button
 
                                                 className=
-                                                    "btn btn-outline-danger"
+                                                "btn btn-outline-danger"
 
                                                 style={{
                                                     fontSize:
-                                                        "14px",
+                                                        "12px",
 
                                                     fontWeight:
                                                         "bold"
@@ -582,7 +592,7 @@ function ViewReport({
 
                                             >
 
-                                                Delete
+                                                <FontAwesomeIcon icon={faTrash} />
 
                                             </button>
 

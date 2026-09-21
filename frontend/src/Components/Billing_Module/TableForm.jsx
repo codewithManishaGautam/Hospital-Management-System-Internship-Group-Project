@@ -4,7 +4,7 @@ import axios from "axios";
 import "./style/TableForm.css";
 import DeletePatientInTable from "./DeletePatientInTable";
 
-function TableForm({search}) {
+function TableForm({ search }) {
 
     const [patients, setPatients] = useState([]);
     const [page, setPage] = useState(1);
@@ -16,10 +16,13 @@ function TableForm({search}) {
 
             const currentPage = reset ? 1 : page;
 
+            // const res = await axios.get(
+
+            //     `http://localhost:5000/patients?page=${currentPage}&limit=10&search=${search}`
+
+            // );
             const res = await axios.get(
-
                 `http://localhost:5000/patients?page=${currentPage}&limit=10&search=${search}`
-
             );
 
             const data = res.data.patients || [];
@@ -48,7 +51,7 @@ function TableForm({search}) {
 
         getPatients(true);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -59,7 +62,7 @@ function TableForm({search}) {
 
         }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
 
     useEffect(() => {
@@ -68,8 +71,9 @@ function TableForm({search}) {
 
         getPatients(true);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [search]);
+
 
     return (
 
@@ -86,7 +90,7 @@ function TableForm({search}) {
                         <th style={{ backgroundColor: "#1976d2" }}>Age</th>
                         <th style={{ backgroundColor: "#1976d2" }}>Gender</th>
                         <th style={{ backgroundColor: "#1976d2" }}>Delete</th>
-                        <th style={{ backgroundColor: "#1976d2" }}>More INFO</th>
+                        <th style={{ backgroundColor: "#1976d2" }} className="upload-th">More INFO</th>
 
                     </tr>
 
@@ -117,7 +121,7 @@ function TableForm({search}) {
 
                                 </td>
 
-                                <td>
+                                <td className="td-detail">
 
                                     <Link to={`/patient/${item._id}`}>
                                         Detail
@@ -159,8 +163,6 @@ function TableForm({search}) {
 }
 
 export default TableForm;
-
-
 
 
 

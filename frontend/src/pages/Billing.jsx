@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Layout from "./Layout";
-import InsuranceSplitCard from "../components/insurance/InsuranceSplitCard";
+import InsuranceSplitCard from "../Components/Insurance/InsuranceSplitCard";
 // import "./Billing.css";
 
 function Billing() {

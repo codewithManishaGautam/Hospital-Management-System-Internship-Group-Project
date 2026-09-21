@@ -246,7 +246,7 @@ function Table_Form({ patient }) {
                         <b >Consulting Doctor</b>
                         <br />
 
-                        <div >
+                        <div>
                             <SignaturePad
                                 height={40}
                                 design="border"
