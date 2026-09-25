@@ -41,7 +41,6 @@ label
 }
 
 
-
 .patient-info p{
     font-family: 'Times New Roman', Times, serif;
     font-weight: 500;
@@ -57,35 +56,18 @@ label
     margin-top:10px;
 }
 
-.table-responsive{
-    overflow-x:auto;
+
+.btn-light{
+  width: 200px;
+  margin-bottom: 50px;
+  background-color: white;
+  font-size: 40px !important;
 }
 
-.table{
-    background:white;
+.btn-success,.btn-secondary{
+  width: 200px;
+  padding: 10px;
 }
-
-.table th{
-    text-align:center;
-    vertical-align:middle;
-}
-
-.table td{
-    text-align:center;
-    vertical-align:middle;
-}
-
-.btn{
-    margin:3px;
-}
-
-
-.table-render-style{
- 
-    width: 100%;
-}
-
-
 
 /* ================================
    PATIENT DOCUMENT TABLE ONLY
@@ -118,5 +100,37 @@ align-items:flex-start;
 margin-top:15px;
 
 }
+
+}
+
+
+
+@media (min-width: 560px) and (max-width: 768px) {
+
+    .btn-primary {
+        background: #1976d2;
+        width: 70px !important;
+        border: none;
+    }
+
+
+}
+
+@media (min-width: 240px) and (max-width: 560px) {
+
+    .btn-primary {
+        background: #1976d2;
+        width: 50px !important;
+        font-size: 8px !important;
+        margin-right: 70px !important;
+        text-align: center;
+        border: none;
+    }
+
+    h2
+    {
+        font-size: 30px !important;
+    }
+
 
 }

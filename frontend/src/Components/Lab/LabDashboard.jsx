@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import UploadReport from "./UploadReport";
+import { useNavigate } from "react-router-dom";
 import "./style/LabDashboard.css";
 
 function LabDashboard() {
 
+  const navigate = useNavigate();
+
   const [patients, setPatients] = useState([]);
+
+  const [page, setPage] = useState(1);
 
   const [search, setSearch] = useState("");
 
@@ -13,34 +18,78 @@ function LabDashboard() {
 
   const [selectedPatient, setSelectedPatient] = useState(null);
 
+  const [hasMore, setHasMore] = useState(true);
+
+
+
+  
+
 
   // ================= GET PATIENTS =================
 
-  const getPatients = async () => {
-
-    try {
-
-      const res = await axios.get(
-        `http://localhost:5000/lab/patients?search=${search}`
-      );
-
-      setPatients(res.data);
-
-    } catch (err) {
-
-      console.log(err);
-
-    }
-
-  };
 
 
-  useEffect(() => {
+  
+    const getPatients = async (reset = false) => {
 
-    getPatients();
+        try {
 
-  }, [search]);
+            const currentPage = reset ? 1 : page;
 
+            const res = await axios.get(
+
+                `http://localhost:5000/patients?page=${currentPage}&limit=10&search=${search}`
+
+            );
+
+            const data = res.data.patients || [];
+
+            if (reset) {
+
+                setPatients(data);
+
+            } else {
+
+                setPatients((prev) => [...prev, ...data]);
+
+            }
+
+            setHasMore(res.data.hasMore);
+
+        } catch (error) {
+
+            console.log(error);
+
+        }
+
+    };
+
+    useEffect(() => {
+
+        getPatients(true);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+
+        if (page > 1) {
+
+            getPatients();
+
+        }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [page]);
+
+    useEffect(() => {
+
+        setPage(1);
+
+        getPatients(true);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [search]);
 
   // ================= GET SUMMARY =================
 
@@ -53,6 +102,7 @@ function LabDashboard() {
       );
 
       setSummary(res.data);
+      console.log(res.data);
 
     } catch (err) {
 
@@ -91,6 +141,8 @@ function LabDashboard() {
   }
 
 
+
+
   // =================================================
   //                  DASHBOARD
   // =================================================
@@ -99,28 +151,40 @@ function LabDashboard() {
 
     <div className="lab-dashboard">
 
-      <h2>
-        Lab Department
+
+
+      <h2 style={{textAlign:"center", fontSize:"60px"}}>
+          Lab Department
       </h2>
 
+      <div className="lab-nav">
 
-      {/* SEARCH */}
+      <button onClick={() => navigate(-1)} className="btn btn-light">
+        🔙
+      </button>
 
-      <input
 
-        type="text"
+    
 
-        className="form-control"
+        {/* SEARCH */}
 
-        placeholder="Search Patient Name..."
+        <input
 
-        value={search}
+          type="text"
 
-        onChange={(e) =>
-          setSearch(e.target.value)
-        }
+          className="form-control"
 
-      />
+          placeholder="Search Patient"
+
+          value={search}
+
+          onChange={(e) =>
+            setSearch(e.target.value)
+          }
+
+        />
+
+      </div>
 
 
       {/* ================= CARDS ================= */}
@@ -215,11 +279,9 @@ function LabDashboard() {
 
             <th>Role</th>
 
-           <th>Prescribed Tests</th>
-
-<th>Payment Status</th>
-
-<th>Upload Report</th>
+            <th>Prescribed Tests</th>
+            <th>Payment Status</th>
+            <th className="upload-th">Upload Report</th>
 
           </tr>
 
@@ -252,28 +314,26 @@ function LabDashboard() {
                 {item.role}
               </td>
 
-             <td>
-  {item.labTests && item.labTests.length > 0
-    ? item.labTests.join(", ")
-    : "No tests"}
-</td>
+              <td>
+                {item.labTests && item.labTests.length > 0
+                  ? item.labTests.join(", ")
+                  : "No tests"}
+              </td>
 
-<td>
-  <strong>
-    {item.paymentStatus || "Pending"}
-  </strong>
-</td>
+              <td>
+                <strong>
+                  {item.paymentStatus || "Pending"}
+                </strong>
+              </td>
 
-<td>
-  <button
-    className="btn btn-primary"
-    onClick={() =>
-      setSelectedPatient(item)
-    }
-  >
-    Upload
-  </button>
-</td>
+              <td className="upload-th">
+                <button
+                  className="btn btn-primary"
+                  onClick={() => setSelectedPatient(item)}
+                >
+                  Upload
+                </button>
+              </td>
 
             </tr>
 
@@ -282,6 +342,26 @@ function LabDashboard() {
         </tbody>
 
       </table>
+
+      {hasMore && (
+
+                <div style={{ textAlign: "center", marginTop: "20px" }}>
+
+                    <button
+
+                        className="btn btn-primary"
+
+                        onClick={() => setPage((prev) => prev + 1)}
+
+                    >
+
+                        Load More
+
+                    </button>
+
+                </div>
+
+            )}
 
     </div>
 

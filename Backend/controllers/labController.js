@@ -150,8 +150,8 @@ const uploadLabReport = async (req, res) => {
         // File URL
         // ==========================================
 
-        const reportPdf =
-            `/uploadLabReport/uploadLab/${req.file.filename}`;
+        const reportPdf = 
+            `/uploadLabReport/${req.file.filename}`;
 
 
         // ==========================================

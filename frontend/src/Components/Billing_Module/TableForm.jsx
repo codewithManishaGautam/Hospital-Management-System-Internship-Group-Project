@@ -16,9 +16,9 @@ function TableForm({ search }) {
 
             const currentPage = reset ? 1 : page;
 
-      const res = await axios.get(
-    `http://localhost:5000/api/billing/patients?page=${currentPage}&limit=10&search=${encodeURIComponent(search)}`
-);
+            const res = await axios.get(
+                `http://localhost:5000/api/billing/patients?page=${currentPage}&limit=10&search=${encodeURIComponent(search)}`
+            );
 
             const data = res.data.patients || [];
 
@@ -69,6 +69,7 @@ function TableForm({ search }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [search]);
 
+
     return (
 
         <div>
@@ -90,55 +91,60 @@ function TableForm({ search }) {
                         <th style={{ backgroundColor: "#1976d2" }}>Admission Date</th>
                         <th style={{ backgroundColor: "#1976d2" }}>Payment Status</th>
                         <th style={{ backgroundColor: "#1976d2" }}>Delete</th>
-                        <th style={{ backgroundColor: "#1976d2" }}>More INFO</th>
+                        <th
+                            style={{ backgroundColor: "#1976d2" }}
+                            className="upload-th"
+                        >
+                            More INFO
+                        </th>
                     </tr>
 
                 </thead>
 
                 <tbody>
 
-                 {patients.map((item, index) => (
+                    {patients.map((item, index) => (
 
-                            <tr key={item._id}>
+                        <tr key={item._id}>
 
-                                <td>{index + 1}</td>
+                            <td>{index + 1}</td>
 
-                                <td>{item.uhid || "-"}</td>
+                            <td>{item.uhid || "-"}</td>
 
-                                <td>{item.name}</td>
+                            <td>{item.name}</td>
 
-                                <td>{item.age}</td>
+                            <td>{item.age}</td>
 
-                                <td>{item.gender}</td>
+                            <td>{item.gender}</td>
 
-                                <td>{item.role || "-"}</td>
+                            <td>{item.role || "-"}</td>
 
-                                <td>{item.doctor || "-"}</td>
+                            <td>{item.doctor || "-"}</td>
 
-                                <td>{item.roomNo || "-"}</td>
+                            <td>{item.roomNo || "-"}</td>
 
-                                <td>{item.bedNo || "-"}</td>
+                            <td>{item.bedNo || "-"}</td>
 
-                                <td>{item.admissionDate || "-"}</td>
+                            <td>{item.admissionDate || "-"}</td>
 
-                                <td>{item.paymentStatus || "Pending"}</td>
+                            <td>{item.paymentStatus || "Pending"}</td>
 
-                                <td>
-                                    <DeletePatientInTable
-                                        id={item._id}
-                                        getPatients={() => getPatients(true)}
-                                    />
-                                </td>
+                            <td>
+                                <DeletePatientInTable
+                                    id={item._id}
+                                    getPatients={() => getPatients(true)}
+                                />
+                            </td>
 
-                                <td>
-                                    <Link to={`/patient/${item._id}`}>
-                                        Detail
-                                    </Link>
-                                </td>
+                            <td className="td-detail">
+                                <Link to={`/patient/${item._id}`}>
+                                    Detail
+                                </Link>
+                            </td>
 
-                            </tr>
+                        </tr>
 
-                        ))}
+                    ))}
 
                 </tbody>
 
@@ -170,3 +176,4 @@ function TableForm({ search }) {
 }
 
 export default TableForm;
+

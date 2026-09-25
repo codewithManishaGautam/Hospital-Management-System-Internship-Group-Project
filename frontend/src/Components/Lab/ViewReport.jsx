@@ -5,6 +5,13 @@ import React, {
 
 import axios from "axios";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { faCircleArrowDown } from "@fortawesome/free-solid-svg-icons";
+
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+
+import { faFile } from "@fortawesome/free-solid-svg-icons";
 
 function ViewReport({
     patientId,
@@ -200,198 +207,170 @@ const downloadAllLabReports = async () => {
         }
 
     };
+return (
+    <div>
 
+        {/* =====================================
+            LAB REPORTS
+        ===================================== */}
 
-    return (
+        {
+            isLab && (
+                <div
+                    style={{
+                        marginTop: "20px"
+                    }}
+                >
 
-        <div>
+                    {
+                        labReports.length === 0 ? (
+                            <p
+                                style={{
+                                    color: "red",
+                                    fontFamily: "Times New Roman"
+                                }}
+                            >
+                                <FontAwesomeIcon icon={faFile} />
+                            </p>
+                        ) : (
+                            <>
+                                <div style={{ marginBottom: "15px" }}>
+                                    <button
+                                        className="btn btn-outline-success"
+                                        style={{
+                                            fontSize: "14px",
+                                            fontWeight: "bold",
+                                            marginRight: "10px"
+                                        }}
+                                        onClick={downloadAllLabReports}
+                                    >
+                                        Download All Lab Reports
+                                    </button>
+                                </div>
 
-
-            {/* =====================================
-                LAB REPORTS
-            ===================================== */}
-
-            {
-
-                isLab && (
-
-                    <div>
-
-                        <h5>
-                            Lab Reports
-                        </h5>
-
-
-                        {
-
-                            labReports.length === 0 ? (
-
-                                <p
-                                    style={{
-                                        color: "red",
-                                        fontFamily:
-                                            "Times New Roman"
-                                    }}
-                                >
-                                    No Lab Report Found
-                                </p>
-
-                            ) : (
-
-                             <div style={{ marginBottom: "15px" }}>
-
-    <button
-        className="btn btn-outline-success"
-        style={{
-            fontSize: "14px",
-            fontWeight: "bold",
-            marginRight: "10px"
-        }}
-        onClick={downloadAllLabReports}
-    >
-        Download All Lab Reports
-    </button>
-
-</div>
-
-                            )
-
-                        }
-
-                    </div>
-
-                )
-
-            }
-
-
-
-            {/* =====================================
-                DIAGNOSTIC REPORTS
-            ===================================== */}
-
-            {
-
-                isDiagnostic && (
-
-                    <div
-                        style={{
-                            marginTop:
-                                "20px"
-                        }}
-                    >
-
-                        <h5>
-                            Diagnostic Reports
-                        </h5>
-
-
-                        {
-
-                            diagnosticReports.length === 0 ? (
-
-                                <p
-                                    style={{
-                                        color: "red",
-                                        fontFamily:
-                                            "Times New Roman"
-                                    }}
-                                >
-                                    No Diagnostic Report Found
-                                </p>
-
-                            ) : (
-
-                                diagnosticReports.map(
-
-                                    (item) => (
-
-                                        <div
-                                            key={
-                                                item._id
-                                            }
+                                {labReports.map((item) => (
+                                    <div
+                                        key={item._id}
+                                        style={{
+                                            marginBottom: "10px"
+                                        }}
+                                    >
+                                        <button
+                                            className="btn btn-outline-success"
                                             style={{
-                                                marginBottom:
-                                                    "10px"
+                                                fontSize: "12px",
+                                                fontWeight: "bold",
+                                                marginBottom: "10px"
                                             }}
+                                            onClick={() =>
+                                                openReport(item.reportPdf)
+                                            }
                                         >
+                                            <FontAwesomeIcon
+                                                icon={faCircleArrowDown}
+                                            />
+                                        </button>
 
-                                            <button
+                                        <br />
 
-                                                className=
-                                                "btn btn-outline-success"
+                                        <button
+                                            className="btn btn-outline-danger"
+                                            style={{
+                                                fontSize: "12px",
+                                                fontWeight: "bold"
+                                            }}
+                                            onClick={() =>
+                                                deleteReport(item._id)
+                                            }
+                                        >
+                                            <FontAwesomeIcon
+                                                icon={faTrash}
+                                            />
+                                        </button>
+                                    </div>
+                                ))}
+                            </>
+                        )
+                    }
 
-                                                style={{
-                                                    fontSize:
-                                                        "14px",
+                </div>
+            )
+        }
 
-                                                    fontWeight:
-                                                        "bold",
+        {/* =====================================
+            DIAGNOSTIC REPORTS
+        ===================================== */}
 
-                                                    marginRight:
-                                                        "10px"
-                                                }}
+        {
+            isDiagnostic && (
+                <div
+                    style={{
+                        marginTop: "20px"
+                    }}
+                >
 
-                                                onClick={() =>
-                                                    openReport(
-                                                        item.reportPdf
-                                                    )
-                                                }
+                    {
+                        diagnosticReports.length === 0 ? (
+                            <p
+                                style={{
+                                    color: "red",
+                                    fontFamily: "Times New Roman"
+                                }}
+                            >
+                                <FontAwesomeIcon icon={faFile} />
+                            </p>
+                        ) : (
+                            diagnosticReports.map((item) => (
+                                <div
+                                    key={item._id}
+                                    style={{
+                                        marginBottom: "10px"
+                                    }}
+                                >
+                                    <button
+                                        className="btn btn-outline-success"
+                                        style={{
+                                            fontSize: "12px",
+                                            fontWeight: "bold",
+                                            marginBottom: "10px"
+                                        }}
+                                        onClick={() =>
+                                            openReport(item.reportPdf)
+                                        }
+                                    >
+                                        <FontAwesomeIcon
+                                            icon={faCircleArrowDown}
+                                        />
+                                    </button>
 
-                                            >
+                                    <br />
 
-                                                Download
+                                    <button
+                                        className="btn btn-outline-danger"
+                                        style={{
+                                            fontSize: "12px",
+                                            fontWeight: "bold"
+                                        }}
+                                        onClick={() =>
+                                            deleteReport(item._id)
+                                        }
+                                    >
+                                        <FontAwesomeIcon
+                                            icon={faTrash}
+                                        />
+                                    </button>
+                                </div>
+                            ))
+                        )
+                    }
 
-                                            </button>
+                </div>
+            )
+        }
 
-
-                                            <button
-
-                                                className=
-                                                "btn btn-outline-danger"
-
-                                                style={{
-                                                    fontSize:
-                                                        "14px",
-
-                                                    fontWeight:
-                                                        "bold"
-                                                }}
-
-                                                onClick={() =>
-                                                    deleteReport(
-                                                        item._id
-                                                    )
-                                                }
-
-                                            >
-
-                                                Delete
-
-                                            </button>
-
-                                        </div>
-
-                                    )
-
-                                )
-
-                            )
-
-                        }
-
-                    </div>
-
-                )
-
-            }
-
-
-        </div>
-
-    );
+    </div>
+);
 
 }
-
 
 export default ViewReport;

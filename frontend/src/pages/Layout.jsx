@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./Layout.css";
 
 function Layout({ role, children, step, setStep }) {

@@ -112,9 +112,9 @@ function StampUpload({
 
                         style={{
 
-                            width: "120px",
+                            width: "55px",
 
-                            height: "120px",
+                            height: "55px",
 
                             objectFit: "contain",
 
@@ -138,9 +138,9 @@ function StampUpload({
 
                         style={{
 
-                            width: "120px",
+                            width: "55px",
 
-                            height: "120px",
+                            height: "55px",
 
                             border: "1px solid black",
 
