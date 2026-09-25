@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "./Layout";
 
 import LabOverview from "../Components/Lab/LabOverview";
@@ -16,39 +16,69 @@ function Lab() {
   const [step, setStep] = useState("overview");
   const [labData, setLabData] = useState([]);
 
+const fetchLabPatients = async () => {
+  try {
+    const response = await fetch(
+      "http://localhost:5000/lab/patients"
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch lab patients");
+    }
+
+    const data = await response.json();
+
+    console.log("LAB PATIENTS AFTER REFRESH =", data);
+
+    setLabData(data);
+  } catch (error) {
+    console.error("Lab Patients Error:", error);
+  }
+};
+
+  useEffect(() => {
+    fetchLabPatients();
+  }, []);
+
   const renderContent = () => {
     switch (step) {
       case "overview":
         return <LabOverview />;
 
       case "patients":
-  return (
-    <PatientRecords
-      labData={labData}
-      setLabData={setLabData}
-    />
-  );
+        return (
+          <PatientRecords
+            labData={labData}
+            setLabData={setLabData}
+          />
+        );
 
       case "tests":
-        return <TestCatalog labData={labData} />;
+        return <TestCatalog />;
 
       case "booking":
-  return <TestBooking labData={labData} />;
+        return <TestBooking labData={labData} />;
 
       case "samples":
-  return <SampleTracker labData={labData} />;
+        return <SampleTracker labData={labData} />;
 
       case "analysis":
-  return <AnalysisPanel labData={labData} />;
+        return <AnalysisPanel labData={labData} />;
 
       case "findings":
-  return <FindingsEntry labData={labData} />;
+        return <FindingsEntry labData={labData} />;
 
-     case "reports":
-  return <ReportHub labData={labData} />;
+      case "reports":
+        return <ReportHub labData={labData} />;
 
-     case "payments":
-  return <PaymentDesk labData={labData} />;
+      case "payments":
+        return (
+          <PaymentDesk
+            labData={labData}
+            setLabData={setLabData}
+            fetchLabPatients={fetchLabPatients}
+          />
+        );
 
       case "history":
         return <ReportHistory />;

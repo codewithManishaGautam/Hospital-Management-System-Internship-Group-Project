@@ -13,6 +13,7 @@ const {
   updateNurseMedicineStatus,
   generatePrescriptionPDF,
   getFinalHospitalBill,
+  updateHospitalCharges,
 } = require("../controllers/patientController");
 
 router.post("/", addPatient);
@@ -32,6 +33,8 @@ router.put(
 );
 
 router.get("/:id/pdf", generatePrescriptionPDF);
+
+router.put("/:id/hospital-charges", updateHospitalCharges);
 
 router.get("/:id/final-bill", getFinalHospitalBill);
 

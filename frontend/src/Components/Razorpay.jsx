@@ -1,56 +1,231 @@
-import React, { useState } from "react";
+import React from "react";
 import { useRazorpay } from "react-razorpay";
 
 function Razorpay({
     patientName,
     patientMob,
     patientId,
-    source
+    source,
+    finalBill,
 }) {
-
     const { Razorpay } = useRazorpay();
 
-    const [amount, setAmount] = useState("");
+// ==========================
+// Cash Payment
+// ==========================
+const payByCash = async () => {
+    try {
+        if (!patientId) {
+            alert("Patient ID is not available");
+            return;
+        }
 
-    const payNow = async () => {
+        if (!finalBill) {
+            alert("Bill is not available");
+            return;
+        }
 
-        try {
+        // =========================================
+        // LAB CASH PAYMENT
+        // =========================================
+        if (source === "Lab") {
 
-            if (!amount || Number(amount) <= 0) {
-                alert("Please enter a valid amount");
+            if (!finalBill._id) {
+                alert("Lab Bill ID is not available");
                 return;
             }
 
-            console.log("Payment button clicked");
-            console.log("Amount =", amount);
+            console.log(
+                "LAB CASH PAYMENT BILL ID =",
+                finalBill._id
+            );
 
+            const response = await fetch(
+                `http://localhost:5000/lab/bill/payment/${finalBill._id}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        paymentMode: "Cash",
+                    }),
+                }
+            );
+
+            const data = await response.json();
+
+            console.log(
+                "LAB CASH PAYMENT RESPONSE =",
+                data
+            );
+
+            if (!response.ok || !data.success) {
+                throw new Error(
+                    data.message || "Lab Cash Payment Failed"
+                );
+            }
+
+            alert(
+                "Lab Cash Payment Successfully Completed!"
+            );
+
+            window.location.reload();
+
+            return;
+        }
+
+        // =========================================
+        // MAIN HOSPITAL FINAL CASH PAYMENT
+        // =========================================
+        const response = await fetch(
+            "http://localhost:5000/api/billing/final/cash",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    patientId,
+
+                    dischargeDate:
+                        finalBill.dischargeDate,
+
+                    dischargeTime:
+                        finalBill.dischargeTime,
+
+                    stayDays:
+                        finalBill.stayDays,
+
+                    roomCharge:
+                        finalBill.roomTotal || 0,
+
+                    bedCharge:
+                        finalBill.bedTotal || 0,
+
+                    doctorConsultancyFee:
+                        finalBill.doctorTotal || 0,
+
+                    otherCharges:
+                        finalBill.otherCharges || 0,
+
+                    totalAmount:
+                        finalBill.finalAmount || 0,
+
+                    paymentMode: "Cash",
+
+                    razorpayOrderId: "",
+                    razorpayPaymentId: "",
+                }),
+            }
+        );
+
+        const data = await response.json();
+
+        console.log(
+            "FINAL CASH BILL RESPONSE =",
+            data
+        );
+
+        if (!response.ok || !data.success) {
+            throw new Error(
+                data.message || "Cash payment failed"
+            );
+        }
+
+        alert(
+            "Cash Payment Successfully Completed!"
+        );
+
+        window.location.reload();
+
+    } catch (error) {
+        console.error(
+            "CASH PAYMENT ERROR =",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Cash payment could not be completed"
+        );
+    }
+};
+
+    // ==========================
+    // Online / Razorpay Payment
+    // ==========================
+    const payOnline = async () => {
+        try {
+            const amount = Number(
+                finalBill?.finalAmount || 0
+            );
+
+            if (amount <= 0) {
+                alert(
+                    "Lab bill amount is not available"
+                );
+                return;
+            }
+
+            if (!patientId) {
+                alert("Patient ID is not available");
+                return;
+            }
+
+            if (!finalBill) {
+                alert("Final bill is not available");
+                return;
+            }
+
+            console.log(
+                "Online Payment Amount =",
+                amount
+            );
+
+            // Create Razorpay Order
             const response = await fetch(
                 "http://localhost:5000/api/payment/order",
                 {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type":
+                            "application/json",
                     },
                     body: JSON.stringify({
-                        amount: Number(amount),
+                        amount,
                         patientId,
                         patientName,
                         patientMob,
-                        source
-                    })
+                        source,
+
+                        dischargeDate: finalBill.dischargeDate,
+                        dischargeTime: finalBill.dischargeTime,
+                        stayDays: finalBill.stayDays,
+
+                        roomCharge: finalBill.roomTotal,
+                        bedCharge: finalBill.bedTotal || 0,
+                        doctorConsultancyFee: finalBill.doctorTotal || 0,
+                        otherCharges: finalBill.otherCharges || 0,
+                        totalAmount: finalBill.finalAmount,
+                    }),
                 }
             );
 
             if (!response.ok) {
-                throw new Error(`Server Error: ${response.status}`);
+                throw new Error(
+                    `Server Error: ${response.status}`
+                );
             }
 
             const data = await response.json();
 
-            console.log("Order Data:", data);
+            console.log(
+                "RAZORPAY ORDER =",
+                data
+            );
 
             const options = {
-
                 key: "rzp_test_TPwFQBogAo1Jhm",
 
                 amount: data.amount,
@@ -59,63 +234,123 @@ function Razorpay({
 
                 name: "Shradha Hospital",
 
-                description: "OPD or IPD or CASUALTY etc.",
+                description: "Lab Test Payment",
 
                 image:
                     "https://doctorlistingingestionpr.blob.core.windows.net/doctorprofilepic/1670557851136_HospitalProfileImage_Profile%20Pic.png",
 
                 order_id: data.orderId,
 
-                handler: (response) => {
+                // ==========================
+                // Razorpay Success
+                // ==========================
+                handler: async (
+                    paymentResponse
+                ) => {
+                    try {
+                        console.log(
+                            "RAZORPAY PAYMENT RESPONSE =",
+                            paymentResponse
+                        );
 
-                    console.log(
-                        "Payment Response:",
-                        response
-                    );
+                        const saveResponse = await fetch(
+                            "http://localhost:5000/api/payment/final-hospital-bill",
+                            {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                    patientId,
 
-                    alert(
-                        response.razorpay_payment_id
-                    );
+                                    dischargeDate: finalBill.dischargeDate,
+                                    dischargeTime: finalBill.dischargeTime,
 
-                    alert(
-                        "Payment Successfully Transferred!"
-                    );
+                                    stayDays: finalBill.stayDays,
+
+                                    roomCharge: finalBill.roomTotal || 0,
+                                    bedCharge: finalBill.bedTotal || 0,
+
+                                    doctorConsultancyFee:
+                                        finalBill.doctorTotal || 0,
+
+                                    otherCharges:
+                                        finalBill.otherCharges || 0,
+
+                                    totalAmount:
+                                        finalBill.finalAmount || 0,
+
+                                    paymentMode: "Razorpay",
+
+                                    razorpayOrderId:
+                                        paymentResponse.razorpay_order_id,
+
+                                    razorpayPaymentId:
+                                        paymentResponse.razorpay_payment_id,
+                                }),
+                            }
+                        );
+
+                        const saveData =
+                            await saveResponse.json();
+
+                        console.log(
+                            "FINAL HOSPITAL BILL PAYMENT UPDATE =",
+                            saveData
+                        );
+
+                        if (
+                            !saveResponse.ok ||
+                            !saveData.success
+                        ) {
+                            throw new Error(
+                                saveData.message ||
+                                "Final hospital bill payment update failed"
+                            );
+                        }
+
+                        alert(
+                            "Online Payment Successfully Completed!"
+                        );
+
+                        // Refresh page
+                        window.location.reload();
+
+                    } catch (error) {
+                        console.error(
+                            "ONLINE PAYMENT SAVE ERROR =",
+                            error
+                        );
+
+                        alert(
+                            "Payment successful but final hospital bill status could not be updated."
+                        );
+                    }
                 },
 
                 prefill: {
-
                     name: patientName,
-
                     contact: patientMob,
-
                 },
 
                 theme: {
-
                     color: "#f47cd6",
-
                 },
 
                 method: {
-
                     upi: true,
-
                     card: true,
-
                     netbanking: true,
-
-                    wallet: true
-
+                    wallet: true,
                 },
-
             };
 
-            const razorpay = new Razorpay(options);
+            const razorpay =
+                new Razorpay(options);
 
             razorpay.on(
                 "payment.failed",
                 function (response) {
-
                     console.log(
                         "Payment Failed:",
                         response
@@ -125,30 +360,22 @@ function Razorpay({
                         response.error?.description ||
                         "Payment Failed"
                     );
-
                 }
             );
 
             razorpay.open();
 
-        }
-
-        catch (error) {
-
+        } catch (error) {
             console.error(
-                "FULL PAYMENT ERROR:",
+                "FULL ONLINE PAYMENT ERROR:",
                 error
             );
 
             alert(error.message);
-
         }
-
     };
 
-
     return (
-
         <div className="text-center">
 
             <div className="col text-primary rounded-5">
@@ -156,40 +383,49 @@ function Razorpay({
                 <br />
 
                 <h1>
-                    Online Payment Section
+                    Payment Section
                 </h1>
 
-                {/* Amount + Pay Now */}
+                {/* Amount */}
+                <div
+                    style={{
+                        fontSize: "20px",
+                        fontWeight: "bold",
+                        marginTop: "20px",
+                        marginBottom: "20px",
+                    }}
+                >
+               Amount: ₹{
+    source === "Lab"
+        ? finalBill?.totalAmount || 0
+        : finalBill?.finalAmount || 0
+}
+                </div>
 
+                {/* Payment Mode */}
                 <div
                     style={{
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        gap: "10px",
-                        marginTop: "30px"
+                        gap: "15px",
                     }}
                 >
 
-                    <input
-                        type="number"
-                        placeholder="Enter Amount"
-                        value={amount}
-                        onChange={(e) =>
-                            setAmount(e.target.value)
-                        }
-                        className="form-control"
-                        style={{
-                            width: "180px"
-                        }}
-                    />
-
-
+                    {/* Cash */}
                     <button
-                        onClick={payNow}
+                        onClick={payByCash}
                         className="btn btn-success"
                     >
-                        Pay Now
+                        Pay by Cash
+                    </button>
+
+                    {/* Online */}
+                    <button
+                        onClick={payOnline}
+                        className="btn btn-primary"
+                    >
+                        Pay Online
                     </button>
 
                 </div>
@@ -197,7 +433,6 @@ function Razorpay({
             </div>
 
         </div>
-
     );
 }
 

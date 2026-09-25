@@ -50,7 +50,7 @@ function BillPreview({
 
         totalAmount: Number(total),
         paymentMode,
-        paymentStatus: "Completed",
+        paymentStatus: "Paid",
       });
 
       alert(res.data.message);

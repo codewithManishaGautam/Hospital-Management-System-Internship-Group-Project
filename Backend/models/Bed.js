@@ -3,9 +3,12 @@ const mongoose = require("mongoose");
 const bedSchema = new mongoose.Schema(
   {
     roomNumber: String,
+
     bedNo: String,
+
     status: {
       type: String,
+      enum: ["Available", "Occupied"],
       default: "Available",
     },
   },

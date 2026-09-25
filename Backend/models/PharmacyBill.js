@@ -35,12 +35,22 @@ const PharmacyBillSchema = new mongoose.Schema(
 
     totalAmount: Number,
 
-    paymentMode: String,
+  paymentMode: {
+  type: String,
+  default: "",
+},
 
-    paymentStatus: {
-      type: String,
-      default: "Pending",
-    },
+paymentStatus: {
+  type: String,
+  enum: ["Pending", "Paid"],
+  default: "Pending",
+},
+
+paidAt: {
+  type: Date,
+  default: null,
+},
+
   },
   {
     timestamps: true,

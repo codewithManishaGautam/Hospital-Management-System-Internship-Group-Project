@@ -34,7 +34,8 @@ function Billing() {
               </button>
             </form>
           </div>
-
+          
+{/* 
           {activePatientId && (
             <div className="billing-content" style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
               <div style={{ flex: 2, background: '#fff', padding: '20px', borderRadius: '8px', border: '1px solid #eee' }}>
@@ -51,7 +52,7 @@ function Billing() {
                 <InsuranceSplitCard patientId={activePatientId} />
               </div>
             </div>
-          )}
+          )} */}
         </div>
       )}
     </Layout>

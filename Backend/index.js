@@ -5,6 +5,7 @@ const Patient = require("./models/Patient");
 const paymentRoutes = require("./routes/paymentRoutes");
 const consentRoutes = require("./routes/consentRoutes");
 const uploadRoutes = require("./routes/upload");
+const Bed = require("./models/Bed");
 console.log("ENV URL =", process.env.MONGO_URL);
 connectDB();
 
@@ -104,6 +105,9 @@ app.use("/api/admin", adminRoutes);
 const doctorRoutes = require("./routes/doctorRoutes");
 app.use("/api", doctorRoutes);
 
+const sendPrescriptionRoutes = require("./routes/SentPrescriptionRoutes");
+app.use("/api", sendPrescriptionRoutes);
+
 const pharmacyRoutes = require("./routes/pharmacyRoutes");
 app.use("/api", pharmacyRoutes);
 
@@ -111,30 +115,424 @@ app.use("/api", pharmacyRoutes);
 // OPD Billing Data
 // ======================
 
-app.get("/api/billing/opd-revenue", async (req, res) => {
+// app.get("/api/billing/opd-revenue", async (req, res) => {
+//   try {
+//     const opdBills = await Patient.find({
+//       role: "OPD",
+//       paymentStatus: "Paid",
+//     }).sort({ updatedAt: -1 });
+
+//     const totalRevenue = opdBills.reduce(
+//       (total, patient) => total + Number(patient.fee || 0),
+//       0,
+//     );
+
+//     res.json({
+//       success: true,
+//       totalRevenue,
+//       count: opdBills.length,
+//       bills: opdBills,
+//     });
+//   } catch (error) {
+//     console.log("OPD Billing Error:", error);
+
+//     res.status(500).json({
+//       success: false,
+//       message: "Failed to fetch OPD billing data",
+//     });
+//   }
+// });
+
+// ======================
+// NON-OPD BILLING PATIENTS
+// ======================
+
+app.get("/api/billing/patients", async (req, res) => {
   try {
-    const opdBills = await Patient.find({
-      role: "OPD",
-      paymentStatus: "Paid",
-    }).sort({ updatedAt: -1 });
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+    const search = (req.query.search || "").trim();
 
-    const totalRevenue = opdBills.reduce(
-      (total, patient) => total + Number(patient.fee || 0),
-      0,
-    );
+    const query = {
+      role: { $ne: "OPD" },
+    };
 
-    res.json({
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: "i" } },
+        { uhid: { $regex: search, $options: "i" } },
+        { mobile: { $regex: search, $options: "i" } },
+      ];
+    }
+
+    const patients = await Patient.find(query)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    const total = await Patient.countDocuments(query);
+
+    res.status(200).json({
       success: true,
-      totalRevenue,
-      count: opdBills.length,
-      bills: opdBills,
+      patients,
+      total,
+      hasMore: skip + patients.length < total,
     });
   } catch (error) {
-    console.log("OPD Billing Error:", error);
+    console.error("BILLING PATIENTS ERROR:", error);
 
     res.status(500).json({
       success: false,
-      message: "Failed to fetch OPD billing data",
+      message: "Failed to fetch billing patients",
+      error: error.message,
+    });
+  }
+});
+
+// ======================
+// FINAL HOSPITAL BILL
+// ======================
+
+// app.get("/api/billing/final/:patientId", async (req, res) => {
+//   try {
+//     const { patientId } = req.params;
+//     const { dischargeDate } = req.query;
+
+//     const patient = await Patient.findById(patientId);
+
+//     if (!patient) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Patient not found",
+//       });
+//     }
+
+//     if (!patient.roomNo) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Room not assigned to patient",
+//       });
+//     }
+
+//     if (!patient.admissionDate) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Admission date not found",
+//       });
+//     }
+
+//     if (!dischargeDate) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Discharge date is required",
+//       });
+//     }
+
+//     const admission = new Date(patient.admissionDate);
+//     const discharge = new Date(dischargeDate);
+
+//     if (
+//       isNaN(admission.getTime()) ||
+//       isNaN(discharge.getTime())
+//     ) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Invalid date",
+//       });
+//     }
+
+//     if (discharge < admission) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Discharge date cannot be before admission date",
+//       });
+//     }
+
+//     const diffMs = discharge - admission;
+
+//     const stayDays = Math.max(
+//       1,
+//       Math.ceil(diffMs / (1000 * 60 * 60 * 24)),
+//     );
+
+//     const Room = require("./models/Room");
+
+//     const room = await Room.findOne({
+//       roomNumber: patient.roomNo,
+//     });
+
+//     if (!room) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Room not found",
+//       });
+//     }
+
+//     const chargesPerDay = Number(room.chargesPerDay || 0);
+
+//     const roomCharge = stayDays * chargesPerDay;
+
+//     // Other hospital charges will be connected
+//     // from their actual billing source later.
+//     const otherCharges = 0;
+
+//     const totalAmount = roomCharge + otherCharges;
+
+//     res.json({
+//       success: true,
+
+//       data: {
+//         patientId: patient._id,
+//         patientName: patient.name,
+//         uhid: patient.uhid,
+
+//         billType: patient.role,
+
+//         roomNo: patient.roomNo,
+//         roomType: patient.roomType || room.roomType,
+
+//         admissionDate: patient.admissionDate,
+//         dischargeDate,
+
+//         stayDays,
+
+//         chargesPerDay,
+
+//         roomCharge,
+//         otherCharges,
+
+//         totalAmount,
+//       },
+//     });
+//   } catch (error) {
+//     console.error("FINAL BILL ERROR:", error);
+
+//     res.status(500).json({
+//       success: false,
+//       message: error.message,
+//     });
+//   }
+// });
+
+// ======================
+// SAVE FINAL CASH BILL
+// ======================
+
+// ======================
+// SAVE FINAL CASH BILL
+// ======================
+
+app.post("/api/billing/final/cash", async (req, res) => {
+  try {
+    const {
+      patientId,
+      dischargeDate,
+      dischargeTime,
+      stayDays,
+      roomCharge,
+      bedCharge,
+      doctorConsultancyFee,
+      otherCharges,
+      totalAmount,
+      paymentMode,
+      razorpayOrderId,
+      razorpayPaymentId,
+    } = req.body;
+
+    // -----------------------------
+    // Find patient
+    // -----------------------------
+
+    const patient = await Patient.findById(patientId);
+
+    if (!patient) {
+      return res.status(404).json({
+        success: false,
+        message: "Patient not found",
+      });
+    }
+
+    // -----------------------------
+    // Prevent duplicate final payment
+    // -----------------------------
+
+    if (patient.paymentStatus === "Paid") {
+      return res.status(400).json({
+        success: false,
+        message: "Final payment is already completed for this patient",
+      });
+    }
+
+    // -----------------------------
+    // Create final Bill
+    // -----------------------------
+
+    const bill = new Bill({
+      patientId: patient._id,
+
+      patientName: patient.name,
+
+      email: patient.email || "",
+
+      uhid: patient.uhid || "",
+
+      billType: patient.role || "",
+
+      roomNo: patient.roomNo || "",
+
+      roomType: patient.roomType || "",
+
+      admissionDate: patient.admissionDate
+        ? new Date(patient.admissionDate)
+        : null,
+
+      dischargeDate: dischargeDate
+        ? new Date(dischargeDate)
+        : null,
+
+      stayDays: Number(stayDays || 0),
+
+      roomCharge: Number(roomCharge || 0),
+
+      bedCharge: Number(bedCharge || 0),
+
+      doctorConsultancyFee: Number(
+        doctorConsultancyFee || 0
+      ),
+
+      otherCharges: Number(
+        otherCharges || 0
+      ),
+
+      totalAmount: Number(
+        totalAmount || 0
+      ),
+
+      paymentMode: paymentMode || "Cash",
+
+      paymentStatus: "Paid",
+
+      paidAt: new Date(),
+
+      razorpayOrderId:
+        razorpayOrderId || "",
+
+      razorpayPaymentId:
+        razorpayPaymentId || "",
+    });
+
+    await bill.save();
+
+    // -----------------------------
+    // Free patient bed
+    // -----------------------------
+
+    if (patient.bedNo && patient.roomNo) {
+      await Bed.findOneAndUpdate(
+        {
+          roomNumber: patient.roomNo,
+          bedNo: patient.bedNo,
+        },
+        {
+          status: "Available",
+        }
+      );
+    }
+
+    // -----------------------------
+    // Update Room status
+    // -----------------------------
+
+    if (patient.roomNo) {
+      const Room = require("./models/Room");
+
+      const availableBeds = await Bed.countDocuments({
+        roomNumber: patient.roomNo,
+        status: "Available",
+      });
+
+      const room = await Room.findOne({
+        roomNumber: patient.roomNo,
+      });
+
+      if (room) {
+        room.status =
+          availableBeds > 0
+            ? "Available"
+            : "Occupied";
+
+        await room.save();
+      }
+    }
+
+    // -----------------------------
+    // Update Patient
+    // -----------------------------
+
+    patient.dischargeDate =
+      dischargeDate || "";
+
+    patient.dischargeTime =
+      dischargeTime || "";
+
+    patient.status =
+      "Discharged";
+
+    patient.paymentStatus =
+      "Paid";
+
+    patient.paidAt =
+      new Date();
+
+    patient.paymentMode =
+      paymentMode || "Cash";
+
+    patient.currentDepartment =
+      "Billing";
+
+    patient.flowStatus =
+      "Completed";
+
+    await patient.save();
+
+    // -----------------------------
+    // Response
+    // -----------------------------
+
+    return res.json({
+      success: true,
+
+      message:
+        "Final bill saved successfully",
+
+      bill,
+
+      patient: {
+        _id: patient._id,
+        uhid: patient.uhid,
+        name: patient.name,
+        status: patient.status,
+        paymentStatus:
+          patient.paymentStatus,
+        paymentMode:
+          patient.paymentMode,
+        flowStatus:
+          patient.flowStatus,
+      },
+    });
+
+  } catch (error) {
+    console.error(
+      "FINAL CASH BILL ERROR:",
+      error
+    );
+
+    return res.status(500).json({
+      success: false,
+      message:
+        "Failed to save final cash payment",
+      error: error.message,
     });
   }
 });
@@ -247,38 +645,64 @@ app.post("/add", async (req, res) => {
   }
 });
 
+// ======================
+// RECEPTION - ALL PATIENTS
+// ======================
+
 app.get("/patients", async (req, res) => {
   try {
     const page = Number(req.query.page) || 1;
-
     const limit = Number(req.query.limit) || 10;
-
     const skip = (page - 1) * limit;
 
-    const search = req.query.search || "";
+    const search = (req.query.search || "").trim();
 
-    const query = {
-      role: { $ne: "OPD" },
+    const query = {};
 
-      name: {
-        $regex: search,
-        $options: "i",
-      },
-    };
+    if (search) {
+      query.$or = [
+        {
+          name: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+        {
+          uhid: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+        {
+          mobile: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+      ];
+    }
 
-    const patients = await Patient.find(query).skip(skip).limit(limit);
+    const patients = await Patient.find(query)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
 
     const total = await Patient.countDocuments(query);
 
-    res.json({
+    res.status(200).json({
+      success: true,
       patients,
-
       total,
-
       hasMore: skip + patients.length < total,
     });
-  } catch (err) {
-    res.status(500).json(err);
+  } catch (error) {
+    console.error("GET /patients ERROR:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch patients",
+      error: error.message,
+    });
   }
 });
 
@@ -741,201 +1165,3 @@ app.use("/lab", labRoutes(uploadLab));
 app.listen(5000, () => {
   console.log("Server Running");
 });
-
-//             transporter.sendMail(
-
-//                 mailOptions,
-
-//                 (error, info) => {
-
-//                     if (error) {
-
-//                         console.error(
-//                             "EMAIL ERROR:",
-//                             error
-//                         );
-
-//                     } else {
-
-//                         console.log(
-//                             "EMAIL SENT:",
-//                             info.response
-//                         );
-
-//                     }
-
-//                 }
-
-//             );
-
-//             res.json({
-
-//                 success: true,
-
-//                 message:
-//                     "Merged PDF Sent",
-
-//                 pdfUrl:
-//                     `http://localhost:5000/uploads/${path.basename(
-//                         mergedPath
-//                     )}`
-
-//             });
-
-//         } catch (error) {
-
-//             console.error(
-//                 "SEND EMAIL ERROR:",
-//                 error
-//             );
-
-//             res.status(500).json({
-
-//                 success: false,
-
-//                 message:
-//                     error.message,
-
-//                 error:
-//                     error.stack
-
-//             });
-
-//         }
-
-//     }
-
-// // ======================
-// // Server
-// // ======================
-
-// // labRoute Changes :
-
-// // app.use(
-
-// //   "/uploads",
-
-// //   express.static(
-
-// //     path.join(__dirname, "uploads")
-
-// //   )
-// // );
-
-//   // Billing Consent Form changes :
-
-//   // app.use(express.json());
-
-//   // app.use(express.urlencoded({
-
-//   //   extended: true
-
-//   // }));
-
-//   app.use(
-
-//     "/consent",
-
-//     consentRoutes
-
-//   );
-
-//   app.use(
-
-//     "/upload",
-
-//     uploadRoutes
-
-//   );
-
-//   app.use("/api/payment", paymentRoutes);
-
-// // LAB MODULE
-// // ======================
-
-// const labRoutes = require("./routes/labRoutes");
-
-// app.use(
-// // Lab report folder
-//   "/upload",
-
-//   uploadRoutes,
-// );
-
-// const labUploadPath = path.join(
-//     __dirname,
-//     "uploadLabReport",
-//     "uploadLab"
-// );
-
-// // Create folder
-
-// if (!fs.existsSync(labUploadPath)) {
-
-//     fs.mkdirSync(
-//         labUploadPath,
-//         {
-//             recursive: true
-//         }
-//     );
-
-// }
-
-// // Multer storage
-
-// const storageLab = multer.diskStorage({
-
-//     destination: (req, file, cb) => {
-
-//         cb(
-//             null,
-//             labUploadPath
-//         );
-
-//     },
-
-//     filename: (req, file, cb) => {
-
-//         cb(
-//             null,
-//             Date.now() +
-//             "-" +
-//             file.originalname
-//         );
-
-//     }
-
-// });
-
-// const uploadLab = multer({
-
-//     storage: storageLab
-
-// });
-
-// // Static folder
-
-// app.use(
-//     "/uploadLabReport",
-//     express.static(
-//         path.join(
-//             __dirname,
-//             "uploadLabReport"
-//         )
-//     )
-// );
-
-// // Lab routes
-
-// app.use(
-//     "/lab",
-//     labRoutes(uploadLab)
-// );
-
-//   app.listen(
-//     5000,
-
-//     () => {
-//       console.log("Server Running");
-//     },
-//   );

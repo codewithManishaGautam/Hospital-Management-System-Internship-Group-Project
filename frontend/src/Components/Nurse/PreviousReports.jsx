@@ -1,7 +1,9 @@
 import React from "react";
 import "../../styles/Nurse/PreviousReports.css";
 
-export default function PreviousReports({ nursingReports = [] }) {
+export default function PreviousReports({
+  nursingReports = [],
+}) {
   return (
     <div className="previousReports">
       <h2>Previous Daily Reports</h2>
@@ -9,23 +11,61 @@ export default function PreviousReports({ nursingReports = [] }) {
       {nursingReports.length === 0 ? (
         <p>No previous nursing reports available.</p>
       ) : (
-        nursingReports.map((r, i) => (
-          <div className="reportCard" key={r._id || i}>
+        nursingReports.map((report, index) => (
+          <div
+            className="reportCard"
+            key={report._id || index}
+          >
             <h3>
-              Report {i + 1}
-              {r.createdAt
-                ? ` - ${new Date(r.createdAt).toLocaleString()}`
-                : ""}
+              {report.day || `Day ${index + 1}`}
             </h3>
 
-            <p>BP : {r.bp || "-"}</p>
-            <p>Pulse : {r.pulse || "-"}</p>
-            <p>Temperature : {r.temperature || "-"}</p>
-            <p>SpO2 : {r.spo2 || "-"}</p>
-            <p>Sugar : {r.sugar || "-"}</p>
-            <p>Intake : {r.intake || "-"}</p>
-            <p>Output : {r.output || "-"}</p>
-            <p>Notes : {r.notes || "-"}</p>
+            {report.createdAt && (
+              <p>
+                <strong>Date & Time:</strong>{" "}
+                {new Date(report.createdAt).toLocaleString("en-IN")}
+              </p>
+            )}
+
+            <p>
+              <strong>BP:</strong>{" "}
+              {report.bp || "-"}
+            </p>
+
+            <p>
+              <strong>Pulse:</strong>{" "}
+              {report.pulse || "-"}
+            </p>
+
+            <p>
+              <strong>Temperature:</strong>{" "}
+              {report.temperature || "-"}
+            </p>
+
+            <p>
+              <strong>SpO2:</strong>{" "}
+              {report.spo2 || "-"}
+            </p>
+
+            <p>
+              <strong>Sugar:</strong>{" "}
+              {report.sugar || "-"}
+            </p>
+
+            <p>
+              <strong>Intake:</strong>{" "}
+              {report.intake || "-"}
+            </p>
+
+            <p>
+              <strong>Output:</strong>{" "}
+              {report.output || "-"}
+            </p>
+
+            <p>
+              <strong>Nursing Notes:</strong>{" "}
+              {report.notes || "-"}
+            </p>
           </div>
         ))
       )}

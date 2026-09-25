@@ -131,23 +131,40 @@ function ProfileDashboard({ doctorName }) {
           </div>
         </div>
 
-        <div className="profile-row">
-          <div className="profile-field">
-            <label>Mobile</label>
+     <div className="profile-row">
+  <div className="profile-field">
+    <label>Mobile</label>
 
-            <input
-              type="text"
-              value={doctor.mobile || ""}
-              disabled={!edit}
-              onChange={(e) =>
-                setDoctor({
-                  ...doctor,
-                  mobile: e.target.value,
-                })
-              }
-            />
-          </div>
-        </div>
+    <input
+      type="text"
+      value={doctor.mobile || ""}
+      disabled={!edit}
+      onChange={(e) =>
+        setDoctor({
+          ...doctor,
+          mobile: e.target.value,
+        })
+      }
+    />
+  </div>
+
+  <div className="profile-field">
+    <label>Doctor Fee / Day</label>
+
+    <input
+      type="number"
+      min="0"
+      value={doctor.fee ?? ""}
+      disabled={!edit}
+      onChange={(e) =>
+        setDoctor({
+          ...doctor,
+          fee: Number(e.target.value),
+        })
+      }
+    />
+  </div>
+</div>
 
         <div className="profile-buttons">
           {!edit ? (

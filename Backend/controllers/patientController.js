@@ -3,6 +3,7 @@ const Bed = require("../models/Bed");
 const Room = require("../models/Room");
 const Doctor = require("../models/Doctor");
 const Staff = require("../models/Staff");
+const Charge = require("../models/Charges");
 
 const PDFDocument = require("pdfkit");
 const fs = require("fs");
@@ -122,24 +123,62 @@ const addPatient = async (req, res) => {
     req.body.doctorId = doctorData._id;
     req.body.doctor = `Dr. ${doctorData.name}`;
 
-    const patient = new Patient(req.body);
+    // ==============================
+    // Create Patient
+    // ==============================
 
-    console.log(req.body.signature);
-    console.log(req.body.diagnosis);
-    console.log(req.body.prescription);
+    const patient = new Patient(req.body);
 
     await patient.save();
 
-    if (patient.status === "Admitted" && patient.bedNo) {
-      await Bed.findOneAndUpdate(
+    console.log("Patient Created:", patient._id);
+    console.log("Patient Room:", patient.roomNo);
+    console.log("Patient Bed:", patient.bedNo);
+    console.log("Patient Status:", patient.status);
+
+    // ==============================
+    // Mark Selected Bed Occupied
+    // ==============================
+
+    if (
+      (patient.role === "IPD" || patient.role === "ICU") &&
+      patient.status === "Admitted" &&
+      patient.roomNo &&
+      patient.bedNo
+    ) {
+      console.log("========== BED OCCUPATION STARTED ==========");
+      console.log("Searching Room:", patient.roomNo);
+      console.log("Searching Bed:", patient.bedNo);
+
+      const occupiedBed = await Bed.findOneAndUpdate(
         {
-          roomNumber: patient.roomNo,
-          bedNo: patient.bedNo,
+          roomNumber: String(patient.roomNo).trim(),
+          bedNo: String(patient.bedNo).trim(),
+          status: "Available",
         },
         {
-          status: "Occupied",
+          $set: {
+            status: "Occupied",
+          },
         },
+        {
+          new: true,
+        }
       );
+
+      console.log("Occupied Bed Result:", occupiedBed);
+
+      if (!occupiedBed) {
+        await Patient.findByIdAndDelete(patient._id);
+
+        return res.status(400).json({
+          success: false,
+          message:
+            "Selected bed is no longer available or room/bed number does not match.",
+        });
+      }
+
+      console.log("✅ BED SUCCESSFULLY MARKED OCCUPIED");
 
       await updateRoomStatus(patient.roomNo);
     }
@@ -172,11 +211,11 @@ const getPatients = async (req, res) => {
 };
 
 // Get Nurse Patients
+// Get Nurse Patients
 const getNursePatients = async (req, res) => {
   try {
     const patients = await Patient.find({
       role: { $ne: "OPD" },
-      status: { $ne: "Discharged" },
     })
       .sort({ createdAt: -1 })
       .lean();
@@ -186,6 +225,8 @@ const getNursePatients = async (req, res) => {
       data: patients,
     });
   } catch (error) {
+    console.error("GET NURSE PATIENTS ERROR:", error);
+
     res.status(500).json({
       success: false,
       message: error.message,
@@ -205,25 +246,43 @@ const addNursingReport = async (req, res) => {
       });
     }
 
-    patient.nursingReports.push({
+    const report = {
+      day: `Day ${patient.nursingReports.length + 1}`,
+
       bp: req.body.bp || "",
+
       pulse: req.body.pulse || "",
+
       temperature: req.body.temperature || "",
+
       spo2: req.body.spo2 || "",
+
       sugar: req.body.sugar || "",
+
       intake: req.body.intake || "",
+
       output: req.body.output || "",
+
       notes: req.body.notes || "",
-    });
+
+      createdAt: new Date(),
+    };
+
+    patient.nursingReports.push(report);
 
     await patient.save();
+
+    const savedReport =
+      patient.nursingReports[patient.nursingReports.length - 1];
 
     res.status(201).json({
       success: true,
       message: "Daily nursing report saved successfully",
-      data: patient.nursingReports[patient.nursingReports.length - 1],
+      data: savedReport,
     });
   } catch (error) {
+    console.error("ADD NURSING REPORT ERROR:", error);
+
     res.status(500).json({
       success: false,
       message: error.message,
@@ -496,20 +555,22 @@ const updatePatient = async (req, res) => {
         notes: req.body.notes || "",
         signature: req.body.signature || "",
 
-        referralDoctor: req.body.referralDoctor || {
-          id: "",
-          name: "",
-          specialization: "",
-        },
+        referralDoctor:
+          req.body.referralDoctor || {
+            id: "",
+            name: "",
+            specialization: "",
+          },
 
         visitDate: new Date(),
 
         medicines: req.body.medicines || [],
 
+        labTests: req.body.labTests || [],
+
         paymentStatus: "Pending",
         paymentMode: "",
         billId: null,
-
         createdAt: new Date(),
       });
     }
@@ -536,17 +597,42 @@ const updatePatient = async (req, res) => {
       await updateRoomStatus(oldRoom);
     }
 
-    // Admit
-    if (patient.status === "Admitted" && patient.bedNo) {
-      await Bed.findOneAndUpdate(
+    // ==============================
+    // Occupy Assigned Bed
+    // ==============================
+
+    if (
+      (patient.role === "IPD" || patient.role === "ICU") &&
+      patient.status === "Admitted" &&
+      patient.roomNo &&
+      patient.bedNo
+    ) {
+      const occupiedBed = await Bed.findOneAndUpdate(
         {
           roomNumber: patient.roomNo,
           bedNo: patient.bedNo,
+          status: "Available",
         },
         {
-          status: "Occupied",
+          $set: {
+            status: "Occupied",
+          },
+        },
+        {
+          new: true,
         },
       );
+
+
+      if (
+        !occupiedBed &&
+        !(oldRoom === patient.roomNo && oldBed === patient.bedNo)
+      ) {
+        return res.status(400).json({
+          success: false,
+          message: "Selected bed is no longer available.",
+        });
+      }
 
       await updateRoomStatus(patient.roomNo);
     }
@@ -653,8 +739,24 @@ const generatePrescriptionPDF = async (req, res) => {
       });
     }
 
-    const latest =
-      patient.prescriptionHistory[patient.prescriptionHistory.length - 1];
+    const { prescriptionHistoryId } = req.query;
+
+    let prescription;
+
+    if (prescriptionHistoryId) {
+      prescription = patient.prescriptionHistory.id(prescriptionHistoryId);
+
+      if (!prescription) {
+        return res.status(404).json({
+          message: "Prescription visit not found",
+        });
+      }
+    } else {
+      prescription =
+        patient.prescriptionHistory[
+        patient.prescriptionHistory.length - 1
+        ];
+    }
 
     const pdfName = `Prescription_${patient.uhid}.pdf`;
 
@@ -876,35 +978,92 @@ const generatePrescriptionPDF = async (req, res) => {
     // ========================================
 
     drawHeading("Diagnosis");
-    drawContent(latest.diagnosis);
+    drawContent(prescription.diagnosis);
 
     // ========================================
     // PRESCRIPTION
     // ========================================
 
     drawHeading("Prescription");
-    drawContent(latest.prescription);
+    drawContent(prescription.prescription);
+
+    // ========================================
+    // PRESCRIBED MEDICINES
+    // ========================================
+
+    drawHeading("Prescribed Medicines");
+
+    if (
+      prescription.medicines &&
+      prescription.medicines.length > 0
+    ) {
+      prescription.medicines.forEach((medicine, index) => {
+        doc
+          .font("Helvetica-Bold")
+          .fontSize(11)
+          .fillColor(TEXT)
+          .text(`${index + 1}. ${medicine.medicineName || "N/A"}`);
+
+        doc
+          .font("Helvetica")
+          .fontSize(10)
+          .text(
+            `Quantity: ${medicine.quantity || 0} | ` +
+            `Price: ₹${medicine.price || 0} | ` +
+            `Amount: ₹${medicine.amount || 0}`
+          );
+
+        if (medicine.timing) {
+          doc.text(`Timing: ${medicine.timing}`);
+        }
+
+        if (medicine.dose) {
+          doc.text(`Dose: ${medicine.dose}`);
+        }
+
+        doc.moveDown(0.7);
+      });
+    } else {
+      drawContent("No medicines prescribed");
+    }
+
+    // ========================================
+    // LAB TESTS
+    // ========================================
+
+    drawHeading("Prescribed Lab Tests");
+
+    if (
+      prescription.labTests &&
+      prescription.labTests.length > 0
+    ) {
+      prescription.labTests.forEach((test, index) => {
+        drawContent(`${index + 1}. ${test}`);
+      });
+    } else {
+      drawContent("No lab tests prescribed");
+    }
 
     // ========================================
     // ADVICE
     // ========================================
 
     drawHeading("Advice");
-    drawContent(latest.advice);
+    drawContent(prescription.advice);
 
     // ========================================
     // DOCTOR NOTES
     // ========================================
 
     drawHeading("Doctor Notes");
-    drawContent(latest.notes);
+    drawContent(prescription.notes);
 
-    if (latest.referralDoctor?.name) {
+    if (prescription.referralDoctor?.name) {
       drawHeading("Referred Doctor");
 
       drawContent(
-        `Dr. ${latest.referralDoctor.name}
-Specialization : ${latest.referralDoctor.specialization}`,
+        `Dr. ${prescription.referralDoctor.name}
+Specialization : ${prescription.referralDoctor.specialization}`,
       );
     }
 
@@ -916,8 +1075,11 @@ Specialization : ${latest.referralDoctor.specialization}`,
 
     doc.fillColor(TEXT);
 
-    if (latest.signature && latest.signature.startsWith("data:image")) {
-      const base64 = latest.signature.replace(/^data:image\/\w+;base64,/, "");
+    if (
+      prescription.signature &&
+      prescription.signature.startsWith("data:image")
+    ) {
+      const base64 = prescription.signature.replace(/^data:image\/\w+;base64,/, "");
 
       const imageBuffer = Buffer.from(base64, "base64");
 
@@ -967,13 +1129,55 @@ Specialization : ${latest.referralDoctor.specialization}`,
 
     stream.on("finish", () => {
       res.download(pdfPath, () => {
-        fs.unlink(pdfPath, () => {});
+        fs.unlink(pdfPath, () => { });
       });
     });
   } catch (err) {
     res.status(500).json({
       success: false,
       message: err.message,
+    });
+  }
+};
+
+const updateHospitalCharges = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { chargeIds = [] } = req.body;
+
+    const patient = await Patient.findById(id);
+
+    if (!patient) {
+      return res.status(404).json({
+        success: false,
+        message: "Patient not found",
+      });
+    }
+
+    const charges = await Charge.find({
+      _id: { $in: chargeIds },
+    }).lean();
+
+    patient.hospitalCharges = charges.map((charge) => ({
+      chargeId: charge._id,
+      chargeName: charge.chargeName,
+      category: charge.category,
+      amount: Number(charge.amount || 0),
+    }));
+
+    await patient.save();
+
+    res.json({
+      success: true,
+      message: "Hospital charges updated successfully",
+      hospitalCharges: patient.hospitalCharges,
+    });
+  } catch (error) {
+    console.error("UPDATE HOSPITAL CHARGES ERROR:", error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
     });
   }
 };
@@ -986,8 +1190,7 @@ const getFinalHospitalBill = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Get patient
-    const patient = await Patient.findById(id).lean();
+    const patient = await Patient.findById(id);
 
     if (!patient) {
       return res.status(404).json({
@@ -996,123 +1199,208 @@ const getFinalHospitalBill = async (req, res) => {
       });
     }
 
-    // Admission date required
+    const dischargeDate =
+      req.query.dischargeDate || patient.dischargeDate;
+
+    const dischargeTime =
+      req.query.dischargeTime || patient.dischargeTime || "23:59";
+
     if (!patient.admissionDate) {
       return res.status(400).json({
         success: false,
-        message: "Admission date not found",
+        message: "Admission date not available",
       });
     }
 
-    // Discharge date required
-    if (!patient.dischargeDate) {
+    if (!dischargeDate) {
       return res.status(400).json({
         success: false,
-        message: "Discharge date not found",
+        message: "Discharge date is required",
       });
     }
 
-    // Room required
-    if (!patient.roomNo) {
-      return res.status(400).json({
-        success: false,
-        message: "Room number not found",
-      });
-    }
-
-    // Find assigned room
-    const room = await Room.findOne({
-      roomNumber: patient.roomNo,
-    }).lean();
-
-    if (!room) {
-      return res.status(404).json({
-        success: false,
-        message: "Assigned room not found",
-      });
-    }
-
-    // Convert dates
-    const admissionDate = new Date(patient.admissionDate);
-    const dischargeDate = new Date(patient.dischargeDate);
-
-    if (
-      Number.isNaN(admissionDate.getTime()) ||
-      Number.isNaN(dischargeDate.getTime())
-    ) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid admission or discharge date",
-      });
-    }
-
-    if (dischargeDate < admissionDate) {
-      return res.status(400).json({
-        success: false,
-        message: "Discharge date cannot be before admission date",
-      });
-    }
-
+    // -----------------------------
     // Calculate stay days
-    const millisecondsPerDay = 1000 * 60 * 60 * 24;
+    // -----------------------------
 
-    const differenceInDays =
-      Math.ceil(
-        (dischargeDate.getTime() - admissionDate.getTime()) /
-          millisecondsPerDay,
-      );
+    const admissionDateTime = new Date(
+      `${patient.admissionDate}T${patient.admissionTime || "00:00"}`
+    );
 
-    // Minimum 1 day charge
-    const stayDays = Math.max(1, differenceInDays);
+    const dischargeDateTime = new Date(
+      `${dischargeDate}T${dischargeTime}`
+    );
 
-    // Room charge from database
-    const roomChargesPerDay = Number(room.chargesPerDay || 0);
+    if (isNaN(admissionDateTime.getTime())) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid admission date/time",
+      });
+    }
 
-    const roomTotal = stayDays * roomChargesPerDay;
+    if (isNaN(dischargeDateTime.getTime())) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid discharge date/time",
+      });
+    }
 
-    // Other hospital charges
-    // For now, Patient.fee is kept separately.
-    // We will integrate actual Billing charges in the next step.
-    const otherCharges = 0;
+    if (dischargeDateTime < admissionDateTime) {
+      return res.status(400).json({
+        success: false,
+        message: "Discharge date/time cannot be before admission date/time",
+      });
+    }
 
-    const finalAmount = roomTotal + otherCharges;
+    const diffMs =
+      dischargeDateTime.getTime() -
+      admissionDateTime.getTime();
 
-    res.json({
+    const stayDays = Math.max(
+      1,
+      Math.ceil(diffMs / (1000 * 60 * 60 * 24))
+    );
+
+    // -----------------------------
+    // Room
+    // -----------------------------
+
+    const room = patient.roomNo
+      ? await Room.findOne({
+        roomNumber: patient.roomNo,
+      })
+      : null;
+
+    const roomChargePerDay = Number(
+      room?.chargesPerDay || 0
+    );
+
+    const roomTotal = roomChargePerDay * stayDays;
+
+    // -----------------------------
+    // Doctor
+    // -----------------------------
+
+    let doctor = null;
+
+    if (patient.doctorId) {
+      doctor = await Doctor.findById(patient.doctorId);
+    }
+
+    if (!doctor && patient.doctor) {
+      doctor = await Doctor.findOne({
+        name: patient.doctor,
+      });
+    }
+
+    const doctorFee = Number(
+      doctor?.fee || 0
+    );
+
+    const doctorTotal = doctorFee * stayDays;
+
+    // -----------------------------
+    // Hospital Charges
+    // -----------------------------
+
+    const allCharges = (patient.hospitalCharges || []).map(
+      (charge) => ({
+        _id: charge.chargeId,
+        chargeId: charge.chargeId,
+        chargeName: charge.chargeName || "",
+        category: charge.category || "",
+        amount: Number(charge.amount || 0),
+      })
+    );
+
+    // Room / Bed / Doctor / Lab / Diagnostic / Pharmacy
+    // are calculated or paid separately.
+    // Therefore they must not be added again here.
+
+    const charges = allCharges.filter((charge) => {
+      const category = String(charge.category || "")
+        .trim()
+        .toLowerCase();
+
+      return ![
+        "room",
+        "bed",
+        "doctor",
+        "consultation",
+        "lab",
+        "diagnostic",
+        "pharmacy",
+      ].includes(category);
+    });
+
+    const otherCharges = charges.reduce(
+      (total, charge) =>
+        total + Number(charge.amount || 0),
+      0
+    );
+
+    // -----------------------------
+    // Final Amount
+    // -----------------------------
+
+    const finalAmount =
+      roomTotal +
+      doctorTotal +
+      otherCharges;
+
+    return res.json({
       success: true,
 
       patient: {
-        id: patient._id,
+        _id: patient._id,
         uhid: patient.uhid,
         name: patient.name,
         role: patient.role,
         roomNo: patient.roomNo,
         bedNo: patient.bedNo,
-        roomType: patient.roomType,
+roomType: room?.roomType || patient.roomType || "N/A",
+        doctor: patient.doctor,
+        paymentStatus: patient.paymentStatus,
+        status: patient.status,
       },
 
       admissionDate: patient.admissionDate,
-      dischargeDate: patient.dischargeDate,
+      dischargeDate,
+      dischargeTime,
 
       stayDays,
 
-      room: {
-        roomNumber: room.roomNumber,
-        roomType: room.roomType,
-        chargesPerDay: roomChargesPerDay,
-      },
+      room: room
+        ? {
+          roomNumber: room.roomNumber,
+          roomType: room.roomType,
+          chargesPerDay: Number(room.chargesPerDay || 0),
+        }
+        : null,
+
+      doctor,
 
       roomTotal,
 
+      doctorFee,
+      doctorTotal,
+
+      charges,
       otherCharges,
 
       finalAmount,
     });
-  } catch (error) {
-    console.error("Final Hospital Bill Error:", error);
 
-    res.status(500).json({
+  } catch (error) {
+    console.error(
+      "Get Final Hospital Bill Error:",
+      error
+    );
+
+    return res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Failed to calculate final hospital bill",
+      error: error.message,
     });
   }
 };
@@ -1143,6 +1431,6 @@ module.exports = {
   addHandoverNote,
   updateNurseMedicineStatus,
   generatePrescriptionPDF,
-  generatePrescriptionPDF,
   getFinalHospitalBill,
+  updateHospitalCharges,
 };

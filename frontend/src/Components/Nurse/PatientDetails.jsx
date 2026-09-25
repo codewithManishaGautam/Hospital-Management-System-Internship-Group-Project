@@ -74,60 +74,60 @@ export default function PatientDetails({
     doc.save(`Clinical_Summary_${selectedPatient?.name || "Patient"}.pdf`);
   };
 
-  const generatePharmacyPDF = () => {
-    const doc = new jsPDF();
+  // const generatePharmacyPDF = () => {
+  //   const doc = new jsPDF();
 
-    doc.setFont("helvetica", "bold");
-    doc.text("SHRADDHA HOSPITAL & ICU - PHARMACY ORDER", 14, 15);
+  //   doc.setFont("helvetica", "bold");
+  //   doc.text("SHRADDHA HOSPITAL & ICU - PHARMACY ORDER", 14, 15);
 
-    doc.text(
-      "-------------------------------------------------------------------------",
-      14,
-      22,
-    );
+  //   doc.text(
+  //     "-------------------------------------------------------------------------",
+  //     14,
+  //     22,
+  //   );
 
-    doc.setFontSize(11);
-    doc.setFont("helvetica", "normal");
+  //   doc.setFontSize(11);
+  //   doc.setFont("helvetica", "normal");
 
-    doc.text(`Patient Name: ${selectedPatient?.name || "N/A"}`, 14, 32);
+  //   doc.text(`Patient Name: ${selectedPatient?.name || "N/A"}`, 14, 32);
 
-    doc.text(`UHID: ${selectedPatient?.uhid || "-"}`, 14, 39);
+  //   doc.text(`UHID: ${selectedPatient?.uhid || "-"}`, 14, 39);
 
-    doc.text(
-      `Ward: ${selectedPatient?.roomType || selectedPatient?.role || "-"}`,
-      14,
-      46,
-    );
+  //   doc.text(
+  //     `Ward: ${selectedPatient?.roomType || selectedPatient?.role || "-"}`,
+  //     14,
+  //     46,
+  //   );
 
-    doc.text(`Room: ${selectedPatient?.roomNo || "-"}`, 14, 53);
+  //   doc.text(`Room: ${selectedPatient?.roomNo || "-"}`, 14, 53);
 
-    doc.text(`Bed: ${selectedPatient?.bedNo || "-"}`, 14, 60);
+  //   doc.text(`Bed: ${selectedPatient?.bedNo || "-"}`, 14, 60);
 
-    doc.setFont("helvetica", "bold");
-    doc.text("MEDICATION LIST:", 14, 72);
+  //   doc.setFont("helvetica", "bold");
+  //   doc.text("MEDICATION LIST:", 14, 72);
 
-    doc.setFont("helvetica", "normal");
+  //   doc.setFont("helvetica", "normal");
 
-    if (medicines.length === 0) {
-      doc.text("No medicines prescribed.", 14, 82);
-    } else {
-      medicines.forEach((medicine, index) => {
-        const y = 82 + index * 10;
+  //   if (medicines.length === 0) {
+  //     doc.text("No medicines prescribed.", 14, 82);
+  //   } else {
+  //     medicines.forEach((medicine, index) => {
+  //       const y = 82 + index * 10;
 
-        doc.text(
-          `${index + 1}. ${medicine.medicineName || "-"} | Qty: ${
-            medicine.quantity || 0
-          } | Timing: ${medicine.timing || "-"} | Dose: ${
-            medicine.dose || "-"
-          }`,
-          14,
-          y,
-        );
-      });
-    }
+  //       doc.text(
+  //         `${index + 1}. ${medicine.medicineName || "-"} | Qty: ${
+  //           medicine.quantity || 0
+  //         } | Timing: ${medicine.timing || "-"} | Dose: ${
+  //           medicine.dose || "-"
+  //         }`,
+  //         14,
+  //         y,
+  //       );
+  //     });
+  //   }
 
-    doc.save(`Pharmacy_Order_${selectedPatient?.uhid || "Patient"}.pdf`);
-  };
+  //   doc.save(`Pharmacy_Order_${selectedPatient?.uhid || "Patient"}.pdf`);
+  // };
 
   const generateBillingPDF = () => {
     const doc = new jsPDF();
@@ -309,60 +309,49 @@ export default function PatientDetails({
         // sendBilling={sendBilling}
       />
 
-      <div
-        style={{
-          display: "flex",
-          gap: "20px",
-          marginTop: "40px",
-          justifyContent: "center",
-          marginBottom: "40px",
-          width: "100%",
-        }}
-      >
-        <button
-          onClick={generateClinicalPDF}
-          style={{
-            padding: "12px 24px",
-            backgroundColor: "#002244",
-            color: "#fff",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-            fontWeight: "bold",
-          }}
-        >
-          1. Create PDF
-        </button>
-        <button
-          onClick={generatePharmacyPDF}
-          style={{
-            padding: "12px 24px",
-            backgroundColor: "#002244",
-            color: "#fff",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-            fontWeight: "bold",
-          }}
-        >
-          2. Send to Pharmacy
-        </button>
-        <button
-          onClick={generateBillingPDF}
-          style={{
-            padding: "12px 24px",
-            backgroundColor: "#002244",
-            color: "#fff",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-            fontWeight: "bold",
-          }}
-        >
-          3. Send to Billing
-        </button>
-      </div>
+    <div
+  style={{
+    display: "flex",
+    gap: "20px",
+    marginTop: "40px",
+    justifyContent: "center",
+    marginBottom: "40px",
+    width: "100%",
+  }}
+>
+  <button
+    onClick={generateClinicalPDF}
+    style={{
+      padding: "12px 24px",
+      backgroundColor: "#002244",
+      color: "#fff",
+      border: "none",
+      borderRadius: "5px",
+      cursor: "pointer",
+      fontWeight: "bold",
+    }}
+  >
+    1. Create PDF
+  </button>
 
+  <button
+    type="button"
+    onClick={() =>
+      alert("Nursing report will be sent to Billing after Billing document integration.")
+    }
+    style={{
+      padding: "12px 24px",
+      backgroundColor: "#002244",
+      color: "#fff",
+      border: "none",
+      borderRadius: "5px",
+      cursor: "pointer",
+      fontWeight: "bold",
+    }}
+  >
+    2. Send to Billing
+  </button>
+</div>
       {/* <HandoverNotes /> */}
     </div>
   );

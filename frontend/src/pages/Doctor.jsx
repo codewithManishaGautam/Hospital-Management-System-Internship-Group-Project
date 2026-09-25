@@ -23,25 +23,25 @@ function Doctor() {
   const [todayPatients, setTodayPatients] = useState([]);
   const [historyPatients, setHistoryPatients] = useState([]);
 
-  useEffect(() => {
-    const handlePrescriptionSaved = (event) => {
-      const patientId = event.detail?.patientId;
+  // useEffect(() => {
+  //   const handlePrescriptionSaved = (event) => {
+  //     const patientId = event.detail?.patientId;
 
-      if (!patientId) return;
+  //     if (!patientId) return;
 
-      setTodayPatients((prevPatients) =>
-        prevPatients.filter(
-          (patient) => String(patient._id) !== String(patientId),
-        ),
-      );
-    };
+  //     setTodayPatients((prevPatients) =>
+  //       prevPatients.filter(
+  //         (patient) => String(patient._id) !== String(patientId),
+  //       ),
+  //     );
+  //   };
 
-    window.addEventListener("prescriptionSaved", handlePrescriptionSaved);
+  //   window.addEventListener("prescriptionSaved", handlePrescriptionSaved);
 
-    return () => {
-      window.removeEventListener("prescriptionSaved", handlePrescriptionSaved);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("prescriptionSaved", handlePrescriptionSaved);
+  //   };
+  // }, []);
 
   useEffect(() => {
     if (!doctorId) {

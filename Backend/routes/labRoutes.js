@@ -1,92 +1,3 @@
-// const express = require("express");
-
-// const router = express.Router();
-
-
-// const {
-
-//     uploadLabReport,
-//     getAllPatients,
-//     getPatientReports,
-//     updateLabReport,
-//     deleteLabReport,
-//     dashboardSummary
-
-// } = require("../controllers/labController");
-
-
-// // ===================== Patients =====================
-
-// router.get(
-
-//     "/patients",
-
-//     getAllPatients
-
-// );
-
-
-// // ===================== Upload PDF =====================
-
-// router.post(
-
-//     "/upload-report",
-
-//     upload.single("reportPdf"),
-
-//     uploadLabReport
-
-// );
-
-
-// // ===================== Patient Reports =====================
-
-// router.get(
-
-//     "/reports/:patientId",
-
-//     getPatientReports
-
-// );
-
-
-// // ===================== Update Report =====================
-
-// router.put(
-
-//     "/report/:id",
-
-//     updateLabReport
-
-// );
-
-
-// // ===================== Delete Report =====================
-
-// router.delete(
-
-//     "/report/:id",
-
-//     deleteLabReport
-
-// );
-
-
-// router.get(
-
-//     "/dashboard-summary",
-
-//     dashboardSummary
-
-// );
-
-// module.exports = router;
-
-
-
-
-
-
 const express = require("express");
 
 const router = express.Router();
@@ -98,17 +9,22 @@ const router = express.Router();
 
 module.exports = (uploadLab) => {
 
-
     const {
-
         uploadLabReport,
         getAllPatients,
         getPatientReports,
         updateLabReport,
         deleteLabReport,
-        dashboardSummary
-
+        dashboardSummary,
+        generateLabBill,
+        getLabBill,
+        generateLabBillPDF,
+        updateLabPayment
     } = require("../controllers/labController");
+
+    const {
+        getAllLabTests
+    } = require("../controllers/labTestController");
 
 
     // ==========================================
@@ -123,6 +39,14 @@ module.exports = (uploadLab) => {
 
     );
 
+    // ==========================================
+    // Get All Lab Tests
+    // ==========================================
+
+    router.get(
+        "/tests",
+        getAllLabTests
+    );
 
     // ==========================================
     // Upload Lab Report
@@ -177,6 +101,41 @@ module.exports = (uploadLab) => {
 
     );
 
+    // ==========================================
+    // Generate Lab Bill
+    // ==========================================
+
+    router.post(
+        "/bill",
+        generateLabBill
+    );
+
+    // ==========================================
+    // Get Lab Bill
+    // ==========================================
+
+    router.get(
+        "/bill/:patientId",
+        getLabBill
+    );
+
+// ==========================================
+// Generate Lab Bill PDF
+// ==========================================
+
+router.get(
+    "/bill/:patientId/pdf",
+    generateLabBillPDF
+);
+
+    // ==========================================
+    // Update Lab Payment
+    // ==========================================
+
+    router.put(
+        "/bill/payment/:id",
+        updateLabPayment
+    );
 
     // ==========================================
     // Dashboard Summary

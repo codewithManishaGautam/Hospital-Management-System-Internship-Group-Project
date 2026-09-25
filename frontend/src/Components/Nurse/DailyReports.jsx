@@ -35,16 +35,16 @@ export default function DailyReports({
           }
         />
 
-        <input
-          placeholder="Temperature"
-          value={newReport.temp}
-          onChange={(e) =>
-            setNewReport({
-              ...newReport,
-              temp: e.target.value
-            })
-          }
-        />
+     <input
+  placeholder="Temperature"
+  value={newReport.temperature}
+  onChange={(e) =>
+    setNewReport({
+      ...newReport,
+      temperature: e.target.value,
+    })
+  }
+/>
 
         <input
           placeholder="SpO2"

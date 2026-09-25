@@ -174,6 +174,12 @@ const patientSchema = new mongoose.Schema(
           },
         ],
 
+        labTests: {
+          type: [String],
+          default: [],
+        },
+
+
         billId: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "PharmacyBill",
@@ -453,6 +459,12 @@ const patientSchema = new mongoose.Schema(
 
     admissionDate: String,
 
+    admissionTime: String,
+
+    dischargeDate: String,
+
+    dischargeTime: String,
+
     roomNo: String,
 
     bedNo: String,
@@ -481,6 +493,27 @@ const patientSchema = new mongoose.Schema(
       type: String,
       default: "Registered",
     },
+
+    hospitalCharges: [
+      {
+        chargeId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Charge",
+        },
+        chargeName: {
+          type: String,
+          default: "",
+        },
+        category: {
+          type: String,
+          default: "",
+        },
+        amount: {
+          type: Number,
+          default: 0,
+        },
+      },
+    ],
   },
 
   {

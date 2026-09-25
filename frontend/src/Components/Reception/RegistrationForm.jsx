@@ -22,8 +22,9 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
     appointmentDate: "",
     appointmentTime: "",
 
-    admissionDate: "",
-    dischargeDate: "",
+  admissionDate: "",
+admissionTime: "",
+dischargeDate: "",
     roomNo: "",
     roomType: "",
     roomId: "",
@@ -80,6 +81,7 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
         appointmentDate: "",
         appointmentTime: "",
         admissionDate: "",
+        admissionTime: "",
         dischargeDate: "",
         roomNo: "",
         bedNo: "",
@@ -103,6 +105,7 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
       appointmentDate: patient.appointmentDate || "",
       appointmentTime: patient.appointmentTime || "",
       admissionDate: patient.admissionDate || "",
+      admissionTime: patient.admissionTime || "",
       dischargeDate: patient.dischargeDate || "",
       roomNo: patient.roomNo || "",
       bedNo: patient.bedNo || "",
@@ -110,30 +113,30 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
     });
   }, [patient]);
 
-useEffect(() => {
-  const loadBeds = async () => {
-    if (!formData.roomNo) {
-      setBeds([]);
-      return;
-    }
+  useEffect(() => {
+    const loadBeds = async () => {
+      if (!formData.roomNo) {
+        setBeds([]);
+        return;
+      }
 
-    try {
-      const res = await axios.get(
-        `http://localhost:5000/api/beds/available/room/${formData.roomNo}`
-      );
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/api/beds/available/room/${formData.roomNo}`
+        );
 
-      setBeds(res.data);
+        setBeds(res.data);
 
-      console.log("Selected Room:", formData.roomNo);
-      console.log("Available Beds:", res.data);
-    } catch (err) {
-      console.log("Bed Fetch Error:", err);
-      setBeds([]);
-    }
-  };
+        console.log("Selected Room:", formData.roomNo);
+        console.log("Available Beds:", res.data);
+      } catch (err) {
+        console.log("Bed Fetch Error:", err);
+        setBeds([]);
+      }
+    };
 
-  loadBeds();
-}, [formData.roomNo]);
+    loadBeds();
+  }, [formData.roomNo]);
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -272,6 +275,7 @@ useEffect(() => {
         appointmentTime: formData.appointmentTime,
 
         admissionDate: formData.admissionDate,
+        admissionTime: formData.admissionTime,
         dischargeDate: formData.dischargeDate,
 
         roomNo: formData.roomNo,
@@ -380,6 +384,7 @@ useEffect(() => {
         appointmentTime: "",
 
         admissionDate: "",
+        admissionTime: "",
         dischargeDate: "",
 
         roomNo: "",
@@ -656,6 +661,16 @@ useEffect(() => {
                     type="date"
                     name="admissionDate"
                     value={formData.admissionDate}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Admission Time</label>
+                  <input
+                    type="time"
+                    name="admissionTime"
+                    value={formData.admissionTime}
                     onChange={handleChange}
                   />
                 </div>

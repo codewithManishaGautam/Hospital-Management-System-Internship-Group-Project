@@ -26,6 +26,8 @@ function PrescriptionPage() {
   const [patient, setPatient] = useState(null);
   const [history, setHistory] = useState([]);
   const [prescriptionHistoryId, setPrescriptionHistoryId] = useState(null);
+  const [labReports, setLabReports] = useState([]);
+  const [loadingLabReports, setLoadingLabReports] = useState(false);
 
   const [editMode, setEditMode] = useState(false);
 
@@ -67,6 +69,22 @@ function PrescriptionPage() {
   const [doctorList, setDoctorList] = useState([]);
   const [availableMedicines, setAvailableMedicines] = useState([]);
 
+  // const labTestOptions = [
+  //   "CBC",
+  //   "Blood Sugar",
+  //   "LFT",
+  //   "KFT",
+  //   "Lipid Profile",
+  //   "Urine Routine",
+  //   "Thyroid Profile",
+  //   "HbA1c",
+  //   "CRP",
+  //   "ESR",
+  // ];
+
+  const [labTests, setLabTests] = useState([]);
+  const [selectedLabTests, setSelectedLabTests] = useState([]);
+
   const [diagnosisMode, setDiagnosisMode] = useState("type");
   const [prescriptionMode, setPrescriptionMode] = useState("type");
   const [adviceMode, setAdviceMode] = useState("type");
@@ -76,7 +94,9 @@ function PrescriptionPage() {
     loadPatient();
     loadDoctors();
     loadMedicines();
-  }, []);
+    loadLabTests();
+    loadLabReports();
+  }, [id]);
 
   const savePrescription = async () => {
     console.log("===== SAVE CLICKED =====");
@@ -172,8 +192,7 @@ function PrescriptionPage() {
         mobile: patient.mobile,
         address: patient.address,
 
-        // Doctor selected असेल तर नवीन doctor assign होईल.
-        // Doctor select नसेल तर existing doctor तसाच राहील.
+
         doctor: referralDoctorId ? `Dr. ${referralDoctorName}` : patient.doctor,
 
         doctorId: referralDoctorId ? referralDoctorId : patient.doctorId,
@@ -187,16 +206,16 @@ function PrescriptionPage() {
         notes: notesData,
         signature: signatureData,
 
-        // Medicine optional आहे
+        // Medicine optional 
         medicines: medicines,
-
-        // Doctor optional आहे
+        labTests: selectedLabTests,
+        // Doctor optional 
         referralDoctor: referralDoctorId
           ? {
-              id: referralDoctorId,
-              name: referralDoctorName,
-              specialization: referralSpecialization,
-            }
+            id: referralDoctorId,
+            name: referralDoctorName,
+            specialization: referralSpecialization,
+          }
           : null,
       };
       console.log("PAYLOAD =", payload);
@@ -229,7 +248,6 @@ function PrescriptionPage() {
       // SEND PRESCRIPTION TO PHARMACY - OPTIONAL
       // ==========================================
 
-      // Medicine selected असेल तरच Pharmacy ला prescription पाठवायची
       if (medicines.length > 0) {
         try {
           console.log("Medicines found. Sending prescription to pharmacy...");
@@ -250,30 +268,90 @@ function PrescriptionPage() {
                 advice: adviceData,
                 notes: notesData,
                 signature: signatureData,
-
                 medicines: medicines,
               },
 
               prescriptionHistoryId: newPrescriptionHistoryId,
-            },
+            }
           );
 
-          console.log("Prescription sent to pharmacy =", sendRes.data);
+          console.log(
+            "Prescription sent to pharmacy =",
+            sendRes.data
+          );
+
         } catch (pharmacyError) {
+
           console.error(
             "Pharmacy send error =",
-            pharmacyError.response?.data || pharmacyError.message,
+            pharmacyError.response?.data || pharmacyError.message
           );
 
           alert(
             pharmacyError.response?.data?.message ||
-              "Prescription saved, but could not be sent to pharmacy.",
+            "Prescription saved, but could not be sent to pharmacy."
           );
         }
+
       } else {
+
         console.log(
-          "No medicines selected. Prescription saved without sending to pharmacy.",
+          "No medicines selected. Prescription saved without sending to pharmacy."
         );
+
+      }
+
+
+      // ==========================================
+      // SEND PRESCRIPTION TO LAB - OPTIONAL
+      // ==========================================
+
+      if (selectedLabTests.length > 0) {
+
+        try {
+
+          console.log(
+            "Lab tests found. Sending prescription to lab..."
+          );
+
+          const labSendRes = await axios.post(
+            "http://localhost:5000/api/doctor/send-prescription",
+            {
+              target: "lab",
+
+              prescription: {
+                patientId: patient._id,
+              },
+
+              prescriptionHistoryId: newPrescriptionHistoryId,
+            }
+          );
+
+          console.log(
+            "Prescription sent to lab =",
+            labSendRes.data
+          );
+
+        } catch (labError) {
+
+          console.error(
+            "Lab send error =",
+            labError.response?.data || labError.message
+          );
+
+          alert(
+            labError.response?.data?.message ||
+            "Prescription saved, but could not be sent to lab."
+          );
+
+        }
+
+      } else {
+
+        console.log(
+          "No lab tests selected. Prescription saved without sending to lab."
+        );
+
       }
 
       console.log("Prescription saved in Patient prescriptionHistory");
@@ -370,9 +448,17 @@ function PrescriptionPage() {
     }
   };
 
-  const downloadPDF = () => {
-    window.open(`http://localhost:5000/api/patient/${id}/pdf`);
-  };
+const downloadPDF = () => {
+  if (!prescriptionHistoryId) {
+    alert("Prescription history not found");
+    return;
+  }
+
+  window.open(
+    `http://localhost:5000/api/patient/${id}/pdf?prescriptionHistoryId=${prescriptionHistoryId}`,
+    "_blank"
+  );
+};
 
   const loadDoctors = async () => {
     try {
@@ -411,6 +497,25 @@ function PrescriptionPage() {
     }
   };
 
+  const loadLabTests = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/lab/tests"
+      );
+
+      console.log("LAB TESTS =", res.data);
+
+      setLabTests(Array.isArray(res.data) ? res.data : []);
+    } catch (err) {
+      console.error(
+        "LOAD LAB TESTS ERROR =",
+        err.response?.data || err.message
+      );
+
+      setLabTests([]);
+    }
+  };
+
   // const loadMedicines = async () => {
   //   try {
   //     const res = await axios.get(
@@ -443,6 +548,20 @@ function PrescriptionPage() {
     setMedicineList(temp);
   };
 
+  const addLabTest = (test) => {
+    if (!test) return;
+
+    if (!selectedLabTests.includes(test)) {
+      setSelectedLabTests([...selectedLabTests, test]);
+    }
+  };
+
+  const removeLabTest = (test) => {
+    setSelectedLabTests(
+      selectedLabTests.filter((item) => item !== test)
+    );
+  };
+
   const loadPatient = async () => {
     try {
       const res = await axios.get(`http://localhost:5000/api/patient/${id}`);
@@ -461,6 +580,7 @@ function PrescriptionPage() {
         const latest = history[history.length - 1];
 
         setPrescriptionHistoryId(latest._id);
+        setSelectedLabTests(latest.labTests || []);
 
         console.log("Diagnosis =", latest.diagnosis);
         console.log("Prescription =", latest.prescription);
@@ -512,6 +632,33 @@ function PrescriptionPage() {
     }
   };
 
+  const loadLabReports = async () => {
+    try {
+      setLoadingLabReports(true);
+
+      const res = await axios.get(
+        `http://localhost:5000/lab/reports/${id}`
+      );
+
+      console.log("LAB REPORTS =", res.data);
+
+      setLabReports(
+        Array.isArray(res.data)
+          ? res.data
+          : res.data.reports || []
+      );
+    } catch (err) {
+      console.error(
+        "LOAD LAB REPORTS ERROR =",
+        err.response?.data || err.message
+      );
+
+      setLabReports([]);
+    } finally {
+      setLoadingLabReports(false);
+    }
+  };
+
   if (!patient) {
     return <h2 style={{ padding: "30px" }}>Loading...</h2>;
   }
@@ -541,7 +688,7 @@ function PrescriptionPage() {
                     quantity: 1,
                   },
                 ]);
-
+                setSelectedLabTests([]);
                 setDiagnosisMode("type");
                 setPrescriptionMode("type");
                 setAdviceMode("type");
@@ -566,17 +713,12 @@ function PrescriptionPage() {
             </button>
           )}
 
-          <button
-            className="print-btn"
-            onClick={() =>
-              window.open(
-                `http://localhost:5000/api/patient/${id}/pdf`,
-                "_blank",
-              )
-            }
-          >
-            Download PDF
-          </button>
+         <button
+  className="print-btn"
+  onClick={downloadPDF}
+>
+  Download PDF
+</button>
 
           <button className="print-btn" onClick={downloadPDF}>
             Print
@@ -701,6 +843,117 @@ function PrescriptionPage() {
                         {item.referralDoctor.specialization}
                       </p>
                     </>
+                  )}
+
+                  {/* ================= MEDICINES ================= */}
+
+                  <p>
+                    <strong>Medicines:</strong>
+                  </p>
+
+                  {Array.isArray(item.medicines) && item.medicines.length > 0 ? (
+                    <ul>
+                      {item.medicines.map((medicine, medIndex) => (
+                        <li key={medIndex}>
+                          {medicine.medicineName} - Quantity: {medicine.quantity}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>No medicines prescribed.</p>
+                  )}
+
+
+                  {/* ================= LAB TESTS ================= */}
+
+                  <p>
+                    <strong>Lab Tests:</strong>
+                  </p>
+
+                  {Array.isArray(item.labTests) && item.labTests.length > 0 ? (
+                    <ul>
+                      {item.labTests.map((test, testIndex) => (
+                        <li key={testIndex}>
+                          {test}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>No lab tests prescribed.</p>
+                  )}
+
+
+                  {/* ================= LAB REPORTS ================= */}
+
+                  <p>
+                    <strong>Lab Reports:</strong>
+                  </p>
+
+                  {loadingLabReports ? (
+                    <p>Loading lab reports...</p>
+                  ) : (
+                    (() => {
+                      /*
+                        LabReport -> SentPrescription -> prescriptionHistoryId
+                      */
+
+                  const reportsForThisVisit = labReports.filter(
+  (report) =>
+    String(report.prescriptionHistoryId) === String(item._id)
+);
+                      if (reportsForThisVisit.length === 0) {
+                        return <p>No lab reports uploaded for this visit.</p>;
+                      }
+
+                      return (
+                        <div className="lab-reports-list">
+                          {reportsForThisVisit.map((report) => (
+                            <div
+                              key={report._id}
+                              className="lab-report-item"
+                            >
+                              <span>
+                                <strong>{report.testName}</strong>
+                              </span>
+
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  window.open(
+                                    `http://localhost:5000${report.reportPdf}`,
+                                    "_blank"
+                                  )
+                                }
+                              >
+                                View Report
+                              </button>
+
+<button
+  type="button"
+  onClick={() => {
+    const link = document.createElement("a");
+    link.href = `http://localhost:5000${report.reportPdf}`;
+    link.download = `${report.testName}_Report.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }}
+>
+  Download Report
+</button>
+
+                              <small>
+                                {report.uploadedAt
+                                  ? new Date(
+                                    report.uploadedAt
+                                  ).toLocaleString()
+                                  : ""}
+                              </small>
+                            </div>
+                          ))}
+                        </div>
+                      );
+                    })()
                   )}
 
                   <p>
@@ -1025,6 +1278,47 @@ function PrescriptionPage() {
               <button type="button" onClick={addMedicine}>
                 + Add Medicine
               </button>
+            </div>
+
+            <div className="section">
+              <h3>Lab Tests</h3>
+
+              <select
+                value=""
+                onChange={(e) => addLabTest(e.target.value)}
+              >
+                <option value="">Select Lab Test</option>
+
+                {labTests.map((test) => (
+                  <option
+                    key={test._id}
+                    value={test.testName}
+                    disabled={selectedLabTests.includes(test.testName)}
+                  >
+                    {test.testName}
+                  </option>
+                ))}
+              </select>
+
+              {selectedLabTests.length > 0 && (
+                <div className="selected-lab-tests">
+                  {selectedLabTests.map((test) => (
+                    <div
+                      key={test}
+                      className="selected-lab-test"
+                    >
+                      <span>{test}</span>
+
+                      <button
+                        type="button"
+                        onClick={() => removeLabTest(test)}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className="section">

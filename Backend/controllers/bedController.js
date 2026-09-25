@@ -1,12 +1,23 @@
 const Bed = require("../models/Bed");
+const Room = require("../models/Room");
 
 // Get All Beds
 const getAllBeds = async (req, res) => {
   try {
-    const beds = await Bed.find();
+    const rooms = await Room.find().select("roomNumber").lean();
+
+    const roomNumbers = rooms.map((room) =>
+      String(room.roomNumber).trim()
+    );
+
+    const beds = await Bed.find({
+      roomNumber: { $in: roomNumbers },
+    });
 
     res.status(200).json(beds);
   } catch (error) {
+    console.error("GET ALL BEDS ERROR:", error);
+
     res.status(500).json({
       message: error.message,
     });
@@ -33,10 +44,10 @@ const getAvailableBedsByRoom = async (req, res) => {
   try {
     const { roomNumber } = req.params;
 
-    const beds = await Bed.find({
-      roomNumber: roomNumber,
-      status: "Available",
-    });
+const beds = await Bed.find({
+  roomNumber: String(roomNumber).trim(),
+  status: "Available",
+});
 
     res.status(200).json(beds);
   } catch (error) {
@@ -65,9 +76,23 @@ const addBed = async (req, res) => {
 // Update Bed
 const updateBed = async (req, res) => {
   try {
-    const bed = await Bed.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+    const { status } = req.body;
+
+    const bed = await Bed.findByIdAndUpdate(
+      req.params.id,
+      {
+        status,
+      },
+      {
+        new: true,
+      },
+    );
+
+    if (!bed) {
+      return res.status(404).json({
+        message: "Bed not found",
+      });
+    }
 
     res.status(200).json({
       message: "Bed Updated Successfully",

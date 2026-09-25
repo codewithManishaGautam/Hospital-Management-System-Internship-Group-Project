@@ -103,14 +103,12 @@ const getPrescriptionByUHID = async (req, res) => {
 // 5. Create Bill
 const createBill = async (req, res) => {
   try {
-    const {
-      patientId,
-      prescriptionId,
-      medicines,
-      totalAmount,
-      paymentMode,
-      paymentStatus,
-    } = req.body;
+const {
+  patientId,
+  prescriptionId,
+  medicines,
+  totalAmount,
+} = req.body;
 
     // Basic validation
     if (!patientId || !prescriptionId) {
@@ -236,15 +234,16 @@ const createBill = async (req, res) => {
     // CREATE PHARMACY BILL
     // =========================
 
-    const bill = new PharmacyBill({
-      ...req.body,
-      patientId,
-      prescriptionId,
-      medicines,
-      totalAmount,
-      paymentMode,
-      paymentStatus,
-    });
+const bill = new PharmacyBill({
+  ...req.body,
+  patientId,
+  prescriptionId,
+  medicines,
+  totalAmount,
+  paymentStatus: "Paid",
+  paidAt: new Date(),
+  billStatus: "Paid",
+});
 
     await bill.save();
 
@@ -506,10 +505,20 @@ const updatePayment = async (req, res) => {
       });
     }
 
-    bill.paymentMode = req.body.paymentMode;
-    bill.paymentStatus = req.body.paymentStatus;
+ const { paymentMode, paymentStatus } = req.body;
 
-    await bill.save();
+if (!paymentMode || paymentStatus !== "Paid") {
+  return res.status(400).json({
+    success: false,
+    message: "Valid payment mode and Paid status are required",
+  });
+}
+
+bill.paymentMode = paymentMode;
+bill.paymentStatus = "Paid";
+bill.paidAt = new Date();
+
+await bill.save();
 
     const patient = await Patient.findById(bill.patientId);
 

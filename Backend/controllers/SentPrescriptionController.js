@@ -56,6 +56,8 @@ const sendPrescription = async (req, res) => {
         patientName: patient.name,
         age: patient.age,
         gender: patient.gender,
+        mobile: patient.mobile,
+role: patient.role,
         doctor: patient.doctor,
 
         diagnosis: prescriptionHistory.diagnosis,
@@ -69,6 +71,8 @@ const sendPrescription = async (req, res) => {
         visitDate: prescriptionHistory.visitDate,
 
         medicines: prescriptionHistory.medicines || [],
+
+        labTests: prescriptionHistory.labTests || [],
       },
       status: "Pending",
     });
