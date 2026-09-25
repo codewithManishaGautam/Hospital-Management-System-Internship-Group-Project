@@ -876,6 +876,12 @@ const patientSchema = new mongoose.Schema(
           },
         ],
 
+        labTests: {
+          type: [String],
+          default: [],
+        },
+
+
         billId: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "PharmacyBill",
@@ -980,8 +986,6 @@ const patientSchema = new mongoose.Schema(
         },
       },
     ],
-
-    // =====================================================
     // Nurse
     // =====================================================
 
@@ -1086,10 +1090,22 @@ const patientSchema = new mongoose.Schema(
       default: "",
     },
 
-    // =====================================================
-    // Appointment
-    // =====================================================
+// =====================================================
+// Appointment
+// =====================================================
 
+appointmentDate: {
+  type: String,
+  default: "",
+},
+
+appointmentTime: {
+  type: String,
+  default: "",
+},
+
+appointmentHistory: [
+  {
     appointmentDate: {
       type: String,
       default: "",
@@ -1100,54 +1116,42 @@ const patientSchema = new mongoose.Schema(
       default: "",
     },
 
-    appointmentHistory: [
-      {
-        appointmentDate: {
-          type: String,
-          default: "",
-        },
+    doctor: {
+      type: String,
+      default: "",
+    },
 
-        appointmentTime: {
-          type: String,
-          default: "",
-        },
+    disease: {
+      type: String,
+      default: "",
+    },
 
-        doctor: {
-          type: String,
-          default: "",
-        },
+    fee: {
+      type: Number,
+      default: 500,
+    },
 
-        disease: {
-          type: String,
-          default: "",
-        },
+    paymentStatus: {
+      type: String,
+      default: "Pending",
+    },
 
-        fee: {
-          type: Number,
-          default: 500,
-        },
+    paymentMode: {
+      type: String,
+      default: "Cash",
+    },
 
-        paymentStatus: {
-          type: String,
-          default: "Pending",
-        },
+    status: {
+      type: String,
+      default: "Waiting Doctor",
+    },
 
-        paymentMode: {
-          type: String,
-          default: "Cash",
-        },
-
-        status: {
-          type: String,
-          default: "Waiting Doctor",
-        },
-
-        createdAt: {
-          type: Date,
-          default: Date.now,
-        },
-      },
-    ],
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+],
 
     // =====================================================
     // OPD / IPD / ICU / OT / Ward
@@ -1183,6 +1187,11 @@ const patientSchema = new mongoose.Schema(
       default: "Pending",
     },
 
+    paidAt: {
+      type: Date,
+      default: null,
+    },
+
     paymentMode: {
       type: String,
       default: "Cash",
@@ -1198,6 +1207,21 @@ const patientSchema = new mongoose.Schema(
     },
 
     admissionDate: {
+      type: String,
+      default: "",
+    },
+
+    admissionTime: {
+      type: String,
+      default: "",
+    },
+
+    dischargeDate: {
+      type: String,
+      default: "",
+    },
+
+    dischargeTime: {
       type: String,
       default: "",
     },
@@ -1225,7 +1249,6 @@ const patientSchema = new mongoose.Schema(
       type: String,
       default: "Waiting",
     },
-
     // =====================================================
     // Patient Flow
     // =====================================================
@@ -1239,15 +1262,29 @@ const patientSchema = new mongoose.Schema(
       type: String,
       default: "Registered",
     },
+    hospitalCharges: [
+      {
+        chargeId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Charge",
+        },
 
-    // =====================================================
-    // Created At
-    // =====================================================
+        chargeName: {
+          type: String,
+          default: "",
+        },
 
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
+        category: {
+          type: String,
+          default: "",
+        },
+
+        amount: {
+          type: Number,
+          default: 0,
+        },
+      },
+    ],
   },
 
   {
@@ -1267,9 +1304,5 @@ patientSchema.index({
   doctorId: 1,
   appointmentDate: 1,
 });
-
-// =========================================================
-// Export Model
-// =========================================================
 
 module.exports = mongoose.model("Patient", patientSchema);

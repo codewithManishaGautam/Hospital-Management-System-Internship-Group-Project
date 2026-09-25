@@ -131,7 +131,7 @@ export default function ActivityChart({
           </tbody>
         </table>
       </div>
-      {/* 
+      {/*
       <div className="btns">
 
         <button

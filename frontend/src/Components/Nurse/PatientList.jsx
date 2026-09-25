@@ -53,11 +53,11 @@ export default function PatientList({
               ) : patients && patients.length > 0 ? (
                 patients.map((p) => (
                   <tr key={p._id}>
-                    <td>{p.uhid}</td>
+                    <td>{p.uhid || "-"}</td>
 
-                    <td>{p.name}</td>
+                    <td>{p.name || "-"}</td>
 
-                    <td>{p.role}</td>
+                    <td>{p.role || "-"}</td>
 
                     <td>{p.roomNo || "-"}</td>
 

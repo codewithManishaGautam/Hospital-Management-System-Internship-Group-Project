@@ -14,6 +14,8 @@ const connectDB = require("./config/db");
 // Models
 const Patient = require("./models/Patient");
 const Diagnostic = require("./models/Diagnostic");
+const Bill = require("./models/Bill");
+const Bed = require("./models/Bed");
 
 // PDF
 const mergePDFs = require("./mergePdf");
@@ -26,16 +28,21 @@ const bedRoutes = require("./routes/bedRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const doctorRoutes = require("./routes/doctorRoutes");
 const pharmacyRoutes = require("./routes/pharmacyRoutes");
+const sendPrescriptionRoutes = require("./routes/SentPrescriptionRoutes");
+
 const insuranceRoutes = require("./routes/insurance/insuranceCaseRoutes");
+const insurancePatientRoutes = require("./routes/InsuranceRoutes");
+
 const paymentRoutes = require("./routes/paymentRoutes");
 const consentRoutes = require("./routes/consentRoutes");
 const uploadRoutes = require("./routes/upload");
+
 const labRoutes = require("./routes/labRoutes");
 const billingRoutes = require("./routes/billingRoutes");
-const insurancePatientRoutes = require("./routes/InsuranceRoutes");
-
 
 const app = express();
+
+console.log("ENV URL =", process.env.MONGO_URL);
 
 // ======================================================
 // DATABASE
@@ -117,14 +124,13 @@ transporter.verify((error, success) => {
 });
 
 // ======================================================
-// DIAGNOSTIC MULTER
+// DIAGNOSTIC UPLOAD
 // ======================================================
 
 const diagnosticStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, uploadsDir);
   },
-
   filename: (req, file, cb) => {
     cb(null, Date.now() + "-" + file.originalname);
   },
@@ -157,14 +163,291 @@ app.use("/api/admin", adminRoutes);
 // IMPORTANT: Keep billing before generic /api routes
 app.use("/api/billing", billingRoutes);
 
+// ======================
+// NON-OPD BILLING PATIENTS
+// ======================
+
+app.get("/api/billing/patients", async (req, res) => {
+  try {
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+    const search = (req.query.search || "").trim();
+
+    const query = {
+      role: { $ne: "OPD" },
+    };
+
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: "i" } },
+        { uhid: { $regex: search, $options: "i" } },
+        { mobile: { $regex: search, $options: "i" } },
+      ];
+    }
+
+    const patients = await Patient.find(query)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    const total = await Patient.countDocuments(query);
+
+    res.status(200).json({
+      success: true,
+      patients,
+      total,
+      hasMore: skip + patients.length < total,
+    });
+  } catch (error) {
+    console.error("BILLING PATIENTS ERROR:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch billing patients",
+      error: error.message,
+    });
+  }
+});
+
+// ======================
+// SAVE FINAL CASH BILL
+// ======================
+
+app.post("/api/billing/final/cash", async (req, res) => {
+  try {
+    const {
+      patientId,
+      dischargeDate,
+      dischargeTime,
+      stayDays,
+      roomCharge,
+      bedCharge,
+      doctorConsultancyFee,
+      otherCharges,
+      totalAmount,
+      paymentMode,
+      razorpayOrderId,
+      razorpayPaymentId,
+    } = req.body;
+
+    // -----------------------------
+    // Find patient
+    // -----------------------------
+
+    const patient = await Patient.findById(patientId);
+
+    if (!patient) {
+      return res.status(404).json({
+        success: false,
+        message: "Patient not found",
+      });
+    }
+
+    // -----------------------------
+    // Prevent duplicate final payment
+    // -----------------------------
+
+    if (patient.paymentStatus === "Paid") {
+      return res.status(400).json({
+        success: false,
+        message: "Final payment is already completed for this patient",
+      });
+    }
+
+    // -----------------------------
+    // Create final Bill
+    // -----------------------------
+
+    const bill = new Bill({
+      patientId: patient._id,
+
+      patientName: patient.name,
+
+      email: patient.email || "",
+
+      uhid: patient.uhid || "",
+
+      billType: patient.role || "",
+
+      roomNo: patient.roomNo || "",
+
+      roomType: patient.roomType || "",
+
+      admissionDate: patient.admissionDate
+        ? new Date(patient.admissionDate)
+        : null,
+
+      dischargeDate: dischargeDate
+        ? new Date(dischargeDate)
+        : null,
+
+      stayDays: Number(stayDays || 0),
+
+      roomCharge: Number(roomCharge || 0),
+
+      bedCharge: Number(bedCharge || 0),
+
+      doctorConsultancyFee: Number(
+        doctorConsultancyFee || 0
+      ),
+
+      otherCharges: Number(
+        otherCharges || 0
+      ),
+
+      totalAmount: Number(
+        totalAmount || 0
+      ),
+
+      paymentMode: paymentMode || "Cash",
+
+      paymentStatus: "Paid",
+
+      paidAt: new Date(),
+
+      razorpayOrderId:
+        razorpayOrderId || "",
+
+      razorpayPaymentId:
+        razorpayPaymentId || "",
+    });
+
+    await bill.save();
+
+    // -----------------------------
+    // Free patient bed
+    // -----------------------------
+
+    if (patient.bedNo && patient.roomNo) {
+      await Bed.findOneAndUpdate(
+        {
+          roomNumber: patient.roomNo,
+          bedNo: patient.bedNo,
+        },
+        {
+          status: "Available",
+        }
+      );
+    }
+
+    // -----------------------------
+    // Update Room status
+    // -----------------------------
+
+    if (patient.roomNo) {
+      const Room = require("./models/Room");
+
+      const availableBeds = await Bed.countDocuments({
+        roomNumber: patient.roomNo,
+        status: "Available",
+      });
+
+      const room = await Room.findOne({
+        roomNumber: patient.roomNo,
+      });
+
+      if (room) {
+        room.status =
+          availableBeds > 0
+            ? "Available"
+            : "Occupied";
+
+        await room.save();
+      }
+    }
+
+    // -----------------------------
+    // Update Patient
+    // -----------------------------
+
+    patient.dischargeDate =
+      dischargeDate || "";
+
+    patient.dischargeTime =
+      dischargeTime || "";
+
+    patient.status =
+      "Discharged";
+
+    patient.paymentStatus =
+      "Paid";
+
+    patient.paidAt =
+      new Date();
+
+    patient.paymentMode =
+      paymentMode || "Cash";
+
+    patient.currentDepartment =
+      "Billing";
+
+    patient.flowStatus =
+      "Completed";
+
+    await patient.save();
+
+    // -----------------------------
+    // Response
+    // -----------------------------
+
+    return res.json({
+      success: true,
+
+      message:
+        "Final bill saved successfully",
+
+      bill,
+
+      patient: {
+        _id: patient._id,
+        uhid: patient.uhid,
+        name: patient.name,
+        status: patient.status,
+        paymentStatus:
+          patient.paymentStatus,
+        paymentMode:
+          patient.paymentMode,
+        flowStatus:
+          patient.flowStatus,
+      },
+    });
+
+  } catch (error) {
+    console.error(
+      "FINAL CASH BILL ERROR:",
+      error
+    );
+
+    return res.status(500).json({
+      success: false,
+      message:
+        "Failed to save final cash payment",
+      error: error.message,
+    });
+  }
+});
+
 // Doctor
 app.use("/api", doctorRoutes);
+
+// Upcoming Appointments
+app.get("/api/doctor/upcoming-appointments", (req, res) => {
+  return res.json({
+    message: "Upcoming appointments",
+    data: global.__receptionistAppointments || [],
+  });
+});
+
+// Sent Prescription
+app.use("/api", sendPrescriptionRoutes);
 
 // Pharmacy
 app.use("/api", pharmacyRoutes);
 
 // Insurance
 app.use("/insurance", insurancePatientRoutes);
+app.use("/api/insurance", insuranceRoutes);
 
 // Consent
 app.use("/consent", consentRoutes);
@@ -503,6 +786,216 @@ app.get("/diagnostics", async (req, res) => {
 });
 
 // ======================================================
+// SEND EMAIL
+// ======================================================
+
+app.post(
+  "/send-email",
+  upload.array("pdfs", 10),
+  async (req, res) => {
+    try {
+      console.log("========== SEND EMAIL ==========");
+
+      console.log("BODY:", req.body);
+
+      console.log("FILES:", req.files);
+
+      // ==========================
+      // Check PDF files
+      // ==========================
+
+      if (!req.files || req.files.length === 0) {
+        return res.status(400).json({
+          success: false,
+          message: "No PDF files uploaded",
+        });
+      }
+
+      // ==========================
+      // Patient details
+      // ==========================
+
+      const { patientName, email } = req.body;
+
+      if (!patientName || !email) {
+        return res.status(400).json({
+          success: false,
+          message: "Patient name and email are required",
+        });
+      }
+
+      // ==========================
+      // Uploaded files
+      // ==========================
+
+      const uploadedFiles = req.files;
+
+      console.log(
+        "Uploaded Files:",
+        uploadedFiles.length
+      );
+
+      // ==========================
+      // Generated directory
+      // ==========================
+
+      const generatedDir = path.join(
+        __dirname,
+        "uploads"
+      );
+
+      if (!fs.existsSync(generatedDir)) {
+        fs.mkdirSync(generatedDir, {
+          recursive: true,
+        });
+      }
+
+      // ==========================
+      // Merged PDF path
+      // ==========================
+
+      const mergedPath = path.join(
+        generatedDir,
+        `merged_${Date.now()}.pdf`
+      );
+
+      console.log(
+        "Merged Path:",
+        mergedPath
+      );
+
+      // ==========================
+      // Merge PDFs
+      // ==========================
+
+      await mergePDFs(
+        uploadedFiles,
+        mergedPath
+      );
+
+      console.log(
+        "PDF MERGED SUCCESSFULLY"
+      );
+
+      // ==========================
+      // Save Bill
+      // ==========================
+
+      const bill = new Bill({
+        patientName,
+
+        email,
+
+        pdfPath: mergedPath,
+      });
+
+      await bill.save();
+
+      console.log(
+        "Bill Saved Successfully"
+      );
+
+      // ==========================
+      // Email
+      // ==========================
+
+      const mailOptions = {
+        from: process.env.EMAIL_USER,
+
+        to: email,
+
+        subject:
+          "Merged Hospital Documents",
+
+        text:
+          "Your merged hospital documents are attached.",
+
+        attachments: [
+          {
+            filename:
+              "Hospital_Report.pdf",
+
+            path: mergedPath,
+          },
+        ],
+      };
+
+      // ==========================
+      // Send Email
+      // ==========================
+
+      const info =
+        await transporter.sendMail(
+          mailOptions
+        );
+
+      console.log(
+        "EMAIL SENT:",
+        info.response
+      );
+
+      // ==========================
+      // Response
+      // ==========================
+
+      res.json({
+        success: true,
+
+        message:
+          "Merged PDF Sent Successfully",
+
+        pdfUrl:
+          `http://localhost:5000/uploads/${path.basename(
+            mergedPath
+          )}`,
+      });
+    } catch (error) {
+      console.error(
+        "SEND EMAIL ERROR:",
+        error
+      );
+
+      res.status(500).json({
+        success: false,
+
+        message: error.message,
+
+        error: error.stack,
+      });
+    }
+  }
+);
+
+// ======================================================
+// LAB MODULE
+// ======================================================
+
+const labUploadPath = path.join(
+  __dirname,
+  "uploadLabReport",
+  "uploadLab"
+);
+
+const labStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, labUploadPath);
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+
+const uploadLab = multer({
+  storage: labStorage,
+});
+
+if (!fs.existsSync(labUploadPath)) {
+  fs.mkdirSync(labUploadPath, {
+    recursive: true,
+  });
+}
+
+// ======================================================
 // DELETE DIAGNOSTIC
 // ======================================================
 
@@ -575,26 +1068,6 @@ app.delete(
 // ======================================================
 // LAB ROUTES
 // ======================================================
-
-const uploadLabStorage =
-  multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, uploadLabDir);
-    },
-
-    filename: (req, file, cb) => {
-      cb(
-        null,
-        Date.now() +
-          "-" +
-          file.originalname
-      );
-    },
-  });
-
-const uploadLab = multer({
-  storage: uploadLabStorage,
-});
 
 app.use(
   "/lab",

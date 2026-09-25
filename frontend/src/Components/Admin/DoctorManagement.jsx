@@ -17,6 +17,7 @@ function DoctorManagement({ doctors, fetchDoctors }) {
     qualification: "",
     experience: "",
     mobile: "",
+    fee: 0,
   });
 
   const [newDoctor, setNewDoctor] = useState({
@@ -25,17 +26,18 @@ function DoctorManagement({ doctors, fetchDoctors }) {
     qualification: "",
     experience: "",
     mobile: "",
+    fee: 0,
   });
 
   // ADD DOCTOR
- const addDoctor = async () => {
-  console.log("Doctor Data:", newDoctor);
+  const addDoctor = async () => {
+    console.log("Doctor Data:", newDoctor);
 
-  try {
-    const res = await axios.post(
-      "http://localhost:5000/api/admin/doctor/add",
-      newDoctor
-    );
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/admin/doctor/add",
+        newDoctor
+      );
 
       console.log(res.data);
 
@@ -49,7 +51,9 @@ function DoctorManagement({ doctors, fetchDoctors }) {
         qualification: "",
         experience: "",
         mobile: "",
+        fee: 0,
       });
+
     } catch (error) {
       console.log(error.response?.data);
       alert(error.response?.data?.message || "Doctor not added");
@@ -74,23 +78,32 @@ function DoctorManagement({ doctors, fetchDoctors }) {
   };
 
   // SAVE EDIT
-  const saveDoctorEdit = async (id) => {
-    try {
-      if (
-        !editedDoctor.name ||
-        !editedDoctor.specialization ||
-        !editedDoctor.qualification ||
-        !editedDoctor.experience ||
-        !editedDoctor.mobile
-      ) {
-        alert("Please fill all fields");
-        return;
-      }
+const saveDoctorEdit = async (id) => {
+  try {
+    console.log("EDITED DOCTOR =", editedDoctor);
+    console.log("DOCTOR NAME =", editedDoctor.name);
+    console.log(
+      "DOCTOR NAME LENGTH =",
+      editedDoctor.name?.trim().length
+    );
 
-      if (editedDoctor.name.trim().length < 3) {
-        alert("Doctor name must be at least 3 characters");
-        return;
-      }
+    if (
+      !editedDoctor.name ||
+      !editedDoctor.specialization ||
+      !editedDoctor.qualification ||
+      !editedDoctor.experience ||
+      !editedDoctor.mobile
+    ) {
+      alert("Please fill all fields");
+      return;
+    }
+
+    const doctorName = String(editedDoctor.name || "").trim();
+
+    if (doctorName.length < 3) {
+      alert("Doctor name must be at least 3 characters");
+      return;
+    }
 
       if (editedDoctor.specialization.trim().length < 2) {
         alert("Enter valid specialization");
@@ -140,15 +153,15 @@ function DoctorManagement({ doctors, fetchDoctors }) {
   };
 
   return (
-<div className="admin-doctor-section">
-<div className="admin-doctor-header">
-          <h2>Doctors</h2>
+    <div className="admin-doctor-section">
+      <div className="admin-doctor-header">
+        <h2>Doctors</h2>
 
-<button
-  className="admin-doctor-add-btn"
-  onClick={() => setShowDoctorForm(true)}
->
-            + Add Doctor
+        <button
+          className="admin-doctor-add-btn"
+          onClick={() => setShowDoctorForm(true)}
+        >
+          + Add Doctor
         </button>
       </div>
 
@@ -160,11 +173,11 @@ function DoctorManagement({ doctors, fetchDoctors }) {
         addDoctor={addDoctor}
       />
 
-<div className="admin-doctor-grid">
-          {doctors.map((d) => (
-<div className="admin-doctor-card" key={d._id}>
-              <img
-className="admin-doctor-avatar"
+      <div className="admin-doctor-grid">
+        {doctors.map((d) => (
+          <div className="admin-doctor-card" key={d._id}>
+            <img
+              className="admin-doctor-avatar"
               src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
               alt="doctor"
             />
@@ -243,8 +256,8 @@ className="admin-doctor-avatar"
               </>
             )}
 
-<div className="admin-doctor-actions">
-                {editingDoctorId === d._id ? (
+            <div className="admin-doctor-actions">
+              {editingDoctorId === d._id ? (
                 <button
                   className="admin-doctor-edit-btn"
                   onClick={() => saveDoctorEdit(d._id)}
@@ -263,6 +276,7 @@ className="admin-doctor-avatar"
                       specialization: d.specialization,
                       qualification: d.qualification,
                       experience: d.experience,
+                      fee: d.fee || 0,
                     });
                   }}
                 >
@@ -271,7 +285,7 @@ className="admin-doctor-avatar"
               )}
 
               <button
-className="admin-doctor-delete-btn"
+                className="admin-doctor-delete-btn"
                 onClick={() => deleteDoctor(d._id)}
               >
                 Delete

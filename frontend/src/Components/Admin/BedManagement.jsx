@@ -32,6 +32,7 @@ function BedManagement() {
           <tr>
             <th>Room No</th>
             <th>Bed No</th>
+            {/* <th>Bed Charges / Day</th> */}
             <th>Status</th>
           </tr>
         </thead>
@@ -40,7 +41,13 @@ function BedManagement() {
           {beds.map((bed) => (
             <tr key={bed._id}>
               <td>{bed.roomNumber}</td>
+
               <td>{bed.bedNo}</td>
+
+              {/* <td>
+                ₹{Number(bed.chargesPerDay || 0)}
+              </td> */}
+
               <td>
                 <span
                   className={

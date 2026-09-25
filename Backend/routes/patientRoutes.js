@@ -12,8 +12,9 @@ const {
   addHandoverNote,
   updateNurseMedicineStatus,
   generatePrescriptionPDF,
+  getFinalHospitalBill,
+  updateHospitalCharges,
   updateInsuranceConfirm,
-  // updatePrescription,
 } = require("../controllers/patientController");
 
 
@@ -34,6 +35,10 @@ router.put(
 );
 
 router.get("/:id/pdf", generatePrescriptionPDF);
+
+router.put("/:id/hospital-charges", updateHospitalCharges);
+
+router.get("/:id/final-bill", getFinalHospitalBill);
 
 router.get("/:id", getPatientById);
 

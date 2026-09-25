@@ -22,10 +22,16 @@ const doctorSchema = new mongoose.Schema(
       required: true,
     },
 
-    mobile: {
-      type: String,
-      required: true,
-    },
+   mobile: {
+  type: String,
+  required: true,
+},
+
+fee: {
+  type: Number,
+  default: 0,
+},
+
   },
   {
     timestamps: true,

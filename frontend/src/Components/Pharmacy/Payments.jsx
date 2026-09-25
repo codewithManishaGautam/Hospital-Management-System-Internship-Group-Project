@@ -15,10 +15,10 @@ function Payments({ payments, setStep }) {
     );
   });
 
-  // 👉 Summary calculation
-  const totalPaid = payments
-    .filter((p) => p.paymentStatus === "Completed")
-    .reduce((sum, p) => sum + Number(p.totalAmount || 0), 0);
+  //  Summary calculation
+const totalPaid = payments
+  .filter((p) => p.paymentStatus === "Paid")
+  .reduce((sum, p) => sum + Number(p.totalAmount || 0), 0);
 
   const totalPending = payments
     .filter((p) => p.paymentStatus === "Pending")
@@ -82,9 +82,9 @@ function Payments({ payments, setStep }) {
                   <td>
                     <span
                       className={`pharmacy-payment-badge ${
-                        p.paymentStatus === "Completed"
-                          ? "pharmacy-payment-completed"
-                          : "pharmacy-payment-pending"
+                   p.paymentStatus === "Paid"
+  ? "pharmacy-payment-completed"
+  : "pharmacy-payment-pending"
                       }`}
                     >
                       {p.paymentStatus}

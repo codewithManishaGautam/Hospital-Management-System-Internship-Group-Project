@@ -77,6 +77,19 @@ function AddDoctorForm({
           }
         />
 
+<input
+  type="number"
+  min="0"
+  placeholder="Doctor Fee Per Day"
+  value={newDoctor.fee ?? ""}
+  onChange={(e) =>
+    setNewDoctor({
+      ...newDoctor,
+      fee: Number(e.target.value),
+    })
+  }
+/>
+
         <div className="admin-doctor-form-buttons">
           <button
             className="admin-doctor-save-btn"

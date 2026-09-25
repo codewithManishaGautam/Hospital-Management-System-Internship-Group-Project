@@ -1,39 +1,66 @@
-/* =========================================================
+ /* =========================================================
    ADMIN DOCTOR MANAGEMENT
    ========================================================= */
 
 .admin-doctor-section {
   width: 100%;
   max-width: 1400px;
+
   margin: 0 auto;
+
   box-sizing: border-box;
 }
 
+
+/* =========================================================
+   DOCTOR HEADER
+   ========================================================= */
+
 .admin-doctor-header {
   display: flex;
+
   justify-content: space-between;
   align-items: center;
+
   gap: 20px;
+
   margin-bottom: 28px;
 }
 
 .admin-doctor-header h2 {
   margin: 0;
+
   color: #0f172a;
+
   font-size: 32px;
   font-weight: 700;
 }
 
-/* Add Doctor Button */
+
+/* =========================================================
+   ADD DOCTOR BUTTON
+   ========================================================= */
+
 .admin-doctor-add-btn {
   border: none;
+
   border-radius: 10px;
+
   padding: 12px 20px;
-  background: linear-gradient(135deg, #0ea5e9, #2563eb);
+
+  background: linear-gradient(
+    135deg,
+    #0ea5e9,
+    #2563eb
+  );
+
   color: #ffffff;
+
   font-size: 14px;
   font-weight: 600;
+
   cursor: pointer;
+
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -41,81 +68,150 @@
 
 .admin-doctor-add-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 15px rgba(37, 99, 235, 0.22);
+
+  box-shadow:
+    0 6px 15px rgba(37, 99, 235, 0.22);
 }
 
 .admin-doctor-add-btn:active {
   transform: translateY(0);
 }
 
-/* Doctor Grid */
+
+/* =========================================================
+   DOCTOR GRID
+   ========================================================= */
+
 .admin-doctor-grid {
+  width: 100%;
+
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(260px, 1fr)
+  );
+
   gap: 22px;
+
   align-items: stretch;
 }
 
-/* Doctor Card */
+
+/* =========================================================
+   DOCTOR CARD
+   ========================================================= */
+
 .admin-doctor-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 20px;
+  min-width: 0;
+
+  box-sizing: border-box;
+
   padding: 28px 24px;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 20px;
+
   text-align: center;
-  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.07);
+
+  box-shadow:
+    0 8px 25px rgba(15, 23, 42, 0.07);
+
   transition:
     transform 0.25s ease,
     box-shadow 0.25s ease;
-  box-sizing: border-box;
-  min-width: 0;
 }
 
 .admin-doctor-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.11);
+
+  box-shadow:
+    0 14px 30px rgba(15, 23, 42, 0.11);
 }
 
-/* Doctor Image */
+
+/* =========================================================
+   DOCTOR IMAGE
+   ========================================================= */
+
 .admin-doctor-avatar {
   width: 92px;
   height: 92px;
+
+  display: block;
+
+  margin: 0 auto 15px;
+
   border-radius: 50%;
+
   object-fit: cover;
-  margin-bottom: 15px;
+
   border: 4px solid #dbeafe;
 }
 
-/* Doctor Name */
+
+/* =========================================================
+   DOCTOR NAME
+   ========================================================= */
+
 .admin-doctor-card h3 {
   margin: 0 0 12px;
+
   color: #0f172a;
+
   font-size: 21px;
+
   font-weight: 700;
+
   word-break: break-word;
 }
 
-/* Doctor Information */
+
+/* =========================================================
+   DOCTOR INFORMATION
+   ========================================================= */
+
 .admin-doctor-card p {
   margin: 7px 0;
+
   color: #64748b;
+
   font-size: 14px;
+
   line-height: 1.5;
+
   word-break: break-word;
 }
 
-/* Edit Inputs */
+
+/* =========================================================
+   EDIT INPUTS
+   ========================================================= */
+
 .admin-doctor-card input {
   width: 100%;
+
   box-sizing: border-box;
+
   margin-bottom: 10px;
+
   padding: 11px 12px;
+
   border: 1px solid #cbd5e1;
+
   border-radius: 9px;
+
   background: #f8fafc;
+
   color: #0f172a;
+
   font-size: 14px;
+
   outline: none;
+
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease,
@@ -124,54 +220,97 @@
 
 .admin-doctor-card input:focus {
   border-color: #2563eb;
+
   background: #ffffff;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-/* Doctor Action Buttons */
+
+/* =========================================================
+   DOCTOR ACTION BUTTONS
+   ========================================================= */
+
 .admin-doctor-actions {
   display: flex;
+
   justify-content: center;
+
   gap: 10px;
+
   margin-top: 20px;
 }
 
 .admin-doctor-edit-btn,
 .admin-doctor-delete-btn {
   flex: 1;
+
   min-width: 90px;
+
   border: none;
+
   border-radius: 9px;
+
   padding: 10px 14px;
+
   color: #ffffff;
+
   font-size: 13px;
+
   font-weight: 600;
+
   cursor: pointer;
+
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
 }
 
-/* Edit / Save */
+
+/* =========================================================
+   EDIT / SAVE BUTTON
+   ========================================================= */
+
 .admin-doctor-edit-btn {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #1d4ed8
+  );
 }
 
-/* Delete */
+
+/* =========================================================
+   DELETE BUTTON
+   ========================================================= */
+
 .admin-doctor-delete-btn {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
+  background: linear-gradient(
+    135deg,
+    #ef4444,
+    #dc2626
+  );
 }
+
+
+/* =========================================================
+   BUTTON HOVER / ACTIVE
+   ========================================================= */
 
 .admin-doctor-edit-btn:hover,
 .admin-doctor-delete-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 5px 12px rgba(15, 23, 42, 0.15);
+
+  box-shadow:
+    0 5px 12px rgba(15, 23, 42, 0.15);
 }
 
 .admin-doctor-edit-btn:active,
 .admin-doctor-delete-btn:active {
   transform: translateY(0);
 }
+
 
 /* =========================================================
    TABLET RESPONSIVE
@@ -187,7 +326,11 @@
   }
 
   .admin-doctor-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
     gap: 15px;
   }
 
@@ -201,6 +344,7 @@
   }
 }
 
+
 /* =========================================================
    MOBILE RESPONSIVE
    ========================================================= */
@@ -208,7 +352,9 @@
 @media (max-width: 520px) {
   .admin-doctor-header {
     flex-direction: column;
+
     align-items: stretch;
+
     gap: 12px;
   }
 
@@ -222,6 +368,7 @@
 
   .admin-doctor-grid {
     grid-template-columns: 1fr;
+
     gap: 14px;
   }
 
@@ -229,12 +376,55 @@
     padding: 20px 16px;
   }
 
+  .admin-doctor-avatar {
+    width: 78px;
+    height: 78px;
+  }
+
+  .admin-doctor-card h3 {
+    font-size: 19px;
+  }
+
+  .admin-doctor-card p {
+    font-size: 13px;
+  }
+
   .admin-doctor-actions {
     flex-direction: column;
+
+    gap: 8px;
   }
 
   .admin-doctor-edit-btn,
   .admin-doctor-delete-btn {
     width: 100%;
+
+    min-width: 0;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 360px) {
+  .admin-doctor-card {
+    padding: 17px 13px;
+  }
+
+  .admin-doctor-avatar {
+    width: 72px;
+    height: 72px;
+  }
+
+  .admin-doctor-card h3 {
+    font-size: 18px;
+  }
+
+  .admin-doctor-card input {
+    font-size: 13px;
+
+    padding: 10px;
   }
 }

@@ -280,11 +280,14 @@ function BillingDept() {
                 <td>₹{bill.fee || 0}</td>
                 <td>{bill.paymentMode}</td>
                 <td>{bill.paymentStatus}</td>
+                
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
+      <br />
 
       <br />
 
