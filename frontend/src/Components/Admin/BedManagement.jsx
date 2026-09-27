@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "../../styles/admin/table.css";
 
 function BedManagement() {
   const [beds, setBeds] = useState([]);

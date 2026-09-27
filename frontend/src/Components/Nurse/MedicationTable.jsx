@@ -38,39 +38,41 @@ export default function MedicationTable({ medicines, patientId }) {
       <h2>Medication Checklist</h2>
 
       {medicines && medicines.length > 0 ? (
-        <table className="medicineTable">
-          <thead>
-            <tr>
-              <th>Medicine</th>
-              <th>Timing</th>
-              <th>Dose</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {medicines.map((m, i) => (
-              <tr key={m._id || i}>
-                <td>{m.medicineName || "-"}</td>
-
-                <td>{m.timing || "-"}</td>
-
-                <td>{m.dose || "-"}</td>
-
-                <td>
-                  <select
-                    value={m.status || "Pending"}
-                    disabled={updatingMedicineId === m._id}
-                    onChange={(e) => handleStatusChange(m._id, e.target.value)}
-                  >
-                    <option value="Pending">Pending</option>
-                    <option value="Given">Given</option>
-                  </select>
-                </td>
+        <div className="medicineTableWrapper">
+          <table className="medicineTable">
+            <thead>
+              <tr>
+                <th>Medicine</th>
+                <th>Timing</th>
+                <th>Dose</th>
+                <th>Status</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody>
+              {medicines.map((m, i) => (
+                <tr key={m._id || i}>
+                  <td>{m.medicineName || "-"}</td>
+
+                  <td>{m.timing || "-"}</td>
+
+                  <td>{m.dose || "-"}</td>
+
+                  <td>
+                    <select
+                      value={m.status || "Pending"}
+                      disabled={updatingMedicineId === m._id}
+                      onChange={(e) => handleStatusChange(m._id, e.target.value)}
+                    >
+                      <option value="Pending">Pending</option>
+                      <option value="Given">Given</option>
+                    </select>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       ) : (
         <p className="noMedicineMessage">No medicines prescribed.</p>
       )}

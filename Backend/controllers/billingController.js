@@ -5,6 +5,7 @@ const path = require("path");
 const nodemailer = require("nodemailer");
 
 const Bill = require("../models/Bill");
+const Patient = require("../models/Patient");
 const mergePDFs = require("../mergePdf");
 
 // =====================================================
@@ -406,6 +407,37 @@ exports.getBillById = async (req, res) => {
   }
 };
 
+exports.getOPDRevenue = async (req, res) => {
+  try {
+    const bills = await Patient.find({
+      role: "OPD",
+      paymentStatus: "Paid",
+      paidAt: { $ne: null },
+    })
+      .sort({ paidAt: -1 })
+      .lean();
+
+    const totalRevenue = bills.reduce(
+      (total, patient) => total + Number(patient.fee || 0),
+      0
+    );
+
+    return res.status(200).json({
+      success: true,
+      totalRevenue,
+      bills,
+    });
+  } catch (error) {
+    console.error("GET OPD REVENUE ERROR:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch OPD revenue",
+      error: error.message,
+    });
+  }
+};
+
 // =====================================================
 // DELETE BILL
 // =====================================================
@@ -473,6 +505,92 @@ exports.deleteBill = async (req, res) => {
 
       error:
         error.message,
+    });
+  }
+};
+
+// =====================================================
+// RECEIVE NURSING REPORT
+// =====================================================
+
+exports.receiveNursingReport = async (req, res) => {
+  try {
+    const {
+      patientId,
+      patientName,
+      uhid,
+      nursingReport,
+      nursingCharges,
+    } = req.body;
+
+    if (!patientId) {
+      return res.status(400).json({
+        success: false,
+        message: "Patient ID is required",
+      });
+    }
+
+    const patient = await Patient.findById(patientId);
+
+    if (!patient) {
+      return res.status(404).json({
+        success: false,
+        message: "Patient not found",
+      });
+    }
+
+    const bill = new Bill({
+      patientId: patient._id,
+
+      patientName:
+        patientName || patient.name || "",
+
+      uhid:
+        uhid || patient.uhid || "",
+
+      email:
+        patient.email || "",
+
+      billType:
+        patient.role || "",
+
+      roomNo:
+        patient.roomNo || "",
+
+      roomType:
+        patient.roomType || "",
+
+      nursingReport:
+        nursingReport || "",
+
+      nursingCharges:
+        Array.isArray(nursingCharges)
+          ? nursingCharges
+          : [],
+
+      nursingReportSent: true,
+
+      paymentStatus: "Pending",
+    });
+
+    await bill.save();
+
+    return res.status(201).json({
+      success: true,
+      message: "Nursing report sent to Billing successfully",
+      bill,
+    });
+
+  } catch (error) {
+    console.error(
+      "RECEIVE NURSING REPORT ERROR:",
+      error
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to send nursing report to Billing",
+      error: error.message,
     });
   }
 };

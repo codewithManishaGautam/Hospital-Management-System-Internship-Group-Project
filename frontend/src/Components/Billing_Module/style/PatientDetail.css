@@ -1,136 +1,365 @@
+/* =========================================
+   PATIENT DETAIL PAGE
+   ========================================= */
 
- body{
-    margin:0;
-    background:#f5f7fa;
-}
-
-h1{
-    font-family:'Gill Sans','Gill Sans MT',Calibri,'Trebuchet MS',sans-serif;
-    font-weight:700;
-    color:#35474c;
-    margin-bottom:20px;
-}
-
-.patient-page{
-    width:100%;
-    padding:25px;
-}
-
-.patient-card{
-    /* width:100%; */
-    border-radius:10px;
-    padding:20px;
-    margin-bottom:20px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
+.patient-page {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 25px;
+    background: #f5f7fa;
+    box-sizing: border-box;
 }
 
 
-.col-6 
-{
-    margin-right:230px ;
+/* =========================================
+   PAGE HEADING
+   ========================================= */
+
+.patient-page h1 {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+    font-weight: 700;
+    color: #35474c;
+    margin: 0 0 20px 0;
+    font-size: 32px;
 }
-label
-{
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 20px;
+
+
+/* =========================================
+   BACK BUTTON
+   ========================================= */
+
+.patient-page .btn-light {
+    width: auto;
+    min-width: 55px;
+    height: 45px;
+    margin-bottom: 15px;
+    padding: 5px 14px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 22px !important;
+}
+
+
+/* =========================================
+   PATIENT INFORMATION CARD
+   ========================================= */
+
+.patient-page .patient-card {
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+
+    background: white !important;
+    border: 1px solid #e0e0e0;
+
+    display: block;
+}
+
+
+/* =========================================
+   PATIENT INFORMATION
+   ========================================= */
+
+.patient-page .patient-info {
+    width: 100%;
+}
+
+
+/*
+   Bootstrap row override only inside
+   Patient Information
+*/
+
+.patient-page .patient-info .row {
+    margin-left: 0;
+    margin-right: 0;
+    row-gap: 10px;
+}
+
+
+/*
+   IMPORTANT:
+   Do NOT add margin-right: 230px
+   to Bootstrap .col-6
+*/
+
+.patient-page .patient-info .col-6 {
+    margin-right: 0;
+    padding-left: 12px;
+    padding-right: 12px;
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   PATIENT INFORMATION TEXT
+   ========================================= */
+
+.patient-page .patient-info p {
+    font-family: "Times New Roman", Times, serif;
     font-weight: 500;
+
+    margin: 8px 0;
+    width: 100%;
+    min-height: 40px;
+    height: auto;
+
+    padding: 8px 12px;
+
+    font-size: 18px;
+    color: #2f4f4f;
+
+    background: #f8fafc;
+    border: 1px solid #e1e5e8;
+    border-radius: 5px;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   LABEL
+   ========================================= */
+
+.patient-page .patient-info label {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 18px;
+    font-weight: 600;
     color: #1976d2;
+    margin-right: 8px;
 }
 
 
-.patient-info p{
-    font-family: 'Times New Roman', Times, serif;
-    font-weight: 500;
-    margin:8px 0;
-    width: 350px;
-    height: 50px;
+/* =========================================
+   INSURANCE SECTION
+   ========================================= */
 
-    font-size:18px;
-    color: #2F4F4F;
-}
-
-.patient-action{
-    margin-top:10px;
+.patient-page > * {
+    box-sizing: border-box;
 }
 
 
-.btn-light{
-  width: 200px;
-  margin-bottom: 50px;
-  background-color: white;
-  font-size: 40px !important;
-}
+/* =========================================
+   CONSENT SECTION
+   ========================================= */
 
-.btn-success,.btn-secondary{
-  width: 200px;
-  padding: 10px;
-}
-
-/* ================================
-   PATIENT DOCUMENT TABLE ONLY
-   ================================ */
-
-
-@media print{
-
-.page-break{
-
-    page-break-before: always;
-
-    break-before: page;
-
-}
-
-}
-
-@media(max-width:768px){
-
-.patient-card{
-
-flex-direction:column;
-align-items:flex-start;
-
-}
-
-.patient-action{
-
-margin-top:15px;
-
-}
-
+.patient-page .mt-4 {
+    width: 100%;
 }
 
 
+/* Consent buttons */
 
-@media (min-width: 560px) and (max-width: 768px) {
+.patient-page .btn-success,
+.patient-page .btn-secondary {
+    width: auto;
+    min-width: 130px;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
 
-    .btn-primary {
-        background: #1976d2;
-        width: 70px !important;
-        border: none;
+
+/* =========================================
+   TABLE SECTION
+   ========================================= */
+
+.patient-page .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 25px;
+}
+
+
+.patient-page table {
+    width: 100%;
+}
+
+
+/* =========================================
+   REPORT TABLE
+   ========================================= */
+
+.patient-page .table-render-style {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+
+.patient-page .table-render-style th {
+    background-color: #1976d2;
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px;
+}
+
+
+.patient-page .table-render-style td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px;
+}
+
+
+/* =========================================
+   FINAL BILL CARD
+   ========================================= */
+
+.patient-page .card {
+    width: 100%;
+    box-sizing: border-box;
+    background: white;
+}
+
+
+/* Final bill table */
+
+.patient-page .card table {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+
+.patient-page .card table td {
+    padding: 10px;
+    vertical-align: middle;
+}
+
+
+/* =========================================
+   FORM INPUTS
+   ========================================= */
+
+.patient-page input[type="date"],
+.patient-page input[type="time"] {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   RAZORPAY SECTION
+   ========================================= */
+
+.patient-page > .razorpay-container {
+    width: 100%;
+    margin-top: 25px;
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 768px) {
+
+    .patient-page {
+        padding: 15px;
     }
 
+    .patient-page h1 {
+        font-size: 26px;
+    }
+
+    .patient-page .patient-card {
+        padding: 15px;
+    }
+
+    .patient-page .patient-info .col-6 {
+        width: 100%;
+    }
+
+    .patient-page .patient-info p {
+        font-size: 16px;
+    }
+
+    .patient-page .patient-info label {
+        font-size: 16px;
+    }
+
+    .patient-page .table-responsive {
+        overflow-x: auto;
+    }
 
 }
 
-@media (min-width: 240px) and (max-width: 560px) {
 
-    .btn-primary {
-        background: #1976d2;
-        width: 50px !important;
-        font-size: 8px !important;
-        margin-right: 70px !important;
-        text-align: center;
-        border: none;
+/* =========================================
+   SMALL MOBILE
+   ========================================= */
+
+@media (max-width: 560px) {
+
+    .patient-page {
+        padding: 10px;
     }
 
-    h2
-    {
-        font-size: 30px !important;
+    .patient-page h1 {
+        font-size: 23px;
     }
 
+    .patient-page .btn-light {
+        min-width: 50px;
+        height: 40px;
+        font-size: 20px !important;
+    }
 
+    .patient-page .patient-info p {
+        font-size: 15px;
+        padding: 7px;
+    }
+}
+
+.patient-consent-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.patient-final-bill-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+.patient-final-amount {
+  font-size: 20px;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .patient-consent-actions {
+    gap: 12px;
+  }
+
+  .patient-consent-actions .btn {
+    flex: 1;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .patient-consent-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .patient-consent-actions .btn {
+    width: 100%;
+  }
+
+  .patient-final-bill-card {
+    padding: 16px !important;
+  }
+
+  .patient-final-amount {
+    font-size: 18px;
+  }
 }

@@ -269,3 +269,35 @@
     min-width: 680px;
   }
 }
+
+.viewDetailsBtn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 7px;
+  background: #0b2447;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: 0.2s ease;
+}
+
+.viewDetailsBtn:hover {
+  background: #163b6d;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 700px) {
+  .viewDetailsBtn {
+    padding: 7px 11px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 400px) {
+  .viewDetailsBtn {
+    padding: 6px 10px;
+    font-size: 10px;
+  }
+}

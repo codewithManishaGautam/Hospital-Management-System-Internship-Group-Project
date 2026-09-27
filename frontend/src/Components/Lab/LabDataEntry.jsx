@@ -1,4 +1,5 @@
 import React from "react";
+import "./style/LabDataEntry.css";
 
 function LabDataEntry() {
   return (

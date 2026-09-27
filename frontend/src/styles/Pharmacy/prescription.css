@@ -101,10 +101,6 @@
   background: #f8fafc;
 }
 
-.pharmacy-prescription-table tbody tr:hover {
-  background: #f4f8fd;
-}
-
 /* =========================================
    PHARMACY MEDICINE ENTRY
 ========================================= */
@@ -289,5 +285,105 @@
 
   .pharmacy-prescription-total {
     text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .pharmacy-prescription-title {
+    font-size: 21px;
+    margin-bottom: 18px;
+  }
+
+  .pharmacy-prescription-container {
+    padding: 14px;
+    border-radius: 10px;
+  }
+
+  .pharmacy-prescription-container h2 {
+    font-size: 19px;
+  }
+
+  .pharmacy-prescription-info-card {
+    padding: 14px;
+    min-height: auto;
+  }
+
+  .pharmacy-prescription-info-card h3 {
+    font-size: 16px;
+  }
+
+  .pharmacy-prescription-info-card p,
+  .pharmacy-prescription-typed-text {
+    font-size: 13px;
+  }
+
+  .pharmacy-prescription-table {
+    min-width: 520px;
+  }
+
+  .pharmacy-prescription-table th,
+  .pharmacy-prescription-table td {
+    padding: 9px;
+    font-size: 12px;
+  }
+
+  .pharmacy-prescription-medicine-row select,
+  .pharmacy-prescription-medicine-row input {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .pharmacy-prescription-total {
+    font-size: 18px;
+  }
+
+  .pharmacy-prescription-back-btn,
+  .pharmacy-prescription-continue-btn,
+  .pharmacy-prescription-add-btn {
+    font-size: 13px;
+    padding: 11px 14px;
+  }
+}
+
+@media (max-width: 360px) {
+  .pharmacy-prescription-title {
+    font-size: 19px;
+  }
+
+  .pharmacy-prescription-container {
+    padding: 12px;
+  }
+
+  .pharmacy-prescription-container h2 {
+    font-size: 18px;
+  }
+
+  .pharmacy-prescription-info-card {
+    padding: 12px;
+  }
+
+  .pharmacy-prescription-info-card h3 {
+    font-size: 15px;
+  }
+
+  .pharmacy-prescription-info-card p,
+  .pharmacy-prescription-typed-text {
+    font-size: 12px;
+  }
+
+  .pharmacy-prescription-table {
+    min-width: 480px;
+  }
+
+  .pharmacy-prescription-table th,
+  .pharmacy-prescription-table td {
+    padding: 8px;
+    font-size: 11px;
+  }
+
+  .pharmacy-prescription-medicine-row select,
+  .pharmacy-prescription-medicine-row input {
+    padding: 9px;
+    font-size: 12px;
   }
 }

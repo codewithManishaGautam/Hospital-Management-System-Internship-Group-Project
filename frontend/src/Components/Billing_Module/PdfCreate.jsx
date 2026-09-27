@@ -2,7 +2,7 @@ import axios from "axios";
 import html2pdf from "html2pdf.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFile } from "@fortawesome/free-solid-svg-icons";
-
+import "./style/PdfCreate.css";
 
 function PdfCreate({ patient, pdfname, type }) {
   // =====================================================
@@ -705,9 +705,12 @@ html2pdf()
 
   return (
 
-    <button className="btn btn-outline-success" onClick={downloadPDF}   style={{fontSize:"8px", width:"50px"}}>
-      <FontAwesomeIcon icon={faFile} />
-    </button>
+    <button
+  className="btn btn-outline-success pdf-create-btn"
+  onClick={downloadPDF}
+>
+  <FontAwesomeIcon icon={faFile} />
+</button>
   );
 }
 

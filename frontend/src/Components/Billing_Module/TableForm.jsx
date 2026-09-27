@@ -72,9 +72,8 @@ function TableForm({ search }) {
 
     return (
 
-        <div>
-
-            <table border="5" className="table table-bordered mt-3">
+   <div className="billing-table-wrapper">
+    <table className="table table-bordered mt-3 billing-patient-table">
 
                 <thead>
 
@@ -150,9 +149,10 @@ function TableForm({ search }) {
 
             </table>
 
+
             {hasMore && (
 
-                <div style={{ textAlign: "center", marginTop: "20px" }}>
+               <div className="table-load-more">
 
                     <button
 

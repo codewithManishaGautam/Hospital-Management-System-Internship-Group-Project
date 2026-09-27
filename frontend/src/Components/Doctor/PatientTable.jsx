@@ -19,7 +19,7 @@ function PatientTable({ patients, doctorId, onPrescriptionSaved }) {
       setLoadingReports(true);
 
       const response = await axios.get(
-        `http://localhost:5000/api/doctor/${doctorId}/patient/${patient._id}/nursing-reports`,
+        `http://localhost:5000/api/docnotor/${doctorId}/patient/${patient._id}/nursing-reports`,
       );
 
       setSelectedReportPatient(patient);
@@ -133,9 +133,9 @@ function PatientTable({ patients, doctorId, onPrescriptionSaved }) {
 
           {filteredPatients.length === 0 && (
             <tr>
-              <td colSpan="13" style={{ textAlign: "center" }}>
-                No patients found
-              </td>
+           <td colSpan="13" className="no-patients-cell">
+  No patients found
+</td>
             </tr>
           )}
         </tbody>

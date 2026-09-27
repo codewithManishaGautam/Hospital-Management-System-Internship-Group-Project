@@ -6,6 +6,8 @@ from "@fortawesome/react-fontawesome";
 import { faTrash }
 from "@fortawesome/free-solid-svg-icons";
 
+import "./style/DeletePatientInTable.css";
+
 function DeletePatientInTable({
 
   id,
@@ -49,9 +51,10 @@ function DeletePatientInTable({
 
     >
 
-      <FontAwesomeIcon
-        icon={faTrash} style={{fontSize:"10px",border:"none"}}
-      />
+ <FontAwesomeIcon
+  icon={faTrash}
+  className="delete-patient-icon"
+/>
 
     </button>
 

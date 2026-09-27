@@ -94,9 +94,9 @@ const totalPaid = payments
               ))
             ) : (
               <tr>
-                <td colSpan="7" style={{ textAlign: "center" }}>
-                  No Payment Found
-                </td>
+               <td colSpan="7" className="pharmacy-payment-no-data">
+  No Payment Found
+</td>
               </tr>
             )}
           </tbody>

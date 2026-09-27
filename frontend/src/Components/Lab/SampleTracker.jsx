@@ -3,15 +3,22 @@ import "../../styles/Lab/SampleTracker.css";
 
 function SampleTracker({ labData }) {
   return (
-    <div>
+    <div className="sample-tracker">
       <h2>Sample Tracker</h2>
 
       {labData.length === 0 ? (
-        <p>No Samples Available</p>
+        <p className="sample-tracker__empty">
+          No Samples Available
+        </p>
       ) : (
         labData.map((patient) => (
-          <div key={patient.id}>
-            <p>{patient.patientName} - Sample Collected</p>
+          <div
+            key={patient.id}
+            className="sample-tracker__card"
+          >
+            <p>
+              {patient.patientName} - Sample Collected
+            </p>
           </div>
         ))
       )}

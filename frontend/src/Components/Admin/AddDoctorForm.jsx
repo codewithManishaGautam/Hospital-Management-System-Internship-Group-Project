@@ -11,8 +11,8 @@ function AddDoctorForm({
   if (!showDoctorForm) return null;
 
   return (
-<div className="admin-doctor-form-popup">
-  <div className="admin-doctor-form">
+    <div className="admin-doctor-form-popup">
+      <div className="admin-doctor-form">
         <h2>Add Doctor</h2>
 
         <input
@@ -61,7 +61,7 @@ function AddDoctorForm({
               ...newDoctor,
               mobile: e.target.value.replace(/\D/g, "").slice(0, 10),
             })
-            
+
           }
         />
 
@@ -77,18 +77,18 @@ function AddDoctorForm({
           }
         />
 
-<input
-  type="number"
-  min="0"
-  placeholder="Doctor Fee Per Day"
-  value={newDoctor.fee ?? ""}
-  onChange={(e) =>
-    setNewDoctor({
-      ...newDoctor,
-      fee: Number(e.target.value),
-    })
-  }
-/>
+        <input
+          type="number"
+          min="0"
+          placeholder="Consultancy Fee"
+          value={newDoctor.fee ?? ""}
+          onChange={(e) =>
+            setNewDoctor({
+              ...newDoctor,
+              fee: Number(e.target.value),
+            })
+          }
+        />
 
         <div className="admin-doctor-form-buttons">
           <button
@@ -105,8 +105,8 @@ function AddDoctorForm({
                 return;
               }
 
-              if (newDoctor.name.trim().length < 3) {
-                alert("Doctor name must be at least 3 characters");
+              if (Number(newDoctor.fee) < 0) {
+                alert("Consultancy Fee cannot be negative");
                 return;
               }
 
@@ -129,6 +129,12 @@ function AddDoctorForm({
                 !/^\d+\s*(Year|Years|Month|Months)$/i.test(newDoctor.experience)
               ) {
                 alert("Experience should be like '5 Years' or '6 Months'");
+                return;
+              }
+
+              // Consultancy Fee validation
+              if (Number(newDoctor.fee) < 0) {
+                alert("Consultancy Fee cannot be negative");
                 return;
               }
 

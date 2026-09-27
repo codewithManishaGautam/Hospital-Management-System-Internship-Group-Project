@@ -2,7 +2,7 @@
 
 
 import axios from "axios";
-import "../Billing_Module/style/InsuranceBtnAndCheck.css";
+import "./style/InsuranceBtnAndCheck.css";
 
 export default function InsuranceBtnAndCheck({ patientId }) {
 
@@ -35,9 +35,9 @@ export default function InsuranceBtnAndCheck({ patientId }) {
 
 
     return (
-        <div className="main border border-warning rounded-3">
+       <div className="insurance-check-container">
 
-            <h3 className="text-info text-center">
+            <h3 className="insurance-check-title">
                 Insurance Information
             </h3>
 

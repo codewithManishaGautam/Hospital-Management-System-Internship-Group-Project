@@ -9,12 +9,6 @@ import axios from "axios";
 
 // import { medicines, payments } from "../Components/Pharmacy/PharmacyData";
 
-// import "../styles/Pharmacy/Phasrmacy.css";
-import "../styles/Pharmacy/dashboard.css";
-import "../styles/Pharmacy/billpreview.css";
-import "../styles/Pharmacy/payments.css";
-// import "../styles/Pharmacy/Prescription.css";
-
 function Pharmacy() {
   const [step, setStep] = useState("dashboard");
 

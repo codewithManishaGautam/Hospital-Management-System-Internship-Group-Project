@@ -233,18 +233,71 @@ const deleteStaff = async (req, res) => {
 
 const editStaff = async (req, res) => {
   try {
-    const doctor = await Doctor.create(req.body);
+    const { name, aadhaar, email, mobile, role, salary, status, joining } =
+      req.body;
 
-    await Activity.create({
-      message: `Doctor Added : ${doctor.name}`,
-    });
+    if (
+      !name ||
+      !aadhaar ||
+      !mobile ||
+      !role ||
+      !salary ||
+      !status ||
+      !joining
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Please fill all fields",
+      });
+    }
 
-    res.status(201).json({
+    if (!/^\d{12}$/.test(String(aadhaar))) {
+      return res.status(400).json({
+        success: false,
+        message: "Aadhaar must be 12 digits",
+      });
+    }
+
+    if (!/^[6-9]\d{9}$/.test(String(mobile))) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid mobile number",
+      });
+    }
+
+    const updatedStaff = await Staff.findByIdAndUpdate(
+      req.params.id,
+      {
+        name,
+        aadhaar,
+        email: email || "",
+        mobile,
+        role,
+        salary,
+        status,
+        joining,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (!updatedStaff) {
+      return res.status(404).json({
+        success: false,
+        message: "Staff not found",
+      });
+    }
+
+    res.status(200).json({
       success: true,
-      message: "Doctor Added Successfully",
-      doctor,
+      message: "Staff Updated Successfully",
+      staff: updatedStaff,
     });
   } catch (error) {
+    console.error("EDIT STAFF ERROR =", error);
+
     res.status(500).json({
       success: false,
       message: error.message,
@@ -371,12 +424,12 @@ const editDoctor = async (req, res) => {
     const { name, specialization, qualification, experience, mobile } =
       req.body;
 
-    if (!name || name.trim().length < 3 || !/^[A-Za-z ]+$/.test(name)) {
-      return res.status(400).json({
-        success: false,
-        message: "Doctor name must be at least 3 characters.",
-      });
-    }
+if (!name || name.trim().length < 3 || !/^[A-Za-z. ]+$/.test(name)) {
+  return res.status(400).json({
+    success: false,
+    message: "Doctor name must be at least 3 characters.",
+  });
+}
 
     if (!specialization || specialization.trim().length < 3) {
       return res.status(400).json({

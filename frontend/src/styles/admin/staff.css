@@ -389,7 +389,6 @@
 .admin-staff-table tbody tr {
   transition: background 0.2s ease;
 }
-
 .admin-staff-table tbody tr:hover {
   background: #eff6ff;
 }

@@ -6,16 +6,16 @@ import html2pdf from "html2pdf.js";
 
 import MergePdf from "./MergePdf";
 import PatientForm from "./PatientForm";
-import PdfCreate from "./PdfCreate";
+// import PdfCreate from "./PdfCreate";
 
 import "./style/PatientDetail.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import Razorpay from "../Razorpay";
-import InsuranceBtnAndCheck from "./InsuranceBtnAndCheck";
+// import InsuranceBtnAndCheck from "./InsuranceBtnAndCheck";
 
 import PatientInfoTable from "./PatientInfoTable";
-import ViewReport from "../Lab/ViewReport";
+// import ViewReport from "../Lab/ViewReport";
 
 
 
@@ -459,7 +459,7 @@ useEffect(() => {
 
       <br />
 
-      <InsuranceBtnAndCheck patientId={id} />
+      {/* <InsuranceBtnAndCheck patientId={id} /> */}
 
       {/* <Billing/> */}
 
@@ -508,7 +508,7 @@ useEffect(() => {
                 Reports Table
             ============================ */}
 
-      <div className="table-responsive mt-4">
+      {/* <div className="table-responsive mt-4">
         <table className="table table-bordered table-render-style">
           <thead>
             <tr>
@@ -657,9 +657,9 @@ useEffect(() => {
           >
             Pay Cash ₹{finalBill?.finalAmount || 0}
           </button>
-        </div> */}
+        </div> *
 
-      </div>
+      </div> */}
 
       {/* ===========================
           Final Hospital Bill

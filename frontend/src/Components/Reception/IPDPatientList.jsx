@@ -129,14 +129,12 @@ Bed No : ${patient.bedNo}`,
               ))
             ) : (
               <tr>
-                <td
-                  colSpan="11"
-                  style={{
-                    textAlign: "center",
-                  }}
-                >
-                  No Patient Found
-                </td>
+              <td
+  colSpan="11"
+  className="ipd-no-data"
+>
+  No Patient Found
+</td>
               </tr>
             )}
           </tbody>

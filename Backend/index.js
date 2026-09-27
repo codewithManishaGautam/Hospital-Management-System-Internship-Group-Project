@@ -159,10 +159,6 @@ app.use("/api/beds", bedRoutes);
 // Admin
 app.use("/api/admin", adminRoutes);
 
-// Billing
-// IMPORTANT: Keep billing before generic /api routes
-app.use("/api/billing", billingRoutes);
-
 // ======================
 // NON-OPD BILLING PATIENTS
 // ======================
@@ -174,9 +170,7 @@ app.get("/api/billing/patients", async (req, res) => {
     const skip = (page - 1) * limit;
     const search = (req.query.search || "").trim();
 
-    const query = {
-      role: { $ne: "OPD" },
-    };
+const query = {};
 
     if (search) {
       query.$or = [
@@ -209,6 +203,12 @@ app.get("/api/billing/patients", async (req, res) => {
     });
   }
 });
+
+// ======================
+// Billing
+// ======================
+
+app.use("/api/billing", billingRoutes);
 
 // ======================
 // SAVE FINAL CASH BILL
@@ -972,8 +972,7 @@ app.post(
 
 const labUploadPath = path.join(
   __dirname,
-  "uploadLabReport",
-  "uploadLab"
+  "uploadLabReport"
 );
 
 const labStorage = multer.diskStorage({

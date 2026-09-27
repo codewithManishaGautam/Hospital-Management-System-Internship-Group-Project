@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Layout from "./Layout";
+import "./Lab.css";
 
 import LabOverview from "../Components/Lab/LabOverview";
 import PatientRecords from "../Components/Lab/PatientRecords";
@@ -90,7 +91,7 @@ const fetchLabPatients = async () => {
 
   return (
     <Layout role="Lab" setStep={setStep}>
-      <div style={{ marginBottom: "20px" }}>
+      <div className="lab-navigation">
         <button onClick={() => setStep("overview")}>Overview</button>
         <button onClick={() => setStep("patients")}>Patients</button>
         <button onClick={() => setStep("tests")}>Tests</button>

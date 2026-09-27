@@ -131,7 +131,8 @@ function IPDAdmission({ patient }) {
           <div className="room-table-card">
             <h3>Available Rooms & Beds</h3>
 
-            <table className="room-table">
+            <div className="room-table-wrapper">
+    <table className="room-table">
               <thead>
                 <tr>
                   <th>Room No.</th>
@@ -176,6 +177,7 @@ function IPDAdmission({ patient }) {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
 
           <div className="ipd-btn-group">

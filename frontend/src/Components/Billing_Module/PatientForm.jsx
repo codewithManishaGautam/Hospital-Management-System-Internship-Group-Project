@@ -1,4 +1,5 @@
 import React from "react";
+import "./style/PatientForm.css";
 
 import CashlessMediclaimMarEng from "./BillingConsent/CashlessMediclaim/CashlessMediclaimMarEng";
 // import EstimateMarEng from "./BillingConsent/KharchConsent/EstimateMarEng";
@@ -33,16 +34,19 @@ function PatientForm({
                 Consent Dropdown
             ============================ */}
 
-            <div className="mt-4">
+          <div className="patient-consent-form">
 
-                <h3>Billing Consent Forms</h3>
-                <select
-                    className="form-control"
-                    value={selectedConsent}
-                    onChange={(e) =>
-                        setSelectedConsent(e.target.value)
-                    }
-                >
+    <h3 className="patient-consent-title">
+        Billing Consent Forms
+    </h3>
+
+    <select
+        className="patient-consent-select"
+        value={selectedConsent}
+        onChange={(e) =>
+            setSelectedConsent(e.target.value)
+        }
+    >
 
                     <option value="">
                         Select Consent Form

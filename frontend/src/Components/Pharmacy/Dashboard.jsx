@@ -6,8 +6,6 @@ function Dashboard({ prescriptions, setStep, setSelectedPrescription }) {
   // const navigate = useNavigate();
   const [search, setSearch] = useState("");
 
-  // Search by UHID or Patient Name
-  // Only today's pending prescriptions
   const today = new Date();
 
   const todayPrescriptions = prescriptions.filter((item) => {
@@ -122,9 +120,9 @@ function Dashboard({ prescriptions, setStep, setSelectedPrescription }) {
               ))
             ) : (
               <tr>
-                <td colSpan="7" style={{ textAlign: "center" }}>
-                  No Prescription Found
-                </td>
+               <td colSpan="7" className="pharmacy-no-prescription-cell">
+  No Prescription Found
+</td>
               </tr>
             )}
           </tbody>
