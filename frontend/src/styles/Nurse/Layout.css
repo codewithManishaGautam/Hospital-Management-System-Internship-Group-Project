@@ -96,23 +96,15 @@
 
 .nurse-menu-button {
   width: 100%;
-
   padding: 14px 18px;
-
   border: none;
   border-radius: 12px;
-
   background: rgba(255, 255, 255, 0.08);
-
   color: #ffffff;
-
   font-size: 15px;
   font-weight: 500;
-
   text-align: left;
-
   cursor: pointer;
-
   transition:
     background 0.25s ease,
     transform 0.25s ease,
@@ -121,7 +113,6 @@
 
 .nurse-menu-button:hover {
   background: rgba(255, 255, 255, 0.18);
-
   transform: translateX(5px);
 }
 
@@ -131,29 +122,20 @@
 
 .nurse-logout-button {
   width: 100%;
-
   margin-top: auto;
-
   padding: 14px 18px;
-
   border: none;
   border-radius: 12px;
-
   background: linear-gradient(
     135deg,
     #15803d,
     #16a34a
   );
-
   color: #ffffff;
-
   font-size: 15px;
   font-weight: 600;
-
   text-align: left;
-
   cursor: pointer;
-
   transition:
     background 0.25s ease,
     transform 0.25s ease;
@@ -161,10 +143,8 @@
 
 .nurse-logout-button:hover {
   background: #166534;
-
   transform: translateX(3px);
 }
-
 /* =========================================================
    MAIN
    ========================================================= */
@@ -314,40 +294,29 @@
 /* =========================================================
    MOBILE
    ========================================================= */
-
 @media (max-width: 768px) {
-
   .nurse-layout {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow: visible;
   }
 
   .nurse-sidebar {
-    width: 240px;
-    height: 100vh;
-
-    position: fixed;
-
-    top: 0;
-    left: 0;
-
-    z-index: 1000;
-  }
-
-  .nurse-main {
     width: 100%;
-    height: 100vh;
-
+    height: auto;
+    min-height: auto;
+    flex: none;
+    position: relative;
+    top: auto;
+    left: auto;
     padding: 15px;
+    overflow: visible;
   }
 
-  .nurse-topbar {
+  .nurse-profile {
     margin-bottom: 20px;
-
-    padding: 14px 18px;
-  }
-
-  .nurse-topbar h2 {
-    font-size: 19px;
+    padding-bottom: 15px;
   }
 
   .nurse-profile img {
@@ -359,10 +328,40 @@
     font-size: 20px;
   }
 
+  .nurse-menu {
+    gap: 8px;
+  }
+
   .nurse-menu-button,
   .nurse-logout-button {
     font-size: 14px;
     padding: 12px 15px;
+  }
+
+  .nurse-logout-button {
+    margin-top: 15px;
+  }
+
+  .nurse-main {
+    width: 100%;
+    height: auto;
+    min-height: calc(100vh - 300px);
+    padding: 15px;
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+
+  .nurse-content {
+    width: 100%;
+  }
+
+  .nurse-topbar {
+    margin-bottom: 20px;
+    padding: 14px 18px;
+  }
+
+  .nurse-topbar h2 {
+    font-size: 19px;
   }
 }
 
@@ -373,21 +372,13 @@
 @media (max-width: 480px) {
 
   .nurse-sidebar {
-    width: 220px;
+    width: 100%;
+    padding: 12px;
   }
 
   .nurse-main {
     padding: 10px;
-  }
-
-  .nurse-topbar {
-    padding: 12px 15px;
-
-    border-radius: 12px;
-  }
-
-  .nurse-topbar h2 {
-    font-size: 17px;
+    min-height: calc(100vh - 285px);
   }
 
   .nurse-profile img {
@@ -404,4 +395,14 @@
     font-size: 13px;
     padding: 10px 12px;
   }
+
+  .nurse-topbar {
+    padding: 12px 15px;
+    border-radius: 12px;
+  }
+
+  .nurse-topbar h2 {
+    font-size: 17px;
+  }
+
 }

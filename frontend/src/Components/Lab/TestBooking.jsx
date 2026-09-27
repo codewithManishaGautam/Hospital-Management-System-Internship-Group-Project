@@ -3,14 +3,19 @@ import "../../styles/Lab/TestBooking.css";
 
 function TestBooking({ labData }) {
   return (
-    <div>
+    <div className="test-booking">
       <h2>Test Booking</h2>
 
       {labData.length === 0 ? (
-        <p>No Doctor Prescribed Tests Available</p>
+        <p className="test-booking__empty">
+          No Doctor Prescribed Tests Available
+        </p>
       ) : (
         labData.map((patient) => (
-          <div key={patient._id}>
+          <div
+            key={patient._id}
+            className="test-booking__card"
+          >
             <p>
               <strong>{patient.name}</strong>
             </p>

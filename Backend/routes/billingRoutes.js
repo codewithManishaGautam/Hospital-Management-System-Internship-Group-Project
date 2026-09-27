@@ -22,10 +22,22 @@ router.post(
   billingController.sendMergedBill
 );
 
+// Receive Nursing Report
+
+router.post(
+  "/nursing-report",
+  billingController.receiveNursingReport
+);
+
 // Get all bills
 router.get(
   "/",
   billingController.getAllBills
+);
+
+router.get(
+  "/opd-revenue",
+  billingController.getOPDRevenue
 );
 
 // Get bill by ID

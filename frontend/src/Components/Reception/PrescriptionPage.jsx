@@ -448,17 +448,17 @@ function PrescriptionPage() {
     }
   };
 
-const downloadPDF = () => {
-  if (!prescriptionHistoryId) {
-    alert("Prescription history not found");
-    return;
-  }
+  const downloadPDF = () => {
+    if (!prescriptionHistoryId) {
+      alert("Prescription history not found");
+      return;
+    }
 
-  window.open(
-    `http://localhost:5000/api/patient/${id}/pdf?prescriptionHistoryId=${prescriptionHistoryId}`,
-    "_blank"
-  );
-};
+    window.open(
+      `http://localhost:5000/api/patient/${id}/pdf?prescriptionHistoryId=${prescriptionHistoryId}`,
+      "_blank"
+    );
+  };
 
   const loadDoctors = async () => {
     try {
@@ -660,7 +660,7 @@ const downloadPDF = () => {
   };
 
   if (!patient) {
-    return <h2 style={{ padding: "30px" }}>Loading...</h2>;
+    return <h2 className="prescription-loading">Loading...</h2>;
   }
 
   return (
@@ -713,12 +713,12 @@ const downloadPDF = () => {
             </button>
           )}
 
-         <button
-  className="print-btn"
-  onClick={downloadPDF}
->
-  Download PDF
-</button>
+          <button
+            className="print-btn"
+            onClick={downloadPDF}
+          >
+            Download PDF
+          </button>
 
           <button className="print-btn" onClick={downloadPDF}>
             Print
@@ -897,10 +897,10 @@ const downloadPDF = () => {
                         LabReport -> SentPrescription -> prescriptionHistoryId
                       */
 
-                  const reportsForThisVisit = labReports.filter(
-  (report) =>
-    String(report.prescriptionHistoryId) === String(item._id)
-);
+                      const reportsForThisVisit = labReports.filter(
+                        (report) =>
+                          String(report.prescriptionHistoryId) === String(item._id)
+                      );
                       if (reportsForThisVisit.length === 0) {
                         return <p>No lab reports uploaded for this visit.</p>;
                       }
@@ -928,19 +928,19 @@ const downloadPDF = () => {
                                 View Report
                               </button>
 
-<button
-  type="button"
-  onClick={() => {
-    const link = document.createElement("a");
-    link.href = `http://localhost:5000${report.reportPdf}`;
-    link.download = `${report.testName}_Report.pdf`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }}
->
-  Download Report
-</button>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const link = document.createElement("a");
+                                  link.href = `http://localhost:5000${report.reportPdf}`;
+                                  link.download = `${report.testName}_Report.pdf`;
+                                  document.body.appendChild(link);
+                                  link.click();
+                                  document.body.removeChild(link);
+                                }}
+                              >
+                                Download Report
+                              </button>
 
                               <small>
                                 {report.uploadedAt
@@ -1015,9 +1015,10 @@ const downloadPDF = () => {
                   {diagnosisMode === "type" ? (
                     <textarea
                       rows="5"
+                      className="prescription-textarea"
+
                       value={diagnosis}
                       onChange={(e) => setDiagnosis(e.target.value)}
-                      style={{ width: "100%" }}
                     />
                   ) : (
                     <>
@@ -1076,9 +1077,9 @@ const downloadPDF = () => {
                   {prescriptionMode === "type" ? (
                     <textarea
                       rows="5"
+                      className="prescription-textarea"
                       value={prescription}
                       onChange={(e) => setPrescription(e.target.value)}
-                      style={{ width: "100%" }}
                     />
                   ) : (
                     <>
@@ -1130,9 +1131,9 @@ const downloadPDF = () => {
                   {adviceMode === "type" ? (
                     <textarea
                       rows="5"
+                      className="prescription-textarea"
                       value={advice}
                       onChange={(e) => setAdvice(e.target.value)}
-                      style={{ width: "100%" }}
                     />
                   ) : (
                     <>
@@ -1179,9 +1180,9 @@ const downloadPDF = () => {
                   {notesMode === "type" ? (
                     <textarea
                       rows="5"
+                      className="prescription-textarea"
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
-                      style={{ width: "100%" }}
                     />
                   ) : (
                     <>
@@ -1221,15 +1222,10 @@ const downloadPDF = () => {
 
               {(Array.isArray(medicineList) ? medicineList : []).map(
                 (med, index) => (
-                  <div
-                    key={index}
-                    style={{
-                      display: "flex",
-                      gap: "10px",
-                      marginBottom: "10px",
-                      alignItems: "center",
-                    }}
-                  >
+                 <div
+  key={index}
+  className="medicine-entry-row"
+>
                     <select
                       value={med.medicineName}
                       onChange={(e) =>

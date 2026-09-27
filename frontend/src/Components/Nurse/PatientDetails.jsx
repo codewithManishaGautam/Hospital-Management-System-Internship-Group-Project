@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { jsPDF } from "jspdf";
 
 import DailyReports from "./DailyReports";
@@ -172,6 +173,71 @@ export default function PatientDetails({
     doc.save(`Billing_Summary_${selectedPatient?.uhid || "Patient"}.pdf`);
   };
 
+  const sendBilling = async () => {
+  try {
+    if (!selectedPatient?._id) {
+      alert("Patient ID is missing.");
+      return;
+    }
+
+    const reportText = `
+Patient Name: ${selectedPatient?.name || "-"}
+UHID: ${selectedPatient?.uhid || "-"}
+Age: ${selectedPatient?.age || "-"}
+Gender: ${selectedPatient?.gender || "-"}
+Ward: ${
+      selectedPatient?.roomType ||
+      selectedPatient?.role ||
+      "-"
+    }
+Room: ${selectedPatient?.roomNo || "-"}
+Bed: ${selectedPatient?.bedNo || "-"}
+
+Latest Nursing Report:
+Pulse: ${latestNursingReport?.pulse || "-"}
+Temperature: ${
+      latestNursingReport?.temperature || "-"
+    }
+SpO2: ${latestNursingReport?.spo2 || "-"}
+Notes: ${latestNursingReport?.notes || "-"}
+`;
+
+    const response = await axios.post(
+      "http://localhost:5000/api/billing/nursing-report",
+      {
+        patientId: selectedPatient._id,
+
+        patientName:
+          selectedPatient.name || "",
+
+        uhid:
+          selectedPatient.uhid || "",
+
+        nursingReport: reportText,
+
+        nursingCharges: [],
+      }
+    );
+
+    if (response.data.success) {
+      alert(
+        "Nursing report sent to Billing successfully."
+      );
+    }
+
+  } catch (error) {
+    console.error(
+      "SEND NURSING REPORT ERROR:",
+      error.response?.data || error.message
+    );
+
+    alert(
+      error.response?.data?.message ||
+      "Failed to send nursing report to Billing."
+    );
+  }
+};
+
   return (
     <div className="patientCard">
       <h1 className="detailsTitle">Patient Details</h1>
@@ -309,45 +375,18 @@ export default function PatientDetails({
         // sendBilling={sendBilling}
       />
 
-    <div
-  style={{
-    display: "flex",
-    gap: "20px",
-    marginTop: "40px",
-    justifyContent: "center",
-    marginBottom: "40px",
-    width: "100%",
-  }}
->
+<div className="patient-action-buttons">
   <button
     onClick={generateClinicalPDF}
-    style={{
-      padding: "12px 24px",
-      backgroundColor: "#002244",
-      color: "#fff",
-      border: "none",
-      borderRadius: "5px",
-      cursor: "pointer",
-      fontWeight: "bold",
-    }}
+    className="patient-action-btn"
   >
     1. Create PDF
   </button>
 
   <button
     type="button"
-    onClick={() =>
-      alert("Nursing report will be sent to Billing after Billing document integration.")
-    }
-    style={{
-      padding: "12px 24px",
-      backgroundColor: "#002244",
-      color: "#fff",
-      border: "none",
-      borderRadius: "5px",
-      cursor: "pointer",
-      fontWeight: "bold",
-    }}
+    onClick={sendBilling}
+    className="patient-action-btn"
   >
     2. Send to Billing
   </button>

@@ -31,7 +31,7 @@
   min-width: 750px;
   border-collapse: collapse;
   background: #ffffff;
-  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+  box-shadow:  6px 20px rgba(15, 23, 42, 0.06);
 }
 
 .admin-room-inventory-table th,

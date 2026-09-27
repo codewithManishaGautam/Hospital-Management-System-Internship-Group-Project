@@ -1,127 +1,18 @@
-/* .insurance-main-row {
-    display: flex !important;
-    width: 100% !important;
-    align-items: center;
-}
-
-.insurance-main-row .col-6 {
-    width: 50%;
-    flex: 0 0 50%;
-}
-
-.insurance-options {
-    display: flex !important;
-    width: 100%;
-}
-
-.insurance-options > .col-4 {
-    width: 33.333333%;
-    flex: 0 0 33.333333%;
-}
-
-.table-responsive{
-    overflow-x:auto;
-}
-
-.table{
-    background:white;
-}
-
-.table th{
-    text-align:center;
-    vertical-align:middle;
-}
-
-.table td{
-    text-align:center;
-    vertical-align:middle;
-}
-
-.btn{
-    margin:3px;
-}
-
-
-.table-render-style{
- 
-    width: 100%;
-}
-
-
-@media (min-width: 560px) and (max-width: 768px) {
-
-    .table-container {
-        width: auto !important;
-        overflow-x: auto;
-    }
-
-    .table-bordered {
-        width: 100% !important;
-        min-width: 300px !important;
-        border-radius: 12px !important;
-    }
-
-    .table-bordered th,
-    .table-bordered td {
-        width: auto !important;
-        padding: 4px !important;
-        font-size: 8px !important;
-    }
-
-    .content-col,.consent-head
-    {
-        display: flex;
-        justify-content: flex-start !important;
-    }
-    .content-col
-    {
-        margin-top: 20px;
-    }
-
-}
-
-@media (min-width: 240px) and (max-width: 560px) {
-
-    .table-container {
-        width: 100% !important;
-        overflow-x: auto;
-    }
-
-    .table-bordered {
-        width: 100% !important;
-        min-width: 70px !important;
-        border-radius: 12px !important;
-    }
-
-    .table-bordered th,
-    .table-bordered td {
-        width: auto !important;
-        padding: 3px !important;
-        font-size: 8px !important;
-    }
-
-
-} */
-
-
-
-*
-{
-    margin: 0px;
-    padding: 0px;
-}
-
 /* =========================================
    Patient Information Table
-   ========================================= */
+========================================= */
 
 .table-container {
   width: 100%;
   overflow-x: auto;
   border-radius: 10px;
+  -webkit-overflow-scrolling: touch;
 }
 
-/* Main Table */
+/* =========================================
+   Main Table
+========================================= */
+
 .table-render-style {
   width: 100%;
   min-width: 900px;
@@ -133,7 +24,7 @@
 
 /* =========================================
    Table Header
-   ========================================= */
+========================================= */
 
 .table-render-style thead th {
   background-color: #0d6efd;
@@ -148,7 +39,7 @@
 
 /* =========================================
    Table Body
-   ========================================= */
+========================================= */
 
 .table-render-style tbody td {
   font-size: 13px;
@@ -159,14 +50,13 @@
   white-space: nowrap;
 }
 
-/* Row hover */
 .table-render-style tbody tr:hover {
   background-color: #f8f9fa;
 }
 
 /* =========================================
    Column Widths
-   ========================================= */
+========================================= */
 
 .table-render-style th:nth-child(1),
 .table-render-style td:nth-child(1) {
@@ -174,30 +64,15 @@
 }
 
 .table-render-style th:nth-child(2),
-.table-render-style td:nth-child(2) {
-  width: 13%;
-}
-
+.table-render-style td:nth-child(2),
 .table-render-style th:nth-child(3),
-.table-render-style td:nth-child(3) {
-  width: 13%;
-}
-
+.table-render-style td:nth-child(3),
 .table-render-style th:nth-child(4),
-.table-render-style td:nth-child(4) {
-  width: 13%;
-}
-
+.table-render-style td:nth-child(4),
 .table-render-style th:nth-child(5),
-.table-render-style td:nth-child(5) {
-  width: 13%;
-}
-
+.table-render-style td:nth-child(5),
 .table-render-style th:nth-child(6),
-.table-render-style td:nth-child(6) {
-  width: 13%;
-}
-
+.table-render-style td:nth-child(6),
 .table-render-style th:nth-child(7),
 .table-render-style td:nth-child(7) {
   width: 13%;
@@ -210,7 +85,7 @@
 
 /* =========================================
    Action Buttons
-   ========================================= */
+========================================= */
 
 .table-render-style .btn {
   min-width: 38px;
@@ -222,14 +97,13 @@
   transition: all 0.2s ease;
 }
 
-/* Download button hover */
 .table-render-style .btn-outline-success:hover {
   transform: translateY(-1px);
 }
 
 /* =========================================
-   Consent Icon
-   ========================================= */
+   Consent Column
+========================================= */
 
 .content-col {
   text-align: center;
@@ -240,68 +114,128 @@
   font-size: 20px;
 }
 
-/* File icon when consent is not available */
-.content-col svg[style*="red"] {
+/* Download Button */
+
+.consent-download-btn {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* File Icon */
+
+.consent-file-icon {
+  color: red;
   opacity: 0.75;
 }
 
 /* =========================================
-   Responsive
-   ========================================= */
+   Tablet
+========================================= */
 
-/* @media (max-width: 992px) {
-  .table-render-style thead th {
-    font-size: 13px;
-  }
-
-  .table-render-style tbody td {
-    font-size: 12px;
-  }
-} */    
-@media (min-width: 480px) and (max-width: 779) {
+@media (max-width: 1028px) {
   .table-container {
-    width: 100%;
     overflow-x: auto;
-  }
-
-  .table-render-style {
-    min-width: 100px !important;
-    table-layout: fixed;
-    font-size: 8px;
-  }
-
-  th,td
-  {
-    width: 20px !important;
-  }
-}
-
-
-@media (min-width: 780px) and (max-width: 1028px) {
-  .table-container {
-    width: 100%;
-    overflow-x: auto;
-  }
-
-  .table-render-style {
-    min-width: 100px;
-    table-layout: fixed;
-  }
-
-  th,td
-  {
-    width: auto !important;
-  }
-}
-
-
-
-/* @media (max-width: 576px) {
-  .table-container {
-    margin-top: 15px;
   }
 
   .table-render-style {
     min-width: 850px;
   }
-} */
+
+  .table-render-style thead th {
+    font-size: 13px;
+    padding: 10px 7px;
+  }
+
+  .table-render-style tbody td {
+    font-size: 12px;
+    padding: 9px 7px;
+  }
+}
+
+/* =========================================
+   Mobile
+========================================= */
+
+@media (max-width: 779px) {
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .table-render-style {
+    min-width: 800px;
+  }
+
+  .table-render-style thead th {
+    font-size: 12px;
+    padding: 9px 6px;
+  }
+
+  .table-render-style tbody td {
+    font-size: 11px;
+    padding: 8px 6px;
+    height: 48px;
+  }
+
+  .table-render-style .btn {
+    min-width: 34px;
+    min-height: 32px;
+  }
+
+  .content-col svg {
+    font-size: 18px;
+  }
+
+  .consent-download-btn {
+    font-size: 12px;
+  }
+}
+
+/* =========================================
+   Small Mobile
+========================================= */
+
+@media (max-width: 480px) {
+  .table-render-style {
+    min-width: 750px;
+  }
+
+  .table-render-style thead th {
+    font-size: 11px;
+    padding: 8px 5px;
+  }
+
+  .table-render-style tbody td {
+    font-size: 10px;
+    padding: 7px 5px;
+  }
+
+  .table-render-style .btn {
+    min-width: 32px;
+    min-height: 30px;
+    padding: 5px 7px;
+  }
+
+  .content-col svg {
+    font-size: 17px;
+  }
+}
+
+/* =========================================
+   Very Small Mobile
+========================================= */
+
+@media (max-width: 360px) {
+  .table-render-style {
+    min-width: 700px;
+  }
+
+  .table-render-style thead th {
+    font-size: 10px;
+  }
+
+  .table-render-style tbody td {
+    font-size: 9px;
+    padding: 6px 4px;
+  }
+}

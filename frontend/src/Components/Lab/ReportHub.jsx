@@ -3,12 +3,17 @@ import "../../styles/Lab/ReportHub.css";
 
 function ReportHub({ labData }) {
   return (
-    <div>
+    <div className="report-hub">
       <h2>Reports</h2>
 
       {labData.map((patient) => (
-        <div key={patient.id}>
-          <p>{patient.patientName} - Report Generated</p>
+        <div
+          key={patient.id}
+          className="report-hub__card"
+        >
+          <p>
+            {patient.patientName} - Report Generated
+          </p>
         </div>
       ))}
     </div>

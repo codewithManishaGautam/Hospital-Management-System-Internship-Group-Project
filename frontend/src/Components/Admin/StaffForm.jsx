@@ -1,7 +1,7 @@
 import React from "react";
 import "../../styles/admin/staff.css";
+import "../../styles/admin/StaffForm.css";
 
-import "./StaffForm.css"
 // import { StaffForm } from "../../api/admin/adminApi";
 
 function StaffForm({

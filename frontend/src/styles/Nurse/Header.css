@@ -1,13 +1,131 @@
-.hospitalHeader{
-  text-align:center;
-  border:3px solid black;
-  padding:20px;
-  margin-top:35px;
+.hospitalHeader {
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  border: 2px solid #0b2447;
+  padding: 20px;
+  margin-top: 35px;
+  border-radius: 10px;
+  background: #ffffff;
 }
 
-.chartPatientInfo{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:15px;
-  margin-top:20px;
+.hospitalHeader h1 {
+  margin: 0 0 8px;
+  color: #0b2447;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.hospitalHeader p {
+  margin: 4px 0;
+  color: #475569;
+  font-size: 14px;
+}
+
+.chartPatientInfo {
+  width: 100%;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.chartPatientInfo p {
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid #dbe3ec;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #475569;
+  font-size: 14px;
+}
+
+.chartPatientInfo strong {
+  color: #0b2447;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 768px) {
+  .hospitalHeader {
+    padding: 18px;
+    margin-top: 25px;
+  }
+
+  .hospitalHeader h1 {
+    font-size: 24px;
+  }
+
+  .hospitalHeader p {
+    font-size: 13px;
+  }
+
+  .chartPatientInfo {
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .chartPatientInfo p {
+    padding: 11px 12px;
+    font-size: 13px;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 480px) {
+  .hospitalHeader {
+    padding: 15px 12px;
+    margin-top: 18px;
+    border-radius: 8px;
+  }
+
+  .hospitalHeader h1 {
+    font-size: 19px;
+    line-height: 1.3;
+  }
+
+  .hospitalHeader p {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .chartPatientInfo {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .chartPatientInfo p {
+    padding: 10px;
+    font-size: 12px;
+  }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 360px) {
+  .hospitalHeader {
+    padding: 12px 10px;
+  }
+
+  .hospitalHeader h1 {
+    font-size: 17px;
+  }
+
+  .hospitalHeader p {
+    font-size: 11px;
+  }
+
+  .chartPatientInfo p {
+    padding: 9px;
+    font-size: 11px;
+  }
 }

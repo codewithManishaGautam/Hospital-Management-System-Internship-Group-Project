@@ -2,6 +2,7 @@
   padding: 30px;
   background: #f5f7fb;
   min-height: 100vh;
+  box-sizing: border-box;
 }
 
 .doctor-dashboard-header {
@@ -12,19 +13,22 @@
   font-size: 32px;
   font-weight: 700;
   color: #1e293b;
-  margin-bottom: 8px;
+  margin: 0 0 8px;
 }
 
 .doctor-dashboard-subtitle {
   color: #64748b;
   font-size: 16px;
+  margin: 0;
 }
 
 .doctor-table-section {
   margin-top: 30px;
 }
 
-/* Dashboard Cards */
+/* =========================
+   Dashboard Cards
+========================= */
 
 .doctor-cards {
   display: grid;
@@ -38,8 +42,9 @@
   border-radius: 16px;
   padding: 25px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-  transition: 0.3s;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   border-left: 6px solid #2563eb;
+  box-sizing: border-box;
 }
 
 .doctor-card:hover {
@@ -61,7 +66,7 @@
 .doctor-card h3 {
   color: #475569;
   font-size: 18px;
-  margin-bottom: 10px;
+  margin: 0 0 10px;
 }
 
 .doctor-card h1 {
@@ -71,7 +76,197 @@
 }
 
 .doctor-card p {
-  margin-top: 12px;
+  margin: 12px 0 0;
   color: #64748b;
   font-size: 14px;
+}
+
+/* =========================
+   Tablet
+========================= */
+
+@media (max-width: 1024px) {
+  .doctor-dashboard {
+    padding: 25px;
+  }
+
+  .doctor-dashboard-title {
+    font-size: 28px;
+  }
+
+  .doctor-dashboard-subtitle {
+    font-size: 15px;
+  }
+
+  .doctor-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .doctor-card {
+    padding: 22px;
+  }
+
+  .doctor-card h1 {
+    font-size: 36px;
+  }
+
+  .doctor-table-section {
+    margin-top: 25px;
+  }
+}
+
+/* =========================
+   Mobile
+========================= */
+
+@media (max-width: 768px) {
+  .doctor-dashboard {
+    padding: 20px 16px;
+  }
+
+  .doctor-dashboard-header {
+    margin-bottom: 20px;
+  }
+
+  .doctor-dashboard-title {
+    font-size: 24px;
+    line-height: 1.3;
+  }
+
+  .doctor-dashboard-subtitle {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .doctor-cards {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .doctor-card {
+    padding: 20px;
+    border-radius: 14px;
+  }
+
+  .doctor-card-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+
+  .doctor-card h3 {
+    font-size: 17px;
+  }
+
+  .doctor-card h1 {
+    font-size: 32px;
+  }
+
+  .doctor-card p {
+    font-size: 13px;
+  }
+
+  .doctor-table-section {
+    margin-top: 22px;
+  }
+}
+
+/* =========================
+   Small Mobile
+========================= */
+
+@media (max-width: 480px) {
+  .doctor-dashboard {
+    padding: 16px 12px;
+  }
+
+  .doctor-dashboard-header {
+    margin-bottom: 18px;
+  }
+
+  .doctor-dashboard-title {
+    font-size: 21px;
+  }
+
+  .doctor-dashboard-subtitle {
+    font-size: 13px;
+  }
+
+  .doctor-cards {
+    gap: 13px;
+  }
+
+  .doctor-card {
+    padding: 17px;
+    border-radius: 12px;
+    border-left-width: 5px;
+  }
+
+  .doctor-card-icon {
+    width: 46px;
+    height: 46px;
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  .doctor-card h3 {
+    font-size: 15px;
+    margin-bottom: 7px;
+  }
+
+  .doctor-card h1 {
+    font-size: 28px;
+  }
+
+  .doctor-card p {
+    font-size: 12px;
+    margin-top: 9px;
+  }
+
+  .doctor-table-section {
+    margin-top: 18px;
+  }
+}
+
+/* =========================
+   Very Small Mobile
+========================= */
+
+@media (max-width: 360px) {
+  .doctor-dashboard {
+    padding: 14px 10px;
+  }
+
+  .doctor-dashboard-title {
+    font-size: 19px;
+  }
+
+  .doctor-dashboard-subtitle {
+    font-size: 12px;
+  }
+
+  .doctor-card {
+    padding: 15px;
+  }
+
+  .doctor-card-icon {
+    width: 42px;
+    height: 42px;
+    font-size: 20px;
+  }
+
+  .doctor-card h3 {
+    font-size: 14px;
+  }
+
+  .doctor-card h1 {
+    font-size: 25px;
+  }
+
+  .doctor-card p {
+    font-size: 11px;
+  }
 }

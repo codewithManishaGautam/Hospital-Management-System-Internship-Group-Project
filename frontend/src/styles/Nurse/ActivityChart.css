@@ -1,67 +1,224 @@
-.addDayBtn{
-  margin-top:20px;
-  padding:12px 20px;
-  background:#0b2447;
-  color:white;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
+.addDayBtn {
+  margin-top: 20px;
+  padding: 12px 20px;
+  background: #0b2447;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.2s ease;
 }
 
-.chartContainer{
-  overflow-x:auto;
-  margin-top:25px;
+.addDayBtn:hover {
+  background: #163b6d;
+  transform: translateY(-1px);
 }
 
-.activityTable{
-  min-width:1500px;
-  width:100%;
-  border-collapse:collapse;
+.chartContainer {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 25px;
+  -webkit-overflow-scrolling: touch;
 }
 
-.activityTable th{
-  background:#0b2447;
-  color:white;
-  padding:12px;
+.activityTable {
+  width: 100%;
+  min-width: 1500px;
+  border-collapse: collapse;
+  table-layout: auto;
 }
 
-.activityTable td{
-  border:1px solid #ddd;
-  padding:10px;
-  text-align:center;
+.activityTable th {
+  background: #0b2447;
+  color: white;
+  padding: 12px;
+  text-align: center;
+  white-space: nowrap;
+  font-size: 14px;
 }
 
-.section td{
-  background:#dbeafe;
-  font-weight:bold;
+.activityTable td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  white-space: nowrap;
+  font-size: 14px;
 }
 
-.btns{
-  display:flex;
-  gap:18px;
-  margin-top:30px;
+.activityTable input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  cursor: pointer;
+  accent-color: #0b2447;
+}
+
+.section td {
+  background: #dbeafe;
+  font-weight: 700;
+  text-align: left;
+  padding: 11px 12px;
+}
+
+.btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 30px;
 }
 
 .pdfBtn,
 .pharmacyBtn,
-.billingBtn{
-  padding:14px 24px;
-  border:none;
-  border-radius:12px;
-  color:white;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
+.billingBtn {
+  padding: 14px 24px;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-.pdfBtn{
-  background:#0b2447;
+.pdfBtn {
+  background: #0b2447;
 }
 
-.pharmacyBtn{
-  background:#0b2447;
+.pharmacyBtn {
+  background: #0b2447;
 }
 
-.billingBtn{
-  background:#0b2447;
+.billingBtn {
+  background: #0b2447;
+}
+
+/* =========================
+   Tablet
+========================= */
+
+@media (max-width: 768px) {
+  .addDayBtn {
+    margin-top: 16px;
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+
+  .chartContainer {
+    margin-top: 20px;
+  }
+
+  .activityTable {
+    min-width: 1250px;
+  }
+
+  .activityTable th,
+  .activityTable td {
+    padding: 9px;
+    font-size: 13px;
+  }
+
+  .activityTable input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+  }
+
+  .btns {
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .pdfBtn,
+  .pharmacyBtn,
+  .billingBtn {
+    padding: 11px 18px;
+    font-size: 14px;
+  }
+}
+
+/* =========================
+   Mobile
+========================= */
+
+@media (max-width: 480px) {
+  .addDayBtn {
+    width: 100%;
+    margin-top: 14px;
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  .chartContainer {
+    margin-top: 16px;
+  }
+
+  .activityTable {
+    min-width: 1050px;
+  }
+
+  .activityTable th,
+  .activityTable td {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .activityTable input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+  }
+
+  .section td {
+    padding: 9px 10px;
+    font-size: 12px;
+  }
+
+  .btns {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .pdfBtn,
+  .pharmacyBtn,
+  .billingBtn {
+    width: 100%;
+    padding: 11px 14px;
+    font-size: 13px;
+  }
+}
+
+/* =========================
+   Small Mobile
+========================= */
+
+@media (max-width: 360px) {
+  .addDayBtn {
+    font-size: 12px;
+    padding: 9px 12px;
+  }
+
+  .activityTable {
+    min-width: 950px;
+  }
+
+  .activityTable th,
+  .activityTable td {
+    padding: 7px;
+    font-size: 11px;
+  }
+
+  .activityTable input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+  }
+
+  .section td {
+    font-size: 11px;
+  }
+
+  .pdfBtn,
+  .pharmacyBtn,
+  .billingBtn {
+    font-size: 12px;
+    padding: 10px 12px;
+  }
 }

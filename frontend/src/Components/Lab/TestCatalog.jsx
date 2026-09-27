@@ -31,29 +31,38 @@ function TestCatalog() {
   }, []);
 
   return (
-    <div>
+    <div className="test-catalog">
       <h2>Test Catalog</h2>
 
       {loading ? (
-        <p>Loading lab tests...</p>
+        <p className="test-catalog__message">
+          Loading lab tests...
+        </p>
       ) : labTests.length === 0 ? (
-        <p>No Lab Tests Available</p>
+        <p className="test-catalog__message">
+          No Lab Tests Available
+        </p>
       ) : (
-        labTests.map((test) => (
-          <div key={test._id}>
-            <p>
-              <strong>{test.testName}</strong>
-            </p>
+        <div className="test-catalog__list">
+          {labTests.map((test) => (
+            <div
+              key={test._id}
+              className="test-catalog__card"
+            >
+              <p className="test-catalog__name">
+                <strong>{test.testName}</strong>
+              </p>
 
-            <p>
-              Department: {test.department || "Lab"}
-            </p>
+              <p>
+                Department: {test.department || "Lab"}
+              </p>
 
-            <p>
-              Category: {test.category || "N/A"}
-            </p>
-          </div>
-        ))
+              <p>
+                Category: {test.category || "N/A"}
+              </p>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

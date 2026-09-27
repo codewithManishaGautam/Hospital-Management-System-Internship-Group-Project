@@ -87,10 +87,25 @@ const billSchema = new mongoose.Schema(
       default: "",
     },
 
-    pdfPath: {
-      type: String,
-      default: "",
-    },
+ pdfPath: {
+  type: String,
+  default: "",
+},
+
+nursingReport: {
+  type: String,
+  default: "",
+},
+
+nursingCharges: {
+  type: Array,
+  default: [],
+},
+
+nursingReportSent: {
+  type: Boolean,
+  default: false,
+},
   },
   {
     timestamps: true,

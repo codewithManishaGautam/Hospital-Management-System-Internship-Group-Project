@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { verifyOtp } from "../../api/authApi";
 import { useNavigate } from "react-router-dom";
-import "../../styles/login/authLayout.css";
+// import "../../styles/login/authLayout.css";
 import AuthLayout from "./AuthLayout";
 
 function VerifyAccount() {

@@ -255,15 +255,12 @@ return (
               ))
             ) : (
               <tr>
-                <td
-                  colSpan="13"
-                  style={{
-                    textAlign: "center",
-                    padding: "15px",
-                  }}
-                >
-                  No patients found
-                </td>
+            <td
+  colSpan="13"
+  className="reception-dashboard-no-data"
+>
+  No patients found
+</td>
               </tr>
             )}
           </tbody>

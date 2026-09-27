@@ -3,7 +3,6 @@ import axios from "axios";
 import { sendRegistrationOtp } from "../../api/authApi";
 import { useNavigate, useLocation } from "react-router-dom";
 import AuthLayout from "./AuthLayout";
-import "../../styles/login/authLayout.css";
 
 function Register() {
   const navigate = useNavigate();

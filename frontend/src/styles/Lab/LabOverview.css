@@ -1,0 +1,152 @@
+/* ================================
+   LAB OVERVIEW
+================================ */
+
+.lab-card {
+  width: 100%;
+  padding: 28px;
+
+  background: #ffffff;
+  border-radius: 16px;
+
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+
+  box-sizing: border-box;
+}
+
+.lab-card h2 {
+  margin: 0 0 25px;
+
+  color: #1e293b;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+/* ================================
+   STATS
+================================ */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.stat-box {
+  padding: 25px;
+
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+
+  text-align: center;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-box:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.stat-box h3 {
+  margin: 0 0 8px;
+
+  color: #2563eb;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.stat-box p {
+  margin: 0;
+
+  color: #64748b;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* ================================
+   TABLET
+================================ */
+
+@media (max-width: 768px) {
+  .lab-card {
+    padding: 22px;
+  }
+
+  .lab-card h2 {
+    font-size: 25px;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+  }
+
+  .stat-box {
+    padding: 20px;
+  }
+
+  .stat-box h3 {
+    font-size: 28px;
+  }
+}
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 480px) {
+  .lab-card {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .lab-card h2 {
+    font-size: 22px;
+    margin-bottom: 18px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .stat-box {
+    padding: 18px;
+  }
+
+  .stat-box h3 {
+    font-size: 26px;
+  }
+
+  .stat-box p {
+    font-size: 14px;
+  }
+}
+
+/* ================================
+   SMALL MOBILE
+================================ */
+
+@media (max-width: 360px) {
+  .lab-card {
+    padding: 12px;
+  }
+
+  .lab-card h2 {
+    font-size: 20px;
+  }
+
+  .stat-box {
+    padding: 15px;
+  }
+
+  .stat-box h3 {
+    font-size: 24px;
+  }
+
+  .stat-box p {
+    font-size: 13px;
+  }
+}

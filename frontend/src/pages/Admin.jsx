@@ -246,25 +246,25 @@ function Admin() {
   };
 
   // ---------------- FETCH DATA ----------------
-  useEffect(() => {
+useEffect(() => {
+  fetchDashboard();
+  fetchDoctors();
+  fetchStaff();
+  fetchPatients();
+  fetchFinance();
+  fetchActivities();
+  fetchRooms();
+  fetchBeds();
+
+  // Refresh only important dashboard data every 30 seconds
+  const interval = setInterval(() => {
     fetchDashboard();
-    fetchDoctors();
-    fetchStaff();
-    fetchPatients();
-    fetchFinance();
-    fetchActivities();
     fetchRooms();
     fetchBeds();
+  }, 30000);
 
-    const interval = setInterval(() => {
-      fetchDashboard();
-      fetchPatients();
-      fetchRooms();
-      fetchBeds();
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, []);
+  return () => clearInterval(interval);
+}, []);
 
   const fetchDashboard = async () => {
     try {

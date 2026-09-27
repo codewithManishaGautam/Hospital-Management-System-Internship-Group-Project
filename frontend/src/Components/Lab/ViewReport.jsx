@@ -13,6 +13,8 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import { faFile } from "@fortawesome/free-solid-svg-icons";
 
+import "../../styles/Lab/ViewReport.css";
+
 function ViewReport({
     patientId,
     isLab = true,

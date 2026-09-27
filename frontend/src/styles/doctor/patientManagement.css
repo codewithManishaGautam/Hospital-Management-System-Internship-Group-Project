@@ -2,6 +2,7 @@
   padding: 30px;
   background: #f5f7fb;
   min-height: 100vh;
+  box-sizing: border-box;
 }
 
 .patients-header {
@@ -12,19 +13,25 @@
   font-size: 32px;
   font-weight: 700;
   color: #1e293b;
+  margin: 0;
 }
 
 .patients-subtitle {
   color: #64748b;
-  margin-top: 8px;
+  margin: 8px 0 0;
   font-size: 16px;
 }
+
+/* ==========================
+   Patient Table Card
+========================== */
 
 .patients-table-card {
   background: #fff;
   padding: 25px;
   border-radius: 16px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
 }
 
 /* ==========================
@@ -34,6 +41,7 @@
 .patient-table {
   width: 100%;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .patients-table {
@@ -53,6 +61,7 @@
   text-align: left;
   font-size: 15px;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .patients-table tbody td {
@@ -60,6 +69,7 @@
   border-bottom: 1px solid #e2e8f0;
   color: #334155;
   font-size: 14px;
+  white-space: nowrap;
 }
 
 .patients-table tbody tr:nth-child(even) {
@@ -68,8 +78,12 @@
 
 .patients-table tbody tr:hover {
   background: #e0f2fe;
-  transition: 0.3s;
+  transition: background-color 0.3s ease;
 }
+
+/* ==========================
+   Patient View Button
+========================== */
 
 .patient-view-btn {
   background: #2563eb;
@@ -79,11 +93,13 @@
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
-  transition: 0.3s;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  white-space: nowrap;
 }
 
 .patient-view-btn:hover {
   background: #1d4ed8;
+  transform: translateY(-1px);
 }
 
 /* ==========================
@@ -94,15 +110,18 @@
   display: flex;
   justify-content: flex-end;
   margin-bottom: 20px;
+  width: 100%;
 }
 
 .patient-search input {
   width: 300px;
+  max-width: 100%;
   padding: 10px 14px;
   border: 1px solid #cbd5e1;
   border-radius: 8px;
   font-size: 14px;
   outline: none;
+  box-sizing: border-box;
 }
 
 .patient-search input:focus {
@@ -114,6 +133,10 @@
   color: #94a3b8;
 }
 
+/* ==========================
+   Nurse Report Button
+========================== */
+
 .nurse-report-btn {
   margin-left: 6px;
   padding: 6px 10px;
@@ -123,11 +146,16 @@
   color: white;
   cursor: pointer;
   font-size: 12px;
+  white-space: nowrap;
 }
 
 .nurse-report-btn:hover {
   background: #146c43;
 }
+
+/* ==========================
+   Nurse Report Panel
+========================== */
 
 .nurse-report-panel {
   margin-top: 25px;
@@ -135,6 +163,7 @@
   border-radius: 12px;
   background: #f8fafc;
   border: 1px solid #dbe3ec;
+  box-sizing: border-box;
 }
 
 .nurse-report-header {
@@ -146,7 +175,7 @@
 }
 
 .nurse-report-header h2 {
-  margin-bottom: 10px;
+  margin: 0 0 10px;
 }
 
 .close-report-btn {
@@ -156,6 +185,7 @@
   background: #dc3545;
   color: white;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .close-report-btn:hover {
@@ -174,6 +204,7 @@
   border-radius: 8px;
   background: white;
   border: 1px solid #dbe3ec;
+  box-sizing: border-box;
 }
 
 .nursing-report-card h4 {
@@ -188,4 +219,236 @@
 
 .handover-report-card small {
   color: #666;
+}
+
+/* ==========================
+   Tablet
+========================== */
+
+@media (max-width: 1024px) {
+  .patients-dashboard {
+    padding: 25px;
+  }
+
+  .patients-title {
+    font-size: 28px;
+  }
+
+  .patients-subtitle {
+    font-size: 15px;
+  }
+
+  .patients-table-card {
+    padding: 20px;
+    border-radius: 14px;
+  }
+
+  .patients-table {
+    min-width: 1200px;
+  }
+
+  .patients-table thead th {
+    padding: 12px 10px;
+    font-size: 13px;
+  }
+
+  .patients-table tbody td {
+    padding: 11px 9px;
+    font-size: 13px;
+  }
+
+  .patient-search input {
+    width: 280px;
+  }
+}
+
+/* ==========================
+   Mobile
+========================== */
+
+@media (max-width: 768px) {
+  .patients-dashboard {
+    padding: 20px 16px;
+  }
+
+  .patients-header {
+    margin-bottom: 20px;
+  }
+
+  .patients-title {
+    font-size: 24px;
+  }
+
+  .patients-subtitle {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .patients-table-card {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .patient-search {
+    justify-content: stretch;
+    margin-bottom: 16px;
+  }
+
+  .patient-search input {
+    width: 100%;
+  }
+
+  .patients-table {
+    min-width: 1100px;
+  }
+
+  .patients-table thead th {
+    padding: 10px 8px;
+    font-size: 12px;
+  }
+
+  .patients-table tbody td {
+    padding: 9px 8px;
+    font-size: 12px;
+  }
+
+  .patient-view-btn {
+    padding: 7px 14px;
+    font-size: 12px;
+  }
+
+  .nurse-report-panel {
+    padding: 18px;
+  }
+
+  .nurse-report-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .close-report-btn {
+    align-self: flex-start;
+  }
+
+  .nursing-report-card,
+  .handover-report-card {
+    padding: 14px;
+  }
+}
+
+/* ==========================
+   Small Mobile
+========================== */
+
+@media (max-width: 480px) {
+  .patients-dashboard {
+    padding: 16px 12px;
+  }
+
+  .patients-title {
+    font-size: 21px;
+  }
+
+  .patients-subtitle {
+    font-size: 13px;
+  }
+
+  .patients-table-card {
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  .patient-search {
+    margin-bottom: 14px;
+  }
+
+  .patient-search input {
+    padding: 9px 12px;
+    font-size: 13px;
+  }
+
+  .patients-table {
+    min-width: 1050px;
+  }
+
+  .patients-table thead th {
+    padding: 8px 6px;
+    font-size: 11px;
+  }
+
+  .patients-table tbody td {
+    padding: 7px 6px;
+    font-size: 11px;
+  }
+
+  .patient-view-btn {
+    padding: 6px 11px;
+    font-size: 11px;
+  }
+
+  .nurse-report-panel {
+    padding: 14px;
+    margin-top: 18px;
+  }
+
+  .nursing-report-card,
+  .handover-report-card {
+    padding: 12px;
+  }
+
+  .close-report-btn {
+    width: 100%;
+    padding: 8px 12px;
+  }
+}
+
+/* ==========================
+   Very Small Mobile
+========================== */
+
+@media (max-width: 360px) {
+  .patients-dashboard {
+    padding: 14px 10px;
+  }
+
+  .patients-title {
+    font-size: 19px;
+  }
+
+  .patients-subtitle {
+    font-size: 12px;
+  }
+
+  .patients-table-card {
+    padding: 10px;
+  }
+
+  .patients-table {
+    min-width: 1000px;
+  }
+
+  .patients-table thead th {
+    padding: 7px 5px;
+    font-size: 10px;
+  }
+
+  .patients-table tbody td {
+    padding: 6px 5px;
+    font-size: 10px;
+  }
+
+  .patient-view-btn {
+    padding: 5px 9px;
+    font-size: 10px;
+  }
+
+  .patient-search input {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .nurse-report-panel {
+    padding: 12px;
+  }
 }

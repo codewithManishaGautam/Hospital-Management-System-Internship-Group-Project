@@ -149,7 +149,7 @@ function ProfileDashboard({ doctorName }) {
   </div>
 
   <div className="profile-field">
-    <label>Doctor Fee / Day</label>
+    <label>Consultancy Fee</label>
 
     <input
       type="number"

@@ -27,12 +27,12 @@ function PaymentDesk({ labData, setLabData, fetchLabPatients }) {
                 }
             );
 
-         if (paymentResponse.data.success) {
+            if (paymentResponse.data.success) {
 
-    alert("Lab Payment Successful");
+                alert("Lab Payment Successful");
 
-    await fetchLabPatients();
-}
+                await fetchLabPatients();
+            }
 
         } catch (error) {
 
@@ -46,22 +46,17 @@ function PaymentDesk({ labData, setLabData, fetchLabPatients }) {
     };
 
     return (
-        <div>
+        <div className="payment-desk">
             <h2>Billing & Payment</h2>
 
             {labData.length === 0 ? (
-                <p>No lab patients found.</p>
+                <p className="payment-empty">No lab patients found.</p>
             ) : (
                 labData.map((patient) => (
 
                     <div
                         key={patient._id}
-                        style={{
-                            border: "1px solid #ddd",
-                            padding: "15px",
-                            marginBottom: "10px",
-                            borderRadius: "8px"
-                        }}
+                        className="payment-patient-card"
                     >
 
                         <h4>
@@ -89,7 +84,7 @@ function PaymentDesk({ labData, setLabData, fetchLabPatients }) {
                         )}
 
                         {patient.paymentStatus === "Paid" && (
-                            <p style={{ color: "green", fontWeight: "bold" }}>
+                            <p className="payment-paid">
                                 ✓ Payment Paid
                             </p>
                         )}

@@ -30,7 +30,7 @@
    Search Card
 ===================================== */
 
-.search-box {
+.search-patient-container .search-box  {
   background: #fff;
   padding: 20px;
   border-radius: 15px;
@@ -41,7 +41,7 @@
 /* =====================================
    Search Input
 ===================================== */
-.search-input {
+.search-patient-container .search-input {
   width: 100%;
   height: 46px;
   padding: 0 15px;
@@ -114,7 +114,8 @@
    View Button
 ===================================== */
 
-.view-btn {
+.search-patient-container .view-btn {
+
   background: #1565c0;
   color: white;
   border: none;
@@ -225,7 +226,7 @@
     font-size: 24px;
   }
 
-  .search-box {
+  .search-patient-container .search-box  {
     padding: 15px;
   }
 
@@ -306,4 +307,19 @@
 
 .ipd-btn {
   background: #dc2626;
+}
+
+.search-patient-no-data {
+  text-align: center !important;
+  padding: 20px !important;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@media (max-width: 480px) {
+  .search-patient-no-data {
+    padding: 16px !important;
+    font-size: 13px;
+  }
 }

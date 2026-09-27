@@ -10,7 +10,7 @@ function LabDashboard() {
 
   const [patients, setPatients] = useState([]);
 
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
 
   const [search, setSearch] = useState("");
 
@@ -18,78 +18,39 @@ function LabDashboard() {
 
   const [selectedPatient, setSelectedPatient] = useState(null);
 
-  const [hasMore, setHasMore] = useState(true);
+  // const [hasMore, setHasMore] = useState(true);
 
 
 
-  
+
 
 
   // ================= GET PATIENTS =================
 
 
 
-  
-    const getPatients = async (reset = false) => {
 
-        try {
+const getPatients = async () => {
+  try {
+    const res = await axios.get(
+      `http://localhost:5000/lab/patients?search=${search}`
+    );
 
-            const currentPage = reset ? 1 : page;
+    const data = Array.isArray(res.data) ? res.data : [];
 
-            const res = await axios.get(
+    setPatients(data);
+  } catch (error) {
+    console.log("GET LAB PATIENTS ERROR:", error);
+  }
+};
 
-                `http://localhost:5000/patients?page=${currentPage}&limit=10&search=${search}`
+useEffect(() => {
+  getPatients();
+}, []);
 
-            );
-
-            const data = res.data.patients || [];
-
-            if (reset) {
-
-                setPatients(data);
-
-            } else {
-
-                setPatients((prev) => [...prev, ...data]);
-
-            }
-
-            setHasMore(res.data.hasMore);
-
-        } catch (error) {
-
-            console.log(error);
-
-        }
-
-    };
-
-    useEffect(() => {
-
-        getPatients(true);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    useEffect(() => {
-
-        if (page > 1) {
-
-            getPatients();
-
-        }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [page]);
-
-    useEffect(() => {
-
-        setPage(1);
-
-        getPatients(true);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [search]);
+useEffect(() => {
+  getPatients();
+}, [search]);
 
   // ================= GET SUMMARY =================
 
@@ -153,18 +114,18 @@ function LabDashboard() {
 
 
 
-      <h2 style={{textAlign:"center", fontSize:"60px"}}>
-          Lab Department
-      </h2>
+     <h2 className="lab-dashboard-title">
+  Lab Department
+</h2>
 
       <div className="lab-nav">
 
-      <button onClick={() => navigate(-1)} className="btn btn-light">
-        🔙
-      </button>
+        <button onClick={() => navigate(-1)} className="btn btn-light">
+          🔙
+        </button>
 
 
-    
+
 
         {/* SEARCH */}
 
@@ -343,25 +304,25 @@ function LabDashboard() {
 
       </table>
 
-      {hasMore && (
+      {/* {hasMore && (
 
-                <div style={{ textAlign: "center", marginTop: "20px" }}>
+        <div style={{ textAlign: "center", marginTop: "20px" }}>
 
-                    <button
+          <button
 
-                        className="btn btn-primary"
+            className="btn btn-primary"
 
-                        onClick={() => setPage((prev) => prev + 1)}
+            onClick={() => setPage((prev) => prev + 1)}
 
-                    >
+          >
 
-                        Load More
+            Load More
 
-                    </button>
+          </button>
 
-                </div>
+        </div>
 
-            )}
+      )} */}
 
     </div>
 

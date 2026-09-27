@@ -356,3 +356,18 @@
     font-size: 20px;
   }
 }
+
+.pharmacy-payment-no-data {
+  text-align: center !important;
+  padding: 20px !important;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@media (max-width: 480px) {
+  .pharmacy-payment-no-data {
+    padding: 16px !important;
+    font-size: 13px;
+  }
+}

@@ -1,9 +1,4 @@
-
-
-
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-
+import React from "react";
 import ViewReport from "../Lab/ViewReport";
 import PdfCreate from "./PdfCreate";
 
@@ -13,8 +8,7 @@ import {
     faCircleArrowDown
 } from "@fortawesome/free-solid-svg-icons";
 
-import "../Billing_Module/style/PatientInfoTable.css";
-
+import "./style/PatientInfoTable.css";
 
 export default function PatientInfoTable({
     patient,
@@ -22,127 +16,18 @@ export default function PatientInfoTable({
     dateCurr
 }) {
 
-    // =====================================================
-    // INSURANCE STATE
-    // =====================================================
-
-    const [latestInsurance, setLatestInsurance] = useState(null);
-
-
-    // =====================================================
-    // FETCH INSURANCE DATA
-    // =====================================================
-
-    useEffect(() => {
-
-        const fetchInsurance = async () => {
-
-            try {
-
-                if (!patient?._id) {
-                    return;
-                }
-
-
-                console.log(
-                    "Fetching Insurance for Patient:",
-                    patient._id
-                );
-
-
-                const response = await axios.get(
-                    `http://localhost:5000/insurance/patient/${patient._id}`
-                );
-
-
-                console.log(
-                    "Insurance Data:",
-                    response.data
-                );
-
-
-                setLatestInsurance(response.data);
-
-            } catch (error) {
-
-                if (error.response?.status === 404) {
-
-                    console.log(
-                        "No Insurance record found for this patient"
-                    );
-
-                    setLatestInsurance(null);
-
-                } else {
-
-                    console.error(
-                        "Insurance Fetch Error:",
-                        error
-                    );
-
-                }
-
-            }
-
-        };
-
-
-        fetchInsurance();
-
-    }, [patient?._id]);
-
-
-    // =====================================================
-    // OPEN INSURANCE PDF
-    // =====================================================
-
-    const openInsurancePdf = () => {
-
-        if (!latestInsurance?.pdfPath) {
-
-            console.log(
-                "Insurance PDF path not found"
-            );
-
-            return;
-        }
-
-
-        window.open(
-            `http://localhost:5000${latestInsurance.pdfPath}`,
-            "_blank"
-        );
-
-    };
-
-
-    // =====================================================
-    // OPEN CONSENT PDF
-    // =====================================================
-
     const openConsentPdf = () => {
 
         if (!latestConsent?.pdfPath) {
-
-            console.log(
-                "Consent PDF path not found"
-            );
-
+            console.log("Consent PDF path not found");
             return;
         }
-
 
         window.open(
             `http://localhost:5000${latestConsent.pdfPath}`,
             "_blank"
         );
-
     };
-
-
-    // =====================================================
-    // UI
-    // =====================================================
 
     return (
 
@@ -165,8 +50,6 @@ export default function PatientInfoTable({
                         <th>Nurse</th>
 
                         <th>Doctor</th>
-
-                        <th>Insurance</th>
 
                         <th className="consent-head">
                             Consent
@@ -269,7 +152,7 @@ export default function PatientInfoTable({
                             INSURANCE
                         ================================================= */}
 
-                        <td>
+                        {/* <td>
 
                             {latestInsurance ? (
 
@@ -300,7 +183,7 @@ export default function PatientInfoTable({
 
                             )}
 
-                        </td>
+                        </td> */}
 
 
                         {/* =================================================
@@ -313,11 +196,7 @@ export default function PatientInfoTable({
 
                                 <button
                                     type="button"
-                                    className="btn btn-outline-success"
-                                    style={{
-                                        fontSize: "14px",
-                                        fontWeight: "bold"
-                                    }}
+                                    className="btn btn-outline-success consent-download-btn"
                                     onClick={openConsentPdf}
                                 >
 
@@ -331,9 +210,7 @@ export default function PatientInfoTable({
 
                                 <FontAwesomeIcon
                                     icon={faFile}
-                                    style={{
-                                        color: "red"
-                                    }}
+                                    className="consent-file-icon"
                                 />
 
                             )}

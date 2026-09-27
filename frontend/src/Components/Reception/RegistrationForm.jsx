@@ -101,7 +101,7 @@ dischargeDate: "",
       role: patient.role || "OPD",
       disease: patient.disease || "",
       department: patient.department || "",
-      doctor: patient.doctor || "",
+      doctor: patient.doctorId || "",
       appointmentDate: patient.appointmentDate || "",
       appointmentTime: patient.appointmentTime || "",
       admissionDate: patient.admissionDate || "",
@@ -290,7 +290,7 @@ dischargeDate: "",
 
         // flowStatus: "Appointment Booked",
 
-        fee: 500,
+        fee: selectedDoctor ? Number(selectedDoctor.fee || 0) : 0,
         // paymentStatus: "Pending",
 
         ipdNo: "",
@@ -632,6 +632,17 @@ dischargeDate: "",
                   ))}
               </select>
             </div>
+
+                  {selectedDoctor && (
+  <div className="form-group">
+    <label>Consultancy Fee</label>
+    <input
+      type="text"
+      value={`₹ ${Number(selectedDoctor.fee || 0)}`}
+      readOnly
+    />
+  </div>
+)}
 
             <div className="form-group">
               <label>Appointment Date</label>

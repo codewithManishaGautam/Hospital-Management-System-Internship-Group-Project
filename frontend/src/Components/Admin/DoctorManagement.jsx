@@ -98,59 +98,58 @@ const saveDoctorEdit = async (id) => {
       return;
     }
 
-    const doctorName = String(editedDoctor.name || "").trim();
-
-    if (doctorName.length < 3) {
-      alert("Doctor name must be at least 3 characters");
+    if (editedDoctor.specialization.trim().length < 2) {
+      alert("Enter valid specialization");
       return;
     }
 
-      if (editedDoctor.specialization.trim().length < 2) {
-        alert("Enter valid specialization");
-        return;
-      }
-
-      if (editedDoctor.qualification.trim().length < 2) {
-        alert("Enter valid qualification");
-        return;
-      }
-
-      if (!/^[6-9]\d{9}$/.test(editedDoctor.mobile)) {
-        alert("Enter valid 10 digit mobile number");
-        return;
-      }
-
-      if (
-        !/^\d+\s*(Year|Years|Month|Months|yrs|yr)$/i.test(
-          editedDoctor.experience,
-        )
-      ) {
-        alert("Experience should be like 5 Years or 6 Months");
-        return;
-      }
-
-      if (editedDoctor.mobile.length !== 10) {
-        alert("Mobile number must be 10 digits");
-        return;
-      }
-
-      const res = await axios.put(
-        `http://localhost:5000/api/admin/doctor/edit/${id}`,
-        editedDoctor,
-      );
-
-      console.log(res.data);
-
-      alert("Doctor Updated Successfully");
-
-      setEditingDoctorId(null);
-
-      fetchDoctors();
-    } catch (error) {
-      console.log(error.response?.data);
-      alert(error.response?.data?.message || "Update Failed");
+    if (editedDoctor.qualification.trim().length < 2) {
+      alert("Enter valid qualification");
+      return;
     }
-  };
+
+    if (!/^[6-9]\d{9}$/.test(editedDoctor.mobile)) {
+      alert("Enter valid 10 digit mobile number");
+      return;
+    }
+
+    if (
+      !/^\d+\s*(Year|Years|Month|Months|yrs|yr)$/i.test(
+        editedDoctor.experience,
+      )
+    ) {
+      alert("Experience should be like 5 Years or 6 Months");
+      return;
+    }
+
+    if (editedDoctor.mobile.length !== 10) {
+      alert("Mobile number must be 10 digits");
+      return;
+    }
+
+    // Consultancy Fee validation
+    if (Number(editedDoctor.fee) < 0) {
+      alert("Consultancy Fee cannot be negative");
+      return;
+    }
+
+    const res = await axios.put(
+      `http://localhost:5000/api/admin/doctor/edit/${id}`,
+      editedDoctor,
+    );
+
+    console.log(res.data);
+
+    alert("Doctor Updated Successfully");
+
+    setEditingDoctorId(null);
+
+    fetchDoctors();
+  } catch (error) {
+    console.log(error.response?.data);
+    alert(error.response?.data?.message || "Update Failed");
+  }
+};
 
   return (
     <div className="admin-doctor-section">
@@ -245,6 +244,20 @@ const saveDoctorEdit = async (id) => {
                     })
                   }
                 />
+
+                <input
+                  type="number"
+                  min="0"
+                  placeholder="Consultancy Fee"
+                  value={editedDoctor.fee ?? ""}
+                  onChange={(e) =>
+                    setEditedDoctor({
+                      ...editedDoctor,
+                      fee: Number(e.target.value),
+                    })
+                  }
+                />
+
               </>
             ) : (
               <>
@@ -253,6 +266,7 @@ const saveDoctorEdit = async (id) => {
                 <p>{d.specialization}</p>
                 <p>{d.qualification}</p>
                 <p>{d.experience}</p>
+                <p>Consultancy Fee: ₹{Number(d.fee || 0)}</p>
               </>
             )}
 
