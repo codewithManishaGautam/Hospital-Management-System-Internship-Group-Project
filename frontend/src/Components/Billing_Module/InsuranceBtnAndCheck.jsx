@@ -13,7 +13,7 @@ export default function InsuranceBtnAndCheck({ patientId }) {
         try {
 
             const response = await axios.patch(
-                `http://localhost:5000/patient/${patientId}/insurance-confirm`,
+                `https://hospital-management-system-internship-rtob.onrender.com/patient/${patientId}/insurance-confirm`,
                 {
                     insuranceYesOrNot: insuranceYesOrNot
                 }

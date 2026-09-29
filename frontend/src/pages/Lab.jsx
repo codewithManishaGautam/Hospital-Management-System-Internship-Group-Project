@@ -20,7 +20,7 @@ function Lab() {
 const fetchLabPatients = async () => {
   try {
     const response = await fetch(
-      "http://localhost:5000/lab/patients"
+      "https://hospital-management-system-internship-rtob.onrender.com/lab/patients"
     );
 
     if (!response.ok) {

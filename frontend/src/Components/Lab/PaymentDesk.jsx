@@ -9,7 +9,7 @@ function PaymentDesk({ labData, setLabData, fetchLabPatients }) {
 
             // Get pending lab bill
             const billResponse = await axios.get(
-                `http://localhost:5000/lab/bill/${patient._id}`
+                `https://hospital-management-system-internship-rtob.onrender.com/lab/bill/${patient._id}`
             );
 
             const bill = billResponse.data.bill;
@@ -21,7 +21,7 @@ function PaymentDesk({ labData, setLabData, fetchLabPatients }) {
 
             // Update payment
             const paymentResponse = await axios.put(
-                `http://localhost:5000/lab/bill/payment/${bill._id}`,
+                `https://hospital-management-system-internship-rtob.onrender.com/lab/bill/payment/${bill._id}`,
                 {
                     paymentMode: "Cash"
                 }

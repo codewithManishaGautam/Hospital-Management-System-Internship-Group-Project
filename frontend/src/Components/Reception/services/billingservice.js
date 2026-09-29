@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_URL =
-  "http://localhost:5000/api/billing";
+  "https://hospital-management-system-internship-rtob.onrender.com/api/billing";
 
 /* ==========================
    Get All Bills

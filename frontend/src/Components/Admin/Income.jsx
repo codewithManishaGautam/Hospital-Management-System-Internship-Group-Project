@@ -13,13 +13,13 @@ function Income() {
   });
 
   const fetchIncome = async () => {
-    const res = await axios.get("http://localhost:5000/api/admin/income");
+    const res = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/admin/income");
 
     setIncome(res.data);
   };
 
   const addIncome = async () => {
-    await axios.post("http://localhost:5000/api/admin/income/add", newIncome);
+    await axios.post("https://hospital-management-system-internship-rtob.onrender.com/api/admin/income/add", newIncome);
 
     setNewIncome({
       source: "",
@@ -32,7 +32,7 @@ function Income() {
   };
 
   const deleteIncome = async (id) => {
-    await axios.delete(`http://localhost:5000/api/admin/income/delete/${id}`);
+    await axios.delete(`https://hospital-management-system-internship-rtob.onrender.com/api/admin/income/delete/${id}`);
 
     fetchIncome();
   };

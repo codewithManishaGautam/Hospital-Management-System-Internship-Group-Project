@@ -221,7 +221,7 @@ function PrescriptionPage() {
       console.log("PAYLOAD =", payload);
 
       const patientUpdateRes = await axios.put(
-        `http://localhost:5000/api/patient/${id}`,
+        `https://hospital-management-system-internship-rtob.onrender.com/api/patient/${id}`,
         payload,
       );
 
@@ -253,7 +253,7 @@ function PrescriptionPage() {
           console.log("Medicines found. Sending prescription to pharmacy...");
 
           const sendRes = await axios.post(
-            "http://localhost:5000/api/doctor/send-prescription",
+            "https://hospital-management-system-internship-rtob.onrender.com/api/doctor/send-prescription",
             {
               target: "pharmacy",
 
@@ -315,7 +315,7 @@ function PrescriptionPage() {
           );
 
           const labSendRes = await axios.post(
-            "http://localhost:5000/api/doctor/send-prescription",
+            "https://hospital-management-system-internship-rtob.onrender.com/api/doctor/send-prescription",
             {
               target: "lab",
 
@@ -356,8 +356,8 @@ function PrescriptionPage() {
 
       console.log("Prescription saved in Patient prescriptionHistory");
 
-      // console.log("Calling API:", `http://localhost:5000/api/patient/${id}`);
-      // const res = await axios.get(`http://localhost:5000/api/patient/${id}`);
+      // console.log("Calling API:", `https://hospital-management-system-internship-rtob.onrender.com/api/patient/${id}`);
+      // const res = await axios.get(`https://hospital-management-system-internship-rtob.onrender.com/api/patient/${id}`);
 
       // console.log("API Response =", res.data);
 
@@ -426,7 +426,7 @@ function PrescriptionPage() {
       }
 
       const response = await axios.post(
-        "http://localhost:5000/api/doctor/send-prescription",
+        "https://hospital-management-system-internship-rtob.onrender.com/api/doctor/send-prescription",
         {
           target,
 
@@ -455,14 +455,14 @@ function PrescriptionPage() {
     }
 
     window.open(
-      `http://localhost:5000/api/patient/${id}/pdf?prescriptionHistoryId=${prescriptionHistoryId}`,
+      `https://hospital-management-system-internship-rtob.onrender.com/api/patient/${id}/pdf?prescriptionHistoryId=${prescriptionHistoryId}`,
       "_blank"
     );
   };
 
   const loadDoctors = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/doctors");
+      const res = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/admin/doctors");
 
       console.log("DOCTORS API RESPONSE =", res.data);
 
@@ -481,7 +481,7 @@ function PrescriptionPage() {
   const loadMedicines = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/pharmacy/medicines",
+        "https://hospital-management-system-internship-rtob.onrender.com/api/pharmacy/medicines",
       );
 
       console.log("PHARMACY MEDICINES =", res.data);
@@ -500,7 +500,7 @@ function PrescriptionPage() {
   const loadLabTests = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/lab/tests"
+        "https://hospital-management-system-internship-rtob.onrender.com/lab/tests"
       );
 
       console.log("LAB TESTS =", res.data);
@@ -519,7 +519,7 @@ function PrescriptionPage() {
   // const loadMedicines = async () => {
   //   try {
   //     const res = await axios.get(
-  //       "http://localhost:5000/api/pharmacy/medicines",
+  //       "https://hospital-management-system-internship-rtob.onrender.com/api/pharmacy/medicines",
   //     );
 
   //     console.log("Medicines =", res.data);
@@ -564,7 +564,7 @@ function PrescriptionPage() {
 
   const loadPatient = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/patient/${id}`);
+      const res = await axios.get(`https://hospital-management-system-internship-rtob.onrender.com/api/patient/${id}`);
 
       setPatient(res.data);
 
@@ -637,7 +637,7 @@ function PrescriptionPage() {
       setLoadingLabReports(true);
 
       const res = await axios.get(
-        `http://localhost:5000/lab/reports/${id}`
+        `https://hospital-management-system-internship-rtob.onrender.com/lab/reports/${id}`
       );
 
       console.log("LAB REPORTS =", res.data);
@@ -920,7 +920,7 @@ function PrescriptionPage() {
                                 type="button"
                                 onClick={() =>
                                   window.open(
-                                    `http://localhost:5000${report.reportPdf}`,
+                                    `https://hospital-management-system-internship-rtob.onrender.com${report.reportPdf}`,
                                     "_blank"
                                   )
                                 }
@@ -932,7 +932,7 @@ function PrescriptionPage() {
                                 type="button"
                                 onClick={() => {
                                   const link = document.createElement("a");
-                                  link.href = `http://localhost:5000${report.reportPdf}`;
+                                  link.href = `https://hospital-management-system-internship-rtob.onrender.com${report.reportPdf}`;
                                   link.download = `${report.testName}_Report.pdf`;
                                   document.body.appendChild(link);
                                   link.click();

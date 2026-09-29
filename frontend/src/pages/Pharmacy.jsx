@@ -20,7 +20,7 @@ function Pharmacy() {
   const loadPrescriptions = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/pharmacy/prescriptions",
+        "https://hospital-management-system-internship-rtob.onrender.com/api/pharmacy/prescriptions",
       );
 
       setPrescriptions(res.data.data);
@@ -55,7 +55,7 @@ function Pharmacy() {
 
   const loadPayments = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/pharmacy/bills");
+      const res = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/pharmacy/bills");
 
       setPayments(res.data.data || []);
     } catch (err) {

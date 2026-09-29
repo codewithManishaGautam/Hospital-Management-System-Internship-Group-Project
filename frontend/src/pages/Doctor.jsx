@@ -57,7 +57,7 @@ function Doctor() {
   const fetchTodayPatients = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/doctor/today-patients/${doctorId}`,
+        `https://hospital-management-system-internship-rtob.onrender.com/api/doctor/today-patients/${doctorId}`,
       );
 
       setTodayPatients(res.data.patients);
@@ -69,7 +69,7 @@ function Doctor() {
   const fetchHistoryPatients = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/doctor/history-patients/${doctorId}`,
+        `https://hospital-management-system-internship-rtob.onrender.com/api/doctor/history-patients/${doctorId}`,
       );
 
       console.log("History API =", res.data);
@@ -83,7 +83,7 @@ function Doctor() {
   const fetchAppointments = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/doctor/upcoming-appointments",
+        "https://hospital-management-system-internship-rtob.onrender.com/api/doctor/upcoming-appointments",
       );
 
       console.log("Appointments API =", res.data);

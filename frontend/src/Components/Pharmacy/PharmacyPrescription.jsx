@@ -75,7 +75,7 @@ function PharmacyPrescription({
   const loadMedicines = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/pharmacy/medicines",
+        "https://hospital-management-system-internship-rtob.onrender.com/api/pharmacy/medicines",
       );
 
       setAvailableMedicines(res.data.data || []);

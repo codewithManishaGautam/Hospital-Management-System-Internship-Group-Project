@@ -46,7 +46,7 @@ function MergePdf() {
       console.log("Email:", email);
 
       const res = await axios.post(
-        "http://localhost:5000/api/billing/send-email",
+        "https://hospital-management-system-internship-rtob.onrender.com/api/billing/send-email",
         formData
       );
 

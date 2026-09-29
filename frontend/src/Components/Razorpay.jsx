@@ -41,7 +41,7 @@ const payByCash = async () => {
             );
 
             const response = await fetch(
-                `http://localhost:5000/lab/bill/payment/${finalBill._id}`,
+                `https://hospital-management-system-internship-rtob.onrender.com/lab/bill/payment/${finalBill._id}`,
                 {
                     method: "PUT",
                     headers: {
@@ -79,7 +79,7 @@ const payByCash = async () => {
         // MAIN HOSPITAL FINAL CASH PAYMENT
         // =========================================
         const response = await fetch(
-            "http://localhost:5000/api/billing/final/cash",
+            "https://hospital-management-system-internship-rtob.onrender.com/api/billing/final/cash",
             {
                 method: "POST",
                 headers: {
@@ -185,7 +185,7 @@ const payByCash = async () => {
 
             // Create Razorpay Order
             const response = await fetch(
-                "http://localhost:5000/api/payment/order",
+                "https://hospital-management-system-internship-rtob.onrender.com/api/payment/order",
                 {
                     method: "POST",
                     headers: {
@@ -254,7 +254,7 @@ const payByCash = async () => {
                         );
 
                         const saveResponse = await fetch(
-                            "http://localhost:5000/api/payment/final-hospital-bill",
+                            "https://hospital-management-system-internship-rtob.onrender.com/api/payment/final-hospital-bill",
                             {
                                 method: "POST",
                                 headers: {

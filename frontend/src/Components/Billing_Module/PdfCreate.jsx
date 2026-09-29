@@ -15,7 +15,7 @@ function PdfCreate({ patient, pdfname, type }) {
       return;
     }
 
-const pdfUrl = `http://localhost:5000/api/patient/${patient._id}/pdf`;
+const pdfUrl = `https://hospital-management-system-internship-rtob.onrender.com/api/patient/${patient._id}/pdf`;
 
     window.open(pdfUrl, "_blank");
   };
@@ -36,7 +36,7 @@ const pdfUrl = `http://localhost:5000/api/patient/${patient._id}/pdf`;
 
     try {
       const res = await axios.get(
-        `http://localhost:5000/lab/bill/${patient._id}`
+        `https://hospital-management-system-internship-rtob.onrender.com/lab/bill/${patient._id}`
       );
 
       if (!res.data?.success || !res.data?.bill) {
@@ -185,7 +185,7 @@ const pdfUrl = `http://localhost:5000/api/patient/${patient._id}/pdf`;
 
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/pharmacy/bill/latest/${patient._id}`,
+        `https://hospital-management-system-internship-rtob.onrender.com/api/pharmacy/bill/latest/${patient._id}`,
       );
 
       if (!res.data?.success || !res.data?.data) {

@@ -50,7 +50,7 @@ function PatientDetail() {
   const getPatient = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/patient/${id}`
+        `https://hospital-management-system-internship-rtob.onrender.com/api/patient/${id}`
       );
 
       console.log("PATIENT API RESPONSE =", res.data);
@@ -78,7 +78,7 @@ function PatientDetail() {
   const saveHospitalCharges = async () => {
     try {
       await axios.put(
-        `http://localhost:5000/api/patient/${id}/hospital-charges`,
+        `https://hospital-management-system-internship-rtob.onrender.com/api/patient/${id}/hospital-charges`,
         {
           chargeIds: selectedChargeIds,
         }
@@ -108,7 +108,7 @@ function PatientDetail() {
       }
 
       const url =
-        `http://localhost:5000/api/patient/${id}/final-bill` +
+        `https://hospital-management-system-internship-rtob.onrender.com/api/patient/${id}/final-bill` +
         `?dischargeDate=${encodeURIComponent(dischargeDate)}` +
         `&dischargeTime=${encodeURIComponent(
           dischargeTime || "23:59"
@@ -143,7 +143,7 @@ function PatientDetail() {
   const getDiagnostics = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/diagnostics"
+        "https://hospital-management-system-internship-rtob.onrender.com/diagnostics"
       );
 
       setDiagnostics(res.data);
@@ -155,7 +155,7 @@ function PatientDetail() {
   const getAvailableCharges = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/admin/charges"
+        "https://hospital-management-system-internship-rtob.onrender.com/api/admin/charges"
       );
 
       setAvailableCharges(res.data || []);
@@ -171,7 +171,7 @@ function PatientDetail() {
   const getConsents = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/consent/patient/${id}`
+        `https://hospital-management-system-internship-rtob.onrender.com/consent/patient/${id}`
       );
 
       console.log("CONSENTS =", res.data);
@@ -324,7 +324,7 @@ useEffect(() => {
       );
 
       const uploadRes = await axios.post(
-        "http://localhost:5000/upload",
+        "https://hospital-management-system-internship-rtob.onrender.com/upload",
         formData,
         {
           headers: {
@@ -337,7 +337,7 @@ useEffect(() => {
 
       // Save MongoDB
       await axios.post(
-        "http://localhost:5000/consent/save",
+        "https://hospital-management-system-internship-rtob.onrender.com/consent/save",
         {
           patientId: patient._id,
           patientName: patient.name,
@@ -579,7 +579,7 @@ useEffect(() => {
                   }}
                   onClick={() =>
                     window.open(
-                      `http://localhost:5000${latestConsent.pdfPath}`,
+                      `https://hospital-management-system-internship-rtob.onrender.com${latestConsent.pdfPath}`,
                       "_blank",
                     )
                   }
@@ -603,7 +603,7 @@ useEffect(() => {
                 }
 
                 const res = await axios.post(
-                  "http://localhost:5000/api/billing/final/cash",
+                  "https://hospital-management-system-internship-rtob.onrender.com/api/billing/final/cash",
                   {
                     patientId: patient._id,
 

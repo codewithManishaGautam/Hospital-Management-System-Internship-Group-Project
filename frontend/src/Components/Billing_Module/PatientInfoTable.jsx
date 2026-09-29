@@ -24,7 +24,7 @@ export default function PatientInfoTable({
         }
 
         window.open(
-            `http://localhost:5000${latestConsent.pdfPath}`,
+            `https://hospital-management-system-internship-rtob.onrender.com${latestConsent.pdfPath}`,
             "_blank"
         );
     };
@@ -228,4 +228,3 @@ export default function PatientInfoTable({
     );
 
 }
-

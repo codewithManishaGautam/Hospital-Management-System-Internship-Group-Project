@@ -90,7 +90,7 @@
 //      const res =
 //      await axios.post(
 
-//        "http://localhost:5000/add-diagnostic",
+//        "https://hospital-management-system-internship-rtob.onrender.com/add-diagnostic",
 
 //        data,
 
@@ -360,7 +360,7 @@
 //      const res =
 //      await axios.post(
 
-//        "http://localhost:5000/add-diagnostic",
+//        "https://hospital-management-system-internship-rtob.onrender.com/add-diagnostic",
 
 //        data
 
@@ -715,7 +715,7 @@ function AddDiagnostic() {
      const res =
      await axios.post(
 
-       "http://localhost:5000/add-diagnostic",
+       "https://hospital-management-system-internship-rtob.onrender.com/add-diagnostic",
 
        data
 

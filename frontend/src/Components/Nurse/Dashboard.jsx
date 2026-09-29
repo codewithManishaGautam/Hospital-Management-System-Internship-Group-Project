@@ -14,12 +14,12 @@ export default function Dashboard() {
   const fetchDashboardData = async () => {
     try {
       const patientResponse = await axios.get(
-        "http://localhost:5000/api/patient/nurse/patients",
+        "https://hospital-management-system-internship-rtob.onrender.com/api/patient/nurse/patients",
       );
 
       setTotalPatients(patientResponse.data.data?.length || 0);
 
-      const bedResponse = await axios.get("http://localhost:5000/api/beds");
+      const bedResponse = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/beds");
 
       setTotalBeds(bedResponse.data?.length || 0);
     } catch (error) {

@@ -35,7 +35,7 @@ function DoctorManagement({ doctors, fetchDoctors }) {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/admin/doctor/add",
+        "https://hospital-management-system-internship-rtob.onrender.com/api/admin/doctor/add",
         newDoctor
       );
 
@@ -64,7 +64,7 @@ function DoctorManagement({ doctors, fetchDoctors }) {
   const deleteDoctor = async (id) => {
     try {
       const res = await axios.delete(
-        `http://localhost:5000/api/admin/doctor/delete/${id}`,
+        `https://hospital-management-system-internship-rtob.onrender.com/api/admin/doctor/delete/${id}`,
       );
 
       console.log(res.data);
@@ -134,7 +134,7 @@ const saveDoctorEdit = async (id) => {
     }
 
     const res = await axios.put(
-      `http://localhost:5000/api/admin/doctor/edit/${id}`,
+      `https://hospital-management-system-internship-rtob.onrender.com/api/admin/doctor/edit/${id}`,
       editedDoctor,
     );
 

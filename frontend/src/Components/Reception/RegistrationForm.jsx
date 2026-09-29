@@ -41,15 +41,15 @@ dischargeDate: "",
   useEffect(() => {
     const loadRooms = async () => {
       try {
-        const roomRes = await axios.get("http://localhost:5000/api/rooms");
+        const roomRes = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/rooms");
         setRooms(roomRes.data);
 
         const bedRes = await axios.get(
-          "http://localhost:5000/api/beds/available",
+          "https://hospital-management-system-internship-rtob.onrender.com/api/beds/available",
         );
 
         const doctorRes = await axios.get(
-          "http://localhost:5000/api/admin/doctors",
+          "https://hospital-management-system-internship-rtob.onrender.com/api/admin/doctors",
         );
 
         setDoctors(doctorRes.data);
@@ -122,7 +122,7 @@ dischargeDate: "",
 
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/beds/available/room/${formData.roomNo}`
+          `https://hospital-management-system-internship-rtob.onrender.com/api/beds/available/room/${formData.roomNo}`
         );
 
         setBeds(res.data);

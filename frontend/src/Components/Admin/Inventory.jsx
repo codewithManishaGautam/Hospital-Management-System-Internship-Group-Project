@@ -14,13 +14,13 @@ function Inventory() {
   });
 
   const fetchInventory = async () => {
-    const res = await axios.get("http://localhost:5000/api/admin/inventory");
+    const res = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/admin/inventory");
 
     setItems(res.data);
   };
 
   const addItem = async () => {
-    await axios.post("http://localhost:5000/api/admin/inventory/add", newItem);
+    await axios.post("https://hospital-management-system-internship-rtob.onrender.com/api/admin/inventory/add", newItem);
 
     fetchInventory();
 
@@ -35,7 +35,7 @@ function Inventory() {
 
   const deleteItem = async (id) => {
     await axios.delete(
-      `http://localhost:5000/api/admin/inventory/delete/${id}`,
+      `https://hospital-management-system-internship-rtob.onrender.com/api/admin/inventory/delete/${id}`,
     );
 
     fetchInventory();

@@ -24,7 +24,7 @@ const fetchNursePatients = async () => {
     setLoading(true);
 
     const res = await axios.get(
-      "http://localhost:5000/api/patient/nurse/patients"
+      "https://hospital-management-system-internship-rtob.onrender.com/api/patient/nurse/patients"
     );
 
     console.log("NURSE PATIENTS API RESPONSE =", res.data);
@@ -117,7 +117,7 @@ const saveDailyReport = async () => {
     };
 
     const res = await axios.post(
-      `http://localhost:5000/api/patient/${selectedPatient._id}/nursing-report`,
+      `https://hospital-management-system-internship-rtob.onrender.com/api/patient/${selectedPatient._id}/nursing-report`,
       payload
     );
 
@@ -206,7 +206,7 @@ const saveDailyReport = async () => {
  onSelectPatient={async (patient) => {
   try {
     const res = await axios.get(
-      `http://localhost:5000/api/patient/${patient._id}`
+      `https://hospital-management-system-internship-rtob.onrender.com/api/patient/${patient._id}`
     );
 
     setSelectedPatient(res.data);

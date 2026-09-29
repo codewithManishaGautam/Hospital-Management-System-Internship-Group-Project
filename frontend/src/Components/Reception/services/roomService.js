@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = "http://localhost:5000/api/rooms";
+const API = "https://hospital-management-system-internship-rtob.onrender.com/api/rooms";
 
 export const getAllRooms = async () => {
   const response = await axios.get(API);

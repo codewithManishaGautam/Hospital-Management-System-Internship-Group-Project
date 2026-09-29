@@ -20,7 +20,7 @@ function ProfileDashboard({ doctorName }) {
       const user = JSON.parse(localStorage.getItem("user"));
 
       const res = await axios.get(
-        `http://localhost:5000/api/doctor/profile/${user.doctorId}`,
+        `https://hospital-management-system-internship-rtob.onrender.com/api/doctor/profile/${user.doctorId}`,
       );
 
       console.log("API Response =", res.data);
@@ -34,7 +34,7 @@ function ProfileDashboard({ doctorName }) {
   const handleUpdate = async () => {
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/doctor/profile/${doctor._id}`,
+        `https://hospital-management-system-internship-rtob.onrender.com/api/doctor/profile/${doctor._id}`,
         doctor,
       );
 

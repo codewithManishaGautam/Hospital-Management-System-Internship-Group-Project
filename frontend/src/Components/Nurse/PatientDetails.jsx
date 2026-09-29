@@ -203,7 +203,7 @@ Notes: ${latestNursingReport?.notes || "-"}
 `;
 
     const response = await axios.post(
-      "http://localhost:5000/api/billing/nursing-report",
+      "https://hospital-management-system-internship-rtob.onrender.com/api/billing/nursing-report",
       {
         patientId: selectedPatient._id,
 

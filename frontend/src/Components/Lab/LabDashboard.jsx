@@ -33,7 +33,7 @@ function LabDashboard() {
 const getPatients = async () => {
   try {
     const res = await axios.get(
-      `http://localhost:5000/lab/patients?search=${search}`
+      `https://hospital-management-system-internship-rtob.onrender.com/lab/patients?search=${search}`
     );
 
     const data = Array.isArray(res.data) ? res.data : [];
@@ -59,7 +59,7 @@ useEffect(() => {
     try {
 
       const res = await axios.get(
-        "http://localhost:5000/lab/dashboard-summary"
+        "https://hospital-management-system-internship-rtob.onrender.com/lab/dashboard-summary"
       );
 
       setSummary(res.data);
