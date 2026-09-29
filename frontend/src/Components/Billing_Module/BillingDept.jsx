@@ -23,7 +23,7 @@ function BillingDept() {
     const fetchOPDBilling = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/billing/opd-revenue"
+          "https://hospital-management-system-internship-rtob.onrender.com/api/billing/opd-revenue"
         );
 
         if (res.data.success) {

@@ -12,7 +12,7 @@ export default function Beds() {
 
   const fetchBeds = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/beds");
+      const response = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/beds");
 
       setBeds(response.data);
     } catch (error) {

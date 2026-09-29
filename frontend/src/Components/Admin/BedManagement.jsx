@@ -7,7 +7,7 @@ function BedManagement() {
 
   const fetchBeds = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/beds");
+      const res = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/beds");
       setBeds(res.data);
     } catch (err) {
       console.log(err);

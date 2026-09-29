@@ -39,7 +39,7 @@ function InsurancePatient() {
   const getPatient = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/patient/${id}`
+        `https://hospital-management-system-internship-rtob.onrender.com/api/patient/${id}`
       );
 
       console.log("PATIENT API RESPONSE =", res.data);
@@ -56,7 +56,7 @@ function InsurancePatient() {
   const getDiagnostics = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/diagnostics"
+        "https://hospital-management-system-internship-rtob.onrender.com/diagnostics"
       );
 
       setDiagnostics(res.data);
@@ -72,7 +72,7 @@ function InsurancePatient() {
   const getConsents = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/consent/patient/${id}`
+        `https://hospital-management-system-internship-rtob.onrender.com/consent/patient/${id}`
       );
 
       console.log("CONSENTS =", res.data);
@@ -219,7 +219,7 @@ function InsurancePatient() {
       );
 
       const uploadRes = await axios.post(
-        "http://localhost:5000/upload",
+        "https://hospital-management-system-internship-rtob.onrender.com/upload",
         formData,
         {
           headers: {
@@ -232,7 +232,7 @@ function InsurancePatient() {
 
       // Save MongoDB
       await axios.post(
-        "http://localhost:5000/consent/save",
+        "https://hospital-management-system-internship-rtob.onrender.com/consent/save",
         {
           patientId: patient._id,
           patientName: patient.name,

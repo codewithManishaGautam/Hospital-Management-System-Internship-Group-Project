@@ -18,7 +18,7 @@ function Analytics() {
   const fetchAnalytics = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/admin/analytics?year=${year}&month=${month}`,
+        `https://hospital-management-system-internship-rtob.onrender.com/api/admin/analytics?year=${year}&month=${month}`,
       );
 
       setData(res.data);

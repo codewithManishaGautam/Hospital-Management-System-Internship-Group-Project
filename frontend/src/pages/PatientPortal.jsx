@@ -107,7 +107,7 @@ const PatientPortal = () => {
                 {c.claimPackagePath && (
                   <div className="mt-4 pt-4 border-t border-slate-100 flex justify-end">
                     <a 
-                      href={`http://localhost:5000/${c.claimPackagePath}`} 
+                      href={`https://hospital-management-system-internship-rtob.onrender.com/${c.claimPackagePath}`}
                       target="_blank" 
                       rel="noreferrer"
                       className="flex items-center text-blue-600 hover:text-blue-800 font-medium"

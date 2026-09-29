@@ -330,7 +330,7 @@ function RelianceInsurance({ patientId }) {
 
             const uploadResponse =
                 await axios.post(
-                    "http://localhost:5000/upload",
+                    "https://hospital-management-system-internship-rtob.onrender.com/upload",
                     uploadData,
                     {
                         headers: {
@@ -355,7 +355,7 @@ function RelianceInsurance({ patientId }) {
             // SAVE INSURANCE DATA
             // =========================
             await axios.post(
-                "http://localhost:5000/insurance/save",
+                "https://hospital-management-system-internship-rtob.onrender.com/insurance/save",
                 {
                     patientId: patientId,
 

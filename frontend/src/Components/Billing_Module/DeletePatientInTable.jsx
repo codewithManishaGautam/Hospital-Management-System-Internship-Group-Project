@@ -24,7 +24,7 @@ function DeletePatientInTable({
       const res =
       await axios.delete(
 
-        `http://localhost:5000/delete-patient/${id}`
+        `https://hospital-management-system-internship-rtob.onrender.com/delete-patient/${id}`
 
       );
 

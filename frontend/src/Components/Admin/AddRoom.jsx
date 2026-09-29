@@ -14,7 +14,7 @@ function AddRoom() {
 
   const addRoom = async () => {
     try {
-      await axios.post("http://localhost:5000/api/admin/room/add", room);
+      await axios.post("https://hospital-management-system-internship-rtob.onrender.com/api/admin/room/add", room);
 
       alert("Room Added");
 

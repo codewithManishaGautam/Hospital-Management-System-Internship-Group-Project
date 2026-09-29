@@ -21,7 +21,7 @@ export default function HandoverNotes({ patientId, handoverNotes = [] }) {
       setSaving(true);
 
       await axios.post(
-        `http://localhost:5000/api/patient/${patientId}/handover`,
+        `https://hospital-management-system-internship-rtob.onrender.com/api/patient/${patientId}/handover`,
         {
           text: currentNote.trim(),
         },

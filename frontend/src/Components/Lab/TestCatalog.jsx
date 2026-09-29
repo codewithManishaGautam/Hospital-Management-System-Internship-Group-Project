@@ -9,7 +9,7 @@ function TestCatalog() {
     const fetchLabTests = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/lab/tests"
+          "https://hospital-management-system-internship-rtob.onrender.com/lab/tests"
         );
 
         if (!response.ok) {

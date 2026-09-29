@@ -14,13 +14,13 @@ function Expenses() {
   });
 
   const fetchExpenses = async () => {
-    const res = await axios.get("http://localhost:5000/api/admin/expenses");
+    const res = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/admin/expenses");
 
     setExpenses(res.data);
   };
 
   const addExpense = async () => {
-    await axios.post("http://localhost:5000/api/admin/expense/add", newExpense);
+    await axios.post("https://hospital-management-system-internship-rtob.onrender.com/api/admin/expense/add", newExpense);
 
     setNewExpense({
       expenseName: "",
@@ -34,7 +34,7 @@ function Expenses() {
   };
 
   const deleteExpense = async (id) => {
-    await axios.delete(`http://localhost:5000/api/admin/expense/delete/${id}`);
+    await axios.delete(`https://hospital-management-system-internship-rtob.onrender.com/api/admin/expense/delete/${id}`);
 
     fetchExpenses();
   };

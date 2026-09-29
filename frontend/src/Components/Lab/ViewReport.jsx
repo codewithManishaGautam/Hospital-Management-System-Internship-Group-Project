@@ -33,7 +33,7 @@ function ViewReport({
         try {
 
   const res = await axios.get(
-    `http://localhost:5000/lab/reports/${patientId}`
+    `https://hospital-management-system-internship-rtob.onrender.com/lab/reports/${patientId}`
 );
 
             setReports(res.data);
@@ -99,7 +99,7 @@ const openReport = (reportPdf) => {
     }
 
     const pdfUrl =
-        `http://localhost:5000${reportPdf}`;
+        `https://hospital-management-system-internship-rtob.onrender.com${reportPdf}`;
 
     console.log("PDF URL:", pdfUrl);
 
@@ -122,7 +122,7 @@ const downloadAllLabReports = async () => {
             }
 
             const response = await axios.get(
-                `http://localhost:5000${report.reportPdf}`,
+                `https://hospital-management-system-internship-rtob.onrender.com${report.reportPdf}`,
                 {
                     responseType: "blob"
                 }
@@ -186,7 +186,7 @@ const downloadAllLabReports = async () => {
         try {
 
         await axios.delete(
-    `http://localhost:5000/lab/report/${id}`
+    `https://hospital-management-system-internship-rtob.onrender.com/lab/report/${id}`
 );
 
 

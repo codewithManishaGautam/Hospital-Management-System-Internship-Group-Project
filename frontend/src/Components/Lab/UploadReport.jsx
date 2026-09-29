@@ -213,7 +213,7 @@ function UploadReport({ patient, onBack }) {
     //     const fetchLabTests = async () => {
     //         try {
     //             const response = await axios.get(
-    //                 "http://localhost:5000/lab/tests"
+    //                 "https://hospital-management-system-internship-rtob.onrender.com/lab/tests"
     //             );
 
     //             setLabTests(
@@ -339,7 +339,7 @@ const uploadReport = async () => {
             );
 
             await axios.post(
-                "http://localhost:5000/lab/upload-report",
+                "https://hospital-management-system-internship-rtob.onrender.com/lab/upload-report",
                 formData,
                 {
                     headers: {
@@ -354,7 +354,7 @@ const uploadReport = async () => {
         // Generate Lab Bill
         // ==========================
         const billResponse = await axios.post(
-            "http://localhost:5000/lab/bill",
+            "https://hospital-management-system-internship-rtob.onrender.com/lab/bill",
             {
                 patientId: patient._id,
                 prescriptionId:
@@ -555,7 +555,3 @@ const uploadReport = async () => {
 }
 
 export default UploadReport;
-
-
-
-

@@ -45,7 +45,7 @@ function BillPdf() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/send-email",
+        "https://hospital-management-system-internship-rtob.onrender.com/send-email",
         formData
       );
 

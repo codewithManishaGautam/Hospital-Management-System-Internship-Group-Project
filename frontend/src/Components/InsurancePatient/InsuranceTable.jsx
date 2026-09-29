@@ -17,7 +17,7 @@ function InsuranceTable({search}) {
 
             const res = await axios.get(
 
-                `http://localhost:5000/patients?page=${currentPage}&limit=10&search=${search}`
+                `https://hospital-management-system-internship-rtob.onrender.com/patients?page=${currentPage}&limit=10&search=${search}`
 
             );
 
@@ -159,8 +159,3 @@ function InsuranceTable({search}) {
 }
 
 export default InsuranceTable;
-
-
-
-
-

@@ -15,7 +15,7 @@ export default function MedicationTable({ medicines, patientId }) {
       setUpdatingMedicineId(medicineId);
 
       const response = await axios.put(
-        `http://localhost:5000/api/patient/${patientId}/medicine/${medicineId}/status`,
+        `https://hospital-management-system-internship-rtob.onrender.com/api/patient/${patientId}/medicine/${medicineId}/status`,
         {
           status: newStatus,
         },

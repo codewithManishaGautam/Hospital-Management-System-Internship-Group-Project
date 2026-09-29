@@ -19,7 +19,7 @@ function PatientTable({ patients, doctorId, onPrescriptionSaved }) {
       setLoadingReports(true);
 
       const response = await axios.get(
-        `http://localhost:5000/api/docnotor/${doctorId}/patient/${patient._id}/nursing-reports`,
+        `https://hospital-management-system-internship-rtob.onrender.com/api/docnotor/${doctorId}/patient/${patient._id}/nursing-reports`,
       );
 
       setSelectedReportPatient(patient);

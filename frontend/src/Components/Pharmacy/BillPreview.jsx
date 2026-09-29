@@ -34,7 +34,7 @@ function BillPreview({
     try {
       setSaving(true);
 
-      const res = await axios.post("http://localhost:5000/api/pharmacy/bill", {
+      const res = await axios.post("https://hospital-management-system-internship-rtob.onrender.com/api/pharmacy/bill", {
         patientId: patient.patientId,
         patientName: patient.patientName,
         patientUHID: patient.patientUHID,

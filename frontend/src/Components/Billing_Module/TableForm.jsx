@@ -17,7 +17,7 @@ function TableForm({ search }) {
             const currentPage = reset ? 1 : page;
 
             const res = await axios.get(
-                `http://localhost:5000/api/billing/patients?page=${currentPage}&limit=10&search=${encodeURIComponent(search)}`
+                `https://hospital-management-system-internship-rtob.onrender.com/api/billing/patients?page=${currentPage}&limit=10&search=${encodeURIComponent(search)}`
             );
 
             const data = res.data.patients || [];
@@ -176,4 +176,3 @@ function TableForm({ search }) {
 }
 
 export default TableForm;
-
