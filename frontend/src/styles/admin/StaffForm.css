@@ -1,0 +1,250 @@
+/* =========================================================
+   ADMIN STAFF FORM
+   ========================================================= */
+
+.admin-staff-form-popup {
+  position: fixed;
+  inset: 0;
+
+  width: 100%;
+  height: 100vh;
+
+  background: rgba(0, 0, 0, 0.55);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 9999;
+
+  padding: 20px;
+  box-sizing: border-box;
+
+  overflow-y: auto;
+}
+
+/* ================= FORM BOX ================= */
+
+.admin-staff-form {
+  width: 450px;
+  max-width: 100%;
+
+  background: #ffffff;
+
+  padding: 25px;
+
+  border-radius: 12px;
+
+  box-sizing: border-box;
+
+  max-height: calc(100vh - 40px);
+
+  overflow-y: auto;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* ================= TITLE ================= */
+
+.admin-staff-form h2 {
+  text-align: center;
+
+  margin: 0 0 20px;
+
+  color: #0f172a;
+
+  font-size: 24px;
+
+  font-weight: 700;
+}
+
+/* ================= INPUT + SELECT ================= */
+
+.admin-staff-form input,
+.admin-staff-form select {
+  width: 100%;
+
+  height: 44px;
+
+  padding: 8px 12px;
+
+  margin-bottom: 14px;
+
+  border: 1px solid #cbd5e1;
+
+  border-radius: 6px;
+
+  box-sizing: border-box;
+
+  font-size: 15px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.admin-staff-form input:focus,
+.admin-staff-form select:focus {
+  border-color: #2563eb;
+
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* ================= BUTTON CONTAINER ================= */
+
+.admin-staff-form-buttons {
+  display: flex;
+
+  gap: 10px;
+
+  margin-top: 5px;
+
+  padding-top: 5px;
+}
+
+/* ================= BUTTONS ================= */
+
+.admin-staff-form-buttons button {
+  flex: 1;
+
+  min-height: 42px;
+
+  border: none;
+
+  border-radius: 6px;
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.admin-staff-form-buttons button:hover {
+  transform: translateY(-1px);
+}
+
+/* ================= SAVE ================= */
+
+.admin-staff-save-btn {
+  background: #198754;
+
+  color: #ffffff;
+}
+
+.admin-staff-save-btn:hover {
+  box-shadow: 0 5px 12px rgba(25, 135, 84, 0.2);
+}
+
+/* ================= CANCEL ================= */
+
+.admin-staff-cancel-btn {
+  background: #dc3545;
+
+  color: #ffffff;
+}
+
+.admin-staff-cancel-btn:hover {
+  box-shadow: 0 5px 12px rgba(220, 53, 69, 0.2);
+}
+
+/* ================= TABLET ================= */
+
+@media (max-width: 768px) {
+  .admin-staff-form-popup {
+    padding: 16px;
+  }
+
+  .admin-staff-form {
+    width: 430px;
+
+    padding: 22px;
+  }
+
+  .admin-staff-form h2 {
+    font-size: 22px;
+  }
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 520px) {
+  .admin-staff-form-popup {
+    padding: 10px;
+  }
+
+  .admin-staff-form {
+    width: 100%;
+
+    max-height: calc(100vh - 20px);
+
+    padding: 18px;
+
+    border-radius: 10px;
+  }
+
+  .admin-staff-form h2 {
+    font-size: 21px;
+
+    margin-bottom: 17px;
+  }
+
+  .admin-staff-form input,
+  .admin-staff-form select {
+    height: 42px;
+
+    font-size: 14px;
+
+    margin-bottom: 12px;
+  }
+
+  .admin-staff-form-buttons {
+    gap: 8px;
+  }
+
+  .admin-staff-form-buttons button {
+    min-height: 40px;
+
+    font-size: 14px;
+  }
+}
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 360px) {
+  .admin-staff-form-popup {
+    padding: 8px;
+  }
+
+  .admin-staff-form {
+    padding: 15px;
+  }
+
+  .admin-staff-form h2 {
+    font-size: 19px;
+  }
+
+  .admin-staff-form input,
+  .admin-staff-form select {
+    height: 40px;
+
+    padding: 7px 10px;
+
+    font-size: 13px;
+  }
+
+  .admin-staff-form-buttons {
+    flex-direction: column;
+  }
+
+  .admin-staff-form-buttons button {
+    width: 100%;
+  }
+}

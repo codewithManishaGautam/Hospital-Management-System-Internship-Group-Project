@@ -156,17 +156,6 @@ function Layout({ role, children, step, setStep }) {
               📦 Inventory Management
             </button>
 
-            <button onClick={() => handleStep("billing")}>
-              💰 Generate Bill
-            </button>
-
-            <button
-              className={step === "income" ? "active-menu" : ""}
-              onClick={() => handleStep("income")}
-            >
-              📈 Income
-            </button>
-
             <button
               className={step === "expense" ? "active-menu" : ""}
               onClick={() => handleStep("expense")}
@@ -180,9 +169,6 @@ function Layout({ role, children, step, setStep }) {
               💳 Charges Management
             </button>
 
-            <button onClick={() => handleStep("insurance")}>
-              🛡 Insurance Records
-            </button>
           </>
         )}
 

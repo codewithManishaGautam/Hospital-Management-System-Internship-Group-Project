@@ -1,0 +1,239 @@
+/* =========================================================
+   ADMIN INCOME MANAGEMENT
+   ========================================================= */
+
+.admin-income-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* ================= HEADER ================= */
+
+.admin-income-header {
+  margin-bottom: 25px;
+}
+
+.admin-income-header h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+/* ================= FORM ================= */
+
+.admin-income-form {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(160px, 1fr)) auto;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 25px;
+  align-items: center;
+}
+
+.admin-income-form input,
+.admin-income-form select {
+  width: 100%;
+  min-width: 0;
+  padding: 11px 12px;
+  box-sizing: border-box;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #0f172a;
+  font-size: 14px;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.admin-income-form input:focus,
+.admin-income-form select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* ================= ADD BUTTON ================= */
+
+.admin-income-add-btn {
+  padding: 11px 18px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.admin-income-add-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 12px rgba(22, 163, 74, 0.2);
+}
+
+.admin-income-add-btn:active {
+  transform: translateY(0);
+}
+
+/* ================= TABLE ================= */
+
+.admin-income-table {
+  width: 100%;
+  min-width: 700px;
+  border-collapse: collapse;
+  background: #ffffff;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+}
+
+.admin-income-table th,
+.admin-income-table td {
+  padding: 12px 14px;
+  border: 1px solid #e2e8f0;
+  text-align: left;
+  font-size: 14px;
+}
+
+.admin-income-table th {
+  background: #f1f5f9;
+  color: #0f172a;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.admin-income-table td {
+  color: #475569;
+  word-break: break-word;
+}
+
+.admin-income-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+/* ================= DELETE BUTTON ================= */
+
+.admin-income-delete-btn {
+  padding: 7px 13px;
+  border: none;
+  border-radius: 6px;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.admin-income-delete-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2);
+}
+
+.admin-income-delete-btn:active {
+  transform: translateY(0);
+}
+
+/* ================= TABLET ================= */
+
+@media (max-width: 1000px) {
+  .admin-income-form {
+    grid-template-columns: repeat(3, minmax(160px, 1fr));
+  }
+
+  .admin-income-add-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-income-container {
+    padding: 16px;
+  }
+
+  .admin-income-header h2 {
+    font-size: 26px;
+  }
+
+  .admin-income-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .admin-income-add-btn {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 520px) {
+  .admin-income-container {
+    padding: 12px;
+  }
+
+  .admin-income-header {
+    margin-bottom: 18px;
+  }
+
+  .admin-income-header h2 {
+    font-size: 22px;
+  }
+
+  .admin-income-form {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .admin-income-add-btn {
+    grid-column: auto;
+    width: 100%;
+  }
+
+  /* Horizontal scrolling for table */
+  .admin-income-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .admin-income-table th,
+  .admin-income-table td {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+}
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 360px) {
+  .admin-income-container {
+    padding: 10px;
+  }
+
+  .admin-income-header h2 {
+    font-size: 20px;
+  }
+
+  .admin-income-form input,
+  .admin-income-form select {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .admin-income-add-btn {
+    font-size: 13px;
+    padding: 10px;
+  }
+}
