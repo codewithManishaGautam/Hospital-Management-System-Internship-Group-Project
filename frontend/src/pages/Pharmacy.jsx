@@ -73,6 +73,12 @@ function Pharmacy() {
     loadPrescriptions();
   }, []);
 
+  useEffect(() => {
+  if (step === "payments") {
+    loadPayments();
+  }
+}, [step]);
+
   const medicines = selectedPrescription?.pharmacyMedicines || [];
 
   const total = medicines.reduce(
