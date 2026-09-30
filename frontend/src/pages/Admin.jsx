@@ -41,12 +41,12 @@ function Admin() {
   const fetchMasterData = async () => {
     try {
       const resTpa = await axios.get(
-        "http://localhost:5000/api/insurance/master-data/tpas",
+        "https://hospital-management-system-internship-rtob.onrender.com/api/insurance/master-data/tpas",
       );
       if (resTpa.data.success) setTpaList(resTpa.data.data);
 
       const resComp = await axios.get(
-        "http://localhost:5000/api/insurance/master-data/companies",
+        "https://hospital-management-system-internship-rtob.onrender.com/api/insurance/master-data/companies",
       );
       if (resComp.data.success) setCompanyList(resComp.data.data);
     } catch (err) {
@@ -146,7 +146,7 @@ function Admin() {
       }
 
       await axios.put(
-        `http://localhost:5000/api/admin/staff/edit/${id}`,
+        `https://hospital-management-system-internship-rtob.onrender.com/api/admin/staff/edit/${id}`,
         editedStaff,
       );
 
@@ -168,7 +168,7 @@ function Admin() {
     if (!ok) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/admin/staff/delete/${id}`);
+      await axios.delete(`https://hospital-management-system-internship-rtob.onrender.com/api/admin/staff/delete/${id}`);
 
       await fetchStaff();
 
@@ -182,7 +182,7 @@ function Admin() {
 
   const addStaff = async () => {
     try {
-      await axios.post("http://localhost:5000/api/admin/staff/add", newStaff);
+      await axios.post("https://hospital-management-system-internship-rtob.onrender.com/api/admin/staff/add", newStaff);
 
       await fetchStaff();
 
@@ -207,7 +207,7 @@ function Admin() {
   };
   const savePatientEdit = async (id) => {
     try {
-      await axios.put(`http://localhost:5000/api/patient/${id}`, editedPatient);
+      await axios.put(`https://hospital-management-system-internship-rtob.onrender.com/api/patient/${id}`, editedPatient);
       setEditingPatientId(null);
       fetchPatients();
     } catch (err) {
@@ -217,7 +217,7 @@ function Admin() {
 
   const deletePatient = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/patient/${id}`);
+      await axios.delete(`https://hospital-management-system-internship-rtob.onrender.com/api/patient/${id}`);
       fetchPatients();
     } catch (err) {
       console.log(err);
@@ -226,7 +226,7 @@ function Admin() {
 
   const addPatient = async () => {
     try {
-      await axios.post("http://localhost:5000/api/patient", newPatient);
+      await axios.post("https://hospital-management-system-internship-rtob.onrender.com/api/patient", newPatient);
       setShowPatientForm(false);
       setNewPatient({
         name: "",
@@ -246,29 +246,29 @@ function Admin() {
   };
 
   // ---------------- FETCH DATA ----------------
-  useEffect(() => {
+useEffect(() => {
+  fetchDashboard();
+  fetchDoctors();
+  fetchStaff();
+  fetchPatients();
+  fetchFinance();
+  fetchActivities();
+  fetchRooms();
+  fetchBeds();
+
+  // Refresh only important dashboard data every 30 seconds
+  const interval = setInterval(() => {
     fetchDashboard();
-    fetchDoctors();
-    fetchStaff();
-    fetchPatients();
-    fetchFinance();
-    fetchActivities();
     fetchRooms();
     fetchBeds();
+  }, 30000);
 
-    const interval = setInterval(() => {
-      fetchDashboard();
-      fetchPatients();
-      fetchRooms();
-      fetchBeds();
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, []);
+  return () => clearInterval(interval);
+}, []);
 
   const fetchDashboard = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/dashboard");
+      const res = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/admin/dashboard");
       setDashboard(res.data);
     } catch (err) {
       console.log(err);
@@ -277,7 +277,7 @@ function Admin() {
 
   const fetchDoctors = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/doctors");
+      const res = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/admin/doctors");
       setDoctors(res.data);
     } catch (err) {
       console.log(err);
@@ -286,7 +286,7 @@ function Admin() {
 
   const fetchStaff = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/staff");
+      const res = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/admin/staff");
       setStaff(res.data);
     } catch (err) {
       console.log(err);
@@ -295,7 +295,7 @@ function Admin() {
 
   const fetchPatients = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/patient");
+      const res = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/patient");
 
       setPatients(res.data);
     } catch (err) {
@@ -322,7 +322,7 @@ function Admin() {
 
   const fetchActivities = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/activities");
+      const res = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/admin/activities");
 
       setActivities(res.data);
     } catch (err) {
@@ -332,7 +332,7 @@ function Admin() {
 
   const fetchRooms = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/rooms");
+      const res = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/rooms");
       setRooms(res.data);
     } catch (err) {
       console.log(err);
@@ -341,7 +341,7 @@ function Admin() {
 
   const fetchBeds = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/beds");
+      const res = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/beds");
       setBeds(res.data);
     } catch (err) {
       console.log(err);

@@ -1,50 +1,39 @@
-/* .handoverBox{
-  margin-top:35px;
-}
-
-.handoverBox textarea{
-  width:100%;
-  min-height:120px;
-  margin-top:15px;
-  padding:12px;
-  border-radius:10px;
-  border:1px solid #ccc;
-} */
-
-
 .handoverBox {
+  width: 100%;
+  box-sizing: border-box;
   background-color: #ffffff;
-  border: 3px solid black;
-  border-radius: 8px;
+  border: 2px solid #dbe3ec;
+  border-radius: 10px;
   padding: 20px;
   margin-top: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
 }
 
 .handoverBox h2 {
+  margin: 0 0 12px;
   font-size: 1.4rem;
-  color: #333333;
-  margin-bottom: 12px;
+  color: #0b2447;
   font-weight: 600;
 }
 
 .handoverBox textarea {
   width: 100%;
-  height: 90px;
+  min-height: 90px;
   padding: 12px;
-  border: 2px solid #333333;
-  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
   font-size: 1rem;
   resize: vertical;
   box-sizing: border-box;
-  transition: border-color 0.2s;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .handoverBox textarea:focus {
-  border-color: #002244;
-  outline: none;
+  border-color: #0b2447;
+  box-shadow: 0 0 0 3px rgba(11, 36, 71, 0.1);
 }
-
 
 .btn-save-handover {
   margin-top: 10px;
@@ -54,43 +43,51 @@
   border: none;
   border-radius: 6px;
   font-size: 0.95rem;
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: 0.2s ease;
 }
 
-.btn-save-handover:hover {
-  background-color: #002244;
+.btn-save-handover:hover:not(:disabled) {
+  background-color: #0b2447;
+  transform: translateY(-1px);
 }
 
+.btn-save-handover:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
 
 .history-section {
   margin-top: 25px;
-  border-top: 1px solid black;
+  border-top: 1px solid #dbe3ec;
   padding-top: 15px;
 }
 
 .history-section h3 {
+  margin: 0 0 10px;
   font-size: 1.15rem;
   color: #495057;
-  margin-bottom: 10px;
 }
 
 .no-notes {
+  margin: 0;
   color: #868e96;
   font-style: italic;
   font-size: 0.95rem;
 }
 
 .history-container {
+  width: 100%;
   max-height: 220px;
   overflow-y: auto;
   background-color: #f8f9fa;
   padding: 12px;
   border-radius: 6px;
   border: 1px solid #e9ecef;
+  box-sizing: border-box;
 }
-
 
 .history-item {
   border-bottom: 1px solid #e9ecef;
@@ -117,4 +114,115 @@
   color: #495057;
   font-size: 0.95rem;
   line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 768px) {
+  .handoverBox {
+    padding: 18px;
+  }
+
+  .handoverBox h2 {
+    font-size: 1.3rem;
+  }
+
+  .handoverBox textarea {
+    min-height: 100px;
+    font-size: 0.95rem;
+  }
+
+  .btn-save-handover {
+    padding: 10px 18px;
+    font-size: 0.9rem;
+  }
+
+  .history-section {
+    margin-top: 20px;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 480px) {
+  .handoverBox {
+    padding: 15px;
+    margin-top: 16px;
+    border-radius: 8px;
+  }
+
+  .handoverBox h2 {
+    font-size: 1.15rem;
+  }
+
+  .handoverBox textarea {
+    min-height: 110px;
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .btn-save-handover {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+  }
+
+  .history-section {
+    margin-top: 18px;
+    padding-top: 12px;
+  }
+
+  .history-section h3 {
+    font-size: 1rem;
+  }
+
+  .history-container {
+    max-height: 200px;
+    padding: 10px;
+  }
+
+  .history-item small {
+    font-size: 0.78rem;
+  }
+
+  .history-item p {
+    font-size: 0.88rem;
+  }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 360px) {
+  .handoverBox {
+    padding: 12px;
+  }
+
+  .handoverBox h2 {
+    font-size: 1.05rem;
+  }
+
+  .handoverBox textarea {
+    min-height: 100px;
+    font-size: 0.85rem;
+  }
+
+  .btn-save-handover {
+    font-size: 0.8rem;
+    padding: 9px 12px;
+  }
+
+  .history-container {
+    max-height: 180px;
+  }
+
+  .history-item p {
+    font-size: 0.82rem;
+  }
 }

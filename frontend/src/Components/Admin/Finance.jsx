@@ -11,7 +11,7 @@ function Finance() {
   });
 
   const fetchStats = async () => {
-    const res = await axios.get("http://localhost:5000/api/admin/finance");
+    const res = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/admin/finance");
 
     setStats(res.data);
   };

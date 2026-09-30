@@ -269,3 +269,14 @@
     font-size: 32px;
   }
 }
+
+@media (max-width: 480px) {
+  .filter-group {
+    width: 100%;
+  }
+
+  .filter-group input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}

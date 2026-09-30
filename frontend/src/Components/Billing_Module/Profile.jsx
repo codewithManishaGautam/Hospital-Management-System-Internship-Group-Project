@@ -1,4 +1,5 @@
-import React, { Profiler, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
+import "./style/profile.css";
 
 let imageURL;
 function Profile() {
@@ -31,35 +32,26 @@ function Profile() {
 
   return (
 
-    <nav className="navbar  px-4 d-flex justify-content-between">
+   <nav className="profile-navbar">
 
-      <div style={{borderRadius:"50%",   border:"2px solid #dee2e6"}}>
+     <div className="profile-image-wrapper">
 
         {/* Profile Image */}
-        <img
-          src={imageURL}
-          // src={`https://img.icons8.com/color/1200/administrator-male.jpg`}
-          alt="profile"
-          width="55"
-          height="55"
-          onClick={handleImageClick}
-          className="
-            rounded-circle
-            object-fit-cover
-            border
-            border-2
-          "
-          style={{ cursor: "pointer"}}
-        />
+    <img
+  src={profile}
+  alt="profile"
+  onClick={handleImageClick}
+  className="profile-image"
+/>
 
         {/* Hidden Input */}
-        <input
-          type="file"
-          accept="image/*"
-          ref={fileInputRef}
-          style={{ display: "none" }}
-          onChange={handleImageChange}
-        />
+       <input
+  type="file"
+  accept="image/*"
+  ref={fileInputRef}
+  className="profile-file-input"
+  onChange={handleImageChange}
+/>
 
       </div>
 

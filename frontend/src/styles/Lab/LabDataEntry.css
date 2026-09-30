@@ -1,0 +1,68 @@
+/* ================================
+   LAB DATA ENTRY
+================================ */
+
+.lab-data-entry {
+  width: 100%;
+  padding: 24px;
+
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+
+  box-sizing: border-box;
+}
+
+.lab-data-entry p {
+  margin: 0;
+
+  color: #475569;
+  font-size: 16px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* ================================
+   TABLET
+================================ */
+
+@media (max-width: 768px) {
+  .lab-data-entry {
+    padding: 20px;
+  }
+
+  .lab-data-entry p {
+    font-size: 15px;
+  }
+}
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 480px) {
+  .lab-data-entry {
+    padding: 16px;
+    border-radius: 10px;
+  }
+
+  .lab-data-entry p {
+    font-size: 14px;
+  }
+}
+
+/* ================================
+   SMALL MOBILE
+================================ */
+
+@media (max-width: 360px) {
+  .lab-data-entry {
+    padding: 12px;
+  }
+
+  .lab-data-entry p {
+    font-size: 13px;
+  }
+}

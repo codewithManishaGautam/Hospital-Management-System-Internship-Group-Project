@@ -1,0 +1,103 @@
+/* ================================
+   Patient Consent Form
+================================ */
+
+.patient-consent-form {
+  width: 100%;
+  margin-top: 24px;
+  margin-bottom: 30px;
+}
+
+.patient-consent-title {
+  margin: 0 0 12px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.patient-consent-select {
+  width: 100%;
+  max-width: 500px;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  background: #fff;
+  color: #333;
+  font-size: 15px;
+  outline: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.patient-consent-select:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.12);
+}
+
+.patient-consent-select:hover {
+  border-color: #3498db;
+}
+
+
+/* ================================
+   Tablet
+================================ */
+
+@media (max-width: 768px) {
+  .patient-consent-form {
+    margin-top: 20px;
+  }
+
+  .patient-consent-title {
+    font-size: 20px;
+  }
+
+  .patient-consent-select {
+    max-width: 100%;
+    font-size: 14px;
+  }
+}
+
+
+/* ================================
+   Mobile
+================================ */
+
+@media (max-width: 480px) {
+  .patient-consent-form {
+    margin-top: 16px;
+    margin-bottom: 24px;
+  }
+
+  .patient-consent-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  .patient-consent-select {
+    width: 100%;
+    min-height: 42px;
+    padding: 9px 12px;
+    font-size: 14px;
+    border-radius: 7px;
+  }
+}
+
+
+/* ================================
+   Small Mobile
+================================ */
+
+@media (max-width: 360px) {
+  .patient-consent-title {
+    font-size: 17px;
+  }
+
+  .patient-consent-select {
+    min-height: 40px;
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+}

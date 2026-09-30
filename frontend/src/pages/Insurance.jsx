@@ -70,7 +70,7 @@ function Insurance() {
     setOfficialFormPolicies([]);
     setOfficialFormSchemes([]);
     setSelectedPolicyOrSchemeIndex("");
-    
+
     if (id) {
       try {
         const policyRes = await insuranceService.getPoliciesByPatientId(id);
@@ -122,7 +122,7 @@ function Insurance() {
     if (selectedPolicyOrSchemeIndex !== "") {
       const isScheme = selectedPolicyOrSchemeIndex.startsWith("scheme_");
       const idx = parseInt(selectedPolicyOrSchemeIndex.split("_")[1], 10);
-      
+
       if (isScheme) {
         const scheme = officialFormSchemes[idx];
         if (scheme) {
@@ -344,15 +344,16 @@ function Insurance() {
       {step === "dashboard" && (
         <div className="dashboard-container">
           <h2 className="dashboard-title">Insurance Desk Overview</h2>
-          
+
           {/* RBAC SIMULATOR */}
-          <div style={{ marginBottom: '20px', padding: '15px', background: '#fff3cd', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '15px' }}>
-            <span style={{ fontWeight: 'bold' }}>Simulate RBAC Role:</span>
-            <select 
-              value={mockRole} 
-              onChange={(e) => setMockRole(e.target.value)}
-              style={{ padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
-            >
+          <div className="rbac-simulator">
+  <span className="rbac-label">Simulate RBAC Role:</span>
+
+  <select
+    className="rbac-select"
+    value={mockRole}
+    onChange={(e) => setMockRole(e.target.value)}
+  >
               <option value="Admin">Admin (Full Access)</option>
               <option value="Insurance Desk">Insurance Desk (Claims & Auth)</option>
               <option value="Nurse">Nurse / Lab Tech (Docs Only)</option>
@@ -370,29 +371,29 @@ function Insurance() {
 
       {/* INSURANCE CASES (PHASE 4) */}
       {step === "cases" && caseView === "dashboard" && (
-        <InsuranceCaseDashboard 
+        <InsuranceCaseDashboard
           onViewCase={(caseId) => {
             setSelectedCaseForView(caseId);
             setCaseView("workspace");
-          }} 
+          }}
         />
       )}
 
       {step === "cases" && caseView === "workspace" && (
-        <InsuranceCaseWorkspace 
-          caseId={selectedCaseForView} 
-          onBack={() => setCaseView("dashboard")} 
+        <InsuranceCaseWorkspace
+          caseId={selectedCaseForView}
+          onBack={() => setCaseView("dashboard")}
         />
       )}
 
       {/* ADMISSION WIZARD (PHASE 4) */}
       {step === "admission-wizard" && (
-        <AdmissionWorkflowWizard 
+        <AdmissionWorkflowWizard
           onCaseCreated={(caseId) => {
             setSelectedCaseForView(caseId);
             setCaseView("workspace");
             setStep("cases");
-          }} 
+          }}
         />
       )}
 
@@ -502,12 +503,12 @@ function Insurance() {
       {step === "pre-auth" && (
         <div className="dashboard-container">
           {preAuthView === "dashboard" ? (
-            <PreAuthDashboard 
+            <PreAuthDashboard
               onNewRequest={() => setPreAuthView("form")}
               onViewForm={(req) => setSelectedPreAuthForView(req)}
             />
           ) : (
-            <PreAuthForm 
+            <PreAuthForm
               onCancel={() => setPreAuthView("dashboard")}
               onSuccess={(newReq) => setPreAuthView("dashboard")}
             />
@@ -521,7 +522,7 @@ function Insurance() {
                   <h3 style={{ margin: 0 }}>Form Details: {selectedPreAuthForView._id}</h3>
                   <button onClick={() => setSelectedPreAuthForView(null)} style={{ background: 'none', border: 'none', fontSize: '20px', cursor: 'pointer' }}>&times;</button>
                 </div>
-                
+
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
                   <div style={{ background: '#f8f9fa', padding: '10px', borderRadius: '4px' }}>
                     <strong style={{ display: 'block', color: '#7f8c8d', fontSize: '0.85rem' }}>Patient Name</strong>
@@ -555,7 +556,7 @@ function Insurance() {
       {step === "claims" && (
         <div className="dashboard-container">
           {claimView === "dashboard" ? (
-            <ClaimDashboard 
+            <ClaimDashboard
               onNewClaim={() => setClaimView("form")}
               onViewClaim={(claim) => setSelectedClaimForView(claim)}
             />
@@ -615,30 +616,30 @@ function Insurance() {
             </>
           )}
 
-            {selectedClaimForView && (
-              <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
-                <div style={{ background: '#fff', padding: '20px', borderRadius: '8px', width: '600px', maxHeight: '80vh', overflowY: 'auto' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #ccc', paddingBottom: '10px', marginBottom: '15px' }}>
-                    <h3 style={{ margin: 0 }}>Claim Form Details: {selectedClaimForView.providerTemplateUsed || 'Generic Form'}</h3>
-                    <button onClick={() => setSelectedClaimForView(null)} style={{ background: 'none', border: 'none', fontSize: '20px', cursor: 'pointer' }}>&times;</button>
+          {selectedClaimForView && (
+            <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
+              <div style={{ background: '#fff', padding: '20px', borderRadius: '8px', width: '600px', maxHeight: '80vh', overflowY: 'auto' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #ccc', paddingBottom: '10px', marginBottom: '15px' }}>
+                  <h3 style={{ margin: 0 }}>Claim Form Details: {selectedClaimForView.providerTemplateUsed || 'Generic Form'}</h3>
+                  <button onClick={() => setSelectedClaimForView(null)} style={{ background: 'none', border: 'none', fontSize: '20px', cursor: 'pointer' }}>&times;</button>
+                </div>
+                {selectedClaimForView.providerSpecificData ? (
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                    {Object.entries(selectedClaimForView.providerSpecificData).map(([key, value]) => (
+                      <div key={key} style={{ background: '#f8f9fa', padding: '10px', borderRadius: '4px' }}>
+                        <strong style={{ display: 'block', color: '#7f8c8d', fontSize: '0.85rem', marginBottom: '4px', textTransform: 'capitalize' }}>{key.replace(/([A-Z])/g, ' $1').trim()}</strong>
+                        <span style={{ wordBreak: 'break-all' }}>{value.toString()}</span>
+                      </div>
+                    ))}
                   </div>
-                  {selectedClaimForView.providerSpecificData ? (
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
-                      {Object.entries(selectedClaimForView.providerSpecificData).map(([key, value]) => (
-                        <div key={key} style={{ background: '#f8f9fa', padding: '10px', borderRadius: '4px' }}>
-                          <strong style={{ display: 'block', color: '#7f8c8d', fontSize: '0.85rem', marginBottom: '4px', textTransform: 'capitalize' }}>{key.replace(/([A-Z])/g, ' $1').trim()}</strong>
-                          <span style={{ wordBreak: 'break-all' }}>{value.toString()}</span>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (<p>No provider-specific detailed form data found for this claim.</p>)}
-                  <div style={{ marginTop: '20px', textAlign: 'right' }}>
-                    <button onClick={() => window.print()} style={{ padding: '8px 15px', background: '#2ecc71', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', marginRight: '10px' }}>Print Form</button>
-                    <button onClick={() => setSelectedClaimForView(null)} style={{ padding: '8px 15px', background: '#95a5a6', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Close</button>
-                  </div>
+                ) : (<p>No provider-specific detailed form data found for this claim.</p>)}
+                <div style={{ marginTop: '20px', textAlign: 'right' }}>
+                  <button onClick={() => window.print()} style={{ padding: '8px 15px', background: '#2ecc71', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', marginRight: '10px' }}>Print Form</button>
+                  <button onClick={() => setSelectedClaimForView(null)} style={{ padding: '8px 15px', background: '#95a5a6', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Close</button>
                 </div>
               </div>
-            )}
+            </div>
+          )}
         </div>
       )}
 
@@ -704,20 +705,20 @@ function Insurance() {
             <h2>Official Provider Forms</h2>
             <p style={{ marginTop: '5px', color: '#7f8c8d' }}>Lookup a patient to auto-populate the official form fields, then select the insurance company or government scheme below.</p>
           </div>
-          
+
           <div className="patient-form-setup" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '25px', background: '#fcfcfc', padding: '20px', borderRadius: '8px', border: '1px solid #eee' }}>
             <div className="form-group">
-              <PatientLookup 
-                label="Search Patient (Admitted / Walk-in)" 
-                value={officialFormPatientId} 
-                onChange={handleOfficialFormPatientChange} 
+              <PatientLookup
+                label="Search Patient (Admitted / Walk-in)"
+                value={officialFormPatientId}
+                onChange={handleOfficialFormPatientChange}
               />
             </div>
-            
+
             <div className="form-group">
               <label>Select Active Policy / Scheme</label>
-              <select 
-                value={selectedPolicyOrSchemeIndex} 
+              <select
+                value={selectedPolicyOrSchemeIndex}
                 onChange={(e) => setSelectedPolicyOrSchemeIndex(e.target.value)}
                 style={{ width: '100%', padding: '10px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px', marginTop: '6px' }}
                 disabled={!officialFormPatientId}
@@ -739,22 +740,22 @@ function Insurance() {
             <div className="form-group" style={{ gridColumn: 'span 2', display: 'flex', gap: '20px', alignItems: 'center', marginTop: '10px' }}>
               <span style={{ fontWeight: 'bold' }}>Procedure Mode:</span>
               <label style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
-                <input 
-                  type="radio" 
-                  name="officialFormMode" 
-                  value="pre-auth" 
-                  checked={officialFormMode === "pre-auth"} 
-                  onChange={() => setOfficialFormMode("pre-auth")} 
+                <input
+                  type="radio"
+                  name="officialFormMode"
+                  value="pre-auth"
+                  checked={officialFormMode === "pre-auth"}
+                  onChange={() => setOfficialFormMode("pre-auth")}
                 />
                 Cashless Pre-Authorization
               </label>
               <label style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
-                <input 
-                  type="radio" 
-                  name="officialFormMode" 
-                  value="claim" 
-                  checked={officialFormMode === "claim"} 
-                  onChange={() => setOfficialFormMode("claim")} 
+                <input
+                  type="radio"
+                  name="officialFormMode"
+                  value="claim"
+                  checked={officialFormMode === "claim"}
+                  onChange={() => setOfficialFormMode("claim")}
                 />
                 Cashless Claim Filing
               </label>
@@ -762,20 +763,20 @@ function Insurance() {
           </div>
 
           {!activeDigitalForm ? (
-            <DynamicFormsManager 
+            <DynamicFormsManager
               onFillOnline={(templateId) => setActiveDigitalForm(templateId)}
             />
           ) : (
             <div>
-              <button 
+              <button
                 onClick={() => setActiveDigitalForm(null)}
                 style={{ marginBottom: '20px', padding: '8px 16px', backgroundColor: '#e2e8f0', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
               >
                 ← Back to Forms List
               </button>
-              <ProviderFormRenderer 
-                patientData={getOfficialFormPatientData()} 
-                mode={officialFormMode} 
+              <ProviderFormRenderer
+                patientData={getOfficialFormPatientData()}
+                mode={officialFormMode}
                 preselectedTemplate={activeDigitalForm}
               />
             </div>

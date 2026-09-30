@@ -22,8 +22,9 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
     appointmentDate: "",
     appointmentTime: "",
 
-    admissionDate: "",
-    dischargeDate: "",
+  admissionDate: "",
+admissionTime: "",
+dischargeDate: "",
     roomNo: "",
     roomType: "",
     roomId: "",
@@ -40,15 +41,15 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
   useEffect(() => {
     const loadRooms = async () => {
       try {
-        const roomRes = await axios.get("http://localhost:5000/api/rooms");
+        const roomRes = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/rooms");
         setRooms(roomRes.data);
 
         const bedRes = await axios.get(
-          "http://localhost:5000/api/beds/available",
+          "https://hospital-management-system-internship-rtob.onrender.com/api/beds/available",
         );
 
         const doctorRes = await axios.get(
-          "http://localhost:5000/api/admin/doctors",
+          "https://hospital-management-system-internship-rtob.onrender.com/api/admin/doctors",
         );
 
         setDoctors(doctorRes.data);
@@ -80,6 +81,7 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
         appointmentDate: "",
         appointmentTime: "",
         admissionDate: "",
+        admissionTime: "",
         dischargeDate: "",
         roomNo: "",
         bedNo: "",
@@ -99,10 +101,11 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
       role: patient.role || "OPD",
       disease: patient.disease || "",
       department: patient.department || "",
-      doctor: patient.doctor || "",
+      doctor: patient.doctorId || "",
       appointmentDate: patient.appointmentDate || "",
       appointmentTime: patient.appointmentTime || "",
       admissionDate: patient.admissionDate || "",
+      admissionTime: patient.admissionTime || "",
       dischargeDate: patient.dischargeDate || "",
       roomNo: patient.roomNo || "",
       bedNo: patient.bedNo || "",
@@ -112,12 +115,23 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
 
   useEffect(() => {
     const loadBeds = async () => {
+      if (!formData.roomNo) {
+        setBeds([]);
+        return;
+      }
+
       try {
-        const res = await axios.get("http://localhost:5000/api/beds/available");
+        const res = await axios.get(
+          `https://hospital-management-system-internship-rtob.onrender.com/api/beds/available/room/${formData.roomNo}`
+        );
 
         setBeds(res.data);
+
+        console.log("Selected Room:", formData.roomNo);
+        console.log("Available Beds:", res.data);
       } catch (err) {
-        console.log(err);
+        console.log("Bed Fetch Error:", err);
+        setBeds([]);
       }
     };
 
@@ -261,6 +275,7 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
         appointmentTime: formData.appointmentTime,
 
         admissionDate: formData.admissionDate,
+        admissionTime: formData.admissionTime,
         dischargeDate: formData.dischargeDate,
 
         roomNo: formData.roomNo,
@@ -275,7 +290,7 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
 
         // flowStatus: "Appointment Booked",
 
-        fee: 500,
+        fee: selectedDoctor ? Number(selectedDoctor.fee || 0) : 0,
         // paymentStatus: "Pending",
 
         ipdNo: "",
@@ -369,6 +384,7 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
         appointmentTime: "",
 
         admissionDate: "",
+        admissionTime: "",
         dischargeDate: "",
 
         roomNo: "",
@@ -617,6 +633,17 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
               </select>
             </div>
 
+                  {selectedDoctor && (
+  <div className="form-group">
+    <label>Consultancy Fee</label>
+    <input
+      type="text"
+      value={`₹ ${Number(selectedDoctor.fee || 0)}`}
+      readOnly
+    />
+  </div>
+)}
+
             <div className="form-group">
               <label>Appointment Date</label>
               <input
@@ -645,6 +672,16 @@ function RegistrationForm({ patient, setSelectedPatient, setStep, mode }) {
                     type="date"
                     name="admissionDate"
                     value={formData.admissionDate}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Admission Time</label>
+                  <input
+                    type="time"
+                    name="admissionTime"
+                    value={formData.admissionTime}
                     onChange={handleChange}
                   />
                 </div>

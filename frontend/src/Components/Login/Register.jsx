@@ -3,7 +3,6 @@ import axios from "axios";
 import { sendRegistrationOtp } from "../../api/authApi";
 import { useNavigate, useLocation } from "react-router-dom";
 import AuthLayout from "./AuthLayout";
-import "../../styles/login/authLayout.css";
 
 function Register() {
   const navigate = useNavigate();
@@ -48,7 +47,7 @@ function Register() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/verify-otp",
+        "https://hospital-management-system-internship-rtob.onrender.com/api/auth/verify-otp",
         {
           email,
           otp,

@@ -7,6 +7,7 @@
   inset: 0;
   width: 100%;
   height: 100%;
+
   background: rgba(15, 23, 42, 0.55);
   backdrop-filter: blur(6px);
 
@@ -17,6 +18,7 @@
   padding: 20px;
   box-sizing: border-box;
 
+  overflow-y: auto;
   z-index: 9999;
 }
 
@@ -26,7 +28,6 @@
 
   background: #ffffff;
   border-radius: 20px;
-
   padding: 30px;
 
   display: flex;
@@ -42,6 +43,7 @@
 
 .admin-doctor-form h2 {
   margin: 0 0 5px;
+
   text-align: center;
 
   font-size: 24px;
@@ -53,6 +55,8 @@
 .admin-doctor-form input,
 .admin-doctor-form select {
   width: 100%;
+  min-width: 0;
+
   box-sizing: border-box;
 
   padding: 13px 14px;
@@ -64,9 +68,11 @@
   color: #0f172a;
 
   font-size: 14px;
+
   outline: none;
 
-  transition: border-color 0.2s ease,
+  transition:
+    border-color 0.2s ease,
     box-shadow 0.2s ease,
     background 0.2s ease;
 }
@@ -76,7 +82,7 @@
   border-color: #2563eb;
   background: #ffffff;
 
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .admin-doctor-form input::placeholder {
@@ -86,7 +92,6 @@
 .admin-doctor-form-buttons {
   display: flex;
   gap: 12px;
-
   margin-top: 5px;
 }
 
@@ -106,7 +111,8 @@
 
   cursor: pointer;
 
-  transition: transform 0.2s ease,
+  transition:
+    transform 0.2s ease,
     box-shadow 0.2s ease;
 }
 
@@ -121,7 +127,6 @@
 .admin-doctor-save-btn:hover,
 .admin-doctor-cancel-btn:hover {
   transform: translateY(-1px);
-
   box-shadow: 0 6px 15px rgba(15, 23, 42, 0.15);
 }
 
@@ -166,7 +171,8 @@
     font-size: 22px;
   }
 
-  .admin-doctor-form input {
+  .admin-doctor-form input,
+  .admin-doctor-form select {
     padding: 12px;
   }
 }
@@ -178,22 +184,28 @@
 
 @media (max-width: 480px) {
   .admin-doctor-form-popup {
-    padding: 12px;
+    padding: 10px;
+    align-items: flex-start;
   }
 
   .admin-doctor-form {
+    width: 100%;
+
     padding: 20px 16px;
 
     border-radius: 16px;
-
     gap: 12px;
+
+    max-height: calc(100vh - 20px);
+    overflow-y: auto;
   }
 
   .admin-doctor-form h2 {
     font-size: 20px;
   }
 
-  .admin-doctor-form input {
+  .admin-doctor-form input,
+  .admin-doctor-form select {
     padding: 11px 12px;
     font-size: 13px;
   }
@@ -209,6 +221,7 @@
     padding: 12px;
   }
 }
+
 
 /* =========================================================
    ADMIN PATIENT FORM
@@ -230,6 +243,7 @@
   padding: 20px;
   box-sizing: border-box;
 
+  overflow-y: auto;
   z-index: 9999;
 }
 
@@ -238,9 +252,7 @@
   max-width: 100%;
 
   background: #ffffff;
-
   border-radius: 20px;
-
   padding: 30px;
 
   display: flex;
@@ -268,6 +280,8 @@
 .admin-patient-form input,
 .admin-patient-form select {
   width: 100%;
+  min-width: 0;
+
   box-sizing: border-box;
 
   padding: 13px 14px;
@@ -291,7 +305,6 @@
 .admin-patient-form input:focus,
 .admin-patient-form select:focus {
   border-color: #2563eb;
-
   background: #ffffff;
 
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
@@ -301,17 +314,19 @@
   color: #94a3b8;
 }
 
+
 /* Remove number input arrows */
+
 .admin-patient-form input[type="number"]::-webkit-inner-spin-button,
 .admin-patient-form input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
+
 .admin-patient-form-buttons {
   display: flex;
   gap: 12px;
-
   margin-top: 5px;
 }
 
@@ -347,7 +362,6 @@
 .admin-patient-save-btn:hover,
 .admin-patient-cancel-btn:hover {
   transform: translateY(-1px);
-
   box-shadow: 0 6px 15px rgba(15, 23, 42, 0.15);
 }
 
@@ -356,7 +370,9 @@
   transform: translateY(0);
 }
 
+
 /* Popup Animation */
+
 @keyframes adminPatientPopup {
   from {
     transform: scale(0.94);
@@ -368,6 +384,7 @@
     opacity: 1;
   }
 }
+
 
 /* =========================================================
    ADMIN PATIENT FORM - TABLET
@@ -385,7 +402,6 @@
     padding: 24px;
 
     border-radius: 18px;
-
     gap: 13px;
   }
 
@@ -399,6 +415,7 @@
   }
 }
 
+
 /* =========================================================
    ADMIN PATIENT FORM - MOBILE
    ========================================================= */
@@ -406,6 +423,7 @@
 @media (max-width: 480px) {
   .admin-patient-form-popup {
     padding: 10px;
+    align-items: flex-start;
   }
 
   .admin-patient-form {
@@ -414,10 +432,9 @@
     padding: 20px 16px;
 
     border-radius: 16px;
-
     gap: 11px;
 
-    max-height: 95vh;
+    max-height: calc(100vh - 20px);
     overflow-y: auto;
   }
 
@@ -428,20 +445,17 @@
   .admin-patient-form input,
   .admin-patient-form select {
     padding: 11px 12px;
-
     font-size: 13px;
   }
 
   .admin-patient-form-buttons {
     flex-direction: column;
-
     gap: 9px;
   }
 
   .admin-patient-save-btn,
   .admin-patient-cancel-btn {
     width: 100%;
-
     padding: 12px;
   }
 }

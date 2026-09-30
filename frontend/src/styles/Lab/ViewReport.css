@@ -1,0 +1,126 @@
+/* ================================
+   VIEW REPORT
+================================ */
+
+.view-report__section {
+    width: 100%;
+    margin-top: 20px;
+    box-sizing: border-box;
+}
+
+/* ================================
+   NO REPORT
+================================ */
+
+.view-report__no-report {
+    margin: 0;
+    color: #dc2626;
+    font-family: "Times New Roman", serif;
+    font-size: 24px;
+}
+
+/* ================================
+   DOWNLOAD ALL
+================================ */
+
+.view-report__download-all {
+    margin-bottom: 15px;
+}
+
+.view-report__download-all-btn {
+    margin-right: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 8px;
+}
+
+/* ================================
+   REPORT ITEM
+================================ */
+
+.view-report__report-item {
+    margin-bottom: 10px;
+}
+
+.view-report__open-btn {
+    margin-bottom: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 7px;
+}
+
+.view-report__delete-btn {
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 7px;
+}
+
+/* ================================
+   BUTTON HOVER
+================================ */
+
+.view-report__open-btn,
+.view-report__delete-btn,
+.view-report__download-all-btn {
+    transition: transform 0.2s ease;
+}
+
+.view-report__open-btn:hover,
+.view-report__delete-btn:hover,
+.view-report__download-all-btn:hover {
+    transform: translateY(-1px);
+}
+
+/* ================================
+   TABLET
+================================ */
+
+@media (max-width: 768px) {
+    .view-report__section {
+        margin-top: 18px;
+    }
+
+    .view-report__download-all-btn {
+        font-size: 13px;
+    }
+}
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 480px) {
+    .view-report__section {
+        margin-top: 16px;
+    }
+
+    .view-report__download-all {
+        margin-bottom: 12px;
+    }
+
+    .view-report__download-all-btn {
+        width: 100%;
+        margin-right: 0;
+        font-size: 13px;
+    }
+
+    .view-report__open-btn,
+    .view-report__delete-btn {
+        font-size: 11px;
+    }
+}
+
+/* ================================
+   SMALL MOBILE
+================================ */
+
+@media (max-width: 360px) {
+    .view-report__section {
+        margin-top: 14px;
+    }
+
+    .view-report__download-all-btn {
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+}

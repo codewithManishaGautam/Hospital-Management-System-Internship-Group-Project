@@ -8,7 +8,6 @@
   margin: 0 auto 30px;
 
   background: #ffffff;
-
   padding: 32px;
 
   border-radius: 20px;
@@ -117,14 +116,113 @@
   transform: translateY(0);
 }
 
+
+/* =========================================================
+   ADMIN ADD ROOM - TABLET
+   ========================================================= */
+/* =========================================================
+   ADMIN ADD ROOM
+   ========================================================= */
+
+.admin-room-container {
+  width: 100%;
+  max-width: 850px;
+  margin: 0 auto 30px;
+  padding: 32px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
+  box-sizing: border-box;
+}
+
+.admin-room-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.admin-room-header h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.admin-room-form {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-room-form input,
+.admin-room-form select {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 13px 14px;
+  border: 1px solid #dbeafe;
+  border-radius: 10px;
+  background: #f8fafc;
+  color: #0f172a;
+  font-size: 14px;
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.admin-room-form input::placeholder {
+  color: #94a3b8;
+}
+
+.admin-room-form input:focus,
+.admin-room-form select:focus {
+  border-color: #2563eb;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.admin-room-add-btn {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding: 13px 18px;
+  background: linear-gradient(135deg, #0ea5e9, #2563eb);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.admin-room-add-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(37, 99, 235, 0.22);
+}
+
+.admin-room-add-btn:active {
+  transform: translateY(0);
+}
+
+
 /* =========================================================
    ADMIN ADD ROOM - TABLET
    ========================================================= */
 
 @media (max-width: 768px) {
   .admin-room-container {
+    width: 100%;
     padding: 22px;
-
+    margin-bottom: 25px;
     border-radius: 16px;
   }
 
@@ -144,7 +242,12 @@
   .admin-room-form select {
     padding: 12px;
   }
+
+  .admin-room-add-btn {
+    padding: 12px 16px;
+  }
 }
+
 
 /* =========================================================
    ADMIN ADD ROOM - MOBILE
@@ -152,10 +255,9 @@
 
 @media (max-width: 480px) {
   .admin-room-container {
+    width: 100%;
     padding: 16px;
-
     margin-bottom: 20px;
-
     border-radius: 14px;
   }
 
@@ -168,22 +270,22 @@
   }
 
   .admin-room-form {
+    width: 100%;
     gap: 11px;
   }
 
   .admin-room-form input,
   .admin-room-form select {
     padding: 11px 12px;
-
     font-size: 13px;
   }
 
   .admin-room-add-btn {
     padding: 12px;
-
     font-size: 13px;
   }
 }
+
 
 /* =========================================================
    ADMIN ANALYTICS
@@ -192,17 +294,11 @@
 .admin-analytics-container {
   width: 100%;
   max-width: 1400px;
-
   margin: 0 auto 30px;
-
-  background: #ffffff;
-
   padding: 32px;
-
+  background: #ffffff;
   border-radius: 20px;
-
   box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
-
   box-sizing: border-box;
 }
 
@@ -210,18 +306,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   margin-bottom: 25px;
 }
 
 .admin-analytics-header h2 {
   margin: 0;
-
   color: #0f172a;
-
   font-size: 32px;
   font-weight: 700;
 }
+
 
 /* =========================================================
    YEAR / MONTH FILTERS
@@ -229,44 +323,27 @@
 
 .admin-analytics-filters {
   width: 100%;
-
   display: flex;
   align-items: center;
-
   gap: 15px;
-
   margin-bottom: 28px;
-
   padding: 18px;
-
   background: #f8fafc;
-
   border: 1px solid #e2e8f0;
-
   border-radius: 14px;
-
   box-sizing: border-box;
 }
 
 .admin-analytics-filters select {
   min-width: 180px;
-
   padding: 12px 14px;
-
   border: 1px solid #cbd5e1;
-
   border-radius: 10px;
-
   background: #ffffff;
-
   color: #0f172a;
-
   font-size: 14px;
-
   outline: none;
-
   cursor: pointer;
-
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease;
@@ -274,9 +351,9 @@
 
 .admin-analytics-filters select:focus {
   border-color: #2563eb;
-
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
+
 
 /* =========================================================
    ANALYTICS SUMMARY CARDS
@@ -284,29 +361,20 @@
 
 .admin-analytics-summary {
   width: 100%;
-
   display: grid;
-
-  grid-template-columns: repeat(3, 1fr);
-
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
-
   margin-bottom: 30px;
 }
 
 .admin-analytics-card {
+  min-width: 0;
   padding: 24px;
-
   background: linear-gradient(135deg, #f8fafc, #ffffff);
-
   border: 1px solid #e2e8f0;
-
   border-radius: 16px;
-
   box-shadow: 0 5px 18px rgba(15, 23, 42, 0.06);
-
   box-sizing: border-box;
-
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -314,29 +382,24 @@
 
 .admin-analytics-card:hover {
   transform: translateY(-3px);
-
   box-shadow: 0 10px 25px rgba(15, 23, 42, 0.1);
 }
 
 .admin-analytics-card h3 {
   margin: 0 0 10px;
-
   color: #475569;
-
   font-size: 15px;
-
   font-weight: 600;
 }
 
 .admin-analytics-card p {
   margin: 0;
-
   color: #0f172a;
-
   font-size: 27px;
-
   font-weight: 700;
+  overflow-wrap: anywhere;
 }
+
 
 /* =========================================================
    DAILY ANALYTICS
@@ -344,29 +407,21 @@
 
 .admin-analytics-daily-container {
   width: 100%;
-
   background: #ffffff;
-
   border: 1px solid #e2e8f0;
-
   border-radius: 16px;
-
   padding: 24px;
-
   box-sizing: border-box;
-
   overflow-x: auto;
 }
 
 .admin-analytics-daily-title {
   margin: 0 0 20px;
-
   color: #0f172a;
-
   font-size: 21px;
-
   font-weight: 700;
 }
+
 
 /* =========================================================
    ANALYTICS TABLE
@@ -374,19 +429,12 @@
 
 .admin-analytics-table {
   width: 100%;
-
   min-width: 700px;
-
   border-collapse: separate;
-
   border-spacing: 0;
-
   background: #ffffff;
-
   border-radius: 12px;
-
   overflow: hidden;
-
   white-space: nowrap;
 }
 
@@ -396,28 +444,21 @@
 
 .admin-analytics-table th {
   color: #ffffff;
-
   padding: 16px;
-
   text-align: center;
-
   font-size: 14px;
-
   font-weight: 600;
 }
 
 .admin-analytics-table td {
   padding: 15px 16px;
-
   text-align: center;
-
   color: #1e293b;
-
   font-size: 14px;
-
   border-bottom: 1px solid #e2e8f0;
 }
 
+/* FIXED: invalid *background* removed */
 .admin-analytics-table tbody tr {
   transition: background 0.2s ease;
 }
@@ -432,20 +473,19 @@
 
 .admin-analytics-table tfoot th {
   color: #0f172a;
-
   font-weight: 700;
-
   border-top: 2px solid #cbd5e1;
 }
 
+
 /* =========================================================
-   TABLET
+   ANALYTICS - TABLET
    ========================================================= */
 
 @media (max-width: 768px) {
   .admin-analytics-container {
     padding: 22px;
-
+    margin-bottom: 25px;
     border-radius: 16px;
   }
 
@@ -459,23 +499,18 @@
 
   .admin-analytics-filters {
     flex-direction: column;
-
     align-items: stretch;
-
     gap: 12px;
-
     padding: 15px;
   }
 
   .admin-analytics-filters select {
     width: 100%;
-
     min-width: 0;
   }
 
   .admin-analytics-summary {
-    grid-template-columns: repeat(3, 1fr);
-
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
   }
 
@@ -494,19 +529,26 @@
   .admin-analytics-daily-container {
     padding: 18px;
   }
+
+  .admin-analytics-table {
+    min-width: 650px;
+  }
 }
 
+
 /* =========================================================
-   MOBILE
+   ANALYTICS - MOBILE
    ========================================================= */
 
 @media (max-width: 480px) {
   .admin-analytics-container {
     padding: 15px;
-
     margin-bottom: 20px;
-
     border-radius: 14px;
+  }
+
+  .admin-analytics-header {
+    margin-bottom: 18px;
   }
 
   .admin-analytics-header h2 {
@@ -515,21 +557,17 @@
 
   .admin-analytics-filters {
     padding: 12px;
-
     margin-bottom: 20px;
   }
 
   .admin-analytics-filters select {
     padding: 11px 12px;
-
     font-size: 13px;
   }
 
   .admin-analytics-summary {
     grid-template-columns: 1fr;
-
     gap: 10px;
-
     margin-bottom: 20px;
   }
 
@@ -551,7 +589,6 @@
 
   .admin-analytics-daily-title {
     font-size: 18px;
-
     margin-bottom: 15px;
   }
 
@@ -562,7 +599,6 @@
   .admin-analytics-table th,
   .admin-analytics-table td {
     padding: 12px 10px;
-
     font-size: 13px;
   }
 }
@@ -606,6 +642,7 @@
   font-size: 32px;
   font-weight: 700;
 }
+
 
 /* =========================================================
    BED TABLE
@@ -668,6 +705,7 @@
   border-bottom: none;
 }
 
+
 /* =========================================================
    BED STATUS
    ========================================================= */
@@ -708,8 +746,9 @@
   font-weight: 700;
 }
 
+
 /* =========================================================
-   TABLET
+   BED - TABLET
    ========================================================= */
 
 @media (max-width: 768px) {
@@ -739,8 +778,9 @@
   }
 }
 
+
 /* =========================================================
-   MOBILE
+   BED - MOBILE
    ========================================================= */
 
 @media (max-width: 480px) {
@@ -785,13 +825,10 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto 30px;
-
-  background: #ffffff;
   padding: 32px;
-
+  background: #ffffff;
   border-radius: 20px;
   box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
-
   box-sizing: border-box;
   overflow-x: auto;
 }
@@ -800,53 +837,50 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   margin-bottom: 28px;
 }
 
 .admin-charges-header h2 {
   margin: 0;
-
   color: #0f172a;
   font-size: 32px;
   font-weight: 700;
 }
 
+
+/* =========================================================
+   CHARGES FORM
+   ========================================================= */
+
 .admin-charges-form {
   width: 100%;
-
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 15px;
-
   margin-bottom: 30px;
   padding: 22px;
-
   background: #f8fafc;
   border: 1px solid #e2e8f0;
   border-radius: 16px;
-
   box-sizing: border-box;
 }
 
 .admin-charges-form input {
   width: 100%;
+  min-width: 0;
   box-sizing: border-box;
-
   padding: 13px 14px;
-
   border: 1px solid #cbd5e1;
   border-radius: 10px;
-
   background: #ffffff;
   color: #0f172a;
-
   font-size: 14px;
   outline: none;
 
   transition:
     border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 }
 
 .admin-charges-form input::placeholder {
@@ -855,27 +889,25 @@
 
 .admin-charges-form input:focus {
   border-color: #2563eb;
-
+  background: #ffffff;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
+
+/* =========================================================
+   ADD CHARGE BUTTON
+   ========================================================= */
+
 .admin-charges-add-btn {
   width: 100%;
-
   grid-column: 1 / -1;
-
   border: none;
   border-radius: 10px;
-
   padding: 13px 18px;
-
   background: linear-gradient(135deg, #0ea5e9, #2563eb);
-
   color: #ffffff;
-
   font-size: 14px;
   font-weight: 600;
-
   cursor: pointer;
 
   transition:
@@ -885,7 +917,6 @@
 
 .admin-charges-add-btn:hover {
   transform: translateY(-1px);
-
   box-shadow: 0 6px 15px rgba(37, 99, 235, 0.22);
 }
 
@@ -893,20 +924,19 @@
   transform: translateY(0);
 }
 
-/* TABLE */
+
+/* =========================================================
+   CHARGES TABLE
+   ========================================================= */
 
 .admin-charges-table {
   width: 100%;
   min-width: 850px;
-
   border-collapse: separate;
   border-spacing: 0;
-
   background: #ffffff;
-
   border-radius: 14px;
   overflow: hidden;
-
   white-space: nowrap;
 }
 
@@ -916,27 +946,21 @@
 
 .admin-charges-table th {
   color: #ffffff;
-
   padding: 17px 16px;
-
   text-align: center;
-
   font-size: 14px;
   font-weight: 600;
 }
 
 .admin-charges-table td {
   padding: 16px;
-
   text-align: center;
-
   color: #1e293b;
-
   font-size: 14px;
-
   border-bottom: 1px solid #e2e8f0;
 }
 
+/* FIXED: invalid *background* removed */
 .admin-charges-table tbody tr {
   transition: background 0.2s ease;
 }
@@ -949,23 +973,20 @@
   border-bottom: none;
 }
 
-/* DELETE BUTTON */
+
+/* =========================================================
+   DELETE BUTTON
+   ========================================================= */
 
 .admin-charges-delete-btn {
   min-width: 80px;
-
   border: none;
   border-radius: 9px;
-
   padding: 9px 15px;
-
   background: linear-gradient(135deg, #ef4444, #dc2626);
-
   color: #ffffff;
-
   font-size: 13px;
   font-weight: 600;
-
   cursor: pointer;
 
   transition:
@@ -975,7 +996,6 @@
 
 .admin-charges-delete-btn:hover {
   transform: translateY(-1px);
-
   box-shadow: 0 5px 12px rgba(220, 38, 38, 0.2);
 }
 
@@ -983,13 +1003,15 @@
   transform: translateY(0);
 }
 
+
 /* =========================================================
-   TABLET
+   CHARGES - TABLET
    ========================================================= */
 
 @media (max-width: 768px) {
   .admin-charges-container {
     padding: 22px;
+    margin-bottom: 25px;
     border-radius: 16px;
   }
 
@@ -1021,8 +1043,9 @@
   }
 }
 
+
 /* =========================================================
-   MOBILE
+   CHARGES - MOBILE
    ========================================================= */
 
 @media (max-width: 480px) {
@@ -1032,16 +1055,18 @@
     border-radius: 14px;
   }
 
+  .admin-charges-header {
+    margin-bottom: 18px;
+  }
+
   .admin-charges-header h2 {
     font-size: 22px;
   }
 
   .admin-charges-form {
     grid-template-columns: 1fr;
-
     padding: 13px;
     gap: 10px;
-
     margin-bottom: 20px;
   }
 
@@ -1052,7 +1077,6 @@
 
   .admin-charges-add-btn {
     grid-column: auto;
-
     padding: 12px;
     font-size: 13px;
   }

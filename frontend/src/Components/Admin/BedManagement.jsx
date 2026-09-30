@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "../../styles/admin/table.css";
 
 function BedManagement() {
   const [beds, setBeds] = useState([]);
 
   const fetchBeds = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/beds");
+      const res = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/beds");
       setBeds(res.data);
     } catch (err) {
       console.log(err);
@@ -32,6 +33,7 @@ function BedManagement() {
           <tr>
             <th>Room No</th>
             <th>Bed No</th>
+            {/* <th>Bed Charges / Day</th> */}
             <th>Status</th>
           </tr>
         </thead>
@@ -40,7 +42,13 @@ function BedManagement() {
           {beds.map((bed) => (
             <tr key={bed._id}>
               <td>{bed.roomNumber}</td>
+
               <td>{bed.bedNo}</td>
+
+              {/* <td>
+                ₹{Number(bed.chargesPerDay || 0)}
+              </td> */}
+
               <td>
                 <span
                   className={

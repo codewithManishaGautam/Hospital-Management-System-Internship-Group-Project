@@ -1,0 +1,463 @@
+
+/* =========================================================
+   PHARMACY LAYOUT - PROFESSIONAL RESPONSIVE DESIGN
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+.pharmacy-layout {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  background: #f4f7fb;
+  color: #1e293b;
+  font-family:
+    Inter,
+    "Segoe UI",
+    Roboto,
+    Arial,
+    sans-serif;
+}
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.pharmacy-sidebar {
+  width: 270px;
+  min-width: 270px;
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 28px 18px;
+
+  background: linear-gradient(180deg,
+      #0f172a 0%,
+      #172554 55%,
+      #1e3a8a 100%);
+
+  color: #ffffff;
+
+  box-shadow: 4px 0 20px rgba(15, 23, 42, 0.12);
+
+  position: sticky;
+  top: 0;
+
+  overflow-y: auto;
+}
+
+/* =========================================================
+   PROFILE
+   ========================================================= */
+
+.pharmacy-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 10px 10px 28px;
+  margin-bottom: 20px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.pharmacy-profile img {
+  width: 82px;
+  height: 82px;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+
+  padding: 5px;
+
+  border: 3px solid rgba(255, 255, 255, 0.8);
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+
+  margin-bottom: 14px;
+}
+
+.pharmacy-profile h3 {
+  margin: 0;
+
+  font-size: 19px;
+  font-weight: 700;
+
+  color: #ffffff;
+
+  text-align: center;
+}
+
+/* =========================================================
+   MENU
+   ========================================================= */
+
+.pharmacy-menu {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+/* =========================================================
+   MENU BUTTON
+   ========================================================= */
+
+.pharmacy-menu-button {
+  width: 100%;
+
+  min-height: 50px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 13px 16px;
+
+  border: 1px solid transparent;
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.07);
+
+  color: #e2e8f0;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.pharmacy-menu-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+
+  color: #ffffff;
+
+  transform: translateX(3px);
+}
+
+.pharmacy-menu-button:active {
+  transform: translateX(1px);
+}
+
+.pharmacy-menu-button:focus-visible {
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   LOGOUT
+   ========================================================= */
+
+.pharmacy-logout-button {
+  width: 100%;
+
+  min-height: 48px;
+
+  margin-top: auto;
+  padding: 13px 16px;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+
+  background: rgba(239, 68, 68, 0.12);
+
+  color: #fecaca;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.pharmacy-logout-button:hover {
+  background: #dc2626;
+
+  color: #ffffff;
+
+  transform: translateY(-1px);
+}
+
+.pharmacy-logout-button:focus-visible {
+  outline: 2px solid #fca5a5;
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   MAIN AREA
+   ========================================================= */
+
+.pharmacy-main {
+  flex: 1;
+
+  min-width: 0;
+  min-height: 100vh;
+
+  padding: 28px 32px;
+
+  background: #f4f7fb;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
+.pharmacy-topbar {
+  width: 100%;
+
+  min-height: 70px;
+
+  display: flex;
+  align-items: center;
+
+  margin-bottom: 24px;
+  padding: 18px 24px;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 16px;
+
+  color: #0f172a;
+
+  font-size: 22px;
+  font-weight: 700;
+
+  letter-spacing: -0.3px;
+
+  box-shadow:
+    0 4px 15px rgba(15, 23, 42, 0.05);
+
+  position: sticky;
+  top: 0;
+
+  z-index: 10;
+}
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.pharmacy-content {
+  width: 100%;
+  min-width: 0;
+
+  padding-bottom: 30px;
+}
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+.pharmacy-sidebar::-webkit-scrollbar,
+.pharmacy-main::-webkit-scrollbar {
+  width: 6px;
+}
+
+.pharmacy-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+.pharmacy-main::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+/* =========================================================
+   TABLET RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1024px) {
+  .pharmacy-sidebar {
+    width: 230px;
+    min-width: 230px;
+
+    padding: 22px 14px;
+  }
+
+  .pharmacy-profile img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .pharmacy-profile h3 {
+    font-size: 17px;
+  }
+
+  .pharmacy-main {
+    padding: 22px;
+  }
+
+  .pharmacy-topbar {
+    min-height: 62px;
+
+    padding: 16px 20px;
+
+    font-size: 20px;
+  }
+
+  .pharmacy-menu-button {
+    font-size: 13px;
+    padding: 12px 13px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .pharmacy-layout {
+    flex-direction: column;
+  }
+
+  .pharmacy-sidebar {
+    position: relative;
+
+    width: 100%;
+    min-width: 100%;
+    min-height: auto;
+
+    padding: 15px;
+
+    box-shadow:
+      0 4px 15px rgba(15, 23, 42, 0.12);
+  }
+
+  .pharmacy-profile {
+    flex-direction: row;
+    justify-content: flex-start;
+
+    gap: 12px;
+
+    padding: 5px 5px 15px;
+    margin-bottom: 15px;
+  }
+
+  .pharmacy-profile img {
+    width: 52px;
+    height: 52px;
+
+    margin-bottom: 0;
+  }
+
+  .pharmacy-profile h3 {
+    font-size: 17px;
+  }
+
+  .pharmacy-menu {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 8px;
+  }
+
+  .pharmacy-menu-button {
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 11px 8px;
+
+    font-size: 12px;
+  }
+
+  .pharmacy-logout-button {
+    margin-top: 12px;
+  }
+
+  .pharmacy-main {
+    width: 100%;
+    min-height: auto;
+
+    padding: 18px 14px;
+  }
+
+  .pharmacy-topbar {
+    position: relative;
+
+    min-height: 58px;
+
+    margin-bottom: 18px;
+
+    padding: 15px 17px;
+
+    border-radius: 12px;
+
+    font-size: 18px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+  .pharmacy-sidebar {
+    padding: 12px;
+  }
+
+  .pharmacy-profile {
+    padding-bottom: 12px;
+  }
+
+  .pharmacy-profile img {
+    width: 46px;
+    height: 46px;
+  }
+
+  .pharmacy-profile h3 {
+    font-size: 15px;
+  }
+
+  .pharmacy-menu {
+    grid-template-columns: 1fr;
+  }
+
+  .pharmacy-menu-button {
+    justify-content: flex-start;
+
+    text-align: left;
+
+    min-height: 45px;
+
+    font-size: 13px;
+  }
+
+  .pharmacy-main {
+    padding: 12px;
+  }
+
+  .pharmacy-topbar {
+    font-size: 17px;
+
+    padding: 14px;
+  }
+}

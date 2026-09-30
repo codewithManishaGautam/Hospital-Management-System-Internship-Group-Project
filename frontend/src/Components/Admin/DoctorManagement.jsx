@@ -17,6 +17,7 @@ function DoctorManagement({ doctors, fetchDoctors }) {
     qualification: "",
     experience: "",
     mobile: "",
+    fee: 0,
   });
 
   const [newDoctor, setNewDoctor] = useState({
@@ -25,17 +26,18 @@ function DoctorManagement({ doctors, fetchDoctors }) {
     qualification: "",
     experience: "",
     mobile: "",
+    fee: 0,
   });
 
   // ADD DOCTOR
- const addDoctor = async () => {
-  console.log("Doctor Data:", newDoctor);
+  const addDoctor = async () => {
+    console.log("Doctor Data:", newDoctor);
 
-  try {
-    const res = await axios.post(
-      "http://localhost:5000/api/admin/doctor/add",
-      newDoctor
-    );
+    try {
+      const res = await axios.post(
+        "https://hospital-management-system-internship-rtob.onrender.com/api/admin/doctor/add",
+        newDoctor
+      );
 
       console.log(res.data);
 
@@ -49,7 +51,9 @@ function DoctorManagement({ doctors, fetchDoctors }) {
         qualification: "",
         experience: "",
         mobile: "",
+        fee: 0,
       });
+
     } catch (error) {
       console.log(error.response?.data);
       alert(error.response?.data?.message || "Doctor not added");
@@ -60,7 +64,7 @@ function DoctorManagement({ doctors, fetchDoctors }) {
   const deleteDoctor = async (id) => {
     try {
       const res = await axios.delete(
-        `http://localhost:5000/api/admin/doctor/delete/${id}`,
+        `https://hospital-management-system-internship-rtob.onrender.com/api/admin/doctor/delete/${id}`,
       );
 
       console.log(res.data);
@@ -74,81 +78,89 @@ function DoctorManagement({ doctors, fetchDoctors }) {
   };
 
   // SAVE EDIT
-  const saveDoctorEdit = async (id) => {
-    try {
-      if (
-        !editedDoctor.name ||
-        !editedDoctor.specialization ||
-        !editedDoctor.qualification ||
-        !editedDoctor.experience ||
-        !editedDoctor.mobile
-      ) {
-        alert("Please fill all fields");
-        return;
-      }
+const saveDoctorEdit = async (id) => {
+  try {
+    console.log("EDITED DOCTOR =", editedDoctor);
+    console.log("DOCTOR NAME =", editedDoctor.name);
+    console.log(
+      "DOCTOR NAME LENGTH =",
+      editedDoctor.name?.trim().length
+    );
 
-      if (editedDoctor.name.trim().length < 3) {
-        alert("Doctor name must be at least 3 characters");
-        return;
-      }
-
-      if (editedDoctor.specialization.trim().length < 2) {
-        alert("Enter valid specialization");
-        return;
-      }
-
-      if (editedDoctor.qualification.trim().length < 2) {
-        alert("Enter valid qualification");
-        return;
-      }
-
-      if (!/^[6-9]\d{9}$/.test(editedDoctor.mobile)) {
-        alert("Enter valid 10 digit mobile number");
-        return;
-      }
-
-      if (
-        !/^\d+\s*(Year|Years|Month|Months|yrs|yr)$/i.test(
-          editedDoctor.experience,
-        )
-      ) {
-        alert("Experience should be like 5 Years or 6 Months");
-        return;
-      }
-
-      if (editedDoctor.mobile.length !== 10) {
-        alert("Mobile number must be 10 digits");
-        return;
-      }
-
-      const res = await axios.put(
-        `http://localhost:5000/api/admin/doctor/edit/${id}`,
-        editedDoctor,
-      );
-
-      console.log(res.data);
-
-      alert("Doctor Updated Successfully");
-
-      setEditingDoctorId(null);
-
-      fetchDoctors();
-    } catch (error) {
-      console.log(error.response?.data);
-      alert(error.response?.data?.message || "Update Failed");
+    if (
+      !editedDoctor.name ||
+      !editedDoctor.specialization ||
+      !editedDoctor.qualification ||
+      !editedDoctor.experience ||
+      !editedDoctor.mobile
+    ) {
+      alert("Please fill all fields");
+      return;
     }
-  };
+
+    if (editedDoctor.specialization.trim().length < 2) {
+      alert("Enter valid specialization");
+      return;
+    }
+
+    if (editedDoctor.qualification.trim().length < 2) {
+      alert("Enter valid qualification");
+      return;
+    }
+
+    if (!/^[6-9]\d{9}$/.test(editedDoctor.mobile)) {
+      alert("Enter valid 10 digit mobile number");
+      return;
+    }
+
+    if (
+      !/^\d+\s*(Year|Years|Month|Months|yrs|yr)$/i.test(
+        editedDoctor.experience,
+      )
+    ) {
+      alert("Experience should be like 5 Years or 6 Months");
+      return;
+    }
+
+    if (editedDoctor.mobile.length !== 10) {
+      alert("Mobile number must be 10 digits");
+      return;
+    }
+
+    // Consultancy Fee validation
+    if (Number(editedDoctor.fee) < 0) {
+      alert("Consultancy Fee cannot be negative");
+      return;
+    }
+
+    const res = await axios.put(
+      `https://hospital-management-system-internship-rtob.onrender.com/api/admin/doctor/edit/${id}`,
+      editedDoctor,
+    );
+
+    console.log(res.data);
+
+    alert("Doctor Updated Successfully");
+
+    setEditingDoctorId(null);
+
+    fetchDoctors();
+  } catch (error) {
+    console.log(error.response?.data);
+    alert(error.response?.data?.message || "Update Failed");
+  }
+};
 
   return (
-<div className="admin-doctor-section">
-<div className="admin-doctor-header">
-          <h2>Doctors</h2>
+    <div className="admin-doctor-section">
+      <div className="admin-doctor-header">
+        <h2>Doctors</h2>
 
-<button
-  className="admin-doctor-add-btn"
-  onClick={() => setShowDoctorForm(true)}
->
-            + Add Doctor
+        <button
+          className="admin-doctor-add-btn"
+          onClick={() => setShowDoctorForm(true)}
+        >
+          + Add Doctor
         </button>
       </div>
 
@@ -160,11 +172,11 @@ function DoctorManagement({ doctors, fetchDoctors }) {
         addDoctor={addDoctor}
       />
 
-<div className="admin-doctor-grid">
-          {doctors.map((d) => (
-<div className="admin-doctor-card" key={d._id}>
-              <img
-className="admin-doctor-avatar"
+      <div className="admin-doctor-grid">
+        {doctors.map((d) => (
+          <div className="admin-doctor-card" key={d._id}>
+            <img
+              className="admin-doctor-avatar"
               src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
               alt="doctor"
             />
@@ -232,6 +244,20 @@ className="admin-doctor-avatar"
                     })
                   }
                 />
+
+                <input
+                  type="number"
+                  min="0"
+                  placeholder="Consultancy Fee"
+                  value={editedDoctor.fee ?? ""}
+                  onChange={(e) =>
+                    setEditedDoctor({
+                      ...editedDoctor,
+                      fee: Number(e.target.value),
+                    })
+                  }
+                />
+
               </>
             ) : (
               <>
@@ -240,11 +266,12 @@ className="admin-doctor-avatar"
                 <p>{d.specialization}</p>
                 <p>{d.qualification}</p>
                 <p>{d.experience}</p>
+                <p>Consultancy Fee: ₹{Number(d.fee || 0)}</p>
               </>
             )}
 
-<div className="admin-doctor-actions">
-                {editingDoctorId === d._id ? (
+            <div className="admin-doctor-actions">
+              {editingDoctorId === d._id ? (
                 <button
                   className="admin-doctor-edit-btn"
                   onClick={() => saveDoctorEdit(d._id)}
@@ -263,6 +290,7 @@ className="admin-doctor-avatar"
                       specialization: d.specialization,
                       qualification: d.qualification,
                       experience: d.experience,
+                      fee: d.fee || 0,
                     });
                   }}
                 >
@@ -271,7 +299,7 @@ className="admin-doctor-avatar"
               )}
 
               <button
-className="admin-doctor-delete-btn"
+                className="admin-doctor-delete-btn"
                 onClick={() => deleteDoctor(d._id)}
               >
                 Delete

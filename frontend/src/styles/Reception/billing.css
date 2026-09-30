@@ -366,11 +366,7 @@ font-size:16px;;
   }
 
 .billing-grid {
-  display: grid;
-  /* grid-template-columns: repeat(2, minmax(280px, 1fr)); */
-  .billing-grid {
   grid-template-columns: 1fr;
-}
   gap: 24px;
   margin-bottom: 40px;
 }
