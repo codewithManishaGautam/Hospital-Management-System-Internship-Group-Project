@@ -1,38 +1,162 @@
-.medicationSection{
-  margin-top:25px;
+.medicationSection {
+  width: 100%;
+  margin-top: 25px;
+  box-sizing: border-box;
 }
 
-.medicineTable{
-  width:100%;
-  border-collapse:collapse;
-  margin-top:20px;
+.medicationSection h2 {
+  margin: 0 0 18px;
+  color: #0b2447;
+  font-size: 24px;
+  font-weight: 700;
 }
 
-.medicineTable th{
-  background:#0b2447;
-  color:white;
-  padding:12px;
+.medicineTable {
+  width: 100%;
+  min-width: 650px;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: #ffffff;
 }
 
-.medicineTable td{
-  border:1px solid #ddd;
-  padding:10px;
-  text-align:center;
+.medicineTable th {
+  background: #0b2447;
+  color: white;
+  padding: 12px;
+  text-align: center;
+  white-space: nowrap;
+  font-size: 14px;
 }
 
-.medicineTable select{
-  padding:8px;
-  border-radius:6px;
+.medicineTable td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
 }
 
-.notesBox{
-  margin-top:25px;
+.medicineTable tbody tr:hover {
+  background: #f8fafc;
 }
 
-.notesBox textarea{
-  width:100%;
-  min-height:120px;
-  padding:12px;
-  border-radius:10px;
-  border:1px solid #ccc;
+.medicineTable select {
+  min-width: 100px;
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #ffffff;
+  font-size: 13px;
+  cursor: pointer;
+  outline: none;
+}
+
+.medicineTable select:focus {
+  border-color: #0b2447;
+  box-shadow: 0 0 0 3px rgba(11, 36, 71, 0.1);
+}
+
+.medicineTable select:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.noMedicineMessage {
+  margin: 15px 0 0;
+  padding: 14px;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 768px) {
+  .medicationSection {
+    margin-top: 20px;
+  }
+
+  .medicationSection h2 {
+    font-size: 22px;
+  }
+
+  .medicineTable {
+    min-width: 600px;
+    margin-top: 16px;
+  }
+
+  .medicineTable th,
+  .medicineTable td {
+    padding: 9px;
+    font-size: 13px;
+  }
+
+  .medicineTable select {
+    min-width: 90px;
+    padding: 7px 8px;
+    font-size: 12px;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 480px) {
+  .medicationSection {
+    margin-top: 18px;
+  }
+
+  .medicationSection h2 {
+    font-size: 20px;
+  }
+
+  .medicineTable {
+    min-width: 560px;
+  }
+
+  .medicineTable th,
+  .medicineTable td {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .medicineTable select {
+    min-width: 85px;
+    padding: 6px 7px;
+    font-size: 11px;
+  }
+
+  .noMedicineMessage {
+    font-size: 13px;
+    padding: 12px;
+  }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 360px) {
+  .medicationSection h2 {
+    font-size: 18px;
+  }
+
+  .medicineTable {
+    min-width: 520px;
+  }
+
+  .medicineTable th,
+  .medicineTable td {
+    padding: 7px;
+    font-size: 11px;
+  }
+
+  .medicineTable select {
+    min-width: 78px;
+    font-size: 10px;
+  }
 }

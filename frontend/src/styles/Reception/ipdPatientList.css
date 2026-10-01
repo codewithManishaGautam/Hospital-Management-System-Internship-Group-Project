@@ -173,7 +173,6 @@
 }
 
 /* Responsive */
-
 @media (max-width: 768px) {
   .ipd-list-header {
     flex-direction: column;
@@ -181,20 +180,57 @@
     gap: 15px;
   }
 
-  /* .search-box {
-    flex-direction: column;
-  } */
-
-  /* .search-btn {
+  .patient-count {
     width: 100%;
-  } */
+    box-sizing: border-box;
+  }
 
-  .ipd-table-card {
+  .table-wrapper {
+    width: 100%;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .ipd-table {
     min-width: 900px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ipd-list-container {
+    padding: 15px;
+  }
+
+  .ipd-title {
+    font-size: 23px;
+  }
+
+  .patient-count {
+    padding: 12px 15px;
+  }
+
+  .count-number {
+    font-size: 24px;
+  }
+
+  .search-section {
+    padding: 15px;
+    border-radius: 12px;
+  }
+
+  .search-input {
+    padding: 11px 13px;
+    font-size: 13px;
+  }
+
+  .ipd-table {
+    min-width: 850px;
+  }
+
+  .ipd-table th,
+  .ipd-table td {
+    padding: 10px;
+    font-size: 12px;
   }
 }
 

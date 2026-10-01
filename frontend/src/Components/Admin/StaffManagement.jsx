@@ -1,7 +1,6 @@
 import React from "react";
 import StaffForm from "./StaffForm";
 import "../../styles/admin/staff.css";
-import "../../styles/admin/table.css";
 
 function StaffManagement({
   staff,
@@ -18,11 +17,14 @@ function StaffManagement({
   addStaff,
 }) {
   return (
-    <div className="table-container">
-      <div className="section-header">
+    <div className="admin-staff-container">
+      <div className="admin-staff-header">
         <h2>Staff Management</h2>
 
-        <button className="add-btn" onClick={() => setShowStaffForm(true)}>
+        <button
+          className="admin-staff-add-btn"
+          onClick={() => setShowStaffForm(true)}
+        >
           + Add Staff
         </button>
       </div>
@@ -35,13 +37,13 @@ function StaffManagement({
         addStaff={addStaff}
       />
 
-      <table>
+      <table className="admin-staff-table">
         <thead>
           <tr>
             <th>Staff ID</th>
             <th>Name</th>
             <th>Aadhaar</th>
-<th>Email</th>
+            <th>Email</th>
             <th>Mobile</th>
             <th>Role</th>
             <th>Salary</th>
@@ -54,11 +56,11 @@ function StaffManagement({
         <tbody>
           {staff.map((s) => (
             <tr key={s._id}>
-              <td className="action-cell">
+              <td className="admin-staff-action-cell">
                 STF-{s._id.slice(-6).toUpperCase()}
               </td>
 
-              <td className="action-cell">
+              <td className="admin-staff-action-cell">
                 {editingStaffId === s._id ? (
                   <input
                     type="text"
@@ -75,7 +77,7 @@ function StaffManagement({
                 )}
               </td>
 
-              <td className="action-cell">
+              <td className="admin-staff-action-cell">
                 {editingStaffId === s._id ? (
                   <input
                     type="text"
@@ -94,24 +96,24 @@ function StaffManagement({
                 )}
               </td>
 
-              <td className="action-cell">
-{editingStaffId === s._id ? (
-  <input
-    type="email"
-    value={editedStaff.email}
-    onChange={(e) =>
-      setEditedStaff({
-        ...editedStaff,
-        email: e.target.value,
-      })
-    }
-  />
-) : (
-  s.email
-)}
-</td>
+              <td className="admin-staff-action-cell">
+                {editingStaffId === s._id ? (
+                  <input
+                    type="email"
+                    value={editedStaff.email}
+                    onChange={(e) =>
+                      setEditedStaff({
+                        ...editedStaff,
+                        email: e.target.value,
+                      })
+                    }
+                  />
+                ) : (
+                  s.email
+                )}
+              </td>
 
-<td className="action-cell">
+              <td className="admin-staff-action-cell">
                 {editingStaffId === s._id ? (
                   <input
                     type="text"
@@ -130,7 +132,7 @@ function StaffManagement({
                 )}
               </td>
 
-              <td className="action-cell">
+              <td className="admin-staff-action-cell">
                 {editingStaffId === s._id ? (
                   <input
                     type="text"
@@ -147,7 +149,7 @@ function StaffManagement({
                 )}
               </td>
 
-              <td className="action-cell">
+              <td className="admin-staff-action-cell">
                 {editingStaffId === s._id ? (
                   <input
                     type="text"
@@ -165,7 +167,7 @@ function StaffManagement({
                 )}
               </td>
 
-              <td className="action-cell">
+              <td className="admin-staff-action-cell">
                 {editingStaffId === s._id ? (
                   <select
                     value={editedStaff.status}
@@ -184,7 +186,7 @@ function StaffManagement({
                 )}
               </td>
 
-              <td className="action-cell">
+              <td className="admin-staff-action-cell">
                 {editingStaffId === s._id ? (
                   <input
                     type="date"
@@ -201,18 +203,18 @@ function StaffManagement({
                 )}
               </td>
 
-              <td className="action-cell">
+              <td className="admin-staff-action-cell">
                 {editingStaffId === s._id ? (
                   <>
                     <button
-                      className="edit-btn"
+                      className="admin-staff-edit-btn"
                       onClick={() => saveStaffEdit(s._id)}
                     >
                       Save
                     </button>
 
                     <button
-                      className="delete-btn"
+                      className="admin-staff-delete-btn"
                       onClick={() => setEditingStaffId(null)}
                     >
                       Cancel
@@ -221,19 +223,19 @@ function StaffManagement({
                 ) : (
                   <>
                     <button
-                      className="edit-btn"
+                      className="admin-staff-edit-btn"
                       onClick={() => {
                         setEditingStaffId(s._id);
 
                         setEditedStaff({
-name: s.name || "",
-aadhaar: s.aadhaar || "",
-mobile: s.mobile || "",
-email: s.email || "",
-role: s.role || "",
-salary: s.salary || "",
-status: s.status || "",
-joining: s.joining || "",
+                          name: s.name || "",
+                          aadhaar: s.aadhaar || "",
+                          mobile: s.mobile || "",
+                          email: s.email || "",
+                          role: s.role || "",
+                          salary: s.salary || "",
+                          status: s.status || "",
+                          joining: s.joining || "",
                         });
                       }}
                     >
@@ -241,7 +243,7 @@ joining: s.joining || "",
                     </button>
 
                     <button
-                      className="delete-btn"
+                      className="admin-staff-delete-btn"
                       onClick={() => deleteStaff(s._id)}
                     >
                       Delete

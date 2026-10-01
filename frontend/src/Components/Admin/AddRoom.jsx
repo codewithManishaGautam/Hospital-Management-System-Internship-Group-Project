@@ -14,7 +14,7 @@ function AddRoom() {
 
   const addRoom = async () => {
     try {
-      await axios.post("http://localhost:5000/api/admin/room/add", room);
+      await axios.post("https://hospital-management-system-internship-rtob.onrender.com/api/admin/room/add", room);
 
       alert("Room Added");
 
@@ -31,12 +31,12 @@ function AddRoom() {
   };
 
   return (
-    <div className="table-container">
-      <div className="section-header">
+    <div className="admin-room-container">
+      <div className="admin-room-header">
         <h2>Add Room</h2>
       </div>
 
-      <div className="staff-form">
+      <div className="admin-room-form">
         <input
           placeholder="Room Number"
           value={room.roomNumber}
@@ -101,7 +101,7 @@ function AddRoom() {
           }
         />
 
-        <button className="add-btn" onClick={addRoom}>
+        <button className="admin-room-add-btn" onClick={addRoom}>
           Add Room
         </button>
       </div>

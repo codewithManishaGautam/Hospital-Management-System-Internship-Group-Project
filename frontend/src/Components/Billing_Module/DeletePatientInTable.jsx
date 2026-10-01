@@ -6,6 +6,8 @@ from "@fortawesome/react-fontawesome";
 import { faTrash }
 from "@fortawesome/free-solid-svg-icons";
 
+import "./style/DeletePatientInTable.css";
+
 function DeletePatientInTable({
 
   id,
@@ -22,7 +24,7 @@ function DeletePatientInTable({
       const res =
       await axios.delete(
 
-        `http://localhost:5000/delete-patient/${id}`
+        `https://hospital-management-system-internship-rtob.onrender.com/delete-patient/${id}`
 
       );
 
@@ -49,9 +51,10 @@ function DeletePatientInTable({
 
     >
 
-      <FontAwesomeIcon
-        icon={faTrash}
-      />
+ <FontAwesomeIcon
+  icon={faTrash}
+  className="delete-patient-icon"
+/>
 
     </button>
 

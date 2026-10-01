@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./Layout.css";
 
 function Layout({ role, children, step, setStep }) {
@@ -155,18 +155,7 @@ function Layout({ role, children, step, setStep }) {
             <button onClick={() => handleStep("inventory")}>
               📦 Inventory Management
             </button>
-
-            <button onClick={() => handleStep("billing")}>
-              💰 Generate Bill
-            </button>
-
-            <button
-              className={step === "income" ? "active-menu" : ""}
-              onClick={() => handleStep("income")}
-            >
-              📈 Income
-            </button>
-
+            
             <button
               className={step === "expense" ? "active-menu" : ""}
               onClick={() => handleStep("expense")}
@@ -174,15 +163,17 @@ function Layout({ role, children, step, setStep }) {
               📉 Expense
             </button>
 
-            {/* <button onClick={() => handleStep("analytics")}>📊 Analytics</button> */}
+            <button
+              className={step === "analytics" ? "active-menu" : ""}
+              onClick={() => handleStep("analytics")}
+            >
+              📊 Analytics
+            </button>
 
             <button onClick={() => handleStep("charges")}>
               💳 Charges Management
             </button>
 
-            <button onClick={() => handleStep("insurance")}>
-              🛡 Insurance Records
-            </button>
           </>
         )}
 

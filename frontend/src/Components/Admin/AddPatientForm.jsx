@@ -11,8 +11,8 @@ function AddPatientForm({
   if (!showPatientForm) return null;
 
   return (
-    <div className="staff-form-popup">
-      <div className="staff-form">
+    <div className="admin-patient-form-popup">
+      <div className="admin-patient-form">
         <h2>Add Patient</h2>
 
         <input
@@ -115,13 +115,13 @@ function AddPatientForm({
           <option value="Discharged">Discharged</option>
         </select>
 
-        <div className="form-buttons">
-          <button className="save-btn" onClick={addPatient}>
+        <div className="admin-patient-form-buttons">
+          <button className="admin-patient-save-btn" onClick={addPatient}>
             Save
           </button>
 
           <button
-            className="cancel-btn"
+            className="admin-patient-cancel-btn"
             onClick={() => setShowPatientForm(false)}
           >
             Cancel

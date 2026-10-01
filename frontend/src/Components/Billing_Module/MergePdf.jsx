@@ -6,55 +6,70 @@ function MergePdf() {
   const [files, setFiles] = useState([]);
   const [patientName, setPatientName] = useState("");
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const sendPDF = async () => {
-    // Check files
-    if (files.length === 0) {
-      alert("Please select PDF files");
-      return;
-    }
+    console.log("SEND PDF BUTTON CLICKED");
 
-    // Check patient name
+    // Validation
     if (!patientName.trim()) {
       alert("Please enter patient name");
       return;
     }
 
-    // Check email
     if (!email.trim()) {
       alert("Please enter patient email");
       return;
     }
 
+    if (files.length === 0) {
+      alert("Please select at least one PDF file");
+      return;
+    }
+
+    // Create FormData
     const formData = new FormData();
 
-    // Add PDFs
     for (let i = 0; i < files.length; i++) {
       formData.append("pdfs", files[i]);
     }
 
-    // Add patient details
     formData.append("patientName", patientName);
     formData.append("email", email);
 
     try {
+      setLoading(true);
+
       console.log("Sending PDF...");
-      console.log("Patient Name:", patientName);
-      console.log("Email:", email);
       console.log("Files:", files);
+      console.log("Patient:", patientName);
+      console.log("Email:", email);
 
       const res = await axios.post(
-        "http://localhost:5000/send-email",
-        formData,
+        "https://hospital-management-system-internship-rtob.onrender.com/api/billing/send-email",
+        formData
       );
 
-      console.log("Server Response:", res.data);
+      console.log("SERVER RESPONSE:", res.data);
 
-      alert(res.data.message);
+      alert(
+        res.data.message || "PDF merged and sent successfully"
+      );
+
+      // Clear form after successful request
+      setFiles([]);
+      setPatientName("");
+      setEmail("");
     } catch (error) {
-      console.error("PDF Send Error:", error);
+      console.error("SEND PDF ERROR:", error);
+      console.error("SERVER RESPONSE:", error.response?.data);
 
-      alert(error.response?.data?.message || "Failed to merge and send PDF");
+      alert(
+        error.response?.data?.message ||
+          "Failed to send PDF"
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -92,8 +107,13 @@ function MergePdf() {
       />
 
       {/* Send Button */}
-      <button type="button" className="merge-btn" onClick={sendPDF}>
-        Merge & Send PDF
+      <button
+        type="button"
+        className="merge-btn"
+        onClick={sendPDF}
+        disabled={loading}
+      >
+        {loading ? "Sending..." : "Merge & Send PDF"}
       </button>
     </div>
   );

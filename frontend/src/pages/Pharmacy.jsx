@@ -9,12 +9,6 @@ import axios from "axios";
 
 // import { medicines, payments } from "../Components/Pharmacy/PharmacyData";
 
-import "../styles/Pharmacy/Pharmacy.css";
-import "../styles/Pharmacy/dashboard.css";
-import "../styles/Pharmacy/billpreview.css";
-import "../styles/Pharmacy/payments.css";
-// import "../styles/Pharmacy/Prescription.css";
-
 function Pharmacy() {
   const [step, setStep] = useState("dashboard");
 
@@ -26,7 +20,7 @@ function Pharmacy() {
   const loadPrescriptions = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/pharmacy/prescriptions",
+        "https://hospital-management-system-internship-rtob.onrender.com/api/pharmacy/prescriptions",
       );
 
       setPrescriptions(res.data.data);
@@ -61,7 +55,7 @@ function Pharmacy() {
 
   const loadPayments = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/pharmacy/bills");
+      const res = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/pharmacy/bills");
 
       setPayments(res.data.data || []);
     } catch (err) {
@@ -71,6 +65,7 @@ function Pharmacy() {
 
   useEffect(() => {
     loadPrescriptions();
+    loadPayments();
   }, []);
 
   useEffect(() => {
@@ -109,13 +104,16 @@ function Pharmacy() {
       )}
 
       {step === "prescription" && !selectedPrescription && (
-        <div className="table-container">
+        <div className="pharmacy-no-prescription">
+          {" "}
           <h2>No Prescription Selected</h2>
           <p>
             Please go to Pharmacy Dashboard and click Open on a prescription.
           </p>
-
-          <button className="btn-primary" onClick={() => setStep("dashboard")}>
+          <button
+            className="pharmacy-no-prescription-btn"
+            onClick={() => setStep("dashboard")}
+          >
             Go to Dashboard
           </button>
         </div>

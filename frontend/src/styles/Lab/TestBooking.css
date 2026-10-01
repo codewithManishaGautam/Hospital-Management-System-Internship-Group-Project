@@ -1,0 +1,158 @@
+/* ================================
+   TEST BOOKING
+================================ */
+
+.test-booking {
+  width: 100%;
+  padding: 24px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+}
+
+.test-booking h2 {
+  margin: 0 0 22px;
+  color: #1e293b;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+/* ================================
+   EMPTY MESSAGE
+================================ */
+
+.test-booking__empty {
+  margin: 0;
+  padding: 18px;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 10px;
+  color: #64748b;
+  text-align: center;
+  font-size: 15px;
+}
+
+/* ================================
+   PATIENT CARD
+================================ */
+
+.test-booking__card {
+  width: 100%;
+  padding: 18px;
+  margin-bottom: 14px;
+
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid #2563eb;
+  border-radius: 12px;
+
+  box-sizing: border-box;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.test-booking__card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 18px rgba(0, 0, 0, 0.08);
+}
+
+.test-booking__card p {
+  margin: 7px 0;
+  color: #475569;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.test-booking__card p:first-child {
+  margin-top: 0;
+}
+
+.test-booking__card p:last-child {
+  margin-bottom: 0;
+}
+
+.test-booking__card strong {
+  color: #1e293b;
+  font-size: 17px;
+}
+
+/* ================================
+   TABLET
+================================ */
+
+@media (max-width: 768px) {
+  .test-booking {
+    padding: 20px;
+  }
+
+  .test-booking h2 {
+    font-size: 23px;
+  }
+
+  .test-booking__card {
+    padding: 16px;
+  }
+}
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 480px) {
+  .test-booking {
+    padding: 16px;
+    border-radius: 10px;
+  }
+
+  .test-booking h2 {
+    font-size: 21px;
+    margin-bottom: 18px;
+  }
+
+  .test-booking__card {
+    padding: 14px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+  }
+
+  .test-booking__card p {
+    font-size: 13px;
+  }
+
+  .test-booking__card strong {
+    font-size: 16px;
+  }
+
+  .test-booking__empty {
+    padding: 15px;
+    font-size: 13px;
+  }
+}
+
+/* ================================
+   SMALL MOBILE
+================================ */
+
+@media (max-width: 360px) {
+  .test-booking {
+    padding: 12px;
+  }
+
+  .test-booking h2 {
+    font-size: 20px;
+  }
+
+  .test-booking__card {
+    padding: 12px;
+  }
+
+  .test-booking__card p {
+    font-size: 12px;
+  }
+
+  .test-booking__card strong {
+    font-size: 15px;
+  }
+}

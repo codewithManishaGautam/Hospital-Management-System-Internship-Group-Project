@@ -5,7 +5,7 @@ const router = express.Router();
 const {
   sendPrescription,
   getLatestPatientPrescription,
-} = require("../controllers/sentPrescriptionController");
+} = require("../controllers/SentPrescriptionController");
 
 router.post("/doctor/send-prescription", sendPrescription);
 

@@ -1,0 +1,162 @@
+/* =========================================================
+   ADMIN INSURANCE MANAGEMENT
+   ========================================================= */
+
+.admin-insurance-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* ================= HEADER ================= */
+
+.admin-insurance-header {
+  margin-bottom: 25px;
+}
+
+.admin-insurance-header h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+/* ================= TABLE ================= */
+
+.admin-insurance-table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+  background: #ffffff;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+}
+
+.admin-insurance-table th,
+.admin-insurance-table td {
+  padding: 12px 14px;
+  border: 1px solid #e2e8f0;
+  text-align: left;
+  font-size: 14px;
+}
+
+.admin-insurance-table th {
+  background: #f1f5f9;
+  color: #0f172a;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.admin-insurance-table td {
+  color: #475569;
+  vertical-align: middle;
+  word-break: break-word;
+}
+
+.admin-insurance-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+/* ================= MESSAGE ================= */
+
+.admin-insurance-message {
+  text-align: center !important;
+  padding: 25px !important;
+  color: #64748b !important;
+  font-size: 14px;
+}
+
+/* ================= STATUS ================= */
+
+.admin-insurance-status {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ================= TABLET ================= */
+
+@media (max-width: 900px) {
+  .admin-insurance-container {
+    padding: 16px;
+  }
+
+  .admin-insurance-header h2 {
+    font-size: 26px;
+  }
+
+  .admin-insurance-table {
+    min-width: 850px;
+  }
+
+  .admin-insurance-table th,
+  .admin-insurance-table td {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 600px) {
+  .admin-insurance-container {
+    padding: 12px;
+  }
+
+  .admin-insurance-header {
+    margin-bottom: 18px;
+  }
+
+  .admin-insurance-header h2 {
+    font-size: 22px;
+  }
+
+  /*
+    Insurance table has 7 columns,
+    so horizontal scrolling is used on mobile
+    instead of squeezing the data.
+  */
+  .admin-insurance-table {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .admin-insurance-table th,
+  .admin-insurance-table td {
+    padding: 9px 11px;
+    font-size: 12px;
+  }
+
+  .admin-insurance-status {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+}
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 360px) {
+  .admin-insurance-container {
+    padding: 10px;
+  }
+
+  .admin-insurance-header h2 {
+    font-size: 20px;
+  }
+
+  .admin-insurance-table th,
+  .admin-insurance-table td {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+}

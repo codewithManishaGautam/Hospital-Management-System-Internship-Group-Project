@@ -11,8 +11,8 @@ function AddDoctorForm({
   if (!showDoctorForm) return null;
 
   return (
-    <div className="staff-form-popup">
-      <div className="staff-form">
+    <div className="admin-doctor-form-popup">
+      <div className="admin-doctor-form">
         <h2>Add Doctor</h2>
 
         <input
@@ -61,7 +61,7 @@ function AddDoctorForm({
               ...newDoctor,
               mobile: e.target.value.replace(/\D/g, "").slice(0, 10),
             })
-            
+
           }
         />
 
@@ -77,9 +77,22 @@ function AddDoctorForm({
           }
         />
 
-        <div className="form-buttons">
+        <input
+          type="number"
+          min="0"
+          placeholder="Consultancy Fee"
+          value={newDoctor.fee ?? ""}
+          onChange={(e) =>
+            setNewDoctor({
+              ...newDoctor,
+              fee: Number(e.target.value),
+            })
+          }
+        />
+
+        <div className="admin-doctor-form-buttons">
           <button
-            className="save-btn"
+            className="admin-doctor-save-btn"
             onClick={() => {
               if (
                 !newDoctor.name ||
@@ -92,8 +105,8 @@ function AddDoctorForm({
                 return;
               }
 
-              if (newDoctor.name.trim().length < 3) {
-                alert("Doctor name must be at least 3 characters");
+              if (Number(newDoctor.fee) < 0) {
+                alert("Consultancy Fee cannot be negative");
                 return;
               }
 
@@ -119,6 +132,12 @@ function AddDoctorForm({
                 return;
               }
 
+              // Consultancy Fee validation
+              if (Number(newDoctor.fee) < 0) {
+                alert("Consultancy Fee cannot be negative");
+                return;
+              }
+
               // if (newDoctor.mobile.length !== 10) {
               //   alert("Mobile number must be 10 digits");
               //   return;
@@ -131,7 +150,7 @@ function AddDoctorForm({
           </button>
 
           <button
-            className="cancel-btn"
+            className="admin-doctor-cancel-btn"
             onClick={() => setShowDoctorForm(false)}
           >
             Cancel

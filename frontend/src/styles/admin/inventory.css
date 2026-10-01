@@ -1,0 +1,240 @@
+/* =========================================================
+   ADMIN INVENTORY MANAGEMENT
+   ========================================================= */
+
+.admin-inventory-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* ================= HEADER ================= */
+
+.admin-inventory-header {
+  margin-bottom: 25px;
+}
+
+.admin-inventory-header h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+/* ================= FORM ================= */
+
+.admin-inventory-form {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(140px, 1fr)) auto;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 25px;
+  align-items: center;
+}
+
+.admin-inventory-form input,
+.admin-inventory-form select {
+  width: 100%;
+  min-width: 0;
+  padding: 11px 12px;
+  box-sizing: border-box;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #0f172a;
+  font-size: 14px;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.admin-inventory-form input:focus,
+.admin-inventory-form select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* ================= ADD BUTTON ================= */
+
+.admin-inventory-add-btn {
+  padding: 11px 18px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.admin-inventory-add-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 12px rgba(37, 99, 235, 0.2);
+}
+
+.admin-inventory-add-btn:active {
+  transform: translateY(0);
+}
+
+/* ================= TABLE ================= */
+
+.admin-inventory-table {
+  width: 100%;
+  min-width: 750px;
+  border-collapse: collapse;
+  background: #ffffff;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+}
+
+.admin-inventory-table th,
+.admin-inventory-table td {
+  padding: 12px 14px;
+  border: 1px solid #e2e8f0;
+  text-align: left;
+  font-size: 14px;
+}
+
+.admin-inventory-table th {
+  background: #f1f5f9;
+  color: #0f172a;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.admin-inventory-table td {
+  color: #475569;
+  word-break: break-word;
+}
+
+.admin-inventory-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+/* ================= DELETE BUTTON ================= */
+
+.admin-inventory-delete-btn {
+  padding: 7px 13px;
+  border: none;
+  border-radius: 6px;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.admin-inventory-delete-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2);
+}
+
+.admin-inventory-delete-btn:active {
+  transform: translateY(0);
+}
+
+/* ================= TABLET ================= */
+
+@media (max-width: 1100px) {
+  .admin-inventory-form {
+    grid-template-columns: repeat(3, minmax(160px, 1fr));
+  }
+
+  .admin-inventory-add-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-inventory-container {
+    padding: 16px;
+  }
+
+  .admin-inventory-header h2 {
+    font-size: 26px;
+  }
+
+  .admin-inventory-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .admin-inventory-add-btn {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 520px) {
+  .admin-inventory-container {
+    padding: 12px;
+  }
+
+  .admin-inventory-header {
+    margin-bottom: 18px;
+  }
+
+  .admin-inventory-header h2 {
+    font-size: 22px;
+  }
+
+  .admin-inventory-form {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .admin-inventory-add-btn {
+    grid-column: auto;
+    width: 100%;
+  }
+
+  /* Horizontal scrolling for 6-column table */
+  .admin-inventory-table {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .admin-inventory-table th,
+  .admin-inventory-table td {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+}
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 360px) {
+  .admin-inventory-container {
+    padding: 10px;
+  }
+
+  .admin-inventory-header h2 {
+    font-size: 20px;
+  }
+
+  .admin-inventory-form input,
+  .admin-inventory-form select {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .admin-inventory-add-btn {
+    font-size: 13px;
+    padding: 10px;
+  }
+}

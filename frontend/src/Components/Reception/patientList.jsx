@@ -106,14 +106,9 @@ function PatientList() {
               ))
             ) : (
               <tr>
-                <td
-                  colSpan="9"
-                  style={{
-                    textAlign: "center",
-                  }}
-                >
-                  No Patient Found
-                </td>
+                <td colSpan="9" className="search-patient-no-data">
+  No Patient Found
+</td>
               </tr>
             )}
           </tbody>

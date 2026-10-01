@@ -1,4 +1,5 @@
 import React from "react";
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
@@ -9,7 +10,7 @@ import LabDashboard from "./Components/Lab/LabDashboard";
 
 import PharmacyDashboard from "./pages/Pharmacy";
 import NurseDashboard from "./pages/Nurse";
-import InsuranceDashboard from "./pages/Insurance";
+import InsuranceDashboard from "./Components/InsurancePatient/InsuranceDashboard";
 import AdminDashboard from "./pages/Admin";
 
 import VerifyAccount from "./Components/Login/VerifyAccount";
@@ -19,6 +20,7 @@ import Register from "./Components/Login/Register";
 import BillingDept from "./Components/Billing_Module/BillingDept";
 import PatientDetail from "./Components/Billing_Module/PatientDetail";
 import PrescriptionPage from "./Components/Reception/PrescriptionPage";
+import InsurancePatient from "./Components/InsurancePatient/InsurancePatient";
 
 
 function App() {
@@ -51,7 +53,9 @@ function App() {
         <Route path="/patient/:id" element={<PatientDetail />} />
 
         {/* Insurance */}
-        <Route path="/insurance/*" element={<InsuranceDashboard />} />
+        <Route path="/insurance" element={<InsuranceDashboard />} />
+
+        <Route path="/insurance/:id" element={<InsurancePatient />} />
 
         {/* Admin */}
         <Route path="/admin" element={<AdminDashboard />} />
@@ -66,6 +70,7 @@ function App() {
         <Route path="/prescription/:id" element={<PrescriptionPage />} />
       </Routes>
     </BrowserRouter>
+
   );
 }
 

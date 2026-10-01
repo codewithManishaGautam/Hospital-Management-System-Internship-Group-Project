@@ -20,7 +20,7 @@ function ProfileDashboard({ doctorName }) {
       const user = JSON.parse(localStorage.getItem("user"));
 
       const res = await axios.get(
-        `http://localhost:5000/api/doctor/profile/${user.doctorId}`,
+        `https://hospital-management-system-internship-rtob.onrender.com/api/doctor/profile/${user.doctorId}`,
       );
 
       console.log("API Response =", res.data);
@@ -34,7 +34,7 @@ function ProfileDashboard({ doctorName }) {
   const handleUpdate = async () => {
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/doctor/profile/${doctor._id}`,
+        `https://hospital-management-system-internship-rtob.onrender.com/api/doctor/profile/${doctor._id}`,
         doctor,
       );
 
@@ -131,23 +131,40 @@ function ProfileDashboard({ doctorName }) {
           </div>
         </div>
 
-        <div className="profile-row">
-          <div className="profile-field">
-            <label>Mobile</label>
+     <div className="profile-row">
+  <div className="profile-field">
+    <label>Mobile</label>
 
-            <input
-              type="text"
-              value={doctor.mobile || ""}
-              disabled={!edit}
-              onChange={(e) =>
-                setDoctor({
-                  ...doctor,
-                  mobile: e.target.value,
-                })
-              }
-            />
-          </div>
-        </div>
+    <input
+      type="text"
+      value={doctor.mobile || ""}
+      disabled={!edit}
+      onChange={(e) =>
+        setDoctor({
+          ...doctor,
+          mobile: e.target.value,
+        })
+      }
+    />
+  </div>
+
+  <div className="profile-field">
+    <label>Consultancy Fee</label>
+
+    <input
+      type="number"
+      min="0"
+      value={doctor.fee ?? ""}
+      disabled={!edit}
+      onChange={(e) =>
+        setDoctor({
+          ...doctor,
+          fee: Number(e.target.value),
+        })
+      }
+    />
+  </div>
+</div>
 
         <div className="profile-buttons">
           {!edit ? (

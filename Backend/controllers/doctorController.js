@@ -89,6 +89,43 @@ const getHistoryPatients = async (req, res) => {
   }
 };
 
+// Nurse Reports for a specific doctor's patient
+const getPatientNursingReports = async (req, res) => {
+  try {
+    const { doctorId, patientId } = req.params;
+
+    const patient = await Patient.findOne({
+      _id: patientId,
+      doctorId: doctorId,
+    }).select("name uhid doctorId nursingReports handoverNotes");
+
+    if (!patient) {
+      return res.status(404).json({
+        success: false,
+        message: "Patient not found for this doctor",
+      });
+    }
+
+    res.json({
+      success: true,
+      patient: {
+        name: patient.name,
+        uhid: patient.uhid,
+        doctorId: patient.doctorId,
+      },
+      nursingReports: patient.nursingReports || [],
+      handoverNotes: patient.handoverNotes || [],
+    });
+  } catch (err) {
+    console.error("Error fetching nurse reports:", err);
+
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
 const getDoctorProfile = async (req, res) => {
   try {
     console.log("Doctor Name =", req.params.name);
@@ -176,6 +213,7 @@ module.exports = {
   getDoctorPatients,
   getTodayPatients,
   getHistoryPatients,
+  getPatientNursingReports,
   getDoctorProfile,
   updateDoctorProfile,
 };

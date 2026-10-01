@@ -1,0 +1,92 @@
+/* ================================
+   FINDINGS / RESULT ENTRY
+================================ */
+
+.findings-panel {
+  width: 100%;
+  padding: 24px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+}
+
+.findings-panel h2 {
+  margin: 0 0 20px;
+  color: #1e293b;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.findings-patient {
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  color: #334155;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.findings-patient p {
+  margin: 0;
+}
+
+/* ================================
+   TABLET
+================================ */
+
+@media (max-width: 768px) {
+  .findings-panel {
+    padding: 20px;
+  }
+
+  .findings-panel h2 {
+    font-size: 23px;
+  }
+
+  .findings-patient {
+    padding: 13px 14px;
+    font-size: 14px;
+  }
+}
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 480px) {
+  .findings-panel {
+    padding: 16px;
+    border-radius: 10px;
+  }
+
+  .findings-panel h2 {
+    font-size: 21px;
+    margin-bottom: 16px;
+  }
+
+  .findings-patient {
+    padding: 12px;
+    font-size: 13px;
+  }
+}
+
+/* ================================
+   SMALL MOBILE
+================================ */
+
+@media (max-width: 360px) {
+  .findings-panel {
+    padding: 12px;
+  }
+
+  .findings-panel h2 {
+    font-size: 19px;
+  }
+
+  .findings-patient {
+    font-size: 12px;
+  }
+}

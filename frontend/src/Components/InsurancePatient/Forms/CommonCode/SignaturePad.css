@@ -1,0 +1,282 @@
+/* .signature-main{
+
+    display:flex;
+
+    align-items:flex-end;
+
+    width:50%;
+
+    gap:5px;
+
+}
+
+.signature-main button{
+
+    flex-shrink:0;
+
+    padding:2px 5px;
+
+}
+
+.line,
+.border,
+.none{
+
+    flex:1;
+
+    min-width:0;
+
+}
+
+
+.none{
+
+    border:none;
+
+}
+
+.sigCanvas{
+
+    display:block;
+
+}
+
+.line{
+
+    border-bottom:1px solid #000;
+
+    height:35px;
+
+}
+
+.border{
+
+    border:1px solid #000;
+
+    height:60px;
+
+}
+
+
+
+.clear-data
+{
+    width:"1px";
+    display:"block";
+}
+
+
+@media(max-width:768px){
+
+.signature-main{
+
+gap:3px;
+
+}
+
+.line canvas{
+
+height:28px!important;
+
+}
+
+.border canvas{
+
+height:40px!important;
+
+}
+
+}
+
+
+
+ */
+
+
+ /* =========================================
+   SIGNATURE MAIN
+========================================= */
+
+.signature-main {
+    display: flex;
+    align-items: flex-end;
+
+    /* IMPORTANT */
+    width: 100%;
+    max-width: 100%;
+
+    gap: 5px;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   SIGNATURE BUTTON
+========================================= */
+
+.signature-main button {
+    flex-shrink: 0;
+
+    padding: 2px 5px;
+
+    width: auto !important;
+    min-width: 0 !important;
+
+    margin: 0;
+}
+
+
+/* =========================================
+   SIGNATURE DESIGN CONTAINER
+========================================= */
+
+.line,
+.border,
+.none {
+    flex: 1;
+
+    min-width: 0;
+    max-width: 100%;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   NONE DESIGN
+========================================= */
+
+.none {
+    border: none;
+}
+
+
+/* =========================================
+   CANVAS
+========================================= */
+
+.sigCanvas {
+    display: block;
+
+    width: 100% !important;
+    max-width: 100%;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   LINE DESIGN
+========================================= */
+
+.line {
+    border-bottom: 1px solid #000;
+
+    height: 80px;
+
+    overflow: hidden;
+}
+
+
+/* =========================================
+   BORDER DESIGN
+========================================= */
+
+.border {
+    border: 1px solid #000;
+
+    height: 80px;
+
+    overflow: hidden;
+}
+
+
+/* =========================================
+   CLEAR DATA
+========================================= */
+
+.clear-data {
+    width: 1px;
+    display: block;
+}
+
+
+/* =========================================
+   INSURANCE FORM - THREE SIGNATURES
+========================================= */
+
+.signature-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 30px;
+
+    width: 100%;
+
+    margin-top: 25px;
+}
+
+
+.signature-grid > div {
+    width: 100%;
+    min-width: 0;
+}
+
+
+/* SignaturePad inside signature-grid */
+
+.signature-grid .signature-main {
+    width: 100%;
+    max-width: 100%;
+}
+
+
+/* =========================================
+   DIAGNOSIS / TREATMENT SIGNATURE
+========================================= */
+
+.signature-section {
+    width: 100%;
+    margin-top: 10px;
+}
+
+
+.signature-section .signature-main {
+    width: 100%;
+    max-width: 100%;
+}
+
+
+.signature-section .line {
+    width: 100%;
+    max-width: 100%;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .signature-main {
+        gap: 3px;
+    }
+
+    .line canvas {
+        height: 28px !important;
+    }
+
+    .border canvas {
+        height: 40px !important;
+    }
+
+    .signature-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+}
