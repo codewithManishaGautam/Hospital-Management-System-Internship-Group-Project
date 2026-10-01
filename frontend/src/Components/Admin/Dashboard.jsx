@@ -121,8 +121,7 @@ function Dashboard({ dashboard, finance, activities, rooms, beds }) {
       ========================= */}
 
       <div className="admin-dashboard-finance-card">
-
-        <h3>Finance Overview</h3>
+        <h3>Finance Overview - Current Month</h3>
 
         <ResponsiveContainer width="99%" height={350}>
           <PieChart>

@@ -305,11 +305,18 @@ useEffect(() => {
 
   const fetchFinance = async () => {
     try {
-      const res = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/admin/analytics");
+      const now = new Date();
+
+      const year = now.getFullYear();
+      const month = now.getMonth() + 1;
+
+      const res = await axios.get(
+        `https://hospital-management-system-internship-rtob.onrender.com/api/admin/analytics?year=${year}&month=${month}`
+      );
 
       setFinance(res.data);
     } catch (err) {
-      console.log(err);
+      console.log("Finance Error:", err);
     }
   };
 
