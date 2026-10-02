@@ -134,6 +134,9 @@ const verifyOtp = async (req, res) => {
 };
 
 const sendRegistrationOtp = async (req, res) => {
+  console.log("========== SEND OTP API CALLED ==========");
+  console.log("Email:", req.body.email);
+
   try {
     const { email } = req.body;
 

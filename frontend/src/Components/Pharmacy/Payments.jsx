@@ -4,7 +4,7 @@ import "../../styles/Pharmacy/payments.css";
 function Payments({ payments, setStep }) {
   const [search, setSearch] = useState("");
 
-  // 👉 Search filter (name / UHID / mobile)
+  // Search filter (name / UHID / mobile)
   const filteredPayments = payments.filter((p) => {
     const text = search.toLowerCase();
 
@@ -15,10 +15,10 @@ function Payments({ payments, setStep }) {
     );
   });
 
-  //  Summary calculation
-const totalPaid = payments
-  .filter((p) => p.paymentStatus === "Paid")
-  .reduce((sum, p) => sum + Number(p.totalAmount || 0), 0);
+  // Summary calculation
+  const totalPaid = payments
+    .filter((p) => p.paymentStatus === "Paid")
+    .reduce((sum, p) => sum + Number(p.totalAmount || 0), 0);
 
   const totalPending = payments
     .filter((p) => p.paymentStatus === "Pending")
@@ -28,11 +28,12 @@ const totalPaid = payments
     <>
       <h1 className="pharmacy-payments-title">Payments</h1>
 
-      {/* 🔍 SEARCH SECTION */}
+      {/* SEARCH SECTION */}
       <div className="pharmacy-payment-search-section">
         <h3 className="pharmacy-payment-search-title">
           Search Patient Payment
         </h3>
+
         <input
           type="text"
           placeholder="Search by Name / UHID / Mobile"
@@ -49,9 +50,8 @@ const totalPaid = payments
         <table className="pharmacy-payment-table">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Patient Name</th>
               <th>UHID</th>
+              <th>Patient Name</th>
               <th>Mobile</th>
               <th>Date</th>
               <th>Amount</th>
@@ -63,13 +63,17 @@ const totalPaid = payments
             {filteredPayments.length > 0 ? (
               filteredPayments.map((p) => (
                 <tr key={p._id}>
-                  <td>{p._id}</td>
+                  <td>
+                    {p.patientUHID || p.patientId?.uhid || "N/A"}
+                  </td>
 
-                  <td>{p.patientName || p.patientId?.name || "N/A"}</td>
+                  <td>
+                    {p.patientName || p.patientId?.name || "N/A"}
+                  </td>
 
-                  <td>{p.patientUHID || p.patientId?.uhid || "N/A"}</td>
-
-                  <td>{p.patientId?.mobile || "N/A"}</td>
+                  <td>
+                    {p.patientId?.mobile || "N/A"}
+                  </td>
 
                   <td>
                     {p.createdAt
@@ -77,14 +81,16 @@ const totalPaid = payments
                       : "N/A"}
                   </td>
 
-                  <td>₹ {Number(p.totalAmount || 0).toFixed(2)}</td>
+                  <td>
+                    ₹ {Number(p.totalAmount || 0).toFixed(2)}
+                  </td>
 
                   <td>
                     <span
                       className={`pharmacy-payment-badge ${
-                   p.paymentStatus === "Paid"
-  ? "pharmacy-payment-completed"
-  : "pharmacy-payment-pending"
+                        p.paymentStatus === "Paid"
+                          ? "pharmacy-payment-completed"
+                          : "pharmacy-payment-pending"
                       }`}
                     >
                       {p.paymentStatus}
@@ -94,9 +100,12 @@ const totalPaid = payments
               ))
             ) : (
               <tr>
-               <td colSpan="7" className="pharmacy-payment-no-data">
-  No Payment Found
-</td>
+                <td
+                  colSpan="6"
+                  className="pharmacy-payment-no-data"
+                >
+                  No Payment Found
+                </td>
               </tr>
             )}
           </tbody>
@@ -109,9 +118,13 @@ const totalPaid = payments
           <div className="pharmacy-payment-icon">💰</div>
 
           <div className="pharmacy-payment-info">
-            <div className="pharmacy-payment-number">₹ {totalPaid}</div>
+            <div className="pharmacy-payment-number">
+              ₹ {totalPaid}
+            </div>
 
-            <div className="pharmacy-payment-label">Total Paid</div>
+            <div className="pharmacy-payment-label">
+              Total Paid
+            </div>
           </div>
         </div>
 
@@ -119,9 +132,13 @@ const totalPaid = payments
           <div className="pharmacy-payment-icon">⏳</div>
 
           <div className="pharmacy-payment-info">
-            <div className="pharmacy-payment-number">₹ {totalPending}</div>
+            <div className="pharmacy-payment-number">
+              ₹ {totalPending}
+            </div>
 
-            <div className="pharmacy-payment-label">Pending Payments</div>
+            <div className="pharmacy-payment-label">
+              Pending Payments
+            </div>
           </div>
         </div>
       </div>

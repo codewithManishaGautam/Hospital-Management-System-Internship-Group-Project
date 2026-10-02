@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { sendRegistrationOtp } from "../../api/authApi";
+import api from "../../api/axiosInstance";
 import { useNavigate, useLocation } from "react-router-dom";
 import AuthLayout from "./AuthLayout";
 
@@ -17,50 +17,55 @@ function Register() {
 
   const [showPassword, setShowPassword] = useState(false);
 
+  const [sendingOtp, setSendingOtp] = useState(false);
+
   // STEP 1: SEND OTP
-  const sendOtp = async () => {
-    if (!email) {
-      alert("Enter Email");
-      return;
-    }
+const sendOtp = async () => {
+  if (!email) {
+    alert("Enter Email");
+    return;
+  }
 
-    
+  if (sendingOtp) {
+    return;
+  }
 
-    try {
-      const res = await sendRegistrationOtp({ email });
+  try {
+    setSendingOtp(true);
 
-      alert(res.data.message);
-      setOtpSent(true);
-    } catch (err) {
-      console.log(err);
-      alert(err.response?.data?.message || "Error sending OTP");
-      
-    }
-  };
+    const res = await sendRegistrationOtp({ email });
+
+    alert(res.data.message);
+    setOtpSent(true);
+  } catch (err) {
+    console.log(err);
+    alert(err.response?.data?.message || "Error sending OTP");
+  } finally {
+    setSendingOtp(false);
+  }
+};
 
   // STEP 2: VERIFY OTP + CREATE PASSWORD
+
   const verifyAccount = async () => {
-    if (!email || !otp || !password) {
-      alert("Fill all fields");
-      return;
-    }
+  if (!email || !otp || !password) {
+    alert("Fill all fields");
+    return;
+  }
 
-    try {
-      const res = await axios.post(
-        "https://hospital-management-system-internship-rtob.onrender.com/api/auth/verify-otp",
-        {
-          email,
-          otp,
-          password,
-        },
-      );
+  try {
+    const res = await api.post("/auth/verify-otp", {
+      email,
+      otp,
+      password,
+    });
 
-      alert(res.data.message);
-      navigate("/");
-    } catch (err) {
-      alert(err.response?.data?.message || "Verification Failed");
-    }
-  };
+    alert(res.data.message);
+    navigate("/");
+  } catch (err) {
+    alert(err.response?.data?.message || "Verification Failed");
+  }
+};
 
   return (
     <AuthLayout title="Staff Registration">
@@ -71,7 +76,12 @@ function Register() {
         onChange={(e) => setEmail(e.target.value)}
       />
 
-      <button onClick={sendOtp}>Send OTP</button>
+     <button
+  onClick={sendOtp}
+  disabled={sendingOtp}
+>
+  {sendingOtp ? "Sending OTP..." : "Send OTP"}
+</button>
 
       {otpSent && (
         <>

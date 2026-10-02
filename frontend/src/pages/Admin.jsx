@@ -1,15 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api/axiosInstance";
 import Layout from "./Layout";
-
-// styles
-// import "../styles/admin/dashboard.css";
-// import "../styles/admin/table.css";
-// import "../styles/admin/doctor.css";
-// import "../styles/admin/staff.css";
-// import "../styles/admiacn/patient.css";
-// import "../styles/admin/forms.css";
-// import "../styles/admin/modal.css";
 
 // components
 import StaffManagement from "../Components/Admin/StaffManagement";
@@ -40,15 +31,17 @@ function Admin() {
 
   const fetchMasterData = async () => {
     try {
-      const resTpa = await axios.get(
-        "https://hospital-management-system-internship-rtob.onrender.com/api/insurance/master-data/tpas",
-      );
-      if (resTpa.data.success) setTpaList(resTpa.data.data);
+      const resTpa = await api.get("/insurance/master-data/tpas");
 
-      const resComp = await axios.get(
-        "https://hospital-management-system-internship-rtob.onrender.com/api/insurance/master-data/companies",
-      );
-      if (resComp.data.success) setCompanyList(resComp.data.data);
+      if (resTpa.data.success) {
+        setTpaList(resTpa.data.data);
+      }
+
+      const resComp = await api.get("/insurance/master-data/companies");
+
+      if (resComp.data.success) {
+        setCompanyList(resComp.data.data);
+      }
     } catch (err) {
       console.error("Error fetching master data:", err);
     }
@@ -58,7 +51,9 @@ function Admin() {
   const [doctors, setDoctors] = useState([]);
   const [staff, setStaff] = useState([]);
   const [patients, setPatients] = useState([]);
+
   const [editingPatientId, setEditingPatientId] = useState(null);
+
   const [editedPatient, setEditedPatient] = useState({
     name: "",
     age: "",
@@ -74,6 +69,7 @@ function Admin() {
   const [searchTerm, setSearchTerm] = useState("");
 
   const [showPatientForm, setShowPatientForm] = useState(false);
+
   const [newPatient, setNewPatient] = useState({
     name: "",
     age: "",
@@ -93,6 +89,7 @@ function Admin() {
   const [selectedPatient, setSelectedPatient] = useState(null);
 
   const [editingStaffId, setEditingStaffId] = useState(null);
+
   const [editedStaff, setEditedStaff] = useState({
     name: "",
     aadhaar: "",
@@ -145,10 +142,7 @@ function Admin() {
         return;
       }
 
-      await axios.put(
-        `https://hospital-management-system-internship-rtob.onrender.com/api/admin/staff/edit/${id}`,
-        editedStaff,
-      );
+      await api.put(`/admin/staff/edit/${id}`, editedStaff);
 
       await fetchStaff();
 
@@ -157,32 +151,32 @@ function Admin() {
       alert("Staff Updated Successfully");
     } catch (err) {
       console.log(err.response?.data);
-
       alert(err.response?.data?.message || "Update Failed");
     }
   };
 
   const deleteStaff = async (id) => {
-    const ok = window.confirm("Are you sure you want to delete this staff?");
+    const ok = window.confirm(
+      "Are you sure you want to delete this staff?"
+    );
 
     if (!ok) return;
 
     try {
-      await axios.delete(`https://hospital-management-system-internship-rtob.onrender.com/api/admin/staff/delete/${id}`);
+      await api.delete(`/admin/staff/delete/${id}`);
 
       await fetchStaff();
 
       alert("Staff Deleted Successfully");
     } catch (err) {
       console.log(err.response?.data);
-
       alert(err.response?.data?.message || "Delete Failed");
     }
   };
 
   const addStaff = async () => {
     try {
-      await axios.post("https://hospital-management-system-internship-rtob.onrender.com/api/admin/staff/add", newStaff);
+      await api.post("/admin/staff/add", newStaff);
 
       await fetchStaff();
 
@@ -205,9 +199,11 @@ function Admin() {
       alert(err.response?.data?.message || "Staff Add Failed");
     }
   };
+
   const savePatientEdit = async (id) => {
     try {
-      await axios.put(`https://hospital-management-system-internship-rtob.onrender.com/api/patient/${id}`, editedPatient);
+      await api.put(`/patient/${id}`, editedPatient);
+
       setEditingPatientId(null);
       fetchPatients();
     } catch (err) {
@@ -217,7 +213,7 @@ function Admin() {
 
   const deletePatient = async (id) => {
     try {
-      await axios.delete(`https://hospital-management-system-internship-rtob.onrender.com/api/patient/${id}`);
+      await api.delete(`/patient/${id}`);
       fetchPatients();
     } catch (err) {
       console.log(err);
@@ -226,8 +222,10 @@ function Admin() {
 
   const addPatient = async () => {
     try {
-      await axios.post("https://hospital-management-system-internship-rtob.onrender.com/api/patient", newPatient);
+      await api.post("/patient", newPatient);
+
       setShowPatientForm(false);
+
       setNewPatient({
         name: "",
         age: "",
@@ -239,6 +237,7 @@ function Admin() {
         appointmentDate: "",
         status: "",
       });
+
       fetchPatients();
     } catch (err) {
       console.log(err);
@@ -246,29 +245,30 @@ function Admin() {
   };
 
   // ---------------- FETCH DATA ----------------
-useEffect(() => {
-  fetchDashboard();
-  fetchDoctors();
-  fetchStaff();
-  fetchPatients();
-  fetchFinance();
-  fetchActivities();
-  fetchRooms();
-  fetchBeds();
 
-  // Refresh only important dashboard data every 30 seconds
-  const interval = setInterval(() => {
+  useEffect(() => {
     fetchDashboard();
+    fetchDoctors();
+    fetchStaff();
+    fetchPatients();
+    fetchFinance();
+    fetchActivities();
     fetchRooms();
     fetchBeds();
-  }, 30000);
 
-  return () => clearInterval(interval);
-}, []);
+    // Refresh important dashboard data every 30 seconds
+    const interval = setInterval(() => {
+      fetchDashboard();
+      fetchRooms();
+      fetchBeds();
+    }, 30000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const fetchDashboard = async () => {
     try {
-      const res = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/admin/dashboard");
+      const res = await api.get("/admin/dashboard");
       setDashboard(res.data);
     } catch (err) {
       console.log(err);
@@ -277,7 +277,7 @@ useEffect(() => {
 
   const fetchDoctors = async () => {
     try {
-      const res = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/admin/doctors");
+      const res = await api.get("/admin/doctors");
       setDoctors(res.data);
     } catch (err) {
       console.log(err);
@@ -286,7 +286,7 @@ useEffect(() => {
 
   const fetchStaff = async () => {
     try {
-      const res = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/admin/staff");
+      const res = await api.get("/admin/staff");
       setStaff(res.data);
     } catch (err) {
       console.log(err);
@@ -295,8 +295,7 @@ useEffect(() => {
 
   const fetchPatients = async () => {
     try {
-      const res = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/patient");
-
+      const res = await api.get("/patient");
       setPatients(res.data);
     } catch (err) {
       console.log(err);
@@ -310,29 +309,43 @@ useEffect(() => {
       const year = now.getFullYear();
       const month = now.getMonth() + 1;
 
-      const res = await axios.get(
-        `https://hospital-management-system-internship-rtob.onrender.com/api/admin/analytics?year=${year}&month=${month}`
+      const res = await api.get(
+        `/admin/analytics?year=${year}&month=${month}`
       );
 
       setFinance(res.data);
     } catch (err) {
-      console.log("Finance Error:", err);
+      console.log("Error fetching finance:", err);
+
+      setFinance({
+        totalIncome: 0,
+        totalExpense: 0,
+        profit: 0,
+        daily: [],
+      });
     }
   };
 
   const fetchActivities = async () => {
     try {
-      const res = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/admin/activities");
+      const res = await api.get("/admin/activities");
 
-      setActivities(res.data);
+      const data = Array.isArray(res.data)
+        ? res.data
+        : Array.isArray(res.data?.activities)
+        ? res.data.activities
+        : [];
+
+      setActivities(data);
     } catch (err) {
-      console.log(err);
+      console.log("Error fetching activities:", err);
+      setActivities([]);
     }
   };
 
   const fetchRooms = async () => {
     try {
-      const res = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/rooms");
+      const res = await api.get("/rooms");
       setRooms(res.data);
     } catch (err) {
       console.log(err);
@@ -341,7 +354,7 @@ useEffect(() => {
 
   const fetchBeds = async () => {
     try {
-      const res = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/beds");
+      const res = await api.get("/beds");
       setBeds(res.data);
     } catch (err) {
       console.log(err);
@@ -363,7 +376,10 @@ useEffect(() => {
 
       {/* DOCTORS */}
       {step === "doctors" && (
-        <DoctorManagement doctors={doctors} fetchDoctors={fetchDoctors} />
+        <DoctorManagement
+          doctors={doctors}
+          fetchDoctors={fetchDoctors}
+        />
       )}
 
       {/* PATIENTS */}
@@ -383,7 +399,6 @@ useEffect(() => {
           selectedPatient={selectedPatient}
           setSelectedPatient={setSelectedPatient}
           fetchPatients={fetchPatients}
-          // ✅ ADD THESE (IMPORTANT)
           savePatientEdit={savePatientEdit}
           deletePatient={deletePatient}
           addPatient={addPatient}
@@ -399,6 +414,7 @@ useEffect(() => {
             <h2>Third Party Administrators (TPAs)</h2>
             <button className="add-btn">+ Add TPA</button>
           </div>
+
           <table>
             <thead>
               <tr>
@@ -410,12 +426,15 @@ useEffect(() => {
                 <th>Status</th>
               </tr>
             </thead>
+
             <tbody>
               {tpaList.length > 0 ? (
                 tpaList.map((tpa) => (
                   <tr key={tpa._id}>
                     <td>
-                      {tpa._id.substring(tpa._id.length - 6).toUpperCase()}
+                      {tpa._id
+                        .substring(tpa._id.length - 6)
+                        .toUpperCase()}
                     </td>
                     <td>{tpa.tpaName}</td>
                     <td>{tpa.helpline || "N/A"}</td>
@@ -432,10 +451,14 @@ useEffect(() => {
             </tbody>
           </table>
 
-          <div className="section-header" style={{ marginTop: "40px" }}>
+          <div
+            className="section-header"
+            style={{ marginTop: "40px" }}
+          >
             <h2>Insurance Companies</h2>
             <button className="add-btn">+ Add Company</button>
           </div>
+
           <table>
             <thead>
               <tr>
@@ -447,12 +470,15 @@ useEffect(() => {
                 <th>Status</th>
               </tr>
             </thead>
+
             <tbody>
               {companyList.length > 0 ? (
                 companyList.map((comp) => (
                   <tr key={comp._id}>
                     <td>
-                      {comp._id.substring(comp._id.length - 6).toUpperCase()}
+                      {comp._id
+                        .substring(comp._id.length - 6)
+                        .toUpperCase()}
                     </td>
                     <td>{comp.companyName}</td>
                     <td>{comp.companyType}</td>

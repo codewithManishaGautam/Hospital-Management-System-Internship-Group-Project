@@ -1,76 +1,140 @@
-import React from "react";
-
+import React, { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+// Login
+const LoginDashboard = lazy(() => import("./pages/Login"));
 
-import LoginDashboard from "./pages/Login";
-import ReceptionistDashboard from "./pages/Receptionist";
-import DoctorDashboard from "./pages/Doctor";
-import LabDashboard from "./Components/Lab/LabDashboard";
+// Main Dashboards
+const ReceptionistDashboard = lazy(() => import("./pages/Receptionist"));
+const DoctorDashboard = lazy(() => import("./pages/Doctor"));
+const LabDashboard = lazy(() => import("./Components/Lab/LabDashboard"));
+const PharmacyDashboard = lazy(() => import("./pages/Pharmacy"));
+const NurseDashboard = lazy(() => import("./pages/Nurse"));
+const InsuranceDashboard = lazy(
+  () => import("./Components/InsurancePatient/InsuranceDashboard")
+);
+const AdminDashboard = lazy(() => import("./pages/Admin"));
 
-import PharmacyDashboard from "./pages/Pharmacy";
-import NurseDashboard from "./pages/Nurse";
-import InsuranceDashboard from "./Components/InsurancePatient/InsuranceDashboard";
-import AdminDashboard from "./pages/Admin";
+// Login / Authentication pages
+const VerifyAccount = lazy(
+  () => import("./Components/Login/VerifyAccount")
+);
+const ForgotPassword = lazy(
+  () => import("./Components/Login/ForgotPassword")
+);
+const ResetPassword = lazy(
+  () => import("./Components/Login/ResetPassword")
+);
+const Register = lazy(() => import("./Components/Login/Register"));
 
-import VerifyAccount from "./Components/Login/VerifyAccount";
-import ForgotPassword from "./Components/Login/ForgotPassword";
-import ResetPassword from "./Components/Login/ResetPassword";
-import Register from "./Components/Login/Register";
-import BillingDept from "./Components/Billing_Module/BillingDept";
-import PatientDetail from "./Components/Billing_Module/PatientDetail";
-import PrescriptionPage from "./Components/Reception/PrescriptionPage";
-import InsurancePatient from "./Components/InsurancePatient/InsurancePatient";
+// Billing
+const BillingDept = lazy(
+  () => import("./Components/Billing_Module/BillingDept")
+);
 
+const PatientDetail = lazy(
+  () => import("./Components/Billing_Module/PatientDetail")
+);
+
+// Reception
+const PrescriptionPage = lazy(
+  () => import("./Components/Reception/PrescriptionPage")
+);
+
+// Insurance Patient
+const InsurancePatient = lazy(
+  () => import("./Components/InsurancePatient/InsurancePatient")
+);
 
 function App() {
   return (
-    
-
     <BrowserRouter>
-      <Routes>
-        {/* Login Page */}
-        <Route path="/" element={<LoginDashboard />} />
+      <Suspense
+        fallback={
+          <div
+            style={{
+              minHeight: "100vh",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "18px",
+              fontWeight: "600",
+            }}
+          >
+            Loading...
+          </div>
+        }
+      >
+        <Routes>
+          {/* Login Page */}
+          <Route path="/" element={<LoginDashboard />} />
 
-        {/* Receptionist */}
-        <Route path="/receptionist" element={<ReceptionistDashboard />} />
+          {/* Receptionist */}
+          <Route
+            path="/receptionist"
+            element={<ReceptionistDashboard />}
+          />
 
-        {/* Doctor */}
-        <Route path="/doctor" element={<DoctorDashboard />} />
+          {/* Doctor */}
+          <Route path="/doctor" element={<DoctorDashboard />} />
 
-        {/* Lab Module */}
-        <Route path="/lab" element={<LabDashboard />} />
+          {/* Lab Module */}
+          <Route path="/lab" element={<LabDashboard />} />
 
-        {/* Pharmacy */}
-        <Route path="/pharmacy" element={<PharmacyDashboard />} />
+          {/* Pharmacy */}
+          <Route path="/pharmacy" element={<PharmacyDashboard />} />
 
-        {/* Nurse */}
-        <Route path="/nurse" element={<NurseDashboard />} />
+          {/* Nurse */}
+          <Route path="/nurse" element={<NurseDashboard />} />
 
-        {/* Billing */}
-        <Route path="/billing" element={<BillingDept />} />
+          {/* Billing */}
+          <Route path="/billing" element={<BillingDept />} />
 
-        <Route path="/patient/:id" element={<PatientDetail />} />
+          <Route
+            path="/patient/:id"
+            element={<PatientDetail />}
+          />
 
-        {/* Insurance */}
-        <Route path="/insurance" element={<InsuranceDashboard />} />
+          {/* Insurance */}
+          <Route
+            path="/insurance/*"
+            element={<InsuranceDashboard />}
+          />
 
-        <Route path="/insurance/:id" element={<InsurancePatient />} />
+          <Route
+            path="/insurance/:id"
+            element={<InsurancePatient />}
+          />
 
-        {/* Admin */}
-        <Route path="/admin" element={<AdminDashboard />} />
+          {/* Admin */}
+          <Route path="/admin" element={<AdminDashboard />} />
 
-        <Route path="/verify-account" element={<VerifyAccount />} />
+          {/* Authentication */}
+          <Route
+            path="/verify-account"
+            element={<VerifyAccount />}
+          />
 
-        <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route
+            path="/forgot-password"
+            element={<ForgotPassword />}
+          />
 
-        <Route path="/reset-password" element={<ResetPassword />} />
+          <Route
+            path="/reset-password"
+            element={<ResetPassword />}
+          />
 
-        <Route path="/register" element={<Register />} />
-        <Route path="/prescription/:id" element={<PrescriptionPage />} />
-      </Routes>
+          <Route path="/register" element={<Register />} />
+
+          {/* Prescription */}
+          <Route
+            path="/prescription/:id"
+            element={<PrescriptionPage />}
+          />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
-
   );
 }
 
