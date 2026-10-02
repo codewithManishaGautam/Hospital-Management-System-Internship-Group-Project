@@ -18,7 +18,7 @@ const ClaimPackageGenerator = ({ caseId, caseNumber }) => {
         // Construct the full URL to the generated PDF
         // Assuming the backend serves the 'generated' folder statically or returns a full URL
         const path = response.data.data.claimPackagePath;
-        setDownloadUrl(`http://localhost:5000/${path}`);
+        setDownloadUrl(`https://hospital-management-system-internship-rtob.onrender.com/${path}`);
       } else {
         setError(response.data.message || 'Failed to generate claim package');
       }

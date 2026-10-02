@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "../../styles/admin/table.css";
 
 function Charges() {
   const [charges, setCharges] = useState([]);
@@ -12,13 +13,13 @@ function Charges() {
   });
 
   const fetchCharges = async () => {
-    const res = await axios.get("http://localhost:5000/api/admin/charges");
+    const res = await axios.get("https://hospital-management-system-internship-rtob.onrender.com/api/admin/charges");
 
     setCharges(res.data);
   };
 
   const addCharge = async () => {
-    await axios.post("http://localhost:5000/api/admin/charge/add", newCharge);
+    await axios.post("https://hospital-management-system-internship-rtob.onrender.com/api/admin/charge/add", newCharge);
 
     setNewCharge({
       chargeName: "",
@@ -31,7 +32,7 @@ function Charges() {
   };
 
   const deleteCharge = async (id) => {
-    await axios.delete(`http://localhost:5000/api/admin/charge/delete/${id}`);
+    await axios.delete(`https://hospital-management-system-internship-rtob.onrender.com/api/admin/charge/delete/${id}`);
 
     fetchCharges();
   };
@@ -41,12 +42,12 @@ function Charges() {
   }, []);
 
   return (
-    <div className="table-container">
-      <div className="section-header">
+    <div className="admin-charges-container">
+      <div className="admin-charges-header">
         <h2>Charges Management</h2>
       </div>
 
-      <div className="staff-form">
+      <div className="admin-charges-form">
         <input
           placeholder="Charge Name"
           value={newCharge.chargeName}
@@ -91,12 +92,12 @@ function Charges() {
           }
         />
 
-        <button className="add-btn" onClick={addCharge}>
+        <button className="admin-charges-add-btn" onClick={addCharge}>
           Add Charge
         </button>
       </div>
 
-      <table>
+      <table className="admin-charges-table">
         <thead>
           <tr>
             <th>Charge Name</th>
@@ -117,7 +118,7 @@ function Charges() {
 
               <td>
                 <button
-                  className="delete-btn"
+                  className="admin-charges-delete-btn"
                   onClick={() => deleteCharge(charge._id)}
                 >
                   Delete

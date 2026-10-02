@@ -3,7 +3,6 @@ import { sendRegistrationOtp } from "../../api/authApi";
 import api from "../../api/axiosInstance";
 import { useNavigate, useLocation } from "react-router-dom";
 import AuthLayout from "./AuthLayout";
-import "../../styles/login/authLayout.css";
 
 function Register() {
   const navigate = useNavigate();
@@ -47,25 +46,26 @@ const sendOtp = async () => {
 };
 
   // STEP 2: VERIFY OTP + CREATE PASSWORD
+
   const verifyAccount = async () => {
-    if (!email || !otp || !password) {
-      alert("Fill all fields");
-      return;
-    }
+  if (!email || !otp || !password) {
+    alert("Fill all fields");
+    return;
+  }
 
-    try {
-      const res = await api.post("/auth/verify-otp", {
-        email,
-        otp,
-        password,
-      });
+  try {
+    const res = await api.post("/auth/verify-otp", {
+      email,
+      otp,
+      password,
+    });
 
-      alert(res.data.message);
-      navigate("/");
-    } catch (err) {
-      alert(err.response?.data?.message || "Verification Failed");
-    }
-  };
+    alert(res.data.message);
+    navigate("/");
+  } catch (err) {
+    alert(err.response?.data?.message || "Verification Failed");
+  }
+};
 
   return (
     <AuthLayout title="Staff Registration">

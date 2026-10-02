@@ -2,9 +2,25 @@ const mongoose = require("mongoose");
 
 const incomeSchema = new mongoose.Schema(
   {
-    source: String,
-    amount: Number,
-    description: String,
+    source: {
+      type: String,
+      required: true,
+    },
+
+    amount: {
+      type: Number,
+      required: true,
+    },
+
+    date: {
+      type: Date,
+      default: Date.now,
+    },
+
+    description: {
+      type: String,
+      default: "",
+    },
   },
   {
     timestamps: true,

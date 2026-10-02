@@ -2,15 +2,6 @@ import React, { useState, useEffect } from "react";
 import api from "../api/axiosInstance";
 import Layout from "./Layout";
 
-// styles
-// import "../styles/admin/dashboard.css";
-// import "../styles/admin/table.css";
-// import "../styles/admin/doctor.css";
-// import "../styles/admin/staff.css";
-// import "../styles/admiacn/patient.css";
-// import "../styles/admin/forms.css";
-// import "../styles/admin/modal.css";
-
 // components
 import StaffManagement from "../Components/Admin/StaffManagement";
 import DoctorManagement from "../Components/Admin/DoctorManagement";
@@ -21,7 +12,7 @@ import RoomInventory from "../Components/Admin/RoomInventory";
 import Inventory from "../Components/Admin/Inventory";
 import Income from "../Components/Admin/Income";
 import Expense from "../Components/Admin/Expense";
-// import Analytics from "../Components/Admin/Analytics";
+import Analytics from "../Components/Admin/Analytics";
 import Charges from "../Components/Admin/Charges";
 import Insurance from "../Components/Admin/Insurance";
 import BedManagement from "../Components/Admin/BedManagement";
@@ -40,11 +31,17 @@ function Admin() {
 
   const fetchMasterData = async () => {
     try {
-const resTpa = await api.get("/insurance/master-data/tpas");
-      if (resTpa.data.success) setTpaList(resTpa.data.data);
-      
-const resComp = await api.get("/insurance/master-data/companies");
-      if (resComp.data.success) setCompanyList(resComp.data.data);
+      const resTpa = await api.get("/insurance/master-data/tpas");
+
+      if (resTpa.data.success) {
+        setTpaList(resTpa.data.data);
+      }
+
+      const resComp = await api.get("/insurance/master-data/companies");
+
+      if (resComp.data.success) {
+        setCompanyList(resComp.data.data);
+      }
     } catch (err) {
       console.error("Error fetching master data:", err);
     }
@@ -54,7 +51,9 @@ const resComp = await api.get("/insurance/master-data/companies");
   const [doctors, setDoctors] = useState([]);
   const [staff, setStaff] = useState([]);
   const [patients, setPatients] = useState([]);
+
   const [editingPatientId, setEditingPatientId] = useState(null);
+
   const [editedPatient, setEditedPatient] = useState({
     name: "",
     age: "",
@@ -70,6 +69,7 @@ const resComp = await api.get("/insurance/master-data/companies");
   const [searchTerm, setSearchTerm] = useState("");
 
   const [showPatientForm, setShowPatientForm] = useState(false);
+
   const [newPatient, setNewPatient] = useState({
     name: "",
     age: "",
@@ -89,30 +89,30 @@ const resComp = await api.get("/insurance/master-data/companies");
   const [selectedPatient, setSelectedPatient] = useState(null);
 
   const [editingStaffId, setEditingStaffId] = useState(null);
-const [editedStaff, setEditedStaff] = useState({
-  name: "",
-  aadhaar: "",
-  mobile: "",
-  email: "",
-  role: "",
-  salary: "",
-  status: "",
-  joining: "",
-});
 
-const [showStaffForm, setShowStaffForm] = useState(false);
+  const [editedStaff, setEditedStaff] = useState({
+    name: "",
+    aadhaar: "",
+    mobile: "",
+    email: "",
+    role: "",
+    salary: "",
+    status: "",
+    joining: "",
+  });
 
-const [newStaff, setNewStaff] = useState({
-  name: "",
-  aadhaar: "",
-  email: "",
-  mobile: "",
-  role: "",
-  salary: "",
-  status: "",
-  joining: "",
-});
+  const [showStaffForm, setShowStaffForm] = useState(false);
 
+  const [newStaff, setNewStaff] = useState({
+    name: "",
+    aadhaar: "",
+    email: "",
+    mobile: "",
+    role: "",
+    salary: "",
+    status: "",
+    joining: "",
+  });
 
   const [rooms, setRooms] = useState([]);
   const [beds, setBeds] = useState([]);
@@ -142,10 +142,7 @@ const [newStaff, setNewStaff] = useState({
         return;
       }
 
-     await api.put(
-  `/admin/staff/edit/${id}`,
-  editedStaff,
-);
+      await api.put(`/admin/staff/edit/${id}`, editedStaff);
 
       await fetchStaff();
 
@@ -154,57 +151,59 @@ const [newStaff, setNewStaff] = useState({
       alert("Staff Updated Successfully");
     } catch (err) {
       console.log(err.response?.data);
-
       alert(err.response?.data?.message || "Update Failed");
     }
   };
 
   const deleteStaff = async (id) => {
-    const ok = window.confirm("Are you sure you want to delete this staff?");
+    const ok = window.confirm(
+      "Are you sure you want to delete this staff?"
+    );
 
     if (!ok) return;
 
     try {
-await api.delete(`/admin/staff/delete/${id}`);
+      await api.delete(`/admin/staff/delete/${id}`);
 
       await fetchStaff();
 
       alert("Staff Deleted Successfully");
     } catch (err) {
       console.log(err.response?.data);
-
       alert(err.response?.data?.message || "Delete Failed");
     }
   };
 
-const addStaff = async () => {
-  try {
-   await api.post("/admin/staff/add", newStaff);
+  const addStaff = async () => {
+    try {
+      await api.post("/admin/staff/add", newStaff);
 
-    await fetchStaff();
+      await fetchStaff();
 
-    setNewStaff({
-      name: "",
-      aadhaar: "",
-      email: "",
-      mobile: "",
-      role: "",
-      salary: "",
-      status: "",
-      joining: "",
-    });
+      setNewStaff({
+        name: "",
+        aadhaar: "",
+        email: "",
+        mobile: "",
+        role: "",
+        salary: "",
+        status: "",
+        joining: "",
+      });
 
-    setShowStaffForm(false);
+      setShowStaffForm(false);
 
-    alert("Staff Added Successfully");
-  } catch (err) {
-    console.log(err.response?.data);
-    alert(err.response?.data?.message || "Staff Add Failed");
-  }
-};
+      alert("Staff Added Successfully");
+    } catch (err) {
+      console.log(err.response?.data);
+      alert(err.response?.data?.message || "Staff Add Failed");
+    }
+  };
+
   const savePatientEdit = async (id) => {
     try {
-    await api.put(`/patient/${id}`, editedPatient);
+      await api.put(`/patient/${id}`, editedPatient);
+
       setEditingPatientId(null);
       fetchPatients();
     } catch (err) {
@@ -214,7 +213,7 @@ const addStaff = async () => {
 
   const deletePatient = async (id) => {
     try {
-     await api.delete(`/patient/${id}`);
+      await api.delete(`/patient/${id}`);
       fetchPatients();
     } catch (err) {
       console.log(err);
@@ -224,7 +223,9 @@ const addStaff = async () => {
   const addPatient = async () => {
     try {
       await api.post("/patient", newPatient);
+
       setShowPatientForm(false);
+
       setNewPatient({
         name: "",
         age: "",
@@ -236,32 +237,34 @@ const addStaff = async () => {
         appointmentDate: "",
         status: "",
       });
+
       fetchPatients();
     } catch (err) {
       console.log(err);
     }
   };
 
-// ---------------- FETCH DATA ----------------
-useEffect(() => {
-  fetchDashboard();
-  fetchDoctors();
-  fetchStaff();
-  fetchPatients();
-  fetchFinance();
-  fetchActivities();
-  fetchRooms();
-  fetchBeds();
+  // ---------------- FETCH DATA ----------------
 
-  const interval = setInterval(() => {
+  useEffect(() => {
     fetchDashboard();
+    fetchDoctors();
+    fetchStaff();
     fetchPatients();
+    fetchFinance();
+    fetchActivities();
     fetchRooms();
     fetchBeds();
-  }, 5000);
 
-  return () => clearInterval(interval);
-}, []);
+    // Refresh important dashboard data every 30 seconds
+    const interval = setInterval(() => {
+      fetchDashboard();
+      fetchRooms();
+      fetchBeds();
+    }, 30000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const fetchDashboard = async () => {
     try {
@@ -283,7 +286,7 @@ useEffect(() => {
 
   const fetchStaff = async () => {
     try {
-     const res = await api.get("/admin/staff");
+      const res = await api.get("/admin/staff");
       setStaff(res.data);
     } catch (err) {
       console.log(err);
@@ -292,58 +295,57 @@ useEffect(() => {
 
   const fetchPatients = async () => {
     try {
-     const res = await api.get("/patient");
-
+      const res = await api.get("/patient");
       setPatients(res.data);
     } catch (err) {
       console.log(err);
     }
   };
 
-const fetchFinance = async () => {
-  try {
-    const now = new Date();
+  const fetchFinance = async () => {
+    try {
+      const now = new Date();
 
-    const year = now.getFullYear();
-    const month = now.getMonth() + 1;
+      const year = now.getFullYear();
+      const month = now.getMonth() + 1;
 
-    const res = await api.get(
-      `/admin/analytics?year=${year}&month=${month}`
-    );
+      const res = await api.get(
+        `/admin/analytics?year=${year}&month=${month}`
+      );
 
-    setFinance(res.data);
-  } catch (err) {
-    console.log("Error fetching finance:", err);
+      setFinance(res.data);
+    } catch (err) {
+      console.log("Error fetching finance:", err);
 
-    setFinance({
-      totalIncome: 0,
-      totalExpense: 0,
-      profit: 0,
-      daily: [],
-    });
-  }
-};
+      setFinance({
+        totalIncome: 0,
+        totalExpense: 0,
+        profit: 0,
+        daily: [],
+      });
+    }
+  };
 
-const fetchActivities = async () => {
-  try {
-    const res = await api.get("/admin/activities");
+  const fetchActivities = async () => {
+    try {
+      const res = await api.get("/admin/activities");
 
-    const data = Array.isArray(res.data)
-      ? res.data
-      : Array.isArray(res.data?.activities)
-      ? res.data.activities
-      : [];
+      const data = Array.isArray(res.data)
+        ? res.data
+        : Array.isArray(res.data?.activities)
+        ? res.data.activities
+        : [];
 
-    setActivities(data);
-  } catch (err) {
-    console.log("Error fetching activities:", err);
-    setActivities([]);
-  }
-};
+      setActivities(data);
+    } catch (err) {
+      console.log("Error fetching activities:", err);
+      setActivities([]);
+    }
+  };
 
   const fetchRooms = async () => {
     try {
-    const res = await api.get("/rooms");
+      const res = await api.get("/rooms");
       setRooms(res.data);
     } catch (err) {
       console.log(err);
@@ -352,7 +354,7 @@ const fetchActivities = async () => {
 
   const fetchBeds = async () => {
     try {
-     const res = await api.get("/beds");
+      const res = await api.get("/beds");
       setBeds(res.data);
     } catch (err) {
       console.log(err);
@@ -374,7 +376,10 @@ const fetchActivities = async () => {
 
       {/* DOCTORS */}
       {step === "doctors" && (
-        <DoctorManagement doctors={doctors} fetchDoctors={fetchDoctors} />
+        <DoctorManagement
+          doctors={doctors}
+          fetchDoctors={fetchDoctors}
+        />
       )}
 
       {/* PATIENTS */}
@@ -394,7 +399,6 @@ const fetchActivities = async () => {
           selectedPatient={selectedPatient}
           setSelectedPatient={setSelectedPatient}
           fetchPatients={fetchPatients}
-          // ✅ ADD THESE (IMPORTANT)
           savePatientEdit={savePatientEdit}
           deletePatient={deletePatient}
           addPatient={addPatient}
@@ -410,6 +414,7 @@ const fetchActivities = async () => {
             <h2>Third Party Administrators (TPAs)</h2>
             <button className="add-btn">+ Add TPA</button>
           </div>
+
           <table>
             <thead>
               <tr>
@@ -421,26 +426,39 @@ const fetchActivities = async () => {
                 <th>Status</th>
               </tr>
             </thead>
+
             <tbody>
-              {tpaList.length > 0 ? tpaList.map(tpa => (
-                <tr key={tpa._id}>
-                  <td>{tpa._id.substring(tpa._id.length - 6).toUpperCase()}</td>
-                  <td>{tpa.tpaName}</td>
-                  <td>{tpa.helpline || "N/A"}</td>
-                  <td>{tpa.claimsEmail || "N/A"}</td>
-                  <td>{tpa.claimTatDays || "N/A"}</td>
-                  <td>{tpa.isActive ? "Active" : "Inactive"}</td>
+              {tpaList.length > 0 ? (
+                tpaList.map((tpa) => (
+                  <tr key={tpa._id}>
+                    <td>
+                      {tpa._id
+                        .substring(tpa._id.length - 6)
+                        .toUpperCase()}
+                    </td>
+                    <td>{tpa.tpaName}</td>
+                    <td>{tpa.helpline || "N/A"}</td>
+                    <td>{tpa.claimsEmail || "N/A"}</td>
+                    <td>{tpa.claimTatDays || "N/A"}</td>
+                    <td>{tpa.isActive ? "Active" : "Inactive"}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="6">No TPAs found.</td>
                 </tr>
-              )) : (
-                <tr><td colSpan="6">No TPAs found.</td></tr>
               )}
             </tbody>
           </table>
 
-          <div className="section-header" style={{ marginTop: '40px' }}>
+          <div
+            className="section-header"
+            style={{ marginTop: "40px" }}
+          >
             <h2>Insurance Companies</h2>
             <button className="add-btn">+ Add Company</button>
           </div>
+
           <table>
             <thead>
               <tr>
@@ -452,18 +470,27 @@ const fetchActivities = async () => {
                 <th>Status</th>
               </tr>
             </thead>
+
             <tbody>
-              {companyList.length > 0 ? companyList.map(comp => (
-                <tr key={comp._id}>
-                  <td>{comp._id.substring(comp._id.length - 6).toUpperCase()}</td>
-                  <td>{comp.companyName}</td>
-                  <td>{comp.companyType}</td>
-                  <td>{comp.claimDepartmentPhone || "N/A"}</td>
-                  <td>{comp.isCashless ? "Yes" : "No"}</td>
-                  <td>{comp.isActive ? "Active" : "Inactive"}</td>
+              {companyList.length > 0 ? (
+                companyList.map((comp) => (
+                  <tr key={comp._id}>
+                    <td>
+                      {comp._id
+                        .substring(comp._id.length - 6)
+                        .toUpperCase()}
+                    </td>
+                    <td>{comp.companyName}</td>
+                    <td>{comp.companyType}</td>
+                    <td>{comp.claimDepartmentPhone || "N/A"}</td>
+                    <td>{comp.isCashless ? "Yes" : "No"}</td>
+                    <td>{comp.isActive ? "Active" : "Inactive"}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="6">No Companies found.</td>
                 </tr>
-              )) : (
-                <tr><td colSpan="6">No Companies found.</td></tr>
               )}
             </tbody>
           </table>
@@ -501,7 +528,7 @@ const fetchActivities = async () => {
 
       {step === "expense" && <Expense />}
 
-      {/* {step === "analytics" && <Analytics />} */}
+      {step === "analytics" && <Analytics />}
 
       {step === "charges" && <Charges />}
 

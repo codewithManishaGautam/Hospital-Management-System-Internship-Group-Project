@@ -84,3 +84,85 @@
   font-size: 15px;
 }
 
+/* ========== Tablet ========== */
+
+@media (max-width: 768px) {
+  .login-content {
+    max-width: 100%;
+    gap: 25px;
+    padding: 0 20px;
+  }
+
+  .hospital-title {
+    font-size: 42px;
+  }
+
+  .hospital-subtitle {
+    font-size: 18px;
+  }
+
+  .login-actions {
+    margin-top: 18px;
+  }
+
+  .login-link,
+  .register-link {
+    font-size: 14px;
+  }
+}
+
+
+/* ========== Mobile ========== */
+
+@media (max-width: 480px) {
+  .login-content {
+    gap: 20px;
+    padding: 0 10px;
+  }
+
+  .hospital-title {
+    font-size: 32px;
+    line-height: 1.2;
+  }
+
+  .hospital-subtitle {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .login-actions {
+    margin-top: 15px;
+  }
+
+  .login-link,
+  .register-link {
+    font-size: 13px;
+  }
+}
+
+
+/* ========== Small Mobile ========== */
+
+@media (max-width: 360px) {
+  .login-content {
+    gap: 16px;
+    padding: 0 5px;
+  }
+
+  .hospital-title {
+    font-size: 27px;
+  }
+
+  .hospital-subtitle {
+    font-size: 13px;
+  }
+
+  .login-actions {
+    margin-top: 12px;
+  }
+
+  .login-link,
+  .register-link {
+    font-size: 12px;
+  }
+}

@@ -3,8 +3,9 @@ import PatientTable from "./PatientTable";
 
 import "../../styles/doctor/patientManagement.css";
 
-function PatientsDashboard({ patients }) {
+function PatientsDashboard({ patients, doctorId }) {
   console.log("History Patients =", patients);
+  console.log("Doctor ID =", doctorId);
 
   return (
     <div className="patients-dashboard">
@@ -17,7 +18,7 @@ function PatientsDashboard({ patients }) {
       </div>
 
       <div className="patients-table-card">
-        <PatientTable patients={patients} />
+        <PatientTable patients={patients} doctorId={doctorId} />
       </div>
     </div>
   );

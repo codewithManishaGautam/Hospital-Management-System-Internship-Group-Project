@@ -3,15 +3,15 @@ import "../../styles/Lab/AnalysisPanel.css";
 
 function AnalysisPanel({ labData }) {
   return (
-    <div>
-      <h2>Analysis Panel</h2>
+  <div className="analysis-panel">
+  <h2>Analysis Panel</h2>
 
-      {labData.map((patient) => (
-        <div key={patient.id}>
-          <p>{patient.patientName} - Analysis Pending</p>
-        </div>
-      ))}
+  {labData.map((patient) => (
+    <div className="analysis-patient" key={patient.id}>
+      <p>{patient.patientName} - Analysis Pending</p>
     </div>
+  ))}
+</div>
   );
 }
 

@@ -5,6 +5,7 @@ const router = express.Router();
 const {
   getAllBeds,
   getAvailableBeds,
+  getAvailableBedsByRoom,
   addBed,
   updateBed,
   deleteBed,
@@ -13,6 +14,8 @@ const {
 router.get("/", getAllBeds);
 
 router.get("/available", getAvailableBeds);
+
+router.get("/available/room/:roomNumber", getAvailableBedsByRoom);
 
 router.post("/", addBed);
 

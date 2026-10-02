@@ -1,20 +1,139 @@
-.previousReports{
-  margin-top:30px;
+.previousReports {
+  width: 100%;
+  margin-top: 30px;
+  box-sizing: border-box;
 }
 
-.reportCard{
-  background:#f8fafc;
-  padding:15px;
-  border-radius:15px;
-  margin-top:15px;
-  border-left:5px solid black;
+.previousReports > h2 {
+  margin: 0 0 18px;
+  color: #0b2447;
+  font-size: 24px;
+  font-weight: 700;
 }
 
-.reportCard h3{
-  color:black;
-  margin-bottom:10px;
+.previousReports > p {
+  margin: 0;
+  padding: 14px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  color: #64748b;
+  font-size: 14px;
 }
 
-.reportCard p{
-  margin:5px 0;
+.reportCard {
+  width: 100%;
+  box-sizing: border-box;
+  background: #f8fafc;
+  padding: 16px;
+  border-radius: 12px;
+  margin-top: 15px;
+  border-left: 5px solid #0b2447;
+  border-top: 1px solid #e2e8f0;
+  border-right: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.reportCard h3 {
+  margin: 0 0 12px;
+  color: #0b2447;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.reportCard p {
+  margin: 6px 0;
+  color: #475569;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.reportCard strong {
+  color: #0b2447;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 768px) {
+  .previousReports {
+    margin-top: 25px;
+  }
+
+  .previousReports > h2 {
+    font-size: 22px;
+  }
+
+  .reportCard {
+    padding: 14px;
+  }
+
+  .reportCard h3 {
+    font-size: 17px;
+  }
+
+  .reportCard p {
+    font-size: 13px;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 480px) {
+  .previousReports {
+    margin-top: 20px;
+  }
+
+  .previousReports > h2 {
+    font-size: 20px;
+  }
+
+  .previousReports > p {
+    padding: 11px;
+    font-size: 13px;
+  }
+
+  .reportCard {
+    padding: 13px;
+    margin-top: 12px;
+    border-left-width: 4px;
+    border-radius: 10px;
+  }
+
+  .reportCard h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .reportCard p {
+    margin: 5px 0;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 360px) {
+  .previousReports > h2 {
+    font-size: 18px;
+  }
+
+  .reportCard {
+    padding: 11px;
+  }
+
+  .reportCard h3 {
+    font-size: 15px;
+  }
+
+  .reportCard p {
+    font-size: 11px;
+  }
 }

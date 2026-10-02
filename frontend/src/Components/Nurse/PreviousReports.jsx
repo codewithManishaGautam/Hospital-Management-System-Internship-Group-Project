@@ -2,32 +2,73 @@ import React from "react";
 import "../../styles/Nurse/PreviousReports.css";
 
 export default function PreviousReports({
-  nursingReports
+  nursingReports = [],
 }) {
   return (
     <div className="previousReports">
-
       <h2>Previous Daily Reports</h2>
 
-      {nursingReports.map((r, i) => (
+      {nursingReports.length === 0 ? (
+        <p>No previous nursing reports available.</p>
+      ) : (
+        nursingReports.map((report, index) => (
+          <div
+            className="reportCard"
+            key={report._id || index}
+          >
+            <h3>
+              {report.day || `Day ${index + 1}`}
+            </h3>
 
-        <div className="reportCard" key={i}>
+            {report.createdAt && (
+              <p>
+                <strong>Date & Time:</strong>{" "}
+                {new Date(report.createdAt).toLocaleString("en-IN")}
+              </p>
+            )}
 
-          <h3>{r.day}</h3>
+            <p>
+              <strong>BP:</strong>{" "}
+              {report.bp || "-"}
+            </p>
 
-          <p>BP : {r.bp}</p>
-          <p>Pulse : {r.pulse}</p>
-          <p>Temp : {r.temp}</p>
-          <p>SpO2 : {r.spo2}</p>
-          <p>Sugar : {r.sugar}</p>
-          <p>Intake : {r.intake}</p>
-          <p>Output : {r.output}</p>
-          <p>Notes : {r.notes}</p>
+            <p>
+              <strong>Pulse:</strong>{" "}
+              {report.pulse || "-"}
+            </p>
 
-        </div>
+            <p>
+              <strong>Temperature:</strong>{" "}
+              {report.temperature || "-"}
+            </p>
 
-      ))}
+            <p>
+              <strong>SpO2:</strong>{" "}
+              {report.spo2 || "-"}
+            </p>
 
+            <p>
+              <strong>Sugar:</strong>{" "}
+              {report.sugar || "-"}
+            </p>
+
+            <p>
+              <strong>Intake:</strong>{" "}
+              {report.intake || "-"}
+            </p>
+
+            <p>
+              <strong>Output:</strong>{" "}
+              {report.output || "-"}
+            </p>
+
+            <p>
+              <strong>Nursing Notes:</strong>{" "}
+              {report.notes || "-"}
+            </p>
+          </div>
+        ))
+      )}
     </div>
   );
 }

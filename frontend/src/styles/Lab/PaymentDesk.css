@@ -1,0 +1,163 @@
+/* ================================
+   PAYMENT DESK
+================================ */
+
+.payment-desk {
+  width: 100%;
+  padding: 24px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+}
+
+.payment-desk h2 {
+  margin: 0 0 22px;
+  color: #1e293b;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.payment-empty {
+  margin: 0;
+  padding: 18px;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 10px;
+  color: #64748b;
+  text-align: center;
+}
+
+/* ================================
+   PATIENT CARD
+================================ */
+
+.payment-patient-card {
+  padding: 18px;
+  margin-bottom: 12px;
+
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid #2563eb;
+  border-radius: 10px;
+
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+
+  box-sizing: border-box;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.payment-patient-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.payment-patient-card h4 {
+  margin: 0 0 10px;
+  color: #1e293b;
+  font-size: 18px;
+}
+
+.payment-patient-card p {
+  margin: 6px 0;
+  color: #475569;
+  font-size: 14px;
+}
+
+.payment-patient-card strong {
+  color: #334155;
+}
+
+/* ================================
+   BUTTON
+================================ */
+
+.payment-patient-card .btn-success {
+  margin-top: 10px;
+  padding: 9px 16px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ================================
+   PAID STATUS
+================================ */
+
+.payment-paid {
+  color: #15803d !important;
+  font-weight: 700;
+}
+
+/* ================================
+   TABLET
+================================ */
+
+@media (max-width: 768px) {
+  .payment-desk {
+    padding: 20px;
+  }
+
+  .payment-desk h2 {
+    font-size: 23px;
+  }
+
+  .payment-patient-card {
+    padding: 16px;
+  }
+}
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 480px) {
+  .payment-desk {
+    padding: 16px;
+    border-radius: 10px;
+  }
+
+  .payment-desk h2 {
+    font-size: 21px;
+    margin-bottom: 18px;
+  }
+
+  .payment-patient-card {
+    padding: 14px;
+  }
+
+  .payment-patient-card h4 {
+    font-size: 16px;
+  }
+
+  .payment-patient-card p {
+    font-size: 13px;
+  }
+
+  .payment-patient-card .btn-success {
+    width: 100%;
+  }
+}
+
+/* ================================
+   SMALL MOBILE
+================================ */
+
+@media (max-width: 360px) {
+  .payment-desk {
+    padding: 12px;
+  }
+
+  .payment-patient-card {
+    padding: 12px;
+  }
+
+  .payment-patient-card h4 {
+    font-size: 15px;
+  }
+
+  .payment-patient-card p {
+    font-size: 12px;
+  }
+}

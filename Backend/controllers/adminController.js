@@ -1,5 +1,6 @@
 const Doctor = require("../models/Doctor");
 const Patient = require("../models/Patient");
+const Bill = require("../models/Bill");
 // const User = require("../models/User");
 const Staff = require("../models/Staff");
 const Room = require("../models/Room");
@@ -250,18 +251,71 @@ const deleteStaff = async (req, res) => {
 
 const editStaff = async (req, res) => {
   try {
-    const doctor = await Doctor.create(req.body);
+    const { name, aadhaar, email, mobile, role, salary, status, joining } =
+      req.body;
 
-    await Activity.create({
-      message: `Doctor Added : ${doctor.name}`,
-    });
+    if (
+      !name ||
+      !aadhaar ||
+      !mobile ||
+      !role ||
+      !salary ||
+      !status ||
+      !joining
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Please fill all fields",
+      });
+    }
 
-    res.status(201).json({
+    if (!/^\d{12}$/.test(String(aadhaar))) {
+      return res.status(400).json({
+        success: false,
+        message: "Aadhaar must be 12 digits",
+      });
+    }
+
+    if (!/^[6-9]\d{9}$/.test(String(mobile))) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid mobile number",
+      });
+    }
+
+    const updatedStaff = await Staff.findByIdAndUpdate(
+      req.params.id,
+      {
+        name,
+        aadhaar,
+        email: email || "",
+        mobile,
+        role,
+        salary,
+        status,
+        joining,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (!updatedStaff) {
+      return res.status(404).json({
+        success: false,
+        message: "Staff not found",
+      });
+    }
+
+    res.status(200).json({
       success: true,
-      message: "Doctor Added Successfully",
-      doctor,
+      message: "Staff Updated Successfully",
+      staff: updatedStaff,
     });
   } catch (error) {
+    console.error("EDIT STAFF ERROR =", error);
+
     res.status(500).json({
       success: false,
       message: error.message,
@@ -388,12 +442,12 @@ const editDoctor = async (req, res) => {
     const { name, specialization, qualification, experience, mobile } =
       req.body;
 
-    if (!name || name.trim().length < 3 || !/^[A-Za-z ]+$/.test(name)) {
-      return res.status(400).json({
-        success: false,
-        message: "Doctor name must be at least 3 characters.",
-      });
-    }
+if (!name || name.trim().length < 3 || !/^[A-Za-z. ]+$/.test(name)) {
+  return res.status(400).json({
+    success: false,
+    message: "Doctor name must be at least 3 characters.",
+  });
+}
 
     if (!specialization || specialization.trim().length < 3) {
       return res.status(400).json({
@@ -751,14 +805,17 @@ const getAnalytics = async (req, res) => {
     const year = Number(req.query.year) || now.getFullYear();
     const month = Number(req.query.month) || now.getMonth() + 1;
 
-    // Current month start
-    const startDate = new Date(year, month - 1, 1);
+    if (month < 1 || month > 12) {
+      return res.status(400).json({
+        message: "Month must be between 1 and 12.",
+      });
+    }
 
-    // Next month start
+    const startDate = new Date(year, month - 1, 1);
     const endDate = new Date(year, month, 1);
 
     // ---------------- INCOME ----------------
-    const totalIncome = await Income.aggregate([
+    const incomeData = await Income.aggregate([
       {
         $match: {
           createdAt: {
@@ -769,16 +826,80 @@ const getAnalytics = async (req, res) => {
       },
       {
         $group: {
-          _id: null,
+          _id: {
+            $dayOfMonth: "$createdAt",
+          },
           total: {
             $sum: "$amount",
           },
+        },
+      },
+      {
+        $sort: {
+          "_id": 1,
+        },
+      },
+    ]);
+
+    // ---------------- OPD BILLING ----------------
+    const billingData = await Patient.aggregate([
+      {
+        $match: {
+          role: "OPD",
+          paymentStatus: "Paid",
+          paidAt: {
+            $gte: startDate,
+            $lt: endDate,
+          },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            $dayOfMonth: "$paidAt",
+          },
+          total: {
+            $sum: "$fee",
+          },
+        },
+      },
+      {
+        $sort: {
+          "_id": 1,
+        },
+      },
+    ]);
+
+    // ---------------- FINAL BILLING ----------------
+    const finalBillData = await Bill.aggregate([
+      {
+        $match: {
+          paymentStatus: "Paid",
+          paidAt: {
+            $gte: startDate,
+            $lt: endDate,
+          },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            $dayOfMonth: "$paidAt",
+          },
+          total: {
+            $sum: "$totalAmount",
+          },
+        },
+      },
+      {
+        $sort: {
+          "_id": 1,
         },
       },
     ]);
 
     // ---------------- EXPENSE ----------------
-    const totalExpense = await Expense.aggregate([
+    const expenseData = await Expense.aggregate([
       {
         $match: {
           createdAt: {
@@ -789,26 +910,100 @@ const getAnalytics = async (req, res) => {
       },
       {
         $group: {
-          _id: null,
+          _id: {
+            $dayOfMonth: "$createdAt",
+          },
           total: {
             $sum: "$amount",
           },
         },
       },
+      {
+        $sort: {
+          "_id": 1,
+        },
+      },
     ]);
 
-    const income = totalIncome[0]?.total || 0;
-    const expense = totalExpense[0]?.total || 0;
+    // Convert income data to object
+    const incomeByDay = {};
+
+    incomeData.forEach((item) => {
+      incomeByDay[item._id] = item.total;
+    });
+
+    // Convert OPD billing data to object
+    const billingByDay = {};
+
+    billingData.forEach((item) => {
+      billingByDay[item._id] = item.total;
+    });
+
+    // Convert final bill data to object
+    const finalBillByDay = {};
+
+    finalBillData.forEach((item) => {
+      finalBillByDay[item._id] = item.total;
+    });
+
+    // Convert expense data to object
+    const expenseByDay = {};
+
+    expenseData.forEach((item) => {
+      expenseByDay[item._id] = item.total;
+    });
+
+    // ---------------- DAY-WISE DATA ----------------
+    const daysInMonth = new Date(year, month, 0).getDate();
+
+    const daily = [];
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const manualIncome = incomeByDay[day] || 0;
+      const billingIncome = billingByDay[day] || 0;
+      const finalBillIncome = finalBillByDay[day] || 0;
+      const expense = expenseByDay[day] || 0;
+
+      const income =
+        manualIncome +
+        billingIncome +
+        finalBillIncome;
+
+      const profit = income - expense;
+
+      daily.push({
+        date: `${year}-${String(month).padStart(2, "0")}-${String(
+          day
+        ).padStart(2, "0")}`,
+        income,
+        expense,
+        profit,
+      });
+    }
+
+    // ---------------- MONTHLY TOTAL ----------------
+    const totalIncome = daily.reduce(
+      (sum, item) => sum + item.income,
+      0
+    );
+
+    const totalExpense = daily.reduce(
+      (sum, item) => sum + item.expense,
+      0
+    );
+
+    const profit = totalIncome - totalExpense;
 
     res.json({
       year,
       month,
-      totalIncome: income,
-      totalExpense: expense,
-      profit: income - expense,
+      totalIncome,
+      totalExpense,
+      profit,
+      daily,
     });
   } catch (error) {
-    console.log("Analytics Error:", error);
+    console.error("Analytics Error:", error);
 
     res.status(500).json({
       message: error.message,

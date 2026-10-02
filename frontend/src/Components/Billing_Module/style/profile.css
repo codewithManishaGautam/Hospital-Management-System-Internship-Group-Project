@@ -1,0 +1,129 @@
+/* =========================================
+   Profile Navbar
+========================================= */
+
+.profile-navbar {
+  width: 100%;
+  padding: 10px 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   Profile Image Wrapper
+========================================= */
+
+.profile-image-wrapper {
+  width: 59px;
+  height: 59px;
+
+  border-radius: 50%;
+  border: 2px solid #dee2e6;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+  background: #ffffff;
+}
+
+
+/* =========================================
+   Profile Image
+========================================= */
+
+.profile-image {
+  width: 55px;
+  height: 55px;
+
+  display: block;
+
+  border-radius: 50%;
+  object-fit: cover;
+
+  cursor: pointer;
+
+  transition: transform 0.2s ease;
+}
+
+.profile-image:hover {
+  transform: scale(1.03);
+}
+
+
+/* =========================================
+   Hidden File Input
+========================================= */
+
+.profile-file-input {
+  display: none;
+}
+
+
+/* =========================================
+   Tablet
+========================================= */
+
+@media (max-width: 768px) {
+  .profile-navbar {
+    padding: 8px 12px;
+  }
+
+  .profile-image-wrapper {
+    width: 52px;
+    height: 52px;
+  }
+
+  .profile-image {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+
+/* =========================================
+   Mobile
+========================================= */
+
+@media (max-width: 480px) {
+  .profile-navbar {
+    padding: 7px 10px;
+  }
+
+  .profile-image-wrapper {
+    width: 48px;
+    height: 48px;
+  }
+
+  .profile-image {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+
+/* =========================================
+   Small Mobile
+========================================= */
+
+@media (max-width: 360px) {
+  .profile-navbar {
+    padding: 6px 8px;
+  }
+
+  .profile-image-wrapper {
+    width: 44px;
+    height: 44px;
+  }
+
+  .profile-image {
+    width: 40px;
+    height: 40px;
+  }
+}

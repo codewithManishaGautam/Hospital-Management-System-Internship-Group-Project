@@ -533,3 +533,18 @@
     padding: 15px;
   }
 }
+
+.reception-dashboard-no-data {
+  text-align: center !important;
+  padding: 15px !important;
+  color: var(--reception-dashboard-text-muted);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .reception-dashboard-no-data {
+    padding: 14px !important;
+    font-size: 13px;
+  }
+}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../../styles/admin/table.css";
+import "../../styles/admin/insurance.css";
 import { insuranceService } from "../../services/insuranceService";
 
 function Insurance() {
@@ -24,7 +24,7 @@ function Insurance() {
     } catch (err) {
       console.error(
         "Error fetching insurance claims:",
-        err.response?.data || err.message
+        err.response?.data || err.message,
       );
 
       setInsuranceData([]);
@@ -34,12 +34,12 @@ function Insurance() {
   };
 
   return (
-    <div className="table-container">
-      <div className="section-header">
+    <div className="admin-insurance-container">
+      <div className="admin-insurance-header">
         <h2>Insurance Records</h2>
       </div>
 
-      <table>
+      <table className="admin-insurance-table">
         <thead>
           <tr>
             <th>Claim No</th>
@@ -55,7 +55,7 @@ function Insurance() {
         <tbody>
           {loading ? (
             <tr>
-              <td colSpan="7" style={{ textAlign: "center" }}>
+              <td colSpan="7" className="admin-insurance-message">
                 Loading Insurance Records...
               </td>
             </tr>
@@ -79,12 +79,16 @@ function Insurance() {
 
                 <td>₹{item.approvedAmount || 0}</td>
 
-                <td>{item.status || "-"}</td>
+                <td>
+                  <span className="admin-insurance-status">
+                    {item.status || "-"}
+                  </span>
+                </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="7" style={{ textAlign: "center" }}>
+              <td colSpan="7" className="admin-insurance-message">
                 No Insurance Records Found
               </td>
             </tr>

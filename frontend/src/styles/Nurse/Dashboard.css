@@ -1,114 +1,407 @@
-/* .dashboardCards{
-  display:flex;
-  justify-content:center;
-  gap:35px;
-  margin-top:120px;
-  flex-wrap : wrap;
+/* =========================================
+   NURSE DASHBOARD
+========================================= */
+
+.nurse-dashboard {
+  width: 100%;
+  min-height: calc(100vh - 60px);
+  box-sizing: border-box;
 }
 
-.card{
-  width:250px;
-  padding:40px;
-  border-radius:25px;
-  background:white;
-  text-align:center;
-  border:3px solid;
-  box-shadow:0 4px 25px rgba(0,0,0,0.0.5);
+/* =========================================
+   HEADER
+========================================= */
+
+.dashboard-header {
+  min-height: 65px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 20px;
 }
 
-.card:hover{
-  transform : translateY(-5px);
-  box-shadow : 0 10px 25px rgba(0,0,0,0.0.8);
+.dashboard-header h1 {
+  margin: 0;
+
+  color: #0b2447;
+
+  font-size: 27px;
+  font-weight: 700;
 }
 
-.card h2{
-  font-size:30px;
-  font-weight : bold;
-  color : #64748b;
-  margin-bottom : 8px;
+.dashboard-header p {
+  margin: 5px 0 0;
+
+  color: #64748b;
+
+  font-size: 13px;
 }
 
-.card p{
-  font-size:50px;
-  font-weight:bold;
-  color : #0284c7;
-  margin : 0;
-} */
+.dashboard-header-right {
+  display: flex;
+  align-items: center;
 
-/* .blue{
-  border-color:#0284c7;
+  gap: 8px;
+
+  color: #475569;
+
+  font-size: 13px;
+  font-weight: 600;
 }
 
-.red{
-  border-color:#dc2626;
+/* =========================================
+   WELCOME BANNER
+========================================= */
+
+.welcome-banner {
+  min-height: 130px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 28px 32px;
+
+  box-sizing: border-box;
+
+  border-radius: 16px;
+
+  margin-bottom: 22px;
+
+  background: linear-gradient(120deg, #dff2ff 0%, #eaf7ff 55%, #cfeaff 100%);
+
+  border: 1px solid #c7e7fa;
+
+  box-shadow: 0 5px 18px rgba(11, 36, 71, 0.05);
 }
 
-.green{
-  border-color:#16a34a;
-} */
+.welcome-banner h2 {
+  margin: 0 0 8px;
 
-.dashboardCards {
-    display: flex;
-    flex-direction: column; 
-    align-items: center;    
-    gap: 30px;            
-    margin-top: 20px;      
-    width: 100%;
-    padding: 0 20px;
+  color: #082650;
+
+  font-size: 25px;
 }
 
-.card {
-   
-    width: 85%;            
-    max-width: 900px;      
-    
-    padding: 35px 50px;    
-    border-radius: 20px;    
-    background: #ffffff;   
-    
-    
-    display: flex;
-    justify-content: space-between; 
-    align-items: center;
-    
-    border: 4px solid #0b2447;
-    box-shadow: 0 15px 35px rgba(2, 132, 199, 0.05);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+.welcome-banner p {
+  margin: 0;
+
+  color: #47627e;
+
+  font-size: 14px;
 }
 
+.welcome-icon {
+  font-size: 58px;
 
-.card:hover {
-    transform: translateX(10px); 
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  opacity: 0.8;
 }
 
+/* =========================================
+   STATISTICS
+========================================= */
 
-.card h2 {
-    font-size: 30px;        
-    font-weight: 600;
-    color: black;       
-    margin: 0;
+.statistics-grid {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 20px;
+
+  margin-bottom: 22px;
 }
 
+.stat-card {
+  min-height: 130px;
 
-.card p {
-    font-size: 48px;        
-    font-weight: 800;
-    color: #250a85;       
-    margin: 0;
+  display: flex;
+  align-items: center;
+
+  gap: 18px;
+
+  padding: 22px;
+
+  box-sizing: border-box;
+
+  background: white;
+
+  border-radius: 14px;
+
+  border: 1px solid #e2e8f0;
+
+  box-shadow: 0 5px 18px rgba(15, 23, 42, 0.06);
+
+  transition: all 0.2s ease;
 }
 
-.nurse-topbar{
-  width : 100%;
-  background-color : #0b2447;
-  color : #ffffff;
-  padding : 15px 35px;
-  font-size :10px;
-  font-weight:500;
-  text-align : left;
-  border-radius : 10px;
-  box-sizing : border-box;
-  margin-bottom : 40px;
-  margin-top : 0px;
-  box-shadow : 0 4px 112px rgba(0,0,0,0.1)
+.stat-card:hover {
+  transform: translateY(-3px);
+
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.1);
+}
+
+.stat-icon {
+  width: 62px;
+  height: 62px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 15px;
+
+  font-size: 29px;
+}
+
+.patients-card .stat-icon {
+  background: #dbeafe;
+}
+
+.beds-card .stat-icon {
+  background: #d1fae5;
+}
+
+.stat-content p {
+  margin: 0 0 5px;
+
+  color: #475569;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+.stat-content h2 {
+  margin: 0;
+
+  color: #0b2447;
+
+  font-size: 34px;
+
+  line-height: 1.1;
+}
+
+.stat-content span {
+  display: block;
+
+  margin-top: 5px;
+
+  color: #64748b;
+
+  font-size: 11px;
+}
+
+/* =========================================
+   QUICK ACTIONS
+========================================= */
+
+.quick-section {
+  padding: 22px;
+
+  background: white;
+
+  border-radius: 14px;
+
+  border: 1px solid #e2e8f0;
+
+  box-shadow: 0 5px 18px rgba(15, 23, 42, 0.05);
+}
+
+.section-heading h2 {
+  margin: 0;
+
+  color: #0b2447;
+
+  font-size: 19px;
+}
+
+.section-heading p {
+  margin: 5px 0 17px;
+
+  color: #64748b;
+
+  font-size: 13px;
+}
+
+.quick-actions {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 14px;
+}
+
+.quick-actions button {
+  min-height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  border: none;
+
+  border-radius: 9px;
+
+  background: #0b4ea2;
+
+  color: white;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.quick-actions button:hover {
+  background: #0878d1;
+
+  transform: translateY(-2px);
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.dashboard-footer {
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  margin-top: 22px;
+
+  padding: 15px 5px;
+
+  border-top: 1px solid #dbe3ec;
+
+  color: #64748b;
+
+  font-size: 11px;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+  .dashboard-header h1 {
+    font-size: 24px;
+  }
+
+  .welcome-banner {
+    padding: 24px;
+  }
+
+  .welcome-banner h2 {
+    font-size: 22px;
+  }
+
+  .statistics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+  .dashboard-header {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 8px;
+  }
+
+  .dashboard-header-right {
+    display: none;
+  }
+
+  .welcome-banner {
+    min-height: 115px;
+
+    padding: 20px;
+  }
+
+  .welcome-banner h2 {
+    font-size: 19px;
+  }
+
+  .welcome-banner p {
+    font-size: 12px;
+
+    max-width: 75%;
+  }
+
+  .welcome-icon {
+    font-size: 42px;
+  }
+
+  .stat-card {
+    min-height: 115px;
+
+    padding: 18px;
+  }
+
+  .stat-icon {
+    width: 52px;
+    height: 52px;
+
+    font-size: 24px;
+  }
+
+  .stat-content h2 {
+    font-size: 30px;
+  }
+
+  .quick-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-footer {
+    flex-direction: column;
+
+    text-align: center;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 400px) {
+  .welcome-banner {
+    padding: 16px;
+  }
+
+  .welcome-banner h2 {
+    font-size: 17px;
+  }
+
+  .welcome-banner p {
+    font-size: 11px;
+  }
+
+  .stat-card {
+    gap: 12px;
+
+    padding: 15px;
+  }
+
+  .stat-content h2 {
+    font-size: 27px;
+  }
 }

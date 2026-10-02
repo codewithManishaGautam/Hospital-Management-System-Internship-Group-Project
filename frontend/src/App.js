@@ -10,27 +10,40 @@ const DoctorDashboard = lazy(() => import("./pages/Doctor"));
 const LabDashboard = lazy(() => import("./Components/Lab/LabDashboard"));
 const PharmacyDashboard = lazy(() => import("./pages/Pharmacy"));
 const NurseDashboard = lazy(() => import("./pages/Nurse"));
-const InsuranceDashboard = lazy(() => import("./pages/Insurance"));
+const InsuranceDashboard = lazy(
+  () => import("./Components/InsurancePatient/InsuranceDashboard")
+);
 const AdminDashboard = lazy(() => import("./pages/Admin"));
 
 // Login / Authentication pages
-const VerifyAccount = lazy(() => import("./Components/Login/VerifyAccount"));
-const ForgotPassword = lazy(() => import("./Components/Login/ForgotPassword"));
-const ResetPassword = lazy(() => import("./Components/Login/ResetPassword"));
+const VerifyAccount = lazy(
+  () => import("./Components/Login/VerifyAccount")
+);
+const ForgotPassword = lazy(
+  () => import("./Components/Login/ForgotPassword")
+);
+const ResetPassword = lazy(
+  () => import("./Components/Login/ResetPassword")
+);
 const Register = lazy(() => import("./Components/Login/Register"));
 
 // Billing
-const BillingDept = lazy(() =>
-  import("./Components/Billing_Module/BillingDept")
+const BillingDept = lazy(
+  () => import("./Components/Billing_Module/BillingDept")
 );
 
-const PatientDetail = lazy(() =>
-  import("./Components/Billing_Module/PatientDetail")
+const PatientDetail = lazy(
+  () => import("./Components/Billing_Module/PatientDetail")
 );
 
 // Reception
-const PrescriptionPage = lazy(() =>
-  import("./Components/Reception/PrescriptionPage")
+const PrescriptionPage = lazy(
+  () => import("./Components/Reception/PrescriptionPage")
+);
+
+// Insurance Patient
+const InsurancePatient = lazy(
+  () => import("./Components/InsurancePatient/InsurancePatient")
 );
 
 function App() {
@@ -86,6 +99,11 @@ function App() {
           <Route
             path="/insurance/*"
             element={<InsuranceDashboard />}
+          />
+
+          <Route
+            path="/insurance/:id"
+            element={<InsurancePatient />}
           />
 
           {/* Admin */}

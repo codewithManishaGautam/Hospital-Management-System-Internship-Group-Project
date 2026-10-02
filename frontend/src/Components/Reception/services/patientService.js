@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/patient";
+const API_URL = "https://hospital-management-system-internship-rtob.onrender.com/api/patient";
 
 /* ==========================
    Get All Patients
