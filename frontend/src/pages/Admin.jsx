@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api/axiosInstance";
 import Layout from "./Layout";
 
 // styles
@@ -40,10 +40,10 @@ function Admin() {
 
   const fetchMasterData = async () => {
     try {
-      const resTpa = await axios.get("http://localhost:5000/api/insurance/master-data/tpas");
+const resTpa = await api.get("/insurance/master-data/tpas");
       if (resTpa.data.success) setTpaList(resTpa.data.data);
       
-      const resComp = await axios.get("http://localhost:5000/api/insurance/master-data/companies");
+const resComp = await api.get("/insurance/master-data/companies");
       if (resComp.data.success) setCompanyList(resComp.data.data);
     } catch (err) {
       console.error("Error fetching master data:", err);
@@ -142,10 +142,10 @@ const [newStaff, setNewStaff] = useState({
         return;
       }
 
-      await axios.put(
-        `http://localhost:5000/api/admin/staff/edit/${id}`,
-        editedStaff,
-      );
+     await api.put(
+  `/admin/staff/edit/${id}`,
+  editedStaff,
+);
 
       await fetchStaff();
 
@@ -165,7 +165,7 @@ const [newStaff, setNewStaff] = useState({
     if (!ok) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/admin/staff/delete/${id}`);
+await api.delete(`/admin/staff/delete/${id}`);
 
       await fetchStaff();
 
@@ -179,7 +179,7 @@ const [newStaff, setNewStaff] = useState({
 
 const addStaff = async () => {
   try {
-    await axios.post("http://localhost:5000/api/admin/staff/add", newStaff);
+   await api.post("/admin/staff/add", newStaff);
 
     await fetchStaff();
 
@@ -204,7 +204,7 @@ const addStaff = async () => {
 };
   const savePatientEdit = async (id) => {
     try {
-      await axios.put(`http://localhost:5000/api/patient/${id}`, editedPatient);
+    await api.put(`/patient/${id}`, editedPatient);
       setEditingPatientId(null);
       fetchPatients();
     } catch (err) {
@@ -214,7 +214,7 @@ const addStaff = async () => {
 
   const deletePatient = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/patient/${id}`);
+     await api.delete(`/patient/${id}`);
       fetchPatients();
     } catch (err) {
       console.log(err);
@@ -223,7 +223,7 @@ const addStaff = async () => {
 
   const addPatient = async () => {
     try {
-      await axios.post("http://localhost:5000/api/patient", newPatient);
+      await api.post("/patient", newPatient);
       setShowPatientForm(false);
       setNewPatient({
         name: "",
@@ -265,7 +265,7 @@ useEffect(() => {
 
   const fetchDashboard = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/dashboard");
+      const res = await api.get("/admin/dashboard");
       setDashboard(res.data);
     } catch (err) {
       console.log(err);
@@ -274,7 +274,7 @@ useEffect(() => {
 
   const fetchDoctors = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/doctors");
+      const res = await api.get("/admin/doctors");
       setDoctors(res.data);
     } catch (err) {
       console.log(err);
@@ -283,7 +283,7 @@ useEffect(() => {
 
   const fetchStaff = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/staff");
+     const res = await api.get("/admin/staff");
       setStaff(res.data);
     } catch (err) {
       console.log(err);
@@ -292,7 +292,7 @@ useEffect(() => {
 
   const fetchPatients = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/patient");
+     const res = await api.get("/patient");
 
       setPatients(res.data);
     } catch (err) {
@@ -300,29 +300,50 @@ useEffect(() => {
     }
   };
 
-  const fetchFinance = async () => {
-    try {
-      const res = await axios.get("http://localhost:5000/api/admin/analytics");
+const fetchFinance = async () => {
+  try {
+    const now = new Date();
 
-      setFinance(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    const year = now.getFullYear();
+    const month = now.getMonth() + 1;
 
-  const fetchActivities = async () => {
-    try {
-      const res = await axios.get("http://localhost:5000/api/admin/activities");
+    const res = await api.get(
+      `/admin/analytics?year=${year}&month=${month}`
+    );
 
-      setActivities(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    setFinance(res.data);
+  } catch (err) {
+    console.log("Error fetching finance:", err);
+
+    setFinance({
+      totalIncome: 0,
+      totalExpense: 0,
+      profit: 0,
+      daily: [],
+    });
+  }
+};
+
+const fetchActivities = async () => {
+  try {
+    const res = await api.get("/admin/activities");
+
+    const data = Array.isArray(res.data)
+      ? res.data
+      : Array.isArray(res.data?.activities)
+      ? res.data.activities
+      : [];
+
+    setActivities(data);
+  } catch (err) {
+    console.log("Error fetching activities:", err);
+    setActivities([]);
+  }
+};
 
   const fetchRooms = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/rooms");
+    const res = await api.get("/rooms");
       setRooms(res.data);
     } catch (err) {
       console.log(err);
@@ -331,7 +352,7 @@ useEffect(() => {
 
   const fetchBeds = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/beds");
+     const res = await api.get("/beds");
       setBeds(res.data);
     } catch (err) {
       console.log(err);

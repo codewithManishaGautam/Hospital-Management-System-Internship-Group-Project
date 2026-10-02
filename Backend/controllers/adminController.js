@@ -25,21 +25,39 @@ const getDashboardStats = async (req, res) => {
     const dischargedPatients = await Patient.countDocuments({
       status: "Discharged",
     });
+const now = new Date();
 
-    const incomes = await Income.find();
-    const expenses = await Expense.find();
+const year = now.getFullYear();
+const month = now.getMonth();
 
-    const totalIncome = incomes.reduce(
-      (sum, item) => sum + Number(item.amount),
-      0,
-    );
+const startDate = new Date(year, month, 1);
+const endDate = new Date(year, month + 1, 1);
 
-    const totalExpense = expenses.reduce(
-      (sum, item) => sum + Number(item.amount),
-      0,
-    );
+const incomes = await Income.find({
+  createdAt: {
+    $gte: startDate,
+    $lt: endDate,
+  },
+});
 
-    const netProfit = totalIncome - totalExpense;
+const expenses = await Expense.find({
+  createdAt: {
+    $gte: startDate,
+    $lt: endDate,
+  },
+});
+
+const totalIncome = incomes.reduce(
+  (sum, item) => sum + Number(item.amount || 0),
+  0
+);
+
+const totalExpense = expenses.reduce(
+  (sum, item) => sum + Number(item.amount || 0),
+  0
+);
+
+const netProfit = totalIncome - totalExpense;
 
     res.status(200).json({
       totalDoctors,
@@ -728,20 +746,53 @@ const getFinanceStats = async (req, res) => {
 
 const getAnalytics = async (req, res) => {
   try {
+    const now = new Date();
+
+    const year = Number(req.query.year) || now.getFullYear();
+    const month = Number(req.query.month) || now.getMonth() + 1;
+
+    // Current month start
+    const startDate = new Date(year, month - 1, 1);
+
+    // Next month start
+    const endDate = new Date(year, month, 1);
+
+    // ---------------- INCOME ----------------
     const totalIncome = await Income.aggregate([
+      {
+        $match: {
+          createdAt: {
+            $gte: startDate,
+            $lt: endDate,
+          },
+        },
+      },
       {
         $group: {
           _id: null,
-          total: { $sum: "$amount" },
+          total: {
+            $sum: "$amount",
+          },
         },
       },
     ]);
 
+    // ---------------- EXPENSE ----------------
     const totalExpense = await Expense.aggregate([
+      {
+        $match: {
+          createdAt: {
+            $gte: startDate,
+            $lt: endDate,
+          },
+        },
+      },
       {
         $group: {
           _id: null,
-          total: { $sum: "$amount" },
+          total: {
+            $sum: "$amount",
+          },
         },
       },
     ]);
@@ -750,11 +801,15 @@ const getAnalytics = async (req, res) => {
     const expense = totalExpense[0]?.total || 0;
 
     res.json({
+      year,
+      month,
       totalIncome: income,
       totalExpense: expense,
       profit: income - expense,
     });
   } catch (error) {
+    console.log("Analytics Error:", error);
+
     res.status(500).json({
       message: error.message,
     });
