@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { updatePatient } from "./services/patientService";
 import { createOrder, verifyPayment } from "./services/paymentService";
+import axios from "axios";
 
 import "../../styles/Reception/billing.css";
 
@@ -13,17 +14,54 @@ function OPDBilling({ patient }) {
     paymentMode: "Cash",
   });
 
-  useEffect(() => {
-    if (patient) {
+useEffect(() => {
+  const loadDoctorFee = async () => {
+    if (!patient) return;
+
+    try {
+      const doctorName = patient.doctor || "";
+
+      const res = await axios.get(
+        "https://hospital-management-system-internship-rtob.onrender.com/api/admin/doctors"
+      );
+
+      const doctors = res.data?.doctors || res.data || [];
+
+      const normalizedPatientDoctor = doctorName
+        .replace(/^Dr\.\s*/i, "")
+        .trim()
+        .toLowerCase();
+
+      const selectedDoctor = doctors.find(
+        (doctor) =>
+          doctor.name?.trim().toLowerCase() === normalizedPatientDoctor
+      );
+
       setBillingData({
         uhid: patient.uhid || "",
         patientName: patient.name || "",
         doctorName: patient.doctor || "",
-        consultationFee: patient.fee || 500,
+        consultationFee:
+          selectedDoctor?.fee !== undefined
+            ? selectedDoctor.fee
+            : patient.fee || 0,
+        paymentMode: patient.paymentMode || "Cash",
+      });
+    } catch (error) {
+      console.error("Error fetching doctor fee:", error);
+
+      setBillingData({
+        uhid: patient.uhid || "",
+        patientName: patient.name || "",
+        doctorName: patient.doctor || "",
+        consultationFee: patient.fee || 0,
         paymentMode: patient.paymentMode || "Cash",
       });
     }
-  }, [patient]);
+  };
+
+  loadDoctorFee();
+}, [patient]);
 
   const handleChange = (e) => {
     setBillingData({

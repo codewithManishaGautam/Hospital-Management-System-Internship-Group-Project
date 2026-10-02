@@ -47,14 +47,12 @@ function MergePdf() {
 
       const res = await axios.post(
         "https://hospital-management-system-internship-rtob.onrender.com/api/billing/send-email",
-        formData
+        formData,
       );
 
       console.log("SERVER RESPONSE:", res.data);
 
-      alert(
-        res.data.message || "PDF merged and sent successfully"
-      );
+      alert(res.data.message || "PDF merged and sent successfully");
 
       // Clear form after successful request
       setFiles([]);
@@ -64,10 +62,7 @@ function MergePdf() {
       console.error("SEND PDF ERROR:", error);
       console.error("SERVER RESPONSE:", error.response?.data);
 
-      alert(
-        error.response?.data?.message ||
-          "Failed to send PDF"
-      );
+      alert(error.response?.data?.message || "Failed to send PDF");
     } finally {
       setLoading(false);
     }
