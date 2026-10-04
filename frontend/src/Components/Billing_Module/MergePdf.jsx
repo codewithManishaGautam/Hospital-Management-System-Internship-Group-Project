@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./style/MergePdf.css";
 
+const API_URL =
+  window.location.hostname === "localhost"
+    ? "http://localhost:5000"
+    : "https://hospital-management-system-internship-rtob.onrender.com";
+
 function MergePdf() {
   const [files, setFiles] = useState([]);
   const [patientName, setPatientName] = useState("");
@@ -45,10 +50,10 @@ function MergePdf() {
       console.log("Patient:", patientName);
       console.log("Email:", email);
 
-      const res = await axios.post(
-        "https://hospital-management-system-internship-rtob.onrender.com/api/billing/send-email",
-        formData,
-      );
+const res = await axios.post(
+  `${API_URL}/api/billing/send-email`,
+  formData
+);
 
       console.log("SERVER RESPONSE:", res.data);
 
